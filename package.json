@@ -1,0 +1,50 @@
+{
+  "name": "acceleratio-components",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server -d --inline --hot --progress --no-info"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://acceleratio.visualstudio.com/DefaultCollection/CloudKit/_git/acceleratio-components"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "classnames": "2.2.5",
+    "react": "0.14.4",
+    "react-dom": "0.14.1",
+    "react-redux": "4.4.6",
+    "redux": "3.6.0"
+  },
+  "devDependencies": {
+    "awesome-typescript-loader": "1.0.0",
+    "babel-core": "6.18.2",
+    "babel-polyfill": "6.16.0",
+    "babel-preset-es2015": "6.18.0",
+    "copy-webpack-plugin": "4.0.1",
+    "cross-env": "3.1.3",
+    "css-loader": "0.26.0",
+    "cssnano": "3.8.0",
+    "html-webpack-plugin": "2.24.1",
+    "node-sass": "3.13.0",
+    "raw-loader": "0.5.1",
+    "sass-loader": "4.0.2",
+    "source-map-loader": "0.1.5",
+    "style-loader": "0.13.1",
+    "stylelint-webpack-plugin": "0.4.0",
+    "ts-helpers": "1.1.2",
+    "ts-loader": "1.2.2",
+    "tslint": "3.7.4",
+    "tslint-loader": "2.1.0",
+    "typescript": "2.0.10",
+    "typings": "2.0.0",
+    "webpack": "1.13.3",
+    "webpack-dev-server": "1.16.2",
+    "webpack-hot-middleware": "2.13.2",
+    "webpack-split-by-path": "0.0.10"
+  }
+}

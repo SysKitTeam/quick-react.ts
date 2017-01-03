@@ -1,0 +1,58 @@
+ @import '../../index.scss';
+
+$Breadcrumb-overflowButtonSize: 16px;
+
+.breadcrumbs {
+    @include baseFont();
+    margin-top: 25px;
+
+    .breadcrumbs-list {
+        white-space: nowrap;
+        padding: 0;
+        margin: 0;
+    }
+
+    .breadcrumbs-list-item {
+        list-style-type: none;
+        vertical-align: top;
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+        position: relative;
+        font-size: $font-size-m;
+
+        &:last-of-type {
+            .breadcrumbs-item-link {
+                color: $secondary-color;
+            }
+
+            .icon {
+                display: none;
+            }
+        }
+    }
+
+    .breadcrumbs-item-link {
+        color: $font-primary-color;
+        display: inline-block;
+        padding: 0 4px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        vertical-align: top;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .breadcrumbs-overflow {
+        display: inline-block;
+        position: relative;
+    }
+
+    .breadcrumb-overflowButton {
+        font-size: $Breadcrumb-overflowButtonSize;
+        display: inline-block;
+        cursor: pointer;
+        vertical-align: top;
+    }
+}

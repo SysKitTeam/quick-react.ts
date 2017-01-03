@@ -1,0 +1,21 @@
+@import '../../index.scss';
+
+.label {
+    font-family: $font-family-base;
+    font-size: $font-size-m;
+    color: $font-primary-color;
+    box-sizing: border-box;
+    display: block;
+    padding: 5px 0;
+
+    &.label-required {
+         &::after {
+            content: ' *';
+            color: $font-error-color;
+        }
+    }
+
+    &.label-disabled {
+         color: $font-disabled-color;
+    }
+}

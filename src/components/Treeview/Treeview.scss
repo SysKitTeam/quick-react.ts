@@ -1,0 +1,22 @@
+@import '../../index.scss';
+
+.treeview {
+    @include baseFont();
+    font-size: $font-size-m;
+
+    .collapsed {
+        display: none;
+    }
+
+    .expanded {
+        display: block;
+    }
+
+    .treeview-item {
+        cursor: pointer;
+    }
+
+    .treeview-child {
+        @include margin-left(15px);
+    }
+}

@@ -1,0 +1,158 @@
+@import '../../index.scss';
+
+$Dialog-default-min-width: 288px;
+$Dialog-default-max-width: 340px;
+
+// Mixin for IE9 specific styles
+@mixin dialogPositioningIE9Fallback {
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.dialog {
+    @include baseFont();
+    background-color: transparent;
+    position: fixed;
+    height: 100%;
+    width:  100%;
+    top:  0;
+    left: 0;
+    display: none; // Hidden by default
+}
+
+.dialog.is-open {
+    display: block;
+}
+
+// Fallback for IE9 when dialog is open
+.dialog.is-open {
+    display: block;
+    line-height: 100vh;
+    text-align: center;
+
+    &::before {
+        @include dialogPositioningIE9Fallback();
+        content: "";
+        height: 100%;
+        width: 0;
+    }
+}
+
+.dialog.is-animatingOpen {
+     @include fadeIn200();
+}
+
+// State: The dialog is animating closed
+.dialog.is-animatingClose {
+    @include fadeOut200();
+}
+
+.dialog-main {
+    @include dialogPositioningIE9Fallback();
+    box-shadow: 0 0 5px 0 rgba(0,0,0,.4);
+    background-color: $color-white;
+    box-sizing: border-box;
+    line-height: 1.35;
+    margin: auto;
+    width: $Dialog-default-min-width;
+    position: relative;
+    @include text-align(left);
+    outline: 3px solid transparent;
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.dialog-inner {
+    padding: 0 28px 20px;
+}
+
+.dialog-header {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.dialog-title {
+    @include baseFont();
+    margin: 0;
+    font-size: $font-size-xl;
+    font-weight: 100;
+    color: $font-primary-color;
+    @include padding(20px, 36px, 20px, 28px);
+}
+
+.dialog-topButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    @include padding(12px, 12px, 0, 0);
+
+    .dialog-button-close {
+        cursor: pointer;
+        color: #666666;
+        font-size: $font-size-l;
+
+        &:hover, &:active, &:focus {
+            color: $secondary-color;
+        }
+    }
+}
+
+.dialog-content {
+    position: relative;
+    width: 100%;
+
+    // Add margin bottom between compound buttons
+    .button {
+        margin-bottom: 20px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.dialog-subText {
+    @include margin(0, 0, 20px, 0);
+    @include baseFont();
+    padding-top: 8px;
+    font-size: $font-size-s;
+    color: $font-primary-color;
+    font-weight: $font-weight-semilight;
+    line-height: 1.5;
+}
+
+.dialog-actions {
+    position: relative;
+    width: 100%;
+    min-height:  24px;
+    line-height: 24px;
+    margin: 20px 0 0;
+    font-size: 0;
+
+    .button {
+        line-height: normal;
+    }
+}
+
+// Negative margin to needed to compensate for symmetric
+// padding between action elements.
+.dialog-actionsRight {
+    @include text-align(right);
+    @include margin-right(-4px);
+    font-size: 0;
+
+    // Reset spacing for first button
+    .dialog-action {
+        margin: 0px 4px;
+    }
+}
+
+//= Modifier: Dialog with close button
+//
+.dialog.dialog-close {
+    // Show the close button
+    .dialog-button.dialog-button-close {
+        display: block;
+    }
+}

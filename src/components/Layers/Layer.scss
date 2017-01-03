@@ -1,0 +1,12 @@
+.overlay {
+    position: absolute;
+    visibility: hidden;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.projected-layer {
+    visibility: visible;
+}

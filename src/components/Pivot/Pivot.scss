@@ -1,0 +1,118 @@
+@import '../../index.scss';
+
+.pivot {
+    @include baseFont();
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    font-size: $font-size-m;
+    font-weight: $font-weight-regular;
+    position: relative;
+    color: $secondary-color;
+    white-space: nowrap;
+}
+
+.pivot-link {
+    color: $font-primary-color;
+    display: inline-block;
+    font-size: $font-size-m;
+    font-weight: 400;
+    line-height: 40px;
+    @include margin-right(8px);
+    padding: 0 8px;
+    @include text-align(center);
+    position: relative;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    // Underline, not yet visible
+    &::before {
+        background-color: transparent;
+        bottom: 0;
+        content: '';
+        height: 2px;
+        left: 8px;
+        position: absolute;
+        right: 8px;
+        transition: background-color 267ms cubic-bezier(.1,.25,.75,.9);
+    }
+
+    // Make room for the heavier text of the selected state
+    &::after {
+        color: transparent;
+        content: attr(title);
+        display: block;
+        font-weight: bold;
+        height: 1px;
+        overflow: hidden;
+        visibility: hidden;
+    }
+
+    .pivot-text,
+    .pivot-count {
+        display: inline-block;
+    }
+
+    // Spacing between text and count
+    .pivot-count {
+        @include margin-left(4px);
+    }
+
+    //== State: Selected
+    &.is-selected {
+        font-weight: $font-weight-semibold;
+
+        // Show the underline
+        &::before {
+            background-color: $secondary-color;
+        }
+    }
+
+    //== State: Disabled
+    &.is-disabled {
+        color: $font-disabled-color;
+    }
+}
+
+.pivot.pivot-tabs {
+
+  .pivot-link {
+        outline: transparent;
+        position: relative;
+        @include margin-right(0px);
+        height: 40px;
+        line-height: 40px;
+        background-color: $primary-color;
+        padding: 0 10px;
+        vertical-align: top;
+
+        &:hover:not(.is-selected),
+        &:focus:not(.is-selected) {
+            color: $color-black;
+        }
+
+        &:active {
+            color: $color-white;
+            background-color: $secondary-color;
+        }
+
+        //== State: Selected
+        &.is-selected {
+            background-color: $secondary-color;
+            color: $color-white;
+            font-weight: $font-weight-semilight;
+
+            &::before {
+                background-color: transparent;
+                transition: none;
+            }
+        }
+    }
+}

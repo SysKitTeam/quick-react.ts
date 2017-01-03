@@ -1,0 +1,169 @@
+@import '../../index.scss';
+
+.messageBar {
+    @include baseFont();
+    background-color: $primary-color;
+    color: $font-primary-color;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    position: relative;
+
+    .messageBar-icon {
+        @include padding-right(8px);
+        color: #767676;
+    }
+
+    .link {
+        font-size: $font-size-s;
+    }
+}
+
+.messageBar-icon,
+.messageBar-text {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.messageBar-icon {
+    font-size: $font-size-m;
+    min-width: 16px;
+    min-height: 16px;
+    display: flex;
+}
+
+.messageBar-text {
+    @include baseFont();
+    font-size: $font-size-s;
+    font-weight: $font-weight-regular;
+    min-width: 0;
+    display: flex;
+}
+
+//== Modifier: Info message
+//
+.messageBar.messageBar-info {
+    background-color: $font-info-colorBackground;
+    color: $font-info-colorText;
+
+    .messageBar-icon > i {
+        color: $font-info-color;
+    }
+}
+
+//== Modifier: Warning message
+//
+.messageBar.messageBar-warning {
+    background-color: $font-warning-colorBackground;
+    color: $font-warning-colorText;
+
+    .messageBar-icon > i {
+        color: $font-warning-color;
+    }
+}
+
+//== Modifier: Error message
+//
+.messageBar.messageBar-error {
+    background-color: $font-error-colorBackground;
+    color: $font-error-colorText;
+
+    .messageBar-icon > i {
+        color: $font-error-color;
+    }
+}
+
+//== Modifier: Success message
+//
+.messageBar.messageBar-success {
+    background-color: $font-success-colorBackground;
+    color: $font-success-colorText;
+
+    .messageBar-icon > i {
+        color: $font-success-color;
+    }
+}
+
+.messageBar-content {
+    padding: 10px;
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.messageBar-actionables {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+}
+
+.messageBar-actionables > .messageBar-dismissal {
+    right: 0;
+    position: absolute !important;
+}
+
+.messageBar-actions, .messageBar-actionsOneline {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+.messageBar-actionsOneline {
+    position: relative;
+}
+
+.messageBar-dismissal {
+    min-width: 0;
+    cursor: pointer;
+}
+
+.messageBar-actionsOneline .messageBar-dismissal {
+    @include margin-right(-8px);
+}
+
+.messageBar-checkbox {
+    right: 45px;
+    top: 0;
+    position: absolute !important;
+}
+
+// Add space between adjacent MessageBars.
+.messageBar + .messageBar {
+    margin-bottom: 6px;
+}
+
+.messageBar-innerTextPadding {
+    @include padding-right(24px); // Add padding if we have a dismiss to prevent button overlapping text.
+
+    span, .messageBar-innerText > span {
+        @include padding-right(4px); // Add padding between text and hyperlink.
+    }
+}
+
+.messageBar-singleline {
+    .messageBar-content {
+        .messageBar-icon {
+            align-items: center;
+        }
+
+        .messageBar-actionables > .messageBar-text {
+            justify-content: center;
+            align-items: center;
+
+            .messageBar-innerText,
+            .messageBar-innerTextPadding {
+                max-height: 1.3em;
+                line-height: 1.3em;
+                overflow-x: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+    }
+
+    .messageBar-content > .messageBar-actionables {
+        flex-direction: row;
+    }
+}

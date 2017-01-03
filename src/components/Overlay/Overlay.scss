@@ -1,0 +1,23 @@
+@import '../../index.scss';
+
+.overlay {
+    background-color: rgba(255,255,255,.4);
+    position: absolute;
+    bottom: 0;
+    left:   0;
+    right:  0;
+    top:    0;
+
+    //== Modifier: Hidden overlay
+    //
+    &.overlay-none {
+        visibility: hidden;
+    }
+
+    //== Modifier: Dark overlay
+    //
+    &.overlay-dark {
+        background-color: rgba(0,0,0,.4);
+        visibility: visible;
+    }
+}

@@ -1,0 +1,174 @@
+@import '../../index.scss';
+
+$ChoiceField-field-size: 20px;
+$ChoiceField-transition-duration: 200ms;
+$ChoiceField-transition-duration-inner: 150ms;
+$ChoiceField-transition-timing: cubic-bezier(.4, 0, .23, 1);
+
+.choiceFieldGroup {
+    @include baseFont;
+    margin-bottom: 4px;
+}
+
+.choiceField {
+    box-sizing: border-box;
+    color: $font-primary-color;
+    font-family: $font-family-base;
+    font-size: $font-size-m;
+    font-weight: $font-weight-regular;
+    min-height: 36px;
+    border: 1px solid transparent;
+    position: relative;
+    line-height: $ChoiceField-field-size;
+    @include padding-left(8px);
+
+    .label {
+        font-size: $font-size-m;
+        @include padding(0, 0, 0, 26px);
+        display: inline-block;
+    }
+}
+
+.choiceField-input {
+    position: absolute;
+    opacity: 0;
+    top: 8px;
+}
+
+.choiceField-field::before {
+    content: '';
+    display: inline-block;
+    border: 2px solid $font-disabled-color;
+    width: $ChoiceField-field-size;
+    height: $ChoiceField-field-size;
+    font-weight: normal;
+    position: absolute;
+    box-sizing: border-box;
+    transition-property: background, border, border-color;
+    transition-duration: $ChoiceField-transition-duration;
+    transition-timing-function: $ChoiceField-transition-timing;
+    border-radius: 50%;
+}
+
+// The circle
+.choiceField-field::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    position: absolute;
+    top: $ChoiceField-field-size / 2;
+    left: $ChoiceField-field-size / 2;
+    bottom: 0;
+    right: 0;
+    transition-property: top, left, right, width, height;
+    transition-duration: $ChoiceField-transition-duration-inner;
+    transition-timing-function: $ChoiceField-transition-timing;
+    box-sizing: border-box;
+}
+
+.choiceField-field {
+  display: inline-block;
+  cursor: pointer;
+  margin-top: 8px;
+  position: relative;
+  vertical-align: top;
+  user-select: none;
+
+   &:hover {
+    &::before {
+      border-color: #767676;
+    }
+
+    .label {
+      color: $color-black;
+    }
+  }
+
+  &:focus {
+    &::before {
+      border-color: #767676;
+    }
+
+    &.is-disabled::before {
+      border-color: #c8c8c8;
+    }
+
+    &.is-checked::before {
+      border-color: #106ebe;
+    }
+  }
+
+  &:active {
+    &::before {
+      border-color: #767676;
+    }
+
+    .label {
+      color: $color-black;
+    }
+  }
+
+  //== State: A choiceField is checked
+  //
+  &.is-checked {
+    &::before {
+      border: 2px solid $secondary-color;
+      background-color: transparent;
+    }
+
+    &::after {
+      background-color: $secondary-color;
+      top: 5px;
+      left: 5px;
+      width: 10px;
+      height: 10px;
+    }
+
+    &:hover,
+    &:focus {
+      &::before {
+        border-color: #106ebe;
+      }
+    }
+  }
+
+  //== State: A disabled choiceField
+  //
+  &.is-disabled {
+    cursor: default;
+
+    &:hover,
+    &:focus {
+      &::before {
+        border-color: #c8c8c8;
+      }
+    }
+
+    &::before {
+      background-color: #c8c8c8;
+      border-color: #c8c8c8;
+      color: #c8c8c8;
+    }
+
+    .label {
+      color: $font-disabled-color;
+    }
+  }
+
+   //== State: A choiceField in focus
+  //
+  &.is-inFocus {
+    &::before {
+      border-color: #767676;
+    }
+
+    &.is-disabled::before {
+      border-color: #c8c8c8;
+    }
+
+    &.is-checked::before {
+      border-color: #106ebe;
+    }
+  }
+}

@@ -1,0 +1,23 @@
+@import '../../index.scss';
+
+$MainNavigation-height: 40px;
+
+.main-nav-container {
+    height: $MainNavigation-height;
+    width: 100%;
+    color: $font-primary-color;
+    background-color: $primary-color;
+
+    .logo-container {
+        @include float(left);
+
+        .logo {
+            color: $font-primary-color;
+            font-size: $font-size-xl;
+            padding: 3px 12px;
+        }
+    }
+}
+
+
+

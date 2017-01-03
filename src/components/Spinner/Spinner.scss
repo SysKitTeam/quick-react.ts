@@ -1,0 +1,47 @@
+ @import '../../index.scss';
+
+$spin-duration: 1.3s;
+$borderSize: 1.5px;
+
+@keyframes spinner-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner {
+
+    > .spinner-circle {
+        box-sizing: border-box;
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        border: 1.5px solid #c7e0f4;
+        border-top-color: $secondary-color;
+        animation: spinner-spin $spin-duration infinite cubic-bezier(.53,.21,.29,.67);
+        
+        &.spinner-normal {
+            width: 20px;
+            height: 20px;
+        }
+
+        &.spinner-large {
+            width: 28px;
+            height: 28px;
+        }
+
+         &.spinner-larger {
+            width: 65px;
+            height: 65px;
+        }
+    }
+
+    > .spinner-label {
+        color: $secondary-color;
+        margin-top: 10px;
+    }
+}
