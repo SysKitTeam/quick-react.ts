@@ -4,12 +4,12 @@ import {IHistoryProps} from './History.Props';
 import {getNativeAttributes, buttonAttributes, anchorAttributes} from '../../utilities/attributes';
 import {assign} from '../../utilities/object';
 import {IconName} from '../Icon/IconName';
-import Icon from '../Icon/Icon';
-import Button from '../Button/Button';
+import { Icon } from '../Icon/Icon';
+import { Button } from '../Button/Button';
 
 import './History.scss';
 
-export default class History extends React.Component < IHistoryProps, any > {
+export class History extends React.Component < IHistoryProps, any > {
     
     constructor(props) {
         super(props);

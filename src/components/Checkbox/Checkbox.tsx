@@ -2,9 +2,9 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import { ICheckboxProps } from './Checkbox.Props';
 import { assign } from '../../utilities/object';
-import autobind from '../../utilities/autobind';
+import { autobind } from '../../utilities/autobind';
 import { getId } from '../../utilities/getId';
-import CommonComponent from '../Common/Common';
+import { CommonComponent } from '../Common/Common';
 import './Checkbox.scss';
 
 export interface ICheckboxState {
@@ -12,7 +12,7 @@ export interface ICheckboxState {
     isChecked ?: boolean;
 }
 
-export default class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
+export class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
 
     public static defaultProps: ICheckboxProps = {
     };

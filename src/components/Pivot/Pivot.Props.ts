@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Pivot from './Pivot';
-import PivotItem from './PivotItem';
+import { Pivot } from './Pivot';
+import { PivotItem } from './PivotItem';
 
 export interface IPivotProps extends React.Props<Pivot> {
     initialSelectedIndex ?: number;

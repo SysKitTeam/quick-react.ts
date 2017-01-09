@@ -1,13 +1,13 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { IBreadcrumbsProps, IBreadcrumbItem } from './Breadcrumbs.Props';
-import Icon from '../../components/Icon/Icon';
+import { Icon } from '../../components/Icon/Icon';
 import { IconName } from '../../components/Icon/IconName';
-import Callout from '../../components/Callout/Callout';
-import Dropdown from '../../components/Dropdown/Dropdown';
-import ContextualMenu from '../../components/ContextualMenu/ContextualMenu';
+import { Callout } from '../../components/Callout/Callout';
+import { Dropdown } from '../../components/Dropdown/Dropdown';
+import { ContextualMenu } from '../../components/ContextualMenu/ContextualMenu';
 import {getId} from '../../utilities/getId';
-import autobind from '../../utilities/autobind';
+import { autobind } from '../../utilities/autobind';
 import { getRTL } from '../../utilities/rtl';
 import { DirectionalHint } from '../../utilities/DirectionalHint';
 import './Breadcrumbs.scss';
@@ -22,7 +22,7 @@ export interface IBreadcrumbState {
 const OVERFLOW_KEY = 'overflow';
 const OVERFLOW_WIDTH = 44;
 
-export default class Breadcrumbs extends React.Component<IBreadcrumbsProps, any> {
+export class Breadcrumbs extends React.Component<IBreadcrumbsProps, any> {
      public static defaultProps: IBreadcrumbsProps = {
         items: [],
         maxDisplayedItems: 999

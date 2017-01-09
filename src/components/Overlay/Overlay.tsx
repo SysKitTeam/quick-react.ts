@@ -4,7 +4,7 @@ import { IOverlayProps } from './Overlay.Props';
 import { getNativeAttributes, divAttributes } from '../../utilities/attributes';
 import './Overlay.scss';
 
-export default class Overlay extends React.Component<IOverlayProps, {}> {
+export class Overlay extends React.Component<IOverlayProps, {}> {
     public render() {
         let { isDarkThemed, className } = this.props;
         let divProps = getNativeAttributes(this.props, divAttributes);

@@ -4,7 +4,7 @@ import { getNativeAttributes, divAttributes } from '../../utilities/attributes';
 import { ILabelProps } from './Label.Props';
 import './Label.scss';
 
-export default class Label extends React.Component <ILabelProps, any > {
+export class Label extends React.Component <ILabelProps, any > {
     constructor(props) {
         super(props);
     }

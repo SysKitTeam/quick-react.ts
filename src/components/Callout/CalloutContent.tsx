@@ -3,16 +3,16 @@ import * as React from 'react';
 /* tslint:enable:no-unused-variable */
 import { ICalloutProps } from './Callout.Props';
 import { DirectionalHint } from '../../utilities/DirectionalHint';
-import autobind from '../../utilities/autobind';
+import { autobind } from '../../utilities/autobind';
 import * as classNames from 'classnames';
-import elementContains from '../../utilities/elementContains';
-import getDocument, {getWindow} from '../../utilities/getDocument';
+import { elementContains } from '../../utilities/elementContains';
+import { getDocument, getWindow } from '../../utilities/getDocument';
 import { getRelativePositions, IPositionInfo, IPositionProps } from '../../utilities/positioning';
 import { IRectangle } from '../../utilities/IRectangle';
 import { focusFirstChild } from '../../utilities/focus';
 import { assign } from '../../utilities/object';
 import { Popup } from '../Popup/Popup';
-import CommonComponent from '../Common/Common';
+import { CommonComponent } from '../Common/Common';
 import './Callout.scss';
 
 const BEAK_ORIGIN_POSITION = { top: 0, left: 0 };

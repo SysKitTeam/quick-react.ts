@@ -3,10 +3,10 @@ import * as classNames from 'classnames';
 import { IButtonProps, IButton, ButtonType } from './Button.Props';
 import {getNativeAttributes, buttonAttributes, anchorAttributes} from '../../utilities/attributes';
 import {assign} from '../../utilities/object';
-import Icon from '../Icon/Icon';
+import { Icon } from '../Icon/Icon';
 import './Button.scss';
 
-export default class Button extends React.Component <IButtonProps, any> implements IButton {
+export class Button extends React.Component <IButtonProps, any> implements IButton {
     
     private _buttonElement: HTMLButtonElement;
     constructor (props : IButtonProps) {

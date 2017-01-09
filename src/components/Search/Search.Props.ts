@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Search from './Search';
+import { Search } from './Search';
 
 export interface ISearchProps extends React.Props<Search> {
     labelText?: string;

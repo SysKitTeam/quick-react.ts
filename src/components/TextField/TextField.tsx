@@ -3,7 +3,7 @@ import * as classNames from 'classnames';
 import { ITextFieldProps } from './TextField.Props';
 import { Async } from '../../utilities/Async';
 import { getId } from '../../utilities/getId';
-import Label from '../../components/Label/Label';
+import { Label } from '../../components/Label/Label';
 import { getNativeAttributes, textAreaAttributes, inputAttributes } from '../../utilities/attributes';
 import './TextField.scss';
 
@@ -13,7 +13,7 @@ export interface ITextFieldState {
     errorMessage ?: string;
 }
 
-export default class TextField extends React.Component<ITextFieldProps, ITextFieldState> {
+export class TextField extends React.Component<ITextFieldProps, ITextFieldState> {
     public static defaultProps: ITextFieldProps = {
         multiline: false,
         resizable: true,

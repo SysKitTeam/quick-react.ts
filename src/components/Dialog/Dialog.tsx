@@ -2,14 +2,14 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import { IDialogProps } from './Dialog.Props';
 import { DialogFooter } from './DialogFooter';
-import CommonComponent from '../Common/Common';
+import { CommonComponent } from '../Common/Common';
 import { getId } from '../../utilities/getId';
 import { Layer } from '../../components/Layers/Layer';
 import { Popup } from '../../components/Popup/Popup';
-import Overlay from '../../components/Overlay/Overlay';
-import Button from '../../components/Button/Button';
-import ButtonType from '../../components/Button/Button';
-import Icon from '../../components/Icon/Icon';
+import { Overlay } from '../../components/Overlay/Overlay';
+import { Button } from '../../components/Button/Button';
+import { ButtonType } from '../../components/Button/Button.Props';
+import { Icon } from '../../components/Icon/Icon';
 import { IconName } from '../../components/Icon/IconName';
 import './Dialog.scss';
 
@@ -20,7 +20,7 @@ export interface IDialogState {
     id ?: string;
 }
 
-export default class Dialog extends CommonComponent<IDialogProps, IDialogState> {
+export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
     public static defaultProps: IDialogProps = {
         isOpen: false,
         isDarkOverlay: true,

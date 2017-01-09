@@ -1,5 +1,5 @@
 import * as React from 'react';
-import LeftNavigation from './LeftNavigation';
+import { LeftNavigation } from './LeftNavigation';
 import { IconName } from '../../components/Icon/IconName';
 
 export interface ILeftNavigationProps extends React.Props <any> {

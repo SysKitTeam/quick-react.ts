@@ -1,15 +1,15 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { ITreeviewProps } from './Treeview.Props';
-import TreeviewItem from './TreeviewItem';
-import Icon from '../../components/Icon/Icon';
+import { TreeviewItem } from './TreeviewItem';
+import { Icon } from '../../components/Icon/Icon';
 import { IconName } from '../../components/Icon/IconName';
-import Checkbox from '../../components/Checkbox/Checkbox';
-import autobind from '../../utilities/autobind';
-import CommonComponent from '../Common/Common';
+import { Checkbox } from '../../components/Checkbox/Checkbox';
+import { autobind } from '../../utilities/autobind';
+import { CommonComponent } from '../Common/Common';
 import './Treeview.scss';
 
-export default class Treeview extends CommonComponent<ITreeviewProps, any> {
+export class Treeview extends CommonComponent<ITreeviewProps, any> {
     constructor (props) {
         super(props);
     }

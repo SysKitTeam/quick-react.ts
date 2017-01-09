@@ -2,10 +2,10 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import { IconName } from '../Icon/IconName';
 import { AddToFavoritesProps } from './AddToFavorites.props';
-import Icon from '../Icon/Icon';
+import { Icon } from '../Icon/Icon';
 import './AddToFavorites.scss';
 
-export default class AddToFavorites extends React.Component <AddToFavoritesProps, any> {
+export class AddToFavorites extends React.Component <AddToFavoritesProps, any> {
 
     public render(): JSX.Element {
 

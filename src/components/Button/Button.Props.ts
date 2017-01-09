@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Button from './Button';
+import { Button } from './Button';
 import {IconName} from '../Icon/IconName';
 
 export interface IButton { focus(); }

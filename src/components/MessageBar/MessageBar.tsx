@@ -2,18 +2,18 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import { IMessageBarProps, MessageBarType } from './MessageBar.Props';
 import { getId } from '../../utilities/getId';
-import Icon from '../../components/Icon/Icon';
+import { Icon } from '../../components/Icon/Icon';
 import { IconName } from '../../components/Icon/IconName';
-import Button from '../../components/Button/Button';
-import ButtonType from '../../components/Button/Button';
-import Checkbox from '../../components/Checkbox/Checkbox';
+import { Button } from '../../components/Button/Button';
+import { ButtonType } from '../../components/Button/Button.Props';
+import { Checkbox } from '../../components/Checkbox/Checkbox';
 import './MessageBar.scss';
 
 export interface IMessageBarState {
     labelId?: string;
 }
 
-export default class MessageBar extends React.Component<IMessageBarProps, IMessageBarState> {
+export class MessageBar extends React.Component<IMessageBarProps, IMessageBarState> {
     public static defaultProps: IMessageBarProps = {
         messageBarType: MessageBarType.info,
         onDismiss: null,

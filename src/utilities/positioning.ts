@@ -1,5 +1,5 @@
 import { DirectionalHint } from './DirectionalHint';
-import Rectangle from './Rectangle';
+import { Rectangle } from './Rectangle';
 import { getScrollbarWidth } from './scroll';
 import { assign } from '../utilities/object';
 import { IRectangle } from './IRectangle';

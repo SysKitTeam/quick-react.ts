@@ -6,14 +6,14 @@ import {assign} from '../../utilities/object';
 import {getId} from '../../utilities/getId';
 import {getRTL} from '../../utilities/rtl';
 import * as classNames from 'classnames';
-import autobind from '../../utilities/autobind';
-import {KeyCodes} from '../../utilities/KeyCodes';
-import getDocument, {getWindow} from '../../utilities/getDocument';
-import CommonComponent from '../Common/Common';
-import Icon from '../Icon/Icon';
-import {IconName} from '../Icon/IconName';
-import Callout from '../Callout/Callout';
-import {IIconProps} from '../Icon/Icon.Props';
+import { autobind } from '../../utilities/autobind';
+import { KeyCodes } from '../../utilities/KeyCodes';
+import { getDocument, getWindow} from '../../utilities/getDocument';
+import { CommonComponent } from '../Common/Common';
+import { Icon } from '../Icon/Icon';
+import { IconName } from '../Icon/IconName';
+import { Callout } from '../Callout/Callout';
+import { IIconProps } from '../Icon/Icon.Props';
 import './ContextualMenu.scss';
 
 export function hasSubmenuItems(item: IContextualMenuItem) {
@@ -33,7 +33,7 @@ export interface IContextualMenuState {
     submenuDirection ?: DirectionalHint;
 }
 
-export default class ContextualMenu extends CommonComponent < IContextualMenuProps, IContextualMenuState > {
+export class ContextualMenu extends CommonComponent < IContextualMenuProps, IContextualMenuState > {
 
     public static defaultProps = {
         items: [],

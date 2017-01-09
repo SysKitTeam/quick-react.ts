@@ -1,14 +1,14 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { IRibbonProps } from './Ribbon.Props';
-import ContextualMenu, {hasSubmenuItems } from '../ContextualMenu/ContextualMenu';
+import { ContextualMenu, hasSubmenuItems } from '../ContextualMenu/ContextualMenu';
 import { IContextualMenuItem } from '../ContextualMenu/ContextualMenu.Props';
-import EventGroup from '../../utilities/EventGroup';
+import { EventGroup } from '../../utilities/EventGroup';
 import { DirectionalHint } from '../../utilities/DirectionalHint';
-import autobind from '../../utilities/autobind';
+import { autobind } from '../../utilities/autobind';
 import { getId } from '../../utilities/getId';
 import { buttonAttributes, divAttributes, getNativeAttributes } from '../../utilities/attributes';
-import Icon from '../Icon/Icon';
+import { Icon } from '../Icon/Icon';
 import { IIconProps } from '../Icon/Icon.Props';
 import { IconName } from '../Icon/IconName';
 

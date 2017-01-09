@@ -11,7 +11,7 @@ const statusClasses = {
 };
 
 
-export default function Test({
+export function Test({
     isVisible,
     status = 'info',
     id = ''

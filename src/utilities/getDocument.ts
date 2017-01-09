@@ -1,4 +1,4 @@
-export default function getDocument(rootElement?: HTMLElement) {
+export function getDocument(rootElement?: HTMLElement) {
   if (_isSSR) {
     return undefined;
   } else {

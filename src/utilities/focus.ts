@@ -1,5 +1,5 @@
-import getDocument from './getDocument';
-import elementContains from './elementContains';
+import { getDocument } from './getDocument';
+import { elementContains } from './elementContains';
 
 const IS_VISIBLE_ATTRIBUTE = 'data-is-visible';
 const IS_FOCUSABLE_ATTRIBUTE = 'data-is-focusable';

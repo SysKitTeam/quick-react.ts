@@ -3,7 +3,7 @@ import { ICalloutProps } from './Callout.Props';
 import { ICalloutState, CalloutContent } from './CalloutContent';
 import { Layer } from '../Layers';
 
-export default class Callout extends React.Component<ICalloutProps, ICalloutState> {
+export class Callout extends React.Component<ICalloutProps, ICalloutState> {
 
   constructor(props: ICalloutProps) {
     super(props);

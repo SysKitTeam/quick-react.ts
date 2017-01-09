@@ -2,12 +2,12 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import { assign } from '../../utilities/object';
 import { IMainNavigationProps } from './MainNavigation.Props';
-import Button from '../../components/Button/Button';
-import Icon from '../../components/Icon/Icon';
+import { Button } from '../../components/Button/Button';
+import { Icon } from '../../components/Icon/Icon';
 import { IconName } from '../../components/Icon/IconName';
 import './MainNavigation.scss';
 
-export default class MainNavigation extends React.Component<IMainNavigationProps, any> {
+export class MainNavigation extends React.Component<IMainNavigationProps, any> {
     constructor (props) {
         super(props);
     }

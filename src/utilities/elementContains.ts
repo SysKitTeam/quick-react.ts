@@ -1,6 +1,6 @@
-import getParent from './getParent';
+import { getParent } from './getParent';
 
-export default function elementContains(parent: HTMLElement, child: HTMLElement, allowVirtualParents: boolean = true): boolean {
+export function elementContains(parent: HTMLElement, child: HTMLElement, allowVirtualParents: boolean = true): boolean {
   let isContained: boolean = false;
 
   if (parent && child) {

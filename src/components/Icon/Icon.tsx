@@ -6,7 +6,7 @@ import { getNativeAttributes, htmlElementAttributes } from '../../utilities/attr
 
 import './Icon.scss';
 
-const Icon: (props: IIconProps) => JSX.Element = (props: IIconProps) => {
+export const Icon: (props: IIconProps) => JSX.Element = (props: IIconProps) => {
 
     let size = props.size;
     let customIcon = props.iconName === IconName.None;
@@ -19,5 +19,3 @@ const Icon: (props: IIconProps) => JSX.Element = (props: IIconProps) => {
     return <i { ...getNativeAttributes(props, htmlElementAttributes) } className={ iconClassName } />;
 
 };
-
-export default Icon;

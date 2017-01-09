@@ -3,7 +3,7 @@ import * as classNames from 'classnames';
 import { IStatusBarProps } from './StatusBar.Props';
 import './StatusBar.scss';
 
-export default class StatusBar extends React.Component<IStatusBarProps, any> {
+export class StatusBar extends React.Component<IStatusBarProps, any> {
     public static defaultProps: IStatusBarProps = {
         text: ''
     };

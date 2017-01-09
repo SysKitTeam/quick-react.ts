@@ -1,5 +1,5 @@
 import { KeyCodes } from './KeyCodes';
-import getDocument from './getDocument';
+import { getDocument } from './getDocument';
 
 let _isRTL: boolean = false;
 

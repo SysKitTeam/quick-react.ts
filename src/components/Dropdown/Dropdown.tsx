@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { IDropdownProps, IDropdownOption, DropdownType } from './Dropdown.Props';
 import { DirectionalHint } from '../../utilities/DirectionalHint';
-import Callout from '../Callout/Callout';
-import Icon from '../Icon/Icon';
+import { Callout } from '../Callout/Callout';
+import { Icon } from '../Icon/Icon';
 import {IconName} from '../Icon/IconName';
 import {KeyCodes} from '../../utilities/KeyCodes';
-import autobind from '../../utilities/autobind';
+import { autobind } from '../../utilities/autobind';
 import * as classNames from 'classnames';
 import {findIndex} from '../../utilities/array';
 import {getId} from '../../utilities/getId';
@@ -17,7 +17,7 @@ export interface IDropdownState {
   isDisabled: boolean;
 };
 
-export default class Dropdown extends React.Component<IDropdownProps, any> {
+export class Dropdown extends React.Component<IDropdownProps, any> {
 
   public static defaultProps = {
     options: [],

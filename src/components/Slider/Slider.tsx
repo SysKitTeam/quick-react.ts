@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { ISliderProps, ISlider } from './Slider.Props';
-import autobind from '../../utilities/autobind';
+import { autobind } from '../../utilities/autobind';
 import { getId } from '../../utilities/getId';
 import { getRTL as isRTL, getRTLSafeKeyCode } from '../../utilities/rtl';
-import CommonComponent from '../Common/Common';
+import { CommonComponent } from '../Common/Common';
 import {KeyCodes} from '../../utilities/KeyCodes';
-import Label from '../../components/Label/Label';
+import { Label } from '../../components/Label/Label';
 import './Slider.scss';
 
 export interface ISliderState {
@@ -14,7 +14,7 @@ export interface ISliderState {
     renderedValue ?: number;
 }
 
-export default class Slider extends CommonComponent<ISliderProps, ISliderState> implements ISlider {
+export class Slider extends CommonComponent<ISliderProps, ISliderState> implements ISlider {
     public static defaultProps: {} = {
         step: 1,
         min: 0,

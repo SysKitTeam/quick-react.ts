@@ -5,10 +5,10 @@ import {EventGroup} from './EventGroup';
 import {IDisposable} from './IDisposable';
 import { getNativeAttributes, divAttributes } from '../../utilities/attributes';
 import { doesElementContainFocus } from '../../utilities/focus';
-import getDocument from '../../utilities/getDocument';
-import CommonComponet from '../Common/Common';
+import { getDocument } from '../../utilities/getDocument';
+import { CommonComponent } from '../Common/Common';
 
-export class Popup extends CommonComponet<IPopupProps, {}> {
+export class Popup extends CommonComponent<IPopupProps, {}> {
 
 
   public static defaultProps: IPopupProps = {

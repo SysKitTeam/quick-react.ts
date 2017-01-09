@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ContextualMenu from './ContextualMenu';
+import { ContextualMenu } from './ContextualMenu';
 import { DirectionalHint } from '../../utilities/DirectionalHint';
 import { IIconProps } from '../Icon/Icon.Props';
 import { IRectangle } from '../../utilities/IRectangle';

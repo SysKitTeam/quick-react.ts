@@ -1,14 +1,14 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { ITreeviewItemProps, ITreeviewItem } from './TreeviewItem.Props';
-import Icon from '../../components/Icon/Icon';
+import { Icon } from '../../components/Icon/Icon';
 import { IconName } from '../../components/Icon/IconName';
-import Checkbox from '../../components/Checkbox/Checkbox';
-import CommonComponent from '../Common/Common';
-import autobind from '../../utilities/autobind';
+import { Checkbox } from '../../components/Checkbox/Checkbox';
+import { CommonComponent } from '../Common/Common';
+import { autobind } from '../../utilities/autobind';
 import './Treeview.scss';
 
-export default class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
+export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
     public static defaultProps: ITreeviewItem = {
         isOpen: false
     };

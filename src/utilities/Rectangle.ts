@@ -1,4 +1,4 @@
-export default class Rectangle {
+export class Rectangle {
   public top: number;
   public bottom: number;
   public left: number;

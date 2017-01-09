@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import Fabric from './Fabric/Fabric';
-import autobind from '../../utilities/autobind';
+import { Fabric } from './Fabric/Fabric';
+import { autobind } from '../../utilities/autobind';
 import { findIndex } from '../../utilities/array';
 import { divAttributes, getNativeAttributes } from '../../utilities/attributes';
 

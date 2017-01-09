@@ -9,7 +9,7 @@ export interface IChoiceGroupState {
     keyFocused?: string;
 }
 
-export default class ChoiceGroup extends React.Component<IChoiceGroupProps, IChoiceGroupState> {
+export class ChoiceGroup extends React.Component<IChoiceGroupProps, IChoiceGroupState> {
     public static defaultProps = {
         options: []
     };

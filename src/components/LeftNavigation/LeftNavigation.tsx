@@ -3,11 +3,11 @@ import * as classNames from 'classnames';
 import { ILeftNavigationProps, ILeftNavigationOption } from './LeftNavigation.Props';
 import { assign } from '../../utilities/object';
 import {findIndex} from '../../utilities/array';
-import Icon from '../../components/Icon/Icon';
+import { Icon } from '../../components/Icon/Icon';
 import { IconName } from '../../components/Icon/IconName';
 import './LeftNavigation.scss';
 
-export default class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
+export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
     constructor (props) {
         super(props);
         this.state = {isOpen: false, selectedIndex: this.getSelectedIndex(this.props.options)};

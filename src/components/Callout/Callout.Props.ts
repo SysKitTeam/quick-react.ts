@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Callout from './Callout';
+import { Callout } from './Callout';
 import { CalloutContent } from './CalloutContent';
 import { DirectionalHint } from '../../utilities/DirectionalHint';
 import { IRectangle } from '../../utilities/IRectangle';

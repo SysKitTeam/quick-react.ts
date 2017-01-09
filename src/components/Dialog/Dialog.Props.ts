@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Dialog from './Dialog';
+import { Dialog } from './Dialog';
 
 export interface IDialogProps extends React.Props<Dialog> {
     isOpen ?: boolean;

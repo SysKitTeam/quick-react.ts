@@ -21,7 +21,7 @@ export interface IDeclaredEventsByName {
   [eventName: string]: boolean;
 }
 
-export default class EventGroup {
+export class EventGroup {
   private static _uniqueId = 0;
   private _parent;
   private _eventRecords: IEventRecord[];

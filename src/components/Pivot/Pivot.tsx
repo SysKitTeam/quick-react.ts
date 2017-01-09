@@ -3,10 +3,10 @@ import * as classNames from 'classnames';
 import { IPivotProps } from './Pivot.Props';
 import { IPivotItemProps } from './PivotItem.Props';
 import { KeyCodes } from '../../utilities/KeyCodes';
-import PivotItem from './PivotItem';
+import { PivotItem } from './PivotItem';
 import { PivotLinkFormat } from './Pivot.Props';
 import { getId } from '../../utilities/getId';
-import autobind from '../../utilities/autobind';
+import { autobind } from '../../utilities/autobind';
 import './Pivot.scss';
 
 export interface IPivotState {
@@ -15,7 +15,7 @@ export interface IPivotState {
     id: string;
 }
 
-export default class Pivot extends React.Component<IPivotProps, IPivotState> {
+export class Pivot extends React.Component<IPivotProps, IPivotState> {
     private _keyToIndexMapping: { [key: string]: number };
 
     constructor(props: IPivotProps) {

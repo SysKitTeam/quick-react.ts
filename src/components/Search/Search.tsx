@@ -2,13 +2,13 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import { ISearchProps } from './Search.Props';
 import { getId } from '../../utilities/getId';
-import autobind from '../../utilities/autobind';
-import CommonComponent from '../Common/Common';
-import {KeyCodes} from '../../utilities/KeyCodes';
-import Icon from '../../components/Icon/Icon';
+import { autobind } from '../../utilities/autobind';
+import { CommonComponent } from '../Common/Common';
+import { KeyCodes } from '../../utilities/KeyCodes';
+import { Icon } from '../../components/Icon/Icon';
 import { IconName } from '../../components/Icon/IconName';
-import getDocument from '../../utilities/getDocument';
-import elementContains from '../../utilities/elementContains';
+import { getDocument } from '../../utilities/getDocument';
+import { elementContains } from '../../utilities/elementContains';
 import './Search.scss';
 
 export interface ISearchState {
@@ -17,7 +17,7 @@ export interface ISearchState {
     id?: string;
 }
 
-export default class Search extends CommonComponent<ISearchProps, ISearchState> {
+export class Search extends CommonComponent<ISearchProps, ISearchState> {
     public static defaultProps: ISearchProps = {
         labelText: 'Search'
     };

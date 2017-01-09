@@ -1,5 +1,5 @@
 import * as React from 'react';
-import EventGroup from '../../../utilities/EventGroup';
+import { EventGroup } from '../../../utilities/EventGroup';
 import { KeyCodes } from '../../../utilities/KeyCodes';
 import * as classNames from 'classnames';
 
@@ -24,7 +24,7 @@ if (typeof(document) === 'object' && document.documentElement && !document.docum
   document.documentElement.setAttribute('dir', 'ltr');
 }
 
-export default class Fabric extends React.Component<React.HTMLProps<HTMLDivElement>, IFabricState> {
+export class Fabric extends React.Component<React.HTMLProps<HTMLDivElement>, IFabricState> {
   
   public refs: {
     [key: string]: React.ReactInstance;
