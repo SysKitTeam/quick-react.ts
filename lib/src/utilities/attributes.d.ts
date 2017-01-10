@@ -1,0 +1,10 @@
+export declare const baseElementEvents: string[];
+export declare const baseElementAttributes: string[];
+export declare const htmlElementAttributes: string[];
+export declare const anchorAttributes: string[];
+export declare const buttonAttributes: string[];
+export declare const divAttributes: string[];
+export declare const inputAttributes: string[];
+export declare const textAreaAttributes: string[];
+export declare const imageAttributes: string[];
+export declare function getNativeAttributes<T>(Attributes: any, allowedAttributeNames: string[], excludedAttributeNames?: string[]): T;

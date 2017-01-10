@@ -3,7 +3,7 @@
   "buildOnSave": false,
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es6",
+    "target": "es5",
     "jsx": "react",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -11,8 +11,16 @@
     "removeComments": false,
     "sourceMap": false,
     "inlineSourceMap": true,
-    "noEmitHelpers": true
+    "noEmitHelpers": true,
+    "outDir": "build",
+    "declaration": true
   },
+  "filesGlob": [
+    "typings/index.d.ts",
+    "typings/globals/**/*.d.ts",
+    "src/**/**/*.ts",
+    "src/**/**/*.tsx"
+  ],
   "awesomeTypescriptLoaderOptions": {
     "useBabel": true,
     "useCache": false,
@@ -20,6 +28,7 @@
   },
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "lib"
   ]
 }
