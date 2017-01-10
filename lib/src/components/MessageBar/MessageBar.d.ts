@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { IMessageBarProps } from './MessageBar.Props';
-import './MessageBar.scss';
 export interface IMessageBarState {
     labelId?: string;
 }

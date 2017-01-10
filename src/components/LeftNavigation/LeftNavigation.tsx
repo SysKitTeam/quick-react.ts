@@ -5,7 +5,7 @@ import { assign } from '../../utilities/object';
 import {findIndex} from '../../utilities/array';
 import { Icon } from '../../components/Icon/Icon';
 import { IconName } from '../../components/Icon/IconName';
-import './LeftNavigation.scss';
+//import './LeftNavigation.scss';
 
 export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
     constructor (props) {

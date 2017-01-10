@@ -3,7 +3,7 @@ import * as classNames from 'classnames';
 import { IconName } from '../Icon/IconName';
 import { AddToFavoritesProps } from './AddToFavorites.props';
 import { Icon } from '../Icon/Icon';
-import './AddToFavorites.scss';
+//import './AddToFavorites.scss';
 
 export class AddToFavorites extends React.Component <AddToFavoritesProps, any> {
 

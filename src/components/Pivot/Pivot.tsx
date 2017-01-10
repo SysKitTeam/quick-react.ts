@@ -7,7 +7,7 @@ import { PivotItem } from './PivotItem';
 import { PivotLinkFormat } from './Pivot.Props';
 import { getId } from '../../utilities/getId';
 import { autobind } from '../../utilities/autobind';
-import './Pivot.scss';
+//import './Pivot.scss';
 
 export interface IPivotState {
     links: IPivotItemProps[];

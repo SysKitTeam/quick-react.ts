@@ -1,6 +1,5 @@
 import { IDialogProps } from './Dialog.Props';
 import { CommonComponent } from '../Common/Common';
-import './Dialog.scss';
 export interface IDialogState {
     isOpen?: boolean;
     isAnimatingOpen?: boolean;

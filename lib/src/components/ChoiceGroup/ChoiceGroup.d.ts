@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { IChoiceGroupProps } from './ChoiceGroup.Props';
-import './ChoiceGroup.scss';
 export interface IChoiceGroupState {
     keyChecked: string;
     keyFocused?: string;

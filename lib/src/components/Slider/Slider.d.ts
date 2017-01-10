@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { ISliderProps, ISlider } from './Slider.Props';
 import { CommonComponent } from '../Common/Common';
-import './Slider.scss';
 export interface ISliderState {
     value?: number;
     renderedValue?: number;

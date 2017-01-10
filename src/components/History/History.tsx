@@ -7,7 +7,7 @@ import {IconName} from '../Icon/IconName';
 import { Icon } from '../Icon/Icon';
 import { Button } from '../Button/Button';
 
-import './History.scss';
+//import './History.scss';
 
 export class History extends React.Component < IHistoryProps, any > {
     

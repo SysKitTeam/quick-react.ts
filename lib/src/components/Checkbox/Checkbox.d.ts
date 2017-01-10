@@ -1,6 +1,5 @@
 import { ICheckboxProps } from './Checkbox.Props';
 import { CommonComponent } from '../Common/Common';
-import './Checkbox.scss';
 export interface ICheckboxState {
     isFocused?: boolean;
     isChecked?: boolean;

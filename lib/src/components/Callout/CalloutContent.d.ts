@@ -1,7 +1,6 @@
 import { ICalloutProps } from './Callout.Props';
 import { DirectionalHint } from '../../utilities/DirectionalHint';
 import { CommonComponent } from '../Common/Common';
-import './Callout.scss';
 export interface ICalloutState {
     positions?: any;
     slideDirectionalClassName?: string;

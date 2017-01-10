@@ -9,7 +9,7 @@ import { Icon } from '../../components/Icon/Icon';
 import { IconName } from '../../components/Icon/IconName';
 import { getDocument } from '../../utilities/getDocument';
 import { elementContains } from '../../utilities/elementContains';
-import './Search.scss';
+//import './Search.scss';
 
 export interface ISearchState {
     value?: string;

@@ -1,6 +1,5 @@
 import { ISearchProps } from './Search.Props';
 import { CommonComponent } from '../Common/Common';
-import './Search.scss';
 export interface ISearchState {
     value?: string;
     hasFocus?: boolean;

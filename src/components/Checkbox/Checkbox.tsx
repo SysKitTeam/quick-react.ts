@@ -5,7 +5,7 @@ import { assign } from '../../utilities/object';
 import { autobind } from '../../utilities/autobind';
 import { getId } from '../../utilities/getId';
 import { CommonComponent } from '../Common/Common';
-import './Checkbox.scss';
+//import './Checkbox.scss';
 
 export interface ICheckboxState {
     isFocused ?: boolean;

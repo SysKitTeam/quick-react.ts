@@ -9,7 +9,7 @@ import { autobind } from '../../utilities/autobind';
 import * as classNames from 'classnames';
 import {findIndex} from '../../utilities/array';
 import {getId} from '../../utilities/getId';
-import './Dropdown.scss';
+//import './Dropdown.scss';
 
 export interface IDropdownState {
   isOpen: boolean;

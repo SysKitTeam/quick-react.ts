@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { ILayerProps } from './Layer.Props';
-import './Layer.scss';
 export interface IProjectedLayerProps extends React.Props<ProjectedLayer> {
     layerId: string;
     parentElement: HTMLElement;

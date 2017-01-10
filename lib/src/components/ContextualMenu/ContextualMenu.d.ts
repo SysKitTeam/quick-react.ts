@@ -1,7 +1,6 @@
 import { IContextualMenuProps, IContextualMenuItem } from './ContextualMenu.Props';
 import { DirectionalHint } from '../../utilities/DirectionalHint';
 import { CommonComponent } from '../Common/Common';
-import './ContextualMenu.scss';
 export declare function hasSubmenuItems(item: IContextualMenuItem): boolean;
 export interface IContextualMenuState {
     expandedMenuItemKey?: string;

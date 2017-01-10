@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { ITextFieldProps } from './TextField.Props';
-import './TextField.scss';
 export interface ITextFieldState {
     value?: string;
     isFocused?: boolean;

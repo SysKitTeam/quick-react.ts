@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { ILayerProps } from './Layer.Props';
 import { LayerHost } from './LayerHost';
-import './Layer.scss';
 export declare class Layer extends React.Component<ILayerProps, {}> {
     static contextTypes: {
         layerHost: React.Requireable<any>;

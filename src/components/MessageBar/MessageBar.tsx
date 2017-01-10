@@ -7,7 +7,7 @@ import { IconName } from '../../components/Icon/IconName';
 import { Button } from '../../components/Button/Button';
 import { ButtonType } from '../../components/Button/Button.Props';
 import { Checkbox } from '../../components/Checkbox/Checkbox';
-import './MessageBar.scss';
+//import './MessageBar.scss';
 
 export interface IMessageBarState {
     labelId?: string;

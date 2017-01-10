@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './Dialog.scss';
+//import './Dialog.scss';
 
 export class DialogFooter extends React.Component<any, any> {
     public render() {

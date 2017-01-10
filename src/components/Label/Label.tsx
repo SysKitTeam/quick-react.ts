@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import { getNativeAttributes, divAttributes } from '../../utilities/attributes';
 import { ILabelProps } from './Label.Props';
-import './Label.scss';
+//import './Label.scss';
 
 export class Label extends React.Component <ILabelProps, any > {
     constructor(props) {

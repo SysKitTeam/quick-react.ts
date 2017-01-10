@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { ITestProps } from './Test.Props';
-import './Test.scss';
+//import './Test.scss';
 
 const statusClasses = {
     info: 'bg-blue white',

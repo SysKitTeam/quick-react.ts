@@ -7,7 +7,7 @@ import { IconName } from '../../components/Icon/IconName';
 import { Checkbox } from '../../components/Checkbox/Checkbox';
 import { autobind } from '../../utilities/autobind';
 import { CommonComponent } from '../Common/Common';
-import './Treeview.scss';
+//import './Treeview.scss';
 
 export class Treeview extends CommonComponent<ITreeviewProps, any> {
     constructor (props) {

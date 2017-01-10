@@ -3,7 +3,7 @@ import { ILayerProps } from './Layer.Props';
 import { LayerHost } from './LayerHost';
 import { ProjectedLayer } from './ProjectedLayer';
 import { getId } from '../../utilities/getId';
-import './Layer.scss';
+//import './Layer.scss';
 
 export class Layer extends React.Component<ILayerProps, {}> {
   public static contextTypes = {

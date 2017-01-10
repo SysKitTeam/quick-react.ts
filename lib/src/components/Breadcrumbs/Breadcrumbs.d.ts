@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { IBreadcrumbsProps, IBreadcrumbItem } from './Breadcrumbs.Props';
-import './Breadcrumbs.scss';
 export interface IBreadcrumbState {
     isOverflowOpen: boolean;
     overflowAnchor?: HTMLElement;

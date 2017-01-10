@@ -10,7 +10,7 @@ import {getId} from '../../utilities/getId';
 import { autobind } from '../../utilities/autobind';
 import { getRTL } from '../../utilities/rtl';
 import { DirectionalHint } from '../../utilities/DirectionalHint';
-import './Breadcrumbs.scss';
+//import './Breadcrumbs.scss';
 
 export interface IBreadcrumbState {
     isOverflowOpen: boolean;

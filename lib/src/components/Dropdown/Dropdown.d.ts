@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { IDropdownProps, DropdownType } from './Dropdown.Props';
-import './Dropdown.scss';
 export interface IDropdownState {
     isOpen: boolean;
     selectedIndex: number;

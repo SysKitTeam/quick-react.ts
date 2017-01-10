@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { IStatusBarProps } from './StatusBar.Props';
-import './StatusBar.scss';
+//import './StatusBar.scss';
 
 export class StatusBar extends React.Component<IStatusBarProps, any> {
     public static defaultProps: IStatusBarProps = {

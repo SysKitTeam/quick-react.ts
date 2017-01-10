@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { IPivotProps } from './Pivot.Props';
 import { IPivotItemProps } from './PivotItem.Props';
-import './Pivot.scss';
 export interface IPivotState {
     links: IPivotItemProps[];
     selectedKey: string;
