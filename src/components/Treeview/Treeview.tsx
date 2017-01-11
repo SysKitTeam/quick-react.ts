@@ -3,7 +3,6 @@ import * as classNames from 'classnames';
 import { ITreeviewProps } from './Treeview.Props';
 import { TreeviewItem } from './TreeviewItem';
 import { Icon } from '../../components/Icon/Icon';
-import { IconName } from '../../components/Icon/IconName';
 import { Checkbox } from '../../components/Checkbox/Checkbox';
 import { autobind } from '../../utilities/autobind';
 import { CommonComponent } from '../Common/Common';

@@ -10,7 +10,6 @@ import { Overlay } from '../../components/Overlay/Overlay';
 import { Button } from '../../components/Button/Button';
 import { ButtonType } from '../../components/Button/Button.Props';
 import { Icon } from '../../components/Icon/Icon';
-import { IconName } from '../../components/Icon/IconName';
 //import './Dialog.scss';
 
 export interface IDialogState {
@@ -117,7 +116,7 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
                                             disabled={ false }
                                             className={'dialog-button dialog-button-close'}
                                             onClick={ onDismiss } 
-                                            iconName={IconName.Delete}/>
+                                            iconName={'icon-Delete'}/>
                                     }
                                 </div>
                             </div>

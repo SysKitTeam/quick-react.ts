@@ -4,7 +4,6 @@ import { ILeftNavigationProps, ILeftNavigationOption } from './LeftNavigation.Pr
 import { assign } from '../../utilities/object';
 import {findIndex} from '../../utilities/array';
 import { Icon } from '../../components/Icon/Icon';
-import { IconName } from '../../components/Icon/IconName';
 //import './LeftNavigation.scss';
 
 export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
@@ -80,7 +79,7 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
             ),
             <div>
                 <div className="nav-item" onClick={ () => { this.onLeftNavigationClick(); } }>
-                    <Icon iconName={IconName.SwitchView}></Icon>
+                    <Icon iconName={'icon-SwitchView'}></Icon>
                 </div>
                 {children}
             </div>

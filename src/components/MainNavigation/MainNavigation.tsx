@@ -4,7 +4,6 @@ import { assign } from '../../utilities/object';
 import { IMainNavigationProps } from './MainNavigation.Props';
 import { Button } from '../../components/Button/Button';
 import { Icon } from '../../components/Icon/Icon';
-import { IconName } from '../../components/Icon/IconName';
 //import './MainNavigation.scss';
 
 export class MainNavigation extends React.Component<IMainNavigationProps, any> {
@@ -15,7 +14,8 @@ export class MainNavigation extends React.Component<IMainNavigationProps, any> {
     public render(): JSX.Element {
         let {
             id,
-            children
+            children,
+            logo
         } = this.props;
 
         const className = classNames(
@@ -25,9 +25,11 @@ export class MainNavigation extends React.Component<IMainNavigationProps, any> {
         
         return (
             <nav className={className}>
-                <div className={'logo-container'}>
-                    <Icon className={'logo'} iconName={this.props.logo}></Icon>
-                </div>
+                { logo && (
+                    <div className={'logo-container'}>
+                        <Icon className={'logo'} iconName={this.props.logo}></Icon>
+                    </div>
+                )}
                 { children }
             </nav>
         );

@@ -11,7 +11,6 @@ import { KeyCodes } from '../../utilities/KeyCodes';
 import { getDocument, getWindow} from '../../utilities/getDocument';
 import { CommonComponent } from '../Common/Common';
 import { Icon } from '../Icon/Icon';
-import { IconName } from '../Icon/IconName';
 import { Callout } from '../Callout/Callout';
 import { IIconProps } from '../Icon/Icon.Props';
 //import './ContextualMenu.scss';
@@ -232,7 +231,7 @@ export class ContextualMenu extends CommonComponent < IContextualMenuProps, ICon
 
     private _renderIcon(item: IContextualMenuItem) {
         let iconProps: IIconProps = item.iconProps;
-        let iconColorClassName = iconProps.iconName === IconName.None ? '' : 'contextualMenu-iconColor';
+        let iconColorClassName = iconProps.iconName === '' ? '' : 'contextualMenu-iconColor';
         let iconClassName = classNames('contextualMenu-icon', iconColorClassName, iconProps.className);
 
         return <Icon { ...iconProps } className={ iconClassName } />;
@@ -258,7 +257,7 @@ export class ContextualMenu extends CommonComponent < IContextualMenuProps, ICon
             <div className="contextualMenu-linkContent">
                 { (hasCheckmarks) ? (
                 <Icon
-                    iconName={ isItemChecked ? IconName.Checkmark : IconName.None }
+                    iconName={ isItemChecked ? 'icon-Checkmark' : '' }
                     className={'contextualMenu-icon'}
                     onClick={ this._onItemClick.bind(this, item) } />
                 ) : (null) }
@@ -267,7 +266,7 @@ export class ContextualMenu extends CommonComponent < IContextualMenuProps, ICon
                 ) : (null) }
                 <span className={'contextualMenu-itemText'}>{ item.name }</span>
                 { (item.items && item.items.length) ? (
-                <Icon className={'contextualMenu-submenu-chevron'} iconName={ getRTL() ? IconName.ArrowLeftSlim : IconName.ArrowRightSlim } />
+                <Icon className={'contextualMenu-submenu-chevron'} iconName={ getRTL() ? 'icon-ArrowLeftSlim' : 'icon-ArrowRightSlim' } />
                 ) : (null) }
             </div>
         );

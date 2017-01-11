@@ -6,7 +6,6 @@ import { autobind } from '../../utilities/autobind';
 import { CommonComponent } from '../Common/Common';
 import { KeyCodes } from '../../utilities/KeyCodes';
 import { Icon } from '../../components/Icon/Icon';
-import { IconName } from '../../components/Icon/IconName';
 import { getDocument } from '../../utilities/getDocument';
 import { elementContains } from '../../utilities/elementContains';
 //import './Search.scss';
@@ -66,7 +65,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
                 ref={ this._resolveRef('_rootElement') }
                 className={ searchClassName }
                 { ...{ onFocusCapture: this._onFocusCapture } }>
-                <Icon className={'search-icon'} iconName={IconName.Search}></Icon>
+                <Icon className={'search-icon'} iconName={'icon-Search'}></Icon>
                 <input
                     id={ id }
                     className={'search-field'}
@@ -78,7 +77,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
                     <div
                         className={'search-clearButton'}
                         onClick={ this._onClearClick }>
-                        <Icon iconName={IconName.Delete}></Icon>
+                        <Icon iconName={'icon-Delete'}></Icon>
                     </div>
             </div>
         );

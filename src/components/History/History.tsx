@@ -3,7 +3,6 @@ import * as classNames from 'classnames';
 import {IHistoryProps} from './History.Props';
 import {getNativeAttributes, buttonAttributes, anchorAttributes} from '../../utilities/attributes';
 import {assign} from '../../utilities/object';
-import {IconName} from '../Icon/IconName';
 import { Icon } from '../Icon/Icon';
 import { Button } from '../Button/Button';
 
@@ -20,8 +19,8 @@ export class History extends React.Component < IHistoryProps, any > {
             'div', 
             assign(''), 
             <div>
-                <Button icon={IconName.ArrowLeftSlim} onClick={this.props.onBack}></Button>
-                <Button icon={IconName.ArrowRightSlim} onClick={this.props.onForward}></Button>
+                <Button icon={'icon-ArrowLeftSlim'} onClick={this.props.onBack}></Button>
+                <Button icon={'icon-ArrowRightSlim'} onClick={this.props.onForward}></Button>
             </div>
         );
     }

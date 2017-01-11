@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import { ITreeviewItemProps, ITreeviewItem } from './TreeviewItem.Props';
 import { Icon } from '../../components/Icon/Icon';
-import { IconName } from '../../components/Icon/IconName';
 import { Checkbox } from '../../components/Checkbox/Checkbox';
 import { CommonComponent } from '../Common/Common';
 import { autobind } from '../../utilities/autobind';
@@ -16,7 +15,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
     constructor (props) {
         super(props);
 
-        this.state = { isOpen: props.isOpen, iconArrow: IconName.ArrowRight };
+        this.state = { isOpen: props.isOpen, iconArrow: 'icon-ArrowRight' };
     }
 
     public render(): JSX.Element {
@@ -54,7 +53,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
 
         this.setState({ 
             isOpen: !isOpen,
-            iconArrow: isOpen ? IconName.ArrowRight : IconName.ArrowDownRight
+            iconArrow: isOpen ? 'icon-ArrowRight' : 'icon-ArrowDownRight'
         });
 
         ev.stopPropagation();

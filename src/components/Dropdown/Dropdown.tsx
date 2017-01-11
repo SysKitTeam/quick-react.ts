@@ -3,7 +3,6 @@ import { IDropdownProps, IDropdownOption, DropdownType } from './Dropdown.Props'
 import { DirectionalHint } from '../../utilities/DirectionalHint';
 import { Callout } from '../Callout/Callout';
 import { Icon } from '../Icon/Icon';
-import {IconName} from '../Icon/IconName';
 import {KeyCodes} from '../../utilities/KeyCodes';
 import { autobind } from '../../utilities/autobind';
 import * as classNames from 'classnames';
@@ -98,7 +97,7 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
               selectedOption ? onRenderItem(selectedOption, this._onRenderItem) : ''
             : null }
           </span>   
-          <Icon className={dropdownIconClassName} iconName={IconName.ArrowDown}></Icon>
+          <Icon className={dropdownIconClassName} iconName={'icon-ArrowDown'}></Icon>
         </div>
         { isOpen && (
           <Callout

@@ -10,7 +10,6 @@ import { getId } from '../../utilities/getId';
 import { buttonAttributes, divAttributes, getNativeAttributes } from '../../utilities/attributes';
 import { Icon } from '../Icon/Icon';
 import { IIconProps } from '../Icon/Icon.Props';
-import { IconName } from '../Icon/IconName';
 
 const OVERFLOW_KEY = 'overflow';
 const OVERFLOW_WIDTH = 41.5;
@@ -182,7 +181,7 @@ export class Ribbon extends React.Component<IRibbonProps, ICommandBarState> {
     let iconProps: IIconProps = item.iconProps;
 
     // Use the default icon color for the known icon names
-    let iconColorClassName = iconProps.iconName === IconName.None ? '' : 'ms-CommandBarItem-iconColor';
+    let iconColorClassName = iconProps.iconName === '' ? '' : 'ms-CommandBarItem-iconColor';
     let iconClassName = classNames('ms-CommandBarItem-icon', iconColorClassName, iconProps.className);
 
     return <Icon { ...iconProps } className={ iconClassName } />;

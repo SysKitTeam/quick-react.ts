@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { IconName } from '../../components/Icon/IconName';
 
 export interface IRenderFunction<P> {
   (props?: P, defaultRender?: (props?: P) => JSX.Element): JSX.Element;
@@ -14,7 +13,7 @@ export interface IDropdownProps {
   onRenderItem ?: IRenderFunction<IDropdownOption>;
   disabled ?: boolean;
   hasTitleBorder ?: boolean;
-  icon ?: IconName;
+  icon ?: string;
   dropdownType ?: DropdownType;
 }
 
@@ -24,7 +23,7 @@ export interface IDropdownOption {
   index ?: number;
   selected ?: boolean;
   href ?: string;
-  icon ?: IconName;
+  icon ?: string;
 }
 
 export enum DropdownType {

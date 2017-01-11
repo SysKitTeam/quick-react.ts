@@ -4,6 +4,7 @@ var gulpTypescript = require('gulp-typescript');
 var typescript = require('typescript');
 var merge = require('merge2');
 var react = require('gulp-react');
+var clean = require('gulp-clean');
 var gulpTsc = require('gulp-tsc');
 
 var tsProject = gulpTypescript.createProject('tsconfig.json', { typescript: typescript });

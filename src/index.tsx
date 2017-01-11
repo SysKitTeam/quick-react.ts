@@ -6,7 +6,6 @@ import { Test } from './components/Test/Test';
 import { Button } from './components/Button/Button';
 import { ButtonType } from './components/Button/Button.Props';
 import { Icon } from './components/Icon/Icon';
-import { IconName } from './components/Icon/IconName';
 import { Dropdown } from './components/Dropdown/Dropdown';
 import { DropdownType } from './components/Dropdown/Dropdown.Props';
 import { LeftNavigation } from './components/LeftNavigation/LeftNavigation';
@@ -51,8 +50,8 @@ export class Index extends React.Component<any, any> {
         <AddToFavorites favorited={true} />
         <AddToFavorites favorited={false} />
         <Callout> AAAAAAA<Callout>BBBBBBBB</Callout> </Callout>
-        <MainNavigation id={'mainNavigation'} logo={IconName.Logo}>
-          <Icon iconName={IconName.Buy}></Icon>
+        <MainNavigation id={'mainNavigation'} logo={'icon-Logo'}>
+          <Icon iconName={'icon-Buy'}></Icon>
         </MainNavigation>
         <br/>
         <MessageBar messageBarType={ MessageBarType.warning } hasDontShowAgain={true} onDismiss={ () => { console.log('test'); } }>Ovo je message bar!</MessageBar>
@@ -92,9 +91,9 @@ export class Index extends React.Component<any, any> {
                 label="Basic example:"
                 options={
                   [
-                    { key: 'A', text: 'Option a', icon: IconName.Add },
-                    { key: 'B', text: 'Option b', icon: IconName.Buy },
-                    { key: 'C', text: 'Option c', icon: IconName.User },
+                    { key: 'A', text: 'Option a', icon: 'icon-Add' },
+                    { key: 'B', text: 'Option b', icon: 'icon-Buy' },
+                    { key: 'C', text: 'Option c', icon: 'icon-User' },
                     { key: 'D', text: 'Option d' },
                     { key: 'E', text: 'Option e' },
                     { key: 'F', text: 'Option f' },
@@ -107,15 +106,15 @@ export class Index extends React.Component<any, any> {
               />
         </div>
          <div>
-          <Dropdown icon={IconName.SwitchView} dropdownType={DropdownType.customDropdown}>
+          <Dropdown icon={'icon-SwitchView'} dropdownType={DropdownType.customDropdown}>
           <Label>Header</Label>
           <hr/>
             <li style={{'display': 'inline-flex'}}>
-              <Icon iconName={IconName.Add}></Icon>
+              <Icon iconName={'icon-Account'}></Icon>
               <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
             </li>
              <li style={{'display': 'inline-flex'}}>
-              <Icon iconName={IconName.Account}></Icon>
+              <Icon iconName={'icon-Account'}></Icon>
               <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
             </li>
           </Dropdown>
@@ -126,159 +125,7 @@ export class Index extends React.Component<any, any> {
                 onSearch={ (newValue) => console.log('SearchBox onSearch fired: ' + newValue) }
                 />
         <br/>
-        <Icon iconName={IconName.Account}></Icon>
-        <Icon iconName={IconName.Add}></Icon>
-        <Icon iconName={IconName.AddToGroup}></Icon>
-        <Icon iconName={IconName.Alert}></Icon>
-        <Icon iconName={IconName.Alert1}></Icon>
-        <Icon iconName={IconName.AllUsers}></Icon>
-        <Icon iconName={IconName.ArrowDown}></Icon>
-        <Icon iconName={IconName.ArrowDownRight}></Icon>
-        <Icon iconName={IconName.ArrowDownSlim}></Icon>
-        <Icon iconName={IconName.ArrowLeft1}></Icon>
-        <Icon iconName={IconName.ArrowLeftSlim}></Icon>
-        <Icon iconName={IconName.ArrowRightSlim}></Icon>
-        <Icon iconName={IconName.ArrowRight}></Icon>
-        <Icon iconName={IconName.ArrowRight1}></Icon>
-        <Icon iconName={IconName.Arrows}></Icon>
-        <Icon iconName={IconName.ArrowUp}></Icon>
-        <Icon iconName={IconName.ArrowUpSlim}></Icon>
-        <Icon iconName={IconName.BarChart}></Icon>
-        <Icon iconName={IconName.BarChart2}></Icon>
-        <Icon iconName={IconName.Break}></Icon>
-        <Icon iconName={IconName.Buy}></Icon>
-        <Icon iconName={IconName.Buy2}></Icon>
-        <Icon iconName={IconName.Camera}></Icon>
-        <Icon iconName={IconName.Checkbox}></Icon>
-        <Icon iconName={IconName.Checkmark}></Icon>
-        <Icon iconName={IconName.CloneUser}></Icon>
-        <Icon iconName={IconName.CloudKit}></Icon>
-        <Icon iconName={IconName.CloudKit365}></Icon>
-        <Icon iconName={IconName.Cloud}></Icon>
-        <Icon iconName={IconName.CollapseAll}></Icon>
-        <Icon iconName={IconName.ColumnChooser}></Icon>
-        <Icon iconName={IconName.Compare}></Icon>
-        <Icon iconName={IconName.CopyToGroup}></Icon>
-        <Icon iconName={IconName.CreateGroup}></Icon>
-        <Icon iconName={IconName.CurentJobs}></Icon>
-        <Icon iconName={IconName.CustomPack}></Icon>
-        <Icon iconName={IconName.Dashboard1}></Icon>
-        <Icon iconName={IconName.Dashboard2}></Icon>
-        <Icon iconName={IconName.Delete}></Icon>
-        <Icon iconName={IconName.DeleteGroup}></Icon>
-        <Icon iconName={IconName.DeleteUser}></Icon>
-        <Icon iconName={IconName.Details}></Icon>
-        <Icon iconName={IconName.DisabledUser}></Icon>
-        <Icon iconName={IconName.Document}></Icon>
-        <Icon iconName={IconName.Docx}></Icon>
-        <Icon iconName={IconName.Edit}></Icon>
-        <Icon iconName={IconName.EditEmail}></Icon>
-        <Icon iconName={IconName.EditPhone}></Icon>
-        <Icon iconName={IconName.EditUser}></Icon>
-        <Icon iconName={IconName.Equal}></Icon>
-        <Icon iconName={IconName.Error}></Icon>
-        <Icon iconName={IconName.Excel}></Icon>
-        <Icon iconName={IconName.Exchange}></Icon>
-        <Icon iconName={IconName.ExpandAll}></Icon>
-        <Icon iconName={IconName.ExpandCollapse}></Icon>
-        <Icon iconName={IconName.Export}></Icon>
-        <Icon iconName={IconName.Feedback}></Icon>
-        <Icon iconName={IconName.Filter}></Icon>
-        <Icon iconName={IconName.Filter2}></Icon>
-        <Icon iconName={IconName.Flag}></Icon>
-        <Icon iconName={IconName.Folder}></Icon>
-        <Icon iconName={IconName.FullSize}></Icon>
-        <Icon iconName={IconName.GrantPermissions}></Icon>
-        <Icon iconName={IconName.GenWord}></Icon>
-        <Icon iconName={IconName.GenWord1}></Icon>
-        <Icon iconName={IconName.Generate}></Icon>
-        <Icon iconName={IconName.Ghost}></Icon>
-        <Icon iconName={IconName.Group}></Icon>
-        <Icon iconName={IconName.Help}></Icon>
-        <Icon iconName={IconName.History}></Icon>
-        <Icon iconName={IconName.HistoryBack}></Icon>
-        <Icon iconName={IconName.InfoCircle}></Icon>
-        <Icon iconName={IconName.InProgress}></Icon>
-        <Icon iconName={IconName.InProgress1}></Icon>
-        <Icon iconName={IconName.InternalLink}></Icon>
-        <Icon iconName={IconName.Item}></Icon>
-        <Icon iconName={IconName.Key}></Icon>
-        <Icon iconName={IconName.Link}></Icon>
-        <Icon iconName={IconName.List}></Icon>
-        <Icon iconName={IconName.Load}></Icon>
-        <Icon iconName={IconName.LoadInfo}></Icon>
-        <Icon iconName={IconName.LoadJobTasks}></Icon>
-        <Icon iconName={IconName.LoadWithErrors}></Icon>
-        <Icon iconName={IconName.LoadWithErrors1}></Icon>
-        <Icon iconName={IconName.Logo}></Icon>
-        <Icon iconName={IconName.LogoPartner}></Icon>
-        <Icon iconName={IconName.LogoPartner2}></Icon>
-        <Icon iconName={IconName.LogOut}></Icon>
-        <Icon iconName={IconName.MyAccount}></Icon>
-        <Icon iconName={IconName.MoveToGroup}></Icon>
-        <Icon iconName={IconName.News}></Icon>
-        <Icon iconName={IconName.NotEqual}></Icon>
-        <Icon iconName={IconName.NormalSize}></Icon>
-        <Icon iconName={IconName.Office}></Icon>
-        <Icon iconName={IconName.OfficeManage}></Icon>
-        <Icon iconName={IconName.Office365}></Icon>
-        <Icon iconName={IconName.Open}></Icon>
-        <Icon iconName={IconName.Pdf}></Icon>
-        <Icon iconName={IconName.Pending}></Icon>
-        <Icon iconName={IconName.Pending1}></Icon>
-        <Icon iconName={IconName.PermissionDate}></Icon>
-        <Icon iconName={IconName.PermissionLevel}></Icon>
-        <Icon iconName={IconName.PermissionLevel2}></Icon>
-        <Icon iconName={IconName.PermissionsExplorer}></Icon>
-        <Icon iconName={IconName.Phone}></Icon>
-        <Icon iconName={IconName.Power}></Icon>
-        <Icon iconName={IconName.PremiumSubs}></Icon>
-        <Icon iconName={IconName.PrincipalStatus}></Icon>
-        <Icon iconName={IconName.PrincipalType}></Icon>
-        <Icon iconName={IconName.Print}></Icon>
-        <Icon iconName={IconName.Que}></Icon>
-        <Icon iconName={IconName.Quote}></Icon>
-        <Icon iconName={IconName.Quote2}></Icon>
-        <Icon iconName={IconName.Quote22}></Icon>
-        <Icon iconName={IconName.RecentJobs}></Icon>
-        <Icon iconName={IconName.Refresh}></Icon>
-        <Icon iconName={IconName.Reload}></Icon>
-        <Icon iconName={IconName.Reset}></Icon>
-        <Icon iconName={IconName.ResetJobs}></Icon>
-        <Icon iconName={IconName.Save}></Icon>
-        <Icon iconName={IconName.Schedule}></Icon>
-        <Icon iconName={IconName.Search}></Icon>
-        <Icon iconName={IconName.SecurityGroup}></Icon>
-        <Icon iconName={IconName.Settings}></Icon>
-        <Icon iconName={IconName.SharedFolder}></Icon>
-        <Icon iconName={IconName.SharePoint}></Icon>
-        <Icon iconName={IconName.Site}></Icon>
-        <Icon iconName={IconName.Site2}></Icon>
-        <Icon iconName={IconName.SiteCollection}></Icon>
-        <Icon iconName={IconName.Snapshot}></Icon>
-        <Icon iconName={IconName.SPreport}></Icon>
-        <Icon iconName={IconName.StarterSubs}></Icon>
-        <Icon iconName={IconName.Subscription}></Icon>
-        <Icon iconName={IconName.Subsite}></Icon>
-        <Icon iconName={IconName.Summary}></Icon>
-        <Icon iconName={IconName.SuperAdmin}></Icon>
-        <Icon iconName={IconName.SwitchView}></Icon>
-        <Icon iconName={IconName.TakeSnapshot}></Icon>
-        <Icon iconName={IconName.Trash}></Icon>
-        <Icon iconName={IconName.User}></Icon>
-        <Icon iconName={IconName.UserManagement}></Icon>
-        <Icon iconName={IconName.UsersQuote}></Icon>
-        <Icon iconName={IconName.Usklicnik}></Icon>
-        <Icon iconName={IconName.VersionUpdate}></Icon>
-        <Icon iconName={IconName.Warning}></Icon>
-        <Icon iconName={IconName.World}></Icon>
-        <Icon iconName={IconName.OneDrive}></Icon>
-        <Icon iconName={IconName.RemoveUser}></Icon>
-        <Icon iconName={IconName.RemoveUsersFromGroup}></Icon>
-        <Icon iconName={IconName.Restore}></Icon>
-        <Icon iconName={IconName.TransferUser}></Icon>
-        <Icon iconName={IconName.ViewType}></Icon>
-        <Icon iconName={IconName.EventViewer}></Icon>
+        <Icon iconName={'icon-Account'}></Icon>
         <br/>
         <Breadcrumbs items={ [
                 {text: 'Files', 'key': 'Files' },
@@ -295,11 +142,11 @@ export class Index extends React.Component<any, any> {
         </Breadcrumbs>
         <br/>
         <LeftNavigation id={'leftNavigation'} options={ [
-                { text: 'Home', id: 'Home', href: 'http://Acceleratio.net', icon: IconName.Help },
-                { text: 'Activity', id: 'Activity', href: '#1', disabled: true, icon: IconName.Account },
-                { text: 'News', id: 'News', href: '#2', icon: IconName.Add },
-                { text: 'Documents', id: 'Documents', href: '#3', selected: true, icon: IconName.Alert },
-                { text: 'Books', id: 'Books', href: '#4', icon: IconName.Trash }
+                { text: 'Home', id: 'Home', href: 'http://Acceleratio.net', icon: 'icon-Help' },
+                { text: 'Activity', id: 'Activity', href: '#1', disabled: true, icon: 'icon-Account' },
+                { text: 'News', id: 'News', href: '#2', icon: 'icon-Add' },
+                { text: 'Documents', id: 'Documents', href: '#3', selected: true, icon: 'icon-Alert' },
+                { text: 'Books', id: 'Books', href: '#4', icon: 'icon-Trash' }
               ] }
         ></LeftNavigation>
         <br />

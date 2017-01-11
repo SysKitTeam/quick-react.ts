@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { IconName } from '../../components/Icon/IconName';
 export interface ILeftNavigationProps extends React.Props<any> {
     id?: string;
     options?: ILeftNavigationOption[];
@@ -9,7 +8,7 @@ export interface ILeftNavigationOption extends React.Props<any> {
     id: string;
     text: string;
     href?: string;
-    icon?: IconName;
+    icon?: string;
     selected?: boolean;
     disabled?: boolean;
 }
