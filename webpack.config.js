@@ -4,16 +4,13 @@ const path = require('path');
 const loaders = require('./webpack/loaders');
 const plugins = require('./webpack/plugins');
 
-
-
 module.exports = {
-    entry: './src/index.ts',
+    entry: './src/showcase.tsx',
     output: {
         path: path.join(__dirname, '/dist'),
-        filename: 'quick-react-ts.js',
-        libraryTarget: 'umd',
-        library: "quick-react-ts",
-        umdNamedDefine: true
+        filename: 'bundle.js',
+        publicPath: '/',
+        sourceMapFilename: '[name].[hash].js.map'
     },
 
     devtool: 'source-map',
