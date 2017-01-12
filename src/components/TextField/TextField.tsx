@@ -5,7 +5,7 @@ import { Async } from '../../utilities/Async';
 import { getId } from '../../utilities/getId';
 import { Label } from '../../components/Label/Label';
 import { getNativeAttributes, textAreaAttributes, inputAttributes } from '../../utilities/attributes';
-//import './TextField.scss';
+import './TextField.scss';
 
 export interface ITextFieldState {
     value ?: string;

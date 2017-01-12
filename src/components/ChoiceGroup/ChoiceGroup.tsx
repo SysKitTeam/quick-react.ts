@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import { IChoiceGroupProps, IChoiceGroupOption } from './ChoiceGroup.Props';
 import { getId } from '../../utilities/getId';
-//import './ChoiceGroup.scss';
+import './ChoiceGroup.scss';
 
 export interface IChoiceGroupState {
     keyChecked: string;

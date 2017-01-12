@@ -3,7 +3,7 @@ import { setVirtualParent } from '../../utilities/virtualParent';
 import { divAttributes, getNativeAttributes } from '../../utilities/attributes';
 import * as classNames from 'classnames';
 import { ILayerProps } from './Layer.Props';
-//import './Layer.scss';
+import './Layer.scss';
 
 export interface IProjectedLayerProps extends React.Props<ProjectedLayer> {
   layerId: string;

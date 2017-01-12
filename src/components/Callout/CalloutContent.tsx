@@ -13,7 +13,7 @@ import { focusFirstChild } from '../../utilities/focus';
 import { assign } from '../../utilities/object';
 import { Popup } from '../Popup/Popup';
 import { CommonComponent } from '../Common/Common';
-//import './Callout.scss';
+import './Callout.scss';
 
 const BEAK_ORIGIN_POSITION = { top: 0, left: 0 };
 const OFF_SCREEN_POSITION = { top: -9999, left: 0 };
