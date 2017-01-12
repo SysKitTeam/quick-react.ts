@@ -13,7 +13,7 @@ import { CommonComponent } from '../Common/Common';
 import { Icon } from '../Icon/Icon';
 import { Callout } from '../Callout/Callout';
 import { IIconProps } from '../Icon/Icon.Props';
-//import './ContextualMenu.scss';
+import './ContextualMenu.scss';
 
 export function hasSubmenuItems(item: IContextualMenuItem) {
     let submenuItems = item.items;

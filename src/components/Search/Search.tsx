@@ -8,7 +8,7 @@ import { KeyCodes } from '../../utilities/KeyCodes';
 import { Icon } from '../../components/Icon/Icon';
 import { getDocument } from '../../utilities/getDocument';
 import { elementContains } from '../../utilities/elementContains';
-//import './Search.scss';
+import './Search.scss';
 
 export interface ISearchState {
     value?: string;

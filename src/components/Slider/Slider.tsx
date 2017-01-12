@@ -7,7 +7,7 @@ import { getRTL as isRTL, getRTLSafeKeyCode } from '../../utilities/rtl';
 import { CommonComponent } from '../Common/Common';
 import {KeyCodes} from '../../utilities/KeyCodes';
 import { Label } from '../../components/Label/Label';
-//import './Slider.scss';
+import './Slider.scss';
 
 export interface ISliderState {
     value ?: number;

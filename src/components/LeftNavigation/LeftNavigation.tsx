@@ -4,7 +4,7 @@ import { ILeftNavigationProps, ILeftNavigationOption } from './LeftNavigation.Pr
 import { assign } from '../../utilities/object';
 import {findIndex} from '../../utilities/array';
 import { Icon } from '../../components/Icon/Icon';
-//import './LeftNavigation.scss';
+import './LeftNavigation.scss';
 
 export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
     constructor (props) {

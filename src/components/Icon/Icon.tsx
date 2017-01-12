@@ -3,7 +3,7 @@ import * as classNames from 'classnames';
 import { IIconProps } from './Icon.Props';
 import { getNativeAttributes, htmlElementAttributes } from '../../utilities/attributes';
 
-//import './Icon.scss';
+import './Icon.scss';
 
 export const Icon: (props: IIconProps) => JSX.Element = (props: IIconProps) => {
 

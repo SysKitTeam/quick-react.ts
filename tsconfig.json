@@ -12,7 +12,7 @@
     "sourceMap": false,
     "inlineSourceMap": true,
     "noEmitHelpers": true,
-    "outDir": "build",
+    "outDir": "./lib",
     "declaration": true
   },
   "filesGlob": [

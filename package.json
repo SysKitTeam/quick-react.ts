@@ -1,11 +1,13 @@
 {
-  "name": "quick-react.ts",
+  "name": "quick-react-ts",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./lib/index.js",
+  "typings": "./lib/index",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server -d --inline --hot --progress --no-info"
+    "build": "tsc -p . && gulp copySass",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server -d --inline --hot --progress --no-info",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -16,10 +18,12 @@
   "license": "ISC",
   "dependencies": {
     "classnames": "2.2.5",
+    "gulp-sass": "^3.1.0",
     "react": "0.14.4",
     "react-dom": "0.14.1",
     "react-redux": "4.4.6",
-    "redux": "3.6.0"
+    "redux": "3.6.0",
+    "run-sequence": "^1.2.2"
   },
   "devDependencies": {
     "awesome-typescript-loader": "1.0.0",
@@ -49,7 +53,7 @@
     "ts-loader": "1.2.2",
     "tslint": "3.7.4",
     "tslint-loader": "2.1.0",
-    "typescript": "2.2.0",
+    "typescript": "2.0.10",
     "typings": "2.0.0",
     "webpack": "1.13.3",
     "webpack-dev-server": "1.16.2",
