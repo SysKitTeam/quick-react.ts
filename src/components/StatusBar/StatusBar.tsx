@@ -30,7 +30,7 @@ export class StatusBar extends React.Component<IStatusBarProps, any> {
         let statusBarClassName = classNames(
             'statusBar',
             [this.props.className]
-        )
+        );
 
         return (
             <div className={statusBarClassName}>

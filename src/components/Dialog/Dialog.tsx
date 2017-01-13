@@ -10,7 +10,7 @@ import { Overlay } from '../../components/Overlay/Overlay';
 import { Button } from '../../components/Button/Button';
 import { ButtonType } from '../../components/Button/Button.Props';
 import { Icon } from '../../components/Icon/Icon';
-//import './Dialog.scss';
+import './Dialog.scss';
 
 export interface IDialogState {
     isOpen ?: boolean;
