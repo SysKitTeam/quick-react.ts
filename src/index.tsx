@@ -292,7 +292,6 @@ export class Index extends React.Component<any, any> {
         <Spinner />
         <Label>Large Spinner With Label</Label>
         <Spinner type={ SpinnerType.large } label="Seriously, still loading..."/>
-        <Spinner type={ SpinnerType.larger }/>
         <br/>
         <Treeview
           items={ [

@@ -9,6 +9,5 @@ export interface ISpinnerProps extends React.Props<Spinner> {
 
 export enum SpinnerType {
     normal,
-    large,
-    larger
+    large
 }

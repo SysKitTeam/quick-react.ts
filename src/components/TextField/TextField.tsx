@@ -109,7 +109,8 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
                 'is-active': isFocused,
                 'text-field-multiline': multiline,
                 'text-field-underlined': underlined
-            }
+            },
+            [this.props.className]
         );
 
         return (
