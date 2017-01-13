@@ -5,6 +5,7 @@ import { assign } from '../../utilities/object';
 import { autobind } from '../../utilities/autobind';
 import { getId } from '../../utilities/getId';
 import { CommonComponent } from '../Common/Common';
+import { Icon } from '../Icon/Icon';
 import './Checkbox.scss';
 
 export interface ICheckboxState {
@@ -61,6 +62,7 @@ export class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
                     onFocus={ this._onFocus }
                     onBlur={ this._onBlur }  
                 />
+                { isChecked && <Icon htmlFor={ this.id } className={'checkboxCheckmark'} iconName={'icon-Checkmark'}></Icon> }
                 <label htmlFor={ this.id }
                     className={labelClassName}>
                     { label && <span className={'label'}>{label}</span> }

@@ -32,21 +32,6 @@ $Checkbox-transition-timing: cubic-bezier(.4, 0, .23, 1);
         transition-timing-function: $Checkbox-transition-timing;
     }
 
-     .checkbox-label::after {
-        font-family: 'cloudkitIcons';
-        content: '\E611';
-        display: none;
-        position: absolute;
-        font-weight: 900;
-        background-color: transparent;
-        font-size: $font-size-s-plus;
-        top: 0;
-        color: $color-white;
-        line-height: $Checkbox-label-size;
-        width: $Checkbox-label-size;
-        text-align: center;
-    }
-
     .checkbox-label {
         display: inline-block;
         cursor: pointer;
@@ -59,11 +44,6 @@ $Checkbox-transition-timing: cubic-bezier(.4, 0, .23, 1);
         line-height: $Checkbox-label-size;
 
         &.is-checked {
-            &::before {
-                border: 10px solid $secondary-color;
-                background-color: $secondary-color;
-            }
-
              &::after {
                 display: block;
 
@@ -99,5 +79,12 @@ $Checkbox-transition-timing: cubic-bezier(.4, 0, .23, 1);
         font-size: $font-size-m;
         @include padding(0, 0, 0, 26px);
         display: inline-block;
+    }
+
+    .checkboxCheckmark {
+        color: #b9cb34;
+        position: absolute;
+        margin-top: 10px;
+        margin-left: 3px;
     }
 }
