@@ -105,11 +105,11 @@ export class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
 
     @autobind
     private _onChange(ev: React.FormEvent) {
-        const { onChange } = this.props;
+        const { onChange, itemId } = this.props;
         const isChecked = (ev.target as HTMLInputElement).checked;
         
         if (onChange) {
-            onChange(ev, isChecked);
+            onChange(ev, itemId, isChecked);
         }
 
         if (this.props.checked === undefined) {

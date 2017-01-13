@@ -19,7 +19,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
     }
 
     public render(): JSX.Element {
-        let { item } = this.props;
+        let { item, onChange } = this.props;
         let { isOpen } = this.state;
 
         const itemClassName = classNames(
@@ -39,7 +39,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
                 <div className={itemClassName}>
                     { item.children && item.children.map((child, index) => (
                         <div key={index}>
-                            <Checkbox defaultChecked={child.checked !== undefined ? child.checked : true} label={child.text}></Checkbox>
+                            <Checkbox checked={child.checked !== undefined ? child.checked : false} label={child.text} onChange={onChange} itemId={child.id}></Checkbox>
                         </div>           
                     ))}
                 </div>

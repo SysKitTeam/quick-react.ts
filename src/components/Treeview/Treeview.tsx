@@ -14,7 +14,7 @@ export class Treeview extends CommonComponent<ITreeviewProps, any> {
     }
 
     public render(): JSX.Element {
-        let { label, items } = this.props;
+        let { label, items, onCheckboxChanged } = this.props;
 
         const className = classNames(
             'treeview',
@@ -23,7 +23,7 @@ export class Treeview extends CommonComponent<ITreeviewProps, any> {
         return (
             <div className={className}>
                 { items.map((item, index) => (
-                    <TreeviewItem key={index} item={item}/>
+                    <TreeviewItem key={index} item={item} onChange={onCheckboxChanged}/>
                 ))}
             </div>          
         );

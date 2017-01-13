@@ -1,13 +1,14 @@
 import * as React from 'react';
 
 export interface ITreeviewItemProps {
-    item ?: ITreeviewItem;
+    item?: ITreeviewItem;
+    onChange?: (ev?: React.FormEvent, itemId?: string, checked?: boolean) => void;
 }
 
 export interface ITreeviewItem {
-    text ?: string;
-    id ?: string;
-    children ?: ITreeviewItem[];
-    isOpen ?: boolean;
-    checked ?: boolean;
+    text?: string;
+    id?: string;
+    children?: ITreeviewItem[];
+    isOpen?: boolean;
+    checked?: boolean;
 }
