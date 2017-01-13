@@ -27,8 +27,13 @@ export class StatusBar extends React.Component<IStatusBarProps, any> {
     render () {
         let { text } = this.state;
 
+        let statusBarClassName = classNames(
+            'statusBar',
+            [this.props.className]
+        )
+
         return (
-            <div className={'statusBar'}>
+            <div className={statusBarClassName}>
                <span>{ text }</span>
             </div>
         );
