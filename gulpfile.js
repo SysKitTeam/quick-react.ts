@@ -15,12 +15,11 @@ var tsProject = gulpTypescript.createProject('tsconfig.json', {
 });
 
 gulp.task('build', function (cb) {
-    return runSequence('sass', ['tsc', 'font'], cb);
+    return runSequence('copySass','font', cb);
 })
 
 gulp.task('tsc', tscTask);
 gulp.task('font', fontTask);
-gulp.task('sass', sassTask);
 gulp.task('cleanLib', cleanLib);
 gulp.task('copySass', copySass);
 
@@ -31,25 +30,19 @@ function cleanLib() {
 }
 
 function tscTask() {
-    var tsResult = tsProject.src('src').pipe(gulpTypescript(tsProject));
+    var tsResult = tsProject.src('./src', { base: './src' }).pipe(gulpTypescript(tsProject));
     return merge([
         tsResult.dts
-            .pipe(gulp.dest('dist')),
+            .pipe(gulp.dest('./lib')),
         tsResult.js
-            .pipe(gulp.dest('dist'))
+            .pipe(gulp.dest('./lib'))
     ])
 }
 
 function fontTask() {
     var tsResult = gulp
         .src('src/fonts/**')
-        .pipe(gulp.dest('lib/src/fonts'));
-}
-
-function sassTask() {
-    return gulp.src('src/**/*.scss')
-        .pipe(sass().on('error', sass.logError))
-        .pipe(gulp.dest('dist/src'))
+        .pipe(gulp.dest('lib/fonts'));
 }
 
 function copySass() {

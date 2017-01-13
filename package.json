@@ -5,7 +5,7 @@
   "main": "./lib/index.js",
   "typings": "./lib/index",
   "scripts": {
-    "build": "tsc -p . && gulp copySass",
+    "build": "tsc -p . && gulp build",
     "dev": "cross-env NODE_ENV=development webpack-dev-server -d --inline --hot --progress --no-info",
     "prepublish": "npm run build",
     "postinstall": "postinstall-build lib \"npm run build\""
