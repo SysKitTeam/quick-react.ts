@@ -39,3 +39,5 @@ jspm_packages
 dist/
 
 lib/
+
+quick-react-ts*
