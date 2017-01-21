@@ -4,7 +4,7 @@ import { Dialog } from './Dialog';
 export interface IDialogProps extends React.Props<Dialog> {
     isOpen ?: boolean;
     isDarkOverlay?: boolean;
-    onDismiss ?: (ev?: React.MouseEvent) => any;
+    onDismiss ?: (ev?: React.MouseEvent<HTMLElement>) => any;
     title ?: string;
     subText ?: string;
     isBlocking ?: boolean;

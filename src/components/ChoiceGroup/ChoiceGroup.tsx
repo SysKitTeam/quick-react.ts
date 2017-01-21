@@ -97,14 +97,14 @@ export class ChoiceGroup extends React.Component<IChoiceGroupProps, IChoiceGroup
         }
     }
 
-    private _onFocus(option: IChoiceGroupOption, ev: React.FocusEvent): void {
+    private _onFocus(option: IChoiceGroupOption, ev: React.FocusEvent<any>): void {
         this.setState({
             keyFocused: option.key,
             keyChecked: this.state.keyChecked
         });
     }
 
-    private _onBlur(option: IChoiceGroupOption, ev: React.FocusEvent): void {
+    private _onBlur(option: IChoiceGroupOption, ev: React.FocusEvent<any>): void {
         this.setState({
             keyFocused: undefined,
             keyChecked: this.state.keyChecked
@@ -126,7 +126,7 @@ export class ChoiceGroup extends React.Component<IChoiceGroupProps, IChoiceGroup
         );
     }
 
-    private _onChange(option: IChoiceGroupOption, ev: React.FormEvent) {
+    private _onChange(option: IChoiceGroupOption, ev: React.FormEvent<any>) {
         let { onChanged } = this.props;
 
         this.setState({

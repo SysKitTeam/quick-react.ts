@@ -82,7 +82,7 @@ export class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
     }
 
     @autobind
-    private _onFocus(ev: React.FocusEvent): void {
+    private _onFocus(ev: React.FocusEvent<HTMLInputElement>): void {
         const { inputProps } = this.props;
 
         if (inputProps && inputProps.onFocus) {
@@ -93,7 +93,7 @@ export class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
     }
 
     @autobind
-    private _onBlur(ev: React.FocusEvent): void {
+    private _onBlur(ev: React.FocusEvent<HTMLInputElement>): void {
         const { inputProps } = this.props;
 
         if (inputProps && inputProps.onBlur) {
@@ -104,7 +104,7 @@ export class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
     }
 
     @autobind
-    private _onChange(ev: React.FormEvent) {
+    private _onChange(ev: React.FormEvent<HTMLInputElement>) {
         const { onChange, itemId } = this.props;
         const isChecked = (ev.target as HTMLInputElement).checked;
         

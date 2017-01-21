@@ -2,7 +2,7 @@ import * as React from 'react';
 
 export interface IChoiceGroupProps extends React.HTMLProps<HTMLElement> {
     options: IChoiceGroupOption[];
-    onChanged ?: (option: IChoiceGroupOption, evt?: React.FormEvent) => void;
+    onChanged ?: (option: IChoiceGroupOption, evt?: React.FormEvent<HTMLElement>) => void;
     label ?: string;
 }
 

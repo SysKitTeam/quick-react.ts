@@ -140,7 +140,7 @@ export class ContextualMenu extends CommonComponent < IContextualMenuProps, ICon
     }
 
     @autobind
-    private _onKeyDown(ev: React.KeyboardEvent) {
+    private _onKeyDown(ev: React.KeyboardEvent<any>) {
         let submenuCloseKey = getRTL() ? KeyCodes.right : KeyCodes.left;
 
         if (ev.which === KeyCodes.escape
@@ -272,7 +272,7 @@ export class ContextualMenu extends CommonComponent < IContextualMenuProps, ICon
         );
     }
 
-    private _onItemMouseEnter(item: any, ev: React.MouseEvent) {
+    private _onItemMouseEnter(item: any, ev: React.MouseEvent<HTMLElement>) {
         let targetElement = ev.currentTarget as HTMLElement;
 
         if (item.key !== this.state.expandedMenuItemKey) {
@@ -285,11 +285,11 @@ export class ContextualMenu extends CommonComponent < IContextualMenuProps, ICon
     }
 
     @autobind
-    private _onMouseLeave(ev: React.MouseEvent) {
+    private _onMouseLeave(ev: React.MouseEvent<HTMLElement>) {
         this._async.clearTimeout(this._enterTimerId);
     }
 
-    private _onItemMouseDown(item: IContextualMenuItem, ev: React.MouseEvent) {
+    private _onItemMouseDown(item: IContextualMenuItem, ev: React.MouseEvent<HTMLElement>) {
         if (item.onMouseDown) {
             item.onMouseDown(item, ev);
         }

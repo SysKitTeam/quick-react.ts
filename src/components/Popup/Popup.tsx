@@ -66,7 +66,7 @@ export class Popup extends CommonComponent<IPopupProps, {}> {
     );
   }
 
-  private _onKeyDown(ev: React.KeyboardEvent) {
+  private _onKeyDown(ev: React.KeyboardEvent<any>) {
     switch (ev.which) {
       case KeyCodes.escape:
 

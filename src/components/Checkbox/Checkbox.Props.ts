@@ -6,7 +6,7 @@ export interface ICheckboxProps extends React.HTMLProps<HTMLElement> {
     defaultChecked?: boolean;
     label?: string;
     disabled?: boolean;
-    onChange?: (ev?: React.FormEvent, itemId?: string, checked?: boolean) => void;
+    onChange?: (ev?: React.FormEvent<HTMLElement>, itemId?: string, checked?: boolean) => void;
     inputProps?: React.HTMLProps<HTMLInputElement>;
     itemId?: string;
 }

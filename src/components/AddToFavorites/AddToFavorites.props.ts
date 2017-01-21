@@ -1,5 +1,5 @@
 import * as React from 'react';
-export interface AddToFavoritesProps extends React.HTMLProps < HTMLElement > {
+export interface AddToFavoritesProps extends React.HTMLProps <HTMLElement> {
   favorited: boolean;
-  onClick ?: React.MouseEventHandler;
+  onClick ?: React.MouseEventHandler<HTMLElement>;
 }

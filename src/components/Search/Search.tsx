@@ -97,7 +97,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
     }
 
     @autobind
-    private _onFocusCapture(ev: React.FocusEvent) {
+    private _onFocusCapture(ev: React.FocusEvent<HTMLElement>) {
         this.setState({
             hasFocus: true
         });
@@ -106,7 +106,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
     }
 
     @autobind
-    private _onKeyDown(ev: React.KeyboardEvent) {
+    private _onKeyDown(ev: React.KeyboardEvent<HTMLElement>) {
         switch (ev.which) {
 
         case KeyCodes.escape:
@@ -129,7 +129,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
     }
 
     @autobind
-    private _onInputChange(ev: React.KeyboardEvent) {
+    private _onInputChange(ev: React.ChangeEvent<HTMLInputElement>) {
         this.setState({
             value: this._inputElement.value
         });

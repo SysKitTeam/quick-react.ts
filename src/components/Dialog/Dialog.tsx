@@ -100,7 +100,7 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
         }
 
         return (
-            <Layer onLayerDidMount={ onLayerMounted || onLayerDidMount }>
+            <Layer onLayerMounted={ onLayerMounted || onLayerDidMount }>
                 <Popup
                     role="dialog"
                     onDismiss={ onDismiss }>

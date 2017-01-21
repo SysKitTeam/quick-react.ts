@@ -5,7 +5,7 @@ export interface IPopupProps extends React.HTMLProps<Popup> {
   role?: string;
   ariaLabelledBy?: string;
   ariaDescribedBy?: string;
-  onDismiss?: (ev?: React.MouseEvent) => any;
+  onDismiss?: (ev?: React.MouseEvent<HTMLElement>) => any;
   className?: string;
   shouldRestoreFocus?: boolean;
 }

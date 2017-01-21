@@ -5,7 +5,7 @@ import { PivotItem } from './PivotItem';
 export interface IPivotProps extends React.Props<Pivot> {
     initialSelectedIndex ?: number;
     initialSelectedKey ?: string;
-    onLinkClick ?: (item?: PivotItem, ev?: React.MouseEvent) => void;
+    onLinkClick ?: (item?: PivotItem, ev?: React.MouseEvent<any>) => void;
     linkFormat ?: PivotLinkFormat;
 }
 

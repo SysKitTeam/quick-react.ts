@@ -191,7 +191,7 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
   }
 
   @autobind
-  private _onDropdownKeyDown(ev: React.KeyboardEvent) {
+  private _onDropdownKeyDown(ev: React.KeyboardEvent<any>) {
     switch (ev.which) {
       case KeyCodes.enter:
         this.setState({

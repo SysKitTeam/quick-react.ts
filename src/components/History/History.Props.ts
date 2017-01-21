@@ -1,6 +1,6 @@
 import * as React from 'react';
 
 export interface IHistoryProps extends React.HTMLProps<HTMLElement> {
-    onBack?: React.MouseEventHandler;
-    onForward?: React.MouseEventHandler;
+    onBack?: React.MouseEventHandler<HTMLButtonElement>;
+    onForward?: React.MouseEventHandler<HTMLButtonElement>;
 }

@@ -35,7 +35,7 @@ export class MessageBar extends React.Component<IMessageBarProps, IMessageBarSta
     }
 
     public render(): JSX.Element {
-        let { isMultiline, hasDontShowAgain } = this.props;
+        let { hasDontShowAgain } = this.props;
 
         const messageBarClassName = classNames(
             'messageBar',

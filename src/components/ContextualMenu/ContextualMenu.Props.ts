@@ -36,7 +36,7 @@ export interface IContextualMenuItem {
   canCheck?: boolean;
   checked?: boolean;
   data?: any;
-  onClick?: (ev?: React.MouseEvent, item?: IContextualMenuItem) => void;
+  onClick?: (ev?: React.MouseEvent<HTMLElement>, item?: IContextualMenuItem) => void;
   href?: string;
   items?: IContextualMenuItem[];
   className?: string;
