@@ -8,13 +8,20 @@ import { autobind } from '../../utilities/autobind';
 import { CommonComponent } from '../Common/Common';
 import './Treeview.scss';
 
-export class Treeview extends CommonComponent<ITreeviewProps, any> {
-    constructor (props) {
+export class Treeview extends CommonComponent<ITreeviewProps, void> {
+    constructor(props) {
         super(props);
+    }
+    public shouldComponentUpdate(nextProps, nextState) {
+        return !(this.props.items === nextProps.items
+            && this.props.className === nextProps.className
+            && this.props.label === nextProps.label
+        );
     }
 
     public render(): JSX.Element {
         let { label, items, onCheckboxChanged } = this.props;
+
 
         const className = classNames(
             'treeview',
@@ -22,10 +29,10 @@ export class Treeview extends CommonComponent<ITreeviewProps, any> {
 
         return (
             <div className={className}>
-                { items.map((item, index) => (
-                    <TreeviewItem key={index} item={item} onChange={onCheckboxChanged}/>
+                {items.map((item, index) => (
+                    <TreeviewItem key={index} item={item} onChange={onCheckboxChanged} />
                 ))}
-            </div>          
+            </div>
         );
     }
 }

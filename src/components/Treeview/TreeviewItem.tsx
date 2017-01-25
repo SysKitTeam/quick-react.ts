@@ -18,6 +18,14 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
         this.state = { isOpen: props.isOpen, iconArrow: 'icon-ArrowRight' };
     }
 
+     public shouldComponentUpdate(nextProps, nextState) {
+        return !(this.props.item === nextProps.item
+            // && this.props.onChange === nextProps.onChange
+            && this.state.isOpen === nextState.isOpen
+            && this.state.iconArrow === nextState.iconArrow
+            );
+    }
+
     public render(): JSX.Element {
         let { item, onChange } = this.props;
         let { isOpen } = this.state;

@@ -31,6 +31,15 @@ export class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
         };
     }
 
+    public shouldComponentUpdate(nextProps, nextState) {
+        return !(this.props.checked === nextProps.checked
+            && this.props.className === nextProps.className
+            && this.props.label === nextProps.label
+            && this.props.disabled === nextProps.disabled
+            && this.props.itemID === nextProps.itemId
+        );
+    }
+
     render() {
         const { checked, defaultChecked, disabled, inputProps, label, id } = this.props;
         const { isFocused } = this.state;
