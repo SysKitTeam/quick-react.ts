@@ -5,6 +5,8 @@ export interface IMessageBarProps extends React.HTMLProps<HTMLElement> {
     actions ?: JSX.Element;
     onDismiss?: (ev?: React.MouseEvent<HTMLElement>) => any;
     hasDontShowAgain ?: boolean;
+    dontShowAgainChecked ?: boolean;
+    dontShowAgainClicked ?: (ev?: React.FormEvent<HTMLElement>, itemId?: string, checked?: boolean) => void;
 }
 
 export enum MessageBarType {

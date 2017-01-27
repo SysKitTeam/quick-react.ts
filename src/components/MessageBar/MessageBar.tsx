@@ -16,7 +16,8 @@ export class MessageBar extends React.Component<IMessageBarProps, IMessageBarSta
     public static defaultProps: IMessageBarProps = {
         messageBarType: MessageBarType.info,
         onDismiss: null,
-        hasDontShowAgain: false
+        hasDontShowAgain: false,
+        dontShowAgainChecked: false
     };
 
     private ICON_MAP = {
@@ -35,7 +36,7 @@ export class MessageBar extends React.Component<IMessageBarProps, IMessageBarSta
     }
 
     public render(): JSX.Element {
-        let { hasDontShowAgain } = this.props;
+        let { hasDontShowAgain, dontShowAgainChecked, dontShowAgainClicked } = this.props;
 
         const messageBarClassName = classNames(
             'messageBar',
@@ -106,9 +107,11 @@ export class MessageBar extends React.Component<IMessageBarProps, IMessageBarSta
     }
 
     private _getDontShowAgainDiv(): JSX.Element {
+        let { hasDontShowAgain, dontShowAgainChecked, dontShowAgainClicked } = this.props;
+        
         if (this.props.hasDontShowAgain != null && this.props.hasDontShowAgain) {
             return (
-                <Checkbox className={'messageBar-checkbox'} label={'Dont show this message again'}></Checkbox>
+                <Checkbox className={'messageBar-checkbox'} checked={ this.props.dontShowAgainChecked } label={'Dont show this message again'} onChange={ this.props.dontShowAgainClicked }></Checkbox>
             );
         }
         
