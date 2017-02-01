@@ -103,7 +103,8 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
             <Layer onLayerMounted={ onLayerMounted || onLayerDidMount }>
                 <Popup
                     role="dialog"
-                    onDismiss={ onDismiss }>
+                    onDismiss={ onDismiss }
+                    style={{height: '99%'}}>
                     <div className={ dialogClassName }
                         ref={ this._onDialogRef }>
                         <Overlay isDarkThemed={ isDarkOverlay } onClick={ isBlocking ? null : onDismiss } />
