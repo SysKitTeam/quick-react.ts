@@ -54,7 +54,7 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
   }
 
   public render() {
-    let { label, options, onRenderItem = this._onRenderItem, hasTitleBorder, icon, dropdownType, children } = this.props;
+    let { label, options, onRenderItem = this._onRenderItem, hasTitleBorder, icon, dropdownType, children, className, calloutClassName } = this.props;
     let { id, isOpen, selectedIndex, isDisabled } = this.state;
     let selectedOption = options[selectedIndex];
 
@@ -81,7 +81,7 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
           data-is-focusable={ true }
           ref={ (c): HTMLElement => this._dropDown = c }
           id={ id }
-          className={ classNames('dropdown', {
+          className={ classNames('dropdown', className, {
             'is-open': isOpen, 'is-disabled': isDisabled
           }) }
           tabIndex={ isDisabled ? -1 : 0 }
@@ -102,7 +102,7 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
         { isOpen && (
           <Callout
             isBeakVisible={ false }
-            className="dropdown-callout"
+            className={ classNames('dropdown-callout', calloutClassName )}
             gapSpace={ 0 }
             doNotLayer={ false }
             targetElement={ this._dropDown }
@@ -112,7 +112,6 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
             { dropdownType === DropdownType.customDropdown ? (
               <ul ref={ (c: HTMLElement) => this._optionList = c }
                 id={ id + '-list' }
-                style={ { width: this._dropDown.clientWidth - 2 } }
                 className="dropdown-items"
                 role="listbox">
                   { children }  
