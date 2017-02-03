@@ -24,10 +24,10 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
         const links: IPivotItemProps[] = this._getPivotLinks(this.props);
         let selectedKey: string;
 
-        if (props.initialSelectedKey) {
-            selectedKey = props.initialSelectedKey;
-        } else if (props.initialSelectedIndex) {
-            selectedKey = links[props.initialSelectedIndex].itemKey;
+        if (props.selectedKey) {
+            selectedKey = props.selectedKey;        
+        } else if (props.selectedIndex) {
+            selectedKey = links[props.selectedIndex].itemKey;
         } else {
             selectedKey = links[0].itemKey;
         }
@@ -43,9 +43,17 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
 
     public componentWillReceiveProps(nextProps: IPivotProps) {
         const links: IPivotItemProps[] = this._getPivotLinks(nextProps);
-        const selectedKey: string = this._isKeyValid(this.state.selectedKey)
-            ? this.state.selectedKey
-            : links[0].itemKey;
+        let selectedKey: string;
+
+        if (nextProps.selectedKey && this._isKeyValid(nextProps.selectedKey)) {
+            selectedKey = nextProps.selectedKey;
+        }else if(nextProps.selectedIndex && nextProps.selectedIndex < links.length) {
+             selectedKey = links[nextProps.selectedIndex].itemKey;
+        }else if (this._isKeyValid(this.state.selectedKey) ) {
+             selectedKey = this.state.selectedKey;             
+        }else{
+            selectedKey = links[0].itemKey;            
+        }  
 
         this.setState({
             links,
