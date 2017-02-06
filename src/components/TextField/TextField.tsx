@@ -1,5 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
+import { autobind } from '../../utilities/autobind';
+import { KeyCodes } from '../../utilities/KeyCodes';
 import { ITextFieldProps } from './TextField.Props';
 import { Async } from '../../utilities/Async';
 import { getId } from '../../utilities/getId';
@@ -22,6 +24,7 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
         onBeforeChange: () => { },
         onNotifyValidationResult: () => { },
         onGetErrorMessage: () => undefined,
+        onEnterClick: () => { },
         deferredValidationTime: 200,
         errorMessage: ''
     };
@@ -284,6 +287,7 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
                 ref={ (c): HTMLTextAreaElement => this._field = c }
                 value={ this.state.value }
                 onChange={ this._onInputChange }
+                onKeyUp={ this._onEnterClick }
                 className={ this._fieldClassName }
                 onFocus={ this._onFocus }
                 onBlur={ this._onBlur }
@@ -302,10 +306,31 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
                 ref={ (c): HTMLInputElement => this._field = c }
                 value={ this.state.value }
                 onChange={ this._onInputChange }
+                onKeyUp={ this._onEnterClick }
                 className={ this._fieldClassName }
                 onFocus={ this._onFocus }
                 onBlur={ this._onBlur }
             />
         );
+    }
+
+    @autobind
+    private _onEnterClick(ev: React.KeyboardEvent<HTMLElement>) {
+        const { onEnterClick } = this.props;
+
+        if(onEnterClick !== undefined) {
+            switch (ev.which) {     
+                case KeyCodes.enter:
+                    onEnterClick(this.state.value);
+                    break;
+
+                default:
+                    return;
+            }
+        } 
+
+        // We only get here if the keypress has been handled.
+        ev.preventDefault();
+        ev.stopPropagation();
     }
 }
