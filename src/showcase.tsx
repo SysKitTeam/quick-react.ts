@@ -34,6 +34,7 @@ import { Dialog } from './components/Dialog/Dialog';
 import { DialogFooter } from './components/Dialog/DialogFooter';
 import { StatusBar } from './components/StatusBar/StatusBar';
 import { Treeview } from './components/Treeview/Treeview';
+import { ServerTile } from './components/ServerTile/ServerTile';
 
 export class Index extends React.Component<any, any> {
     constructor() {
@@ -305,6 +306,8 @@ export class Index extends React.Component<any, any> {
                 </Treeview>
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
+                <br />
+                <ServerTile status="OK" cpu={60} ram={7} net={0.1} disk={0.1}></ServerTile>
             </div>);
     };
 

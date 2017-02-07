@@ -1,0 +1,83 @@
+@import '../../index.scss';
+
+$column-height: 60px;
+$details-width: 240px;
+$details-height: 90px;
+$row-height: 60px;
+$row-width: 240px;
+$tile-height: 210px;
+$tile-width: 260px;
+$warning-color: #dddd6b;
+$ok-color: #008000;
+$error-color: #e34848;
+$counter-status-font-size: 18px;
+$counter-info-font-size: 12px;
+$counter-info-font-color: #9f9f9f;
+$status-width: 20px;
+$separator-color: #aeaeae;
+
+.server-tile {
+    box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.2);
+    width: $tile-width;
+    height: $tile-height;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+.col-2 {
+    width: calc(50% - 2px);
+    height: $column-height;
+}
+
+[class*='col-'] {
+    float: left;
+    min-height: 1px;
+}
+
+.row:before, 
+.row:after {
+    content:"";
+    display: table;
+    clear: both;
+}
+
+.details {
+    height: $details-height;
+    width: $details-width;
+    float: right;
+}
+
+.row {
+    height: $row-height;
+    width: $row-width;
+    float: right;
+}
+
+[class^='server-tile-status'] {
+    width: $status-width;
+    height: $tile-height;
+    float: left;
+}
+
+.server-tile-status-warning {
+    background-color: $warning-color;
+}
+
+.server-tile-status-ok {
+    background-color: $ok-color;
+}
+
+.server-tile-status-error {
+    background-color: $error-color;  
+}
+
+.counter-data {
+    text-align: center;
+    font-size: $counter-status-font-size;
+}
+
+.counter-info {
+    color: $counter-info-font-color;
+    font-size: $counter-info-font-size;
+    padding-left: 3px;
+}
