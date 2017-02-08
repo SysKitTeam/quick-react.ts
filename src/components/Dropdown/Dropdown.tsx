@@ -165,11 +165,11 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
       if (onChanged) {
         onChanged(options[index], index);
       }
-    } else {
-      if (onClick) {
-        onClick(options[index], index);
-      }
+    } 
+    if (onClick) {
+      onClick(options[index], index);
     }
+  
   }
 
   @autobind
