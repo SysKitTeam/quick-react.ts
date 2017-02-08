@@ -307,7 +307,19 @@ export class Index extends React.Component<any, any> {
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
                 <br />
-                <ServerTile status="OK" cpu={60} ram={7} net={0.1} disk={0.1}></ServerTile>
+                <ServerTile serverStatus='Warning'
+                    headerData={{serverName: 'ServerName123456', 
+                                fqdmServerName: 'ServerName123456.companylocal',
+                                numberOfUsers: 3432,
+                                diskData: {status: 'Error',
+                                            disks: [
+                                                {driveLetter: 'C:', sizeInUse: '84', totalSize: '249', filledPercentage: '30%'},
+                                                {driveLetter: 'D:', sizeInUse: '120', totalSize: '249', filledPercentage: '47%'}]}}}
+                    cpuData={{status: 'Error', cpuUtilization: '74%'}}
+                    memoryData={{status: 'Warning', memoryUsage: '7 GB', committedMemory: '7GB/10GB (70%)'}}
+                    diskData={{status: 'OK', currentRWSpeed: '0,1 MB/s', rwSpeedsPerPartition: ['393.44 kB/s', '50.10 kB/s', '23.47 kB/s']}}
+                    networkData={{status: 'OK', currentSpeed: '0,1 Mbps', speedsPerInterface: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps']}}
+                ></ServerTile>
             </div>);
     };
 
