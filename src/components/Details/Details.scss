@@ -2,12 +2,51 @@
 
 .server-type {
     display: inline-block;
+    padding: 2px 10px 2px 2px;
 }
 
-.icon {
-    padding: 5px 0px 5px 5px;
+.server-type-tooltip {
+    display: inline-block;
+    padding: 2px 2px 2px 2px;
 }
 
-.label {
-    padding-right: 10px;
+.details-logo {
+    padding: 1px 1px 1px 1px;
+    margin: 3px 0px 0px 0px;
+}
+
+.details-tooltip {
+    display: none;
+    position: relative;
+}
+
+.ul-base-details {
+    padding: 2px 2px 2px 2px;
+    margin: 2px;
+    display: block;
+    list-style-type: none;
+}
+
+.server-roles-container {
+    ul {
+        @extend .ul-base-details;
+    }
+}
+
+.more-roles-container {
+    position: relative;
+}
+
+.more-roles-container:hover .details-tooltip {
+    background: white;
+    border: 1px solid black;
+    color: #fff;
+    padding: 5px 0px 0px 0px;
+    position: absolute;
+    z-index: 10;
+    display: block;
+    padding: 1px 1px 1px 1px;
+    bottom: 25%;
+    width: auto;
+    left: 66%;
 }

@@ -25,7 +25,7 @@ export class ServerTile extends React.Component<IServerTileProps, any> {
         let users = null;
 
         if(this.props.headerData.numberOfUsers)
-            users = (<div className='st-users' style={{display: 'inline-block'}}>
+            users = (<div className='st-users' style={{display: 'inline-block', margin: '0px 5px 0px 5px'}}>
                 	    <div style={{display: 'inline-block'}}>
                             <Icon iconName={'icon-User'} style={{padding: '8px 0px 2px 0px'}}></Icon>
                             <Label style={{display: 'inline-block'}}>{this.props.headerData.numberOfUsers}</Label>
@@ -39,14 +39,14 @@ export class ServerTile extends React.Component<IServerTileProps, any> {
             <div className='server-tile'>
                 <div className={serverStatusClass}></div>
                 <div className='header'>
-                    <div className='tl-server-name-container'>
+                    <div className='tl-server-name-container' style={{display: 'inline-block', margin: '0px 5px 0px 0px'}}>
                         <Label className="server-name">{this.props.headerData.serverName}</Label>
                         <div className='tooltip'>
                             <Label className='tooltip-label'>{this.props.headerData.fqdmServerName}</Label>
                         </div>
                     </div>
                     
-                    <div className='tl-disk-container' style={{display: 'inline-block'}}>
+                    <div className='tl-disk-container' style={{display: 'inline-block', margin: '0px 5px 0px 5px'}}>
                         <Icon className="disk" iconName={'icon-LoadWithErrors'} style={{padding: '8px 5px 2px 5px'}}></Icon>
                         <div className='tooltip'>
                             {this._diskUsageList(this.props.headerData.diskData.disks)}
@@ -61,7 +61,8 @@ export class ServerTile extends React.Component<IServerTileProps, any> {
                                                         [{roleName: 'Web', icon: 'icon-World'},
                                                         {roleName: 'SQL', icon: 'icon-Sql'},
                                                         {roleName: 'Firewall', icon: 'icon-Lock'},
-                                                        {roleName: 'Hosting', icon: 'icon-World'}]}></Details>
+                                                        {roleName: 'Hosting', icon: 'icon-World'},
+                                                        {roleName: 'Something', icon: 'icon-User'}]}></Details>
 
                 <div className='st-row' style={{borderBottom: '1px solid #aeaeae', borderTop: '1px solid #aeaeae'}}>
                     <div className="st-col-2-l" style={{borderRight: '1px solid #aeaeae'}}>
@@ -111,7 +112,7 @@ export class ServerTile extends React.Component<IServerTileProps, any> {
 
     private _diskUsageList(arr: IDiskDetails[]) : JSX.Element {
         const items = arr.map((data:IDiskDetails) => <li><Label className='tooltip-label'>{data.driveLetter} {data.sizeInUse} / {data.totalSize} GB ({data.filledPercentage})</Label></li>);
-        return <ul>{items}</ul>;
+        return <ul><li><Label className='tooltip-label'>Disks</Label></li>{items}</ul>;
     }
 
 }

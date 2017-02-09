@@ -40,8 +40,18 @@ export class Index extends React.Component<any, any> {
     constructor() {
         super();
         this.state = {
-            showDialog: false
+            showDialog: false,
+            selector: true,
+            cpu: '74%'
         };
+    }
+
+    componentDidMount() {
+         let timer = setInterval(() => {
+            const currentCpu = this.state.selector ? '74%' : '85%';
+            const sel = !this.state.selector;
+            this.setState({cpu: currentCpu, selector: sel});
+        }, 1000);
     }
 
     public render() {
@@ -307,7 +317,7 @@ export class Index extends React.Component<any, any> {
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
                 <br />
-                <ServerTile serverStatus='Warning'
+                <ServerTile serverStatus='OK'
                     headerData={{serverName: 'ServerName123456', 
                                 fqdmServerName: 'ServerName123456.companylocal',
                                 numberOfUsers: 3432,
@@ -315,9 +325,9 @@ export class Index extends React.Component<any, any> {
                                             disks: [
                                                 {driveLetter: 'C:', sizeInUse: '84', totalSize: '249', filledPercentage: '30%'},
                                                 {driveLetter: 'D:', sizeInUse: '120', totalSize: '249', filledPercentage: '47%'}]}}}
-                    cpuData={{status: 'Error', cpuUtilization: '74%'}}
+                    cpuData={{status: 'Error', cpuUtilization: this.state.cpu}}
                     memoryData={{status: 'Warning', memoryUsage: '7 GB', committedMemory: '7GB/10GB (70%)'}}
-                    diskData={{status: 'OK', currentRWSpeed: '0,1 MB/s', rwSpeedsPerPartition: ['393.44 kB/s', '50.10 kB/s', '23.47 kB/s']}}
+                    diskData={{status: 'OK', currentRWSpeed: '0,1 MB/s', rwSpeedsPerPartition: [this.state.cpu, '50.10 kB/s', '23.47 kB/s']}}
                     networkData={{status: 'OK', currentSpeed: '0,1 Mbps', speedsPerInterface: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps']}}
                 ></ServerTile>
             </div>);
