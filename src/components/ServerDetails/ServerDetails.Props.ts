@@ -1,4 +1,4 @@
-export interface IServerTileProps {
+export interface IServerDetailsProps {
     serverStatus: string;
     networkData: INetworkData;
     diskData: IDiskData;

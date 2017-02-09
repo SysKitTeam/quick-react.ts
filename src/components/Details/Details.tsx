@@ -14,7 +14,7 @@ export class Details extends React.PureComponent<IDetailsProps, any> {
     public render() {
         let hasMore = null;
 
-        if(this.props.serverRoles.length > 3) {
+        if (this.props.serverRoles.length > 3) {
             hasMore = <div className={'more-roles-container'} style={{display: 'inline-block'}}>
                         <Label className={'server-type'}>...</Label>
                         <div className={'details-tooltip'}>
@@ -39,7 +39,7 @@ export class Details extends React.PureComponent<IDetailsProps, any> {
 
     private _getElementsForDisplay(attr: IServerRole[]) : JSX.Element[] {
         return attr.slice(0, 3).map(
-            (data: IServerRole) => <div style={{display: 'inline-block', marginLeft: '5px'}}><Icon className='logo' iconName={data.icon}></Icon>
+            (data: IServerRole) => <div style={{display: 'inline-block', marginLeft: '5px'}}><Icon className={'logo'} iconName={data.icon}></Icon>
                 <Label className="server-type">{data.roleName}</Label></div>
         );
     }

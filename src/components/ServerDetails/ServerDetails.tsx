@@ -2,14 +2,14 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import { Details } from '../Details/Details';
 import { Label } from '../Label/Label';
-import { IServerTileProps } from './ServerTile.Props';
+import { IServerDetailsProps } from './ServerDetails.Props';
 import { Icon } from '../Icon/Icon';
-import { IDiskDetails } from './ServerTile.Props';
-import './ServerTile.scss';
+import { IDiskDetails } from './ServerDetails.Props';
+import './ServerDetails.scss';
 
-export class ServerTile extends React.PureComponent<IServerTileProps, any> {
+export class ServerDetails extends React.PureComponent<IServerDetailsProps, any> {
 
-    constructor(props?: IServerTileProps) {
+    constructor(props?: IServerDetailsProps) {
         super(props);
     }
 
@@ -109,7 +109,7 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
     }
 
     private _diskUsageList(arr: IDiskDetails[]) : JSX.Element {
-        const items = arr.map((data:IDiskDetails) => 
+        const items = arr.map((data: IDiskDetails) => 
             <li>
                 <Label className={'tooltip-label'}>{data.driveLetter} {data.sizeInUse} / {data.totalSize} GB ({data.filledPercentage})</Label>
             </li>);
