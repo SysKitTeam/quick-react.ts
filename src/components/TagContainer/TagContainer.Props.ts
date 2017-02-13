@@ -8,4 +8,5 @@ export interface ITag{
 
 export interface ITagContainerProps{
     tags: Array<ITag>;
+    title?: string;
 }

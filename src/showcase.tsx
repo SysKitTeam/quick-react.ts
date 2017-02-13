@@ -47,7 +47,7 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-                <TagContainer tags={[{display:"Tag1", iconName:"icon-Add"}, {display:"Tag2", iconName:"icon-Alert"}, {display:"Tag3", iconName:"icon-Buy"}]}>
+                <TagContainer title={"Roles"} tags={[{display:"Tag1", iconName:"icon-Add"}, {display:"Tag2", iconName:"icon-Alert"}, {display:"Tag3", iconName:"icon-Buy"}]}>
                     <div className="edit-tags tag" title="Edit tags">
                         <Icon className="icon-Edit"></Icon>
                     </div>

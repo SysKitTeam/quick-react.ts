@@ -9,10 +9,14 @@ import './TagContainer.scss';
     }
 
     render(){
-        let {tags} = this.props;
+        let {tags, title} = this.props;
         console.log(tags);
         return (
+            
             <div className="tag-container"> 
+                { title &&              
+                    <h5>{title}</h5>
+                }
                 {
                     tags.map((tag, tagIndex) => (
                          <div key={tag.display} className="tag">
