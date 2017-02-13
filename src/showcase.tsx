@@ -37,6 +37,7 @@ import { Treeview } from './components/Treeview/Treeview';
 import { Dashboard} from './components/Dashboard/Dashboard';
 import {TagContainer} from './components/TagContainer/TagContainer';
 import {CompactServer} from './components/CompactServer/CompactServer';
+import {farms} from './mockData/farms';
 
 export class Index extends React.Component<any, any> {
     constructor() {
@@ -318,7 +319,7 @@ export class Index extends React.Component<any, any> {
                 </Treeview>
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
-                <Dashboard title={"Dashboard title"} />
+                <Dashboard title={farms.title} farms={farms.farms}/>
             </div>);
     };
 
