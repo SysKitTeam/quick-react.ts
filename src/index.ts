@@ -27,6 +27,7 @@ export * from './components/Search';
 export * from './components/Slider';
 export * from './components/Spinner';
 export * from './components/StatusBar';
+export * from './components/TagContainer';
 export * from './components/TextField';
 export * from './components/Treeview';
 

@@ -34,6 +34,7 @@ import { Dialog } from './components/Dialog/Dialog';
 import { DialogFooter } from './components/Dialog/DialogFooter';
 import { StatusBar } from './components/StatusBar/StatusBar';
 import { Treeview } from './components/Treeview/Treeview';
+import {TagContainer} from './components/TagContainer/TagContainer';
 
 export class Index extends React.Component<any, any> {
     constructor() {
@@ -46,6 +47,11 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
+                <TagContainer tags={[{display:"Tag1", iconName:"icon-Add"}, {display:"Tag2", iconName:"icon-Alert"}, {display:"Tag3", iconName:"icon-Buy"}]}>
+                    <div className="edit-tags tag" title="Edit tags">
+                        <Icon className="icon-Edit"></Icon>
+                    </div>
+                </TagContainer>
                 <Ribbon items={[]}></Ribbon>
                 <AddToFavorites favorited={true} />
                 <AddToFavorites favorited={false} />
