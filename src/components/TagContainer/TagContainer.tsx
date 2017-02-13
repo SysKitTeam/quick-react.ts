@@ -4,13 +4,12 @@ import { Icon } from '../Icon/Icon';
 import './TagContainer.scss';
 
  export class TagContainer extends React.Component<ITagContainerProps, any> {
-    constructor(props?: ITagContainerProps){
+    constructor(props?: ITagContainerProps) {
         super(props);
     }
 
-    render(){
+    render() {
         let {tags, title} = this.props;
-        console.log(tags);
         return (
             
             <div className="tag-container"> 
