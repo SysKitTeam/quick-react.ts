@@ -13,9 +13,11 @@ export interface IClassNames{
 }
 
 export interface ICompactServerProps{
+    serverId: any;
     serverName: string;
     roleList: Array<{display: string, iconName: string, className?: string}>;
     status: ServerStatus;
     classNameList: IClassNames;
-    onClick: () => any;
+    onClick: (payload?: any) => any; 
+    onServerClose: (payload?: any) => any;
 }

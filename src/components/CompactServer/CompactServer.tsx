@@ -10,7 +10,18 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
         super(props);
     }
 
-      render(){
+    getRoleDisplay(role){
+        return role.display;
+    }
+    
+     public shouldComponentUpdate(nextProps: ICompactServerProps, nextState) {
+        return !(this.props.serverName === nextProps.serverName
+            && this.props.status === nextProps.status
+            && this.props.roleList.map(this.getRoleDisplay).sort().join(',') === nextProps.roleList.map(this.getRoleDisplay).sort().join(',')
+        );
+    }
+
+    render(){
          let isCritical = this.props.status === ServerStatus.Critical;
          let isWarning = this.props.status === ServerStatus.Warning;
          let isOK = this.props.status === ServerStatus.OK;
@@ -35,7 +46,7 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
         return (
             <div className={ className }>
                 <span className={"server-title"} title={this.props.serverName} >{name}
-                    <span className={"server-close"}>&times;</span>
+                    <span className={"server-close"} onClick={this.props.onServerClose(this.props.serverId)}>&times;</span>
                 </span>
                 {
                     this.props.roleList.length > 0 &&
@@ -44,7 +55,7 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
                 {
                      this.props.roleList.length > 0 &&
                     <TagContainer  title={""} tags={this.props.roleList}>
-                        <div className="edit-tags tag" title="Edit tags" onClick={this.props.onClick()}>
+                        <div className="edit-tags tag" title="Edit tags" onClick={this.props.onClick(this.props.serverId)}>
                             <Icon className="icon-Edit"></Icon>
                         </div>
                     </TagContainer>
