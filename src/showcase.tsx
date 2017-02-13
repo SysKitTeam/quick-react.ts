@@ -35,6 +35,7 @@ import { DialogFooter } from './components/Dialog/DialogFooter';
 import { StatusBar } from './components/StatusBar/StatusBar';
 import { Treeview } from './components/Treeview/Treeview';
 import {TagContainer} from './components/TagContainer/TagContainer';
+import {CompactServer} from './components/CompactServer/CompactServer';
 
 export class Index extends React.Component<any, any> {
     constructor() {
@@ -47,6 +48,7 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
+                <CompactServer />
                 <TagContainer title={"Roles"} tags={[{display:"Tag1", iconName:"icon-Add"}, {display:"Tag2", iconName:"icon-Alert"}, {display:"Tag3", iconName:"icon-Buy"}]}>
                     <div className="edit-tags tag" title="Edit tags">
                         <Icon className="icon-Edit"></Icon>

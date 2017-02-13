@@ -9,6 +9,7 @@ export * from './components/Callout';
 export * from './components/Checkbox';
 export * from './components/ChoiceGroup';
 export * from './components/Common';
+export * from './components/CompactServer';
 export * from './components/ContextualMenu';
 export * from './components/Dialog';
 export * from './components/Dropdown';
