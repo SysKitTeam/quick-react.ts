@@ -18,6 +18,6 @@ export interface ICompactServerProps {
     roleList: Array<{display: string, iconName: string, className?: string}>;
     status: ServerStatus;
     classNameList: IClassNames;
-    onClick: (payload?: any) => any; 
-    onServerClose: (payload?: any) => any;
+    onRoleEdit: (serverId?: any) => void; 
+    onServerClose: (serverId?: any) => void;
 }

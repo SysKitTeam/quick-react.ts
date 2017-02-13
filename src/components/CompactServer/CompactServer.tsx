@@ -2,6 +2,7 @@ import * as React from 'react';
 import {ICompactServerProps, ServerStatus} from './CompactServer.Props';
 import {TagContainer} from '../TagContainer/TagContainer';
 import { Icon } from '../Icon/Icon';
+import  {autobind} from '../../utilities/autobind';
 import'./CompactServer.scss';
 
 export class CompactServer extends React.Component<ICompactServerProps, any> {
@@ -25,7 +26,7 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
          let isCritical = this.props.status === ServerStatus.Critical;
          let isWarning = this.props.status === ServerStatus.Warning;
          let isOK = this.props.status === ServerStatus.OK;
-         let className = 'compact-server-container' ;
+         let className = 'compact-server-container ' ;
 
          
         if (isWarning) {
@@ -50,7 +51,7 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
         return (
             <div className={ className }>
                 <span className={'server-title'} title={this.props.serverName} >{name}
-                    <span className={'server-close'} onClick={this.props.onServerClose(this.props.serverId)}>&times;</span>
+                    <span className={'server-close'} onClick={() => this.closeServer(this.props.serverId)}>&times;</span>
                 </span>
                 {
                     this.props.roleList.length > 0 &&
@@ -59,7 +60,7 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
                 {
                      this.props.roleList.length > 0 &&
                     <TagContainer  title={''} tags={this.props.roleList}>
-                        <div className="edit-tags tag" title="Edit tags" onClick={this.props.onClick(this.props.serverId)}>
+                        <div className="edit-tags tag" title="Edit tags" onClick={() => this.editRoles(this.props.serverId)}>
                             <Icon className="icon-Edit"></Icon>
                         </div>
                     </TagContainer>
@@ -67,5 +68,19 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
                 
             </div>
         );
+    }
+
+    @autobind
+    private editRoles(serverId?: any) {
+        const {onRoleEdit} = this.props;
+        onRoleEdit(serverId);
+        
+    }
+
+    @autobind
+    private closeServer(serverId?: any) {
+        const {onServerClose} = this.props;
+        onServerClose(serverId);
+        
     }
 }
