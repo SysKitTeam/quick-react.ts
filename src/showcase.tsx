@@ -34,6 +34,7 @@ import { Dialog } from './components/Dialog/Dialog';
 import { DialogFooter } from './components/Dialog/DialogFooter';
 import { StatusBar } from './components/StatusBar/StatusBar';
 import { Treeview } from './components/Treeview/Treeview';
+import { Dashboard} from './components/Dashboard/Dashboard';
 
 export class Index extends React.Component<any, any> {
     constructor() {
@@ -46,6 +47,7 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
+                
                 <Ribbon items={[]}></Ribbon>
                 <AddToFavorites favorited={true} />
                 <AddToFavorites favorited={false} />
@@ -305,6 +307,7 @@ export class Index extends React.Component<any, any> {
                 </Treeview>
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
+                <Dashboard title={"Dashboard title"} />
             </div>);
     };
 

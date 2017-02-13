@@ -1,0 +1,11 @@
+ @import '../../index.scss';
+
+$dashboard-background: #f4f4f4;
+
+.dropdown-container{
+    @include baseFont();
+    width: 100%;
+    height: 100vh;
+    background-color: $dashboard-background;
+    border-color: $dashboard-background;
+}

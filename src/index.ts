@@ -10,6 +10,7 @@ export * from './components/Checkbox';
 export * from './components/ChoiceGroup';
 export * from './components/Common';
 export * from './components/ContextualMenu';
+export * from './components/Dashboard';
 export * from './components/Dialog';
 export * from './components/Dropdown';
 export * from './components/History';
