@@ -44,11 +44,14 @@ export class Index extends React.Component<any, any> {
             showDialog: false
         };
     }
-
+    
     public render() {
         return (
             <div>
-                <CompactServer />
+                <CompactServer onClick={this._onClickCompactServer} serverName={"CUSTOM-PC"} roleList={[]} status={1} classNameList={{'ok': "green", 'warning': 'yellow', 'critical': "red"}}/>
+                <CompactServer onClick={this._onClickCompactServer} serverName={"My very very long name of a server I am using I know it's very long"} roleList={[]} status={2} classNameList={{'ok': "green", 'warning': 'yellow', 'critical': "red"}}/>
+                
+                <CompactServer onClick={this._onClickCompactServer} serverName={"BANANA-PC"} roleList={[{display:"WPF", iconName:"icon-Add"}, {display:"Search", iconName:"icon-Alert"}]} status={0} classNameList={{'ok': "green", 'warning': 'yellow', 'critical': "red"}}/>
                 <TagContainer title={"Roles"} tags={[{display:"Tag1", iconName:"icon-Add"}, {display:"Tag2", iconName:"icon-Alert"}, {display:"Tag3", iconName:"icon-Buy"}]}>
                     <div className="edit-tags tag" title="Edit tags">
                         <Icon className="icon-Edit"></Icon>
@@ -315,6 +318,12 @@ export class Index extends React.Component<any, any> {
                 <StatusBar text={'Initializing index...'}></StatusBar>
             </div>);
     };
+
+    private _onClickCompactServer(){
+        return function(event){
+            console.log("Clicked on editing roles of server");
+        }
+    }
 
     private _onTreeViewChange(ev, itemId, checked) {
         console.log(itemId + ':' + checked);
