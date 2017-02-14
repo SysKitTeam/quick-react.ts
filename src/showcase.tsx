@@ -319,7 +319,7 @@ export class Index extends React.Component<any, any> {
                 </Treeview>
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
-                <CompactDashboard title={farms.title} farms={farms.farms}/>
+                <CompactDashboard filter={'ana'} className={'viewport-height'} title={farms.title} farms={farms.farms}/>
             </div>);
     };
 

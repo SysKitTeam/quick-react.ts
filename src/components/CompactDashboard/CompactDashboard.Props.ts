@@ -15,5 +15,7 @@ export interface IFarm {
 export interface ICompactDashboardProps {
   title: string;
   farms: Array<IFarm>;
+  className?: string;
+  filter?: string;
 }
 

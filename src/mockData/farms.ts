@@ -138,7 +138,7 @@ export const farms : ICompactDashboardProps = {
         },
          {
             farmId: 'id2',
-            farmName: 'MojaDrugaFarma',
+            farmName: 'Prva MojaDrugaFarma',
             isCustom: true,
             sharepointVersion: '11',
             sharepointVersionIcon: 'icon-SharePoint',
@@ -175,7 +175,7 @@ export const farms : ICompactDashboardProps = {
             ]
         },         {
             farmId: 'id23',
-            farmName: 'MojaDrugaFarma',
+            farmName: 'Druga MojaDrugaFarma',
             isCustom: true,
             sharepointVersion: '11',
             sharepointVersionIcon: 'icon-SharePoint',
@@ -208,7 +208,7 @@ export const farms : ICompactDashboardProps = {
                     classNameList: classListExample,
                     onRoleEdit: () => {},
                     onServerClose: () => {}
-                },{
+                }, {
                     serverId: 'Banana-PC.domewewena.domena',
                     serverName: 'Bananawewe-PC',
                     roleList: [],
@@ -229,7 +229,7 @@ export const farms : ICompactDashboardProps = {
             ]
         },         {
             farmId: 'id235',
-            farmName: 'MojaDrugaFarma',
+            farmName: 'Treća MojaDrugaFarma',
             isCustom: true,
             sharepointVersion: '11',
             sharepointVersionIcon: 'icon-SharePoint',

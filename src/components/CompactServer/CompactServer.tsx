@@ -6,6 +6,10 @@ import * as classNames from 'classnames';
 import  {autobind} from '../../utilities/autobind';
 import'./CompactServer.scss';
 
+function checkFilter(filter: string, serverName: string) {
+    return serverName.toLowerCase().trim().indexOf(filter.toLowerCase().trim()) !== -1;
+}
+
 export class CompactServer extends React.Component<ICompactServerProps, any> {
 
     constructor(props?: ICompactServerProps) {
@@ -26,10 +30,7 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
          let isCritical = this.props.status === ServerStatus.Critical;
          let isWarning = this.props.status === ServerStatus.Warning;
          let isOK = this.props.status === ServerStatus.OK;
-         let className = classNames('compact-server-container',
-                        {[this.props.classNameList.warning]: isWarning}, 
-                        {[this.props.classNameList.ok]: isOK}, 
-                        {[this.props.classNameList.critical]: isCritical});
+         
 
         let name = this.props.serverName;
         if (name.length > 15) {
@@ -39,27 +40,37 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
                 name = name.substr(0, 16) + '...';
             }                
         }
-
+        let showItem = this.props.filter ? checkFilter(this.props.filter,  this.props.serverName) : true;
+        let className = classNames({'compact-server-container': showItem},
+                        {[this.props.classNameList.warning]: isWarning}, 
+                        {[this.props.classNameList.ok]: isOK}, 
+                        {[this.props.classNameList.critical]: isCritical});
+                        
+        if (!showItem) {
+            return null;
+        }
         return (
+            
             <div className={ className }>
-                <span className={'server-title'} title={this.props.serverName} >{name}
-                    <span className={'server-close'} onClick={this.closeServer}>&times;</span>
-                </span>
+               
+                    <span className={'server-title'} title={this.props.serverName} >{name}
+                        <span className={'server-close'} onClick={this.closeServer}>&times;</span>
+                    </span>
                 {
                     this.props.roleList.length > 0 &&
                     <hr/>
                 }
                 {
-                     this.props.roleList.length > 0 &&
+                    this.props.roleList.length > 0 &&
                     <TagContainer  title={''} tags={this.props.roleList}>
                         <div className="edit-tags tag" title="Edit tags" onClick={this.editRoles}>
                             <Icon className="icon-Edit"></Icon>
                         </div>
                     </TagContainer>
                 }
-                
+            
             </div>
-        );
+          );
     }
     @autobind
     private editRoles(event) {
