@@ -34,6 +34,7 @@ import { Dialog } from './components/Dialog/Dialog';
 import { DialogFooter } from './components/Dialog/DialogFooter';
 import { StatusBar } from './components/StatusBar/StatusBar';
 import { Treeview } from './components/Treeview/Treeview';
+import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
 
 export class Index extends React.Component<any, any> {
     constructor() {
@@ -280,6 +281,8 @@ export class Index extends React.Component<any, any> {
                     label="Pick one">
                 </ChoiceGroup>
                 <br />
+                <ToggleSwitch onChange={this._onToggle} />
+                <br/>
                 <Slider label={'This is slider:'} min={0} max={50} step={5} defaultValue={20} showValue={true}></Slider>
                 <br />
                 <Label>I'm a Label</Label>
@@ -307,6 +310,10 @@ export class Index extends React.Component<any, any> {
                 <StatusBar text={'Initializing index...'}></StatusBar>
             </div>);
     };
+
+    private _onToggle(checked){
+        console.log(checked);
+    }
 
     private _onTreeViewChange(ev, itemId, checked) {
         console.log(itemId + ':' + checked);
