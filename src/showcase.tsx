@@ -34,10 +34,10 @@ import { Dialog } from './components/Dialog/Dialog';
 import { DialogFooter } from './components/Dialog/DialogFooter';
 import { StatusBar } from './components/StatusBar/StatusBar';
 import { Treeview } from './components/Treeview/Treeview';
-import { Dashboard} from './components/Dashboard/Dashboard';
+import { CompactDashboard} from './components/CompactDashboard/CompactDashboard';
 import {TagContainer} from './components/TagContainer/TagContainer';
 import {CompactServer} from './components/CompactServer/CompactServer';
-import {farms} from './mockData/farms';
+import {farms, classListExample} from './mockData/farms';
 
 export class Index extends React.Component<any, any> {
     constructor() {
@@ -50,10 +50,10 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-                <CompactServer serverId={'CUSTOM-PC.localdomain'} onServerClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} serverName={'CUSTOM-PC'} roleList={[]} status={1} classNameList={{ok: 'green', warning: 'yellow', critical: 'red'}}/>
-                <CompactServer serverId={'My very very long name of a server I am using I know its very long.domain.com'} onServerClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} serverName={'My very very long name of a server I am using I know its very long'}            roleList={[]} status={2} classNameList={{ok: 'green', warning: 'yellow', critical: 'red'}}/>
+                <CompactServer serverId={'CUSTOM-PC.localdomain'} onServerClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} serverName={'CUSTOM-PC'} roleList={[]} status={1} classNameList={classListExample}/>
+                <CompactServer serverId={'My very very long name of a server I am using I know its very long.domain.com'} onServerClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} serverName={'My very very long name of a server I am using I know its very long'}            roleList={[]} status={2} classNameList={classListExample}/>
                 
-                <CompactServer serverId={'BANANA-PC.banana.com'}  onServerClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} serverName={'BANANA-PC'} roleList={[{display:'WPF', iconName:'icon-Add'}, {display:'Search', iconName:'icon-Alert'}]} status={0} classNameList={{ok: 'green', warning: 'yellow', critical: 'red'}}/>
+                <CompactServer serverId={'BANANA-PC.banana.com'}  onServerClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} serverName={'BANANA-PC'} roleList={[{display:'WPF', iconName:'icon-Add'}, {display:'Search', iconName:'icon-Alert'}]} status={0} classNameList={classListExample}/>
                 
                 <TagContainer title={'Roles'} tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}>
                     <div className="edit-tags tag" title="Edit tags">
@@ -319,7 +319,7 @@ export class Index extends React.Component<any, any> {
                 </Treeview>
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
-                <Dashboard title={farms.title} farms={farms.farms}/>
+                <CompactDashboard title={farms.title} farms={farms.farms}/>
             </div>);
     };
 

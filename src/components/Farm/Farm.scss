@@ -1,0 +1,43 @@
+
+
+.farm {
+    display: flex;
+    width: calc(100% - 50px);
+    float: left;
+    flex-wrap: wrap;
+    padding: 5px;
+    margin: 20px;
+    position: relative;
+    border: 1px solid #828282;
+    border: 1px solid #e8e9ef;
+    background-color: white;
+    font:14px;
+}
+.farm-name{
+    position: absolute;
+    background: inherit;
+    top: -22px;
+    border-top: 1px solid #e8e9ef;
+    border-left: 1px solid #e8e9ef;
+    border-right: 1px solid #e8e9ef;
+    left: 30px;
+    padding: 5px;
+    padding-top: 0;
+    padding-bottom: 0;
+
+}
+
+.farm-name-inside{
+    .farm-name{
+        position: relative; 
+        background: inherit;
+        font-size: 20px;
+        padding: 5px;
+        padding-top: 0;
+        padding-bottom: 0;
+        top: auto;
+        left: auto;
+        padding-left: 15px;
+        border: none;
+    }
+}
