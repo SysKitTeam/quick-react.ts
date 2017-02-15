@@ -8,7 +8,7 @@ export class ToggleSwitch extends React.Component<IToggleSwitchProps, any> {
     constructor(props) {
         super(props);
         this.state = {
-            checked : props.checked || false
+            checked : props.checked === undefined ? false : props.checked
         };
     }
 
@@ -19,6 +19,8 @@ export class ToggleSwitch extends React.Component<IToggleSwitchProps, any> {
             className
         } = this.props;
 
+        const isChecked = checked === undefined ? this.state.isChecked : checked;
+
         const switchClassName = classNames(
             className,
             'toggle-switch'
@@ -28,7 +30,7 @@ export class ToggleSwitch extends React.Component<IToggleSwitchProps, any> {
         );
         return(
             <label className={switchClassName}>
-                <input type="checkbox" onChange={this._onChange} checked={checked}/>
+                <input type="checkbox" onChange={this._onChange} checked={isChecked}/>
                 <div className={slidersClassName}></div>
             </label>
         );
