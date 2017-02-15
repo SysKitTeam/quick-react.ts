@@ -12,10 +12,6 @@ export class ToggleSwitch extends React.Component<IToggleSwitchProps, any> {
         };
     }
 
-    public static defaultProps : IToggleSwitchProps = {
-        checked : false
-    };
-
     public render() : JSX.Element {
         let{
             checked,
@@ -24,7 +20,6 @@ export class ToggleSwitch extends React.Component<IToggleSwitchProps, any> {
         } = this.props;
 
         const switchClassName = classNames(
-            
             className,
             'toggle-switch'
         );
@@ -33,7 +28,7 @@ export class ToggleSwitch extends React.Component<IToggleSwitchProps, any> {
         );
         return(
             <label className={switchClassName}>
-                <input type="checkbox" onChange={this._onChange} checked={this.state.checked}/>
+                <input type="checkbox" onChange={this._onChange} checked={checked}/>
                 <div className={slidersClassName}></div>
             </label>
         );
@@ -41,9 +36,12 @@ export class ToggleSwitch extends React.Component<IToggleSwitchProps, any> {
 
     @autobind
     private _onChange(ev: React.FormEvent<HTMLInputElement>) : void {
+        const isChecked = (ev.target as HTMLInputElement).checked;
         if (this.props.onChange) {
-            this.props.onChange(!this.state.checked);
+            this.props.onChange(isChecked);
         }
-        this.setState({checked : !this.state.checked});
+        if (this.props.checked === undefined) {
+            this.setState({checked : isChecked});
+        }
     }
 }
