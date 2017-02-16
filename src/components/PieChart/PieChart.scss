@@ -1,0 +1,43 @@
+@import '../../index.scss';
+
+$error: #FF6666;
+$warning: #FFC55A;
+$ok: #1dc384;
+$normal: #C0D6E4;
+
+
+.pie-chart-component {
+    display: inline-block;
+    margin: 5px 5px 5px 5px;
+
+    .label {
+        text-align:center;
+        padding: 0px 0px 5px 0px;
+    }
+
+    .disk-usage-ok {
+        fill: $ok;
+    }
+
+    .disk-usage-error {
+        fill: $error;
+    }
+
+    .disk-usage-warning {
+        fill: $warning;
+    }
+
+    .disk-usage-free {
+        fill: $normal;
+    }
+
+    .pie-chart-container {
+        display: inline-block;
+    }
+
+    .arc {
+        .percentage-label {
+            font-size: 10px;
+        }
+    }
+}

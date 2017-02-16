@@ -36,6 +36,7 @@ import { StatusBar } from './components/StatusBar/StatusBar';
 import { Treeview } from './components/Treeview/Treeview';
 import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
 import { LineChart } from './components/LineChart/LineChart';
+import { PieChart } from './components/PieChart/PieChart';
 
 import { DataGenerator } from './utilities/DataGenerator';
 
@@ -322,6 +323,13 @@ export class Index extends React.Component<any, any> {
                     width={330} 
                     height={200} 
                 ></LineChart>
+                <br/>
+                <PieChart text={'Sample text'} 
+                        driveLetter={'C:'} 
+                        height={120} 
+                        width={120} 
+                        data={[{label: 'used', value: 8}, {label: 'free', value: 92}]} 
+                ></PieChart>
             </div>);
     };
 
