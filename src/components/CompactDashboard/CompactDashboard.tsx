@@ -46,11 +46,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
 
         return(
             <div className={classname}>
-                <div className={'compact-dashboard-header'}>
-                    <span>{title}</span>
-                    
-                </div>
-                <div className="compact-dashboard-container">
+               <div className="compact-dashboard-container">
                     {
                         farms.sort(sortFarms).map((farm) => (
                             <Group filter={this.props.filter} className={'farm-name-inside'} id={farm.farmId} name={farm.farmName} key={farm.farmId}>
