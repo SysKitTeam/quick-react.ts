@@ -50,7 +50,7 @@ export class Index extends React.Component<any, any> {
             data: generator.generateValues()
         };
 
-        setInterval(() => this.setState({data: generator.generateValues()}), 5000);
+        // setInterval(() => this.setState({data: generator.generateValues()}), 5000);
     }
     public render() {
         return (
@@ -328,7 +328,7 @@ export class Index extends React.Component<any, any> {
                         driveLetter={'C:'} 
                         height={120} 
                         width={120} 
-                        data={[{label: 'used', value: 8}, {label: 'free', value: 92}]} 
+                        data={[{label: 'used', value: 42}, {label: 'free', value: 56}]} 
                 ></PieChart>
             </div>);
     };

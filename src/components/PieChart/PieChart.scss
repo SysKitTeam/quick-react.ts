@@ -1,9 +1,9 @@
 @import '../../index.scss';
 
 $error: #FF6666;
-$warning: #FFC55A;
-$ok: #1dc384;
-$normal: #C0D6E4;
+$warning: #D7AA3C;
+$ok: #60BD68 ;
+$normal: #657386 ;
 
 
 .pie-chart-component {
@@ -35,9 +35,22 @@ $normal: #C0D6E4;
         display: inline-block;
     }
 
+    g {
+        text {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            cursor: default;
+        }
+    }
+
     .arc {
         .percentage-label {
             font-size: 10px;
+            font-family: 'Segoe UI';
+            font-weight: bold;
+            fill: white;
         }
     }
 }
