@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { IFarmProps } from './Farm.Props';
+import { IGroupProps } from './Group.Props';
 import {CompactServer} from '../CompactServer/CompactServer';
 import * as classNames from 'classnames';
-import './Farm.scss';
+import './Group.scss';
 
 function checkChildren(value : React.ReactChild, index, array ) {
    if (React.Children.only(value).props.serverName && 
@@ -12,9 +12,9 @@ function checkChildren(value : React.ReactChild, index, array ) {
     return false;
 }
 
-export class Farm extends React.Component<IFarmProps, any> {
+export class Group extends React.Component<IGroupProps, any> {
 
-    constructor(props?: IFarmProps) {
+    constructor(props?: IGroupProps) {
         super(props);
     }
 
@@ -36,7 +36,10 @@ export class Farm extends React.Component<IFarmProps, any> {
             <div className={classname}>
                 {
                     hasServersVisible &&
-                    <span className="farm-name" title={this.props.name}>{name}</span>
+                    <span className="farm-name" title={this.props.name}>
+                        
+                        {name}
+                    </span>
                 }
                 { 
                     hasServersVisible && 

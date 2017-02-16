@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export interface IFarmProps {
+export interface IGroupProps {
     name: string;
     id: any;
     className?: string;

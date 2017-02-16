@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { ICompactDashboardProps } from './CompactDashboard.Props';
 import {CompactServer} from '../CompactServer/CompactServer';
-import {Farm} from '../Farm/Farm';
-import {FarmHeader} from '../FarmHeader/FarmHeader';
+import {Group} from '../Group/Group';
+import {GroupHeader} from '../GroupHeader/GroupHeader';
 import * as classNames from 'classnames';
 import './CompactDashboard.scss';
 
@@ -53,8 +53,8 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                 <div className="compact-dashboard-container">
                     {
                         farms.sort(sortFarms).map((farm) => (
-                            <Farm filter={this.props.filter} className={'farm-name-inside'} id={farm.farmId} name={farm.farmName} key={farm.farmId}>
-                                <FarmHeader sharepointIcon={farm.sharepointVersionIcon} sharepointVersion={farm.sharepointVersion} isCustomFarm={farm.isCustom} configDB={farm.configDB} configDBIcon={farm.confgiDBIcon}/>
+                            <Group filter={this.props.filter} className={'farm-name-inside'} id={farm.farmId} name={farm.farmName} key={farm.farmId}>
+                                <GroupHeader sharepointIcon={farm.sharepointVersionIcon} sharepointVersion={farm.sharepointVersion} isCustomFarm={farm.isCustom} configDB={farm.configDB} configDBIcon={farm.confgiDBIcon}/>
                                 { 
                                     farm.servers.sort(sortFarmServers).map((server) => (
                                         
@@ -64,7 +64,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                                         
                                     ))
                                 }
-                            </Farm>
+                            </Group>
                         ))
                     }
                 </div> 

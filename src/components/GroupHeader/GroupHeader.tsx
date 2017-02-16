@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { IFarmHeaderProps } from './FarmHeader.Props';
+import { IGroupHeaderProps } from './GroupHeader.Props';
 import { Icon } from '../Icon/Icon';
 import * as classNames from 'classnames';
-import './FarmHeader.scss';
+import './GroupHeader.scss';
 
 
-export class FarmHeader extends React.Component<IFarmHeaderProps, any> {
+export class GroupHeader extends React.Component<IGroupHeaderProps, any> {
 
-    constructor(props?: IFarmHeaderProps) {
+    constructor(props?: IGroupHeaderProps) {
         super(props);
     }
 
