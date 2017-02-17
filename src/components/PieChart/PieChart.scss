@@ -5,6 +5,8 @@ $warning: #D7AA3C;
 $ok: #60BD68 ;
 $normal: #657386 ;
 
+$font: 'Segoe UI';
+
 
 .pie-chart-component {
     display: inline-block;
@@ -12,7 +14,7 @@ $normal: #657386 ;
     box-shadow: 1px 1px 1px 1px grey;
 
     .label {
-        text-align:center;
+        text-align: center;
         padding: 0px 0px 5px 0px;
         color: $normal;
         font-style: italic;
@@ -54,7 +56,7 @@ $normal: #657386 ;
 
     .arc-text {
         .percentage-label {
-            font-family: 'Segoe UI';
+            font-family: $font;
             fill: white;
         }
     }

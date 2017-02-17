@@ -94,7 +94,7 @@ export class PieChart extends React.Component<IPieChartProps, any> {
             .attr('transform',
             'translate(' + (coordinates[0] - this._radius) + ',' + (coordinates[1] - this._radius * (3 / 2)) + ')');
 
-        this._focus.select('text.y2')
+        this._focus.select('text.tooltip-text')
             .attr('transform',
             'translate(' + (coordinates[0] - this._radius * 1.5) + ',' + (coordinates[1] - this._radius * (5 / 4)) + ')')
             .text(d.label + ': ' + d.value + ' %');
@@ -129,41 +129,29 @@ export class PieChart extends React.Component<IPieChartProps, any> {
     }
 
     private createDropShadow(svg: any) {
-        // filters go in defs element
         let defs = svg.append('defs');
 
-        // create filter with id #drop-shadow
-        // height=130% so that the shadow is not clipped
         let filter = defs.append('filter')
             .attr('id', 'drop-shadow')
             .attr('height', '120%');
-            // .attr('width', '130%');
 
-        // SourceAlpha refers to opacity of graphic that this filter will be applied to
-        // convolve that with a Gaussian with standard deviation 3 and store result
-        // in blur
         filter.append('feGaussianBlur')
             .attr('in', 'SourceAlpha')
             .attr('stdDeviation', 5)
             .attr('result', 'blur');
 
-        // translate output of Gaussian blur to the right and downwards with 2px
-        // store result in offsetBlur
         filter.append('feOffset')
             .attr('in', 'blur')
             .attr('dx', 2)
             .attr('dy', 2)
             .attr('result', 'offsetBlur');
 
-        // overlay original SourceGraphic over translated blurred opacity by using
-        // feMerge filter. Order of specifying inputs is important!
         let feMerge = filter.append('feMerge');
 
         feMerge.append('feMergeNode')
             .attr('in', 'offsetBlur');
         feMerge.append('feMergeNode')
             .attr('in', 'SourceGraphic');
-
     }
 
     private createTooltip(container: any) {
@@ -197,12 +185,11 @@ export class PieChart extends React.Component<IPieChartProps, any> {
             .attr('points', p1 + ' ' + p2 + ' ' + p3);
 
         this._focus.append('text')
-            .attr('class', 'y2')
+            .attr('class', 'tooltip-text')
             .attr('fill', 'black')
             .attr('dx', this._radius * 1.5)
             .attr('dy', this._radius / 2)
-            .attr('text-anchor', 'middle')
-            .text('Used: 7.54 GB');
+            .attr('text-anchor', 'middle');
     }
 
     private createPie() {
