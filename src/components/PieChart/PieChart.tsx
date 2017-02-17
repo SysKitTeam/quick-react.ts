@@ -136,7 +136,7 @@ export class PieChart extends React.Component<IPieChartProps, any> {
         // height=130% so that the shadow is not clipped
         let filter = defs.append('filter')
             .attr('id', 'drop-shadow')
-            .attr('height', '130%');
+            .attr('height', '120%');
             // .attr('width', '130%');
 
         // SourceAlpha refers to opacity of graphic that this filter will be applied to
@@ -151,8 +151,8 @@ export class PieChart extends React.Component<IPieChartProps, any> {
         // store result in offsetBlur
         filter.append('feOffset')
             .attr('in', 'blur')
-            .attr('dx', 5)
-            .attr('dy', 5)
+            .attr('dx', 2)
+            .attr('dy', 2)
             .attr('result', 'offsetBlur');
 
         // overlay original SourceGraphic over translated blurred opacity by using
