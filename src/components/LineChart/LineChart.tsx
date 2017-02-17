@@ -17,7 +17,7 @@ export class LineChart extends React.Component<IChartProps, undefined> {
         left: 50,
         right: 40
     };
-    private width: number = this.props.width - this.margin.left - this.margin.right;
+    private width: number = this.props.width - this.margin.left - this.margin.right - 10;
     private height: number = this.props.height - this.margin.top - this.margin.bottom;
     private _y = this.generateY();
     
@@ -98,7 +98,7 @@ export class LineChart extends React.Component<IChartProps, undefined> {
 
     private createContainer() {
         return d3.select(this.refs.container).append('svg')
-                    .attr('width', this.props.width)
+                    .attr('width', this.props.width - 10)
                     .attr('height', this.props.height + 20)
                     .append('g')
                     .attr('class', this.GRAPH_CONTAINER_CLASS)

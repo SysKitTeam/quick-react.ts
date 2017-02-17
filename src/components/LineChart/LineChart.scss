@@ -9,7 +9,8 @@ $background-color: #f4f4f4;
     font-size: 16px;
     font-weight: 500;
     color: $main-color;
-    background-color: #e5e5e5;
+    box-shadow: 1px 1px 1px 1px grey;
+    padding-left: 10px;
 
     svg {
         display: block;
@@ -26,7 +27,7 @@ $background-color: #f4f4f4;
 
 .tick {
     line {
-        stroke: white;
+        stroke: #c7c7c7;
         stroke-width: 1px;
     }
 

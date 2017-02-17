@@ -49,7 +49,7 @@ export class Index extends React.Component<any, any> {
             data: generator.generateValues()
         };
 
-        setInterval(() => this.setState({data: generator.generateValues()}), 5000);
+        // setInterval(() => this.setState({data: generator.generateValues()}), 5000);
     }
     public render() {
         return (
