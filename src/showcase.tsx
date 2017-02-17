@@ -320,7 +320,8 @@ export class Index extends React.Component<any, any> {
                     title={'CPU USAGE'}
                     data={this.state.data} 
                     width={330} 
-                    height={200} 
+                    height={200}
+                    gridSize={4} 
                 ></LineChart>
             </div>);
     };

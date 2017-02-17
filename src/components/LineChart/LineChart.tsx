@@ -46,7 +46,7 @@ export class LineChart extends React.Component<IChartProps, undefined> {
 
     public render() {
         return (
-            <div className={'chart-container'} ref="container">
+            <div className={'line-chart-container'} ref="container">
                 {this.props.title}
             </div>
         );
@@ -165,10 +165,12 @@ export class LineChart extends React.Component<IChartProps, undefined> {
     }
 
     private generateYAxis() {
+        let ticks = 2;
+        if (this.props.gridSize !== undefined) { ticks = this.props.gridSize; }
         return d3.axisLeft(this.generateY())
                 .tickSizeInner(-(this.width + 15))
                 .tickSizeOuter(-10)
-                .ticks(2)
+                .ticks(ticks)
                 .tickFormat((d) => (d + '%'))
                 .tickPadding(20);   
     }
