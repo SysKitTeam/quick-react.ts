@@ -215,7 +215,7 @@ export class LineChart extends React.Component<IChartProps, undefined> {
             .attr('points', '10,20 20,35 30,20');
 
         this._focus.append('text')
-            .attr('class', 'y2')
+            .attr('class', 'tooltip-text')
             .attr('dx', 8)
             .attr('dy', '-.3em');
     }
@@ -237,7 +237,7 @@ export class LineChart extends React.Component<IChartProps, undefined> {
                 .attr('display', 'block');
         this._focus.select('.tip-pol')
                 .attr('transform', 'translate(' + (x(d.time) - 20) + ',' + (this._y(d.value) - 40) + ')');
-        this._focus.select('text.y2')
+        this._focus.select('text.tooltip-text')
                 .attr('transform', 'translate(' + (x(d.time) - 24) + ',' + (this._y(d.value) - 20) + ')')
                 .text(() => d.value + ' %');
     }
