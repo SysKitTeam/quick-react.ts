@@ -47,21 +47,26 @@ export class PieChart extends React.Component<IPieChartProps, any> {
     }
 
     private draw() {
-        this._radius = this.props.width / 4 - 5;
+        this._radius = this.props.width / 4;
         const svg = this.createContainer();
         const pie = this.createPie();
         const arc = this.createArc();
         this.createDropShadow(svg);
-        const g = svg.selectAll('.arc')
+
+        let g = svg.selectAll('.arc')
             .data(pie(this.props.data))
             .enter()
             .append('g')
             .attr('class', 'arc');
 
-        this.createTooltip(svg);
-
         g.append('path').attr('d', (arc as any))
-            .attr('class', (d) => this.calculateClass(d.data))
+            .attr('class', (d) => this.calculateClass(d.data));
+
+        g = svg.selectAll('.arc-text')
+            .data(pie(this.props.data))
+            .enter()
+            .append('g')
+            .attr('class', 'arc-text');
 
         g.append('text')
             .attr('transform',
@@ -72,6 +77,8 @@ export class PieChart extends React.Component<IPieChartProps, any> {
             .attr('class', 'percentage-label')
             .on('mouseover', (d) => this.showTooltip(d))
             .on('mouseout', () => this._focus.style('display', 'none'));
+
+            this.createTooltip(svg);
     }
 
     private showTooltip(d: any) {
