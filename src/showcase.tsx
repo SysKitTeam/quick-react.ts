@@ -49,7 +49,7 @@ export class Index extends React.Component<any, any> {
             data: generator.generateValues()
         };
 
-        // setInterval(() => this.setState({data: generator.generateValues()}), 5000);
+        setInterval(() => this.setState({data: generator.generateValues()}), 5000);
     }
     public render() {
         return (
@@ -321,7 +321,8 @@ export class Index extends React.Component<any, any> {
                     data={this.state.data} 
                     width={330} 
                     height={200}
-                    gridSize={4} 
+                    gridSize={4}
+                    xAxisScale={'TIME'}
                 ></LineChart>
             </div>);
     };

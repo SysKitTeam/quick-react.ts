@@ -6,7 +6,7 @@ import { IChartProps } from './LineChart.props';
 
 import './LineChart.scss';
 
-export type DataType = {time: Date, value: number};
+export type DataType = {key: Date | number, value: number};
 
 export class LineChart extends React.Component<IChartProps, undefined> {
 
@@ -107,34 +107,23 @@ export class LineChart extends React.Component<IChartProps, undefined> {
     }
 
     private createDropShadow(svg: any) {
-        // filters go in defs element
         let defs = svg.append('defs');
 
-        // create filter with id #drop-shadow
-        // height=130% so that the shadow is not clipped
         let filter = defs.append('filter')
             .attr('id', 'drop-shadow')
             .attr('height', '120%');
-            // .attr('width', '130%');
 
-        // SourceAlpha refers to opacity of graphic that this filter will be applied to
-        // convolve that with a Gaussian with standard deviation 3 and store result
-        // in blur
         filter.append('feGaussianBlur')
             .attr('in', 'SourceAlpha')
             .attr('stdDeviation', 5)
             .attr('result', 'blur');
 
-        // translate output of Gaussian blur to the right and downwards with 2px
-        // store result in offsetBlur
         filter.append('feOffset')
             .attr('in', 'blur')
             .attr('dx', 2)
             .attr('dy', 2)
             .attr('result', 'offsetBlur');
 
-        // overlay original SourceGraphic over translated blurred opacity by using
-        // feMerge filter. Order of specifying inputs is important!
         let feMerge = filter.append('feMerge');
 
         feMerge.append('feMergeNode')
@@ -143,10 +132,17 @@ export class LineChart extends React.Component<IChartProps, undefined> {
             .attr('in', 'SourceGraphic');
     }
 
-    private generateX() {
-        return d3.scaleTime()
-                .domain(d3.extent(this.props.data, (d) => d.time))
-                .range([0, this.width]);
+    private generateX() : any {
+        const domain = d3.extent(this.props.data, (d) => d.key);
+        const range = d3.extent([0, this.width]);
+        switch(this.props.xAxisScale) {
+            case 'TIME':
+                return d3.scaleTime().domain(domain).range(range);
+            case 'LINEAR':
+                return d3.scaleLinear().domain(domain).range(range);
+            default:
+                return null;
+        }
     }
 
     private generateY() {
@@ -157,7 +153,7 @@ export class LineChart extends React.Component<IChartProps, undefined> {
 
     private generateXAxis() {
         return d3.axisBottom(this.generateX())
-                .tickValues(d3.extent(this.props.data, (d) => d.time))
+                .tickValues(d3.extent(this.props.data, (d) => d.key))
                 .tickSizeInner(-(this.height))
                 .tickSizeOuter(0)
                 .ticks(2, '%I:%M:%S %p')
@@ -178,7 +174,7 @@ export class LineChart extends React.Component<IChartProps, undefined> {
     private constructLine() {
         const x = this.generateX();
         return d3.line<DataType>()
-                    .x((d) => x(d.time))
+                    .x((d) => x(d.key))
                     .y((d) => this._y(d.value));
     }
 
@@ -222,7 +218,7 @@ export class LineChart extends React.Component<IChartProps, undefined> {
 
     private mouseMove() {
         const x = this.generateX();
-        const bisect = d3.bisector<DataType, any>((d) => d.time).left;
+        const bisect = d3.bisector<DataType, any>((d) => d.key).left;
 
         let x0 = x.invert(d3.mouse(d3.event.currentTarget)[0]);
 
@@ -230,15 +226,21 @@ export class LineChart extends React.Component<IChartProps, undefined> {
         let d0 = this.props.data[i - 1];
         let d1 = this.props.data[i];
 
-        let d = (x0.getTime() - d0.time.getTime()) > (d1.time.getTime() - x0.getTime()) ? d1 : d0;
+        let d;
+
+        if (this.props.xAxisScale === 'TIME') {
+            d = (x0.getTime() - (d0.key as Date).getTime()) > ((d1.key as Date).getTime() - x0.getTime()) ? d1 : d0;
+        }
+
+        d = x0 - (d0.key as any) > (d1.key as any) - x0 ? d1 : d0;
 
         this._focus.select('.tip-rect')
-                .attr('transform', 'translate(' + (x(d.time) - 20) + ',' + (this._y(d.value) - 40) + ')')
+                .attr('transform', 'translate(' + (x(d.key) - 20) + ',' + (this._y(d.value) - 40) + ')')
                 .attr('display', 'block');
         this._focus.select('.tip-pol')
-                .attr('transform', 'translate(' + (x(d.time) - 20) + ',' + (this._y(d.value) - 40) + ')');
+                .attr('transform', 'translate(' + (x(d.key) - 20) + ',' + (this._y(d.value) - 40) + ')');
         this._focus.select('text.tooltip-text')
-                .attr('transform', 'translate(' + (x(d.time) - 24) + ',' + (this._y(d.value) - 20) + ')')
+                .attr('transform', 'translate(' + (x(d.key) - 24) + ',' + (this._y(d.value) - 20) + ')')
                 .text(() => d.value + ' %');
     }
 }

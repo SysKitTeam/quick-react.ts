@@ -4,9 +4,10 @@ export interface IChartProps {
     height: number;
     gridSize?: number;
     data: IChartData[];
+    xAxisScale: string; // 'LINEAR' or 'TIME' 
 }
 
 export interface IChartData {
-    time: Date;
+    key: Date | number;
     value: number;
 }
