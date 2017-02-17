@@ -30,7 +30,12 @@ export class PieChart extends React.Component<IPieChartProps, any> {
     }
 
     componentDidUpdate() {
-        // implement update
+        this.redraw();
+    }
+
+    private redraw() {
+        d3.select('.svg-container').remove();
+        this.draw();
     }
 
     public render() {
@@ -42,11 +47,11 @@ export class PieChart extends React.Component<IPieChartProps, any> {
     }
 
     private draw() {
-        this._radius = Math.min(this.props.width, this.props.height) / 4;
-        //this._radius = this._radius - Math.min(this.props.width, this.props.height);
+        this._radius = this.props.width / 4 - 5;
         const svg = this.createContainer();
         const pie = this.createPie();
         const arc = this.createArc();
+        this.createDropShadow(svg);
         const g = svg.selectAll('.arc')
             .data(pie(this.props.data))
             .enter()
@@ -58,46 +63,34 @@ export class PieChart extends React.Component<IPieChartProps, any> {
         g.append('path').attr('d', (arc as any))
             .attr('class', (d) => this.calculateClass(d.data))
 
-        /*.on('mousemove', (d) => {
-            console.log(d3.mouse(d3.event.currentTarget));
-            this._focus.style('display', 'block');
-            //this._arc.centroid(d);
-            const position = d3.mouse(d3.event.currentTarget);
-            this._focus.select('.tip-rect')
-                .attr('transform', 'translate(' + position + ')')
-                .attr('display', 'block');
-            this._focus.select('.tip-pol')
-                .attr('transform', 'translate(' + position + ')');
-        });*/
-
-        g.append('text').attr('transform', (d) => {this._textCoordinates = arc.centroid(d); return 'translate(' + arc.centroid(d) + ')'})
+        g.append('text')
+            .attr('transform',
+            (d) => { this._textCoordinates = arc.centroid(d); return 'translate(' + arc.centroid(d) + ')' })
             .text((d) => d.data.value + '%')
-            .style('font-size', (this._radius / 4))
+            .style('font-size', (this._radius / 3))
             .attr('text-anchor', 'middle')
             .attr('class', 'percentage-label')
             .on('mouseover', (d) => this.showTooltip(d))
-            .on('mouseout', () => this._focus.style('display', 'none')).transition().duration(1000);
+            .on('mouseout', () => this._focus.style('display', 'none'));
     }
 
     private showTooltip(d: any) {
         const coordinates = this._arc.centroid(d);
-        
+
         this._focus.style('display', 'block');
 
         this._focus.select('.tip-rect')
-            .attr('transform', 'translate(' + (coordinates[0] - this._radius) + ',' + (coordinates[1] - this._radius * (3 / 2)) + ')');
+            .attr('transform',
+            'translate(' + (coordinates[0] - this._radius * 1.5) + ',' + (coordinates[1] - this._radius * (3 / 2)) + ')');
 
         this._focus.select('.tip-pol')
-            .attr('transform', 'translate(' + (coordinates[0] - this._radius) + ',' + (coordinates[1] - this._radius * (3 / 2)) + ')');
+            .attr('transform',
+            'translate(' + (coordinates[0] - this._radius) + ',' + (coordinates[1] - this._radius * (3 / 2)) + ')');
 
-        /*const values = this._arc.centroid(d);
-        const position = values[0] + ', (20 + ' + values[1] + ')';
-        console.log('translate(' + values[0] + ', (' + values[1] + '- 20)' + ')');
-        values[1] = values[1] + 15;
-        
         this._focus.select('text.y2')
-            .attr('transform', 'translate(' + values[0] + ',' + values[1] + ')')
-            .text(d.value + ' %');*/
+            .attr('transform',
+            'translate(' + (coordinates[0] - this._radius * 1.5) + ',' + (coordinates[1] - this._radius * (5 / 4)) + ')')
+            .text(d.label + ': ' + d.value + ' %');
     }
 
     private calculateClass(d: DataType) {
@@ -109,6 +102,7 @@ export class PieChart extends React.Component<IPieChartProps, any> {
 
     private createContainer() {
         return d3.select(this.refs.container).append('svg')
+            .attr('class', 'svg-container')
             .attr('width', this.props.width)
             .attr('height', this.props.height)
             .append('g')
@@ -127,16 +121,55 @@ export class PieChart extends React.Component<IPieChartProps, any> {
         return svg.append('g').style('display', 'none');
     }
 
+    private createDropShadow(svg: any) {
+        // filters go in defs element
+        let defs = svg.append('defs');
+
+        // create filter with id #drop-shadow
+        // height=130% so that the shadow is not clipped
+        let filter = defs.append('filter')
+            .attr('id', 'drop-shadow')
+            .attr('height', '130%');
+            // .attr('width', '130%');
+
+        // SourceAlpha refers to opacity of graphic that this filter will be applied to
+        // convolve that with a Gaussian with standard deviation 3 and store result
+        // in blur
+        filter.append('feGaussianBlur')
+            .attr('in', 'SourceAlpha')
+            .attr('stdDeviation', 5)
+            .attr('result', 'blur');
+
+        // translate output of Gaussian blur to the right and downwards with 2px
+        // store result in offsetBlur
+        filter.append('feOffset')
+            .attr('in', 'blur')
+            .attr('dx', 5)
+            .attr('dy', 5)
+            .attr('result', 'offsetBlur');
+
+        // overlay original SourceGraphic over translated blurred opacity by using
+        // feMerge filter. Order of specifying inputs is important!
+        let feMerge = filter.append('feMerge');
+
+        feMerge.append('feMergeNode')
+            .attr('in', 'offsetBlur');
+        feMerge.append('feMergeNode')
+            .attr('in', 'SourceGraphic');
+
+    }
+
     private createTooltip(container: any) {
         this._focus = this.createFocus(container);
 
         this._focus.append('rect')
-            .attr('width', this._radius * 2)
+            .attr('width', this._radius * 3)
             .attr('height', this._radius)
             .attr('class', 'tip-rect')
-            .attr('fill', 'black')
-            .attr('x', '0')
-            .attr('y', '0');
+            .attr('fill', 'white')
+            .style('filter', 'url(#drop-shadow)')
+            .attr('x', 0)
+            .attr('y', 0);
 
         // Calculate position of tip pointer
         const middlePoint = this._radius; // width is 2 times of a radius
@@ -144,22 +177,25 @@ export class PieChart extends React.Component<IPieChartProps, any> {
         const leftPoint = middlePoint - width;
         const rightPoint = middlePoint + width;
         const tipHeight = this._radius * (5 / 4);
-        const bottomPoint = this._radius;
+        const bottomPoint = this._radius - 2;
 
         const p1 = leftPoint + ',' + bottomPoint;
         const p2 = middlePoint + ',' + tipHeight;
         const p3 = rightPoint + ',' + bottomPoint;
 
         this._focus.append('polygon')
-            .attr('fill', 'black')
+            .attr('fill', 'white')
             .attr('class', 'tip-pol')
+            .style('filter', 'url(#drop-shadow)')
             .attr('points', p1 + ' ' + p2 + ' ' + p3);
 
         this._focus.append('text')
             .attr('class', 'y2')
-            .attr('fill', 'white')
-            .attr('dx', 8)
-            .attr('dy', '-.3em');
+            .attr('fill', 'black')
+            .attr('dx', this._radius * 1.5)
+            .attr('dy', this._radius / 2)
+            .attr('text-anchor', 'middle')
+            .text('Used: 7.54 GB');
     }
 
     private createPie() {

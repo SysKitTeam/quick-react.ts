@@ -43,15 +43,26 @@ import { DataGenerator } from './utilities/DataGenerator';
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
+        let pieData = [{'label': 'used', value: 8}, {'label': 'free', value: 92}];
         const generator = new DataGenerator();
         this.state = {
             showDialog: false,
             selector: true,
-            data: generator.generateValues()
+            data: generator.generateValues(),
+            pieData: pieData
         };
-
-        // setInterval(() => this.setState({data: generator.generateValues()}), 5000);
+        /*setInterval(() => {
+            pieData = this.generateValues(pieData);
+            this.setState({pieData: pieData});
+        }, 500);*/
     }
+
+    private generateValues(d: any[]) {
+        d[0].value = d[0].value + 1;
+        d[1].value = d[1].value - 1;
+        return d;
+    }
+
     public render() {
         return (
             <div>
@@ -328,7 +339,7 @@ export class Index extends React.Component<any, any> {
                         driveLetter={'C:'} 
                         height={360} 
                         width={360} 
-                        data={[{label: 'used', value: 42}, {label: 'free', value: 56}]} 
+                        data={this.state.pieData} 
                 ></PieChart>
             </div>);
     };

@@ -9,10 +9,13 @@ $normal: #657386 ;
 .pie-chart-component {
     display: inline-block;
     margin: 5px 5px 5px 5px;
+    box-shadow: 1px 1px 1px 1px grey;
 
     .label {
         text-align:center;
         padding: 0px 0px 5px 0px;
+        color: $normal;
+        font-style: italic;
     }
 
     .disk-usage-ok {
@@ -33,6 +36,10 @@ $normal: #657386 ;
 
     .pie-chart-container {
         display: inline-block;
+
+        svg {
+            margin-top: -25px;
+        }
     }
 
     g {
@@ -47,7 +54,6 @@ $normal: #657386 ;
 
     .arc {
         .percentage-label {
-            // font-size: 10px;
             font-family: 'Segoe UI';
             fill: white;
         }
