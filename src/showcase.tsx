@@ -326,8 +326,8 @@ export class Index extends React.Component<any, any> {
                 <br/>
                 <PieChart text={'Sample text'} 
                         driveLetter={'C:'} 
-                        height={120} 
-                        width={120} 
+                        height={360} 
+                        width={360} 
                         data={[{label: 'used', value: 42}, {label: 'free', value: 56}]} 
                 ></PieChart>
             </div>);

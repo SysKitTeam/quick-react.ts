@@ -19,8 +19,7 @@ export class PieChart extends React.Component<IPieChartProps, any> {
     private _radius: any;
     private _focus: any;
     private _arc: any;
-
-    private radius;
+    private _textCoordinates: number[];
 
     constructor() {
         super();
@@ -71,8 +70,9 @@ export class PieChart extends React.Component<IPieChartProps, any> {
                 .attr('transform', 'translate(' + position + ')');
         });*/
 
-        g.append('text').attr('transform', (d: any) => 'translate(' + arc.centroid(d) + ')')
+        g.append('text').attr('transform', (d) => {this._textCoordinates = arc.centroid(d); return 'translate(' + arc.centroid(d) + ')'})
             .text((d) => d.data.value + '%')
+            .style('font-size', (this._radius / 4))
             .attr('text-anchor', 'middle')
             .attr('class', 'percentage-label')
             .on('mouseover', (d) => this.showTooltip(d))
@@ -80,22 +80,15 @@ export class PieChart extends React.Component<IPieChartProps, any> {
     }
 
     private showTooltip(d: any) {
-        let coordinates1 = this._arc.centroid(d);
-        coordinates1[0] = coordinates1[0] - (this._radius);
-        coordinates1[1] = 45;
-
-        console.log(coordinates1);
-
-        const coordinates2 = this._arc.centroid(d);
-        coordinates1[0] = coordinates2[0] - (this._radius);
-        coordinates1[1] = coordinates2[1] - (this._radius * 2);
-
+        const coordinates = this._arc.centroid(d);
+        
         this._focus.style('display', 'block');
+
         this._focus.select('.tip-rect')
-            .attr('transform', 'translate(' + coordinates1 + ')')
-            .attr('display', 'block');
+            .attr('transform', 'translate(' + (coordinates[0] - this._radius) + ',' + (coordinates[1] - this._radius * (3 / 2)) + ')');
+
         this._focus.select('.tip-pol')
-            .attr('transform', 'translate(' + coordinates2 + ')');
+            .attr('transform', 'translate(' + (coordinates[0] - this._radius) + ',' + (coordinates[1] - this._radius * (3 / 2)) + ')');
 
         /*const values = this._arc.centroid(d);
         const position = values[0] + ', (20 + ' + values[1] + ')';
@@ -141,13 +134,26 @@ export class PieChart extends React.Component<IPieChartProps, any> {
             .attr('width', this._radius * 2)
             .attr('height', this._radius)
             .attr('class', 'tip-rect')
-            .attr('display', 'none')
-            .attr('fill', 'black');
+            .attr('fill', 'black')
+            .attr('x', '0')
+            .attr('y', '0');
+
+        // Calculate position of tip pointer
+        const middlePoint = this._radius; // width is 2 times of a radius
+        const width = this._radius / 4;
+        const leftPoint = middlePoint - width;
+        const rightPoint = middlePoint + width;
+        const tipHeight = this._radius * (5 / 4);
+        const bottomPoint = this._radius;
+
+        const p1 = leftPoint + ',' + bottomPoint;
+        const p2 = middlePoint + ',' + tipHeight;
+        const p3 = rightPoint + ',' + bottomPoint;
 
         this._focus.append('polygon')
             .attr('fill', 'black')
             .attr('class', 'tip-pol')
-            .attr('points', '15,40 30,55 45,40');
+            .attr('points', p1 + ' ' + p2 + ' ' + p3);
 
         this._focus.append('text')
             .attr('class', 'y2')
