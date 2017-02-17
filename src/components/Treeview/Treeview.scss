@@ -3,20 +3,28 @@
 .treeview {
     @include baseFont();
     font-size: $font-size-m;
-
+    margin-left: 19px;
     .collapsed {
         display: none;
     }
 
     .expanded {
         display: block;
+        margin-left: 30px;
     }
 
     .treeview-item {
         cursor: pointer;
+        display: flex;
+        align-items: center;
     }
-
-    .treeview-child {
-        @include margin-left(15px);
+    .treeveiw-content{
+        padding: 2px;
+    }
+    .treeveiw-content:hover{
+        background-color: #eaeaea;
+    }
+    .treeveiw-parent-item{
+        margin-left: -19px;
     }
 }

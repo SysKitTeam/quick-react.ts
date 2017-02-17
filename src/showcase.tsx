@@ -34,12 +34,14 @@ import { Dialog } from './components/Dialog/Dialog';
 import { DialogFooter } from './components/Dialog/DialogFooter';
 import { StatusBar } from './components/StatusBar/StatusBar';
 import { CheckboxList } from './components/CheckboxList/CheckboxList';
-
+import { Treeview } from './components/Treeview/Treeview';
+import { elements } from './treeviewElements'
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
         this.state = {
-            showDialog: false
+            showDialog: false,
+            treeviewElements: elements
         };
     }
 
@@ -268,7 +270,7 @@ export class Index extends React.Component<any, any> {
                         ]
                     }
                     />
-                <Checkbox label={'This is checkbox'} onChange={(ev, checked) => console.log('aaa')} />
+                <Checkbox label={'This is checkbox'} onChange={(ev, checked) => console.log('aaa')} defaultChecked={true} />
                 <Checkbox label={'This is disabled checkbox'} disabled={true} defaultChecked={true} />
                 <br />
                 <ChoiceGroup options={[
@@ -294,6 +296,7 @@ export class Index extends React.Component<any, any> {
                 <Spinner />
                 <Label>Large Spinner With Label</Label>
                 <Spinner type={SpinnerType.large} label="Seriously, still loading..." />
+
                 <br />
                 <CheckboxList onCheckboxChanged={this._onCheckboxListChange}
                     items={[
@@ -304,9 +307,25 @@ export class Index extends React.Component<any, any> {
                     ]}>
                 </CheckboxList>
                 <br />
+                <Treeview onSelect={this._onCheckboxListChange} showCheckbox={false} items={elements}/>
+                <br />
+                <Treeview onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements}/>
+                <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
             </div>);
     };
+
+    private _onTreeviewItemClick(ev, itemId, checked){
+        this.setState({treeviewElements : this.state.treeviewElements.map((item) => {
+            if (itemId.indexOf(item.id) > -1) {
+                return {id: item.id, text: item.text, parentId: item.parentId, checked: checked};
+            } else {
+                return item;
+            }
+        })
+    });
+        
+    }
 
     private _onCheckboxListChange(ev, itemId, checked) {
         console.log(itemId + ':' + checked);
