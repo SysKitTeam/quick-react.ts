@@ -309,7 +309,7 @@ export class Index extends React.Component<any, any> {
                 <br />
                 <Treeview onSelect={this._onCheckboxListChange} showCheckbox={false} items={elements}/>
                 <br />
-                <Treeview onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements}/>
+                <Treeview onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements} recursive={true}/>
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
             </div>);

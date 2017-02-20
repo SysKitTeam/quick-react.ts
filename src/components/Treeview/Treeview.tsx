@@ -20,23 +20,24 @@ export class Treeview extends CommonComponent<ITreeviewProps, void> {
     }
 
     public render(): JSX.Element {
-        let { label, items, onSelect, showCheckbox } = this.props;
+        let { label, items, onSelect, showCheckbox, recursive } = this.props;
 
         const className = classNames(
             'treeview',
             [this.props.className]);
-        // dohvati stablastu strukturu metodom mapchildren
+        
+        let parent = items.map((element) => {
+            element.children = MapChildren(element, items);
+            return element;
+        });
         return (
             <div >
-                {items.map((item, index) => (
-                    !item.parentId &&
+                {parent.map((item, index) => ( !item.parentId &&
                     <div key={index} className={className}>
-                        <TreeviewItem item={item} onChange={onSelect} showCheckbox={showCheckbox} />
+                        <TreeviewItem item={item} onChange={onSelect} showCheckbox={showCheckbox} children={item.children}/>
                     </div>
                 ))}
             </div>
         );
     }
-
-    
 }

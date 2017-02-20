@@ -7,4 +7,5 @@ export interface ITreeviewProps {
     items?: ITreeviewItem[];
     onSelect?: (ev?: React.FormEvent<HTMLInputElement>, itemsId?: string[], checked?: boolean) => void;
     showCheckbox?: boolean;
+    recursive?: boolean;
 }
