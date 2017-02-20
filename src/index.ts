@@ -12,6 +12,7 @@ export * from './components/Common';
 export * from './components/CompactDashboard';
 export * from './components/CompactServer';
 export * from './components/ContextualMenu';
+export * from './components/Dashboard';
 export * from './components/DashboardHeader';
 export * from './components/Dialog';
 export * from './components/Dropdown';

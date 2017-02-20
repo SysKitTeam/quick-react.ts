@@ -38,6 +38,7 @@ import { CompactDashboard} from './components/CompactDashboard/CompactDashboard'
 import {TagContainer} from './components/TagContainer/TagContainer';
 import {CompactServer} from './components/CompactServer/CompactServer';
 import {DashboardHeader} from './components/DashboardHeader/DashboardHeader';
+import {Dashboard} from './components/Dashboard/Dashboard';
 
 import {farms, classListExample} from './mockData/farms';
 
@@ -321,10 +322,7 @@ export class Index extends React.Component<any, any> {
                 </Treeview>
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
-                <div>
-                    <DashboardHeader filter={'ana'} title={farms.title} />
-                    <CompactDashboard filter={'ana'} className={'viewport-height'} title={farms.title} farms={farms.farms}/>
-                </div>
+                <Dashboard farms={farms} filter={''} title={farms.title} activeView={0} />
             </div>);
     };
 
