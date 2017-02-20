@@ -1,2 +1,2 @@
-export * from './Farm';
-export * from './Farm.Props';
+export * from './Group';
+export * from './Group.Props';

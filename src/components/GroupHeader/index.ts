@@ -1,2 +1,2 @@
-export * from './FarmHeader';
-export * from './FarmHeader.Props';
+export * from './GroupHeader';
+export * from './GroupHeader.Props';
