@@ -53,12 +53,8 @@ export class LineChart extends React.Component<IChartProps, undefined> {
     }
 
     private redraw() {
-        d3.select('.' + this.LINE_CLASS).remove();
-        d3.select('.x-axis').remove();
-
-        const svg = d3.select('.' + this.GRAPH_CONTAINER_CLASS);
-        this.drawXAxis(svg);
-        this.drawLine(svg);
+        d3.select('.x-axis').call(this.generateXAxis());
+        d3.select('.' + this.LINE_CLASS).attr('d', this.constructLine());
     }
 
     private draw() {
