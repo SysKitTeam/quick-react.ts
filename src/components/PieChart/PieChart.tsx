@@ -90,6 +90,7 @@ export class PieChart extends React.Component<IPieChartProps, any> {
     }
 
     private showTooltip(d: any) {
+        console.log(d);
         const coordinates = this._arc.centroid(d);
 
         this._focus.style('display', 'block');
@@ -105,7 +106,7 @@ export class PieChart extends React.Component<IPieChartProps, any> {
         this._focus.select('text.tooltip-text')
             .attr('transform',
             'translate(' + (coordinates[0] - this._radius * 1.5) + ',' + (coordinates[1] - this._radius * (5 / 4)) + ')')
-            .text(d.label + ': ' + d.value + ' %');
+            .text(d.text);
     }
 
     private calculateClass(d: DataType) {
@@ -118,7 +119,7 @@ export class PieChart extends React.Component<IPieChartProps, any> {
     private createContainer() {
         return d3.select(this.refs.container).append('svg')
             .attr('class', 'svg-container')
-            .attr('width', this.props.width - 2)
+            .attr('width', this.props.width - 2)    // minus 2 because of border
             .attr('height', this.props.height - 20)
             .append('g')
             .attr('class', 'pie-chart-g')
