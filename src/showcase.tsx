@@ -43,7 +43,7 @@ import { DataGenerator } from './utilities/DataGenerator';
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
-        let pieData = [{'label': 'used', value: 64, text: 'Used: 68.36 GB'}, {'label': 'free', value: 36, text: 'Free: 11.54 GB'}];
+        let pieData = [{label: 'used', value: 64, text: 'Used: 68.36 GB', class: 'used-critical'}, {label: 'free', value: 36, text: 'Free: 11.54 GB'}];
         const generator = new DataGenerator();
         this.state = {
             showDialog: false,

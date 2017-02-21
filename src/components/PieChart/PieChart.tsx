@@ -71,7 +71,7 @@ export class PieChart extends React.Component<IPieChartProps, any> {
             .attr('class', 'arc');
 
         g.append('path').attr('d', (arc as any))
-            .attr('class', (d) => (d.data.class === undefined) ? d.data.class : '.arc-path')
+            .attr('class', (d) => (d.data.class) ? d.data.class : 'arc-path')
             .style('fill', (d) => color(d.data.label));
 
         g = svg.selectAll('.arc-text')
