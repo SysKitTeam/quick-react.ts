@@ -11,13 +11,13 @@ $font: 'Segoe UI';
 .pie-chart-component {
     display: inline-block;
     margin: 5px 5px 5px 5px;
-    box-shadow: 1px 1px 1px 1px grey;
+    border: 1px solid #e8e9ef;
 
     .label {
         text-align: center;
         padding: 0px 0px 5px 0px;
         color: $normal;
-        font-style: italic;
+        font-size: 13px;
     }
 
     .disk-usage-ok {
@@ -51,6 +51,13 @@ $font: 'Segoe UI';
             -ms-user-select: none;
             user-select: none;
             cursor: default;
+            font-family: $font;
+            font-size: 11px;
+            fill: $normal;
+        }
+
+        rect {
+            stroke: #e8e9ef;
         }
     }
 

@@ -1,5 +1,5 @@
 export interface IPieChartProps {
-    driveLetter: string;
+    title: string;
     text: string;
     width: number;
     height: number;

@@ -51,10 +51,10 @@ export class Index extends React.Component<any, any> {
             data: generator.generateValues(),
             pieData: pieData
         };
-        /*setInterval(() => {
+        /* setInterval(() => {
             pieData = this.generateValues(pieData);
             this.setState({pieData: pieData});
-        }, 500);*/
+        }, 500); */
     }
 
     private generateValues(d: any[]) {
@@ -336,7 +336,7 @@ export class Index extends React.Component<any, any> {
                 ></LineChart>
                 <br/>
                 <PieChart text={'Sample text'} 
-                        driveLetter={'C:'} 
+                        title={'Partition C:'} 
                         height={120} 
                         width={120} 
                         data={this.state.pieData} 

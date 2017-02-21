@@ -40,7 +40,7 @@ export class PieChart extends React.Component<IPieChartProps, any> {
 
     public render() {
         return (<div className={'pie-chart-component'}>
-            <Label>Partition {this.props.driveLetter}</Label>
+            <Label>{this.props.title}</Label>
             <Label>{this.props.text}</Label>
             <div className={'pie-chart-container'} ref={'container'}></div>
         </div>);
@@ -51,7 +51,6 @@ export class PieChart extends React.Component<IPieChartProps, any> {
         const svg = this.createContainer();
         const pie = this.createPie();
         const arc = this.createArc();
-        this.createDropShadow(svg);
 
         let g = svg.selectAll('.arc')
             .data(pie(this.props.data))
@@ -128,32 +127,6 @@ export class PieChart extends React.Component<IPieChartProps, any> {
         return svg.append('g').style('display', 'none');
     }
 
-    private createDropShadow(svg: any) {
-        let defs = svg.append('defs');
-
-        let filter = defs.append('filter')
-            .attr('id', 'drop-shadow')
-            .attr('height', '120%');
-
-        filter.append('feGaussianBlur')
-            .attr('in', 'SourceAlpha')
-            .attr('stdDeviation', 5)
-            .attr('result', 'blur');
-
-        filter.append('feOffset')
-            .attr('in', 'blur')
-            .attr('dx', 2)
-            .attr('dy', 2)
-            .attr('result', 'offsetBlur');
-
-        let feMerge = filter.append('feMerge');
-
-        feMerge.append('feMergeNode')
-            .attr('in', 'offsetBlur');
-        feMerge.append('feMergeNode')
-            .attr('in', 'SourceGraphic');
-    }
-
     private createTooltip(container: any) {
         this._focus = this.createFocus(container);
 
@@ -162,7 +135,6 @@ export class PieChart extends React.Component<IPieChartProps, any> {
             .attr('height', this._radius)
             .attr('class', 'tip-rect')
             .attr('fill', 'white')
-            .style('filter', 'url(#drop-shadow)')
             .attr('x', 0)
             .attr('y', 0);
 
@@ -181,7 +153,6 @@ export class PieChart extends React.Component<IPieChartProps, any> {
         this._focus.append('polygon')
             .attr('fill', 'white')
             .attr('class', 'tip-pol')
-            .style('filter', 'url(#drop-shadow)')
             .attr('points', p1 + ' ' + p2 + ' ' + p3);
 
         this._focus.append('text')
