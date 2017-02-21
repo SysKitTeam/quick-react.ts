@@ -1,0 +1,137 @@
+@import '../../index.scss';
+
+$progress-baseline: #c7c7c7;
+$progress-normal: #61ae66;
+$progress-warning: #FFC55A;
+$progress-critical: #FF6666;
+
+$text-color: #5d5d5d;
+
+.progress-bar-component {
+    margin: 5px 5px 5px 5px;
+    position: relative;
+    display: inline-block;
+
+    div {
+        font-family: 'Segoe UI';
+        color: $text-color;
+    }
+
+    .progress-label {
+        display: inline-block;
+        position: relative;
+        padding-bottom: 5px;
+
+        label {
+            font-weight: bold;
+            color: $text-color;
+            font-size: 16px;
+        }
+    }
+
+    .help-tip {
+        position: relative;
+        top: 4px;
+        right: -10px;
+        text-align: center;
+        background-color: #7DC458;
+        width: 15px;
+        height: 15px;
+        font-size: 10px;
+        line-height: 15px;
+        cursor: default;
+        display: inline-block;
+        vertical-align: super;
+        border-radius: 10px;
+
+        &:before {
+            content:'?';
+            font-weight: bold;
+            color:#fff;
+        }
+
+        &:hover p {
+            display:block;
+            transform-origin: 100% 0%;
+            -webkit-animation: fadeIn 0.3s ease-in-out;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        p {
+            display: none;
+            text-align: left;
+            background-color: white;
+            padding: 20px;
+            min-width: 170px;
+            position: absolute;
+            border-radius: 1px;
+            box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.2);
+            right: -144px;
+            color: black;
+            z-index: 5000000;
+            font-size: 13px;
+            line-height: 1.4;
+            padding: 5px;
+            min-width: 187px;
+            text-align: center;
+            font-weight:400;
+
+            &:before {
+                position: absolute;
+                content: '';
+                width:0;
+                height: 0;
+                border:6px solid transparent;
+                border-bottom-color:white;
+                right:146px;
+                top:-12px;
+            }
+
+            &:after {
+                width:100%;
+                height:40px;
+                content:'';
+                position: absolute;
+                top:-40px;
+                left:0;
+            }
+        }
+    }
+
+    .progress-bar-container {
+        display: block;
+
+        div {
+            display: inline-block;
+            vertical-align: super;
+            padding-left: 10px;
+            width: 50px;
+        }
+
+        .g-container {
+            .progress-baseline {
+                fill: $progress-baseline;
+            }
+
+            .progress-normal {
+                fill: $progress-normal;
+            }
+
+            .progress-warning {
+                fill: $progress-warning;
+            }
+
+            .progress-critical {
+                fill: $progress-critical;
+            }
+        }
+
+        .progress-percentage {
+            display: inline-block;
+            vertical-align: bottom;
+            padding-left: 10px;
+            font-size: 16px;
+            color: $text-color;
+        }
+    }
+}
