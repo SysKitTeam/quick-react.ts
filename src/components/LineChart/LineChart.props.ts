@@ -8,6 +8,6 @@ export interface IChartProps {
 }
 
 export interface IChartData {
-    key: Date | number;
+    argument: Date | number;
     value: number;
 }
