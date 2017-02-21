@@ -63,7 +63,6 @@ export class LineChart extends React.Component<IChartProps, undefined> {
         this.drawYAxis(svg);
         this.drawLine(svg);
         this.createFocus(svg);
-        this.createDropShadow(svg);
         this.addTooltip();
         this.drawCaptureArea(svg);
     }
@@ -100,32 +99,6 @@ export class LineChart extends React.Component<IChartProps, undefined> {
                     .append('g')
                     .attr('class', this.GRAPH_CONTAINER_CLASS)
                     .attr('transform', 'translate(' + this.margin.left + ',' + (this.margin.top + 20) + ')');        
-    }
-
-    private createDropShadow(svg: any) {
-        let defs = svg.append('defs');
-
-        let filter = defs.append('filter')
-            .attr('id', 'drop-shadow')
-            .attr('height', '120%');
-
-        filter.append('feGaussianBlur')
-            .attr('in', 'SourceAlpha')
-            .attr('stdDeviation', 5)
-            .attr('result', 'blur');
-
-        filter.append('feOffset')
-            .attr('in', 'blur')
-            .attr('dx', 2)
-            .attr('dy', 2)
-            .attr('result', 'offsetBlur');
-
-        let feMerge = filter.append('feMerge');
-
-        feMerge.append('feMergeNode')
-            .attr('in', 'offsetBlur');
-        feMerge.append('feMergeNode')
-            .attr('in', 'SourceGraphic');
     }
 
     private generateX() : any {
@@ -192,19 +165,21 @@ export class LineChart extends React.Component<IChartProps, undefined> {
     }
 
     private addTooltip() {
+        this._focus.append('polygon')
+            .attr('fill', 'white')
+            .attr('class', 'tip-pol')
+            .attr('stroke', '#e8e9ef')
+            .attr('stroke-width', 2)
+            .attr('points', '10,20 20,35 30,20');
+
         this._focus.append('rect')
             .attr('width', '40')
             .attr('height', '24')
             .attr('class', 'tip-rect')
             .attr('display', 'none')
-            .style('filter', 'url(#drop-shadow)')
+            .attr('stroke', '#e8e9ef')
+            .attr('stroke-width', 2)
             .attr('fill', 'white');
-
-        this._focus.append('polygon')
-            .attr('fill', 'white')
-            .attr('class', 'tip-pol')
-            .style('filter', 'url(#drop-shadow)')
-            .attr('points', '10,20 20,35 30,20');
 
         this._focus.append('text')
             .attr('class', 'tooltip-text')

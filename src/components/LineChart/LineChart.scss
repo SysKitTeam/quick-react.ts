@@ -2,6 +2,7 @@
 
 $main-color: #5d5d5d;
 $background-color: #f4f4f4;
+$border-color: #e8e9ef;
 
 $font: 'Segoe UI';
 
@@ -11,7 +12,6 @@ $font: 'Segoe UI';
     font-size: 16px;
     font-weight: 500;
     color: $main-color;
-    box-shadow: 1px 1px 1px 1px grey;
     padding-left: 10px;
     display: inline-block;
     user-select: none;
