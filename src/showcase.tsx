@@ -39,17 +39,27 @@ import {TagContainer} from './components/TagContainer/TagContainer';
 import {CompactServer} from './components/CompactServer/CompactServer';
 import {DashboardHeader} from './components/DashboardHeader/DashboardHeader';
 import {Dashboard} from './components/Dashboard/Dashboard';
-
 import {farms, classListExample} from './mockData/farms';
+import { ServerTile } from './components/ServerTile/ServerTile';
 
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
         this.state = {
-            showDialog: false
+            showDialog: false,
+            selector: true,
+            cpu: '74%'
         };
     }
-    
+
+    componentDidMount() {
+         let timer = setInterval(() => {
+            const currentCpu = this.state.selector ? '74%' : '85%';
+            const sel = !this.state.selector;
+            this.setState({cpu: currentCpu, selector: sel});
+        }, 1000);
+    }
+
     public render() {
         return (
             <div>
@@ -322,7 +332,23 @@ export class Index extends React.Component<any, any> {
                 </Treeview>
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
+
                 <Dashboard farms={farms} filter={''} title={farms.title} activeView={0} />
+
+                <br />
+                <ServerTile serverStatus='OK'
+                    headerData={{serverName: 'ServerName123456', 
+                                fqdmServerName: 'ServerName123456.companylocal',
+                                numberOfUsers: 3432,
+                                diskData: {status: 'Error',
+                                            disks: [
+                                                {driveLetter: 'C:', sizeInUse: '84', totalSize: '249', filledPercentage: '30%'},
+                                                {driveLetter: 'D:', sizeInUse: '120', totalSize: '249', filledPercentage: '47%'}]}}}
+                    cpuData={{status: 'Error', cpuUtilization: this.state.cpu}}
+                    memoryData={{status: 'Warning', memoryUsage: '7 GB', committedMemory: '7GB/10GB (70%)'}}
+                    diskData={{status: 'OK', currentRWSpeed: '0,1 MB/s', rwSpeedsPerPartition: [this.state.cpu, '50.10 kB/s', '23.47 kB/s']}}
+                    networkData={{status: 'OK', currentSpeed: '0,1 Mbps', speedsPerInterface: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps']}}
+                ></ServerTile>
             </div>);
     };
 
