@@ -1,15 +1,807 @@
-import {ICompactDashboardProps} from '../components/CompactDashboard/CompactDashboard.Props';
+import { ICompactDashboardProps } from '../components/CompactDashboard/CompactDashboard.Props';
 
-export const classListExample =  {
+export const classListExample = {
     ok: 'green',
     warning: 'yellow',
     critical: 'red',
     offline: 'offline'
 };
 
-export const farms : ICompactDashboardProps = {
+export const farms: ICompactDashboardProps = {
     title: 'Compact dashboard view',
     farms: [
+        {
+            farmId: 'idwewewewewewewewewesdc1',
+            farmName: 'MojaFarma',
+            isCustom: false,
+            sharepointVersion: '14',
+            sharepointVersionIcon: 'icon-SharePoint',
+            configDB: 'myConfigDB',
+            confgiDBIcon: 'icon-EditUser',
+            servers: [
+
+                {
+                    serverId: 'Banana-PC.domena.domena',
+                    serverName: 'Banana-PC1',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Banana-PC.domena.domenaaaa',
+                    serverName: 'Banana-PCB',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jabuka12-PC.domena.domena',
+                    serverName: 'Jabuka-PC2',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Tresnja0-PC.domena.domena1',
+                    serverName: 'Tresnja-PC3',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }, {
+                    serverId: 'Banana-PC000.domena.domena1',
+                    serverName: 'Banana-PCA',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jaabuka-PC.domena.domena1',
+                    serverName: 'Jabuka-PCB',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Trresnja-PC.domena.domena',
+                    serverName: 'Tresnja-PCC',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }, {
+                    serverId: 'Banana-PC.domena.domena12',
+                    serverName: 'Banana-PC',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jabuka-PC.domena.domena12',
+                    serverName: 'Jabuka-PC',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Tresnja-PC.domena.domena2',
+                    serverName: 'Tresnja-PC',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Banana-PC.domena.domenawww',
+                    serverName: 'Banana-PC1',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Banana-PC.domena.domenaaaawwww',
+                    serverName: 'Banana-PCB',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jabuka12-PC.domena.domenawwwwwww',
+                    serverName: 'Jabuka-PC2',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Tresnja0-PC.domena.domena1wwwwwwwww',
+                    serverName: 'Tresnja-PC3',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }, {
+                    serverId: 'Banana-PC000.domena.domena1wwwwwwwwwwwwwwwwwwww',
+                    serverName: 'Banana-PCA',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jaabuka-PC.domena.domena1wwwwwwwwwwwwwwwwwwwwwwwwww',
+                    serverName: 'Jabuka-PCB',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Trresnja-PC.domena.domenwwwwwwwwwa',
+                    serverName: 'Tresnja-PCC',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }, {
+                    serverId: 'Banana-PC.domena.domenwwwwwwwwwwa12',
+                    serverName: 'Banana-PC',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jabuka-PC.domena.domewwwwwwwwwwwwna12',
+                    serverName: 'Jabuka-PC',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Tresnja-PC.domena.dowwwwwwwwwmena2',
+                    serverName: 'Tresnja-PC',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }
+            ]
+        },
+        {
+            farmId: 'idwewewewe1',
+            farmName: 'MojaFarma',
+            isCustom: false,
+            sharepointVersion: '14',
+            sharepointVersionIcon: 'icon-SharePoint',
+            configDB: 'myConfigDB',
+            confgiDBIcon: 'icon-EditUser',
+            servers: [
+
+                {
+                    serverId: 'Banana-PC.domena.domena',
+                    serverName: 'Banana-PC1',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Banana-PC.domena.domenaaaa',
+                    serverName: 'Banana-PCB',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jabuka12-PC.domena.domena',
+                    serverName: 'Jabuka-PC2',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Tresnja0-PC.domena.domena1',
+                    serverName: 'Tresnja-PC3',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }, {
+                    serverId: 'Banana-PC000.domena.domena1',
+                    serverName: 'Banana-PCA',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jaabuka-PC.domena.domena1',
+                    serverName: 'Jabuka-PCB',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Trresnja-PC.domena.domena',
+                    serverName: 'Tresnja-PCC',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }, {
+                    serverId: 'Banana-PC.domena.domena12',
+                    serverName: 'Banana-PC',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jabuka-PC.domena.domena12',
+                    serverName: 'Jabuka-PC',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Tresnja-PC.domena.domena2',
+                    serverName: 'Tresnja-PC',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }
+            ]
+        },
+        {
+            farmId: 'id2w232321',
+            farmName: 'MojaFarma',
+            isCustom: false,
+            sharepointVersion: '14',
+            sharepointVersionIcon: 'icon-SharePoint',
+            configDB: 'myConfigDB',
+            confgiDBIcon: 'icon-EditUser',
+            servers: [
+                {
+                    serverId: 'Banana-PC.domena.domena12121',
+                    serverName: 'Banana-PC1',
+                    roleList: [],
+                    status: 4,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Banana-PC.domena.domenaaaa1212',
+                    serverName: 'Banana-PCB',
+                    roleList: [],
+                    status: 4,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jabuka12-PC.domena.domena1212',
+                    serverName: 'Jabuka-PC2',
+                    roleList: [],
+                    status: 4,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Banana-PC.domena.domena',
+                    serverName: 'Banana-PC1',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Banana-PC.domena.domenaaaa',
+                    serverName: 'Banana-PCB',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jabuka12-PC.domena.domena',
+                    serverName: 'Jabuka-PC2',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Tresnja0-PC.domena.domena1',
+                    serverName: 'Tresnja-PC3',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }, {
+                    serverId: 'Banana-PC000.domena.domena1',
+                    serverName: 'Banana-PCA',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jaabuka-PC.domena.domena1',
+                    serverName: 'Jabuka-PCB',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Trresnja-PC.domena.domena',
+                    serverName: 'Tresnja-PCC',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }, {
+                    serverId: 'Banana-PC.domena.domena12',
+                    serverName: 'Banana-PC',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jabuka-PC.domena.domena12',
+                    serverName: 'Jabuka-PC',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Tresnja-PC.domena.domena2',
+                    serverName: 'Tresnja-PC',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }
+            ]
+        },
+        {
+            farmId: 'idwewewe1',
+            farmName: 'MojaFarma',
+            isCustom: false,
+            sharepointVersion: '14',
+            sharepointVersionIcon: 'icon-SharePoint',
+            configDB: 'myConfigDB',
+            confgiDBIcon: 'icon-EditUser',
+            servers: [
+                {
+                    serverId: 'Banana-PC.domena.domena12121',
+                    serverName: 'Banana-PC1',
+                    roleList: [],
+                    status: 4,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Banana-PC.domena.domenaaaa1212',
+                    serverName: 'Banana-PCB',
+                    roleList: [],
+                    status: 4,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jabuka12-PC.domena.domena1212',
+                    serverName: 'Jabuka-PC2',
+                    roleList: [],
+                    status: 4,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Banana-PC.domena.domena',
+                    serverName: 'Banana-PC1',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Banana-PC.domena.domenaaaa',
+                    serverName: 'Banana-PCB',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jabuka12-PC.domena.domena',
+                    serverName: 'Jabuka-PC2',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Tresnja0-PC.domena.domena1',
+                    serverName: 'Tresnja-PC3',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }, {
+                    serverId: 'Banana-PC000.domena.domena1',
+                    serverName: 'Banana-PCA',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jaabuka-PC.domena.domena1',
+                    serverName: 'Jabuka-PCB',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Trresnja-PC.domena.domena',
+                    serverName: 'Tresnja-PCC',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }, {
+                    serverId: 'Banana-PC.domena.domena12',
+                    serverName: 'Banana-PC',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jabuka-PC.domena.domena12',
+                    serverName: 'Jabuka-PC',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Tresnja-PC.domena.domena2',
+                    serverName: 'Tresnja-PC',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }
+            ]
+        },
+        {
+            farmId: 'idwewe1',
+            farmName: 'MojaFarma',
+            isCustom: false,
+            sharepointVersion: '14',
+            sharepointVersionIcon: 'icon-SharePoint',
+            configDB: 'myConfigDB',
+            confgiDBIcon: 'icon-EditUser',
+            servers: [
+                {
+                    serverId: 'Banana-PC.domena.domena12121',
+                    serverName: 'Banana-PC1',
+                    roleList: [],
+                    status: 4,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Banana-PC.domena.domenaaaa1212',
+                    serverName: 'Banana-PCB',
+                    roleList: [],
+                    status: 4,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jabuka12-PC.domena.domena1212',
+                    serverName: 'Jabuka-PC2',
+                    roleList: [],
+                    status: 4,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Banana-PC.domena.domena',
+                    serverName: 'Banana-PC1',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Banana-PC.domena.domenaaaa',
+                    serverName: 'Banana-PCB',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jabuka12-PC.domena.domena',
+                    serverName: 'Jabuka-PC2',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Tresnja0-PC.domena.domena1',
+                    serverName: 'Tresnja-PC3',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }, {
+                    serverId: 'Banana-PC000.domena.domena1',
+                    serverName: 'Banana-PCA',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jaabuka-PC.domena.domena1',
+                    serverName: 'Jabuka-PCB',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Trresnja-PC.domena.domena',
+                    serverName: 'Tresnja-PCC',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }, {
+                    serverId: 'Banana-PC.domena.domena12',
+                    serverName: 'Banana-PC',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jabuka-PC.domena.domena12',
+                    serverName: 'Jabuka-PC',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Tresnja-PC.domena.domena2',
+                    serverName: 'Tresnja-PC',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }
+            ]
+        },
+        {
+            farmId: 'id1222',
+            farmName: 'MojaFarma',
+            isCustom: false,
+            sharepointVersion: '14',
+            sharepointVersionIcon: 'icon-SharePoint',
+            configDB: 'myConfigDB',
+            confgiDBIcon: 'icon-EditUser',
+            servers: [
+                {
+                    serverId: 'Banana-PC.domena.domena12121',
+                    serverName: 'Banana-PC1',
+                    roleList: [],
+                    status: 4,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Banana-PC.domena.domenaaaa1212',
+                    serverName: 'Banana-PCB',
+                    roleList: [],
+                    status: 4,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jabuka12-PC.domena.domena1212',
+                    serverName: 'Jabuka-PC2',
+                    roleList: [],
+                    status: 4,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Banana-PC.domena.domena',
+                    serverName: 'Banana-PC1',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Banana-PC.domena.domenaaaa',
+                    serverName: 'Banana-PCB',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jabuka12-PC.domena.domena',
+                    serverName: 'Jabuka-PC2',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Tresnja0-PC.domena.domena1',
+                    serverName: 'Tresnja-PC3',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }, {
+                    serverId: 'Banana-PC000.domena.domena1',
+                    serverName: 'Banana-PCA',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jaabuka-PC.domena.domena1',
+                    serverName: 'Jabuka-PCB',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Trresnja-PC.domena.domena',
+                    serverName: 'Tresnja-PCC',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }, {
+                    serverId: 'Banana-PC.domena.domena12',
+                    serverName: 'Banana-PC',
+                    roleList: [],
+                    status: 0,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Jabuka-PC.domena.domena12',
+                    serverName: 'Jabuka-PC',
+                    roleList: [],
+                    status: 1,
+                    classNameList: classListExample,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                },
+                {
+                    serverId: 'Tresnja-PC.domena.domena2',
+                    serverName: 'Tresnja-PC',
+                    roleList: [],
+                    classNameList: classListExample,
+                    status: 2,
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
+                }
+            ]
+        },
         {
             farmId: 'id1',
             farmName: 'MojaFarma',
@@ -19,59 +811,59 @@ export const farms : ICompactDashboardProps = {
             configDB: 'myConfigDB',
             confgiDBIcon: 'icon-EditUser',
             servers: [
-                 { 
+                {
                     serverId: 'Banana-PC.domena.domena12121',
                     serverName: 'Banana-PC1',
                     roleList: [],
                     status: 4,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 },
-                 { 
+                {
                     serverId: 'Banana-PC.domena.domenaaaa1212',
                     serverName: 'Banana-PCB',
                     roleList: [],
                     status: 4,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 },
                 {
                     serverId: 'Jabuka12-PC.domena.domena1212',
                     serverName: 'Jabuka-PC2',
                     roleList: [],
-                    status: 4, 
+                    status: 4,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 },
-                { 
+                {
                     serverId: 'Banana-PC.domena.domena',
                     serverName: 'Banana-PC1',
                     roleList: [],
                     status: 0,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 },
-                 { 
+                {
                     serverId: 'Banana-PC.domena.domenaaaa',
                     serverName: 'Banana-PCB',
                     roleList: [],
                     status: 0,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 },
                 {
                     serverId: 'Jabuka12-PC.domena.domena',
                     serverName: 'Jabuka-PC2',
                     roleList: [],
-                    status: 1, 
+                    status: 1,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 },
                 {
                     serverId: 'Tresnja0-PC.domena.domena1',
@@ -79,25 +871,25 @@ export const farms : ICompactDashboardProps = {
                     roleList: [],
                     classNameList: classListExample,
                     status: 2,
-                     onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 }, {
                     serverId: 'Banana-PC000.domena.domena1',
                     serverName: 'Banana-PCA',
                     roleList: [],
                     status: 0,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 },
                 {
                     serverId: 'Jaabuka-PC.domena.domena1',
                     serverName: 'Jabuka-PCB',
                     roleList: [],
-                    status: 1, 
+                    status: 1,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 },
                 {
                     serverId: 'Trresnja-PC.domena.domena',
@@ -105,25 +897,25 @@ export const farms : ICompactDashboardProps = {
                     roleList: [],
                     classNameList: classListExample,
                     status: 2,
-                     onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 }, {
                     serverId: 'Banana-PC.domena.domena12',
                     serverName: 'Banana-PC',
                     roleList: [],
                     status: 0,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 },
                 {
                     serverId: 'Jabuka-PC.domena.domena12',
                     serverName: 'Jabuka-PC',
                     roleList: [],
-                    status: 1, 
+                    status: 1,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 },
                 {
                     serverId: 'Tresnja-PC.domena.domena2',
@@ -131,12 +923,12 @@ export const farms : ICompactDashboardProps = {
                     roleList: [],
                     classNameList: classListExample,
                     status: 2,
-                     onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 }
             ]
         },
-         {
+        {
             farmId: 'id2',
             farmName: 'Prva MojaDrugaFarma',
             isCustom: true,
@@ -151,8 +943,8 @@ export const farms : ICompactDashboardProps = {
                     roleList: [],
                     status: 0,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 },
                 {
                     serverId: 'Jabuka-PC.domena.domena',
@@ -160,8 +952,8 @@ export const farms : ICompactDashboardProps = {
                     roleList: [],
                     status: 1,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 },
                 {
                     serverId: 'Tresnja-PC.domena.domena',
@@ -169,11 +961,11 @@ export const farms : ICompactDashboardProps = {
                     roleList: [],
                     status: 2,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 }
             ]
-        },         {
+        }, {
             farmId: 'id23',
             farmName: 'Druga MojaDrugaFarma',
             isCustom: true,
@@ -188,8 +980,8 @@ export const farms : ICompactDashboardProps = {
                     roleList: [],
                     status: 0,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 },
                 {
                     serverId: 'Jabuka-PC.domena.domena',
@@ -197,8 +989,8 @@ export const farms : ICompactDashboardProps = {
                     roleList: [],
                     status: 1,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 },
                 {
                     serverId: 'Tresnja-PC.domena.domenwea',
@@ -206,16 +998,16 @@ export const farms : ICompactDashboardProps = {
                     roleList: [],
                     status: 2,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 }, {
                     serverId: 'Banana-PC.domewewena.domena',
                     serverName: 'Bananawewe-PC',
                     roleList: [],
                     status: 0,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 },
                 {
                     serverId: 'Jabukawewe-PC.domena.domena',
@@ -223,11 +1015,11 @@ export const farms : ICompactDashboardProps = {
                     roleList: [],
                     status: 1,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 }
             ]
-        },         {
+        }, {
             farmId: 'id235',
             farmName: 'Treća MojaDrugaFarma',
             isCustom: true,
@@ -242,8 +1034,8 @@ export const farms : ICompactDashboardProps = {
                     roleList: [],
                     status: 0,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 },
                 {
                     serverId: 'Jabuka-PC.domena.domena',
@@ -251,8 +1043,8 @@ export const farms : ICompactDashboardProps = {
                     roleList: [],
                     status: 1,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 },
                 {
                     serverId: 'Tresnja-PC.domena.domena',
@@ -260,8 +1052,8 @@ export const farms : ICompactDashboardProps = {
                     roleList: [],
                     status: 2,
                     classNameList: classListExample,
-                    onRoleEdit: () => {},
-                    onServerClose: () => {}
+                    onRoleEdit: () => { },
+                    onServerClose: () => { }
                 }
             ]
         }
