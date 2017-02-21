@@ -106,7 +106,7 @@ export class PieChart extends React.Component<IPieChartProps, any> {
         this._focus.select('text.tooltip-text')
             .attr('transform',
             'translate(' + (coordinates[0] - this._radius * 1.5) + ',' + (coordinates[1] - this._radius * (5 / 4)) + ')')
-            .text(d.text);
+            .text(d.data.text);
     }
 
     private calculateClass(d: DataType) {

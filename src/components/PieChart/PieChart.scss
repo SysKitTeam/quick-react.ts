@@ -27,6 +27,7 @@ $font: 'Segoe UI';
 
     .label.title {
         padding: 2px 0px 2px 0px;
+        font-weight: 600;
     }
 
     .disk-usage-ok {
@@ -46,7 +47,7 @@ $font: 'Segoe UI';
     }
 
     .pie-chart-container {
-        display: inline-block;
+        display: block;
 
         svg {
             margin-top: -25px;

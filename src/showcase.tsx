@@ -337,8 +337,8 @@ export class Index extends React.Component<any, any> {
                 <br/>
                 <PieChart text={'Sample text'} 
                         title={'Partition C:'} 
-                        height={240} 
-                        width={240} 
+                        height={160} 
+                        width={160} 
                         data={this.state.pieData} 
                 ></PieChart>
             </div>);
