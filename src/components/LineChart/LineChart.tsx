@@ -47,7 +47,7 @@ export class LineChart extends React.Component<IChartProps, undefined> {
     public render() {
         return (
             <div className={'line-chart-container'} ref="container">
-                {this.props.title}
+                <Label className={'line-chart-title'}>{this.props.title}</Label>
             </div>
         );
     }

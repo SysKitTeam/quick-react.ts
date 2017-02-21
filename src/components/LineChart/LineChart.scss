@@ -19,6 +19,12 @@ $font: 'Segoe UI';
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    
+    .line-chart-title {
+        padding: 0px 0px 0px 0px;
+        margin: 2px 0px 2px 0px;
+        font-size: 16px;
+    }
 
     svg {
         display: block;
