@@ -1,10 +1,11 @@
 import * as React from 'react';
 import * as d3 from 'd3';
-import * as classNames from 'classnames';
+
+import { IProgressBarProps } from './ProgressBar.props';
 
 import './ProgressBar.scss';
 
-export class ProgressBar extends React.Component<any, any> {
+export class ProgressBar extends React.Component<IProgressBarProps, any> {
 
     refs: {
         [key: string]: (Element),
@@ -27,7 +28,7 @@ export class ProgressBar extends React.Component<any, any> {
         const svg = this.createContainer();
         const bar = this.scaleBar();
         this.drawRect(svg);
-        this.drawFilledArea(svg, bar(this.props.data.used));
+        this.drawFilledArea(svg, bar(this.props.data.current));
     }
 
     private createContainer() {
@@ -45,7 +46,7 @@ export class ProgressBar extends React.Component<any, any> {
         d3.select('.progress-filled').remove();
         const baseContainer = d3.select('.progress-bar-container');        
         const bar = this.scaleBar();
-        this.drawFilledArea(d3.select('.g-container'), bar(this.props.data.used));
+        this.drawFilledArea(d3.select('.g-container'), bar(this.props.data.current));
     }
 
     private drawRect(element: any) : void {
@@ -58,7 +59,7 @@ export class ProgressBar extends React.Component<any, any> {
 
     private drawFilledArea(element: any, width: number) {
         element.append('rect')
-            .attr('class', this.className())
+            .attr('class', this.props.progressClass ? this.props.progressClass : 'current-progress')
             .attr('height', this.props.height)
             .attr('width', width)
             .attr('rx', '10');
@@ -68,35 +69,20 @@ export class ProgressBar extends React.Component<any, any> {
         return d3.scaleLinear().domain([0, this.props.data.total]).range([0, (this.props.width - 50)]);
     }
 
-    private getPercentage() : number {
-        return Math.floor((this.props.data.used / this.props.data.total) * 100);
-    }
-
-    private getPercentageString() : string {
-        return this.getPercentage() + '%';
-    }
-
-    private className() {
-        const value = this.getPercentage();
-        return classNames({
-            'progress-filled': true,
-            'progress-normal': (value < 70),
-            'progress-warning': (value >= 70 && value < 90),
-            'progress-critical': (value >= 90)
-        });
-    }
-
     public render() {
         return (
             <div className={'progress-bar-component'}>
                 <div className={'progress-label'}>
-                    RAM
-                    <div className={'help-tip'}>
-                        <p>RAM usage 2948/8192 MB</p>
-                    </div>
+                    {this.props.title}
+                    {
+                        this.props.info &&
+                        <div className={'help-tip'}>
+                            <p>{this.props.info}</p>
+                        </div>
+                    }
                 </div>
                 <div className={'progress-bar-container'} ref={'container'}>
-                    <div width={40}>{this.getPercentageString()}</div>
+                    <div width={40}>{this.props.percentage}</div>
                 </div>
             </div>
         );

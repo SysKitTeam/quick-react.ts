@@ -1,9 +1,7 @@
 @import '../../index.scss';
 
-$progress-baseline: #c7c7c7;
-$progress-normal: #61ae66;
-$progress-warning: #FFC55A;
-$progress-critical: #FF6666;
+$progress-baseline: white;
+$progress-current: #5d5d5d;
 
 $text-color: #5d5d5d;
 
@@ -113,16 +111,8 @@ $text-color: #5d5d5d;
                 fill: $progress-baseline;
             }
 
-            .progress-normal {
-                fill: $progress-normal;
-            }
-
-            .progress-warning {
-                fill: $progress-warning;
-            }
-
-            .progress-critical {
-                fill: $progress-critical;
+            .current-progress {
+                fill: $progress-current;
             }
         }
 
