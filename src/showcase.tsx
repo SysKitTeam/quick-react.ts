@@ -35,7 +35,8 @@ import { DialogFooter } from './components/Dialog/DialogFooter';
 import { StatusBar } from './components/StatusBar/StatusBar';
 import { CheckboxList } from './components/CheckboxList/CheckboxList';
 import { Treeview } from './components/Treeview/Treeview';
-import { elements } from './treeviewElements'
+import { elements } from './treeviewElements';
+
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
@@ -309,13 +310,13 @@ export class Index extends React.Component<any, any> {
                 <br />
                 <Treeview onSelect={this._onCheckboxListChange} showCheckbox={false} items={elements}/>
                 <br />
-                <Treeview onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements} recursive={true}/>
+                <Treeview onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements} recursive={false}/>
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
             </div>);
     };
 
-    private _onTreeviewItemClick(ev, itemId, checked){
+    private _onTreeviewItemClick(ev, itemId, checked) {
         this.setState({treeviewElements : this.state.treeviewElements.map((item) => {
             if (itemId.indexOf(item.id) > -1) {
                 return {id: item.id, text: item.text, parentId: item.parentId, checked: checked};

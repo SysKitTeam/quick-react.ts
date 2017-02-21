@@ -27,4 +27,11 @@
     .treeveiw-parent-item{
         margin-left: -19px;
     }
+    .partial-selected{
+        label:before{
+            content: '\025FC';
+            color: #b9cb34;
+            font-size: 20px;
+        }
+    }
 }

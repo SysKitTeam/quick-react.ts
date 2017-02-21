@@ -34,7 +34,7 @@ export class Treeview extends CommonComponent<ITreeviewProps, void> {
             <div >
                 {parent.map((item, index) => ( !item.parentId &&
                     <div key={index} className={className}>
-                        <TreeviewItem item={item} onChange={onSelect} showCheckbox={showCheckbox} children={item.children}/>
+                        <TreeviewItem item={item} onChange={onSelect} showCheckbox={showCheckbox} children={item.children} recursive={recursive}/>
                     </div>
                 ))}
             </div>
