@@ -14,8 +14,11 @@ export interface IFarm {
 
 export interface ICompactDashboardProps {
   title: string;
+  height?: number;
+  width?: number;
   farms: Array<IFarm>;
   className?: string;
   filter?: string;
+  isVertical?: boolean;
 }
 

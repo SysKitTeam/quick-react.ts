@@ -21,20 +21,16 @@ $compact-dashboard-background: #f4f4f4;
         
 }
 .compact-dashboard-container.vertical{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-content: flex-start;
+    width: 100%;
     .farm{
-        max-width: 250px;
+        max-width: 350px;
         display: block;
         margin: auto;
         margin-top: 6px;
-        margin-left: 15px;
+        margin-left: 15px; 
         margin-bottom: 6px;
         .compact-server-container{
-                max-width: 200px;
+                max-width: 250px;
         }
     }
 }

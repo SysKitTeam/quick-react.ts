@@ -1,12 +1,18 @@
+
 import * as React from 'react';
 import { ICompactDashboardProps, IFarm } from './CompactDashboard.Props';
 import { CompactServer } from '../CompactServer/CompactServer';
 import { Group } from '../Group/Group';
 import { GroupHeader } from '../GroupHeader/GroupHeader';
-import { List, AutoSizer } from 'react-virtualized';
+const List = require('react-virtualized').List;
+const AutoSizer = require('react-virtualized').AutoSizer;
+const Collection = require('react-virtualized').Collection;
 import * as classNames from 'classnames';
 import { autobind } from '../../utilities/autobind';
 import './CompactDashboard.scss';
+
+const GUTTER_SIZE = 3;
+const CELL_WIDTH = 350;
 
 function sortFarmServers(ob1: { status: number, serverName: string }, ob2: { status: number, serverName: string }) {
     if (ob1.status > ob2.status) {
@@ -15,12 +21,11 @@ function sortFarmServers(ob1: { status: number, serverName: string }, ob2: { sta
         return -1;
     }
 
-    // Else go to the 2nd item
     if (ob1.serverName < ob2.serverName) {
         return -1;
     } else if (ob1.serverName > ob2.serverName) {
         return 1;
-    } else { // nothing to split them
+    } else {
         return 0;
     }
 }
@@ -38,43 +43,113 @@ function sortFarms(ob1: { farmName: string }, ob2: { farmName: string }) {
 
 export class CompactDashboard extends React.Component<ICompactDashboardProps, any> {
 
+
     constructor(props?: ICompactDashboardProps) {
         super(props);
+        this.state = { columnYMap: [] };
     }
+
+    @autobind
+    private componentDidUpdate(prevProps: ICompactDashboardProps, prevState) {
+        if (this.props.isVertical === false && prevProps.isVertical === true) {
+            this.setState({ columnYMap: [] });
+        }
+    }
+
 
     public render() {
         let {title, farms} = this.props;
         let classname = classNames({ [this.props.className]: this.props.className !== undefined });
-
         return (
             <div className={classname}>
-                <div className="compact-dashboard-container">
-                    {
-                        <AutoSizer disableHeight>
-                            {({ width }) => (
-                                <List
-                                    height={400}
-                                    overscanRowCount={1}
-                                    rowCount={farms.length}
-                                    rowHeight={250}
-                                    rowRenderer={this._renderRow}
-                                    width={width}
-                                    />
-                            )}
-                        </AutoSizer>
+                {
+                    this.props.isVertical &&
+                    <div className="compact-dashboard-container vertical">
+                        {
+                            <AutoSizer  >
+                                {({ width, height}) => (
+                                    <Collection
 
-                    }
-                </div>
+                                        filt={this.props.filter}
+                                        cellCount={this.props.farms.length}
+                                        cellRenderer={this._renderRow}
+                                        cellSizeAndPositionGetter={function (index) {
+                                            return this.cellSizeAndPositionGetter(width, index);
+                                        }.bind(this)}
+                                        height={height}
+                                        width={width}
+                                        />
+                                )}
+                            </AutoSizer>
+                        }
+                    </div>
+                }
+                {
+                    !this.props.isVertical &&
+                    <div className="compact-dashboard-container ">
+                        {
+                            <AutoSizer  >
+                                {({ width, height }) => (
+                                    <List
+                                        height={height}
+                                        filt={this.props.filter}
+                                        rowCount={farms.length}
+                                        rowHeight={function (index) {
+                                            return this.calculateRowHeight(width, index);
+                                        }.bind(this)}
+                                        rowRenderer={this._renderRow}
+                                        width={width}
+                                        />
+                                )}
+                            </AutoSizer>
+
+                        }
+                    </div>
+                }
+
             </div>
         );
     }
 
     @autobind
+    private calculateRowHeight(width, obj: { index: number }): number {
+        let numberPerRow = Math.floor(width / 200.0);
+
+        let farmServerCount = this.getRow(obj.index).servers.length;
+        let serverHeight = (Math.floor(farmServerCount / numberPerRow) + (farmServerCount % numberPerRow === 0 ? 0 : 1)) * 60;
+        return serverHeight + 140;
+    }
+
+    @autobind
+    private cellSizeAndPositionGetter(width, obj: { index: number }) {
+
+        const columnCount = Math.floor(1800 / (CELL_WIDTH + GUTTER_SIZE));
+
+        const columnPosition = obj.index % (columnCount || 1);
+
+        const height = 100 + this.props.farms[obj.index].servers.length * 70;
+        const cellWidth = CELL_WIDTH;
+        const x = columnPosition * (GUTTER_SIZE + cellWidth);
+        const y = this.state.columnYMap[columnPosition] || 0;
+
+        this.state.columnYMap[columnPosition] = y + height + GUTTER_SIZE;
+
+        return {
+            height,
+            width: cellWidth,
+            x,
+            y
+        };
+    }
+
+    @autobind
     private getRow(index: number): IFarm {
         const {farms} = this.props;
-        
+
         return farms[index];
     }
+
+
 
     @autobind
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
@@ -82,7 +157,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
         const farm = this.getRow(index);
 
         return (
-            <div style={style}>
+            <div style={style} key={index}>
                 <Group filter={this.props.filter} className={'farm-name-inside'} id={farm.farmId} name={farm.farmName} key={farm.farmId}>
                     <GroupHeader sharepointIcon={farm.sharepointVersionIcon} sharepointVersion={farm.sharepointVersion} isCustomFarm={farm.isCustom} configDB={farm.configDB} configDBIcon={farm.confgiDBIcon} />
                     {

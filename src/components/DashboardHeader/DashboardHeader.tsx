@@ -1,11 +1,11 @@
 import * as React from 'react';
-import {IDashboardHeaderProps} from './DashboardHeader.Props';
-import {Search} from '../Search/Search';
+import { IDashboardHeaderProps } from './DashboardHeader.Props';
+import { Search } from '../Search/Search';
 import { Pivot } from '../Pivot/Pivot';
 import { PivotItem } from '../Pivot/PivotItem';
 import { Label } from '../Label/Label';
 import './DashboardHeader.scss';
- 
+
 
 export class DashboardHeader extends React.Component<IDashboardHeaderProps, any> {
 
@@ -13,16 +13,16 @@ export class DashboardHeader extends React.Component<IDashboardHeaderProps, any>
         super(props);
     }
     render() {
-        return(
+        return (
             <div className="dashboard-header-container">
-                <span className="dashboard-header-title">{this.props.title}</span> 
-                <Search value={this.props.filter} />
-                <div style={{display:'inline-block'}}>&nbsp;</div>
-                
-                <Pivot  onLinkClick={this.props.onViewChange}>
-                    <PivotItem linkText={'Compact Horizontal'} >                        
+                <span className="dashboard-header-title">{this.props.title}</span>
+                <Search onSearch={this.props.onSearch} onChange={this.props.onChanged} value={this.props.filter} />
+                <div style={{ display: 'inline-block' }}>&nbsp;</div>
+
+                <Pivot onLinkClick={this.props.onViewChange}>
+                    <PivotItem linkText={'Compact Horizontal'} >
                     </PivotItem>
-                    <PivotItem linkText={'Compact Vertical'}>                        
+                    <PivotItem linkText={'Compact Vertical'}>
                     </PivotItem>
                     <PivotItem linkText={'Tiles'} >
                     </PivotItem>
