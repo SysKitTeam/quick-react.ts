@@ -16,6 +16,13 @@ export class PieChart extends React.Component<IPieChartProps, any> {
         container: HTMLInputElement
     };
 
+    private margin = {
+        top: 10,
+        right: 10,
+        bottom: 10,
+        left: 10
+    };
+
     private _radius: any;
     private _focus: any;
     private _arc: any;
@@ -40,14 +47,16 @@ export class PieChart extends React.Component<IPieChartProps, any> {
 
     public render() {
         return (<div className={'pie-chart-component'}>
-            <Label>{this.props.title}</Label>
-            <Label>{this.props.text}</Label>
+            <div>
+                <Label className={'title'}>{this.props.title}</Label>
+                <Label className={'text'}>{this.props.text}</Label>
+            </div>
             <div className={'pie-chart-container'} ref={'container'}></div>
         </div>);
     }
 
     private draw() {
-        this._radius = this.props.width / 4;
+        this._radius = (this.props.width - 2) / 4;
         const svg = this.createContainer();
         const pie = this.createPie();
         const arc = this.createArc();
@@ -109,8 +118,8 @@ export class PieChart extends React.Component<IPieChartProps, any> {
     private createContainer() {
         return d3.select(this.refs.container).append('svg')
             .attr('class', 'svg-container')
-            .attr('width', this.props.width)
-            .attr('height', this.props.height)
+            .attr('width', this.props.width - 2)
+            .attr('height', this.props.height - 20)
             .append('g')
             .attr('class', 'pie-chart-g')
             .attr('transform', 'translate(' + (this.props.width / 2) + ',' + (this.props.height / 2) + ')');

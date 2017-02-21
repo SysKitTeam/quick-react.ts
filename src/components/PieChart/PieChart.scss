@@ -20,6 +20,15 @@ $font: 'Segoe UI';
         font-size: 13px;
     }
 
+    .label.text {
+        padding-bottom: 2px;
+        font-size: 12px;
+    }
+
+    .label.title {
+        padding: 2px 0px 2px 0px;
+    }
+
     .disk-usage-ok {
         fill: $ok;
     }
