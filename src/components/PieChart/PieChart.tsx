@@ -47,12 +47,10 @@ export class PieChart extends React.Component<IPieChartProps, any> {
 
     public render() {
         return (<div className={'pie-chart-component'}>
-            <div>
-                <Label className={'title'}>{this.props.title}</Label>
-                <Label className={'text'}>{this.props.text}</Label>
-            </div>
-            <div className={'pie-chart-container'} ref={'container'}></div>
-        </div>);
+                    <Label className={'title'}>{this.props.title}</Label>
+                    <Label className={'text'}>{this.props.text}</Label>
+                    <div className={'pie-chart-container'} ref={'container'}></div>
+                </div>);
     }
 
     private draw() {
