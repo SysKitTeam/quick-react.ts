@@ -36,16 +36,23 @@ import { StatusBar } from './components/StatusBar/StatusBar';
 import { CheckboxList } from './components/CheckboxList/CheckboxList';
 import { Treeview } from './components/Treeview/Treeview';
 import { elements } from './treeviewElements';
+import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
+import { LineChart } from './components/LineChart/LineChart';
+import { DataGenerator } from './utilities/DataGenerator';
 
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
+        const generator = new DataGenerator();
         this.state = {
             showDialog: false,
-            treeviewElements: elements
+            treeviewElements: elements,
+            selector: true,
+            data: generator.generateValues()
         };
-    }
 
+        setInterval(() => this.setState({data: generator.generateValues()}), 5000);
+    }
     public render() {
         return (
             <div>
@@ -283,6 +290,8 @@ export class Index extends React.Component<any, any> {
                     label="Pick one">
                 </ChoiceGroup>
                 <br />
+                <ToggleSwitch onChange={this._onToggle} />
+                <br/>
                 <Slider label={'This is slider:'} min={0} max={50} step={5} defaultValue={20} showValue={true}></Slider>
                 <br />
                 <Label>I'm a Label</Label>
@@ -313,6 +322,13 @@ export class Index extends React.Component<any, any> {
                 <Treeview onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements} recursive={false}/>
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
+                <br />
+                <LineChart 
+                    title={'CPU USAGE'}
+                    data={this.state.data} 
+                    width={330} 
+                    height={200} 
+                ></LineChart>
             </div>);
     };
 
@@ -329,6 +345,13 @@ export class Index extends React.Component<any, any> {
     }
 
     private _onCheckboxListChange(ev, itemId, checked) {
+        console.log(checked);
+    }
+    private _onToggle(checked){
+        console.log(checked);
+    }
+
+    private _onTreeViewChange(ev, itemId, checked) {
         console.log(itemId + ':' + checked);
     }
     
