@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as d3 from 'd3';
-
+import * as classNames from 'classnames';
 import { Label } from '../Label/Label';
-
 import { IPieChartProps } from './PieChart.props';
+import { IPieChartStatus } from './PieChart.props';
 
 export type DataType = { label: string, value: number };
 
@@ -88,7 +88,6 @@ export class PieChart extends React.Component<IPieChartProps, any> {
     }
 
     private showTooltip(d: any) {
-        console.log(d);
         const coordinates = this._arc.centroid(d);
 
         this._focus.style('display', 'block');
@@ -109,9 +108,28 @@ export class PieChart extends React.Component<IPieChartProps, any> {
 
     private calculateClass(d: DataType) {
         if (d.label === 'free') { return 'disk-usage-free'; }
-        if (d.value < 70) { return 'disk-usage-ok'; }
-        if (d.value > 90) { return 'disk-usage-error'; }
-        return 'disk-usage-warning';
+        
+        let className;
+
+        if (this.props.statusInterval) {
+            const okInterval = this.props.statusInterval.filter((d) => d.status === 'ok')[0];
+            const warningInterval = this.props.statusInterval.filter((d) => d.status === 'warning')[0];
+            const criticalInterval = this.props.statusInterval.filter((d) => d.status === 'critical')[0];
+
+            className = classNames({
+                'disk-usage-ok': d.value < okInterval.to && d.value > okInterval.from,
+                'disk-usage-critical': d.value < warningInterval.to && d.value > warningInterval.from,
+                'disk-usage-warning' : d.value < criticalInterval.to && d.value > criticalInterval.from
+            });
+        }
+
+        className = classNames({
+            'disk-usage-ok': d.value < 70,
+            'disk-usage-critical': d.value > 90,
+            'disk-usage-warning' : d.value < 90 && d.value > 70
+        });
+
+        return className;
     }
 
     private createContainer() {

@@ -16,5 +16,5 @@ export interface IPieChartData {
 export interface IPieChartStatus {
     from: number;
     to: number;
-    status: string;
+    status: string; // ok, warning, critical
 }
