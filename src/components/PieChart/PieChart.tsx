@@ -3,9 +3,13 @@ import * as d3 from 'd3';
 import * as classNames from 'classnames';
 import { Label } from '../Label/Label';
 import { IPieChartProps } from './PieChart.props';
-import { IPieChartStatus } from './PieChart.props';
 
-export type DataType = { label: string, value: number };
+export type DataType = { 
+    label: string, 
+    value: number,
+    class?: string,
+    text?: string
+};
 
 import './PieChart.scss';
 
@@ -58,6 +62,7 @@ export class PieChart extends React.Component<IPieChartProps, any> {
         const svg = this.createContainer();
         const pie = this.createPie();
         const arc = this.createArc();
+        const color = this.createColorPallette();
 
         let g = svg.selectAll('.arc')
             .data(pie(this.props.data))
@@ -66,7 +71,8 @@ export class PieChart extends React.Component<IPieChartProps, any> {
             .attr('class', 'arc');
 
         g.append('path').attr('d', (arc as any))
-            .attr('class', (d) => this.calculateClass(d.data));
+            .attr('class', (d) => (d.data.class === undefined) ? d.data.class : '.arc-path')
+            .style('fill', (d) => color(d.data.label));
 
         g = svg.selectAll('.arc-text')
             .data(pie(this.props.data))
@@ -104,32 +110,6 @@ export class PieChart extends React.Component<IPieChartProps, any> {
             .attr('transform',
             'translate(' + (coordinates[0] - this._radius * 1.5) + ',' + (coordinates[1] - this._radius * (5 / 4)) + ')')
             .text(d.data.text);
-    }
-
-    private calculateClass(d: DataType) {
-        if (d.label === 'free') { return 'disk-usage-free'; }
-        
-        let className;
-
-        if (this.props.statusInterval) {
-            const okInterval = this.props.statusInterval.filter((d) => d.status === 'ok')[0];
-            const warningInterval = this.props.statusInterval.filter((d) => d.status === 'warning')[0];
-            const criticalInterval = this.props.statusInterval.filter((d) => d.status === 'critical')[0];
-
-            className = classNames({
-                'disk-usage-ok': d.value < okInterval.to && d.value > okInterval.from,
-                'disk-usage-critical': d.value < warningInterval.to && d.value > warningInterval.from,
-                'disk-usage-warning' : d.value < criticalInterval.to && d.value > criticalInterval.from
-            });
-        }
-
-        className = classNames({
-            'disk-usage-ok': d.value < 70,
-            'disk-usage-critical': d.value > 90,
-            'disk-usage-warning' : d.value < 90 && d.value > 70
-        });
-
-        return className;
     }
 
     private createContainer() {
@@ -191,5 +171,9 @@ export class PieChart extends React.Component<IPieChartProps, any> {
 
     private createPie() {
         return d3.pie<DataType>().sort(null).value((d): any => d.value);
+    }
+
+    private createColorPallette() {
+        return d3.scaleOrdinal(d3.schemeCategory10);
     }
 }

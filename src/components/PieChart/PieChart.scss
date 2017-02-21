@@ -1,12 +1,8 @@
 @import '../../index.scss';
 
-$error: #FF6666;
-$warning: #D7AA3C;
-$ok: #60BD68 ;
 $normal: #657386 ;
 
 $font: 'Segoe UI';
-
 
 .pie-chart-component {
     display: inline-block;
@@ -28,22 +24,6 @@ $font: 'Segoe UI';
     .label.title {
         padding: 2px 0px 2px 0px;
         font-weight: 600;
-    }
-
-    .disk-usage-ok {
-        fill: $ok;
-    }
-
-    .disk-usage-critical {
-        fill: $error;
-    }
-
-    .disk-usage-warning {
-        fill: $warning;
-    }
-
-    .disk-usage-free {
-        fill: $normal;
     }
 
     .pie-chart-container {
