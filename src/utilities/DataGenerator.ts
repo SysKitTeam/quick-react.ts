@@ -32,7 +32,7 @@ export class DataGenerator {
 
     private pushData(time: Date, value: number, data: any[]) : any[] {
         data.push({
-            'key': time,
+            'argument': time,
             'value': value
         });
 

@@ -1,4 +1,4 @@
-export interface IChartProps {
+export interface ILineChartProps {
     title: string;
     width: number;
     height: number;

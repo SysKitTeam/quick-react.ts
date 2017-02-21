@@ -2,13 +2,13 @@ import * as React from 'react';
 import * as d3 from 'd3';
 
 import { Label } from '../Label/Label';
-import { IChartProps } from './LineChart.props';
+import { ILineChartProps } from './LineChart.props';
 
 import './LineChart.scss';
 
 export type DataType = {argument: Date | number, value: number};
 
-export class LineChart extends React.Component<IChartProps, undefined> {
+export class LineChart extends React.Component<ILineChartProps, undefined> {
 
     private _focus: any;
     private margin: any = {
@@ -32,7 +32,7 @@ export class LineChart extends React.Component<IChartProps, undefined> {
         container: (HTMLInputElement);
     };
 
-    constructor(props: IChartProps) {
+    constructor(props: ILineChartProps) {
         super(props);
     }
 
