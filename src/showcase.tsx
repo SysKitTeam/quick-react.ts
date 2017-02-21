@@ -40,7 +40,7 @@ import {CompactServer} from './components/CompactServer/CompactServer';
 import {DashboardHeader} from './components/DashboardHeader/DashboardHeader';
 import {Dashboard} from './components/Dashboard/Dashboard';
 import {farms, classListExample} from './mockData/farms';
-import { ServerTile } from './components/ServerTile/ServerTile';
+import { ServerDetails } from './components/ServerDetails/ServerDetails';
 
 export class Index extends React.Component<any, any> {
     constructor() {
@@ -336,7 +336,7 @@ export class Index extends React.Component<any, any> {
                 <Dashboard farms={farms} filter={''} title={farms.title} activeView={0} />
 
                 <br />
-                <ServerTile serverStatus='OK'
+                <ServerDetails serverStatus='OK'
                     headerData={{serverName: 'ServerName123456', 
                                 fqdmServerName: 'ServerName123456.companylocal',
                                 numberOfUsers: 3432,
@@ -348,7 +348,7 @@ export class Index extends React.Component<any, any> {
                     memoryData={{status: 'Warning', memoryUsage: '7 GB', committedMemory: '7GB/10GB (70%)'}}
                     diskData={{status: 'OK', currentRWSpeed: '0,1 MB/s', rwSpeedsPerPartition: [this.state.cpu, '50.10 kB/s', '23.47 kB/s']}}
                     networkData={{status: 'OK', currentSpeed: '0,1 Mbps', speedsPerInterface: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps']}}
-                ></ServerTile>
+                ></ServerDetails>
             </div>);
     };
 
