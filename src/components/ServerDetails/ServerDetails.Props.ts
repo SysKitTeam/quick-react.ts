@@ -35,17 +35,20 @@ export interface ICpuData {
 export interface IMemoryData {
     status: string;
     memoryUsage: string;
+    memoryUsageUnit: string;
     committedMemory: string;
 }
 
 export interface IDiskData {
     status: string;
     currentRWSpeed: string;
+    rwSpeedUnit: string;
     rwSpeedsPerPartition: Array<string>;
 }
 
 export interface INetworkData {
     status: string;
     currentSpeed: string;
+    currentSpeedUnit: string;
     speedsPerInterface: Array<string>;
 }

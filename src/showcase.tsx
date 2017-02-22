@@ -42,7 +42,7 @@ export class Index extends React.Component<any, any> {
         this.state = {
             showDialog: false,
             selector: true,
-            cpu: '74%'
+            cpu: '74'
         };
     }
 
@@ -320,7 +320,7 @@ export class Index extends React.Component<any, any> {
                 <ServerDetails 
                     serverStatus={'OK'}
                     hasCloseButton={true}
-                    serverName={'ServerName123456'}
+                    serverName={'SP2015-Martinasbgasdfadsbff'}
                     fqdmServerName={'ServerName123456.companylocal'}
                     numberOfUsers={'3432'}
                     serverType={'Windows Server 2008'}
@@ -332,9 +332,9 @@ export class Index extends React.Component<any, any> {
                                     {roleName: 'Something', roleIcon: 'icon-User'}]}
                     headerDiskData={{status: 'Error', disksInfo: ['C: 84 / 249 (30%)', 'D: 84 / 249 (30%)']}}
                     cpuData={{status: 'Error', cpuUtilization: this.state.cpu}}
-                    memoryData={{status: 'Warning', memoryUsage: '7 GB', committedMemory: '7GB/10GB (70%)'}}
-                    diskData={{status: 'OK', currentRWSpeed: '0,1 MB/s', rwSpeedsPerPartition: [this.state.cpu, '50.10 kB/s', '23.47 kB/s']}}
-                    networkData={{status: 'OK', currentSpeed: '0,1 Mbps', speedsPerInterface: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps']}}
+                    memoryData={{status: 'Warning', memoryUsage: '7', memoryUsageUnit: 'GB', committedMemory: '7GB/10GB (70%)'}}
+                    diskData={{status: 'OK', currentRWSpeed: '0,1', rwSpeedUnit: 'MB/s', rwSpeedsPerPartition: [this.state.cpu, '50.10 kB/s', '23.47 kB/s']}}
+                    networkData={{status: 'OK', currentSpeed: '0,1', currentSpeedUnit:'Mbps', speedsPerInterface: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps']}}
                 ></ServerDetails>
             </div>);
     };

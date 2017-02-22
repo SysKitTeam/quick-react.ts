@@ -16,7 +16,7 @@ export class ServerDetails extends React.PureComponent<IServerDetailsProps, any>
         return (
             <div className={'server-details'}>
                 <div className={'server-details-header'}>
-                    <Label className="server-name" title={this.props.fqdmServerName}>{this.props.serverName}</Label>
+                    <Label className="server-name" title={this.props.fqdmServerName}>{this._checkNameLen(this.props.serverName)}</Label>
                     <Icon className="disk-icon" iconName={'icon-LoadWithErrors'} title={'Disks\n' + this._createTooltipText(this.props.headerDiskData.disksInfo)}></Icon>
                     { this.props.numberOfUsers && 
                         <Icon data-users={this.props.numberOfUsers}
@@ -33,32 +33,39 @@ export class ServerDetails extends React.PureComponent<IServerDetailsProps, any>
                 {this.props.children}
                 <div className={'counters-container'}>
                 <div className={'tile'}>
-                    CPU
+                    <p>CPU</p>
                     <Label>{this.props.cpuData.cpuUtilization}</Label>
+                    <Label>%</Label>
                 </div>
-                <div className={'tile'} 
-                        title={this.props.memoryData.committedMemory}>
-                    Memory
+                <div className={'tile'} title={this.props.memoryData.committedMemory}>
+                    <p>Memory</p>
                     <Label>{this.props.memoryData.memoryUsage}</Label>
+                    <Label>{this.props.memoryData.memoryUsageUnit}</Label>
                 </div>
-                <div className={'tile'} 
-                        title={this._createTooltipText(this.props.diskData.rwSpeedsPerPartition)}>
-                    Disk
+                <div className={'tile'} title={this._createTooltipText(this.props.diskData.rwSpeedsPerPartition)}>
+                    <p>Disk</p>
                     <Label>{this.props.diskData.currentRWSpeed}</Label>
+                    <Label>{this.props.diskData.rwSpeedUnit}</Label>
                 </div>
-                <div className={'tile'} 
-                        title={this._createTooltipText(this.props.networkData.speedsPerInterface)}>
-                    Network
+                <div className={'tile'} title={this._createTooltipText(this.props.networkData.speedsPerInterface)}>
+                    <p>Network</p>
                     <Label>{this.props.networkData.currentSpeed}</Label>
+                    <Label>{this.props.networkData.currentSpeedUnit}</Label>
                 </div>
                 </div>
             </div>
         );
     }
 
-    private _createList(arr: string[]) : JSX.Element {
-        const items = arr.map((data: string) => <li><Label className={'tooltip-label'}>{data}</Label></li>);
-        return <ul>{items}</ul>;
+    private _checkNameLen(name: string) : string {
+        if (name.length > 15) {
+            if (name.indexOf('.') !== -1 && name.indexOf('.') < 16) {
+                name = name.substr(0, name.indexOf('.') + 1);
+            } else {
+                name = name.substr(0, 16) + '...';
+            }                
+        }
+        return name;
     }
 
     private _createTooltipText(arr: string[]) : string {

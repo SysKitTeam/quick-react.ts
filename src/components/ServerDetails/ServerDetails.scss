@@ -3,7 +3,7 @@
 $tile-height: 220px;
 $tile-width: 280px;
 $separator-color: white;
-$background-color: #eee;
+$background-color: #e8e9ef;
 
 .server-details {
     width: $tile-width;
@@ -54,12 +54,17 @@ $background-color: #eee;
         .tile {
             width: calc(45% - 11px);
             height: calc(35% - 1px);
-            text-align: center;
-            color: #a9a9a9;
-            font-size: 12px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: inline-block;
             padding-left: 10px;
+            text-align: center;
+
+            p {
+                text-align: center;
+                color: #a9a9a9;
+                font-size: 12px;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 2px 0px 2px 0px;
+            }
 
             &:nth-child(odd) {
                 border-right: 1px solid $separator-color;
@@ -71,8 +76,15 @@ $background-color: #eee;
             }
 
             .label {
+                display: inline-block;
+            }
+
+            .label:nth-child(2) {
                 font-size: 24px;
-                text-align: center;
+            }
+
+            .label:nth-child(3) {
+                font-size: 14px;
             }
         }
     }
