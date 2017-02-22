@@ -41,15 +41,23 @@ import {DashboardHeader} from './components/DashboardHeader/DashboardHeader';
 import {Dashboard} from './components/Dashboard/Dashboard';
 import {farms, classListExample} from './mockData/farms';
 import { ServerDetails } from './components/ServerDetails/ServerDetails';
+import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
+import { LineChart } from './components/LineChart/LineChart';
+
+import { DataGenerator } from './utilities/DataGenerator';
 
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
+        const generator = new DataGenerator();
         this.state = {
             showDialog: false,
             selector: true,
-            cpu: '74%'
+            cpu: '74%',
+            data: generator.generateValues()
         };
+        
+        setInterval(() => this.setState({data: generator.generateValues()}), 5000);
     }
 
     componentDidMount() {
@@ -307,6 +315,8 @@ export class Index extends React.Component<any, any> {
                     label="Pick one">
                 </ChoiceGroup>
                 <br />
+                <ToggleSwitch onChange={this._onToggle} />
+                <br/>
                 <Slider label={'This is slider:'} min={0} max={50} step={5} defaultValue={20} showValue={true}></Slider>
                 <br />
                 <Label>I'm a Label</Label>
@@ -349,6 +359,13 @@ export class Index extends React.Component<any, any> {
                     diskData={{status: 'OK', currentRWSpeed: '0,1 MB/s', rwSpeedsPerPartition: [this.state.cpu, '50.10 kB/s', '23.47 kB/s']}}
                     networkData={{status: 'OK', currentSpeed: '0,1 Mbps', speedsPerInterface: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps']}}
                 ></ServerDetails>
+                <br />
+                <LineChart 
+                    title={'CPU USAGE'}
+                    data={this.state.data} 
+                    width={330} 
+                    height={200} 
+                ></LineChart>
             </div>);
     };
 
@@ -358,6 +375,10 @@ export class Index extends React.Component<any, any> {
     
     private _onServerCloseCompactServer(serverId){
             console.log("Clicked on closing server " + serverId);        
+
+    }
+    private _onToggle(checked){
+        console.log(checked);
     }
 
     private _onTreeViewChange(ev, itemId, checked) {

@@ -18,7 +18,6 @@ import './TagContainer.scss';
                 }
                 return current.display;
             }, '');
-            console.log(tags.length, tags)
         }
         
         return (

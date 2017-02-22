@@ -8,7 +8,7 @@ export const classListExample = {
 };
 // 
 
-let roleListFarms = [{display: 'WPF', iconName: 'icon-Add'}, {display: 'Search', iconName: 'icon-Alert'}];
+let roleListFarms = []; // [{display: 'WPF', iconName: 'icon-Add'}, {display: 'Search', iconName: 'icon-Alert'}];
 export const farms: ICompactDashboardProps = {
     title: 'Compact dashboard view',
     farms: [
@@ -25,7 +25,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domena',
                     serverName: 'Banana-PC1',
-                    roleList: [{display: 'WPF', iconName: 'icon-Add'}, {display: 'Search', iconName: 'icon-Alert'}, {display: 'W1PF', iconName: 'icon-Add'}, {display: 'S1arch', iconName: 'icon-Alert'}, {display: 'S1awewerch', iconName: 'icon-Alert'}],
+                    roleList: [], // [{display: 'WPF', iconName: 'icon-Add'}, {display: 'Search', iconName: 'icon-Alert'}, {display: 'W1PF', iconName: 'icon-Add'}, {display: 'S1arch', iconName: 'icon-Alert'}, {display: 'S1awewerch', iconName: 'icon-Alert'}],
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -34,7 +34,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domenaaaa',
                     serverName: 'Banana-PCB',
-                    roleList: [{display: 'assssssssWPF', iconName: 'icon-Add'}, {display: 'Searaasasasasch', iconName: 'icon-Alert'}, {display: 'WP1FAaaaaaA', iconName: 'icon-Add'}, {display: 'BLA', iconName: 'icon-Add'}],
+                    roleList: [], // [{display: 'assssssssWPF', iconName: 'icon-Add'}, {display: 'Searaasasasasch', iconName: 'icon-Alert'}, {display: 'WP1FAaaaaaA', iconName: 'icon-Add'}, {display: 'BLA', iconName: 'icon-Add'}],
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
