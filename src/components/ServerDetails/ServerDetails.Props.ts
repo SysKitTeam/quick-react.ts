@@ -1,29 +1,26 @@
 export interface IServerDetailsProps {
     serverStatus: string;
-    networkData: INetworkData;
+    serverName: string;
+    serverType: string;
+    serverTypeIcon: string;
+    serverRoles: Array<IServerRole>;
+    fqdmServerName: string;
+    numberOfUsers?: string;
+    headerDiskData: IHeaderDiskData;
     diskData: IDiskData;
-    memoryData: IMemoryData;
-    headerData: IHeaderData;
     cpuData: ICpuData;
+    networkData: INetworkData;
+    memoryData: IMemoryData;
 }
 
-export interface IHeaderData {
-    serverName: string;
-    fqdmServerName: string;
-    diskData: IHeaderDiskData;
-    numberOfUsers?: number;
+export interface IServerRole{
+    roleName: string;
+    roleIcon: string;
 }
 
 export interface IHeaderDiskData {
     status: string;
-    disks: IDiskDetails[];
-}
-
-export interface IDiskDetails {
-    driveLetter: string;
-    sizeInUse: string;
-    totalSize: string;
-    filledPercentage: string;
+    disksInfo: Array<string>;
 }
 
 export interface ICpuData {
@@ -40,12 +37,11 @@ export interface IMemoryData {
 export interface IDiskData {
     status: string;
     currentRWSpeed: string;
-    rwSpeedsPerPartition: string[];
+    rwSpeedsPerPartition: Array<string>;
 }
 
 export interface INetworkData {
     status: string;
     currentSpeed: string;
-    speedsPerInterface: string[];
+    speedsPerInterface: Array<string>;
 }
-

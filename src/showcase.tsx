@@ -34,7 +34,7 @@ import { Dialog } from './components/Dialog/Dialog';
 import { DialogFooter } from './components/Dialog/DialogFooter';
 import { StatusBar } from './components/StatusBar/StatusBar';
 import { Treeview } from './components/Treeview/Treeview';
-import { ServerTile } from './components/ServerTile/ServerTile';
+import { ServerDetails } from './components/ServerDetails/ServerDetails';
 
 export class Index extends React.Component<any, any> {
     constructor() {
@@ -317,19 +317,24 @@ export class Index extends React.Component<any, any> {
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
                 <br />
-                <ServerTile serverStatus='OK'
-                    headerData={{serverName: 'ServerName123456', 
-                                fqdmServerName: 'ServerName123456.companylocal',
-                                numberOfUsers: 3432,
-                                diskData: {status: 'Error',
-                                            disks: [
-                                                {driveLetter: 'C:', sizeInUse: '84', totalSize: '249', filledPercentage: '30%'},
-                                                {driveLetter: 'D:', sizeInUse: '120', totalSize: '249', filledPercentage: '47%'}]}}}
+                <ServerDetails 
+                    serverStatus={'OK'}
+                    serverName={'ServerName123456'}
+                    fqdmServerName={'ServerName123456.companylocal'}
+                    numberOfUsers={'3432'}
+                    serverType={'Windows Server 2008'}
+                    serverTypeIcon={'icon-World'}
+                    serverRoles={[{roleName: 'Web', roleIcon: 'icon-World'},
+                                    {roleName: 'SQL', roleIcon: 'icon-Sql'},
+                                    {roleName: 'Firewall', roleIcon: 'icon-Lock'},
+                                    {roleName: 'Hosting', roleIcon: 'icon-World'},
+                                    {roleName: 'Something', roleIcon: 'icon-User'}]}
+                    headerDiskData={{status: 'Error', disksInfo: ['C: 84 / 249 (30%)', 'D: 84 / 249 (30%)']}}
                     cpuData={{status: 'Error', cpuUtilization: this.state.cpu}}
                     memoryData={{status: 'Warning', memoryUsage: '7 GB', committedMemory: '7GB/10GB (70%)'}}
                     diskData={{status: 'OK', currentRWSpeed: '0,1 MB/s', rwSpeedsPerPartition: [this.state.cpu, '50.10 kB/s', '23.47 kB/s']}}
                     networkData={{status: 'OK', currentSpeed: '0,1 Mbps', speedsPerInterface: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps']}}
-                ></ServerTile>
+                ></ServerDetails>
             </div>);
     };
 
