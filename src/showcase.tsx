@@ -35,6 +35,7 @@ import { DialogFooter } from './components/Dialog/DialogFooter';
 import { StatusBar } from './components/StatusBar/StatusBar';
 import { Treeview } from './components/Treeview/Treeview';
 import { ServerDetails } from './components/ServerDetails/ServerDetails';
+import { TagContainer } from './components/TagContainer/TagContainer';
 
 export class Index extends React.Component<any, any> {
     constructor() {
@@ -319,12 +320,12 @@ export class Index extends React.Component<any, any> {
                 <br />
                 <ServerDetails 
                     serverStatus={'OK'}
+                    serverId={'server-123'}
                     hasCloseButton={true}
-                    serverName={'SP2015-Martinasbgasdfadsbff'}
+                    serverName={'SP2016-Martin-Pisacic'}
                     fqdmServerName={'ServerName123456.companylocal'}
                     numberOfUsers={'3432'}
-                    serverType={'Windows Server 2008'}
-                    serverTypeIcon={'icon-World'}
+                    onDismiss={(id: string) => console.log('Go away!', id)}
                     serverRoles={[{roleName: 'Web', roleIcon: 'icon-World'},
                                     {roleName: 'SQL', roleIcon: 'icon-Sql'},
                                     {roleName: 'Firewall', roleIcon: 'icon-Lock'},
@@ -335,7 +336,9 @@ export class Index extends React.Component<any, any> {
                     memoryData={{status: 'Warning', memoryUsage: '7', memoryUsageUnit: 'GB', committedMemory: '7GB/10GB (70%)'}}
                     diskData={{status: 'OK', currentRWSpeed: '0,1', rwSpeedUnit: 'MB/s', rwSpeedsPerPartition: [this.state.cpu, '50.10 kB/s', '23.47 kB/s']}}
                     networkData={{status: 'OK', currentSpeed: '0,1', currentSpeedUnit:'Mbps', speedsPerInterface: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps']}}
-                ></ServerDetails>
+                >
+                <TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>
+                </ServerDetails>
             </div>);
     };
 

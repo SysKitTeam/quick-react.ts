@@ -2,9 +2,8 @@ import * as React from 'react';
 
 export interface IServerDetailsProps {
     serverStatus: string;
+    serverId: string;
     serverName: string;
-    serverType: string;
-    serverTypeIcon: string;
     serverRoles: Array<IServerRole>;
     fqdmServerName: string;
     numberOfUsers?: string;
@@ -14,7 +13,7 @@ export interface IServerDetailsProps {
     networkData: INetworkData;
     memoryData: IMemoryData;
     hasCloseButton?: boolean;
-    onDismiss?: (ev?: React.MouseEvent<HTMLElement>) => any;
+    onDismiss?: (serverId: string, ev?: React.MouseEvent<HTMLElement>) => any;
 }
 
 export interface IServerRole{

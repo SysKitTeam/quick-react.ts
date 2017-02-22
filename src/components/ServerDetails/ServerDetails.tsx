@@ -13,10 +13,12 @@ export class ServerDetails extends React.PureComponent<IServerDetailsProps, any>
     }
 
     public render() {
+        const name = this._checkNameLen(this.props.serverName);
+
         return (
             <div className={'server-details'}>
                 <div className={'server-details-header'}>
-                    <Label className="server-name" title={this.props.fqdmServerName}>{this._checkNameLen(this.props.serverName)}</Label>
+                    <Label className="server-name" title={this.props.fqdmServerName}>{name}</Label>
                     <Icon className="disk-icon" iconName={'icon-LoadWithErrors'} title={'Disks\n' + this._createTooltipText(this.props.headerDiskData.disksInfo)}></Icon>
                     { this.props.numberOfUsers && 
                         <Icon data-users={this.props.numberOfUsers}
@@ -27,8 +29,9 @@ export class ServerDetails extends React.PureComponent<IServerDetailsProps, any>
                     {this.props.hasCloseButton && 
                         <Icon disabled={ false }
                             className={'dialog-button dialog-button-close'}
-                            onClick={ this.props.onDismiss } 
+                            onClick={this._dismiss.bind(this)} 
                             iconName={'icon-Delete'}/>}
+                    <hr/>
                 </div>
                 {this.props.children}
                 <div className={'counters-container'}>
@@ -55,6 +58,10 @@ export class ServerDetails extends React.PureComponent<IServerDetailsProps, any>
                 </div>
             </div>
         );
+    }
+
+    private _dismiss() {
+        this.props.onDismiss(this.props.serverId);
     }
 
     private _checkNameLen(name: string) : string {
