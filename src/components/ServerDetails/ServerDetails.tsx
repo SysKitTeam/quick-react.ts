@@ -29,10 +29,9 @@ export class ServerDetails extends React.PureComponent<IServerDetailsProps, any>
                             className={'dialog-button dialog-button-close'}
                             onClick={ this.props.onDismiss } 
                             iconName={'icon-Delete'}/>}
-                
-                { /* DODATI KOMPONENTU */ }
-
                 </div>
+                {this.props.children}
+                <div className={'counters-container'}>
                 <div className={'tile'}>
                     CPU
                     <Label>{this.props.cpuData.cpuUtilization}</Label>
@@ -51,6 +50,7 @@ export class ServerDetails extends React.PureComponent<IServerDetailsProps, any>
                         title={this._createTooltipText(this.props.networkData.speedsPerInterface)}>
                     Network
                     <Label>{this.props.networkData.currentSpeed}</Label>
+                </div>
                 </div>
             </div>
         );
