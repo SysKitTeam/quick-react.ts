@@ -1,11 +1,11 @@
 @import '../../index.scss';
 
-$tile-height: 214px;
-$tile-width: 250px;
-$separator-color: #aeaeae;
+$tile-height: 220px;
+$tile-width: 280px;
+$separator-color: white;
+$background-color: #eee;
 
 .server-details {
-    border: 1px solid #e8e9ef;
     width: $tile-width;
     height: $tile-height;
     box-sizing: border-box;
@@ -13,24 +13,35 @@ $separator-color: #aeaeae;
     margin: 5px 5px 5px 5px;
     position: relative;
     padding: 0;
-    border-left: 15px solid black;
+    border-left: 10px solid #a5a5a5;
+    background-color: $background-color;
 
     .server-details-header {
         width: 100%;
         padding: 0;
         display: block;
-        height: calc(100% - 56% + 2px);
+        height: calc(100% - 70% + 2px);
 
         .server-name {
-            padding: 0px 0px 0px 0px;
+            padding: 0;
             margin: 2px 2px 2px 5px;
             display: inline-block;
             font-size: 14px;
+            font-weight: 600;
         }
 
         .disk-icon {
             padding: 0;
             margin: 5px 10px 5px 10px;
+        }
+    }
+
+    .dialog-button-close {
+        float: right;
+        margin: 5px 10px 5px 5px;
+
+        &:hover {
+            color: red;
         }
     }
 
@@ -44,25 +55,26 @@ $separator-color: #aeaeae;
     }
 
     .tile {
-        width: calc(50% - 11px);
-        border-top: 1px solid $separator-color;
+        width: calc(45% - 11px);
+        height: calc(35% - 1px);
+        text-align: center;
         color: #a9a9a9;
         font-size: 12px;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         display: inline-block;
-        height: calc(28% - 2px);
         padding-left: 10px;
 
         &:nth-child(even) {
             border-right: 1px solid $separator-color;
+            margin-left: calc(5% + 1px);
         }
 
-        &:nth-child(odd) {
-            border-left: 1px solid white;
+        &:nth-last-child(-n+2) {
+            border-top: 1px solid $separator-color;
         }
 
         .label {
-            font-size: 18px;
+            font-size: 24px;
             text-align: center;
         }
     }

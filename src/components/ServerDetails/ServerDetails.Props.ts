@@ -1,3 +1,5 @@
+import * as React from 'react';
+
 export interface IServerDetailsProps {
     serverStatus: string;
     serverName: string;
@@ -11,6 +13,8 @@ export interface IServerDetailsProps {
     cpuData: ICpuData;
     networkData: INetworkData;
     memoryData: IMemoryData;
+    hasCloseButton?: boolean;
+    onDismiss?: (ev?: React.MouseEvent<HTMLElement>) => any;
 }
 
 export interface IServerRole{

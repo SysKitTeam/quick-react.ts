@@ -47,11 +47,11 @@ export class Index extends React.Component<any, any> {
     }
 
     componentDidMount() {
-         let timer = setInterval(() => {
+         /*let timer = setInterval(() => {
             const currentCpu = this.state.selector ? '74%' : '85%';
             const sel = !this.state.selector;
             this.setState({cpu: currentCpu, selector: sel});
-        }, 1000);
+        }, 1000);*/
     }
 
     public render() {
@@ -319,6 +319,7 @@ export class Index extends React.Component<any, any> {
                 <br />
                 <ServerDetails 
                     serverStatus={'OK'}
+                    hasCloseButton={true}
                     serverName={'ServerName123456'}
                     fqdmServerName={'ServerName123456.companylocal'}
                     numberOfUsers={'3432'}

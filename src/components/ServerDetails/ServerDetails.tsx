@@ -24,10 +24,15 @@ export class ServerDetails extends React.PureComponent<IServerDetailsProps, any>
                             title={this.props.numberOfUsers + ' number of users online'}
                         ></Icon>
                     }
-                <Icon className={'server-type-icon'} id={this.props.serverType} iconName={this.props.serverTypeIcon}></Icon>
+                    {this.props.hasCloseButton && 
+                        <Icon disabled={ false }
+                            className={'dialog-button dialog-button-close'}
+                            onClick={ this.props.onDismiss } 
+                            iconName={'icon-Delete'}/>}
                 
                 { /* DODATI KOMPONENTU */ }
-                 </div>
+
+                </div>
                 <div className={'tile'}>
                     CPU
                     <Label>{this.props.cpuData.cpuUtilization}</Label>
