@@ -15,7 +15,7 @@ $compact-dashboard-background: #f4f4f4;
     }
     .compact-server-container{
             font-size: 14px;
-            max-width: 150px;
+            max-width: 215px;
             display: inline-block;
     }
         
@@ -28,9 +28,11 @@ $compact-dashboard-background: #f4f4f4;
         margin: auto;
         margin-top: 6px;
         margin-left: 15px; 
+        top: 50px;
+
         margin-bottom: 6px;
         .compact-server-container{
-                max-width: 250px;
+                max-width: 215px;
         }
     }
 }

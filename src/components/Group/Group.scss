@@ -7,6 +7,7 @@
     flex-wrap: wrap;
     padding: 5px;
     margin: 20px;
+    margin-top:50px;
     position: relative;
     border: 1px solid #828282;
     border: 1px solid #e8e9ef;
@@ -43,12 +44,35 @@
         background: inherit;
         font-size: 20px;
         padding: 5px;
-        padding-top: 0;
+        padding-top: 10px;
+        width:270px;
         padding-bottom: 0;
-        top: -28px;
+        top: -38px;
         left: -1px;
         padding-left: 15px;
         border: 1px solid #e8e9ef;
         border-bottom: white;
+
+        .icon{
+                padding: 2px;
+                padding-top:3px;
+                 position: relative;
+                float: right;
+                font-size: 16px;
+        }
+        .icon:hover{
+            cursor: pointer;
+        }
+        .icon.icon-Delete:hover{
+            color: red;
+        }
+        .icon.icon-Edit:hover{
+            color: #0078d7;
+        }
+        .icon.icon-Add:hover{
+            color: #7DC458;
+        }
+        
     }
 }
+

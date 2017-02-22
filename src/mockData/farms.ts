@@ -6,7 +6,9 @@ export const classListExample = {
     critical: 'red',
     offline: 'offline'
 };
+// 
 
+let roleListFarms = [{display: 'WPF', iconName: 'icon-Add'}, {display: 'Search', iconName: 'icon-Alert'}];
 export const farms: ICompactDashboardProps = {
     title: 'Compact dashboard view',
     farms: [
@@ -23,7 +25,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domena',
                     serverName: 'Banana-PC1',
-                    roleList: [],
+                    roleList: [{display: 'WPF', iconName: 'icon-Add'}, {display: 'Search', iconName: 'icon-Alert'}, {display: 'W1PF', iconName: 'icon-Add'}, {display: 'S1arch', iconName: 'icon-Alert'}, {display: 'S1awewerch', iconName: 'icon-Alert'}],
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -32,7 +34,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domenaaaa',
                     serverName: 'Banana-PCB',
-                    roleList: [],
+                    roleList: [{display: 'assssssssWPF', iconName: 'icon-Add'}, {display: 'Searaasasasasch', iconName: 'icon-Alert'}, {display: 'WP1FAaaaaaA', iconName: 'icon-Add'}, {display: 'BLA', iconName: 'icon-Add'}],
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -41,7 +43,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka12-PC.domena.domena',
                     serverName: 'Jabuka-PC2',
-                    roleList: [],
+                    roleList:  roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -50,7 +52,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja0-PC.domena.domena1',
                     serverName: 'Tresnja-PC3',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -58,7 +60,7 @@ export const farms: ICompactDashboardProps = {
                 }, {
                     serverId: 'Banana-PC000.domena.domena1',
                     serverName: 'Banana-PCA',
-                    roleList: [],
+                    roleList:  roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -67,7 +69,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jaabuka-PC.domena.domena1',
                     serverName: 'Jabuka-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -76,7 +78,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Trresnja-PC.domena.domena',
                     serverName: 'Tresnja-PCC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -84,7 +86,7 @@ export const farms: ICompactDashboardProps = {
                 }, {
                     serverId: 'Banana-PC.domena.domena12',
                     serverName: 'Banana-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -93,7 +95,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka-PC.domena.domena12',
                     serverName: 'Jabuka-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -102,7 +104,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja-PC.domena.domena2',
                     serverName: 'Tresnja-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -111,7 +113,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domenawww',
                     serverName: 'Banana-PC1',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -120,7 +122,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domenaaaawwww',
                     serverName: 'Banana-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -129,7 +131,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka12-PC.domena.domenawwwwwww',
                     serverName: 'Jabuka-PC2',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -138,7 +140,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja0-PC.domena.domena1wwwwwwwww',
                     serverName: 'Tresnja-PC3',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -146,7 +148,7 @@ export const farms: ICompactDashboardProps = {
                 }, {
                     serverId: 'Banana-PC000.domena.domena1wwwwwwwwwwwwwwwwwwww',
                     serverName: 'Banana-PCA',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -155,7 +157,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jaabuka-PC.domena.domena1wwwwwwwwwwwwwwwwwwwwwwwwww',
                     serverName: 'Jabuka-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -164,7 +166,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Trresnja-PC.domena.domenwwwwwwwwwa',
                     serverName: 'Tresnja-PCC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -172,7 +174,7 @@ export const farms: ICompactDashboardProps = {
                 }, {
                     serverId: 'Banana-PC.domena.domenwwwwwwwwwwa12',
                     serverName: 'Banana-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -181,7 +183,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka-PC.domena.domewwwwwwwwwwwwna12',
                     serverName: 'Jabuka-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -190,7 +192,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja-PC.domena.dowwwwwwwwwmena2',
                     serverName: 'Tresnja-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -211,7 +213,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domena',
                     serverName: 'Banana-PC1',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -220,7 +222,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domenaaaa',
                     serverName: 'Banana-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -229,7 +231,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka12-PC.domena.domena',
                     serverName: 'Jabuka-PC2',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -238,7 +240,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja0-PC.domena.domena1',
                     serverName: 'Tresnja-PC3',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -246,7 +248,7 @@ export const farms: ICompactDashboardProps = {
                 }, {
                     serverId: 'Banana-PC000.domena.domena1',
                     serverName: 'Banana-PCA',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -255,7 +257,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jaabuka-PC.domena.domena1',
                     serverName: 'Jabuka-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -264,7 +266,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Trresnja-PC.domena.domena',
                     serverName: 'Tresnja-PCC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -272,7 +274,7 @@ export const farms: ICompactDashboardProps = {
                 }, {
                     serverId: 'Banana-PC.domena.domena12',
                     serverName: 'Banana-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -281,7 +283,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka-PC.domena.domena12',
                     serverName: 'Jabuka-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -290,7 +292,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja-PC.domena.domena2',
                     serverName: 'Tresnja-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -310,7 +312,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domena12121',
                     serverName: 'Banana-PC1',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 4,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -319,7 +321,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domenaaaa1212',
                     serverName: 'Banana-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 4,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -328,7 +330,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka12-PC.domena.domena1212',
                     serverName: 'Jabuka-PC2',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 4,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -337,7 +339,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domena',
                     serverName: 'Banana-PC1',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -346,7 +348,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domenaaaa',
                     serverName: 'Banana-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -355,7 +357,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka12-PC.domena.domena',
                     serverName: 'Jabuka-PC2',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -364,7 +366,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja0-PC.domena.domena1',
                     serverName: 'Tresnja-PC3',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -372,7 +374,7 @@ export const farms: ICompactDashboardProps = {
                 }, {
                     serverId: 'Banana-PC000.domena.domena1',
                     serverName: 'Banana-PCA',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -381,7 +383,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jaabuka-PC.domena.domena1',
                     serverName: 'Jabuka-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -390,7 +392,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Trresnja-PC.domena.domena',
                     serverName: 'Tresnja-PCC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -398,7 +400,7 @@ export const farms: ICompactDashboardProps = {
                 }, {
                     serverId: 'Banana-PC.domena.domena12',
                     serverName: 'Banana-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -407,7 +409,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka-PC.domena.domena12',
                     serverName: 'Jabuka-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -416,7 +418,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja-PC.domena.domena2',
                     serverName: 'Tresnja-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -436,7 +438,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domena12121',
                     serverName: 'Banana-PC1',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 4,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -445,7 +447,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domenaaaa1212',
                     serverName: 'Banana-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 4,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -454,7 +456,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka12-PC.domena.domena1212',
                     serverName: 'Jabuka-PC2',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 4,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -463,7 +465,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domena',
                     serverName: 'Banana-PC1',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -472,7 +474,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domenaaaa',
                     serverName: 'Banana-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -481,7 +483,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka12-PC.domena.domena',
                     serverName: 'Jabuka-PC2',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -490,7 +492,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja0-PC.domena.domena1',
                     serverName: 'Tresnja-PC3',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -498,7 +500,7 @@ export const farms: ICompactDashboardProps = {
                 }, {
                     serverId: 'Banana-PC000.domena.domena1',
                     serverName: 'Banana-PCA',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -507,7 +509,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jaabuka-PC.domena.domena1',
                     serverName: 'Jabuka-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -516,7 +518,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Trresnja-PC.domena.domena',
                     serverName: 'Tresnja-PCC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -524,7 +526,7 @@ export const farms: ICompactDashboardProps = {
                 }, {
                     serverId: 'Banana-PC.domena.domena12',
                     serverName: 'Banana-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -533,7 +535,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka-PC.domena.domena12',
                     serverName: 'Jabuka-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -542,7 +544,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja-PC.domena.domena2',
                     serverName: 'Tresnja-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -562,7 +564,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domena12121',
                     serverName: 'Banana-PC1',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 4,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -571,7 +573,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domenaaaa1212',
                     serverName: 'Banana-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 4,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -580,7 +582,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka12-PC.domena.domena1212',
                     serverName: 'Jabuka-PC2',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 4,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -589,7 +591,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domena',
                     serverName: 'Banana-PC1',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -598,7 +600,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domenaaaa',
                     serverName: 'Banana-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -607,7 +609,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka12-PC.domena.domena',
                     serverName: 'Jabuka-PC2',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -616,7 +618,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja0-PC.domena.domena1',
                     serverName: 'Tresnja-PC3',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -624,7 +626,7 @@ export const farms: ICompactDashboardProps = {
                 }, {
                     serverId: 'Banana-PC000.domena.domena1',
                     serverName: 'Banana-PCA',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -633,7 +635,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jaabuka-PC.domena.domena1',
                     serverName: 'Jabuka-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -642,7 +644,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Trresnja-PC.domena.domena',
                     serverName: 'Tresnja-PCC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -650,7 +652,7 @@ export const farms: ICompactDashboardProps = {
                 }, {
                     serverId: 'Banana-PC.domena.domena12',
                     serverName: 'Banana-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -659,7 +661,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka-PC.domena.domena12',
                     serverName: 'Jabuka-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -668,7 +670,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja-PC.domena.domena2',
                     serverName: 'Tresnja-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -688,7 +690,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domena12121',
                     serverName: 'Banana-PC1',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 4,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -697,7 +699,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domenaaaa1212',
                     serverName: 'Banana-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 4,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -706,7 +708,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka12-PC.domena.domena1212',
                     serverName: 'Jabuka-PC2',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 4,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -715,7 +717,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domena',
                     serverName: 'Banana-PC1',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -724,7 +726,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domenaaaa',
                     serverName: 'Banana-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -733,7 +735,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka12-PC.domena.domena',
                     serverName: 'Jabuka-PC2',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -742,7 +744,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja0-PC.domena.domena1',
                     serverName: 'Tresnja-PC3',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -750,7 +752,7 @@ export const farms: ICompactDashboardProps = {
                 }, {
                     serverId: 'Banana-PC000.domena.domena1',
                     serverName: 'Banana-PCA',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -759,7 +761,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jaabuka-PC.domena.domena1',
                     serverName: 'Jabuka-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -768,7 +770,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Trresnja-PC.domena.domena',
                     serverName: 'Tresnja-PCC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -776,7 +778,7 @@ export const farms: ICompactDashboardProps = {
                 }, {
                     serverId: 'Banana-PC.domena.domena12',
                     serverName: 'Banana-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -785,7 +787,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka-PC.domena.domena12',
                     serverName: 'Jabuka-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -794,7 +796,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja-PC.domena.domena2',
                     serverName: 'Tresnja-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -814,7 +816,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domena12121',
                     serverName: 'Banana-PC1',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 4,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -823,7 +825,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domenaaaa1212',
                     serverName: 'Banana-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 4,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -832,7 +834,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka12-PC.domena.domena1212',
                     serverName: 'Jabuka-PC2',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 4,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -841,7 +843,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domena',
                     serverName: 'Banana-PC1',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -850,7 +852,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domenaaaa',
                     serverName: 'Banana-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -859,7 +861,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka12-PC.domena.domena',
                     serverName: 'Jabuka-PC2',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -868,7 +870,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja0-PC.domena.domena1',
                     serverName: 'Tresnja-PC3',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -876,7 +878,7 @@ export const farms: ICompactDashboardProps = {
                 }, {
                     serverId: 'Banana-PC000.domena.domena1',
                     serverName: 'Banana-PCA',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -885,7 +887,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jaabuka-PC.domena.domena1',
                     serverName: 'Jabuka-PCB',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -894,7 +896,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Trresnja-PC.domena.domena',
                     serverName: 'Tresnja-PCC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -902,7 +904,7 @@ export const farms: ICompactDashboardProps = {
                 }, {
                     serverId: 'Banana-PC.domena.domena12',
                     serverName: 'Banana-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -911,7 +913,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka-PC.domena.domena12',
                     serverName: 'Jabuka-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -920,7 +922,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja-PC.domena.domena2',
                     serverName: 'Tresnja-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     classNameList: classListExample,
                     status: 2,
                     onRoleEdit: () => { },
@@ -940,7 +942,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domena',
                     serverName: 'Banana-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -949,7 +951,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka-PC.domena.domena',
                     serverName: 'Jabuka-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -958,7 +960,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja-PC.domena.domena',
                     serverName: 'Tresnjaaaaaaaaaaa-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 2,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -977,7 +979,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domena',
                     serverName: 'Banana-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -986,7 +988,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka-PC.domena.domena',
                     serverName: 'Jabuka-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -995,7 +997,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja-PC.domena.domenwea',
                     serverName: 'Tresnjaaaaaaaaweweaaa-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 2,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -1003,7 +1005,7 @@ export const farms: ICompactDashboardProps = {
                 }, {
                     serverId: 'Banana-PC.domewewena.domena',
                     serverName: 'Bananawewe-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -1012,7 +1014,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabukawewe-PC.domena.domena',
                     serverName: 'Jabuweweka-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -1031,7 +1033,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Banana-PC.domena.domena',
                     serverName: 'Banana-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 0,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -1040,7 +1042,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Jabuka-PC.domena.domena',
                     serverName: 'Jabuka-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 1,
                     classNameList: classListExample,
                     onRoleEdit: () => { },
@@ -1049,7 +1051,7 @@ export const farms: ICompactDashboardProps = {
                 {
                     serverId: 'Tresnja-PC.domena.domena',
                     serverName: 'Tresnjaaaaaaaaaaa-PC',
-                    roleList: [],
+                    roleList: roleListFarms,
                     status: 2,
                     classNameList: classListExample,
                     onRoleEdit: () => { },

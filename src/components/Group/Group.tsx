@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { IGroupProps } from './Group.Props';
 import {CompactServer} from '../CompactServer/CompactServer';
+import { Icon } from '../Icon/Icon';
 import * as classNames from 'classnames';
 import './Group.scss';
 
@@ -35,18 +36,20 @@ export class Group extends React.Component<IGroupProps, any> {
         return( 
             <div className={classname}>
                 {
-                    hasServersVisible &&
+                    hasServersVisible && 
                     <span className="farm-name" title={this.props.name}>
-                        
-                        {name}
+                        <span>{name}</span>
+                        <Icon title={'Delete'} iconName={'icon-Delete'} onClick={() => {this.props.deleteFunc(this.props.id);}}></Icon>
+                        <Icon title={'Edit'} iconName={'icon-Edit'} onClick={() => {this.props.editFunc(this.props.id);} }></Icon>
+                        <Icon title={'Add'} iconName={'icon-Add'} onClick={() => {this.props.addFunc(this.props.id);}}></Icon>
                     </span>
-                }
+                }                
                 { 
                     hasServersVisible && 
                     this.props.children
-                }
-                                
+                }                                
             </div>
         );
     }
+
 }
