@@ -280,6 +280,7 @@ export class Index extends React.Component<any, any> {
                     />
                 <Checkbox label={'This is checkbox'} onChange={(ev, checked) => console.log('aaa')} defaultChecked={true} />
                 <Checkbox label={'This is disabled checkbox'} disabled={true} defaultChecked={true} />
+                <Checkbox label={'This is checkbox with icon'} onChange={(ev, checked) => console.log('icon')} iconClassName={'icon-User'} />                
                 <br />
                 <ChoiceGroup options={[
                     { key: 'A', text: 'Option A' },
