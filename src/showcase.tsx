@@ -44,19 +44,19 @@ import { DataGenerator } from './utilities/DataGenerator';
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
-        let pieData = [];
         const generator = new DataGenerator();
+
         this.state = {
             showDialog: false,
             treeviewElements: elements,
             selector: true,
-            data: generator.generateValues(),
-            pieData: pieData
+            data: generator.generateValues()
         };
-        /* setInterval(() => {
-            pieData = this.generateValues(pieData);
-            this.setState({pieData: pieData});
-        }, 500); */
+
+        setInterval(() => {
+            this.setState({data: generator.generateValues()});
+            console.log('Hello');
+        }, 500);
     }
 
     private generateValues(d: any[]) {
@@ -335,14 +335,6 @@ export class Index extends React.Component<any, any> {
                 <Treeview onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements} recursive={false}/>
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
-                <br />
-                <LineChart 
-                    title={'CPU USAGE'}
-                    data={this.state.data} 
-                    width={330} 
-                    height={200}
-                    xAxisScale={'TIME'}
-                ></LineChart>
                 <br/>
                 <PieChart
                         id={'chart-1'} 
@@ -357,7 +349,35 @@ export class Index extends React.Component<any, any> {
                                 {label: 'option2', value: 251, text: 'Test2'}
                             ]
                         } 
-                ></PieChart>
+                ></PieChart><br/>
+                <PieChart
+                        id={'chart-2'} 
+                        text={'Sample text'} 
+                        title={'Partition D:'} 
+                        height={200} 
+                        width={200} 
+                        data={
+                            [
+                                {label: 'used', value: 99, text: 'Used: 68.36 GB', class: 'used-critical'},
+                                {label: 'option1', value: 124, text: 'Test1'},
+                                {label: 'option2', value: 251, text: 'Test2'}
+                            ]
+                        } 
+                ></PieChart><br/>
+                 <PieChart
+                        id={'chart-3'} 
+                        text={'Sample text'} 
+                        title={'Partition E:'} 
+                        height={300} 
+                        width={200} 
+                        data={
+                            [
+                                {label: 'used', value: 99, text: 'Used: 68.36 GB', class: 'used-critical'},
+                                {label: 'option1', value: 124, text: 'Test1'},
+                                {label: 'option2', value: 251, text: 'Test2'}
+                            ]
+                        } 
+                ></PieChart><br/>
             </div>);
     };
 
