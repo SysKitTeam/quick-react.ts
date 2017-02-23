@@ -35,6 +35,7 @@ import { DialogFooter } from './components/Dialog/DialogFooter';
 import { StatusBar } from './components/StatusBar/StatusBar';
 import { CheckboxList } from './components/CheckboxList/CheckboxList';
 import { Treeview } from './components/Treeview/Treeview';
+import { ServerDetails } from './components/ServerDetails/ServerDetails';
 import { CompactDashboard} from './components/CompactDashboard/CompactDashboard';
 import {TagContainer} from './components/TagContainer/TagContainer';
 import {CompactServer} from './components/CompactServer/CompactServer';
@@ -58,7 +59,7 @@ export class Index extends React.Component<any, any> {
             showDialog: false,
             treeviewElements: elements,
             selector: true,
-            cpu: '74%',
+            cpu: '74'
             data: generator.generateValues()
         };
         
@@ -66,11 +67,11 @@ export class Index extends React.Component<any, any> {
     }
 
     componentDidMount() {
-         let timer = setInterval(() => {
+         /*let timer = setInterval(() => {
             const currentCpu = this.state.selector ? '74%' : '85%';
             const sel = !this.state.selector;
             this.setState({cpu: currentCpu, selector: sel});
-        }, 1000);
+        }, 1000);*/
     }
 
 
@@ -364,20 +365,23 @@ export class Index extends React.Component<any, any> {
                 <Dashboard farms={farms} filter={''} title={farms.title} activeView={0} />
 
                 <br />
-                <ServerDetails serverStatus='OK'
-                    headerData={{serverName: 'ServerName123456', 
-                                fqdmServerName: 'ServerName123456.companylocal',
-                                numberOfUsers: 3432,
-                                diskData: {status: 'Error',
-                                            disks: [
-                                                {driveLetter: 'C:', sizeInUse: '84', totalSize: '249', filledPercentage: '30%'},
-                                                {driveLetter: 'D:', sizeInUse: '120', totalSize: '249', filledPercentage: '47%'}]}}}
-                    cpuData={{status: 'Error', cpuUtilization: this.state.cpu}}
-                    memoryData={{status: 'Warning', memoryUsage: '7 GB', committedMemory: '7GB/10GB (70%)'}}
-                    diskData={{status: 'OK', currentRWSpeed: '0,1 MB/s', rwSpeedsPerPartition: [this.state.cpu, '50.10 kB/s', '23.47 kB/s']}}
-                    networkData={{status: 'OK', currentSpeed: '0,1 Mbps', speedsPerInterface: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps']}}
-                ></ServerDetails>
-                <br />
+                <ServerDetails
+                    serverId={'server-123'}
+                    serverStatusClass={'ok'}
+                    hasCloseButton={true}
+                    serverName={'SP2016-Martin-Pisacic'}
+                    serverFqdn={'ServerName123456.companylocal'}
+                    numberOfUsers={'3432'}
+                    onDismiss={(id: string) => console.log('Go away!', id)}
+                    disks={['C: 49 / 259 GB (30%)', 'D: 49 / 259 GB (30 %)']}
+                    countersData={[
+                        {title: 'CPU', currentUsage: '43', usageUnit: '%', totalUsage: [''], status: 'ok'},
+                        {title: 'Memory', currentUsage: '7', usageUnit: 'GB', totalUsage: ['7GB/10GB (70%)'], status: 'warning'},
+                        {title: 'Disk', currentUsage: '0,1', usageUnit:'Mbps', totalUsage: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps'], status: 'ok'},
+                        {title: 'Network', currentUsage: '0,1', usageUnit: 'MB/s', totalUsage: ['50.10 kB/s', '23.47 kB/s'], status: 'ok'}
+                    ]}>
+                {/*<TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>*/}
+                </ServerDetails>
                 <LineChart 
                     title={'CPU USAGE'}
                     data={this.state.data} 
