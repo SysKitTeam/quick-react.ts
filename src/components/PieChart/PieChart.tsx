@@ -84,7 +84,7 @@ export class PieChart extends React.Component<IPieChartProps, any> {
                 const unit = d.data.unit === undefined ? '' : d.data.unit;
                 return d.data.value + ' ' + unit;
             })
-            .style('font-size', (this._radius / 3))
+            .style('font-size', (this._radius / 4))
             .attr('text-anchor', 'middle')
             .attr('class', 'percentage-label')
             .on('mouseover', (d) => this.showTooltip(d))

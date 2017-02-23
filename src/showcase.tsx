@@ -337,13 +337,12 @@ export class Index extends React.Component<any, any> {
                 <br/>
                 <PieChart text={'Sample text'} 
                         title={'Partition C:'} 
-                        height={160} 
-                        width={160} 
+                        height={400} 
+                        width={400} 
                         data={
                             [
-                                {label: 'used', value: 99, text: 'Used: 68.36 GB', class: 'used-critical', unit: '%'}, 
-                                {label: 'free', value: 1, text: 'Free: 11.54 GB', unit: '%'},
-                                {label: 'option1', value: 124, text: 'Test1', unit: '%'},
+                                {label: 'used', value: 99, text: 'Used: 68.36 GB', class: 'used-critical'},
+                                {label: 'option1', value: 124, text: 'Test1'},
                                 {label: 'option2', value: 251, text: 'Test2'}
                             ]
                         } 
