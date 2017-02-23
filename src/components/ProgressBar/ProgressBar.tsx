@@ -82,9 +82,14 @@ export class ProgressBar extends React.Component<IProgressBarProps, any> {
                     }
                 </div>
                 <div className={'progress-bar-container'} ref={'container'}>
-                    <div width={40}>{this.props.percentage}</div>
+                    <div width={40}>{this._calculatePercentage()}</div>
                 </div>
             </div>
         );
+    }
+
+    private _calculatePercentage() : string {
+        const percentage = Math.floor( (this.props.data.current / this.props.data.total) * 100 );
+        return percentage.toString() + '%';
     }
 }

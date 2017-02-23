@@ -323,7 +323,7 @@ export class Index extends React.Component<any, any> {
                     width={330} 
                     height={200} 
                 ></LineChart>
-                <ProgressBar title={'RAM'} width={400} height={20} data={{total: 15999, current: 12560}} percentage={'79 %'}></ProgressBar>
+                <ProgressBar title={'RAM'} width={400} height={20} data={{total: 15999, current: 12560}}></ProgressBar>
             </div>);
     };
 
