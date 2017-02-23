@@ -42,14 +42,17 @@ import { DataGenerator } from './utilities/DataGenerator';
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
-        const generator = new DataGenerator();
+        const generator1 = new DataGenerator();
+        const generator2 = new DataGenerator();
         this.state = {
             showDialog: false,
             selector: true,
-            data: generator.generateValues()
+            data1: generator1.generateValues(),
+            data2: generator2.generateValues()
         };
 
-        setInterval(() => this.setState({data: generator.generateValues()}), 5000);
+        setInterval(() => this.setState({data: generator1.generateValues()}), 5000);
+        setInterval(() => this.setState({data: generator2.generateValues()}), 2000);
     }
     public render() {
         return (
@@ -317,8 +320,17 @@ export class Index extends React.Component<any, any> {
                 <StatusBar text={'Initializing index...'}></StatusBar>
                 <br />
                 <LineChart 
+                    id={'graf-1'}
                     title={'CPU USAGE'}
-                    data={this.state.data} 
+                    data={this.state.data1} 
+                    width={330} 
+                    height={200}
+                    xAxisScale={'TIME'}
+                ></LineChart>
+                <LineChart
+                    id={'graf-2'}
+                    title={'OTHER CPU USAGE'}
+                    data={this.state.data2} 
                     width={330} 
                     height={200}
                     xAxisScale={'TIME'}

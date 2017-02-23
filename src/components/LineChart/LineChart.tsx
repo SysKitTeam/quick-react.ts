@@ -51,8 +51,8 @@ export class LineChart extends React.Component<ILineChartProps, undefined> {
     }
 
     private redraw() {
-        d3.select('.x-axis').call(this.generateXAxis());
-        d3.select('.' + this.LINE_CLASS).attr('d', this.constructLine());
+        d3.select('.x-axis.' + this.props.id).call(this.generateXAxis());
+        d3.select('.' + this.LINE_CLASS + '.' + this.props.id).attr('d', this.constructLine());
     }
 
     private draw() {
@@ -72,7 +72,7 @@ export class LineChart extends React.Component<ILineChartProps, undefined> {
     private drawXAxis(svg: any) : void {
         svg.insert('g', ':first-child')
             .attr('transform', this.TRANSFORM_X_AXIS)
-            .attr('class', 'x-axis')
+            .attr('class', 'x-axis ' + this.props.id)
             .call(this.generateXAxis());
     }
 
@@ -86,7 +86,7 @@ export class LineChart extends React.Component<ILineChartProps, undefined> {
     private drawLine(svg: any) {
         return svg.insert('path', '.y-axis + *')
             .data([this.props.data])
-            .attr('class', this.LINE_CLASS)
+            .attr('class', this.LINE_CLASS + ' ' + this.props.id)
             .attr('d', this.constructLine());
     }
 
