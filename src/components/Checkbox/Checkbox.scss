@@ -80,7 +80,14 @@ $Checkbox-transition-timing: cubic-bezier(.4, 0, .23, 1);
         @include padding(0, 0, 0, 26px);
         display: inline-block;
     }
-
+    .label-with-icon{
+        font-size: $font-size-m;
+        @include padding(0, 0, 0, 2px);
+        display: inline-block;
+    }
+    .label-icon{
+        @include padding(0, 0, 0, 26px);
+    }
     .checkboxCheckmark {
         color: #b9cb34;
         position: absolute;
