@@ -3,13 +3,7 @@ import * as d3 from 'd3';
 import * as classNames from 'classnames';
 import { Label } from '../Label/Label';
 import { IPieChartProps } from './PieChart.props';
-
-export type DataType = { 
-    label: string, 
-    value: number,
-    class?: string,
-    text?: string
-};
+import { IPieChartData } from './PieChart.props';
 
 import './PieChart.scss';
 
@@ -82,8 +76,14 @@ export class PieChart extends React.Component<IPieChartProps, any> {
 
         g.append('text')
             .attr('transform',
-            (d) => { this._textCoordinates = arc.centroid(d); return 'translate(' + arc.centroid(d) + ')' })
-            .text((d) => d.data.value + '%')
+            (d) => { 
+                this._textCoordinates = arc.centroid(d); 
+                return 'translate(' + arc.centroid(d) + ')'; 
+            })
+            .text((d) => {
+                const unit = d.data.unit === undefined ? '' : d.data.unit;
+                return d.data.value + ' ' + unit;
+            })
             .style('font-size', (this._radius / 3))
             .attr('text-anchor', 'middle')
             .attr('class', 'percentage-label')
@@ -170,10 +170,21 @@ export class PieChart extends React.Component<IPieChartProps, any> {
     }
 
     private createPie() {
-        return d3.pie<DataType>().sort(null).value((d): any => d.value);
+        return d3.pie<IPieChartData>().sort(null).value((d): any => d.value);
     }
 
     private createColorPallette() {
         return d3.scaleOrdinal(d3.schemeCategory10);
+    }
+
+    private _checkNameLen(name: string) : string {
+        if (name.length > 5) {
+            if (name.indexOf('.') !== -1 && name.indexOf('.') < 5) {
+                name = name.substr(0, name.indexOf('.') + 1);
+            } else {
+                name = name.substr(0, 2) + '...';
+            }                
+        }
+        return name;
     }
 }

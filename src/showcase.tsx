@@ -43,7 +43,7 @@ import { DataGenerator } from './utilities/DataGenerator';
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
-        let pieData = [{label: 'used', value: 64, text: 'Used: 68.36 GB', class: 'used-critical'}, {label: 'free', value: 36, text: 'Free: 11.54 GB'}];
+        let pieData = [];
         const generator = new DataGenerator();
         this.state = {
             showDialog: false,
@@ -339,7 +339,14 @@ export class Index extends React.Component<any, any> {
                         title={'Partition C:'} 
                         height={160} 
                         width={160} 
-                        data={this.state.pieData} 
+                        data={
+                            [
+                                {label: 'used', value: 99, text: 'Used: 68.36 GB', class: 'used-critical', unit: '%'}, 
+                                {label: 'free', value: 1, text: 'Free: 11.54 GB', unit: '%'},
+                                {label: 'option1', value: 124, text: 'Test1', unit: '%'},
+                                {label: 'option2', value: 251, text: 'Test2'}
+                            ]
+                        } 
                 ></PieChart>
             </div>);
     };

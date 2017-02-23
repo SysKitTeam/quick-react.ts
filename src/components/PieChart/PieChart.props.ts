@@ -11,4 +11,5 @@ export interface IPieChartData {
     value: number;
     text?: string;
     class?: string;
+    unit?: string;
 }
