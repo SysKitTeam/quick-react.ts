@@ -134,7 +134,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
 
     @autobind
     private calculateRowHeight(width, obj: { index: number }): number {
-        let numberPerRow = Math.floor(width / 251.0);
+        let numberPerRow = Math.floor((width - 72) / 251.0);
 
         let farmServerCount = this.getRow(obj.index).servers.filter((server) => {return checkFilter(this.props.filter, server.serverName); } ).length;
         let rowCount = (Math.floor(farmServerCount / numberPerRow) + (farmServerCount % numberPerRow === 0 ? 0 : 1));
@@ -147,7 +147,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
     @autobind
     private cellSizeAndPositionGetter(width, obj: { index: number }) {
 
-        const columnCount = Math.floor(1800 / (CELL_WIDTH + GUTTER_SIZE));
+        const columnCount = Math.floor((1800 - 72) / (CELL_WIDTH + GUTTER_SIZE));
 
         let columnPosition = obj.index % (columnCount || 1);
         let height = 120 + this.getRow(obj.index).servers.filter((server) => {return checkFilter(this.props.filter, server.serverName); } ).length * 70;
