@@ -35,6 +35,13 @@ import { DialogFooter } from './components/Dialog/DialogFooter';
 import { StatusBar } from './components/StatusBar/StatusBar';
 import { CheckboxList } from './components/CheckboxList/CheckboxList';
 import { Treeview } from './components/Treeview/Treeview';
+import { CompactDashboard} from './components/CompactDashboard/CompactDashboard';
+import {TagContainer} from './components/TagContainer/TagContainer';
+import {CompactServer} from './components/CompactServer/CompactServer';
+import {DashboardHeader} from './components/DashboardHeader/DashboardHeader';
+import {Dashboard} from './components/Dashboard/Dashboard';
+import {farms, classListExample} from './mockData/farms';
+import { ServerDetails } from './components/ServerDetails/ServerDetails';
 import { elements } from './treeviewElements';
 import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
 import { LineChart } from './components/LineChart/LineChart';
@@ -50,14 +57,21 @@ export class Index extends React.Component<any, any> {
             showDialog: false,
             treeviewElements: elements,
             selector: true,
-            data: generator.generateValues(),
-            pieData: pieData
+            cpu: '74%',
+            data: generator.generateValues()
         };
-        /* setInterval(() => {
-            pieData = this.generateValues(pieData);
-            this.setState({pieData: pieData});
-        }, 500); */
+        
+        setInterval(() => this.setState({data: generator.generateValues()}), 5000);
     }
+
+    componentDidMount() {
+         let timer = setInterval(() => {
+            const currentCpu = this.state.selector ? '74%' : '85%';
+            const sel = !this.state.selector;
+            this.setState({cpu: currentCpu, selector: sel});
+        }, 1000);
+    }
+
 
     private generateValues(d: any[]) {
         d[0].value = d[0].value + 1;
@@ -68,6 +82,16 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
+                <CompactServer serverId={'CUSTOM-PC.localdomain'} onServerClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} serverName={'CUSTOM-PC'} roleList={[]} status={1} classNameList={classListExample}/>
+                <CompactServer serverId={'My very very long name of a server I am using I know its very long.domain.com'} onServerClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} serverName={'My very very long name of a server I am using I know its very long'}            roleList={[]} status={2} classNameList={classListExample}/>
+                
+                <CompactServer serverId={'BANANA-PC.banana.com'}  onServerClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} serverName={'BANANA-PC'} roleList={[{display:'WPF', iconName:'icon-Add'}, {display:'Search', iconName:'icon-Alert'}]} status={0} classNameList={classListExample}/>
+                
+                <TagContainer title={'Roles'} tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}>
+                    <div className="edit-tags tag" title="Edit tags">
+                        <Icon className="icon-Edit"></Icon>
+                    </div>
+                </TagContainer>
                 <Ribbon items={[]}></Ribbon>
                 <AddToFavorites favorited={true} />
                 <AddToFavorites favorited={false} />
@@ -335,6 +359,23 @@ export class Index extends React.Component<any, any> {
                 <Treeview onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements} recursive={false}/>
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
+
+                <Dashboard farms={farms} filter={''} title={farms.title} activeView={0} />
+
+                <br />
+                <ServerDetails serverStatus='OK'
+                    headerData={{serverName: 'ServerName123456', 
+                                fqdmServerName: 'ServerName123456.companylocal',
+                                numberOfUsers: 3432,
+                                diskData: {status: 'Error',
+                                            disks: [
+                                                {driveLetter: 'C:', sizeInUse: '84', totalSize: '249', filledPercentage: '30%'},
+                                                {driveLetter: 'D:', sizeInUse: '120', totalSize: '249', filledPercentage: '47%'}]}}}
+                    cpuData={{status: 'Error', cpuUtilization: this.state.cpu}}
+                    memoryData={{status: 'Warning', memoryUsage: '7 GB', committedMemory: '7GB/10GB (70%)'}}
+                    diskData={{status: 'OK', currentRWSpeed: '0,1 MB/s', rwSpeedsPerPartition: [this.state.cpu, '50.10 kB/s', '23.47 kB/s']}}
+                    networkData={{status: 'OK', currentSpeed: '0,1 Mbps', speedsPerInterface: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps']}}
+                ></ServerDetails>
                 <br />
                 <LineChart 
                     title={'CPU USAGE'}
@@ -360,6 +401,14 @@ export class Index extends React.Component<any, any> {
             </div>);
     };
 
+    private _onClickCompactServer(serverId){
+            console.log("Clicked on editing roles of server " + serverId);        
+    }
+    
+    private _onServerCloseCompactServer(serverId){
+            console.log("Clicked on closing server " + serverId);        
+    }
+    
     private _onTreeviewItemClick(ev, itemId, checked) {
         this.setState({treeviewElements : this.state.treeviewElements.map((item) => {
             if (itemId.indexOf(item.id) > -1) {
