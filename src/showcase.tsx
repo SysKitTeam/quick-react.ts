@@ -35,7 +35,6 @@ import { DialogFooter } from './components/Dialog/DialogFooter';
 import { StatusBar } from './components/StatusBar/StatusBar';
 import { CheckboxList } from './components/CheckboxList/CheckboxList';
 import { Treeview } from './components/Treeview/Treeview';
-import { ServerDetails } from './components/ServerDetails/ServerDetails';
 import { CompactDashboard} from './components/CompactDashboard/CompactDashboard';
 import {TagContainer} from './components/TagContainer/TagContainer';
 import {CompactServer} from './components/CompactServer/CompactServer';
@@ -59,7 +58,7 @@ export class Index extends React.Component<any, any> {
             showDialog: false,
             treeviewElements: elements,
             selector: true,
-            cpu: '74'
+            cpu: '74',
             data: generator.generateValues()
         };
         
