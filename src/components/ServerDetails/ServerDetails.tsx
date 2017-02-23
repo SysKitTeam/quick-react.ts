@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { Details } from '../Details/Details';
 import { Label } from '../Label/Label';
 import { IServerDetailsProps } from './ServerDetails.Props';
 import { Icon } from '../Icon/Icon';
@@ -14,12 +13,10 @@ export class ServerDetails extends React.PureComponent<IServerDetailsProps, any>
     }
 
     public render() {
-        const name = this._checkNameLen(this.props.serverName);
-
         return (
             <div className={classNames('server-details', this.props.serverStatusClass)}>
                 <div className={'server-details-header'}>
-                    <Label className="server-name" title={this.props.fqdmServerName}>{name}</Label>
+                    <Label className="server-name" title={this.props.serverFqdm}>{this.props.serverName}</Label>
                     <Icon 
                         className={classNames('disk-icon')} 
                         iconName={'icon-LoadWithErrors'} 
@@ -47,17 +44,6 @@ export class ServerDetails extends React.PureComponent<IServerDetailsProps, any>
 
     private _dismiss() {
         this.props.onDismiss(this.props.serverId);
-    }
-
-    private _checkNameLen(name: string) : string {
-        if (name.length > 15) {
-            if (name.indexOf('.') !== -1 && name.indexOf('.') < 16) {
-                name = name.substr(0, name.indexOf('.') + 1);
-            } else {
-                name = name.substr(0, 16) + '...';
-            }                
-        }
-        return name;
     }
     
     private _createCountersTiles(data: Array<IServerCountersData>) : Array<JSX.Element> {

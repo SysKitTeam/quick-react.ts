@@ -4,7 +4,7 @@ export interface IServerDetailsProps {
     serverId: string;
     serverStatusClass: string;
     serverName: string;
-    fqdmServerName: string;
+    serverFqdm: string;
     numberOfUsers?: string;
     disks: Array<string>
     hasCloseButton?: boolean;

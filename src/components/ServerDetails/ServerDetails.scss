@@ -35,6 +35,11 @@ $server-status-color: #677A85;
             margin: 2px 2px 2px 5px;
             display: inline-block;
             font-weight: 600;
+            max-width: 40%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            vertical-align: bottom;
         }
 
         .disk-icon {
