@@ -150,7 +150,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
         const columnCount = Math.floor(1800 / (CELL_WIDTH + GUTTER_SIZE));
 
         let columnPosition = obj.index % (columnCount || 1);
-        let height = 0 + this.getRow(obj.index).servers.filter((server) => {return checkFilter(this.props.filter, server.serverName); } ).length * 70;
+        let height = 120 + this.getRow(obj.index).servers.filter((server) => {return checkFilter(this.props.filter, server.serverName); } ).length * 70;
         let serverRoleDiff = (this.getRow(obj.index).servers.filter((server) => {return checkFilter(this.props.filter, server.serverName) && server.roleList.length > 0; } )).length * 27;
         height += serverRoleDiff;
         const cellWidth = CELL_WIDTH;
@@ -178,15 +178,15 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
 
         const farm = this.getRow(index);
-
+        const servers  = farm.servers.filter((server) => {return checkFilter(this.props.filter, server.serverName); } ).sort(sortFarmServers);
         return (
             <div style={style} key={index}>
-                <Group filter={this.props.filter} className={'farm-name-inside'} id={farm.farmId} name={farm.farmName} key={farm.farmId}>
+                <Group addFunc={this.props.groupAddFunc} editFunc={this.props.groupEditFunc} deleteFunc={this.props.groupDeleteFunc} serverChildrenCount={servers.length} className={'farm-name-inside'} id={farm.farmId} name={farm.farmName} key={farm.farmId}>
                     <GroupHeader sharepointIcon={farm.sharepointVersionIcon} sharepointVersion={farm.sharepointVersion} isCustomFarm={farm.isCustom} configDB={farm.configDB} configDBIcon={farm.confgiDBIcon} />
                     {
-                        farm.servers.filter((server) => {return checkFilter(this.props.filter,server.serverName);}).sort(sortFarmServers).map((server) => (
+                        servers.map((server) => (
                             <CompactServer filter={this.props.filter} key={server.serverId} roleList={server.roleList} serverId={server.serverId} classNameList={server.classNameList}
-                                status={server.status} onRoleEdit={server.onRoleEdit} onServerClose={server.onServerClose} serverName={server.serverName}
+                                status={server.status} onRoleEdit={this.props.serverRoleEdit} onServerClose={this.props.serverClose} serverName={server.serverName}
                                 />
                         ))
                     }

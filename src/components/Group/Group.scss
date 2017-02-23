@@ -30,16 +30,7 @@
 
 .farm-name-inside{
     .farm-name{
-        /*position: relative; 
-        background: inherit;
-        font-size: 20px;
-        padding: 5px;
-        padding-top: 0;
-        padding-bottom: 0;
-        top: auto;
-        left: auto;
-        padding-left: 15px;
-        border: none;*/
+        
         position: absolute;
         background: inherit;
         font-size: 20px;
@@ -47,11 +38,19 @@
         padding-top: 10px;
         width:270px;
         padding-bottom: 0;
-        top: -38px;
+        top: -43px;
         left: -1px;
         padding-left: 15px;
         border: 1px solid #e8e9ef;
         border-bottom: white;
+        span{
+            display: inline-block;
+            width: calc(100% - 80px);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+        }
 
         .icon{
                 padding: 2px;
