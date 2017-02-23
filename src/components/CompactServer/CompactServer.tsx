@@ -52,15 +52,14 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
                     </span>
                 {
                     this.props.roleList.length > 0 &&
-                    <hr/>
-                }
-                {
-                    this.props.roleList.length > 0 &&
-                    <TagContainer  title={''} tags={this.props.roleList}>
-                        <div className="edit-tags tag" title="Edit tags" onClick={this.editRoles}>
-                            <Icon className="icon-Edit"></Icon>
-                        </div>
-                    </TagContainer>
+                    <div>
+                         <hr/>
+                        <TagContainer  title={''} tags={this.props.roleList}>
+                            <div className="edit-tags tag" title="Edit tags" onClick={this.editRoles}>
+                                <Icon className="icon-Edit"></Icon>
+                            </div>
+                        </TagContainer>
+                    </div>
                 }
             
             </div>
