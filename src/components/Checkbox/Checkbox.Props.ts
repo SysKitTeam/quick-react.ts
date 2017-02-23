@@ -9,6 +9,7 @@ export interface ICheckboxProps extends React.HTMLProps<HTMLElement> {
     onChange?: (ev?: React.FormEvent<HTMLElement>, itemId?: string, checked?: boolean) => void;
     inputProps?: React.HTMLProps<HTMLInputElement>;
     itemId?: string;
+    iconClassName?: string;
 }
 
 export interface ICheckbox {

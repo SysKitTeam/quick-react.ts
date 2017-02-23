@@ -13,7 +13,15 @@
     "inlineSourceMap": true,
     "noEmitHelpers": true,
     "outDir": "./lib",
-    "declaration": true
+    "declaration": true,
+    "types": [
+      // add node as an option
+      "node"
+    ],
+    "typeRoots": [
+      // add path to @types
+      "node_modules/@types"
+    ]
   },
   "filesGlob": [
     "typings/index.d.ts",
