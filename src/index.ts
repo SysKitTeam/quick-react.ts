@@ -37,6 +37,7 @@ export * from './components/TagContainer';
 export * from './components/TextField';
 export * from './components/Treeview';
 export * from './components/ServerDetails';
+export * from './components/ProgressBar';
 export * from './components/PieChart';
 export * from './components/LineChart';
 

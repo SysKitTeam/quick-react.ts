@@ -46,6 +46,7 @@ import { ServerDetails } from './components/ServerDetails/ServerDetails';
 import { elements } from './treeviewElements';
 import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
 import { LineChart } from './components/LineChart/LineChart';
+import { ProgressBar } from './components/ProgressBar/ProgressBar';
 import { PieChart } from './components/PieChart/PieChart';
 import { DataGenerator } from './utilities/DataGenerator';
 
@@ -402,6 +403,8 @@ export class Index extends React.Component<any, any> {
                             ]
                         } 
                 ></PieChart>
+                <br/>
+                <ProgressBar title={'RAM'} width={400} height={20} data={{total: 15999, current: 12560}}></ProgressBar>
             </div>);
     };
 
