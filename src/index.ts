@@ -36,6 +36,7 @@ export * from './components/StatusBar';
 export * from './components/TagContainer';
 export * from './components/TextField';
 export * from './components/Treeview';
+export * from './components/LineChart';
 
 export * from './utilities/autobind';
 export * from './utilities/KeyCodes';

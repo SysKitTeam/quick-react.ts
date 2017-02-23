@@ -2,13 +2,11 @@ import * as React from 'react';
 import * as d3 from 'd3';
 
 import { Label } from '../Label/Label';
-import { IChartProps } from './LineChart.props';
-
+import { ILineChartProps } from './LineChart.props';
+import { ILineChartData } from './LineChart.props';
 import './LineChart.scss';
 
-export type DataType = {time: Date, value: number};
-
-export class LineChart extends React.Component<IChartProps, undefined> {
+export class LineChart extends React.Component<ILineChartProps, undefined> {
 
     private _focus: any;
     private margin: any = {
@@ -17,7 +15,7 @@ export class LineChart extends React.Component<IChartProps, undefined> {
         left: 50,
         right: 40
     };
-    private width: number = this.props.width - this.margin.left - this.margin.right;
+    private width: number = this.props.width - this.margin.left - this.margin.right - 10;
     private height: number = this.props.height - this.margin.top - this.margin.bottom;
     private _y = this.generateY();
     
@@ -28,11 +26,11 @@ export class LineChart extends React.Component<IChartProps, undefined> {
     TRANSLATE_LINE: string = 'translate(' + this.TRANSLATE_WIDTH + ', 0)';
 
     refs: {
-        [key: string]: (Element);
+        [argument: string]: (Element);
         container: (HTMLInputElement);
     };
 
-    constructor(props: IChartProps) {
+    constructor(props: ILineChartProps) {
         super(props);
     }
 
@@ -46,19 +44,15 @@ export class LineChart extends React.Component<IChartProps, undefined> {
 
     public render() {
         return (
-            <div className={'chart-container'} ref="container">
-                {this.props.title}
+            <div className={'line-chart-container'} ref="container">
+                <Label className={'line-chart-title'}>{this.props.title}</Label>
             </div>
         );
     }
 
     private redraw() {
-        d3.select('.' + this.LINE_CLASS).remove();
-        d3.select('.x-axis').remove();
-
-        const svg = d3.select('.' + this.GRAPH_CONTAINER_CLASS);
-        this.drawXAxis(svg);
-        this.drawLine(svg);
+        d3.select('.x-axis').call(this.generateXAxis());
+        d3.select('.' + this.LINE_CLASS).attr('d', this.constructLine());
     }
 
     private draw() {
@@ -98,17 +92,24 @@ export class LineChart extends React.Component<IChartProps, undefined> {
 
     private createContainer() {
         return d3.select(this.refs.container).append('svg')
-                    .attr('width', this.props.width)
+                    .attr('width', this.props.width - 10)
                     .attr('height', this.props.height + 20)
                     .append('g')
                     .attr('class', this.GRAPH_CONTAINER_CLASS)
                     .attr('transform', 'translate(' + this.margin.left + ',' + (this.margin.top + 20) + ')');        
     }
 
-    private generateX() {
-        return d3.scaleTime()
-                .domain(d3.extent(this.props.data, (d) => d.time))
-                .range([0, this.width]);
+    private generateX() : any {
+        const domain = d3.extent(this.props.data, (d) => d.argument);
+        const range = d3.extent([0, this.width]);
+        switch(this.props.xAxisScale) {
+            case 'TIME':
+                return d3.scaleTime().domain(domain).range(range);
+            case 'LINEAR':
+                return d3.scaleLinear().domain(domain).range(range);
+            default:
+                return null;
+        }
     }
 
     private generateY() {
@@ -119,7 +120,7 @@ export class LineChart extends React.Component<IChartProps, undefined> {
 
     private generateXAxis() {
         return d3.axisBottom(this.generateX())
-                .tickValues(d3.extent(this.props.data, (d) => d.time))
+                .tickValues(d3.extent(this.props.data, (d) => d.argument))
                 .tickSizeInner(-(this.height))
                 .tickSizeOuter(0)
                 .ticks(2, '%I:%M:%S %p')
@@ -127,18 +128,20 @@ export class LineChart extends React.Component<IChartProps, undefined> {
     }
 
     private generateYAxis() {
+        let ticks = 2;
+        if (this.props.gridSize !== undefined) { ticks = this.props.gridSize; }
         return d3.axisLeft(this.generateY())
                 .tickSizeInner(-(this.width + 15))
                 .tickSizeOuter(-10)
-                .ticks(2)
+                .ticks(ticks)
                 .tickFormat((d) => (d + '%'))
                 .tickPadding(20);   
     }
 
     private constructLine() {
         const x = this.generateX();
-        return d3.line<DataType>()
-                    .x((d) => x(d.time))
+        return d3.line<ILineChartData>()
+                    .x((d) => x(d.argument))
                     .y((d) => this._y(d.value));
     }
 
@@ -160,27 +163,31 @@ export class LineChart extends React.Component<IChartProps, undefined> {
     }
 
     private addTooltip() {
+        this._focus.append('polygon')
+            .attr('fill', 'white')
+            .attr('class', 'tip-pol')
+            .attr('stroke', '#e8e9ef')
+            .attr('stroke-width', 2)
+            .attr('points', '10,20 20,35 30,20');
+
         this._focus.append('rect')
             .attr('width', '40')
             .attr('height', '24')
             .attr('class', 'tip-rect')
             .attr('display', 'none')
+            .attr('stroke', '#e8e9ef')
+            .attr('stroke-width', 2)
             .attr('fill', 'white');
 
-        this._focus.append('polygon')
-            .attr('fill', 'white')
-            .attr('class', 'tip-pol')
-            .attr('points', '10,20 20,35 30,20');
-
         this._focus.append('text')
-            .attr('class', 'y2')
+            .attr('class', 'tooltip-text')
             .attr('dx', 8)
             .attr('dy', '-.3em');
     }
 
     private mouseMove() {
         const x = this.generateX();
-        const bisect = d3.bisector<DataType, any>((d) => d.time).left;
+        const bisect = d3.bisector<ILineChartData, any>((d) => d.argument).left;
 
         let x0 = x.invert(d3.mouse(d3.event.currentTarget)[0]);
 
@@ -188,15 +195,21 @@ export class LineChart extends React.Component<IChartProps, undefined> {
         let d0 = this.props.data[i - 1];
         let d1 = this.props.data[i];
 
-        let d = (x0.getTime() - d0.time.getTime()) > (d1.time.getTime() - x0.getTime()) ? d1 : d0;
+        let d;
+
+        if (this.props.xAxisScale === 'TIME') {
+            d = (x0.getTime() - (d0.argument as Date).getTime()) > ((d1.argument as Date).getTime() - x0.getTime()) ? d1 : d0;
+        }
+
+        d = x0 - (d0.argument as any) > (d1.argument as any) - x0 ? d1 : d0;
 
         this._focus.select('.tip-rect')
-                .attr('transform', 'translate(' + (x(d.time) - 20) + ',' + (this._y(d.value) - 40) + ')')
+                .attr('transform', 'translate(' + (x(d.argument) - 20) + ',' + (this._y(d.value) - 40) + ')')
                 .attr('display', 'block');
         this._focus.select('.tip-pol')
-                .attr('transform', 'translate(' + (x(d.time) - 20) + ',' + (this._y(d.value) - 40) + ')');
-        this._focus.select('text.y2')
-                .attr('transform', 'translate(' + (x(d.time) - 24) + ',' + (this._y(d.value) - 20) + ')')
+                .attr('transform', 'translate(' + (x(d.argument) - 20) + ',' + (this._y(d.value) - 40) + ')');
+        this._focus.select('text.tooltip-text')
+                .attr('transform', 'translate(' + (x(d.argument) - 24) + ',' + (this._y(d.value) - 20) + ')')
                 .text(() => d.value + ' %');
     }
 }
