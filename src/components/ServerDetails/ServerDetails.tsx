@@ -6,6 +6,7 @@ import { IServerDetailsProps } from './ServerDetails.Props';
 import { Icon } from '../Icon/Icon';
 import './ServerDetails.scss';
 
+import { IServerCountersData } from './ServerDetails.Props';
 export class ServerDetails extends React.PureComponent<IServerDetailsProps, any> {
 
     constructor(props?: IServerDetailsProps) {
@@ -16,45 +17,29 @@ export class ServerDetails extends React.PureComponent<IServerDetailsProps, any>
         const name = this._checkNameLen(this.props.serverName);
 
         return (
-            <div className={'server-details'}>
+            <div className={classNames('server-details', this.props.serverStatusClass)}>
                 <div className={'server-details-header'}>
                     <Label className="server-name" title={this.props.fqdmServerName}>{name}</Label>
-                    <Icon className="disk-icon" iconName={'icon-LoadWithErrors'} title={'Disks\n' + this._createTooltipText(this.props.headerDiskData.disksInfo)}></Icon>
+                    <Icon 
+                        className={classNames('disk-icon')} 
+                        iconName={'icon-LoadWithErrors'} 
+                        title={'Disks\n'}/>
                     { this.props.numberOfUsers && 
                         <Icon data-users={this.props.numberOfUsers}
                             iconName={'icon-User'}
-                            title={this.props.numberOfUsers + ' number of users online'}
-                        ></Icon>
+                            title={this.props.numberOfUsers + ' number of users online'}/>
                     }
                     {this.props.hasCloseButton && 
                         <Icon disabled={ false }
                             className={'dialog-button dialog-button-close'}
                             onClick={this._dismiss.bind(this)} 
-                            iconName={'icon-Delete'}/>}
+                            iconName={'icon-Delete'}/>
+                    }
                     <hr/>
                 </div>
                 {this.props.children}
                 <div className={'counters-container'}>
-                <div className={'tile'}>
-                    <p>CPU</p>
-                    <Label>{this.props.cpuData.cpuUtilization}</Label>
-                    <Label>%</Label>
-                </div>
-                <div className={'tile'} title={this.props.memoryData.committedMemory}>
-                    <p>Memory</p>
-                    <Label>{this.props.memoryData.memoryUsage}</Label>
-                    <Label>{this.props.memoryData.memoryUsageUnit}</Label>
-                </div>
-                <div className={'tile'} title={this._createTooltipText(this.props.diskData.rwSpeedsPerPartition)}>
-                    <p>Disk</p>
-                    <Label>{this.props.diskData.currentRWSpeed}</Label>
-                    <Label>{this.props.diskData.rwSpeedUnit}</Label>
-                </div>
-                <div className={'tile'} title={this._createTooltipText(this.props.networkData.speedsPerInterface)}>
-                    <p>Network</p>
-                    <Label>{this.props.networkData.currentSpeed}</Label>
-                    <Label>{this.props.networkData.currentSpeedUnit}</Label>
-                </div>
+                    {this._createCountersTiles(this.props.countersData)}
                 </div>
             </div>
         );
@@ -74,8 +59,19 @@ export class ServerDetails extends React.PureComponent<IServerDetailsProps, any>
         }
         return name;
     }
+    
+    private _createCountersTiles(data: Array<IServerCountersData>) : Array<JSX.Element> {
+        return data.map(
+            (d: IServerCountersData) => 
+                <div className={'tile'} title={this._createTooltipText(d.totalUsage)}>
+                    <p>{d.title}</p>
+                    <Label className={d.status}>{d.currentUsage}</Label>
+                    <Label className={d.status}>{d.usageUnit}</Label>
+                </div>
+        );
+    }
 
-    private _createTooltipText(arr: string[]) : string {
+    private _createTooltipText(arr: Array<string>) : string {
         let data = '';
         for (let i = 0; i < arr.length; i++) {
             data += arr[i] + '\n';

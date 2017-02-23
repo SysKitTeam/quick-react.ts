@@ -318,25 +318,20 @@ export class Index extends React.Component<any, any> {
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
                 <br />
-                <ServerDetails 
-                    serverStatus={'OK'}
+                <ServerDetails
                     serverId={'server-123'}
+                    serverStatusClass={'ok'}
                     hasCloseButton={true}
                     serverName={'SP2016-Martin-Pisacic'}
                     fqdmServerName={'ServerName123456.companylocal'}
                     numberOfUsers={'3432'}
                     onDismiss={(id: string) => console.log('Go away!', id)}
-                    serverRoles={[{roleName: 'Web', roleIcon: 'icon-World'},
-                                    {roleName: 'SQL', roleIcon: 'icon-Sql'},
-                                    {roleName: 'Firewall', roleIcon: 'icon-Lock'},
-                                    {roleName: 'Hosting', roleIcon: 'icon-World'},
-                                    {roleName: 'Something', roleIcon: 'icon-User'}]}
-                    headerDiskData={{status: 'Error', disksInfo: ['C: 84 / 249 (30%)', 'D: 84 / 249 (30%)']}}
-                    cpuData={{status: 'Error', cpuUtilization: this.state.cpu}}
-                    memoryData={{status: 'Warning', memoryUsage: '7', memoryUsageUnit: 'GB', committedMemory: '7GB/10GB (70%)'}}
-                    diskData={{status: 'OK', currentRWSpeed: '0,1', rwSpeedUnit: 'MB/s', rwSpeedsPerPartition: [this.state.cpu, '50.10 kB/s', '23.47 kB/s']}}
-                    networkData={{status: 'OK', currentSpeed: '0,1', currentSpeedUnit:'Mbps', speedsPerInterface: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps']}}
-                >
+                    countersData={[
+                        {title: 'CPU', currentUsage: '43', usageUnit: '%', totalUsage: [''], status: 'ok'},
+                        {title: 'Memory', currentUsage: '7', usageUnit: 'GB', totalUsage: ['7GB/10GB (70%)'], status: 'warning'},
+                        {title: 'Disk', currentUsage: '0,1', usageUnit:'Mbps', totalUsage: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps'], status: 'ok'},
+                        {title: 'Network', currentUsage: '0,1', usageUnit: 'MB/s', totalUsage: ['50.10 kB/s', '23.47 kB/s'], status: 'ok'}
+                    ]}>
                 <TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>
                 </ServerDetails>
             </div>);
