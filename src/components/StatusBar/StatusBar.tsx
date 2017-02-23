@@ -23,10 +23,10 @@ export class StatusBar extends React.Component<IStatusBarProps, any> {
             });
         }
     }
-    
-    render () {
-        let { text } = this.state;
 
+    render() {
+        let { text } = this.state;
+        let {children} = this.props;
         let statusBarClassName = classNames(
             'statusBar',
             [this.props.className]
@@ -34,7 +34,9 @@ export class StatusBar extends React.Component<IStatusBarProps, any> {
 
         return (
             <div className={statusBarClassName}>
-               <span>{ text }</span>
+                {children}
+                <span>{text}</span>
+
             </div>
         );
     }
