@@ -39,7 +39,7 @@ export class PieChart extends React.Component<IPieChartProps, any> {
     }
 
     private redraw() {
-        d3.select('.svg-container').remove();
+        d3.select('.svg-container.' + this.props.id).remove();
         this.draw();
     }
 
@@ -118,7 +118,7 @@ export class PieChart extends React.Component<IPieChartProps, any> {
             .attr('width', this.props.width - 2)    // minus 2 because of border
             .attr('height', this.props.height - 20)
             .append('g')
-            .attr('class', 'pie-chart-g')
+            .attr('class', 'pie-chart-g ' + this.props.id)
             .attr('transform', 'translate(' + (this.props.width / 2) + ',' + (this.props.height / 2) + ')');
     }
 

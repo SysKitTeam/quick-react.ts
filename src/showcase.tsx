@@ -335,7 +335,9 @@ export class Index extends React.Component<any, any> {
                     height={200} 
                 ></LineChart>
                 <br/>
-                <PieChart text={'Sample text'} 
+                <PieChart
+                        id={'chart-1'} 
+                        text={'Sample text'} 
                         title={'Partition C:'} 
                         height={400} 
                         width={400} 

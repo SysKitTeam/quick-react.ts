@@ -1,4 +1,5 @@
 export interface IPieChartProps {
+    id: string;
     title: string;
     text: string;
     width: number;
