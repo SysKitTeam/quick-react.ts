@@ -30,21 +30,10 @@ import './TagContainer.scss';
                     tags.length <= 3 &&
                     tags.map((tag, tagIndex) => (
                          <div key={tag.display} className="tag">
-                             { tag.iconName &&
-                                <Icon iconName={tag.iconName}></Icon>
-                             }
-                             {
-                                 tag.display.length < 7 &&
-                                 <span>
+                             { tag.iconName &&  <Icon iconName={tag.iconName}></Icon> }
+                             <span style={{cursor: 'pointer'}} className={'tag-text'} title={tag.display}>
                                       {tag.display}
-                                </span>
-                            }
-                             {
-                                 tag.display.length > 7 &&
-                                 <span style={{cursor: 'pointer'}} title={tag.display}>
-                                      {tag.display.substring(0,5)}..
-                                </span>
-                            }
+                            </span>                            
                          </div> 
                     ))
                 }
@@ -52,27 +41,15 @@ import './TagContainer.scss';
                     tags.length > 3 &&
                     tags.map((i) => {return i; } ).slice(0,3).map((tag, tagIndex) => (
                          <div key={tag.display} className="tag">
-                             { tag.iconName &&
-                                <Icon iconName={tag.iconName}></Icon>
-                             }
-                             {
-                                 tag.display.length < 7 &&
-                                 <span>
+                            { tag.iconName && <Icon iconName={tag.iconName}></Icon> }
+                            <span style={{cursor: 'pointer'}} className={'tag-text'} title={tag.display}>
                                       {tag.display}
-                                </span>
-                            }
-                             {
-                                 tag.display.length > 7 &&
-                                 <span style={{cursor: 'pointer'}} title={tag.display}>
-                                      {tag.display.substring(0,5)}..
-                                </span>
-                            }
+                            </span>
                          </div>
                     )) 
                 }
                 {
-                    tags.length > 3 &&
-                    <div className="tag points" title={extraTags}>...</div>
+                    tags.length > 3 && <div className="tag points" title={extraTags}>...</div>
                 }
                 {this.props.children}
             </div>

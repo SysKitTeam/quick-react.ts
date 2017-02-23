@@ -43,5 +43,12 @@
         margin-left: 0 !important;
         padding: 0;
     }
-    
+    .tag-text{
+            max-width: 37px;
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+            top: 2px;
+    }
 }

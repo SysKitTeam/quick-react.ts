@@ -33,13 +33,6 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
          
 
         let name = this.props.serverName;
-        if (name.length > 15) {
-            if (name.indexOf('.') !== -1 && name.indexOf('.') < 16) {
-                name = name.substr(0, name.indexOf('.') + 1);
-            } else {
-                name = name.substr(0, 16) + '...';
-            }                
-        }
         let showItem = this.props.filter ? checkFilter(this.props.filter,  this.props.serverName) : true;
         let className = classNames({'compact-server-container': showItem},
                         {[this.props.classNameList.warning]: isWarning}, 
@@ -52,8 +45,9 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
         return (
             
             <div className={ className }>
-               
-                    <span className={'server-title'} title={this.props.serverName} >{name}
+                    <span className={'server-title'}>
+                        <span title={name} >{name}                        
+                        </span>
                         <span className={'server-close'} onClick={this.closeServer}>&times;</span>
                     </span>
                 {
