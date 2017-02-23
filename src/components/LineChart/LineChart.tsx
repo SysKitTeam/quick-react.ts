@@ -3,10 +3,8 @@ import * as d3 from 'd3';
 
 import { Label } from '../Label/Label';
 import { ILineChartProps } from './LineChart.props';
-
+import { ILineChartData } from './LineChart.props';
 import './LineChart.scss';
-
-export type DataType = {argument: Date | number, value: number};
 
 export class LineChart extends React.Component<ILineChartProps, undefined> {
 
@@ -142,7 +140,7 @@ export class LineChart extends React.Component<ILineChartProps, undefined> {
 
     private constructLine() {
         const x = this.generateX();
-        return d3.line<DataType>()
+        return d3.line<ILineChartData>()
                     .x((d) => x(d.argument))
                     .y((d) => this._y(d.value));
     }
@@ -189,7 +187,7 @@ export class LineChart extends React.Component<ILineChartProps, undefined> {
 
     private mouseMove() {
         const x = this.generateX();
-        const bisect = d3.bisector<DataType, any>((d) => d.argument).left;
+        const bisect = d3.bisector<ILineChartData, any>((d) => d.argument).left;
 
         let x0 = x.invert(d3.mouse(d3.event.currentTarget)[0]);
 

@@ -3,11 +3,11 @@ export interface ILineChartProps {
     width: number;
     height: number;
     gridSize?: number;
-    data: IChartData[];
+    data: ILineChartData[];
     xAxisScale: string; // 'LINEAR' or 'TIME' 
 }
 
-export interface IChartData {
+export interface ILineChartData {
     argument: Date | number;
     value: number;
 }
