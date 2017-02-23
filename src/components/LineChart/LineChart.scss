@@ -2,72 +2,67 @@
 
 $main-color: #5d5d5d;
 $background-color: #f4f4f4;
+$border-color: #e8e9ef;
 
-.chart-container {
+$font: 'Segoe UI';
+
+.line-chart-container {
     text-align: center;
-    font-family: 'Segoe UI';
+    font-family: $font;
     font-size: 16px;
     font-weight: 500;
     color: $main-color;
-    background-color: #e5e5e5;
+    padding-left: 10px;
+    display: inline-block;
+    user-select: none;
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    
+    .line-chart-title {
+        padding: 0px 0px 0px 0px;
+        margin: 2px 0px 2px 0px;
+        font-size: 16px;
+    }
 
     svg {
         display: block;
         margin-top: -25px;
-    }
-}
 
-.graph-line {
-    fill: none;
-    stroke: $main-color;
-    stroke-width: 2px;
-    opacity: 0.8;
-}
+        .graph-container {
+            g {
+                .domain {
+                    visibility: hidden;
+                }
 
-.tick {
-    line {
-        stroke: white;
-        stroke-width: 1px;
-    }
+                .tick {
+                    line {
+                        stroke: #c7c7c7;
+                        stroke-width: 1px;
+                        margin: 0 auto;
+                    }
 
-    text {
-        font-family: 'Segoe UI';
-        font-size: 12px;
-        opacity: 0.8;
-        fill: $main-color;
-    }
-}
+                    text {
+                        font-family: $font;
+                        font-size: 12px;
+                        opacity: 0.8;
+                        fill: $main-color;
+                    }
+                }
+            }
 
-.y2 {
-    font-family: 'Segoe UI';
-    font-size: 12px;
-}
+            .graph-line {
+                fill: none;
+                stroke: $main-color;
+                stroke-width: 2px;
+                opacity: 0.8;
+            }
 
-.graph-title {
-    font-size: 16px;
-    padding-left: 50px;
-    font-weight: bold;
-    color: #6b6b6b;
-}
-
-.component-container {
-    display: inline-block;
-}
-
-.chart-container {
-    display: inline-block;
-}
-
-.domain {
-    visibility: hidden;
-}
-
-g {
-    text {
-        color: #6b6b6b;
-    }
-
-    line {
-        margin: 0 auto;
+            .tooltip-text {
+                font-family: $font;
+                font-size: 12px;
+            }
+        }
     }
 }

@@ -1,10 +1,11 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { ITreeviewItemProps, ITreeviewItem } from './TreeviewItem.Props';
+import { ITreeviewItemProps, ITreeviewItem, MapChildren } from './TreeviewItem.Props';
 import { Icon } from '../../components/Icon/Icon';
 import { Checkbox } from '../../components/Checkbox/Checkbox';
 import { CommonComponent } from '../Common/Common';
 import { autobind } from '../../utilities/autobind';
+import { Treeview } from './Treeview';
 import './Treeview.scss';
 
 export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
@@ -12,59 +13,129 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
         isOpen: false
     };
 
-    constructor (props) {
+    constructor(props) {
         super(props);
-
         this.state = { isOpen: props.isOpen, iconArrow: 'icon-ArrowRight' };
     }
 
-     public shouldComponentUpdate(nextProps, nextState) {
+    public shouldComponentUpdate(nextProps, nextState) {
         return !(this.props.item === nextProps.item
-            // && this.props.onChange === nextProps.onChange
             && this.state.isOpen === nextState.isOpen
             && this.state.iconArrow === nextState.iconArrow
-            );
+            && this.state.selected === nextState.selected
+            && this.props.children === nextProps.children
+        );
     }
 
     public render(): JSX.Element {
-        let { item, onChange } = this.props;
+        let { item, onChange, showCheckbox, children, recursive } = this.props;
         let { isOpen } = this.state;
-
+        let checkedStatus = this._getChildrenChecked(item, item.checked, recursive);
+        let checked = checkedStatus.isChecked;
         const itemClassName = classNames(
-            'treeview-child',
             {
                 'expanded': this.state.isOpen,
                 'collapsed': !this.state.isOpen
             }
-        ); 
+        );
+        const parentItemClassName = classNames(
+            {
+                'treeveiw-parent-item': item.children.length > 0
+            }
+        );
+
+        const treeveiwItemClassName = classNames(
+            'treeveiw-content'
+        );
+
+        const selectedClassName = classNames(
+            {
+                'partial-selected' : recursive && checkedStatus.hasCheckedChild && !checked
+            }
+        );
 
         return (
-            <div>
-                <div className={'treeview-item'} onClick={ this._onItemClick.bind(this) }>
-                    <Icon iconName={this.state.iconArrow}></Icon>
-                    {item.text}
+            <div className={parentItemClassName}>
+                <div className={'treeview-item'}>
+                    {item.children.length > 0 &&
+                        <Icon iconName={this.state.iconArrow} onClick={this._onItemClick.bind(this)}></Icon>
+                    }
+                    <div className={treeveiwItemClassName} >
+                        {showCheckbox &&
+                            <Checkbox label={item.text} onChange={this._onItemSelect.bind(this, item, checked)} checked={checked} className={selectedClassName}/>
+                        }
+                        {!showCheckbox &&
+                            <span onClick={this._onItemSelect.bind(this, item, true)}>{item.text}</span>
+                        }
+                    </div>
                 </div>
                 <div className={itemClassName}>
-                    { item.children && item.children.map((child, index) => (
-                        <div key={index}>
-                            <Checkbox checked={child.checked !== undefined ? child.checked : false} label={child.text} onChange={onChange} itemId={child.id}></Checkbox>
-                        </div>           
-                    ))}
+                    {item.children.length > 0 &&
+                        item.children.map((child, index) => (
+                            <TreeviewItem item={child} onChange={onChange} key={index} showCheckbox={showCheckbox} children={child.children} recursive={recursive} />
+                        ))
+                    }
                 </div>
-            </div>  
+            </div>
         );
     }
 
     @autobind
-    private _onItemClick(ev: MouseEvent ) {
+    private _onItemSelect(item, checked, ev: React.FormEvent<HTMLElement>): void {
+        if (this.props.showCheckbox) {
+            let items = [];
+            items.push(item.id);
+            if (this.props.recursive) {
+                items = items.concat(this._getChildrenId(this.props.children));
+            }
+            this.props.onChange(ev, items, !checked);
+        } else {
+            this.props.onChange(ev, [item.id], checked);
+        }
+    }
+
+    @autobind
+    private _getChildrenId(children) {
+        let result = [];
+        children.forEach((item) => {
+            result.push(item.id);
+            if (item.children.length > 0) {
+                result = result.concat(this._getChildrenId(item.children));
+            }
+        });
+        return result;
+    }
+
+    @autobind
+    private _onItemClick(ev: MouseEvent) {
         let { isOpen } = this.state;
 
-        this.setState({ 
+        this.setState({
             isOpen: !isOpen,
             iconArrow: isOpen ? 'icon-ArrowRight' : 'icon-ArrowDownRight'
         });
 
         ev.stopPropagation();
         ev.preventDefault();
+    }
+
+    @autobind
+    private _getChildrenChecked(item: ITreeviewItem, checked: boolean, recursive: boolean) {
+        let result = {isChecked: true, hasCheckedChild: false};
+        if (item.children.length === 0 || !recursive) {
+            result.isChecked = checked === undefined ? false : checked;
+        } else {
+            item.children.forEach((element) => {
+                if (element.checked) {
+                    result.hasCheckedChild = true;
+                }
+                let childStatus = this._getChildrenChecked(element, element.checked, recursive);
+                result.isChecked = result.isChecked && childStatus.isChecked;
+                if (childStatus.hasCheckedChild) {
+                    result.hasCheckedChild = true;
+                }
+            });
+        }
+        return result;
     }
 }

@@ -33,11 +33,12 @@ import { PivotItem } from './components/Pivot/PivotItem';
 import { Dialog } from './components/Dialog/Dialog';
 import { DialogFooter } from './components/Dialog/DialogFooter';
 import { StatusBar } from './components/StatusBar/StatusBar';
+import { CheckboxList } from './components/CheckboxList/CheckboxList';
 import { Treeview } from './components/Treeview/Treeview';
+import { elements } from './treeviewElements';
 import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
 import { LineChart } from './components/LineChart/LineChart';
 import { PieChart } from './components/PieChart/PieChart';
-
 import { DataGenerator } from './utilities/DataGenerator';
 
 export class Index extends React.Component<any, any> {
@@ -47,6 +48,7 @@ export class Index extends React.Component<any, any> {
         const generator = new DataGenerator();
         this.state = {
             showDialog: false,
+            treeviewElements: elements,
             selector: true,
             data: generator.generateValues(),
             pieData: pieData
@@ -288,8 +290,9 @@ export class Index extends React.Component<any, any> {
                         ]
                     }
                     />
-                <Checkbox label={'This is checkbox'} onChange={(ev, checked) => console.log('aaa')} />
+                <Checkbox label={'This is checkbox'} onChange={(ev, checked) => console.log('aaa')} defaultChecked={true} />
                 <Checkbox label={'This is disabled checkbox'} disabled={true} defaultChecked={true} />
+                <Checkbox label={'This is checkbox with icon'} onChange={(ev, checked) => console.log('icon')} iconClassName={'icon-User'} />                
                 <br />
                 <ChoiceGroup options={[
                     { key: 'A', text: 'Option A' },
@@ -316,15 +319,20 @@ export class Index extends React.Component<any, any> {
                 <Spinner />
                 <Label>Large Spinner With Label</Label>
                 <Spinner type={SpinnerType.large} label="Seriously, still loading..." />
+
                 <br />
-                <Treeview onCheckboxChanged={this._onTreeViewChange}
+                <CheckboxList onCheckboxChanged={this._onCheckboxListChange}
                     items={[
                         { id: 'A', text: 'Option A', isOpen: false, children: [{ text: 'Option B', checked: false, id: 'B1' }, { text: 'Option B', id: 'B2'}, { text: 'Option B', id: 'B3' }] },
                         { id: 'C', text: 'Option C', isOpen: false, children: [{ text: 'Option D', id: 'D1' }, { text: 'Option D', id: 'D2' }, { text: 'Option D', id: 'D3' }] },
                         { id: 'E', text: 'Option E', isOpen: false, children: [{ text: 'Option F', id: 'F1' }, { text: 'Option F', id: 'F2' }, { text: 'Option F', id: 'F3' }] },
                         { id: 'G', text: 'Option G', isOpen: false, children: [{ text: 'Option H', id: 'H1' }, { text: 'Option H', id: 'H2' }, { text: 'Option H', id: 'H3' }] }
                     ]}>
-                </Treeview>
+                </CheckboxList>
+                <br />
+                <Treeview onSelect={this._onCheckboxListChange} showCheckbox={false} items={elements}/>
+                <br />
+                <Treeview onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements} recursive={false}/>
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
                 <br />
@@ -332,7 +340,8 @@ export class Index extends React.Component<any, any> {
                     title={'CPU USAGE'}
                     data={this.state.data} 
                     width={330} 
-                    height={200} 
+                    height={200}
+                    xAxisScale={'TIME'}
                 ></LineChart>
                 <br/>
                 <PieChart text={'Sample text'} 
@@ -351,6 +360,21 @@ export class Index extends React.Component<any, any> {
             </div>);
     };
 
+    private _onTreeviewItemClick(ev, itemId, checked) {
+        this.setState({treeviewElements : this.state.treeviewElements.map((item) => {
+            if (itemId.indexOf(item.id) > -1) {
+                return {id: item.id, text: item.text, parentId: item.parentId, checked: checked};
+            } else {
+                return item;
+            }
+        })
+    });
+        
+    }
+
+    private _onCheckboxListChange(ev, itemId, checked) {
+        console.log(checked);
+    }
     private _onToggle(checked){
         console.log(checked);
     }

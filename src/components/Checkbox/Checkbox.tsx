@@ -41,7 +41,7 @@ export class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
     }
 
     render() {
-        const { checked, defaultChecked, disabled, inputProps, label, id } = this.props;
+        const { checked, defaultChecked, disabled, inputProps, label, id, iconClassName } = this.props;
         const { isFocused } = this.state;
         const isChecked = checked === undefined ? this.state.isChecked : checked;
 
@@ -54,7 +54,12 @@ export class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
             'is-checked': this.state.isChecked,
             'is-disabled': disabled
         });
- 
+        const innerLabelClassName = classNames(
+            {
+                'label-with-icon': iconClassName !== undefined,
+                'label': iconClassName === undefined
+            }
+        );
         return (
             <div className={className}>
                 <input
@@ -72,9 +77,11 @@ export class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
                     onBlur={ this._onBlur }  
                 />
                 { isChecked && <Icon htmlFor={ this.id } className={'checkboxCheckmark'} iconName={'icon-Checkmark'}></Icon> }
+                
                 <label htmlFor={ this.id }
                     className={labelClassName}>
-                    { label && <span className={'label'}>{label}</span> }
+                    { iconClassName && <Icon htmlFor={ this.id} iconName={iconClassName} className={'label-icon'}/>}
+                    { label && <span className={innerLabelClassName}>{label}</span> }
                 </label>
             </div>
         );
