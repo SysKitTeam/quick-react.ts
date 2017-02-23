@@ -323,7 +323,7 @@ export class Index extends React.Component<any, any> {
                     serverStatusClass={'ok'}
                     hasCloseButton={true}
                     serverName={'SP2016-Martin-Pisacic'}
-                    serverFqdm={'ServerName123456.companylocal'}
+                    serverFqdn={'ServerName123456.companylocal'}
                     numberOfUsers={'3432'}
                     onDismiss={(id: string) => console.log('Go away!', id)}
                     disks={['C: 49 / 259 GB (30%)', 'D: 49 / 259 GB (30 %)']}

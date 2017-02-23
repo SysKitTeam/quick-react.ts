@@ -16,7 +16,7 @@ export class ServerDetails extends React.PureComponent<IServerDetailsProps, any>
         return (
             <div className={classNames('server-details', this.props.serverStatusClass)}>
                 <div className={'server-details-header'}>
-                    <Label className="server-name" title={this.props.serverFqdm}>{this.props.serverName}</Label>
+                    <Label className="server-name" title={this.props.serverFqdn}>{this.props.serverName}</Label>
                     <Icon 
                         className={classNames('disk-icon')} 
                         iconName={'icon-LoadWithErrors'} 
