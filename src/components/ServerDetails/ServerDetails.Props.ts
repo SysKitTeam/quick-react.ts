@@ -6,6 +6,7 @@ export interface IServerDetailsProps {
     serverName: string;
     fqdmServerName: string;
     numberOfUsers?: string;
+    disks: Array<string>
     hasCloseButton?: boolean;
     onDismiss?: (serverId: string, ev?: React.MouseEvent<HTMLElement>) => any;
     countersData: Array<IServerCountersData>;

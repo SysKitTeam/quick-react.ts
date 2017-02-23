@@ -326,13 +326,14 @@ export class Index extends React.Component<any, any> {
                     fqdmServerName={'ServerName123456.companylocal'}
                     numberOfUsers={'3432'}
                     onDismiss={(id: string) => console.log('Go away!', id)}
+                    disks={['C: 49 / 259 GB (30%)', 'D: 49 / 259 GB (30 %)']}
                     countersData={[
                         {title: 'CPU', currentUsage: '43', usageUnit: '%', totalUsage: [''], status: 'ok'},
                         {title: 'Memory', currentUsage: '7', usageUnit: 'GB', totalUsage: ['7GB/10GB (70%)'], status: 'warning'},
                         {title: 'Disk', currentUsage: '0,1', usageUnit:'Mbps', totalUsage: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps'], status: 'ok'},
                         {title: 'Network', currentUsage: '0,1', usageUnit: 'MB/s', totalUsage: ['50.10 kB/s', '23.47 kB/s'], status: 'ok'}
                     ]}>
-                <TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>
+                {/*<TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>*/}
                 </ServerDetails>
             </div>);
     };

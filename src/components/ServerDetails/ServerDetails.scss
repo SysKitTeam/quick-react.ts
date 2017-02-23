@@ -4,17 +4,27 @@ $tile-height: 220px;
 $tile-width: 280px;
 $separator-color: white;
 $background-color: #e8e9ef;
+$font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+$counters-data-size: 24px;
+$counters-unit-size: 14px;
+$header-font-size: 14px;
+$counters-title-font-size: 12px;
+$counters-title-font-color: #a9a9a9;
+$server-status-color: #677A85;
+
 
 .server-details {
+    font-family: $font;
     width: $tile-width;
     display: inline-block;
     margin: 5px 5px 5px 5px;
     position: relative;
     padding: 0;
-    border-left: 10px solid #008B50;
+    border-left: 10px solid $server-status-color;
     background-color: $background-color;
 
     .server-details-header {
+        font-size: $header-font-size;
         width: 100%;
         padding: 0;
         display: block;
@@ -24,7 +34,6 @@ $background-color: #e8e9ef;
             padding: 0;
             margin: 2px 2px 2px 5px;
             display: inline-block;
-            font-size: 14px;
             font-weight: 600;
         }
 
@@ -65,9 +74,8 @@ $background-color: #e8e9ef;
 
             p {
                 text-align: center;
-                color: #a9a9a9;
-                font-size: 12px;
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                color: $counters-title-font-color;
+                font-size: $counters-title-font-size;
                 margin: 2px 0px 2px 0px;
             }
 
@@ -89,20 +97,20 @@ $background-color: #e8e9ef;
             }
 
             .label:nth-child(2) {
-                font-size: 24px;
+                font-size: $counters-data-size;
             }
 
             .label:nth-child(3) {
-                font-size: 14px;
+                font-size: $counters-unit-size;
             }
         }
     }
 
     .icon-User:after {
         content: attr(data-users);
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 14px;
         padding: 0;
         margin: 0px 0px 2px 5px;
+        font-family: $font;
+        font-size: $header-font-size;
     }
 }

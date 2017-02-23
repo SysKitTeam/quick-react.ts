@@ -23,7 +23,7 @@ export class ServerDetails extends React.PureComponent<IServerDetailsProps, any>
                     <Icon 
                         className={classNames('disk-icon')} 
                         iconName={'icon-LoadWithErrors'} 
-                        title={'Disks\n'}/>
+                        title={'Disks\n' + this._createTooltipText(this.props.disks)}/>
                     { this.props.numberOfUsers && 
                         <Icon data-users={this.props.numberOfUsers}
                             iconName={'icon-User'}
