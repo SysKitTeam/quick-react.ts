@@ -45,11 +45,13 @@ import { ServerDetails } from './components/ServerDetails/ServerDetails';
 import { elements } from './treeviewElements';
 import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
 import { LineChart } from './components/LineChart/LineChart';
+import { PieChart } from './components/PieChart/PieChart';
 import { DataGenerator } from './utilities/DataGenerator';
 
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
+        let pieData = [];
         const generator = new DataGenerator();
         this.state = {
             showDialog: false,
@@ -68,6 +70,13 @@ export class Index extends React.Component<any, any> {
             const sel = !this.state.selector;
             this.setState({cpu: currentCpu, selector: sel});
         }, 1000);
+    }
+
+
+    private generateValues(d: any[]) {
+        d[0].value = d[0].value + 1;
+        d[1].value = d[1].value - 1;
+        return d;
     }
 
     public render() {
@@ -375,6 +384,20 @@ export class Index extends React.Component<any, any> {
                     height={200}
                     xAxisScale={'TIME'}
                 ></LineChart>
+                <br/>
+                <PieChart text={'Sample text'} 
+                        title={'Partition C:'} 
+                        height={160} 
+                        width={160} 
+                        data={
+                            [
+                                {label: 'used', value: 99, text: 'Used: 68.36 GB', class: 'used-critical', unit: '%'}, 
+                                {label: 'free', value: 1, text: 'Free: 11.54 GB', unit: '%'},
+                                {label: 'option1', value: 124, text: 'Test1', unit: '%'},
+                                {label: 'option2', value: 251, text: 'Test2'}
+                            ]
+                        } 
+                ></PieChart>
             </div>);
     };
 
