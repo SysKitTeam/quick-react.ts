@@ -177,7 +177,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
 
         const farm = this.getRow(index);
-        const servers  = farm.servers.filter((server) => {return checkFilter(this.props.filter, server.serverName); } ); // .sort(sortFarmServers);
+        const servers  = farm.servers.filter((server) => {return checkFilter(this.props.filter, server.serverName); } ).sort(sortFarmServers);
         return (
             <div style={style} key={index}>
                 <Group addFunc={this.props.groupAddFunc} editFunc={this.props.groupEditFunc} deleteFunc={this.props.groupDeleteFunc} serverChildrenCount={servers.length} className={'farm-name-inside'} id={farm.farmId} name={farm.farmName} key={farm.farmId}>
