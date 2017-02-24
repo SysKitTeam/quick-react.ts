@@ -1,6 +1,6 @@
  @import '../../index.scss';
 
-.dashboard-header-container{
+.dashboard-header-container {
     @include baseFont();
     width: calc(100% - 32px);
     color: #828282;
@@ -9,11 +9,35 @@
     overflow: hidden;
     display: block;
    
-    .dashboard-header-title{
+    .dashboard-header-title-container {
         width: 30%;
         display: inline-block;
         font-weight: 400;
         font-size: 25px;
+
+        .dashboard-header-title {
+            display: inherit;
+            width: auto;
+            position: relative;
+            max-width: 80%;
+            vertical-align: middle;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .icon.add-farm {
+            display: inherit;
+            width: auto;
+            padding: 0;
+            margin: 5px 10px 0px 10px;
+            vertical-align: middle;
+
+            &:hover {
+                color: #7DC458;
+                cursor: pointer;
+            }
+        }
     }
     .search {
         width:30%;
@@ -23,11 +47,11 @@
         float: right;
         border-radius: 5px;
     }
-    div:nth-child(4){
+    div:nth-child(4) {
         display: inline-block;
         position: relative;
         vertical-align: middle;
-        float:right;
+        float: right;
         margin-right: 10px;
         margin-left: 10px;
     }
