@@ -7,7 +7,7 @@ import { IPieChartData } from './PieChart.props';
 
 import './PieChart.scss';
 
-export class PieChart extends React.Component<IPieChartProps, any> {
+export class PieChart extends React.Component<IPieChartProps, null> {
 
     refs: {
         [key: string]: (Element),
@@ -30,12 +30,42 @@ export class PieChart extends React.Component<IPieChartProps, any> {
         super();
     }
 
-    componentDidMount() {
+    public componentDidMount() {
         this.draw();
     }
 
-    componentDidUpdate() {
+    public componentDidUpdate() {
         this.redraw();
+    }
+
+    public shouldComponentUpdate(nextProps: IPieChartProps, nextState: null) {
+        if (this.props.height === nextProps.height &&
+            this.props.width === nextProps.width &&
+            this.props.id === nextProps.id &&
+            this.props.text === nextProps.text &&
+            this.props.title === nextProps.title && 
+            this.state === null && 
+            nextState === null) {
+                return !this._arraysEqual(this.props.data, nextProps.data);
+        }
+        return true;
+    }
+
+    private _arraysEqual(arr1: IPieChartData[], arr2: IPieChartData[]) {
+        if (arr1.length !== arr2.length) { return false; }
+        for ( let i = arr1.length; i--; ) {
+            if (!this._compareValues(arr1[i], arr2[i])) { return false; }
+        }
+        return true;
+    }
+
+    private _compareValues(data1: IPieChartData, data2: IPieChartData) {
+        if (data1.class !== data2.class) { return false; }
+        if (data1.label !== data2.label) { return false; }
+        if (data1.text !== data2.text) { return false; }
+        if (data1.unit !== data2.unit) { return false; }
+        if (data1.value !== data2.value) { return false; }
+        return true;
     }
 
     private redraw() {

@@ -44,17 +44,21 @@ import { DataGenerator } from './utilities/DataGenerator';
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
-        const generator = new DataGenerator();
+        // const generator = new DataGenerator();
 
         this.state = {
             showDialog: false,
             treeviewElements: elements,
             selector: true,
-            data: generator.generateValues()
+            data2: [
+                    {label: 'used', value: 99, text: 'Used: 68.36 GB', class: 'used-critical'},
+                    {label: 'option1', value: 124, text: 'Test1'},
+                    {label: 'option2', value: 251, text: 'Test2'}
+                ]
         };
 
         setInterval(() => {
-            this.setState({data: generator.generateValues()});
+            this.setState({data2: null});
             console.log('Hello');
         }, 500);
     }
@@ -355,20 +359,6 @@ export class Index extends React.Component<any, any> {
                         text={'Sample text'} 
                         title={'Partition D:'} 
                         height={200} 
-                        width={200} 
-                        data={
-                            [
-                                {label: 'used', value: 99, text: 'Used: 68.36 GB', class: 'used-critical'},
-                                {label: 'option1', value: 124, text: 'Test1'},
-                                {label: 'option2', value: 251, text: 'Test2'}
-                            ]
-                        } 
-                ></PieChart><br/>
-                 <PieChart
-                        id={'chart-3'} 
-                        text={'Sample text'} 
-                        title={'Partition E:'} 
-                        height={300} 
                         width={200} 
                         data={
                             [
