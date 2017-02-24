@@ -361,7 +361,7 @@ export class Index extends React.Component<any, any> {
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
 
-                <Dashboard farms={farms} filter={''} title={farms.title} activeView={0} />
+                <Dashboard farms={farms} filter={''} title={farms.title} activeView={0} hasAddFarmButton={true} addFarm={() => console.log('specify action!')} />
 
                 <br />
                 <ServerDetails

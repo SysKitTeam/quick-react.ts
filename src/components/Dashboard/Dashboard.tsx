@@ -29,10 +29,21 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
         let {filter, activeView} = this.state;
         return (
             <div>
-                <DashboardHeader onChanged={this.changeSearchFilter} filter={filter} title={farms.title} onViewChange={this.changeView} />
+                <DashboardHeader 
+                    hasAddFarmButton={true} 
+                    onChanged={this.changeSearchFilter} 
+                    filter={filter} 
+                    title={farms.title} 
+                    onViewChange={this.changeView} 
+                    onAddFarmClick={this.props.addFarm}/>
                 {
                     (activeView === 1 || activeView === 0) &&
-                    <CompactDashboard filter={filter} className={'viewport-height'} title={farms.title} farms={farms.farms} isVertical={activeView === 1} />
+                    <CompactDashboard 
+                        filter={filter} 
+                        className={'viewport-height'} 
+                        title={farms.title} 
+                        farms={farms.farms} 
+                        isVertical={activeView === 1} />
                 }
 
             </div>
