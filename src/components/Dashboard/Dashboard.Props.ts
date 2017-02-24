@@ -40,6 +40,11 @@ export interface IDashboardProps {
     groupDeleteFunc?: (groupId: any) => void;
 
     /**
+     * Action that is called on clicking the title of a cetrain group. The function is supplied with a group id.
+     */
+     groupOnClick?: (groupId: any) => void;
+
+    /**
      * Action that is called on role change of a certain server of some farm. The function is supplied with server FQDN.
      */
     serverRoleEdit?: (serverFQDN: any) => void;
@@ -48,4 +53,7 @@ export interface IDashboardProps {
      * Action that is called on closing a certain server of some farm. The function is supplied with server FQDN.
      */
     serverClose?: (serverFQDN: any) => void;
+
+
+
 }

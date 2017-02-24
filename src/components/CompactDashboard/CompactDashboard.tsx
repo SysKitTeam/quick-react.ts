@@ -30,16 +30,6 @@ function sortFarmServers(ob1: { status: number, serverName: string }, ob2: { sta
     }
 }
 
-function sortFarms(ob1: { farmName: string }, ob2: { farmName: string }) {
-    if (ob1.farmName < ob2.farmName) {
-        return -1;
-    }
-
-    if (ob1.farmName > ob2.farmName) {
-        return 1;
-    }
-    return 0;
-}
 
 function checkFilter(filter: string, serverName: string) : boolean {
     return serverName.toLowerCase().trim().indexOf(filter.toLowerCase().trim()) !== -1;
@@ -180,7 +170,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
         const servers  = farm.servers.filter((server) => {return checkFilter(this.props.filter, server.serverName); } ).sort(sortFarmServers);
         return (
             <div style={style} key={index}>
-                <Group addFunc={this.props.groupAddFunc} editFunc={this.props.groupEditFunc} deleteFunc={this.props.groupDeleteFunc} serverChildrenCount={servers.length} className={'farm-name-inside'} id={farm.farmId} name={farm.farmName} key={farm.farmId}>
+                <Group onClick={this.props.groupOnClick} addFunc={this.props.groupAddFunc} editFunc={this.props.groupEditFunc} deleteFunc={this.props.groupDeleteFunc} serverChildrenCount={servers.length} className={'farm-name-inside'} id={farm.farmId} name={farm.farmName} key={farm.farmId}>
                     <GroupHeader sharepointIcon={farm.sharepointVersionIcon} sharepointVersion={farm.sharepointVersion} isCustomFarm={farm.isCustom} configDB={farm.configDB} configDBIcon={farm.confgiDBIcon} />
                     {
                         servers.map((server) => (

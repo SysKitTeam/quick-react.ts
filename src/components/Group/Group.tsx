@@ -22,7 +22,7 @@ export class Group extends React.Component<IGroupProps, any> {
                 {
                     hasServersVisible && 
                     <span className="farm-name" title={this.props.name}>
-                        <span>{this.props.name}</span>
+                        <span onClick={() => {this.props.onClick(this.props.id);} }>{this.props.name}</span>
                         <Icon title={'Delete'} iconName={'icon-Delete'} onClick={() => {this.props.deleteFunc(this.props.id);}}></Icon>
                         <Icon title={'Edit'} iconName={'icon-Edit'} onClick={() => {this.props.editFunc(this.props.id);} }></Icon>
                         <Icon title={'Add'} iconName={'icon-Add'} onClick={() => {this.props.addFunc(this.props.id);}}></Icon>

@@ -7,6 +7,16 @@ import './Dashboard.scss';
 import { autobind } from '../../utilities/autobind';
 
 
+function sortFarms(ob1: { farmName: string }, ob2: { farmName: string }) {
+    if (ob1.farmName < ob2.farmName) {
+        return -1;
+    }
+
+    if (ob1.farmName > ob2.farmName) {
+        return 1;
+    }
+    return 0;
+}
 
 export class Dashboard extends React.Component<IDashboardProps, any> {
 
@@ -40,10 +50,11 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
                 {
                     (activeView === 1 || activeView === 0) &&
                     <CompactDashboard 
+                        groupOnClick={this.props.groupOnClick}
                         filter={filter} 
                         className={'viewport-height'} 
                         title={farms.title} 
-                        farms={farms.farms} 
+                        farms={farms.farms.sort(sortFarms)} 
                         isVertical={activeView === 1} />
                 }
             </div>

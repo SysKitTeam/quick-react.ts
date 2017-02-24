@@ -28,8 +28,7 @@
 }
 
 .farm-name-inside{
-    .farm-name{
-        
+    .farm-name{        
         position: absolute;
         background: inherit;
         font-size: 20px;
@@ -47,8 +46,12 @@
             width: calc(100% - 80px);
             white-space: nowrap;
             overflow: hidden;
+            cursor:pointer;
             text-overflow: ellipsis;
             position: relative;
+        }
+        span:hover{
+            color:#0078d7;
         }
 
         .icon{

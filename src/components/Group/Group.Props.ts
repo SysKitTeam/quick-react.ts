@@ -32,4 +32,9 @@ export interface IGroupProps {
      * Action that is called on clicking the delete icon on the bar. The function is supplied with a group id.
      */
     deleteFunc?: (groupId: any) => void;
+
+    /**
+     * Action that is called on clicking the title of the group. The function is supplied with a group id.
+     */
+     onClick?: (groupId: any) => void;
 }

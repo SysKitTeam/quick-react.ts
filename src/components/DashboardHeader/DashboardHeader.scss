@@ -32,7 +32,8 @@
             padding: 0;
             margin: 5px 10px 0px 10px;
             vertical-align: middle;
-
+            top: -3px;
+            position: relative;
             &:hover {
                 color: #7DC458;
                 cursor: pointer;
