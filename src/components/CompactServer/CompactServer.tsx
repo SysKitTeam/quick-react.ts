@@ -6,9 +6,6 @@ import * as classNames from 'classnames';
 import  {autobind} from '../../utilities/autobind';
 import'./CompactServer.scss';
 
-function checkFilter(filter: string, serverName: string) {
-    return serverName.toLowerCase().trim().indexOf(filter.toLowerCase().trim()) !== -1;
-}
 
 export class CompactServer extends React.Component<ICompactServerProps, any> {
 
@@ -33,15 +30,11 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
          
 
         let name = this.props.serverName;
-        let showItem = this.props.filter ? checkFilter(this.props.filter,  this.props.serverName) : true;
-        let className = classNames({'compact-server-container': showItem},
+        let className = classNames('compact-server-container',
                         {[this.props.classNameList.warning]: isWarning}, 
                         {[this.props.classNameList.ok]: isOK}, 
                         {[this.props.classNameList.critical]: isCritical});
                         
-        if (!showItem) {
-            return null;
-        }
         return (
             
             <div className={ className }>

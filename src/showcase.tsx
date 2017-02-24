@@ -36,6 +36,8 @@ import { StatusBar } from './components/StatusBar/StatusBar';
 import { CheckboxList } from './components/CheckboxList/CheckboxList';
 import { Treeview } from './components/Treeview/Treeview';
 import { CompactDashboard} from './components/CompactDashboard/CompactDashboard';
+import { IFarm } from './components/CompactDashboard/CompactDashboard.Props';
+import {ICompactServerProps} from './components/CompactServer/CompactServer.Props';
 import {TagContainer} from './components/TagContainer/TagContainer';
 import {CompactServer} from './components/CompactServer/CompactServer';
 import {DashboardHeader} from './components/DashboardHeader/DashboardHeader';
@@ -59,10 +61,41 @@ export class Index extends React.Component<any, any> {
             treeviewElements: elements,
             selector: true,
             cpu: '74',
-            data: generator.generateValues()
+            data: generator.generateValues(),
+            farms: farms
         };
         
         setInterval(() => this.setState({data: generator.generateValues()}), 5000);
+        setInterval(() => { 
+            let newFarms = this.state.farms.farms.map((farm: IFarm) => {
+                let servers = farm.servers.map((server: ICompactServerProps) => {
+                    
+                    return {
+                        classNameList : server.classNameList,
+                        serverId: server.serverId,
+                        status: this.generateRandomStatus(),
+                        roleList: server.roleList,
+                        onRoleEdit: server.onRoleEdit,
+                        onServerClose: server.onServerClose,
+                        serverName: server.serverName
+                    };
+                });
+                return {
+                    farmId: farm.farmId,
+                    isCustom: farm.isCustom,
+                    sharepointVersion: farm.sharepointVersion,
+                    sharepointVersionIcon: farm.sharepointVersionIcon,
+                    configDB: farm.configDB,
+                    confgiDBIcon: farm.confgiDBIcon,
+                    farmName: farm.farmName,
+                    servers: servers
+                };
+            });
+            this.setState({farms: {
+                farms:  newFarms,
+                title: this.state.farms.title
+            }});
+        }, 2000);
     }
 
     componentDidMount() {
@@ -361,7 +394,7 @@ export class Index extends React.Component<any, any> {
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
 
-                <Dashboard farms={farms} filter={''} title={farms.title} activeView={0} />
+                <Dashboard farms={this.state.farms} filter={''} title={this.state.farms.title} activeView={0} />
 
                 <br />
                 <ServerDetails
@@ -444,6 +477,10 @@ export class Index extends React.Component<any, any> {
 
     private _closeDialog() {
         this.setState({ showDialog: false });
+    }
+
+    private generateRandomStatus() {
+        return Math.floor(Math.random() * (4 - 0 + 1)) + 0;
     }
 };
 

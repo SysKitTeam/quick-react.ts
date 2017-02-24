@@ -85,10 +85,10 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                             <AutoSizer  >
                                 {({ width, height}) => (
                                     <Collection
-                                        filt={this.props.filter}
                                         ref={(reference) => {
                                             this.collection = reference;
                                         }}
+                                        verticalOverscanSize={1}
                                         cellCount={this.props.farms.length}
                                         cellRenderer={this._renderRow}
                                         cellSizeAndPositionGetter={function (index) {
@@ -109,7 +109,6 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                             <AutoSizer  >
                                 {({ width, height }) => (
                                     <List
-                                        filt={this.props.filter}
                                         height={height}
                                          ref={(reference) => {
                                             this.list = reference;
@@ -178,14 +177,14 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
 
         const farm = this.getRow(index);
-        const servers  = farm.servers.filter((server) => {return checkFilter(this.props.filter, server.serverName); } ).sort(sortFarmServers);
+        const servers  = farm.servers.filter((server) => {return checkFilter(this.props.filter, server.serverName); } ); // .sort(sortFarmServers);
         return (
             <div style={style} key={index}>
                 <Group addFunc={this.props.groupAddFunc} editFunc={this.props.groupEditFunc} deleteFunc={this.props.groupDeleteFunc} serverChildrenCount={servers.length} className={'farm-name-inside'} id={farm.farmId} name={farm.farmName} key={farm.farmId}>
                     <GroupHeader sharepointIcon={farm.sharepointVersionIcon} sharepointVersion={farm.sharepointVersion} isCustomFarm={farm.isCustom} configDB={farm.configDB} configDBIcon={farm.confgiDBIcon} />
                     {
                         servers.map((server) => (
-                            <CompactServer filter={this.props.filter} key={server.serverId} roleList={server.roleList} serverId={server.serverId} classNameList={server.classNameList}
+                            <CompactServer key={server.serverId} roleList={server.roleList} serverId={server.serverId} classNameList={server.classNameList}
                                 status={server.status} onRoleEdit={this.props.serverRoleEdit} onServerClose={this.props.serverClose} serverName={server.serverName}
                                 />
                         ))
