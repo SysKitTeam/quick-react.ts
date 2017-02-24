@@ -1,181 +1,121 @@
 @import '../../index.scss';
 
-$column-height: 60px;
-$details-width: 240px;
-$details-height: 60px;
-$row-height: 60px;
-$row-width: 240px;
-$tile-height: 214px;
-$tile-width: 260px;
-$warning-color: #ecd54a;
-$ok-color: #008000;
-$error-color: #e34848;
-$counter-status-font-size: 18px;
-$counter-info-font-size: 12px;
-$counter-info-font-color: #9f9f9f;
-$status-width: 20px;
-$separator-color: #aeaeae;
+$tile-height: 220px;
+$tile-width: 280px;
+$separator-color: white;
+$background-color: #e8e9ef;
+$font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+$counters-data-size: 24px;
+$counters-unit-size: 14px;
+$header-font-size: 14px;
+$counters-title-font-size: 12px;
+$counters-title-font-color: #a9a9a9;
+$server-status-color: #677A85;
 
-.server-tile {
-    box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.2);
+
+.server-details {
+    font-family: $font;
     width: $tile-width;
-    height: $tile-height;
-    box-sizing: border-box;
     display: inline-block;
     margin: 5px 5px 5px 5px;
-}
-
-.ul-base {
-    padding: 2px 2px 2px 2px;
-    margin: 2px;
-    display: block;
-    list-style-type: none;
-}
-
-[class*='st-col-2'] {
-    width: calc(50% - 2px);
-    height: $column-height;
     position: relative;
+    padding: 0;
+    border-left: 10px solid $server-status-color;
+    background-color: $background-color;
 
-    ul {
-        @extend .ul-base;
+    .server-details-header {
+        font-size: $header-font-size;
+        width: 100%;
+        padding: 0;
+        display: block;
+        margin: 5px 0px 10px 0px;
+
+        .server-name {
+            padding: 0;
+            margin: 2px 2px 2px 5px;
+            display: inline-block;
+            font-weight: 600;
+            max-width: 40%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            vertical-align: bottom;
+        }
+
+        .disk-icon {
+            padding: 0;
+            margin: 5px 10px 5px 25px;
+        }
+
+        hr {
+            width: 80%;
+            border-style: solid;
+            border-color: white;
+            background-color: white;
+        }
     }
-}
 
-.tl-disk-container {
-    ul {
-        @extend .ul-base;
+    .dialog-button-close {
+        float: right;
+        margin: 5px 10px 5px 5px;
+
+        &:hover {
+            color: red;
+        }
     }
-}
 
-[class*='st-col-'] {
-    float: left;
-    min-height: 1px;
-}
+    .counters-container {
+        display: block;
+        width: 100%;
+        height: 75%;
+        margin: 10px 0px 10px 0px;
 
-.row:before, 
-.row:after {
-    content:"";
-    display: table;
-    clear: both;
-}
+        .tile {
+            width: calc(45% - 12px);
+            display: inline-block;
+            padding-left: 10px;
+            text-align: center;
+            height: calc(35% - 2px);
 
-.details {
-    height: $details-height;
-    width: $details-width;
-    float: right;
-}
+            p {
+                text-align: center;
+                color: $counters-title-font-color;
+                font-size: $counters-title-font-size;
+                margin: 2px 0px 2px 0px;
+            }
 
-.st-row {
-    height: $row-height;
-    width: $row-width;
-    float: right;
-}
+            &:nth-child(odd) {
+                border-right: 2px solid $separator-color;
+                margin-left: calc(5% + 1px);
+            }
 
-[class^='server-tile-status'] {
-    width: $status-width;
-    height: $tile-height;
-    float: left;
-}
+            &:nth-child(even) {
+                border-left: 2px solid $background-color;
+            }
 
-[class*='status-warning'] {
-    color: $warning-color;
-}
+            &:nth-last-child(-n+2) {
+                border-top: 2px solid $separator-color;
+            }
 
-[class*='status-error'] {
-    color: $error-color;
-}
+            .label {
+                display: inline-block;
+            }
 
-.server-tile-status-warning {
-    background-color: $warning-color;
-}
+            .label:nth-child(2) {
+                font-size: $counters-data-size;
+            }
 
-.server-tile-status-ok {
-    background-color: $ok-color;
-}
+            .label:nth-child(3) {
+                font-size: $counters-unit-size;
+            }
+        }
+    }
 
-.server-tile-status-error {
-    background-color: $error-color;  
-}
-
-.counter-data {
-    text-align: center;
-    font-size: $counter-status-font-size;
-}
-
-.counter-info {
-    color: $counter-info-font-color;
-    font-size: $counter-info-font-size;
-    padding-left: 3px;
-}
-
-.tooltip {
-    display: none;
-    position: relative;
-}
-
-.tooltip-base {
-    background: white;
-    border: 1px solid black;
-    color: #fff;
-    padding: 5px 0px 0px 0px;
-    position: absolute;
-    z-index: 10;
-    display: block;
-    padding: 1px 1px 1px 1px;
-    bottom: 25%;
-}
-
-.st-users:hover .tooltip {
-    @extend .tooltip-base;
-    left: 85%;
-    bottom: 70%;
-}
-
-.st-col-2-r:hover .tooltip {
-    @extend .tooltip-base;
-    left: 66%;
-}
-
-.st-col-2-l:hover .tooltip {
-    @extend .tooltip-base;
-    right: 66%;
-}
-
-.server-name {
-    padding-left: 5px;
-    display: inline-block;
-}
-
-.server-name-container {
-    display:inline-block;
-}
-
-.header {
-    margin: auto;
-    position: relative;
-    width: $details-width;
-    float: right;
-}
-
-.tooltip-label {
-    white-space: nowrap;
-    font-size: 12px;
-    display: inline-block;
-    padding: 1px 1px 1px 1px;
-}
-
-.tl-server-name-container {
-    display: inline-block;
-}
-
-.tl-server-name-container:hover .tooltip {
-    @extend .tooltip-base;
-    bottom: 70%;
-    right: 60%;
-}
-
-.tl-disk-container:hover .tooltip {
-    @extend .tooltip-base;
-    bottom: 70%;
+    .icon-User:after {
+        content: attr(data-users);
+        padding: 0;
+        margin: 0px 0px 2px 5px;
+        font-family: $font;
+        font-size: $header-font-size;
+    }
 }
