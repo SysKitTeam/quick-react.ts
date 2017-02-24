@@ -10,8 +10,8 @@ export const classListExample = {
 
 let roleListFarms =  [{display: 'WPF', iconName: 'icon-Add'}, {display: 'Search', iconName: 'icon-Alert'}];
 export const farms: ICompactDashboardProps = {
-    title: 'Compact dashboard view',
-    // title: 'This is way too long title for dashboard view',
+    // title: 'Compact dashboard view',
+    title: 'This is way too long title for dashboard view',
     farms: [
         {
             farmId: 'idwewewewewewewewewesdc1',

@@ -5,32 +5,25 @@ import { Pivot } from '../Pivot/Pivot';
 import { PivotItem } from '../Pivot/PivotItem';
 import { Label } from '../Label/Label';
 import { Icon } from '../Icon/Icon';
+import * as classNames from 'classnames';
 import './DashboardHeader.scss';
 
 
 export class DashboardHeader extends React.Component<IDashboardHeaderProps, any> {
-
-    public static defaultProps: IDashboardHeaderProps = {
-        title: '',
-        filter: '',
-        hasAddFarmButton: true,
-        iconName: 'icon-Add',
-        onViewChange: () => {}
-    };
 
     constructor(props?: IDashboardHeaderProps) {
         super(props);
     }
 
     render() {
-        let { iconName, hasAddFarmButton, title } = this.props;
+        let { hasAddFarmButton, title } = this.props;
         return (
             <div className="dashboard-header-container">
-                <span className="dashboard-header-title-container">
-                    <span className="dashboard-header-title" title={title}>{title}</span>
+                <span className={classNames('dashboard-header-title-container', this.props.headerClass)}>
+                    <span className={'dashboard-header-title'} title={title}>{title}</span>
                     {
                         hasAddFarmButton && 
-                        <Icon className={'add-farm'} iconName={iconName} onClick={this.props.onAddFarmClick} title={'Add farm'}/>
+                        <Icon className={'add-farm'} iconName={'icon-Add'} onClick={this.props.onAddFarmClick} title={'Add farm'}/>
                     }
                 </span>
                 <Search onSearch={this.props.onSearch} onChange={this.props.onChanged} value={this.props.filter} />

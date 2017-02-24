@@ -11,7 +11,7 @@ export interface IDashboardProps {
     height?: number;
     width?: number;
     hasAddFarmButton?: boolean;
-    addFarmIcon?: string;
+    headerClass?: string;
 
     /**
      * Action that is invoked when user clicks on add farm button.
