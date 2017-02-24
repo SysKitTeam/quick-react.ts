@@ -10,6 +10,13 @@ export interface IDashboardProps {
     className?: string;
     height?: number;
     width?: number;
+    hasAddFarmButton?: boolean;
+    headerClass?: string;
+
+    /**
+     * Action that is invoked when user clicks on add farm button.
+     */
+    addFarm?: () => void;
 
     /**
      * Action that happens when the search input of the dashboard has changed it's value.

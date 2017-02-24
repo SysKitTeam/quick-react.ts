@@ -11,7 +11,10 @@ export enum ActiveDashboard {
 export interface IDashboardHeaderProps {
     title: string;
     filter: string;
+    headerClass?: string;
+    hasAddFarmButton?: boolean;
     onViewChange: (item?: any) => void;
     onSearch?: (newValue: any) => void;
     onChanged?: (newValue: any) => void;
+    onAddFarmClick?: () => void;
 }
