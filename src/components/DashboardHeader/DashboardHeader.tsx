@@ -16,19 +16,16 @@ export class DashboardHeader extends React.Component<IDashboardHeaderProps, any>
         return (
             <div className="dashboard-header-container">
                 <span className="dashboard-header-title">{this.props.title}</span>
-                <Search onSearch={this.props.onSearch} onChange={this.props.onChanged} value={this.props.filter} />
-                <div style={{ display: 'inline-block' }}>&nbsp;</div>
-
-                <Pivot onLinkClick={this.props.onViewChange}>
-                    <PivotItem linkText={'Compact Horizontal'} >
-                    </PivotItem>
-                    <PivotItem linkText={'Compact Vertical'}>
-                    </PivotItem>
-                    <PivotItem linkText={'Tiles'} >
-                    </PivotItem>
-                    <PivotItem linkText={'Grid'} >
-                    </PivotItem>
+                {this.props.pivotItems &&
+                    <Pivot onLinkClick={this.props.onViewChange}>
+                    {this.props.pivotItems.map((element, index) => (
+                        <PivotItem key={index} linkText={element.linkText} linkIcon={element.linkIcon} itemKey={element.itemKey} itemCount={element.itemCount} >
+                        </PivotItem>
+                    ))
+                    }
                 </Pivot>
+                }
+                <Search onSearch={this.props.onSearch} onChange={this.props.onChanged} value={this.props.filter} />
             </div>
         );
     }

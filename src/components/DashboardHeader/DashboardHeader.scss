@@ -2,13 +2,14 @@
 
 .dashboard-header-container{
     @include baseFont();
+    display: flex;
     width: calc(100% - 32px);
     color: #828282;
     padding: 15px;
     border: 1px solid #eee;
    
     .dashboard-header-title{
-        width: 45%;
+        width: 55%;
         display: inline-block;
         font-weight: 400;
         font-size: 25px;
