@@ -30,7 +30,23 @@ $font: 'Segoe UI';
         display: block;
         margin-top: -25px;
 
-        .graph-container {
+        .svg-container {
+            .line-chart-capture {
+                fill: none;
+                pointer-events: all;
+            }
+            .tip-container {
+                polygon {
+                    fill: white;
+                    stroke: #e8e9ef;
+                    stroke-width: 2;
+                }
+                rect {
+                    stroke: #e8e9ef;
+                    stroke-width: 2;
+                    fill: white;
+                }
+            }
             g {
                 .domain {
                     visibility: hidden;
@@ -52,7 +68,7 @@ $font: 'Segoe UI';
                 }
             }
 
-            .graph-line {
+            .line-chart-line {
                 fill: none;
                 stroke: $main-color;
                 stroke-width: 2px;

@@ -37,6 +37,8 @@ import { Treeview } from './components/Treeview/Treeview';
 import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
 import { LineChart } from './components/LineChart/LineChart';
 
+import { data } from './MockData/Data';
+
 import { DataGenerator } from './utilities/DataGenerator';
 
 export class Index extends React.Component<any, any> {
@@ -51,8 +53,8 @@ export class Index extends React.Component<any, any> {
             data2: generator2.generateValues()
         };
 
-        setInterval(() => this.setState({data: generator1.generateValues()}), 5000);
-        setInterval(() => this.setState({data: generator2.generateValues()}), 2000);
+        // setInterval(() => this.setState({data: generator1.generateValues()}), 5000);
+        // setInterval(() => this.setState({data: generator2.generateValues()}), 2000);
     }
     public render() {
         return (
@@ -322,10 +324,10 @@ export class Index extends React.Component<any, any> {
                 <LineChart 
                     id={'graf-1'}
                     title={'CPU USAGE'}
-                    data={this.state.data1} 
+                    data={data} 
                     width={330} 
                     height={200}
-                    xAxisScale={'TIME'}
+                    xAxisScale={'LINEAR'}
                 ></LineChart>
                 <LineChart
                     id={'graf-2'}

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as d3 from 'd3';
-
+import * as classNames from 'classnames';
 import { Label } from '../Label/Label';
 import { ILineChartProps } from './LineChart.props';
 import { ILineChartData } from './LineChart.props';
@@ -17,21 +17,19 @@ export class LineChart extends React.Component<ILineChartProps, undefined> {
     };
     private width: number = this.props.width - this.margin.left - this.margin.right - 10;
     private height: number = this.props.height - this.margin.top - this.margin.bottom;
-    private _y = this.generateY();
-    
-    GRAPH_CONTAINER_CLASS: string = 'graph-container';
-    LINE_CLASS: string = 'graph-line';
-    TRANSLATE_WIDTH: number = 10;
-    TRANSFORM_X_AXIS: string = 'translate(0,' + (this.height) + ')';
-    TRANSLATE_LINE: string = 'translate(' + this.TRANSLATE_WIDTH + ', 0)';
 
     refs: {
         [argument: string]: (Element);
         container: (HTMLInputElement);
     };
 
+    private x;
+    private y;
+
     constructor(props: ILineChartProps) {
         super(props);
+        this.x = this.generateX();
+        this.y = this.generateY();       
     }
 
     public componentDidMount() {
@@ -39,6 +37,7 @@ export class LineChart extends React.Component<ILineChartProps, undefined> {
     }
 
     public componentDidUpdate() {
+        this.x = this.generateX();
         this.redraw();
     }
 
@@ -50,53 +49,33 @@ export class LineChart extends React.Component<ILineChartProps, undefined> {
         );
     }
 
-    private redraw() {
-        d3.select('.x-axis.' + this.props.id).call(this.generateXAxis());
-        d3.select('.' + this.LINE_CLASS + '.' + this.props.id).attr('d', this.constructLine());
-    }
-
     private draw() {
-        const svg = this.createContainer();
-        this.drawXAxis(svg);
-        this.drawYAxis(svg);
-        this.drawLine(svg);
-        this.createFocus(svg);
-        this.addTooltip();
-        this.drawCaptureArea(svg);
-    }
-
-    private style(g: any) {
-        g.selectAll('.tick').attr('stroke', 'white');
-    }
-
-    private drawXAxis(svg: any) : void {
-        svg.insert('g', ':first-child')
-            .attr('transform', this.TRANSFORM_X_AXIS)
-            .attr('class', 'x-axis ' + this.props.id)
-            .call(this.generateXAxis());
-    }
-
-    private drawYAxis(svg: any) : void {
-        const g = svg.append('g')
-                .attr('class', 'y-axis')
-                .call(this.generateYAxis());
-        g.selectAll('line').attr('transform', 'translate(-15, 0)');
-    }
-
-    private drawLine(svg: any) {
-        return svg.insert('path', '.y-axis + *')
-            .data([this.props.data])
-            .attr('class', this.LINE_CLASS + ' ' + this.props.id)
-            .attr('d', this.constructLine());
-    }
-
-    private createContainer() {
-        return d3.select(this.refs.container).append('svg')
+        const id = this.props.id;
+        const svg = d3.select(this.refs.container).append('svg')
                     .attr('width', this.props.width - 10)
                     .attr('height', this.props.height + 20)
                     .append('g')
-                    .attr('class', this.GRAPH_CONTAINER_CLASS)
-                    .attr('transform', 'translate(' + this.margin.left + ',' + (this.margin.top + 20) + ')');        
+                    .attr('class', 'svg-container')
+                    .attr('transform', 'translate(' + this.margin.left + ',' + (this.margin.top + 20) + ')');
+
+        svg.insert('g', ':first-child')
+            .attr('transform', 'translate(0,' + (this.height) + ')')
+            .attr('class', classNames('x-axis', id))
+            .call(this.generateXAxis());
+
+        svg.append('g').attr('class', classNames('y-axis', id))
+            .call(this.generateYAxis()).selectAll('line').attr('transform', 'translate(-15, 0)');
+
+        svg.insert('path', '.y-axis + *')
+            .data([this.props.data]).attr('class', classNames('line-chart-line', id)).attr('d', this.constructLine());
+
+        this.addTooltip(svg);
+        this.drawCaptureArea(svg);
+    }
+
+    private redraw() {
+        d3.select('.x-axis.' + this.props.id).call(this.generateXAxis());
+        d3.select('.line-chart-line.' + this.props.id).attr('d', this.constructLine());
     }
 
     private generateX() : any {
@@ -119,12 +98,13 @@ export class LineChart extends React.Component<ILineChartProps, undefined> {
     }
 
     private generateXAxis() {
-        return d3.axisBottom(this.generateX())
+        const axis = d3.axisBottom(this.generateX())
                 .tickValues(d3.extent(this.props.data, (d) => d.argument))
                 .tickSizeInner(-(this.height))
                 .tickSizeOuter(0)
-                .ticks(2, '%I:%M:%S %p')
-                .tickPadding(15);        
+                .tickPadding(15);
+        if (this.props.xAxisScale === 'TIME') { return axis.ticks(2, '%I:%M:%S %p'); }
+        return axis.ticks(2);
     }
 
     private generateYAxis() {
@@ -139,46 +119,31 @@ export class LineChart extends React.Component<ILineChartProps, undefined> {
     }
 
     private constructLine() {
-        const x = this.generateX();
         return d3.line<ILineChartData>()
-                    .x((d) => x(d.argument))
-                    .y((d) => this._y(d.value));
-    }
-
-    private createFocus(svg: any) {
-        this._focus =  svg.append('g').style('display', 'none');
-        return this._focus;
+                    .x((d) => this.x(d.argument))
+                    .y((d) => this.y(d.value));
     }
 
     private drawCaptureArea(svg: any) {
         return svg.append('rect')
                     .attr('width', this.width)
                     .attr('height', this.height)
+                    // .style('fill', 'none')
                     .attr('class', 'line-chart-capture')
-                    .style('fill', 'none')
-                    .style('pointer-events', 'all')
                     .on('mouseover', () => this._focus.style('display', null))
                     .on('mouseout', () =>  this._focus.style('display', 'none'))
                     .on('mousemove', () => this.mouseMove());
     }
 
-    private addTooltip() {
+    private addTooltip(container: any) {
+        this._focus = container.append('g').attr('class', 'tip-container').style('display', 'none');
         this._focus.append('polygon')
-            .attr('fill', 'white')
             .attr('class', 'tip-pol')
-            .attr('stroke', '#e8e9ef')
-            .attr('stroke-width', 2)
             .attr('points', '10,20 20,35 30,20');
-
         this._focus.append('rect')
-            .attr('width', '40')
-            .attr('height', '24')
-            .attr('class', 'tip-rect')
-            .attr('display', 'none')
-            .attr('stroke', '#e8e9ef')
-            .attr('stroke-width', 2)
-            .attr('fill', 'white');
-
+            .attr('width', 40)
+            .attr('height', 24)
+            .attr('class', 'tip-rect');
         this._focus.append('text')
             .attr('class', 'tooltip-text')
             .attr('dx', 8)
@@ -186,30 +151,26 @@ export class LineChart extends React.Component<ILineChartProps, undefined> {
     }
 
     private mouseMove() {
-        const x = this.generateX();
         const bisect = d3.bisector<ILineChartData, any>((d) => d.argument).left;
-
-        let x0 = x.invert(d3.mouse(d3.event.currentTarget)[0]);
+        let x0 = this.x.invert(d3.mouse(d3.event.currentTarget)[0]);
 
         let i = bisect(this.props.data, x0, 1);
         let d0 = this.props.data[i - 1];
         let d1 = this.props.data[i];
-
         let d;
 
         if (this.props.xAxisScale === 'TIME') {
             d = (x0.getTime() - (d0.argument as Date).getTime()) > ((d1.argument as Date).getTime() - x0.getTime()) ? d1 : d0;
+        } else {
+            d = x0 - (d0.argument as any) > (d1.argument as any) - x0 ? d1 : d0;
         }
 
-        d = x0 - (d0.argument as any) > (d1.argument as any) - x0 ? d1 : d0;
-
         this._focus.select('.tip-rect')
-                .attr('transform', 'translate(' + (x(d.argument) - 20) + ',' + (this._y(d.value) - 40) + ')')
-                .attr('display', 'block');
+                .attr('transform', 'translate(' + (this.x(d.argument) - 20) + ',' + (this.y(d.value) - 40) + ')');
         this._focus.select('.tip-pol')
-                .attr('transform', 'translate(' + (x(d.argument) - 20) + ',' + (this._y(d.value) - 40) + ')');
+                .attr('transform', 'translate(' + (this.x(d.argument) - 20) + ',' + (this.y(d.value) - 40) + ')');
         this._focus.select('text.tooltip-text')
-                .attr('transform', 'translate(' + (x(d.argument) - 24) + ',' + (this._y(d.value) - 20) + ')')
+                .attr('transform', 'translate(' + (this.x(d.argument) - 24) + ',' + (this.y(d.value) - 20) + ')')
                 .text(() => d.value + ' %');
     }
 }
