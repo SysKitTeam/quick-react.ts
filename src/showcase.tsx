@@ -363,19 +363,19 @@ export class Index extends React.Component<any, any> {
 
                 <br />
                 <ServerTile
-                    serverId={'server-123'}
-                    serverStatusClass={'ok'}
+                    id={{FQDN: 'server-123'}}
+                    status= {0}
                     hasCloseButton={true}
-                    serverName={'SP2016-Martin-Pisacic'}
-                    serverFqdn={'ServerName123456.companylocal'}
+                    name={'SP2016-Martin-Pisacic'}
                     numberOfUsers={'3432'}
-                    onDismiss={(id: string) => console.log('Go away!', id)}
-                    disks={['C: 49 / 259 GB (30%)', 'D: 49 / 259 GB (30 %)']}
+                    onClose={(id: string) => console.log('Go away!', id)}
+                    diskInformation={['C: 49 / 259 GB (30%)', 'D: 49 / 259 GB (30 %)']}
+                    roles={[]}
                     countersData={[
-                        {title: 'CPU', currentUsage: '43', usageUnit: '%', totalUsage: [''], status: 'ok'},
-                        {title: 'Memory', currentUsage: '7', usageUnit: 'GB', totalUsage: ['7GB/10GB (70%)'], status: 'warning'},
-                        {title: 'Disk', currentUsage: '0,1', usageUnit:'Mbps', totalUsage: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps'], status: 'ok'},
-                        {title: 'Network', currentUsage: '0,1', usageUnit: 'MB/s', totalUsage: ['50.10 kB/s', '23.47 kB/s'], status: 'ok'}
+                        {title: 'CPU', currentUsage: '43', usageUnit: '%', hoverText: [''], status: 'ok'},
+                        {title: 'Memory', currentUsage: '7', usageUnit: 'GB', hoverText: ['7GB/10GB (70%)'], status: 'warning'},
+                        {title: 'Disk', currentUsage: '0,1', usageUnit:'Mbps', hoverText: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps'], status: 'ok'},
+                        {title: 'Network', currentUsage: '0,1', usageUnit: 'MB/s', hoverText: ['50.10 kB/s', '23.47 kB/s'], status: 'ok'}
                     ]}>
                 {/*<TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>*/}
                 </ServerTile>

@@ -1,26 +1,33 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { Label } from '../Label/Label';
-import { IServerTileProps } from './ServerTile.Props';
+import { IServerTileProps, ITileData } from './ServerTile.Props';
 import { Icon } from '../Icon/Icon';
+import {ServerStatus} from '../../models';
 import './ServerTile.scss';
-
-import { IServerCountersData } from './ServerTile.Props';
+   
 export class ServerTile extends React.PureComponent<IServerTileProps, any> {
 
     constructor(props?: IServerTileProps) {
         super(props);
     }
 
-    public render() {
+    public render() { 
+         let isCritical = this.props.status === ServerStatus.Critical;
+         let isWarning = this.props.status === ServerStatus.Warning;
+         let isOK = this.props.status === ServerStatus.OK;
+         let className = classNames('server-details',
+                        {'status-warning': isWarning}, 
+                        {'status-ok': isOK}, 
+                        {'status-critical': isCritical});
         return (
-            <div className={classNames('server-details', this.props.serverStatusClass)}>
+            <div className={className}>
                 <div className={'server-details-header'}>
-                    <Label className="server-name" title={this.props.serverFqdn}>{this.props.serverName}</Label>
+                    <Label className="server-name" title={this.props.id.FQDN}>{this.props.name}</Label>
                     <Icon 
                         className={classNames('disk-icon')} 
                         iconName={'icon-LoadWithErrors'} 
-                        title={'Disks\n' + this._createTooltipText(this.props.disks)}/>
+                        title={'Disks\n' + this.createTooltipText(this.props.diskInformation)}/>
                     { this.props.numberOfUsers && 
                         <Icon data-users={this.props.numberOfUsers}
                             iconName={'icon-User'}
@@ -29,35 +36,35 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
                     {this.props.hasCloseButton && 
                         <Icon disabled={ false }
                             className={'dialog-button dialog-button-close'}
-                            onClick={this._dismiss.bind(this)} 
+                            onClick={this.dismiss.bind(this)} 
                             iconName={'icon-Delete'}/>
                     }
                     <hr/>
                 </div>
                 {this.props.children}
                 <div className={'counters-container'}>
-                    {this._createCountersTiles(this.props.countersData)}
+                    {this.createCountersTiles(this.props.countersData)}
                 </div>
             </div>
         );
     }
 
-    private _dismiss() {
-        this.props.onDismiss(this.props.serverId);
+    private dismiss() {
+        this.props.onClose(this.props.id);
     }
     
-    private _createCountersTiles(data: Array<IServerCountersData>) : Array<JSX.Element> {
-        return data.map(
-            (d: IServerCountersData) => 
-                <div className={'tile'} title={this._createTooltipText(d.totalUsage)}>
-                    <p>{d.title}</p>
-                    <Label className={d.status}>{d.currentUsage}</Label>
-                    <Label className={d.status}>{d.usageUnit}</Label>
+    private createCountersTiles(collection: Array<ITileData>) : Array<JSX.Element> {
+        return collection.map(
+            (data: ITileData) => 
+                <div className={'tile'} title={this.createTooltipText(data.hoverText)}>
+                    <p>{data.title}</p>
+                    <Label className={data.status}>{data.currentUsage}</Label>
+                    <Label className={data.status}>{data.usageUnit}</Label>
                 </div>
         );
     }
 
-    private _createTooltipText(arr: Array<string>) : string {
+    private createTooltipText(arr: Array<string>) : string {
         let data = '';
         for (let i = 0; i < arr.length; i++) {
             data += arr[i] + '\n';
