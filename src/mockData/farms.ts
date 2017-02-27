@@ -9,7 +9,7 @@ export const classListExample = {
 // 
 
 let roleListFarms = []; // [{display: 'WPF', iconName: 'icon-Add'}, {display: 'Search', iconName: 'icon-Alert'}];
-export const farms: ICompactDashboardProps = {
+/*export const farms: ICompactDashboardProps = {
     title: 'Compact dashboard view',
     farms: [
         {
@@ -1061,3 +1061,4 @@ export const farms: ICompactDashboardProps = {
         }
     ]
 };
+*/

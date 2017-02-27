@@ -40,8 +40,8 @@ import {TagContainer} from './components/TagContainer/TagContainer';
 import {CompactServer} from './components/CompactServer/CompactServer';
 import {DashboardHeader} from './components/DashboardHeader/DashboardHeader';
 import {Dashboard} from './components/Dashboard/Dashboard';
-import {farms, classListExample} from './mockData/farms';
-import { ServerDetails } from './components/ServerDetails/ServerDetails';
+//import {farms, classListExample} from './mockData/farms';
+import { ServerTile } from './components/ServerTile/ServerTile';
 import { elements } from './treeviewElements';
 import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
 import { LineChart } from './components/LineChart/LineChart';
@@ -83,10 +83,9 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-                <CompactServer serverId={'CUSTOM-PC.localdomain'} onServerClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} serverName={'CUSTOM-PC'} roleList={[]} status={1} classNameList={classListExample}/>
-                <CompactServer serverId={'My very very long name of a server I am using I know its very long.domain.com'} onServerClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} serverName={'My very very long name of a server I am using I know its very long'}            roleList={[]} status={2} classNameList={classListExample}/>
-                
-                <CompactServer serverId={'BANANA-PC.banana.com'}  onServerClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} serverName={'BANANA-PC'} roleList={[{display:'WPF', iconName:'icon-Add'}, {display:'Search', iconName:'icon-Alert'}]} status={0} classNameList={classListExample}/>
+                <CompactServer id={{FQDN: 'CUSTOM-PC.localdomain'}} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'CUSTOM-PC'} roles={[]} status={1} />
+                <CompactServer id={{FQDN: 'My very very long name of a server I am using I know its very long.domain.com'}} onClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} name={'My very very long name of a server I am using I know its very long'} roles={[]}  status={2}/>                
+                <CompactServer id={{FQDN:'BANANA-PC.banana.com'}}  onClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} name={'BANANA-PC'} roles={[{display:'WPF', iconName:'icon-Add'}, {display:'Search', iconName:'icon-Alert'}]} status={0} />
                 
                 <TagContainer title={'Roles'} tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}>
                     <div className="edit-tags tag" title="Edit tags">
@@ -361,10 +360,9 @@ export class Index extends React.Component<any, any> {
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
 
-                <Dashboard farms={farms} filter={''} title={farms.title} activeView={0} />
 
                 <br />
-                <ServerDetails
+                <ServerTile
                     serverId={'server-123'}
                     serverStatusClass={'ok'}
                     hasCloseButton={true}
@@ -380,7 +378,7 @@ export class Index extends React.Component<any, any> {
                         {title: 'Network', currentUsage: '0,1', usageUnit: 'MB/s', totalUsage: ['50.10 kB/s', '23.47 kB/s'], status: 'ok'}
                     ]}>
                 {/*<TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>*/}
-                </ServerDetails>
+                </ServerTile>
                 <LineChart 
                     title={'CPU USAGE'}
                     data={this.state.data} 
@@ -427,7 +425,7 @@ export class Index extends React.Component<any, any> {
         
     }
 
-    private _onCheckboxListChange(ev, itemId, checked) {
+    private _onCheckboxListChange(ev, itemId, checked) { 
         console.log(checked);
     }
     private _onToggle(checked){

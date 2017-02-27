@@ -1,14 +1,14 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { Label } from '../Label/Label';
-import { IServerDetailsProps } from './ServerDetails.Props';
+import { IServerTileProps } from './ServerTile.Props';
 import { Icon } from '../Icon/Icon';
-import './ServerDetails.scss';
+import './ServerTile.scss';
 
-import { IServerCountersData } from './ServerDetails.Props';
-export class ServerDetails extends React.PureComponent<IServerDetailsProps, any> {
+import { IServerCountersData } from './ServerTile.Props';
+export class ServerTile extends React.PureComponent<IServerTileProps, any> {
 
-    constructor(props?: IServerDetailsProps) {
+    constructor(props?: IServerTileProps) {
         super(props);
     }
 

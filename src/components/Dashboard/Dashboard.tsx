@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { IDashboardProps } from './Dashboard.Props';
 import { DashboardHeader } from '../DashboardHeader/DashboardHeader';
+import { ActiveDashboard } from '../DashboardHeader/DashboardHeader.Props';
 import { CompactDashboard } from '../CompactDashboard/CompactDashboard';
+import { TileDashboard } from '../TileDashboard/TileDashboard';
 import './Dashboard.scss';
 
 import { autobind } from '../../utilities/autobind';
@@ -25,14 +27,18 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
     }
 
     render() {
-        let {farms} = this.props;
+        let {compact, tiles} = this.props;
         let {filter, activeView} = this.state;
         return (
             <div>
-                <DashboardHeader onChanged={this.changeSearchFilter} filter={filter} title={farms.title} onViewChange={this.changeView} />
+                <DashboardHeader onChanged={this.changeSearchFilter} filter={filter} title={compact.title} onViewChange={this.changeView} />
                 {
-                    (activeView === 1 || activeView === 0) &&
-                    <CompactDashboard filter={filter} className={'viewport-height'} title={farms.title} farms={farms.farms} isVertical={activeView === 1} />
+                    (compact && (activeView === ActiveDashboard.CompactHorizontal || activeView ===  ActiveDashboard.CompactVertical)) &&
+                    <CompactDashboard filter={filter} className={'viewport-height'} title={compact.title} farms={compact.farms} isVertical={activeView === ActiveDashboard.CompactVertical} />
+                }
+                {
+                    (tiles && activeView === ActiveDashboard.Tiles) &&
+                    <TileDashboard className={'viewport-height'} />
                 }
 
             </div>
