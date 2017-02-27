@@ -35,12 +35,12 @@ import { DialogFooter } from './components/Dialog/DialogFooter';
 import { StatusBar } from './components/StatusBar/StatusBar';
 import { CheckboxList } from './components/CheckboxList/CheckboxList';
 import { Treeview } from './components/Treeview/Treeview';
-import { CompactDashboard} from './components/CompactDashboard/CompactDashboard';
-import {TagContainer} from './components/TagContainer/TagContainer';
-import {CompactServer} from './components/CompactServer/CompactServer';
-import {DashboardHeader} from './components/DashboardHeader/DashboardHeader';
-import {Dashboard} from './components/Dashboard/Dashboard';
-import {farms, classListExample} from './mockData/farms';
+import { CompactDashboard } from './components/CompactDashboard/CompactDashboard';
+import { TagContainer } from './components/TagContainer/TagContainer';
+import { CompactServer } from './components/CompactServer/CompactServer';
+import { DashboardHeader } from './components/DashboardHeader/DashboardHeader';
+import { Dashboard } from './components/Dashboard/Dashboard';
+import { farms, classListExample } from './mockData/farms';
 import { ServerDetails } from './components/ServerDetails/ServerDetails';
 import { elements } from './treeviewElements';
 import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
@@ -61,16 +61,16 @@ export class Index extends React.Component<any, any> {
             cpu: '74',
             data: generator.generateValues()
         };
-        
-        setInterval(() => this.setState({data: generator.generateValues()}), 5000);
+
+        setInterval(() => this.setState({ data: generator.generateValues() }), 5000);
     }
 
     componentDidMount() {
-         /*let timer = setInterval(() => {
-            const currentCpu = this.state.selector ? '74%' : '85%';
-            const sel = !this.state.selector;
-            this.setState({cpu: currentCpu, selector: sel});
-        }, 1000);*/
+        /*let timer = setInterval(() => {
+           const currentCpu = this.state.selector ? '74%' : '85%';
+           const sel = !this.state.selector;
+           this.setState({cpu: currentCpu, selector: sel});
+       }, 1000);*/
     }
 
 
@@ -83,12 +83,12 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-                <CompactServer serverId={'CUSTOM-PC.localdomain'} onServerClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} serverName={'CUSTOM-PC'} roleList={[]} status={1} classNameList={classListExample}/>
-                <CompactServer serverId={'My very very long name of a server I am using I know its very long.domain.com'} onServerClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} serverName={'My very very long name of a server I am using I know its very long'}            roleList={[]} status={2} classNameList={classListExample}/>
-                
-                <CompactServer serverId={'BANANA-PC.banana.com'}  onServerClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} serverName={'BANANA-PC'} roleList={[{display:'WPF', iconName:'icon-Add'}, {display:'Search', iconName:'icon-Alert'}]} status={0} classNameList={classListExample}/>
-                
-                <TagContainer title={'Roles'} tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}>
+                <CompactServer serverId={'CUSTOM-PC.localdomain'} onServerClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} serverName={'CUSTOM-PC'} roleList={[]} status={1} classNameList={classListExample} />
+                <CompactServer serverId={'My very very long name of a server I am using I know its very long.domain.com'} onServerClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} serverName={'My very very long name of a server I am using I know its very long'} roleList={[]} status={2} classNameList={classListExample} />
+
+                <CompactServer serverId={'BANANA-PC.banana.com'} onServerClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} serverName={'BANANA-PC'} roleList={[{ display: 'WPF', iconName: 'icon-Add' }, { display: 'Search', iconName: 'icon-Alert' }]} status={0} classNameList={classListExample} />
+
+                <TagContainer title={'Roles'} tags={[{ display: 'Tag1', iconName: 'icon-Add' }, { display: 'Tag2', iconName: 'icon-Alert' }, { display: 'Tag3', iconName: 'icon-Buy' }]}>
                     <div className="edit-tags tag" title="Edit tags">
                         <Icon className="icon-Edit"></Icon>
                     </div>
@@ -111,6 +111,18 @@ export class Index extends React.Component<any, any> {
                         <Label>Pivot #2</Label>
                     </PivotItem>
                     <PivotItem linkText={'Shared with me'}>
+                        <Label>Pivot #3</Label>
+                    </PivotItem>
+                </Pivot>
+                <br />
+                <Pivot onLinkClick={(item, ev) => console.log(item)}>
+                    <PivotItem linkText={'My Files'} linkIcon={'icon-User'}>
+                        <Label>Pivot #1</Label>
+                    </PivotItem>
+                    <PivotItem linkText={'Recent'} >
+                        <Label>Pivot #2</Label>
+                    </PivotItem>
+                    <PivotItem linkText={'Shared with me'} linkIcon={'icon-Add'}>
                         <Label>Pivot #3</Label>
                     </PivotItem>
                 </Pivot>
@@ -317,7 +329,7 @@ export class Index extends React.Component<any, any> {
                     />
                 <Checkbox label={'This is checkbox'} onChange={(ev, checked) => console.log('aaa')} defaultChecked={true} />
                 <Checkbox label={'This is disabled checkbox'} disabled={true} defaultChecked={true} />
-                <Checkbox label={'This is checkbox with icon'} onChange={(ev, checked) => console.log('icon')} iconClassName={'icon-User'} />                
+                <Checkbox label={'This is checkbox with icon'} onChange={(ev, checked) => console.log('icon')} iconClassName={'icon-User'} />
                 <br />
                 <ChoiceGroup options={[
                     { key: 'A', text: 'Option A' },
@@ -329,7 +341,7 @@ export class Index extends React.Component<any, any> {
                 </ChoiceGroup>
                 <br />
                 <ToggleSwitch onChange={this._onToggle} />
-                <br/>
+                <br />
                 <Slider label={'This is slider:'} min={0} max={50} step={5} defaultValue={20} showValue={true}></Slider>
                 <br />
                 <Label>I'm a Label</Label>
@@ -348,20 +360,20 @@ export class Index extends React.Component<any, any> {
                 <br />
                 <CheckboxList onCheckboxChanged={this._onCheckboxListChange}
                     items={[
-                        { id: 'A', text: 'Option A', isOpen: false, children: [{ text: 'Option B', checked: false, id: 'B1' }, { text: 'Option B', id: 'B2'}, { text: 'Option B', id: 'B3' }] },
+                        { id: 'A', text: 'Option A', isOpen: false, children: [{ text: 'Option B', checked: false, id: 'B1' }, { text: 'Option B', id: 'B2' }, { text: 'Option B', id: 'B3' }] },
                         { id: 'C', text: 'Option C', isOpen: false, children: [{ text: 'Option D', id: 'D1' }, { text: 'Option D', id: 'D2' }, { text: 'Option D', id: 'D3' }] },
                         { id: 'E', text: 'Option E', isOpen: false, children: [{ text: 'Option F', id: 'F1' }, { text: 'Option F', id: 'F2' }, { text: 'Option F', id: 'F3' }] },
                         { id: 'G', text: 'Option G', isOpen: false, children: [{ text: 'Option H', id: 'H1' }, { text: 'Option H', id: 'H2' }, { text: 'Option H', id: 'H3' }] }
                     ]}>
                 </CheckboxList>
                 <br />
-                <Treeview onSelect={this._onCheckboxListChange} showCheckbox={false} items={elements}/>
+                <Treeview onSelect={this._onCheckboxListChange} showCheckbox={false} items={elements} />
                 <br />
-                <Treeview onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements} recursive={false}/>
+                <Treeview onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements} recursive={false} />
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
 
-                <Dashboard farms={farms} filter={''} title={farms.title} activeView={0} />
+                <Dashboard farms={farms} filter={''} title={farms.title} activeView={0} pivotElements={[{linkText:'Compact Horizontal'}, {linkText: 'Compact Vertical'}]} />
 
                 <br />
                 <ServerDetails
@@ -374,70 +386,71 @@ export class Index extends React.Component<any, any> {
                     onDismiss={(id: string) => console.log('Go away!', id)}
                     disks={['C: 49 / 259 GB (30%)', 'D: 49 / 259 GB (30 %)']}
                     countersData={[
-                        {title: 'CPU', currentUsage: '43', usageUnit: '%', totalUsage: [''], status: 'ok'},
-                        {title: 'Memory', currentUsage: '7', usageUnit: 'GB', totalUsage: ['7GB/10GB (70%)'], status: 'warning'},
-                        {title: 'Disk', currentUsage: '0,1', usageUnit:'Mbps', totalUsage: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps'], status: 'ok'},
-                        {title: 'Network', currentUsage: '0,1', usageUnit: 'MB/s', totalUsage: ['50.10 kB/s', '23.47 kB/s'], status: 'ok'}
+                        { title: 'CPU', currentUsage: '43', usageUnit: '%', totalUsage: [''], status: 'ok' },
+                        { title: 'Memory', currentUsage: '7', usageUnit: 'GB', totalUsage: ['7GB/10GB (70%)'], status: 'warning' },
+                        { title: 'Disk', currentUsage: '0,1', usageUnit: 'Mbps', totalUsage: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps'], status: 'ok' },
+                        { title: 'Network', currentUsage: '0,1', usageUnit: 'MB/s', totalUsage: ['50.10 kB/s', '23.47 kB/s'], status: 'ok' }
                     ]}>
-                {/*<TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>*/}
+                    {/*<TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>*/}
                 </ServerDetails>
-                <LineChart 
+                <LineChart
                     title={'CPU USAGE'}
-                    data={this.state.data} 
-                    width={330} 
+                    data={this.state.data}
+                    width={330}
                     height={200}
                     xAxisScale={'TIME'}
-                ></LineChart>
-                <br/>
-                <PieChart text={'Sample text'} 
-                        title={'Partition C:'} 
-                        height={160} 
-                        width={160} 
-                        data={
-                            [
-                                {label: 'used', value: 99, text: 'Used: 68.36 GB', class: 'used-critical', unit: '%'}, 
-                                {label: 'free', value: 1, text: 'Free: 11.54 GB', unit: '%'},
-                                {label: 'option1', value: 124, text: 'Test1', unit: '%'},
-                                {label: 'option2', value: 251, text: 'Test2'}
-                            ]
-                        } 
-                ></PieChart>
-                <br/>
-                <ProgressBar title={'RAM'} width={400} height={20} data={{total: 15999, current: 12560}}></ProgressBar>
+                    ></LineChart>
+                <br />
+                <PieChart text={'Sample text'}
+                    title={'Partition C:'}
+                    height={160}
+                    width={160}
+                    data={
+                        [
+                            { label: 'used', value: 99, text: 'Used: 68.36 GB', class: 'used-critical', unit: '%' },
+                            { label: 'free', value: 1, text: 'Free: 11.54 GB', unit: '%' },
+                            { label: 'option1', value: 124, text: 'Test1', unit: '%' },
+                            { label: 'option2', value: 251, text: 'Test2' }
+                        ]
+                    }
+                    ></PieChart>
+                <br />
+                <ProgressBar title={'RAM'} width={400} height={20} data={{ total: 15999, current: 12560 }}></ProgressBar>
             </div>);
     };
 
-    private _onClickCompactServer(serverId){
-            console.log("Clicked on editing roles of server " + serverId);        
+    private _onClickCompactServer(serverId) {
+        console.log('Clicked on editing roles of server ' + serverId);
     }
-    
-    private _onServerCloseCompactServer(serverId){
-            console.log("Clicked on closing server " + serverId);        
+
+    private _onServerCloseCompactServer(serverId) {
+        console.log('Clicked on closing server ' + serverId);
     }
-    
+
     private _onTreeviewItemClick(ev, itemId, checked) {
-        this.setState({treeviewElements : this.state.treeviewElements.map((item) => {
-            if (itemId.indexOf(item.id) > -1) {
-                return {id: item.id, text: item.text, parentId: item.parentId, checked: checked};
-            } else {
-                return item;
-            }
-        })
-    });
-        
+        this.setState({
+            treeviewElements: this.state.treeviewElements.map((item) => {
+                if (itemId.indexOf(item.id) > -1) {
+                    return { id: item.id, text: item.text, parentId: item.parentId, checked: checked };
+                } else {
+                    return item;
+                }
+            })
+        });
+
     }
 
     private _onCheckboxListChange(ev, itemId, checked) {
         console.log(checked);
     }
-    private _onToggle(checked){
+    private _onToggle(checked) {
         console.log(checked);
     }
 
     private _onTreeViewChange(ev, itemId, checked) {
         console.log(itemId + ':' + checked);
     }
-    
+
     private _showDialog() {
         this.setState({ showDialog: true });
     }

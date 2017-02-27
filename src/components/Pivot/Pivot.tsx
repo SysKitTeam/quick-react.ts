@@ -7,6 +7,7 @@ import { PivotItem } from './PivotItem';
 import { PivotLinkFormat } from './Pivot.Props';
 import { getId } from '../../utilities/getId';
 import { autobind } from '../../utilities/autobind';
+import { Icon } from '../Icon/Icon';
 import './Pivot.scss';
 
 export interface IPivotState {
@@ -25,7 +26,7 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
         let selectedKey: string;
 
         if (props.selectedKey) {
-            selectedKey = props.selectedKey;        
+            selectedKey = props.selectedKey;
         } else if (props.selectedIndex) {
             selectedKey = links[props.selectedIndex].itemKey;
         } else {
@@ -47,12 +48,12 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
         if (nextProps.selectedKey && this._isKeyValid(nextProps.selectedKey)) {
             selectedKey = nextProps.selectedKey;
         } else if (nextProps.selectedIndex && nextProps.selectedIndex < links.length) {
-             selectedKey = links[nextProps.selectedIndex].itemKey;
-        } else if (this._isKeyValid(this.state.selectedKey) ) {
-             selectedKey = this.state.selectedKey;             
+            selectedKey = links[nextProps.selectedIndex].itemKey;
+        } else if (this._isKeyValid(this.state.selectedKey)) {
+            selectedKey = this.state.selectedKey;
         } else {
-            selectedKey = links[0].itemKey;            
-        }  
+            selectedKey = links[0].itemKey;
+        }
         this.setState({
             links,
             selectedKey
@@ -61,25 +62,25 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
 
     public render() {
         return (
-        <div>
-            { this._renderPivotLinks() }
-            { this._renderPivotItem() }
-        </div>
+            <div>
+                {this._renderPivotLinks()}
+                {this._renderPivotItem()}
+            </div>
         );
     }
 
-     private _renderPivotLinks() {
+    private _renderPivotLinks() {
         const className = classNames(
             'pivot',
             {
-                'pivot-tabs': this.props.linkFormat === PivotLinkFormat.tabs 
+                'pivot-tabs': this.props.linkFormat === PivotLinkFormat.tabs
             }
         );
 
         return (
-            <ul className={ className }
+            <ul className={className}
                 role="tablist">
-                { this.state.links.map(this._renderLink) }
+                {this.state.links.map(this._renderLink)}
             </ul>
         );
     }
@@ -90,7 +91,7 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
         let countText;
 
         if (itemCount !== undefined && this.props.linkFormat !== PivotLinkFormat.tabs) {
-            countText = <span className={'pivot-count'}>({ itemCount })</span>;
+            countText = <span className={'pivot-count'}>({itemCount})</span>;
         }
         const pivotLinkClassName = classNames(
             'pivot-link',
@@ -98,17 +99,21 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
                 'is-selected': this.state.selectedKey === itemKey
             }
         );
-
         return (
-        <a
-            id={ id + '-tab' }
-            key={ itemKey }
-            className={ pivotLinkClassName }
-            onClick={ this._onLinkClick.bind(this, itemKey) }
-            role="tab">
-            <span className={'pivot-text'}>{ link.linkText }</span>
-            { countText }
-        </a>
+            <a
+                id={id + '-tab'}
+                key={itemKey}
+                className={pivotLinkClassName}
+                onClick={this._onLinkClick.bind(this, itemKey)}
+                role="tab">
+                {link.linkIcon &&
+                    <Icon iconName={link.linkIcon} className={'pivot-icon'} title={link.linkText} />
+                }
+                {!link.linkIcon &&
+                    <span className={'pivot-text'}>{link.linkText}</span>
+                }
+                {countText}
+            </a>
         );
     }
 
@@ -116,12 +121,12 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
         const itemKey: string = this.state.selectedKey;
         const index = this._keyToIndexMapping[itemKey];
         let { id } = this.state;
-       
+
         return (
             <div className={'pivotItem'}
                 role="tabpanel"
-                id={ id + '-panel' }>
-                { React.Children.toArray(this.props.children)[index] }
+                id={id + '-panel'}>
+                {React.Children.toArray(this.props.children)[index]}
             </div>
         );
     }
@@ -137,6 +142,7 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
 
                 links.push({
                     linkText: pivotItem.props.linkText,
+                    linkIcon: pivotItem.props.linkIcon,
                     itemKey: itemKey,
                     itemCount: pivotItem.props.itemCount
                 });
@@ -151,9 +157,9 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
         return itemKey !== undefined && this._keyToIndexMapping[itemKey] !== undefined;
     }
 
-   /**
-   * Handles the onClick event on PivotLinks
-   */
+    /**
+    * Handles the onClick event on PivotLinks
+    */
     private _onLinkClick(itemKey: string, ev: React.MouseEvent<any>) {
         ev.preventDefault();
         this._updateSelectedItem(itemKey, ev);
@@ -167,14 +173,14 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
             selectedKey: itemKey
         } as IPivotState, () => {
             if (this.props.onLinkClick && this._keyToIndexMapping[itemKey] >= 0) {
-                        const index = this._keyToIndexMapping[itemKey];
-                        // React.Element<any> cannot directly convert to PivotItem.
-                        const item = React.Children.toArray(this.props.children)[index] as any;
+                const index = this._keyToIndexMapping[itemKey];
+                // React.Element<any> cannot directly convert to PivotItem.
+                const item = React.Children.toArray(this.props.children)[index] as any;
 
-                        if (typeof item === 'object' && item.type === PivotItem) {
-                            this.props.onLinkClick(item as PivotItem, ev);
-                        }
-                    }
-                    });
+                if (typeof item === 'object' && item.type === PivotItem) {
+                    this.props.onLinkClick(item as PivotItem, ev);
+                }
+            }
+        });
     }
 }

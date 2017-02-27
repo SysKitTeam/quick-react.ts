@@ -102,7 +102,7 @@ export class LineChart extends React.Component<ILineChartProps, undefined> {
     private generateX() : any {
         const domain = d3.extent(this.props.data, (d) => d.argument);
         const range = d3.extent([0, this.width]);
-        switch(this.props.xAxisScale) {
+        switch (this.props.xAxisScale) {
             case 'TIME':
                 return d3.scaleTime().domain(domain).range(range);
             case 'LINEAR':
