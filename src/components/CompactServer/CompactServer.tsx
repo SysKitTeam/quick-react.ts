@@ -11,6 +11,7 @@ function checkFilter(filter: string, serverName: string) {
     return serverName.toLowerCase().trim().indexOf(filter.toLowerCase().trim()) !== -1;
 }
 
+
 export class CompactServer extends React.Component<ICompactServerProps, any> {
 
     constructor(props?: ICompactServerProps) {
@@ -38,10 +39,8 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
                         {'status-warning': isWarning}, 
                         {'status-ok': isOK}, 
                         {'status-critical': isCritical});
+
                         
-        if (!showItem) {
-            return null;
-        }
         return (
             
             <div className={ className }>
