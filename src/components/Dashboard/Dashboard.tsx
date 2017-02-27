@@ -1,14 +1,10 @@
 import * as React from 'react';
 import { IDashboardProps } from './Dashboard.Props';
 import { DashboardHeader } from '../DashboardHeader/DashboardHeader';
-import { ActiveDashboard } from '../DashboardHeader/DashboardHeader.Props';
 import { CompactDashboard } from '../CompactDashboard/CompactDashboard';
-<<<<<<< HEAD
 import { TileDashboard } from '../TileDashboard/TileDashboard';
-=======
 import { ICompactDashboardProps } from '../CompactDashboard/CompactDashboard.Props';
 import { ActiveDashboard } from '../DashboardHeader/DashboardHeader.Props';
->>>>>>> origin/dashboard_improvements
 import './Dashboard.scss';
 
 import { autobind } from '../../utilities/autobind';
@@ -50,19 +46,38 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
     }
 
     render() {
-        let {compact, tiles, headerClass, hasAddFarmButton} = this.props;
+        let {compact, tiles, headerClass, hasAddButton} = this.props;
         let {filter, activeView} = this.state;
         return (
             <div>
                 <DashboardHeader 
-                    onAddFarmClick={this.props.addFarm} headerClass={headerClass}  pivotItems={this.props.differentDashboards} hasAddFarmButton={hasAddFarmButton} onChanged={this.changeSearchFilter} filter={filter} title={compact.title} onViewChange={this.changeView} />
+                    onAddFarmClick={this.props.addFarm} headerClass={headerClass}  pivotItems={this.props.differentDashboards} hasAddFarmButton={hasAddButton} onChanged={this.changeSearchFilter} filter={filter} title={compact.title} onViewChange={this.changeView} />
                 {
                     (compact && (activeView === ActiveDashboard.CompactHorizontal || activeView ===  ActiveDashboard.CompactVertical)) &&
-                    <CompactDashboard filter={filter} className={'viewport-height'} title={compact.title} farms={compact.farms} isVertical={activeView === ActiveDashboard.CompactVertical} />
+                    <CompactDashboard filter={filter} 
+                        className={'viewport-height'} 
+                        title={compact.title} 
+                        farms={compact.farms} 
+                        isVertical={activeView === ActiveDashboard.CompactVertical} 
+                        groupEditFunc={this.props.groupEditFunc}
+                        groupAddFunc={this.props.groupEditFunc}
+                        groupDeleteFunc={this.props.groupDeleteFunc}
+                        groupOnClick={this.props.groupOnClick}
+                        serverRoleEdit={this.props.serverRoleEdit}
+                        serverClose={this.props.serverClose}
+                    />
                 }
-                {
+                { 
                     (tiles && activeView === ActiveDashboard.Tiles) &&
-                    <TileDashboard className={'viewport-height'} />
+                    <TileDashboard 
+                        className={'viewport-height'} 
+                        groupEditFunc={this.props.groupEditFunc}
+                        groupAddFunc={this.props.groupEditFunc}
+                        groupDeleteFunc={this.props.groupDeleteFunc}
+                        groupOnClick={this.props.groupOnClick}
+                        serverRoleEdit={this.props.serverRoleEdit}
+                        serverClose={this.props.serverClose}
+                    />
 
                 }
             </div>

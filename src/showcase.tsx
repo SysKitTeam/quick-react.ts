@@ -36,13 +36,12 @@ import { StatusBar } from './components/StatusBar/StatusBar';
 import { CheckboxList } from './components/CheckboxList/CheckboxList';
 import { Treeview } from './components/Treeview/Treeview';
 import { CompactDashboard} from './components/CompactDashboard/CompactDashboard';
-import { IFarm } from './components/CompactDashboard/CompactDashboard.Props';
 import {ICompactServerProps} from './components/CompactServer/CompactServer.Props';
 import {TagContainer} from './components/TagContainer/TagContainer';
 import {CompactServer} from './components/CompactServer/CompactServer'; 
 import {DashboardHeader} from './components/DashboardHeader/DashboardHeader';
 import {Dashboard} from './components/Dashboard/Dashboard';
-//import {farms, classListExample} from './mockData/farms';
+import {dummyDashboard} from './mockData/DashboardDummy';
 import { ServerTile } from './components/ServerTile/ServerTile';
 import { elements } from './treeviewElements';
 import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
@@ -50,6 +49,7 @@ import { LineChart } from './components/LineChart/LineChart';
 import { ProgressBar } from './components/ProgressBar/ProgressBar';
 import { PieChart } from './components/PieChart/PieChart';
 import { DataGenerator } from './utilities/DataGenerator';
+import {IFarm , ISharePointServer} from './models';
 
 export class Index extends React.Component<any, any> {
     constructor() {
@@ -62,38 +62,44 @@ export class Index extends React.Component<any, any> {
             selector: true,
             cpu: '74',
             data: generator.generateValues(),
-            farms: farms
+            compact: dummyDashboard.compact,
+            tiles: dummyDashboard.tiles
         };
         
         setInterval(() => this.setState({data: generator.generateValues()}), 5000);
         setInterval(() => { 
-            let newFarms = this.state.farms.farms.map((farm: IFarm) => {
-                let servers = farm.servers.map((server: ICompactServerProps) => {
+            let newFarms = this.state.compact.farms.map((farm: IFarm) => {
+                let servers = farm.servers.map((server: ISharePointServer) => {
                     
-                    return {
-                        classNameList : server.classNameList,
-                        serverId: server.serverId,
+                    return { 
+                        id: server.id,
                         status: this.generateRandomStatus(),
-                        roleList: server.roleList,
+                        roles: server.roles,
                         onRoleEdit: server.onRoleEdit,
-                        onServerClose: server.onServerClose,
-                        serverName: server.serverName
+                        onClose: server.onClose,
+                        name: server.name
                     };
                 });
                 return {
-                    farmId: farm.farmId,
+                    id: farm.id,
                     isCustom: farm.isCustom,
-                    sharepointVersion: farm.sharepointVersion,
-                    sharepointVersionIcon: farm.sharepointVersionIcon,
-                    configDB: farm.configDB,
-                    confgiDBIcon: farm.confgiDBIcon,
-                    farmName: farm.farmName,
+                    version: farm.version,
+                    name: farm.name,
                     servers: servers
                 };
             });
-            this.setState({farms: {
+            this.setState({compact: {
                 farms:  newFarms,
-                title: this.state.farms.title
+                title: this.state.compact.title,
+                className: this.state.compact.className,
+                filter: this.state.compact.filter,
+                isVertical: this.state.compact.isVertical,
+                groupAddFunc: this.state.compact.groupAddFunc,
+                groupDeleteFunc: this.state.compact.groupDeleteFunc,
+                groupEditFunc: this.state.compact.groupEditFunc,
+                serverClose: this.state.compact.serverClose,
+                serverRoleEdit: this.state.compact.serverRoleEdit,
+                groupOnClick: this.state.compact.groupOnClick,
             }});
         }, 2000);
     }
@@ -406,7 +412,20 @@ export class Index extends React.Component<any, any> {
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
 
-                <Dashboard pivotElements={[{linkText:'Compact Horizontal'},{linkText:'Tiles'}, {linkText: 'Compact Vertical'}]} groupOnClick={function(farmId){ console.log("You clicked on group:" + farmId); }} farms={this.state.farms} filter={''} title={this.state.farms.title} activeView={0}  hasAddFarmButton={true} addFarm={() => console.log('specify action!')}/>
+                <Dashboard 
+                    differentDashboards={dummyDashboard.differentDashboards} 
+                    groupOnClick={dummyDashboard.groupOnClick} 
+                    compact={this.state.compact} 
+                    filter={''} 
+                    title={dummyDashboard.title} 
+                    activeView={0}  hasAddButton={true} 
+                    addFarm={dummyDashboard.addFarm}
+                    groupAddFunc={dummyDashboard.groupAddFunc}
+                    groupDeleteFunc={dummyDashboard.groupDeleteFunc}
+                    groupEditFunc={dummyDashboard.groupEditFunc}
+                    serverClose={dummyDashboard.serverClose}
+                    serverRoleEdit= {dummyDashboard.serverRoleEdit}
+                />
 
 
 

@@ -140,13 +140,9 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
         const columnCount = Math.floor((1800 - 72) / (CELL_WIDTH + GUTTER_SIZE));
 
         let columnPosition = obj.index % (columnCount || 1);
-<<<<<<< HEAD
-        let height = 0 + this.getRow(obj.index).servers.filter((server) => {return checkFilter(this.props.filter, server.name); } ).length * 70;
+        let height = 120 + this.getRow(obj.index).servers.filter((server) => {return checkFilter(this.props.filter, server.name); } ).length * 70;
         let serverRoleDiff = (this.getRow(obj.index).servers.filter((server) => {return checkFilter(this.props.filter, server.name) && server.roles.length > 0; } )).length * 27;
-=======
-        let height = 120 + this.getRow(obj.index).servers.filter((server) => {return checkFilter(this.props.filter, server.serverName); } ).length * 70;
-        let serverRoleDiff = (this.getRow(obj.index).servers.filter((server) => {return checkFilter(this.props.filter, server.serverName) && server.roleList.length > 0; } )).length * 27;
->>>>>>> origin/dashboard_improvements
+
         height += serverRoleDiff;
         const cellWidth = CELL_WIDTH;
         const x = columnPosition * (GUTTER_SIZE + cellWidth);
@@ -172,13 +168,13 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
     @autobind
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
         const farm = this.getRow(index);
-        const servers  = farm.servers.filter((server) => {return checkFilter(this.props.filter, server.serverName); } ).sort(sortFarmServers);
+        const servers  = farm.servers.filter((server) => {return checkFilter(this.props.filter, server.name); } ).sort(sortFarmServers);
         return (
             <div style={style} key={index}>
-                <Group filter={this.props.filter} className={'farm-name-inside'} id={farm.id} name={farm.name} key={farm.id.configDataBaseName + '-' + farm.id.sqlInstance}>
+                <Group serverChildrenCount={servers.length} filter={this.props.filter} className={'farm-name-inside'} id={farm.id} name={farm.name} key={farm.id.configDataBaseName + '-' + farm.id.sqlInstance}>
                     <GroupHeader version={farm.version}  isCustomFarm={farm.isCustom} farmId={farm.id} />
                     {
-                        farm.servers.filter((server) => {return checkFilter(this.props.filter,server.name);}).sort(sortFarmServers).map((server) => (
+                        servers.map((server) => (
                             <CompactServer filter={this.props.filter} key={server.id.FQDN} roles={server.roles} id={server.id} status={server.status} onRoleEdit={server.onRoleEdit} onClose={server.onClose} name={server.name} />
 
                         ))
