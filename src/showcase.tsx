@@ -59,6 +59,20 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
+                 <LineChart 
+                    id={'graf-1'}
+                    title={'CPU USAGE'}
+                    data={data} 
+                    xAxisScale={'LINEAR'}
+                ></LineChart>
+                <LineChart
+                    id={'graf-2'}
+                    title={'OTHER CPU USAGE'}
+                    data={this.state.data2} 
+                    width={330} 
+                    height={200}
+                    xAxisScale={'TIME'}
+                ></LineChart>
                 <Ribbon items={[]}></Ribbon>
                 <AddToFavorites favorited={true} />
                 <AddToFavorites favorited={false} />
@@ -321,22 +335,6 @@ export class Index extends React.Component<any, any> {
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
                 <br />
-                <LineChart 
-                    id={'graf-1'}
-                    title={'CPU USAGE'}
-                    data={data} 
-                    width={330} 
-                    height={200}
-                    xAxisScale={'LINEAR'}
-                ></LineChart>
-                <LineChart
-                    id={'graf-2'}
-                    title={'OTHER CPU USAGE'}
-                    data={this.state.data2} 
-                    width={330} 
-                    height={200}
-                    xAxisScale={'TIME'}
-                ></LineChart>
             </div>);
     };
 

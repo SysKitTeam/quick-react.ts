@@ -7,6 +7,14 @@ import { ILineChartData } from './LineChart.props';
 import './LineChart.scss';
 
 export class LineChart extends React.Component<ILineChartProps, undefined> {
+    public static defaultProps = {
+        width: 350,
+        height: 200,
+        id: '',
+        title: '',
+        gridSize: 2,
+        xAxisScale: 'LINEAR'
+    };
 
     private _focus: any;
     private margin: any = {
@@ -53,13 +61,13 @@ export class LineChart extends React.Component<ILineChartProps, undefined> {
         const id = this.props.id;
         const svg = d3.select(this.refs.container).append('svg')
                     .attr('width', this.props.width - 10)
-                    .attr('height', this.props.height + 20)
+                    .attr('height', this.props.height)
                     .append('g')
                     .attr('class', 'svg-container')
                     .attr('transform', 'translate(' + this.margin.left + ',' + (this.margin.top + 20) + ')');
 
         svg.insert('g', ':first-child')
-            .attr('transform', 'translate(0,' + (this.height) + ')')
+            .attr('transform', 'translate(0,' + (this.height - 20) + ')')
             .attr('class', classNames('x-axis', id))
             .call(this.generateXAxis());
 
@@ -94,13 +102,13 @@ export class LineChart extends React.Component<ILineChartProps, undefined> {
     private generateY() {
         return d3.scaleLinear()
                 .domain([0, 100])
-                .range([this.height, 0]);
+                .range([this.height - 20, 0]);
     }
 
     private generateXAxis() {
         const axis = d3.axisBottom(this.generateX())
                 .tickValues(d3.extent(this.props.data, (d) => d.argument))
-                .tickSizeInner(-(this.height))
+                .tickSizeInner(-(this.height - 20))
                 .tickSizeOuter(0)
                 .tickPadding(15);
         if (this.props.xAxisScale === 'TIME') { return axis.ticks(2, '%I:%M:%S %p'); }
@@ -108,12 +116,10 @@ export class LineChart extends React.Component<ILineChartProps, undefined> {
     }
 
     private generateYAxis() {
-        let ticks = 2;
-        if (this.props.gridSize !== undefined) { ticks = this.props.gridSize; }
         return d3.axisLeft(this.generateY())
                 .tickSizeInner(-(this.width + 15))
                 .tickSizeOuter(-10)
-                .ticks(ticks)
+                .ticks(this.props.gridSize)
                 .tickFormat((d) => (d + '%'))
                 .tickPadding(20);   
     }
@@ -128,7 +134,6 @@ export class LineChart extends React.Component<ILineChartProps, undefined> {
         return svg.append('rect')
                     .attr('width', this.width)
                     .attr('height', this.height)
-                    // .style('fill', 'none')
                     .attr('class', 'line-chart-capture')
                     .on('mouseover', () => this._focus.style('display', null))
                     .on('mouseout', () =>  this._focus.style('display', 'none'))
