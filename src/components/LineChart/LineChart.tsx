@@ -6,7 +6,7 @@ import { ILineChartProps } from './LineChart.props';
 import { ILineChartData } from './LineChart.props';
 import './LineChart.scss';
 
-export class LineChart extends React.Component<ILineChartProps, undefined> {
+export class LineChart extends React.Component<ILineChartProps, null> {
     public static defaultProps = {
         width: 350,
         height: 200,
@@ -38,6 +38,31 @@ export class LineChart extends React.Component<ILineChartProps, undefined> {
         super(props);
         this.x = this.generateX();
         this.y = this.generateY();       
+    }
+
+    public shouldComponentUpdate(nextProps: ILineChartProps, nextState: null) {
+        if (this.props.height === nextProps.height &&
+            this.props.width === nextProps.width &&
+            this.props.id === nextProps.id &&
+            this.props.title === nextProps.title && 
+            this.state === null && nextState === null) {
+                return !this.arraysEqual(this.props.data, nextProps.data);
+        }
+        return true;
+    }
+
+    private arraysEqual(arr1: ILineChartData[], arr2: ILineChartData[]) {
+        if (arr1.length !== arr2.length) { return false; }
+        for ( let i = arr1.length; i--; ) {
+            if (!this.compareValues(arr1[i], arr2[i])) { return false; }
+        }
+        return true;
+    }
+
+    private compareValues(data1: ILineChartData, data2: ILineChartData) {
+        if (data1.argument !== data2.argument) { console.log('different'); return false; }
+        if (data1.value !== data2.value) { console.log('different'); return false; }
+        return true;
     }
 
     public componentDidMount() {
@@ -83,7 +108,7 @@ export class LineChart extends React.Component<ILineChartProps, undefined> {
 
     private redraw() {
         d3.select('.x-axis.' + this.props.id).call(this.generateXAxis());
-        d3.select('.line-chart-line.' + this.props.id).attr('d', this.constructLine());
+        d3.select('.line-chart-line.' + this.props.id).data([this.props.data]).attr('d', this.constructLine());
     }
 
     private generateX() : any {
