@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { PivotItem } from '../Pivot/PivotItem';
+import { IPivotItemProps } from '../Pivot/PivotItem.Props';
 
 export enum ActiveDashboard {
     CompactHorizontal = 0,
@@ -17,4 +18,5 @@ export interface IDashboardHeaderProps {
     onSearch?: (newValue: any) => void;
     onChanged?: (newValue: any) => void;
     onAddFarmClick?: () => void;
+    pivotItems?: Array<IPivotItemProps>;
 }

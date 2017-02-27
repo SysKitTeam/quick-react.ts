@@ -2,6 +2,7 @@
 
 .dashboard-header-container {
     @include baseFont();
+    display: flex;
     width: calc(100% - 32px);
     color: #828282;
     padding: 15px;

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { ActiveDashboard } from '../DashboardHeader/DashboardHeader.Props';
 import { ICompactDashboardProps } from '../CompactDashboard/CompactDashboard.Props';
+import { IPivotItemProps } from '../Pivot/PivotItem.Props';
 
-export interface IDashboardProps {
+export interface IDashboardProps extends React.Props<any> {
     title: string;
     filter: string;
     activeView: ActiveDashboard;
@@ -12,7 +13,7 @@ export interface IDashboardProps {
     width?: number;
     hasAddFarmButton?: boolean;
     headerClass?: string;
-
+    pivotElements?: Array<IPivotItemProps>;  
     /**
      * Action that is invoked when user clicks on add farm button.
      */

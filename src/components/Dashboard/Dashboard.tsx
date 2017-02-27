@@ -2,6 +2,8 @@ import * as React from 'react';
 import { IDashboardProps } from './Dashboard.Props';
 import { DashboardHeader } from '../DashboardHeader/DashboardHeader';
 import { CompactDashboard } from '../CompactDashboard/CompactDashboard';
+import { ICompactDashboardProps } from '../CompactDashboard/CompactDashboard.Props';
+import { ActiveDashboard } from '../DashboardHeader/DashboardHeader.Props';
 import './Dashboard.scss';
 
 import { autobind } from '../../utilities/autobind';
@@ -30,8 +32,16 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
 
 
     @autobind
-    changeView(item) {
-        this.setState({ activeView: parseInt(item.key.trim().replace('.', ''), 10) });
+    changeView(item) { 
+        let nextView = -1;
+        if (item.props.linkText.toLowerCase().trim().indexOf('tiles') !== -1 ) {
+            nextView = ActiveDashboard.Tiles;
+        } else  if (item.props.linkText.toLowerCase().trim().indexOf('compact horizontal') !== -1 ) {
+            nextView = ActiveDashboard.CompactHorizontal;
+        } else  if (item.props.linkText.toLowerCase().trim().indexOf('compact vertical') !== -1 ) {
+            nextView = ActiveDashboard.CompactVertival;
+        }
+        this.setState({ activeView: nextView });
     }
 
     render() {
@@ -46,7 +56,8 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
                     filter={filter} 
                     title={farms.title} 
                     onViewChange={this.changeView} 
-                    headerClass={headerClass}/>
+                    headerClass={headerClass}
+                    pivotItems={this.props.pivotElements} />
                 {
                     (activeView === 1 || activeView === 0) &&
                     <CompactDashboard 
