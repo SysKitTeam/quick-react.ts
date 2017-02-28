@@ -9,7 +9,7 @@ export const classListExample = {
 };
 
 
-let roleListFarms =  [{display: 'WPF', iconName: 'icon-Add'}, {display: 'Search', iconName: 'icon-Alert'}];
+let roleListFarms =  [{display: 'WPF', iconName: 'icon-Add'},{display: 'WPF1111111', iconName: 'icon-Add'}, {display: 'Not another', iconName: 'icon-Add'}, {display: 'Search', iconName: 'icon-Alert'}];
 export const farms: Array<IFarm> = [
         {
             id: {sqlInstance: 'instanca1', configDataBaseIcon: '', configDataBaseName: 'db1'},

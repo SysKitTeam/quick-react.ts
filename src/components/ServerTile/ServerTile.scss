@@ -52,6 +52,36 @@ $server-status-color: #677A85;
             border-style: solid;
             border-color: white;
             background-color: white;
+            border: none;
+            height: 1.5px;
+        }
+
+          .tag-container{
+            position: relative;
+            float: left;
+            width: 100%;
+            margin: 7px 0;
+            background: rgb(232, 233, 239);
+            color: #828282;
+            .tag{
+                background: #e8e9ef;
+                margin-top: 0;
+                margin-bottom: 0;
+                padding-top: 0;
+                padding-bottom: 0;
+                margin: 0;
+                font-size:12px;
+                font-weight: normal;
+                margin-left: 4px;
+            }
+            .edit-tags:hover{
+                background: inherit;
+                color:#7DC458;
+                .icon{
+                    background: inherit;
+                    color:#7DC458;
+                }
+            }
         }
     }
 
@@ -85,16 +115,16 @@ $server-status-color: #677A85;
             }
 
             &:nth-child(odd) {
-                border-right: 2px solid $separator-color;
+                border-right: 1px solid $separator-color;
                 margin-left: calc(5% + 1px);
             }
 
             &:nth-child(even) {
-                border-left: 2px solid $background-color;
+                border-left: 1px solid $background-color;
             }
 
             &:nth-last-child(-n+2) {
-                border-top: 2px solid $separator-color;
+                border-top: 1px solid $separator-color;
             }
 
             .label {

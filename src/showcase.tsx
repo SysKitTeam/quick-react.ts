@@ -116,7 +116,7 @@ export class Index extends React.Component<any, any> {
                 groupOnClick: this.state.compact.groupOnClick,
             }
             });
-        }, 2000);
+        }, 1500);
     }
 
     componentDidMount() {

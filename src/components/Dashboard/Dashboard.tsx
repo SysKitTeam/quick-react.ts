@@ -72,7 +72,7 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
                     <TileDashboard 
                         className={'viewport-height'} 
                         farms={tiles.farms}
-                        filter={this.props.filter}
+                        filter={filter}
                         groupEditFunc={this.props.groupEditFunc}
                         groupAddFunc={this.props.groupEditFunc}
                         groupDeleteFunc={this.props.groupDeleteFunc}

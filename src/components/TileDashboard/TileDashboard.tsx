@@ -7,6 +7,8 @@ import { Group } from '../Group/Group';
 import { GroupHeader } from '../GroupHeader/GroupHeader';
 const List = require('react-virtualized').List;
 import * as classNames from 'classnames';
+import {TagContainer} from '../TagContainer/TagContainer';
+import { Icon } from '../Icon/Icon';
 import { autobind } from '../../utilities/autobind';
 import {IMeasure, MeasureType, Partition, DiskMeasure, CpuMeasure, RamMeasure, NetworkMeasure} from '../../models';
 import './TileDashboard.scss';
@@ -61,7 +63,9 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
                                             this.list = reference;
                                         }}
                                         rowCount={farms.length}
-                                        rowHeight={500}
+                                        rowHeight={function (index) {
+                                            return this.calculateRowHeight(width, index);
+                                        }.bind(this)}
                                         rowRenderer={this._renderRow}
                                         width={width}
                                         />
@@ -71,6 +75,20 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
                 </div>
             </div>
         );
+    }
+
+        @autobind
+    private calculateRowHeight(width, obj: { index: number }): number {
+        let numberPerRow = Math.floor((width - 72) / 281.0);
+
+        let farmServerCount = this.getRow(obj.index).servers.filter((server) => {return checkFilter(this.props.filter, server.name); } ).length;
+        let rowCount = (Math.floor(farmServerCount / numberPerRow) + (farmServerCount % numberPerRow === 0 ? 0 : 1));
+        let serverHeight = rowCount * 183;
+        let serverRoleDiff = (this.getRow(obj.index).servers.some((server) => {return checkFilter(this.props.filter, server.name) && server.roles.length > 0; } )) ? rowCount * 30 : 0;
+        if (this.getRow(obj.index).isCustom) {
+            serverRoleDiff += 21;
+        }
+        return serverHeight + 140 + serverRoleDiff;
     }
 
     @autobind
@@ -99,7 +117,16 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
                                 roles={server.roles}
                                 status={server.status}
                                 countersData={this.getMeasures(server.measures)}
-                            />
+                            >
+                            {
+                                server.roles.length > 0 &&
+                                 <TagContainer  title={''} tags={server.roles}>
+                                    <div className="edit-tags tag" title="Edit tags" onClick={this.props.serverRoleEdit}>
+                                        <Icon className="icon-Edit"></Icon>
+                                    </div>
+                                </TagContainer>
+                            }
+                            </ServerTile>
                         ))
                     }
                 </Group>

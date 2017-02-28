@@ -39,9 +39,9 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
                             onClick={this.dismiss.bind(this)} 
                             iconName={'icon-Delete'}/>
                     }
+                    {this.props.children}
                     <hr/>
-                </div>
-                {this.props.children}
+                </div>                
                 <div className={'counters-container'}>
                     {this.createCountersTiles(this.props.countersData)}
                 </div>

@@ -130,7 +130,9 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
         let rowCount = (Math.floor(farmServerCount / numberPerRow) + (farmServerCount % numberPerRow === 0 ? 0 : 1));
         let serverHeight = rowCount * 60;
         let serverRoleDiff = (this.getRow(obj.index).servers.some((server) => {return checkFilter(this.props.filter, server.name) && server.roles.length > 0; } )) ? rowCount * 27 : 0;
-        
+        if (this.getRow(obj.index).isCustom) {
+            serverRoleDiff += 21;
+        }
         return serverHeight + 140 + serverRoleDiff;
     }
 
@@ -142,8 +144,11 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
         let columnPosition = obj.index % (columnCount || 1);
         let height = 120 + this.getRow(obj.index).servers.filter((server) => {return checkFilter(this.props.filter, server.name); } ).length * 70;
         let serverRoleDiff = (this.getRow(obj.index).servers.filter((server) => {return checkFilter(this.props.filter, server.name) && server.roles.length > 0; } )).length * 27;
-
+        if (this.getRow(obj.index).isCustom) {
+            serverRoleDiff += 21;
+        }
         height += serverRoleDiff;
+
         const cellWidth = CELL_WIDTH;
         const x = columnPosition * (GUTTER_SIZE + cellWidth);
         const y = this.state.columnYMap[columnPosition] || 0;
