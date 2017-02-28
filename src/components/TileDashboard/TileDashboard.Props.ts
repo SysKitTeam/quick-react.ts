@@ -12,18 +12,18 @@ export interface ITiledDashboardFarm extends IFarm {
 
 
 export interface ITileDashboardProps {
-     className: string;  
-     farms: Array<ITiledDashboardFarm>;
-     filter: string;
-     /**
-     * Action that is called on clicking the add icon on the bar of a certain group. The function is supplied with a group id.
-     */
-     groupAddFunc?: (groupId: any) => void;
+    className: string;  
+    farms: Array<ITiledDashboardFarm>;
+    filter: string;
+    /**
+    * Action that is called on clicking the add icon on the bar of a certain group. The function is supplied with a group id.
+    */
+    groupAddFunc?: (groupId: any) => void;
      
-     /**
-      * Action that is called on clicking the edit icon on the bar of a certain group. The function is supplied with a group id.
-      */
-      groupEditFunc?: (groupId: any) => void;
+    /**
+    * Action that is called on clicking the edit icon on the bar of a certain group. The function is supplied with a group id.
+    */
+    groupEditFunc?: (groupId: any) => void;
 
 
     /**

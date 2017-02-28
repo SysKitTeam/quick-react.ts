@@ -46,18 +46,18 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
     }
 
     render() {
-        let {compact, tiles, headerClass, hasAddButton} = this.props;
+        let {headerClass, hasAddButton} = this.props;
         let {filter, activeView} = this.state;
         return (
             <div>
                 <DashboardHeader 
-                    onAddFarmClick={this.props.addFarm} headerClass={headerClass}  pivotItems={this.props.differentDashboards} hasAddFarmButton={hasAddButton} onChanged={this.changeSearchFilter} filter={filter} title={compact.title} onViewChange={this.changeView} />
+                    onAddFarmClick={this.props.addFarm} headerClass={headerClass}  pivotItems={this.props.differentDashboards} hasAddFarmButton={hasAddButton} onChanged={this.changeSearchFilter} filter={filter} title={this.props.title} onViewChange={this.changeView} />
                 {
-                    (compact && (activeView === ActiveDashboard.CompactHorizontal || activeView ===  ActiveDashboard.CompactVertical)) &&
+                    ((activeView === ActiveDashboard.CompactHorizontal || activeView ===  ActiveDashboard.CompactVertical)) &&
                     <CompactDashboard filter={filter} 
                         className={'viewport-height'} 
-                        title={compact.title} 
-                        farms={compact.farms} 
+                        title={this.props.title} 
+                        farms={this.props.farms} 
                         isVertical={activeView === ActiveDashboard.CompactVertical} 
                         groupEditFunc={this.props.groupEditFunc}
                         groupAddFunc={this.props.groupEditFunc}
@@ -68,10 +68,10 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
                     />
                 }
                 { 
-                    (tiles && activeView === ActiveDashboard.Tiles) &&
+                    (activeView === ActiveDashboard.Tiles) &&
                     <TileDashboard 
                         className={'viewport-height'} 
-                        farms={tiles.farms}
+                        farms={this.props.farms}
                         filter={filter}
                         groupEditFunc={this.props.groupEditFunc}
                         groupAddFunc={this.props.groupEditFunc}

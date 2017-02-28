@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ActiveDashboard } from '../DashboardHeader/DashboardHeader.Props';
 import { ICompactDashboardProps } from '../CompactDashboard/CompactDashboard.Props';
-import { ITileDashboardProps } from '../TileDashboard/TileDashboard.Props';
+import { ITiledDashboardFarm } from '../TileDashboard/TileDashboard.Props';
 import { IPivotItemProps } from '../Pivot/PivotItem.Props';
 
 export interface IDashboardProps extends React.Props<any> {
@@ -15,15 +15,8 @@ export interface IDashboardProps extends React.Props<any> {
      * Item that represents different available dashboards. Based on this the dashboard component will render different tabs.
      */
     differentDashboards?: Array<IPivotItemProps>;  
-    /**
-     * Properties related to compact dashboard.
-     */
-    compact?: ICompactDashboardProps;
     
-    /**
-     * Properties related to tiled dashboard
-     */
-    tiles?: ITileDashboardProps;
+    farms: Array<ITiledDashboardFarm>;
     
     /**
      * Action that is invoked when user clicks on add farm button.

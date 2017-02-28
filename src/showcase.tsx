@@ -62,13 +62,12 @@ export class Index extends React.Component<any, any> {
             selector: true,
             cpu: '74',
             data: generator.generateValues(),
-            compact: dummyDashboard.compact,
-            tiles: dummyDashboard.tiles
+            farms: dummyDashboard.farms
         };
         
         setInterval(() => this.setState({data: generator.generateValues()}), 5000);
         setInterval(() => { 
-            let newFarms = this.state.compact.farms.map((farm: IFarm) => {
+            let newFarms = this.state.farms.map((farm: IFarm) => {
                 let servers = farm.servers.map((server: ISharePointServer) => {
                     
                     return { 
@@ -89,33 +88,7 @@ export class Index extends React.Component<any, any> {
                     servers: servers
                 };
             });
-            this.setState({compact: {
-                farms:  newFarms,
-                title: this.state.compact.title,
-                className: this.state.compact.className,
-                filter: this.state.compact.filter,
-                isVertical: this.state.compact.isVertical,
-                groupAddFunc: this.state.compact.groupAddFunc,
-                groupDeleteFunc: this.state.compact.groupDeleteFunc,
-                groupEditFunc: this.state.compact.groupEditFunc,
-                serverClose: this.state.compact.serverClose,
-                serverRoleEdit: this.state.compact.serverRoleEdit,
-                groupOnClick: this.state.compact.groupOnClick,
-            },
-            tiles: {
-                farms:  newFarms.map(convertFarm),
-                title: this.state.compact.title,
-                className: this.state.compact.className,
-                filter: this.state.compact.filter,
-                isVertical: this.state.compact.isVertical,
-                groupAddFunc: this.state.compact.groupAddFunc,
-                groupDeleteFunc: this.state.compact.groupDeleteFunc,
-                groupEditFunc: this.state.compact.groupEditFunc,
-                serverClose: this.state.compact.serverClose,
-                serverRoleEdit: this.state.compact.serverRoleEdit,
-                groupOnClick: this.state.compact.groupOnClick,
-            }
-            });
+            this.setState({farms: newFarms});
         }, 1500);
     }
 
@@ -430,8 +403,7 @@ export class Index extends React.Component<any, any> {
                 <Dashboard 
                     differentDashboards={dummyDashboard.differentDashboards} 
                     groupOnClick={dummyDashboard.groupOnClick} 
-                    compact={this.state.compact} 
-                    tiles={this.state.tiles}
+                    farms={this.state.farms}
                     filter={''} 
                     title={dummyDashboard.title} 
                     activeView={0}  hasAddButton={true} 
