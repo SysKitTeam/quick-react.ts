@@ -71,6 +71,8 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
                     (tiles && activeView === ActiveDashboard.Tiles) &&
                     <TileDashboard 
                         className={'viewport-height'} 
+                        farms={tiles.farms}
+                        filter={this.props.filter}
                         groupEditFunc={this.props.groupEditFunc}
                         groupAddFunc={this.props.groupEditFunc}
                         groupDeleteFunc={this.props.groupDeleteFunc}
@@ -88,4 +90,6 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
     private changeSearchFilter(newValue: any) {
         this.setState({ filter: newValue });
     }
+
+
 }

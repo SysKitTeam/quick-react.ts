@@ -54,12 +54,19 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
     }
     
     private createCountersTiles(collection: Array<ITileData>) : Array<JSX.Element> {
+
         return collection.map(
-            (data: ITileData) => 
-                <div className={'tile'} title={this.createTooltipText(data.hoverText)}>
+            (data: ITileData, index) => 
+                <div key={index} className={'tile'} title={this.createTooltipText(data.hoverText)}>
                     <p>{data.title}</p>
-                    <Label className={data.status}>{data.currentUsage}</Label>
-                    <Label className={data.status}>{data.usageUnit}</Label>
+                    <Label className={classNames(
+                        {'status-warning': data.status === ServerStatus.Warning}, 
+                        {'status-ok':  data.status === ServerStatus.OK},  
+                        {'status-critical':  data.status === ServerStatus.Critical})}>{data.currentUsage}</Label>
+                    <Label className={classNames(
+                        {'status-warning': data.status === ServerStatus.Warning}, 
+                        {'status-ok':  data.status === ServerStatus.OK}, 
+                        {'status-critical':  data.status === ServerStatus.Critical})}>{data.usageUnit}</Label>
                 </div>
         );
     }

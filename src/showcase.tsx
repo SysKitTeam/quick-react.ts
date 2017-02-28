@@ -41,7 +41,7 @@ import {TagContainer} from './components/TagContainer/TagContainer';
 import {CompactServer} from './components/CompactServer/CompactServer'; 
 import {DashboardHeader} from './components/DashboardHeader/DashboardHeader';
 import {Dashboard} from './components/Dashboard/Dashboard';
-import {dummyDashboard} from './mockData/DashboardDummy';
+import {dummyDashboard, generateMeasures, generateRandomStatus, convertFarm} from './mockData/DashboardDummy';
 import { ServerTile } from './components/ServerTile/ServerTile';
 import { elements } from './treeviewElements';
 import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
@@ -49,7 +49,7 @@ import { LineChart } from './components/LineChart/LineChart';
 import { ProgressBar } from './components/ProgressBar/ProgressBar';
 import { PieChart } from './components/PieChart/PieChart';
 import { DataGenerator } from './utilities/DataGenerator';
-import {IFarm , ISharePointServer} from './models';
+import {IFarm , ISharePointServer, ServerStatus} from './models';
 
 export class Index extends React.Component<any, any> {
     constructor() {
@@ -73,11 +73,12 @@ export class Index extends React.Component<any, any> {
                     
                     return { 
                         id: server.id,
-                        status: this.generateRandomStatus(),
+                        status: generateRandomStatus(),
                         roles: server.roles,
                         onRoleEdit: server.onRoleEdit,
                         onClose: server.onClose,
-                        name: server.name
+                        name: server.name,
+                        measures: generateMeasures()
                     };
                 });
                 return {
@@ -100,7 +101,21 @@ export class Index extends React.Component<any, any> {
                 serverClose: this.state.compact.serverClose,
                 serverRoleEdit: this.state.compact.serverRoleEdit,
                 groupOnClick: this.state.compact.groupOnClick,
-            }});
+            },
+            tiles: {
+                farms:  newFarms.map(convertFarm),
+                title: this.state.compact.title,
+                className: this.state.compact.className,
+                filter: this.state.compact.filter,
+                isVertical: this.state.compact.isVertical,
+                groupAddFunc: this.state.compact.groupAddFunc,
+                groupDeleteFunc: this.state.compact.groupDeleteFunc,
+                groupEditFunc: this.state.compact.groupEditFunc,
+                serverClose: this.state.compact.serverClose,
+                serverRoleEdit: this.state.compact.serverRoleEdit,
+                groupOnClick: this.state.compact.groupOnClick,
+            }
+            });
         }, 2000);
     }
 
@@ -416,6 +431,7 @@ export class Index extends React.Component<any, any> {
                     differentDashboards={dummyDashboard.differentDashboards} 
                     groupOnClick={dummyDashboard.groupOnClick} 
                     compact={this.state.compact} 
+                    tiles={this.state.tiles}
                     filter={''} 
                     title={dummyDashboard.title} 
                     activeView={0}  hasAddButton={true} 
@@ -440,10 +456,10 @@ export class Index extends React.Component<any, any> {
                     diskInformation={['C: 49 / 259 GB (30%)', 'D: 49 / 259 GB (30 %)']}
                     roles={[]}
                     countersData={[
-                        {title: 'CPU', currentUsage: '43', usageUnit: '%', hoverText: [''], status: 'ok'},
-                        {title: 'Memory', currentUsage: '7', usageUnit: 'GB', hoverText: ['7GB/10GB (70%)'], status: 'warning'},
-                        {title: 'Disk', currentUsage: '0,1', usageUnit:'Mbps', hoverText: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps'], status: 'ok'},
-                        {title: 'Network', currentUsage: '0,1', usageUnit: 'MB/s', hoverText: ['50.10 kB/s', '23.47 kB/s'], status: 'ok'}
+                        {title: 'CPU', currentUsage: '43', usageUnit: '%', hoverText: [''], status: ServerStatus.OK},
+                        {title: 'Memory', currentUsage: '7', usageUnit: 'GB', hoverText: ['7GB/10GB (70%)'], status: ServerStatus.Warning},
+                        {title: 'Disk', currentUsage: '0,1', usageUnit:'Mbps', hoverText: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps'], status: ServerStatus.OK},
+                        {title: 'Network', currentUsage: '0,1', usageUnit: 'MB/s', hoverText: ['50.10 kB/s', '23.47 kB/s'], status: ServerStatus.OK}
                     ]}>
                 {/*<TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>*/}
                 </ServerTile>
@@ -513,9 +529,7 @@ export class Index extends React.Component<any, any> {
         this.setState({ showDialog: false });
     }
 
-    private generateRandomStatus() {
-        return Math.floor(Math.random() * (4 - 0 + 1)) + 0;
-    }
+    
 };
 
 ReactDOM.render(<Index />, document.getElementById('root'));

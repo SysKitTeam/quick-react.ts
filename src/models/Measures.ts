@@ -1,4 +1,4 @@
-
+import {ServerStatus} from './ServerStatus';
 
 export enum MeasureType {
     Ram = 0,
@@ -9,7 +9,8 @@ export enum MeasureType {
 
 export interface IMeasure {
     type: MeasureType;
-    time: Date;
+    time: Date;    
+    status?: ServerStatus;
 }
 
 export interface IHazMeasures {
@@ -20,6 +21,8 @@ export interface Partition {
     name: string;
     freeMB: number;
     size: number;
+    readSpeed: number;
+    writeSpeed: number;
 }
 
 export interface DiskMeasure extends IMeasure {
@@ -43,7 +46,7 @@ export interface RamMeasure extends IMeasure {
 }
 
 export interface NetworkMeasure extends IMeasure {
-    bBRecieved: string;
+    kBRecieved: string;
     kbSent: string;
     type: MeasureType.Network;
 }

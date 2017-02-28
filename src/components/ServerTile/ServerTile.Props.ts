@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {ISharePointServer} from '../../models';
+import {ISharePointServer, ServerStatus} from '../../models';
 
 export interface IServerTileProps extends ISharePointServer {
     numberOfUsers?: string;
@@ -13,7 +13,7 @@ export interface IServerTileProps extends ISharePointServer {
 }
 
 export interface ITileData {
-    status: string;
+    status: ServerStatus;
     title: string;
     currentUsage: string;
     hoverText: Array<string>;

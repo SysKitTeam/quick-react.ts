@@ -1,6 +1,6 @@
 export enum ServerStatus {
-    OK = 0,
+    OK = 2,
     Warning = 1,
-    Critical = 2,
-    Offline = 4
+    Critical = 0,
+    Offline = 3
 }
