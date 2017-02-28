@@ -9,7 +9,7 @@ $compact-dashboard-background: #f4f4f4;
     background-color: $compact-dashboard-background;
     border-color: $compact-dashboard-background;
     overflow: hidden;
-    
+    color: #6b6b6b;
     .compact-dashboard-server{
             order:1;
     }
@@ -22,6 +22,7 @@ $compact-dashboard-background: #f4f4f4;
 }
 .compact-dashboard-container.vertical{
     width: 100%;
+    color: #6b6b6b;
     .farm{
         max-width: 350px;
         display: block;

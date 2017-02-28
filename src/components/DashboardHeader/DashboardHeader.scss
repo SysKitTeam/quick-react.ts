@@ -4,12 +4,14 @@
     @include baseFont();
     display: flex;
     width: calc(100% - 32px);
-    color: #828282;
+    color: #6b6b6b;
     padding: 15px;
     border: 1px solid #eee;
     overflow: hidden;
     display: block;
-   
+   .icon{
+       color: #6b6b6b;
+   }
     .dashboard-header-title-container {
         width: 30%;
         display: inline-block;

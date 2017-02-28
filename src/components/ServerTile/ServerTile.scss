@@ -22,7 +22,9 @@ $server-status-color: #677A85;
     padding: 0;
     border-left: 10px solid $server-status-color;
     background-color: $background-color;
-
+    .icon {
+        color: #6b6b6b;
+    }
     .server-details-header {
         font-size: $header-font-size;
         width: 100%;
