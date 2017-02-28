@@ -7,6 +7,7 @@ export * from './components/Breadcrumbs';
 export * from './components/Button';
 export * from './components/Callout';
 export * from './components/Checkbox';
+export * from './components/CheckboxList';
 export * from './components/ChoiceGroup';
 export * from './components/Common';
 export * from './components/CompactDashboard';
