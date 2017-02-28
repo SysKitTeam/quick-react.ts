@@ -22,5 +22,4 @@ export interface ICompactServerProps {
     classNameList: IClassNames;
     onRoleEdit: (serverId?: any) => void; 
     onServerClose: (serverId?: any) => void;
-    filter?: string;
 }

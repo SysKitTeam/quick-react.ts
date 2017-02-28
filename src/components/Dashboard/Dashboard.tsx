@@ -3,11 +3,22 @@ import { IDashboardProps } from './Dashboard.Props';
 import { DashboardHeader } from '../DashboardHeader/DashboardHeader';
 import { CompactDashboard } from '../CompactDashboard/CompactDashboard';
 import { ICompactDashboardProps } from '../CompactDashboard/CompactDashboard.Props';
+import { ActiveDashboard } from '../DashboardHeader/DashboardHeader.Props';
 import './Dashboard.scss';
 
 import { autobind } from '../../utilities/autobind';
 
 
+function sortFarms(ob1: { farmName: string }, ob2: { farmName: string }) {
+    if (ob1.farmName < ob2.farmName) {
+        return -1;
+    }
+
+    if (ob1.farmName > ob2.farmName) {
+        return 1;
+    }
+    return 0;
+}
 
 export class Dashboard extends React.Component<IDashboardProps, any> {
 
@@ -22,25 +33,41 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
 
     @autobind
     changeView(item) { 
-        this.setState({ activeView: parseInt(item.key.trim().replace('.$', ''), 10) });
+        let nextView = -1;
+        if (item.props.linkText.toLowerCase().trim().indexOf('tiles') !== -1 ) {
+            nextView = ActiveDashboard.Tiles;
+        } else  if (item.props.linkText.toLowerCase().trim().indexOf('compact horizontal') !== -1 ) {
+            nextView = ActiveDashboard.CompactHorizontal;
+        } else  if (item.props.linkText.toLowerCase().trim().indexOf('compact vertical') !== -1 ) {
+            nextView = ActiveDashboard.CompactVertival;
+        }
+        this.setState({ activeView: nextView });
     }
 
     render() {
-        let {farms} = this.props;
+        let {farms, headerClass, hasAddFarmButton} = this.props;
         let {filter, activeView} = this.state;
         return (
             <div>
                 <DashboardHeader 
+                    hasAddFarmButton={hasAddFarmButton}
+                    onAddFarmClick={this.props.addFarm}
                     onChanged={this.changeSearchFilter} 
                     filter={filter} 
                     title={farms.title} 
-                    onViewChange={this.changeView}
+                    onViewChange={this.changeView} 
+                    headerClass={headerClass}
                     pivotItems={this.props.pivotElements} />
                 {
                     (activeView === 1 || activeView === 0) &&
-                    <CompactDashboard filter={filter} className={'viewport-height'} title={farms.title} farms={farms.farms} isVertical={activeView === 1} />
+                    <CompactDashboard 
+                        groupOnClick={this.props.groupOnClick}
+                        filter={filter} 
+                        className={'viewport-height'} 
+                        title={farms.title} 
+                        farms={farms.farms.sort(sortFarms)} 
+                        isVertical={activeView === 1} />
                 }
-
             </div>
         );
     }
