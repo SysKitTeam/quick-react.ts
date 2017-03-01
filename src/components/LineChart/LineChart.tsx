@@ -29,6 +29,9 @@ export class LineChart extends React.Component<ILineChartProps, null> {
     refs: {
         [argument: string]: (Element);
         container: (HTMLInputElement);
+        xAxis: (HTMLInputElement);
+        yAxis: (HTMLInputElement);
+        line: (HTMLInputElement);
     };
 
     private x;
@@ -50,59 +53,48 @@ export class LineChart extends React.Component<ILineChartProps, null> {
     }
 
     public render() {
+        const id = this.props.id;
+        const xClass = classNames('x-axis', id);
+        const yClass = classNames('y-axis', id);
+        const lineClass = classNames('line-chart-line', id);
+
         return (
-            <div className={'line-chart-container'} ref="container">
+            <div className={'line-chart-container'}>
                 <Label className={'line-chart-title'}>{this.props.title}</Label>
+                <svg width={this.props.width - 10} height={this.props.height}>
+                    <g className={'svg-container'} transform={'translate(' + this.margin.left + ',' + (this.margin.top + 20) + ')'} ref={'container'}>
+                        <g className={xClass} transform={'translate(0,' + (this.height - 20) + ')'} ref={'xAxis'}></g>
+                        <g className={yClass} ref={'yAxis'}></g>
+                        <path className={lineClass} ref={'line'}></path>
+                    </g>
+                </svg>
             </div>
         );
     }
 
     private draw() {
-        const id = this.props.id;
-        const svg = d3.select(this.refs.container).append('svg')
-                    .attr('width', this.props.width - 10)
-                    .attr('height', this.props.height)
-                    .append('g')
-                    .attr('class', 'svg-container')
-                    .attr('transform', 'translate(' + this.margin.left + ',' + (this.margin.top + 20) + ')');
+        (d3.select(this.refs.xAxis) as any).call(this.generateXAxis());
+        (d3.select(this.refs.yAxis) as any).call(this.generateYAxis()).selectAll('line').attr('transform', 'translate(-15, 0)');
+        (d3.select(this.refs.line) as any).data([this.props.data]).attr('d', this.constructLine());
 
-        svg.insert('g', ':first-child')
-            .attr('transform', 'translate(0,' + (this.height - 20) + ')')
-            .attr('class', classNames('x-axis', id))
-            .call(this.generateXAxis());
-
-        svg.append('g').attr('class', classNames('y-axis', id))
-            .call(this.generateYAxis()).selectAll('line').attr('transform', 'translate(-15, 0)');
-
-        svg.insert('path', '.y-axis + *')
-            .data([this.props.data]).attr('class', classNames('line-chart-line', id)).attr('d', this.constructLine());
+        const svg = d3.select(this.refs.container);
 
         this.addTooltip(svg);
         this.drawCaptureArea(svg);
     }
 
     private redraw() {
-        d3.select('.x-axis.' + this.props.id).call(this.generateXAxis());
-        d3.select('.line-chart-line.' + this.props.id).data([this.props.data]).attr('d', this.constructLine());
+        (d3.select(this.refs.xAxis) as any).call(this.generateXAxis());
+        d3.select(this.refs.line).data([this.props.data]).attr('d', this.constructLine());
     }
 
-    private generateX() : any {
-        const domain = d3.extent(this.props.data, (d) => d.argument);
-        const range = d3.extent([0, this.width]);
-        switch(this.props.xAxisScale) {
-            case 'TIME':
-                return d3.scaleTime().domain(domain).range(range);
-            case 'LINEAR':
-                return d3.scaleLinear().domain(domain).range(range);
-            default:
-                return null;
-        }
+    private generateX() {
+        const scale: any = (typeof this.props.data[0].argument) === 'number' ? d3.scaleLinear() : d3.scaleTime();
+        return scale.domain(d3.extent(this.props.data, (d) => d.argument)).range([0, this.width]);
     }
 
     private generateY() {
-        return d3.scaleLinear()
-                .domain([0, 100])
-                .range([this.height - 20, 0]);
+        return d3.scaleLinear().domain([0, 100]).range([this.height - 20, 0]);
     }
 
     private generateXAxis() {
@@ -111,7 +103,7 @@ export class LineChart extends React.Component<ILineChartProps, null> {
                 .tickSizeInner(-(this.height - 20))
                 .tickSizeOuter(0)
                 .tickPadding(15);
-        if (this.props.xAxisScale === 'TIME') { return axis.ticks(2, '%I:%M:%S %p'); }
+        if (typeof this.props.data[0].argument !== 'number') { return axis.ticks(2, '%I:%M:%S %p'); }
         return axis.ticks(2);
     }
 
@@ -164,7 +156,7 @@ export class LineChart extends React.Component<ILineChartProps, null> {
         let d1 = this.props.data[i];
         let d;
 
-        if (this.props.xAxisScale === 'TIME') {
+        if (typeof this.props.data[0].argument !== 'number') {
             d = (x0.getTime() - (d0.argument as Date).getTime()) > ((d1.argument as Date).getTime() - x0.getTime()) ? d1 : d0;
         } else {
             d = x0 - (d0.argument as any) > (d1.argument as any) - x0 ? d1 : d0;

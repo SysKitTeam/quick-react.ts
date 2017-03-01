@@ -52,17 +52,16 @@ export class Index extends React.Component<any, any> {
             data: data1
         };
 
-        // setTimeout(() => this.setState({data: data}), 2000);
-        setInterval(() => this.setState({data: data}), 1000);
+        setInterval(() => this.setState({data1: generator1.generateValues()}), 500);
+        // setInterval(() => this.setState({data: data}), 1000);
     }
     public render() {
         return (
             <div>
-                 <LineChart 
+                <LineChart 
                     id={'graf-1'}
                     title={'CPU USAGE'}
-                    data={this.state.data} 
-                    xAxisScale={'LINEAR'}
+                    data={this.state.data}
                 ></LineChart>
                 <LineChart
                     id={'graf-2'}
@@ -70,7 +69,6 @@ export class Index extends React.Component<any, any> {
                     data={this.state.data1} 
                     width={330} 
                     height={200}
-                    xAxisScale={'TIME'}
                 ></LineChart>
                 <Ribbon items={[]}></Ribbon>
                 <AddToFavorites favorited={true} />

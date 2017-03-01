@@ -5,7 +5,6 @@ export interface ILineChartProps {
     height?: number;
     gridSize?: number;
     data: ILineChartData[];
-    xAxisScale: string; // 'LINEAR' or 'TIME' 
 }
 
 export interface ILineChartData {
