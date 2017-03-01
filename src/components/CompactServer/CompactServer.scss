@@ -8,8 +8,8 @@
      float: left;
      width: 95%;
      padding: 5px;
-     background: rgb(232, 233, 239);
-     color:  #6b6b6b;
+     background: $background-color;
+     color:  $basic-text-color;
 
      hr{
         width: 100%;
@@ -17,20 +17,22 @@
         line-height: 0.1em;
         margin-top: 5px;
         margin-bottom: 4px;
-        border-style: solid;
-        color:#f9f9fb;
+        color: $hr-background-color;
         border: none;
         height: 1px;
     
-        background-color: #f9f9fb;
+        background-color: $hr-background-color;
      }
      .server-title{
             position: relative;
             float: left;
-            margin: 5px;
+            margin-bottom: 5px;
+            margin-left: 5px;
             width: calc(100% - 10px);
             display: block;
-            font-weight: 600;
+            font-weight: 400;
+            font-size: 17px;
+            color: $emphasized-text-color;
         
             :first-child{
                 width: calc(100% - 30px);
@@ -43,9 +45,9 @@
             .server-close{
                 font-size: 27px;
                 position: absolute;
-                right: 10px;
-                top: -15px;
-                color: red;
+                right: -1px;
+                top: -9px;
+                color: $red-color;
                 display: none;
                 font-weight: 900;
                 cursor: pointer;
@@ -61,45 +63,50 @@
          position: relative;
          float: left;
          width: 100%;
-         margin: 5px 0;
-         background: rgb(232, 233, 239);
+         margin: 0;
+         margin-left: 5px;
+         background: $server-background-color;
          .tag{
-            background: #e8e9ef;
+            background: $server-background-color;
             margin-top: 0;
             margin-bottom: 0;
             padding-top: 0;
-            padding-bottom: 0;
+            padding-bottom: 0; 
             margin: 0;
             font-size:12px;
+            color:$light-text-color; 
             font-weight: normal;
             margin-left: 4px;
+            .icon{
+                color:$light-text-color; 
+            }
          }
          .edit-tags:hover{
             background: inherit;
-            color:#7DC458;
+            color:$green-color;
             .icon{
                 background: inherit;
-                color:#7DC458;
+                color:$green-color;
             }
          }
      }
      .icon {
-         color: #676666;
+         color: $basic-text-color;
      }
 }
 
 .status-ok{
-    border-left-color: #7DC458;
+    border-left-color: $green-color;
 }
 
 .status-warning{
-    border-left-color: #EAC71A;
+    border-left-color: $yellow-color;
 }
 
 .status-critical{
-    border-left-color: #fb6464;
+    border-left-color: $red-color;
 }
 
 .offline{
-    border-left-color: #C2C7CE;
+    border-left-color: $basic-text-color;
 }

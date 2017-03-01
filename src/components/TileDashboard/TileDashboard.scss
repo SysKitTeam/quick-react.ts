@@ -1,17 +1,24 @@
  @import '../../index.scss';
 
-$tile-dashboard-background: #f4f4f4;
-$server-status-color: #677A85;
-$background-color: #e8e9ef;
+$tile-dashboard-background: $background-color;
+$server-status-color: $basic-text-color;
+$background-color: $background-color;
 
 .tile-dashboard-container{
     @include baseFont();
-    color: #828282;
     width: 100%;
     height: 100%;
     background-color: $tile-dashboard-background;
     border-color: $tile-dashboard-background;
     overflow-y: auto;
+    .farm{
+        padding-bottom: 25px;
+        margin-top:50px;
+        &:first-child{
+            margin-top:70px;
+        }
+
+    }
     .server-details {
         width: 250px;
         display: inline-block;
@@ -60,24 +67,29 @@ $background-color: #e8e9ef;
             overflow: hidden;
             display: inline-flex;
         }
+        .label{
+            &.status-warning{
+                color: $yellow-color;
+            }
+            &.status-critical{                
+                color: $red-color;
+            }
+        }
     }
     .status-ok{
-        border-left-color: #7DC458;
-        
+        border-left-color: $green-color;
     }
 
     .status-warning{
-        border-left-color: #EAC71A;
-        color: #EAC71A;
+        border-left-color: $yellow-color;
     }
 
     .status-critical{
-        border-left-color: #fb6464;
-        color: #fb6464;
+        border-left-color: $red-color;
     }
 
     .offline{
-        border-left-color: #C2C7CE;
+        border-left-color: $basic-text-color;
     }
 }
 

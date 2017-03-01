@@ -88,7 +88,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
         if (this.getRow(obj.index).isCustom) {
             serverRoleDiff += 21;
         }
-        return serverHeight + 140 + serverRoleDiff;
+        return serverHeight + 140 + serverRoleDiff + 60;
     }
 
     @autobind

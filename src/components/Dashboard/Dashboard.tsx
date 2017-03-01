@@ -49,7 +49,7 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
         let {headerClass, hasAddButton} = this.props;
         let {filter, activeView} = this.state;
         return (
-            <div>
+            <div className="dashboard">
                 <DashboardHeader 
                     onAddFarmClick={this.props.addFarm} headerClass={headerClass}  pivotItems={this.props.differentDashboards} hasAddFarmButton={hasAddButton} onChanged={this.changeSearchFilter} filter={filter} title={this.props.title} onViewChange={this.changeView} />
                 {

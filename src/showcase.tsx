@@ -1,5 +1,6 @@
 import 'babel-polyfill';
 import 'ts-helpers';
+
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Test } from './components/Test/Test';
@@ -68,16 +69,27 @@ export class Index extends React.Component<any, any> {
         setInterval(() => this.setState({data: generator.generateValues()}), 5000);
         setInterval(() => { 
             let newFarms = this.state.farms.map((farm: IFarm) => {
+                
                 let servers = farm.servers.map((server: ISharePointServer) => {
-                    
+                    let measures = generateMeasures();
+                    let status = ServerStatus.Offline;
+                    if (measures.length > 0 ) {
+                        status = ServerStatus.OK;
+                        if (measures.filter(t => { return t.status === ServerStatus.Warning; } ).length > 0 ) {
+                            status = ServerStatus.Warning;
+                        }
+                        if (measures.filter(t => { return t.status === ServerStatus.Critical; } ).length > 0) {
+                            status = ServerStatus.Critical;
+                        }
+                    }       
                     return { 
                         id: server.id,
-                        status: generateRandomStatus(),
+                        status: status,
                         roles: server.roles,
                         onRoleEdit: server.onRoleEdit,
                         onClose: server.onClose,
-                        name: server.name,
-                        measures: generateMeasures()
+                        name: server.name, 
+                        measures: measures
                     };
                 });
                 return {
@@ -89,7 +101,7 @@ export class Index extends React.Component<any, any> {
                 };
             });
             this.setState({farms: newFarms});
-        }, 1500);
+        }, 2000);
     }
 
     componentDidMount() {
