@@ -3,7 +3,7 @@ export interface ILineChartProps {
     title?: string;
     width?: number;
     height?: number;
-    gridSize?: number;
+    ticks?: number;
     data: ILineChartData[];
 }
 

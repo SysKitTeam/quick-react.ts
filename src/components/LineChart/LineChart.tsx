@@ -12,8 +12,7 @@ export class LineChart extends React.Component<ILineChartProps, null> {
         height: 200,
         id: '',
         title: '',
-        gridSize: 2,
-        xAxisScale: 'LINEAR'
+        ticks: 2
     };
 
     private _focus: any;
@@ -111,7 +110,7 @@ export class LineChart extends React.Component<ILineChartProps, null> {
         return d3.axisLeft(this.generateY())
                 .tickSizeInner(-(this.width + 15))
                 .tickSizeOuter(-10)
-                .ticks(this.props.gridSize)
+                .ticks(this.props.ticks)
                 .tickFormat((d) => (d + '%'))
                 .tickPadding(20);   
     }
