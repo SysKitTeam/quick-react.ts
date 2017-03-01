@@ -56,7 +56,7 @@ $server-status-color: $basic-text-color;
             width: 100%;
             margin: 10px 0;
             background: $server-background-color;
-            color: $light-text-color;
+            color: $tag-color;
             .tag{
                 background: $server-background-color;
                 margin-top: 0;
@@ -68,7 +68,7 @@ $server-status-color: $basic-text-color;
                 font-weight: normal;
                 margin-left: 4px;
                 .icon {
-                    color: $light-text-color;
+                    color: $tag-color;
                 }
             }
             .edit-tags:hover{
@@ -108,7 +108,7 @@ $server-status-color: $basic-text-color;
 
             p {
                 text-align: center;
-                color: $counters-title-font-color;
+                color: $light-text-color;
                 font-size: $counters-title-font-size;
                 margin: 9px 0px 2px 0px;;
             }
