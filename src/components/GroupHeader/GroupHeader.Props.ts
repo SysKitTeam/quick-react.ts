@@ -1,10 +1,10 @@
 import * as React from 'react';
+import { ISharePointVersion, IFarmID } from '../../models';
+
 
 export interface IGroupHeaderProps {
-    sharepointVersion: string;
-    sharepointIcon: string;
-    configDB: string;
-    configDBIcon: string;
+    version: ISharePointVersion;
+    farmId: IFarmID;
     className?: string;
     isCustomFarm: boolean;
 }

@@ -36,20 +36,20 @@ import { StatusBar } from './components/StatusBar/StatusBar';
 import { CheckboxList } from './components/CheckboxList/CheckboxList';
 import { Treeview } from './components/Treeview/Treeview';
 import { CompactDashboard} from './components/CompactDashboard/CompactDashboard';
-import { IFarm } from './components/CompactDashboard/CompactDashboard.Props';
 import {ICompactServerProps} from './components/CompactServer/CompactServer.Props';
 import {TagContainer} from './components/TagContainer/TagContainer';
 import {CompactServer} from './components/CompactServer/CompactServer'; 
 import {DashboardHeader} from './components/DashboardHeader/DashboardHeader';
 import {Dashboard} from './components/Dashboard/Dashboard';
-import {farms, classListExample} from './mockData/farms';
-import { ServerDetails } from './components/ServerDetails/ServerDetails';
+import {dummyDashboard, generateMeasures, generateRandomStatus, convertFarm} from './mockData/DashboardDummy';
+import { ServerTile } from './components/ServerTile/ServerTile';
 import { elements } from './treeviewElements';
 import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
 import { LineChart } from './components/LineChart/LineChart';
 import { ProgressBar } from './components/ProgressBar/ProgressBar';
 import { PieChart } from './components/PieChart/PieChart';
 import { DataGenerator } from './utilities/DataGenerator';
+import {IFarm , ISharePointServer, ServerStatus} from './models';
 
 export class Index extends React.Component<any, any> {
     constructor() {
@@ -62,40 +62,34 @@ export class Index extends React.Component<any, any> {
             selector: true,
             cpu: '74',
             data: generator.generateValues(),
-            farms: farms
+            farms: dummyDashboard.farms
         };
         
         setInterval(() => this.setState({data: generator.generateValues()}), 5000);
         setInterval(() => { 
-            let newFarms = this.state.farms.farms.map((farm: IFarm) => {
-                let servers = farm.servers.map((server: ICompactServerProps) => {
+            let newFarms = this.state.farms.map((farm: IFarm) => {
+                let servers = farm.servers.map((server: ISharePointServer) => {
                     
-                    return {
-                        classNameList : server.classNameList,
-                        serverId: server.serverId,
-                        status: this.generateRandomStatus(),
-                        roleList: server.roleList,
+                    return { 
+                        id: server.id,
+                        status: generateRandomStatus(),
+                        roles: server.roles,
                         onRoleEdit: server.onRoleEdit,
-                        onServerClose: server.onServerClose,
-                        serverName: server.serverName
+                        onClose: server.onClose,
+                        name: server.name,
+                        measures: generateMeasures()
                     };
                 });
                 return {
-                    farmId: farm.farmId,
+                    id: farm.id,
                     isCustom: farm.isCustom,
-                    sharepointVersion: farm.sharepointVersion,
-                    sharepointVersionIcon: farm.sharepointVersionIcon,
-                    configDB: farm.configDB,
-                    confgiDBIcon: farm.confgiDBIcon,
-                    farmName: farm.farmName,
+                    version: farm.version,
+                    name: farm.name,
                     servers: servers
                 };
             });
-            this.setState({farms: {
-                farms:  newFarms,
-                title: this.state.farms.title
-            }});
-        }, 2000);
+            this.setState({farms: newFarms});
+        }, 1500);
     }
 
     componentDidMount() {
@@ -116,12 +110,12 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-                <CompactServer serverId={'CUSTOM-PC.localdomain'} onServerClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} serverName={'CUSTOM-PC'} roleList={[]} status={1} classNameList={classListExample} />
-                <CompactServer serverId={'My very very long name of a server I am using I know its very long.domain.com'} onServerClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} serverName={'My very very long name of a server I am using I know its very long'} roleList={[]} status={2} classNameList={classListExample} />
+                <CompactServer id={{FQDN: 'CUSTOM-PC.localdomain'}} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'CUSTOM-PC'} roles={[]} status={1} />
+                <CompactServer id={{FQDN: 'My very very long name of a server I am using I know its very long.domain.com'}} onClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} name={'My very very long name of a server I am using I know its very long'} roles={[]}  status={2}/>                
+                <CompactServer id={{FQDN:'BANANA-PC.banana.com'}}  onClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} name={'BANANA-PC'} roles={[{display:'WPF', iconName:'icon-Add'}, {display:'Search', iconName:'icon-Alert'}]} status={0} />
+                
+                <TagContainer title={'Roles'} tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}>
 
-                <CompactServer serverId={'BANANA-PC.banana.com'} onServerClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} serverName={'BANANA-PC'} roleList={[{ display: 'WPF', iconName: 'icon-Add' }, { display: 'Search', iconName: 'icon-Alert' }]} status={0} classNameList={classListExample} />
-
-                <TagContainer title={'Roles'} tags={[{ display: 'Tag1', iconName: 'icon-Add' }, { display: 'Tag2', iconName: 'icon-Alert' }, { display: 'Tag3', iconName: 'icon-Buy' }]}>
                     <div className="edit-tags tag" title="Edit tags">
                         <Icon className="icon-Edit"></Icon>
                     </div>
@@ -406,29 +400,42 @@ export class Index extends React.Component<any, any> {
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
 
-                <Dashboard pivotElements={[{linkText:'Compact Horizontal'},{linkText:'Tiles'}, {linkText: 'Compact Vertical'}]} groupOnClick={function(farmId){ console.log("You clicked on group:" + farmId); }} farms={this.state.farms} filter={''} title={this.state.farms.title} activeView={0}  hasAddFarmButton={true} addFarm={() => console.log('specify action!')}/>
+                <Dashboard 
+                    differentDashboards={dummyDashboard.differentDashboards} 
+                    groupOnClick={dummyDashboard.groupOnClick} 
+                    farms={this.state.farms}
+                    filter={''} 
+                    title={dummyDashboard.title} 
+                    activeView={0}  hasAddButton={true} 
+                    addFarm={dummyDashboard.addFarm}
+                    groupAddFunc={dummyDashboard.groupAddFunc}
+                    groupDeleteFunc={dummyDashboard.groupDeleteFunc}
+                    groupEditFunc={dummyDashboard.groupEditFunc}
+                    serverClose={dummyDashboard.serverClose}
+                    serverRoleEdit= {dummyDashboard.serverRoleEdit}
+                />
 
 
 
                 <br />
-                <ServerDetails
-                    serverId={'server-123'}
-                    serverStatusClass={'ok'}
+                <ServerTile
+                    id={{FQDN: 'server-123'}}
+                    status= {0}
                     hasCloseButton={true}
-                    serverName={'SP2016-Martin-Pisacic'}
-                    serverFqdn={'ServerName123456.companylocal'}
+                    name={'SP2016-Martin-Pisacic'}
                     numberOfUsers={'3432'}
-                    onDismiss={(id: string) => console.log('Go away!', id)}
-                    disks={['C: 49 / 259 GB (30%)', 'D: 49 / 259 GB (30 %)']}
+                    onClose={(id: string) => console.log('Go away!', id)}
+                    diskInformation={['C: 49 / 259 GB (30%)', 'D: 49 / 259 GB (30 %)']}
+                    roles={[]}
                     countersData={[
-                        { title: 'CPU', currentUsage: '43', usageUnit: '%', totalUsage: [''], status: 'ok' },
-                        { title: 'Memory', currentUsage: '7', usageUnit: 'GB', totalUsage: ['7GB/10GB (70%)'], status: 'warning' },
-                        { title: 'Disk', currentUsage: '0,1', usageUnit: 'Mbps', totalUsage: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps'], status: 'ok' },
-                        { title: 'Network', currentUsage: '0,1', usageUnit: 'MB/s', totalUsage: ['50.10 kB/s', '23.47 kB/s'], status: 'ok' }
+                        {title: 'CPU', currentUsage: '43', usageUnit: '%', hoverText: [''], status: ServerStatus.OK},
+                        {title: 'Memory', currentUsage: '7', usageUnit: 'GB', hoverText: ['7GB/10GB (70%)'], status: ServerStatus.Warning},
+                        {title: 'Disk', currentUsage: '0,1', usageUnit:'Mbps', hoverText: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps'], status: ServerStatus.OK},
+                        {title: 'Network', currentUsage: '0,1', usageUnit: 'MB/s', hoverText: ['50.10 kB/s', '23.47 kB/s'], status: ServerStatus.OK}
                     ]}>
-                    {/*<TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>*/}
-                </ServerDetails>
-                <LineChart
+                {/*<TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>*/}
+                </ServerTile>
+                <LineChart 
                     title={'CPU USAGE'}
                     data={this.state.data}
                     width={330}
@@ -475,7 +482,7 @@ export class Index extends React.Component<any, any> {
 
     }
 
-    private _onCheckboxListChange(ev, itemId, checked) {
+    private _onCheckboxListChange(ev, itemId, checked) { 
         console.log(checked);
     }
     private _onToggle(checked) {
@@ -494,9 +501,7 @@ export class Index extends React.Component<any, any> {
         this.setState({ showDialog: false });
     }
 
-    private generateRandomStatus() {
-        return Math.floor(Math.random() * (4 - 0 + 1)) + 0;
-    }
+    
 };
 
 ReactDOM.render(<Index />, document.getElementById('root'));
