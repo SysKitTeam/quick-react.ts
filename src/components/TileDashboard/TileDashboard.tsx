@@ -107,8 +107,8 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
                 <Group serverChildrenCount={servers.length} filter={this.props.filter} className={'farm-name-inside'} id={farm.id} name={farm.name} key={farm.id.configDataBaseName + '-' + farm.id.sqlInstance}>
                     <GroupHeader version={farm.version}  isCustomFarm={farm.isCustom} farmId={farm.id} />
                     {
-                        servers.map((server, index ) => (                            
-                            <ServerTile key={index}
+                        servers.map((server, serverIndex ) => (                            
+                            <ServerTile key={serverIndex}
                                 diskInformation={this.generatePartitionData()}
                                 name={server.name}
                                 hasCloseButton={true}
