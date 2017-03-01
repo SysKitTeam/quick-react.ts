@@ -16,12 +16,18 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
          this.setState({isOpen: !this.state.isOpen});
      };
 
-     onLinkClick(index) {
+     onLinkClick(index, item: any, ev: React.MouseEvent<HTMLElement>) {
+         const {onClick} =this.props;
+
          index = Math.max(0, Math.min(this.props.options.length - 1, index));
           if (index !== this.state.selectedIndex) {
               this.setState({
                   selectedIndex: index
               });
+          }
+
+          if (onClick !== undefined) {
+              onClick(ev, item);
           }
     };
 
@@ -61,9 +67,8 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
             return (
                 <div key={option.id} className={linkClasses} title={option.text}>
                     <a
-                        id={option.id} 
-                        href={option.href} 
-                        onClick={ () => { this.onLinkClick(index); }}>
+                        id={option.id}
+                        onClick={ (ev) => { this.onLinkClick(index, option, ev) }}>
                             <Icon iconName={option.icon}></Icon>
                             <span>{option.text}</span>
                     </a>
