@@ -9,7 +9,7 @@
      width: 95%;
      padding: 5px;
      background: rgb(232, 233, 239);
-     color:  #676666;
+     color:  #6b6b6b;
 
      hr{
         width: 100%;
@@ -88,16 +88,16 @@
      }
 }
 
-.green{
+.status-ok{
     border-left-color: #7DC458;
 }
 
-.yellow{
-    border-left-color: #EAC71B;
+.status-warning{
+    border-left-color: #EAC71A;
 }
 
-.red{
-    border-left-color: #f66851;
+.status-critical{
+    border-left-color: #fb6464;
 }
 
 .offline{

@@ -1,17 +1,17 @@
 import * as React from 'react';
+import {IGroupID} from '../../models';
 
-export interface IGroupProps {
+export interface IGroupProps  {
+    id: IGroupID;
     name: string;
-
-    /**
-     * Id of the group object that needs to be displayed. 
-     */
-    id: any;
-
-    /**
-     * Additional classes for the parent div of the Group component
-     */
     className?: string;
+    filter?: string;
+    
+    /**
+     * Function intended for checking whether any group children are displayed. 
+     * If this property is omitted, the group component checks if the child name satisfies the supplied filter. 
+     */
+    checkChildren?: (value : React.ReactChild, index, array ) => boolean;
 
     /**
      * Number of children components. Used so the component knows whether to draw itself.
@@ -19,20 +19,11 @@ export interface IGroupProps {
     serverChildrenCount: number;
 
     /**
-     * Action that is called on clicking the add icon on the bar. The function is supplied with a group id.
+     * Header icon action methods.
      */
-    addFunc?: (groupId: any) => void;
-
-    /**
-     * Action that is called on clicking the edit icon on the bar. The function is supplied with a group id.
-     */
-    editFunc?: (groupId: any) => void;
-
-    /**
-     * Action that is called on clicking the delete icon on the bar. The function is supplied with a group id.
-     */
-    deleteFunc?: (groupId: any) => void;
-
+    addFunc?: (farmId: any) => void;
+    editFunc?: (farmId: any) => void;
+    deleteFunc?: (farmId: any) => void;
     /**
      * Action that is called on clicking the title of the group. The function is supplied with a group id.
      */
