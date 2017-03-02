@@ -37,7 +37,7 @@ import { Treeview } from './components/Treeview/Treeview';
 import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
 import { LineChart } from './components/LineChart/LineChart';
 
-import { data, updatedData } from './MockData/Data';
+import { data, updatedData, linearData, linearDataUpdated } from './MockData/Data';
 
 export class Index extends React.Component<any, any> {
     constructor() {
@@ -45,13 +45,20 @@ export class Index extends React.Component<any, any> {
         this.state = {
             showDialog: false,
             selector: true,
-            data: data
+            data: data,
+            linearData: linearData
         };
         setInterval(() => this.setState({data: updatedData}), 2000);
+        setInterval(() => this.setState({linearData: linearDataUpdated}), 1000);
     }
     public render() {
         return (
             <div>
+                <LineChart
+                    id={'graf-2'}
+                    title={'LINEAR CHART'}
+                    data={this.state.linearData}
+                ></LineChart>
                 <LineChart
                     id={'graf-1'}
                     title={'CPU USAGE'}
