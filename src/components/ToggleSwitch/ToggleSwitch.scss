@@ -33,6 +33,30 @@
   -webkit-transition: .4s;
   transition: .4s;
   border-radius: 50%;
+  z-index: 2;
+}
+
+input:not(:checked) + .toggle-slider:after {
+  content: 'OFF';
+  left: 19px;
+  top: 4px;
+  font-weight: 600;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 9px;
+  color: darkgrey;
+  position: absolute;
+  z-index: 1;
+}
+
+input:checked + .toggle-slider:after {
+  content: 'ON';
+  position: absolute;
+  color: white;
+  font-size: 9px;
+  font-weight: 600;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  top: 4px;
+  right: 22px;
 }
 
 input:checked + .toggle-slider {
