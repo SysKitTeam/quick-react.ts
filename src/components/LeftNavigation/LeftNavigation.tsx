@@ -20,7 +20,7 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
         const {onClick} = this.props;
 
         if (this.state.isOpen) {
-            this.setState({ isOpen: true });
+            this.setState({ isOpen: false });
         }
 
         index = Math.max(0, Math.min(this.props.options.length - 1, index));
