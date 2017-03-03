@@ -152,7 +152,7 @@ export class LineChart extends React.Component<ILineChartProps, null> {
     // }
 
     private constructArea() {
-        return d3.area<ILineChartData>().x((d) => this.x(d.argument)).y0(this.y(0)).y1((d) => this.y(d.value));
+        return d3.area<ILineChartData>().x((d) => this.x(d.argument)).y0(this.y(0)).y1((d) => this.y(d.value)).curve(d3.curveMonotoneX);
     }
 
     private drawCaptureArea(svg: any) {
