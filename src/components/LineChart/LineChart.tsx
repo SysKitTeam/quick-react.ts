@@ -103,7 +103,7 @@ export class LineChart extends React.Component<ILineChartProps, null> {
     private draw() {
         (d3.select(this.refs.xAxis) as any).call(this.generateXAxis());
         (d3.select(this.refs.yAxis) as any).call(this.generateYAxis()).selectAll('line').attr('transform', 'translate(-15, 0)');
-        (d3.select(this.refs.line) as any).data([this.props.data]).attr('d', this.constructLine());
+        (d3.select(this.refs.line) as any).data([this.props.data]).attr('d', this.constructArea());
 
         const svg = d3.select(this.refs.container);
 
@@ -113,7 +113,7 @@ export class LineChart extends React.Component<ILineChartProps, null> {
 
     private redraw() {
         (d3.select(this.refs.xAxis) as any).call(this.generateXAxis());
-        d3.select(this.refs.line).data([this.props.data]).attr('d', this.constructLine());
+        d3.select(this.refs.line).data([this.props.data]).attr('d', this.constructArea());
     }
 
     private generateX() {
@@ -144,11 +144,15 @@ export class LineChart extends React.Component<ILineChartProps, null> {
                 .tickPadding(20);   
     }
 
-    private constructLine() {
-        return d3.line<ILineChartData>()
-                    .x((d) => this.x(d.argument))
-                    .y((d) => this.y(d.value))
-                    .curve(d3.curveMonotoneX);
+    // private constructLine() {
+    //     return d3.line<ILineChartData>()
+    //                 .x((d) => this.x(d.argument))
+    //                 .y((d) => this.y(d.value))
+    //                 .curve(d3.curveMonotoneX);
+    // }
+
+    private constructArea() {
+        return d3.area<ILineChartData>().x((d) => this.x(d.argument)).y0(this.y(0)).y1((d) => this.y(d.value));
     }
 
     private drawCaptureArea(svg: any) {
