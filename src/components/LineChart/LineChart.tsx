@@ -147,7 +147,8 @@ export class LineChart extends React.Component<ILineChartProps, null> {
     private constructLine() {
         return d3.line<ILineChartData>()
                     .x((d) => this.x(d.argument))
-                    .y((d) => this.y(d.value));
+                    .y((d) => this.y(d.value))
+                    .curve(d3.curveMonotoneX);
     }
 
     private drawCaptureArea(svg: any) {
