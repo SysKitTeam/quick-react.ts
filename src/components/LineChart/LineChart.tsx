@@ -137,7 +137,7 @@ export class LineChart extends React.Component<ILineChartProps, null> {
         this.container.append('path')
                     .attr('class', lineClass)
                     .data([this.props.data])
-                    .attr('d', this.constructArea());
+                    .attr('d', this.constructLine());
 
         this._focus = this.container.append('g')
                         .attr('class', 'tip-container')
@@ -209,6 +209,10 @@ export class LineChart extends React.Component<ILineChartProps, null> {
                 .ticks(ticks)
                 .tickFormat((d) => (d + '%'))
                 .tickPadding(20);   
+    }
+
+    private constructLine() {
+        return d3.line<ILineChartData>().x((d) => this.x(d.argument)).y((d) => this.y(d.value));
     }
 
     private constructArea() {
