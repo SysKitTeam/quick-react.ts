@@ -48,8 +48,8 @@ export class Index extends React.Component<any, any> {
             data: data,
             linearData: linearData
         };
-        // setInterval(() => this.setState({data: updatedData}), 2000);
-        // setInterval(() => this.setState({linearData: linearDataUpdated}), 1000);
+        setInterval(() => this.setState({data: updatedData}), 2000);
+        setInterval(() => this.setState({linearData: linearDataUpdated}), 1000);
     }
     public render() {
         return (
@@ -58,6 +58,8 @@ export class Index extends React.Component<any, any> {
                     id={'graf-2'}
                     title={'LINEAR CHART'}
                     data={this.state.linearData}
+                    yAxisTicks={7}
+                    xAxisTicks={5}
                 ></LineChart>
                 <LineChart
                     id={'graf-1'}

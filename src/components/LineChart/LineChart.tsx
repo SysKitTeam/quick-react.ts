@@ -28,9 +28,6 @@ export class LineChart extends React.Component<ILineChartProps, null> {
     refs: {
         [argument: string]: (Element);
         container: (HTMLInputElement);
-        xAxis: (HTMLInputElement);
-        yAxis: (HTMLInputElement);
-        line: (HTMLInputElement);
     };
 
     private x;
@@ -51,7 +48,8 @@ export class LineChart extends React.Component<ILineChartProps, null> {
             this.props.id === nextProps.id &&
             this.props.title === nextProps.title && 
             this.state === null && nextState === null &&
-            this.props.ticks === nextProps.ticks) {
+            this.props.yAxisTicks === nextProps.yAxisTicks &&
+            this.props.xAxisTicks === nextProps.xAxisTicks) {
                 return !this.arraysEqual(this.props.data, nextProps.data);
         }
         return true;
@@ -182,29 +180,33 @@ export class LineChart extends React.Component<ILineChartProps, null> {
 
     private generateX() {
         const scale: any = (typeof this.props.data[0].argument) === 'number' ? d3.scaleLinear() : d3.scaleTime();
-        return scale.domain(d3.extent(this.props.data, (d) => d.argument)).range([0, this.width]);
+        return scale.domain(d3.extent(this.props.data, (d) => d.argument)).range([0, this.width]).nice();
     }
 
     private generateY() {
-        return d3.scaleLinear().domain([0, 100]).range([this.height - 20, 0]);
+        return d3.scaleLinear().domain([0, 100]).range([this.height - 20, 0]).nice();
     }
 
     private generateXAxis() {
+        const ticks = this.props.xAxisTicks === undefined ? 5 : this.props.xAxisTicks;
         const axis = d3.axisBottom(this.x)
-                .tickValues(d3.extent(this.props.data, (d) => d.argument))
+                //.tickValues(d3.extent(this.props.data, (d) => d.argument))
                 .tickSizeInner(-(this.height))
                 .tickSizeOuter(0)
-                .tickPadding(20);
-        if (typeof this.props.data[0].argument !== 'number') { return axis.ticks(2, '%I:%M:%S %p'); }
-        return axis.ticks(2);
+                .tickPadding(20)
+                .ticks(ticks);
+        // this.props.xAxisTicks !== undefined ? axis.ticks(ticks) : axis.tickValues(d3.extent(this.props.data, (d) => d.argument));
+        // if (typeof this.props.data[0].argument !== 'number') { return axis.ticks(ticks, '%I:%M:%S %p'); }
+        // return axis.ticks(ticks);
+        return axis;
     }
 
     private generateYAxis() {
-        const ticks = this.props.ticks ? this.props.ticks : 2;
+        const ticks = this.props.yAxisTicks ? this.props.yAxisTicks : 2;
         return d3.axisLeft(this.y)
                 .tickSizeInner(-(this.width + 15))
                 .tickSizeOuter(-10)
-                .ticks(this.props.ticks)
+                .ticks(ticks)
                 .tickFormat((d) => (d + '%'))
                 .tickPadding(20);   
     }
