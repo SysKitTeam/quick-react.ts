@@ -1,16 +1,22 @@
 @import '../../index.scss';
 
-.domain {
-    display: none;
-}
+.bar-chart-component {
+    display: inline-block;
+    border: 1px solid lightgrey;
 
-.tick {
-    line {
-        opacity: 0.7;
-        stroke: #bfbfbf;
+    .domain {
+        display: none;
     }
-    text {
-        font-family: $font-family-base;
-        font-size: 12px;
+
+    .tick {
+        line {
+            opacity: 0.7;
+            stroke: #bfbfbf;
+        }
+        text {
+            font-family: $font-family-base;
+            font-size: 12px;
+            fill: #9a9a9a;
+        }
     }
 }
