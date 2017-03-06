@@ -71,11 +71,11 @@ export class BarChart extends React.Component<IBarChartProps, null> {
     }
 
     private generateXAxis() {
-        return d3.axisBottom(this.x);
+        return d3.axisBottom(this.x).tickPadding(10);
     }
 
     private generateYAxis() {
-        return d3.axisLeft(this.y);
+        return d3.axisLeft(this.y).tickSizeInner(-this.width).tickPadding(5);
     }
 
     private generateBars(container: any) {
