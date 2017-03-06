@@ -72,7 +72,7 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
                 <div key={option.id} className={linkClasses} title={option.text}>
                     <a
                         id={option.id}
-                        onClick={(ev) => { this.onLinkClick(index, option, ev) }}>
+                        onClick={(ev) => this.onLinkClick(index, option, ev)}>
                         <Icon iconName={option.icon}></Icon>
                         <span>{option.text}</span>
                     </a>
