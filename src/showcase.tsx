@@ -48,8 +48,8 @@ export class Index extends React.Component<any, any> {
             data: data,
             linearData: linearData
         };
-        setInterval(() => this.setState({data: updatedData}), 2000);
-        setInterval(() => this.setState({linearData: linearDataUpdated}), 1000);
+        // setInterval(() => this.setState({data: updatedData}), 2000);
+        // setInterval(() => this.setState({linearData: linearDataUpdated}), 1000);
     }
     public render() {
         return (
@@ -63,8 +63,6 @@ export class Index extends React.Component<any, any> {
                     id={'graf-1'}
                     title={'CPU USAGE'}
                     data={this.state.data} 
-                    width={330} 
-                    height={200}
                 ></LineChart>
                 <Ribbon items={[]}></Ribbon>
                 <AddToFavorites favorited={true} />
