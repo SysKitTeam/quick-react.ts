@@ -50,22 +50,21 @@ import { ProgressBar } from './components/ProgressBar/ProgressBar';
 import { PieChart } from './components/PieChart/PieChart';
 import { DataGenerator } from './utilities/DataGenerator';
 import {IFarm , ISharePointServer, ServerStatus} from './models';
+import { BarChart } from './components/BarChart/BarChart';
+import { data } from './/mockData/barChart';
 
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
         let pieData = [];
-        const generator = new DataGenerator();
         this.state = {
             showDialog: false,
             treeviewElements: elements,
             selector: true,
             cpu: '74',
-            data: generator.generateValues(),
             farms: dummyDashboard.farms
         };
         
-        setInterval(() => this.setState({data: generator.generateValues()}), 5000);
         setInterval(() => { 
             let newFarms = this.state.farms.map((farm: IFarm) => {
                 let servers = farm.servers.map((server: ISharePointServer) => {
@@ -92,24 +91,10 @@ export class Index extends React.Component<any, any> {
         }, 1500);
     }
 
-    componentDidMount() {
-        /*let timer = setInterval(() => {
-           const currentCpu = this.state.selector ? '74%' : '85%';
-           const sel = !this.state.selector;
-           this.setState({cpu: currentCpu, selector: sel});
-       }, 1000);*/
-    }
-
-
-    private generateValues(d: any[]) {
-        d[0].value = d[0].value + 1;
-        d[1].value = d[1].value - 1;
-        return d;
-    }
-
     public render() {
         return (
             <div>
+                <BarChart id={'bar-chart-1'} data={data} barColor={'#008080'} hovColor={'#800000'}/>
                 <CompactServer id={{FQDN: 'CUSTOM-PC.localdomain'}} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'CUSTOM-PC'} roles={[]} status={1} />
                 <CompactServer id={{FQDN: 'My very very long name of a server I am using I know its very long.domain.com'}} onClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} name={'My very very long name of a server I am using I know its very long'} roles={[]}  status={2}/>                
                 <CompactServer id={{FQDN:'BANANA-PC.banana.com'}}  onClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} name={'BANANA-PC'} roles={[{display:'WPF', iconName:'icon-Add'}, {display:'Search', iconName:'icon-Alert'}]} status={0} />
@@ -435,14 +420,6 @@ export class Index extends React.Component<any, any> {
                     ]}>
                 {/*<TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>*/}
                 </ServerTile>
-                <LineChart 
-                    title={'CPU USAGE'}
-                    data={this.state.data}
-                    width={330}
-                    height={200}
-                    xAxisScale={'TIME'}
-                    ></LineChart>
-                <br />
                 <PieChart text={'Sample text'}
                     title={'Partition C:'}
                     height={160}
