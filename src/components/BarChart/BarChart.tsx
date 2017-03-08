@@ -16,6 +16,7 @@ export class BarChart extends React.Component<IBarChartProps, null> {
     private height = 300 - this.margin.top - this.margin.bottom;
     private x;
     private y;
+    private focus;
 
     constructor(props: IBarChartProps) {
         super(props);
@@ -44,6 +45,7 @@ export class BarChart extends React.Component<IBarChartProps, null> {
         container.append('g').attr('class', xAxisClass).call(this.generateXAxis()).attr('transform', 'translate(0,' + this.height + ')');
         container.append('g').attr('class', yAxisClass).call(this.generateYAxis());
         this.generateBars(container);
+        this.createTooltip(container);
     }
 
     private redraw() {
@@ -55,8 +57,8 @@ export class BarChart extends React.Component<IBarChartProps, null> {
 
         return d3.select(this.refs.container)
                 .append('svg')
-                .attr('width', 500)
-                .attr('height', 300)
+                .attr('width', 500) // replace value
+                .attr('height', 300)    // replace value
                 .append('g')
                 .attr('class', containerClass)
                 .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
@@ -85,8 +87,8 @@ export class BarChart extends React.Component<IBarChartProps, null> {
                     .append('rect')
                     .attr('class', 'bar')
                     .style('fill', this.props.barColor)
-                    .on('mouseover', () => d3.select(d3.event.currentTarget).style('fill', this.props.hovColor))
-                    .on('mouseout', () => d3.select(d3.event.currentTarget).style('fill', this.props.barColor))
+                    .on('mouseover', () => this._onMouseOver())
+                    .on('mouseout', () => this._onMouseOut())
                     .attr('x', (d) => this.x(d.argument))
                     .attr('y', (d) => this.height)
                     .attr('width', this.x.bandwidth())
@@ -95,5 +97,39 @@ export class BarChart extends React.Component<IBarChartProps, null> {
                     .duration(600)
                     .attr('y', (d) => this.y(d.frequency))
                     .attr('height', (d) => (this.height - this.y(d.frequency)));
+    }
+
+    private createTooltip(container: any) {
+        this.focus = container.append('g')
+                        .attr('class', 'tip-container')
+                        .style('display', 'none');
+
+        this.focus.append('polygon')
+            .attr('class', 'tip-pol')
+            .attr('points', '0,24 10,35 20,24');
+        this.focus.append('rect')
+            .attr('width', 40)
+            .attr('height', 24)
+            .attr('class', 'tip-rect');
+        this.focus.append('text')
+            .attr('class', 'tooltip-text')
+            .attr('dx', 8)
+            .attr('dy', '-.3em');
+    }
+
+    private _onMouseOver() {
+        const node = d3.select(d3.event.currentTarget).style('fill', this.props.hovColor);
+        this.focus.style('display', 'block');
+        const height = node.attr('y');
+        const width = Math.floor(+node.attr('width') / 2);
+        const xPol = +node.attr('x') + width - 10;
+        const xRect = +node.attr('x') + width - 20;
+        this.focus.select('.tip-rect').attr('transform', 'translate(' + xRect + ',' + height + ')');
+        this.focus.select('.tip-pol').attr('transform', 'translate(' + xPol + ',' + height + ')');
+    }
+
+    private _onMouseOut() {
+        d3.select(d3.event.currentTarget).style('fill', this.props.barColor);
+        this.focus.style('display', 'none');
     }
 }
