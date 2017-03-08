@@ -22,9 +22,16 @@
 
     .tip-container {
         polygon, rect {
-            fill: #eee;
+            fill: white;
             stroke: lightgrey;
-            stroke-width: 1;
+            stroke-width: 3;
+        }
+
+        .tooltip-text {
+            font-family: $font-family-base;
+            font-size: 12px;
+            fill: #898989;
+            font-weight: 500;
         }
     }
 }

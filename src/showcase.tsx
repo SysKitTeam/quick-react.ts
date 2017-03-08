@@ -94,11 +94,10 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-                <BarChart id={'bar-chart-1'} data={data} barColor={'#9ab7d3'} hovColor={'#d3b69a'}/>
                 <CompactServer id={{FQDN: 'CUSTOM-PC.localdomain'}} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'CUSTOM-PC'} roles={[]} status={1} />
                 <CompactServer id={{FQDN: 'My very very long name of a server I am using I know its very long.domain.com'}} onClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} name={'My very very long name of a server I am using I know its very long'} roles={[]}  status={2}/>                
                 <CompactServer id={{FQDN:'BANANA-PC.banana.com'}}  onClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} name={'BANANA-PC'} roles={[{display:'WPF', iconName:'icon-Add'}, {display:'Search', iconName:'icon-Alert'}]} status={0} />
-                
+                <BarChart id={'bar-chart-1'} data={data} barColor={'#889ac4'} hovColor={'#b8c7e8'}/>
                 <TagContainer title={'Roles'} tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}>
 
                     <div className="edit-tags tag" title="Edit tags">

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import * as d3 from 'd3';
-import { IBarChartProps } from './BarChart.props';
+import { IBarChartProps, IBarChartData } from './BarChart.props';
 import './BarChart.scss';
 
 export class BarChart extends React.Component<IBarChartProps, null> {
@@ -11,7 +11,7 @@ export class BarChart extends React.Component<IBarChartProps, null> {
         container: (HTMLInputElement);
     };
 
-    private margin = { top: 20, right: 20, bottom: 30, left: 40 };
+    private margin = { top: 50, right: 50, bottom: 50, left: 50 };
     private width = 500 - this.margin.right - this.margin.left;
     private height = 300 - this.margin.top - this.margin.bottom;
     private x;
@@ -108,13 +108,12 @@ export class BarChart extends React.Component<IBarChartProps, null> {
             .attr('class', 'tip-pol')
             .attr('points', '0,24 10,35 20,24');
         this.focus.append('rect')
-            .attr('width', 100)
             .attr('height', 24)
             .attr('class', 'tip-rect');
         this.focus.append('text')
             .attr('class', 'tooltip-text')
-            .attr('dx', 8)
-            .attr('dy', '-.3em');
+            .attr('dx', 4)
+            .attr('dy', 15);
     }
 
     private _onMouseOver() {
@@ -123,9 +122,19 @@ export class BarChart extends React.Component<IBarChartProps, null> {
         const height = +node.attr('y') - 38;
         const width = Math.floor(+node.attr('width') / 2);
         const xPol = +node.attr('x') + width - 10;
-        const xRect = +node.attr('x') + width - 50;
-        this.focus.select('.tip-rect').attr('transform', 'translate(' + xRect + ',' + height + ')');
+        const data = (node.datum() as IBarChartData);
+        const tipText = 'Frequency of ' + data.argument + ' is : ' + data.frequency;
+
+        this.focus.select('.tooltip-text').text(tipText);
+        const textWidth = this.focus.select('.tooltip-text').node().getComputedTextLength();
+        const tipMargin = 8;
+
+        const xRect = +node.attr('x') + width - (textWidth + tipMargin) / 2;
+
+        // position tooltip on chart
+        this.focus.select('.tip-rect').attr('width', textWidth + tipMargin).attr('transform', 'translate(' + xRect + ',' + height + ')');
         this.focus.select('.tip-pol').attr('transform', 'translate(' + xPol + ',' + height + ')');
+        this.focus.select('.tooltip-text').attr('transform', 'translate(' + xRect + ',' + height + ')').text(tipText);
     }
 
     private _onMouseOut() {
