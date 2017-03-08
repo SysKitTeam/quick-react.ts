@@ -108,7 +108,7 @@ export class BarChart extends React.Component<IBarChartProps, null> {
             .attr('class', 'tip-pol')
             .attr('points', '0,24 10,35 20,24');
         this.focus.append('rect')
-            .attr('width', 40)
+            .attr('width', 100)
             .attr('height', 24)
             .attr('class', 'tip-rect');
         this.focus.append('text')
@@ -120,10 +120,10 @@ export class BarChart extends React.Component<IBarChartProps, null> {
     private _onMouseOver() {
         const node = d3.select(d3.event.currentTarget).style('fill', this.props.hovColor);
         this.focus.style('display', 'block');
-        const height = node.attr('y');
+        const height = +node.attr('y') - 38;
         const width = Math.floor(+node.attr('width') / 2);
         const xPol = +node.attr('x') + width - 10;
-        const xRect = +node.attr('x') + width - 20;
+        const xRect = +node.attr('x') + width - 50;
         this.focus.select('.tip-rect').attr('transform', 'translate(' + xRect + ',' + height + ')');
         this.focus.select('.tip-pol').attr('transform', 'translate(' + xPol + ',' + height + ')');
     }

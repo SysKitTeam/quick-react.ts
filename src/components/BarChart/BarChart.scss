@@ -21,15 +21,10 @@
     }
 
     .tip-container {
-        polygon {
-            fill: white;
-            stroke: #e8e9ef;
-            stroke-width: 2;
-        }
-        rect {
-            stroke: #e8e9ef;
-            stroke-width: 2;
-            fill: white;
+        polygon, rect {
+            fill: #eee;
+            stroke: lightgrey;
+            stroke-width: 1;
         }
     }
 }
