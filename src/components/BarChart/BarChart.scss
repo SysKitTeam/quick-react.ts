@@ -4,6 +4,12 @@
     display: inline-block;
     border: 1px solid lightgrey;
 
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;  
+
+    svg { display: block; }
+
     .domain {
         display: none;
     }
