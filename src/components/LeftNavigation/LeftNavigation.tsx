@@ -12,6 +12,10 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
         this.state = { isOpen: false, selectedIndex: this.getSelectedIndex(this.props.options) };
     }
 
+    public componentWillReceiveProps(newProps: ILeftNavigationProps) {
+        this.setState({ selectedIndex: this.getSelectedIndex(newProps.options) });
+    }
+
     onLeftNavigationClick() {
         this.setState({ isOpen: !this.state.isOpen });
     };
