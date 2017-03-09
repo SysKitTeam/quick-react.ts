@@ -1,18 +1,25 @@
- @import '../../index.scss';
+@import '../../index.scss';
 
-$compact-dashboard-background: #f4f4f4;
+
 
 .compact-dashboard-container{
     @include baseFont();
     width: 100%;
     height: 100%;
-    background-color: $compact-dashboard-background;
-    border-color: $compact-dashboard-background;
+    background-color: $background-color;
+    border-color: $background-color;
     overflow: hidden;
-    color: #6b6b6b;
+    color: $basic-text-color;
+    .farm {
+        padding-bottom: 25px;
+        &:first-child{
+            margin-top:70px;
+        }   
+    }
     .compact-dashboard-server{
             order:1;
     }
+
     .compact-server-container{
             font-size: 14px;
             max-width: 215px;
@@ -22,7 +29,7 @@ $compact-dashboard-background: #f4f4f4;
 }
 .compact-dashboard-container.vertical{
     width: 100%;
-    color: #6b6b6b;
+    color: $basic-text-color;
     .farm{
         max-width: 350px;
         display: block;
@@ -30,20 +37,10 @@ $compact-dashboard-background: #f4f4f4;
         margin-top: 6px;
         margin-left: 15px; 
         top: 50px;
-
         margin-bottom: 6px;
+        padding-bottom: 25px;
         .compact-server-container{
                 max-width: 245px;
         }
     }
-}
-
-.viewport-height{
-    height: 90vh;
-    width:100%;
-    margin-bottom:100px;
-}
-
-.compact-dashboard-header{
-    background: #666666;
 }
