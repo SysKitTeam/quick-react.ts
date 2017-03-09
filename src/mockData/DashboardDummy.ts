@@ -1,8 +1,9 @@
+/* tslint:disable:no-console */
 import { ICompactDashboardProps } from '../components/CompactDashboard';
-import {ITileDashboardProps, ITiledDashboardFarm, ITiledDashboardServer } from '../components/TileDashboard';
+import { ITileDashboardProps, ITiledDashboardFarm, ITiledDashboardServer } from '../components/TileDashboard';
 import { IDashboardProps } from '../components/Dashboard';
-import {IFarm,ServerStatus, IMeasure, MeasureType, CpuMeasure, Partition, DiskMeasure, NetworkMeasure, RamMeasure} from '../models';
-import {farms} from './farms';
+import { IFarm, ServerStatus, IMeasure, MeasureType, CpuMeasure, Partition, DiskMeasure, NetworkMeasure, RamMeasure } from '../models';
+import { farms } from './farms';
 
 export const dummyCompact: ICompactDashboardProps = {
     title: 'My compact dashboard',
@@ -25,7 +26,7 @@ export const dummyDashboard: IDashboardProps = {
     activeView: 0,
     hasAddButton: true,
     headerClass: '',
-    differentDashboards: [{ linkText: 'Compact Horizontal' }, { linkText: 'Tiles' }, { linkText: 'Compact Vertical' }] , 
+    differentDashboards: [{ linkText: 'Compact Horizontal' }, { linkText: 'Tiles' }, { linkText: 'Compact Vertical' }],
     farms: farms.map(convertFarm),
     addFarm: () => { console.log('Adding new farm, wop wop'); },
     groupAddFunc: (groupId: any) => { console.log('Clicked add icon of group ' + groupId); },
@@ -37,19 +38,19 @@ export const dummyDashboard: IDashboardProps = {
 };
 
 
-export function convertFarm(farm: IFarm) : ITiledDashboardFarm {
+export function convertFarm(farm: IFarm): ITiledDashboardFarm {
     let servers = farm.servers.map((server) => {
         let measures = generateMeasures();
         let status = ServerStatus.Offline;
-        if (measures.length > 0 ) {
+        if (measures.length > 0) {
             status = ServerStatus.OK;
-            if (measures.filter(t => { return t.status === ServerStatus.Warning; } ).length > 0 ) {
-                 status = ServerStatus.Warning;
+            if (measures.filter(t => { return t.status === ServerStatus.Warning; }).length > 0) {
+                status = ServerStatus.Warning;
             }
-            if (measures.filter(t => { return t.status === ServerStatus.Critical; } ).length > 0) {
+            if (measures.filter(t => { return t.status === ServerStatus.Critical; }).length > 0) {
                 status = ServerStatus.Critical;
             }
-        }       
+        }
         return {
             id: server.id,
             name: server.name,
@@ -61,13 +62,13 @@ export function convertFarm(farm: IFarm) : ITiledDashboardFarm {
             measures: measures
         };
     });
-     return {
+    return {
         servers: servers,
         name: farm.name,
         id: farm.id,
         isCustom: farm.isCustom,
         version: farm.version
-     };
+    };
 }
 
 export function generatePercentage() {
@@ -82,41 +83,41 @@ export function generateCoreCount() {
     return Math.floor(Math.random() * (4 - 1 + 1)) + 1;
 }
 
-export function generateNetworkSpeed(){
+export function generateNetworkSpeed() {
     return Math.random() * (10 - 0.1 + 1);
 }
 
 export function generateRandomStatus() {
-        return Math.floor(Math.random() * (4 - 0 + 1)) + 0;
+    return Math.floor(Math.random() * (4 - 0 + 1)) + 0;
 }
 
 export function generateMeasures(): Array<IMeasure> {
-    let cpuMeasure : CpuMeasure = {
-        type:  MeasureType.CPU,
+    let cpuMeasure: CpuMeasure = {
+        type: MeasureType.CPU,
         status: generateRandomStatus(),
         usage: generatePercentage(),
-        speed:generateCpuSpeed(),
+        speed: generateCpuSpeed(),
         coreCount: generateCoreCount(),
         logicalCoreCount: generateCoreCount(),
         name: 'Dummy CPU',
         time: new Date(Date.now())
     };
-    let ramMeasure : RamMeasure = {
-        type:  MeasureType.Ram,
+    let ramMeasure: RamMeasure = {
+        type: MeasureType.Ram,
         status: generateRandomStatus(),
         availableMB: generatePercentage(),
         capacity: generatePercentage() + 100,
         time: new Date(Date.now())
     };
-    let networkMeasure : NetworkMeasure = {
-        type:  MeasureType.Network,
+    let networkMeasure: NetworkMeasure = {
+        type: MeasureType.Network,
         status: generateRandomStatus(),
         kbSent: generateNetworkSpeed().toString(),
         kBRecieved: generateNetworkSpeed().toString(),
         time: new Date(Date.now())
     };
-    let diskMeasure : DiskMeasure = {
-        type:  MeasureType.Disk,
+    let diskMeasure: DiskMeasure = {
+        type: MeasureType.Disk,
         status: generateRandomStatus(),
         partitions: [
             {

@@ -1,3 +1,4 @@
+/* tslint:disable:no-console */
 import 'babel-polyfill';
 import 'ts-helpers';
 
@@ -36,13 +37,13 @@ import { DialogFooter } from './components/Dialog/DialogFooter';
 import { StatusBar } from './components/StatusBar/StatusBar';
 import { CheckboxList } from './components/CheckboxList/CheckboxList';
 import { Treeview } from './components/Treeview/Treeview';
-import { CompactDashboard} from './components/CompactDashboard/CompactDashboard';
-import {ICompactServerProps} from './components/CompactServer/CompactServer.Props';
-import {TagContainer} from './components/TagContainer/TagContainer';
-import {CompactServer} from './components/CompactServer/CompactServer'; 
-import {DashboardHeader} from './components/DashboardHeader/DashboardHeader';
-import {Dashboard} from './components/Dashboard/Dashboard';
-import {dummyDashboard, generateMeasures, generateRandomStatus, convertFarm} from './mockData/DashboardDummy';
+import { CompactDashboard } from './components/CompactDashboard/CompactDashboard';
+import { ICompactServerProps } from './components/CompactServer/CompactServer.Props';
+import { TagContainer } from './components/TagContainer/TagContainer';
+import { CompactServer } from './components/CompactServer/CompactServer';
+import { DashboardHeader } from './components/DashboardHeader/DashboardHeader';
+import { Dashboard } from './components/Dashboard/Dashboard';
+import { dummyDashboard, generateMeasures, generateRandomStatus, convertFarm } from './mockData/DashboardDummy';
 import { ServerTile } from './components/ServerTile/ServerTile';
 import { elements } from './treeviewElements';
 import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
@@ -50,7 +51,7 @@ import { LineChart } from './components/LineChart/LineChart';
 import { ProgressBar } from './components/ProgressBar/ProgressBar';
 import { PieChart } from './components/PieChart/PieChart';
 import { DataGenerator } from './utilities/DataGenerator';
-import {IFarm , ISharePointServer, ServerStatus} from './models';
+import { IFarm, ISharePointServer, ServerStatus } from './models';
 
 export class Index extends React.Component<any, any> {
     constructor() {
@@ -65,30 +66,30 @@ export class Index extends React.Component<any, any> {
             data: generator.generateValues(),
             farms: dummyDashboard.farms
         };
-        
-        setInterval(() => this.setState({data: generator.generateValues()}), 5000);
-        setInterval(() => { 
+
+        setInterval(() => this.setState({ data: generator.generateValues() }), 5000);
+        setInterval(() => {
             let newFarms = this.state.farms.map((farm: IFarm) => {
-                
+
                 let servers = farm.servers.map((server: ISharePointServer) => {
                     let measures = generateMeasures();
                     let status = ServerStatus.Offline;
-                    if (measures.length > 0 ) {
+                    if (measures.length > 0) {
                         status = ServerStatus.OK;
-                        if (measures.filter(t => { return t.status === ServerStatus.Warning; } ).length > 0 ) {
+                        if (measures.filter(t => { return t.status === ServerStatus.Warning; }).length > 0) {
                             status = ServerStatus.Warning;
                         }
-                        if (measures.filter(t => { return t.status === ServerStatus.Critical; } ).length > 0) {
+                        if (measures.filter(t => { return t.status === ServerStatus.Critical; }).length > 0) {
                             status = ServerStatus.Critical;
                         }
-                    }       
-                    return { 
+                    }
+                    return {
                         id: server.id,
                         status: status,
                         roles: server.roles,
                         onRoleEdit: server.onRoleEdit,
                         onClose: server.onClose,
-                        name: server.name, 
+                        name: server.name,
                         measures: measures
                     };
                 });
@@ -100,7 +101,7 @@ export class Index extends React.Component<any, any> {
                     servers: servers
                 };
             });
-            this.setState({farms: newFarms});
+            this.setState({ farms: newFarms });
         }, 2000);
     }
 
@@ -122,11 +123,11 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-                <CompactServer id={{FQDN: 'CUSTOM-PC.localdomain'}} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'CUSTOM-PC'} roles={[]} status={1} />
-                <CompactServer id={{FQDN: 'My very very long name of a server I am using I know its very long.domain.com'}} onClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} name={'My very very long name of a server I am using I know its very long'} roles={[]}  status={2}/>                
-                <CompactServer id={{FQDN:'BANANA-PC.banana.com'}}  onClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} name={'BANANA-PC'} roles={[{display:'WPF', iconName:'icon-Add'}, {display:'Search', iconName:'icon-Alert'}]} status={0} />
-                
-                <TagContainer title={'Roles'} tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}>
+                <CompactServer id={{ FQDN: 'CUSTOM-PC.localdomain' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'CUSTOM-PC'} roles={[]} status={1} />
+                <CompactServer id={{ FQDN: 'My very very long name of a server I am using I know its very long.domain.com' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'My very very long name of a server I am using I know its very long'} roles={[]} status={2} />
+                <CompactServer id={{ FQDN: 'BANANA-PC.banana.com' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'BANANA-PC'} roles={[{ display: 'WPF', iconName: 'icon-Add' }, { display: 'Search', iconName: 'icon-Alert' }]} status={0} />
+
+                <TagContainer title={'Roles'} tags={[{ display: 'Tag1', iconName: 'icon-Add' }, { display: 'Tag2', iconName: 'icon-Alert' }, { display: 'Tag3', iconName: 'icon-Buy' }]}>
 
                     <div className="edit-tags tag" title="Edit tags">
                         <Icon className="icon-Edit"></Icon>
@@ -412,27 +413,27 @@ export class Index extends React.Component<any, any> {
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
 
-                <Dashboard 
-                    differentDashboards={dummyDashboard.differentDashboards} 
-                    groupOnClick={dummyDashboard.groupOnClick} 
+                <Dashboard
+                    differentDashboards={dummyDashboard.differentDashboards}
+                    groupOnClick={dummyDashboard.groupOnClick}
                     farms={this.state.farms}
-                    filter={''} 
-                    title={dummyDashboard.title} 
-                    activeView={0}  hasAddButton={true} 
+                    filter={''}
+                    title={dummyDashboard.title}
+                    activeView={0} hasAddButton={true}
                     addFarm={dummyDashboard.addFarm}
                     groupAddFunc={dummyDashboard.groupAddFunc}
                     groupDeleteFunc={dummyDashboard.groupDeleteFunc}
                     groupEditFunc={dummyDashboard.groupEditFunc}
                     serverClose={dummyDashboard.serverClose}
-                    serverRoleEdit= {dummyDashboard.serverRoleEdit}
-                />
+                    serverRoleEdit={dummyDashboard.serverRoleEdit}
+                    />
 
 
 
                 <br />
                 <ServerTile
-                    id={{FQDN: 'server-123'}}
-                    status= {0}
+                    id={{ FQDN: 'server-123' }}
+                    status={0}
                     hasCloseButton={true}
                     name={'SP2016-Martin-Pisacic'}
                     numberOfUsers={'3432'}
@@ -440,14 +441,14 @@ export class Index extends React.Component<any, any> {
                     diskInformation={['C: 49 / 259 GB (30%)', 'D: 49 / 259 GB (30 %)']}
                     roles={[]}
                     countersData={[
-                        {title: 'CPU', currentUsage: '43', usageUnit: '%', hoverText: [''], status: ServerStatus.OK},
-                        {title: 'Memory', currentUsage: '7', usageUnit: 'GB', hoverText: ['7GB/10GB (70%)'], status: ServerStatus.Warning},
-                        {title: 'Disk', currentUsage: '0,1', usageUnit:'Mbps', hoverText: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps'], status: ServerStatus.OK},
-                        {title: 'Network', currentUsage: '0,1', usageUnit: 'MB/s', hoverText: ['50.10 kB/s', '23.47 kB/s'], status: ServerStatus.OK}
+                        { title: 'CPU', currentUsage: '43', usageUnit: '%', hoverText: [''], status: ServerStatus.OK },
+                        { title: 'Memory', currentUsage: '7', usageUnit: 'GB', hoverText: ['7GB/10GB (70%)'], status: ServerStatus.Warning },
+                        { title: 'Disk', currentUsage: '0,1', usageUnit: 'Mbps', hoverText: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps'], status: ServerStatus.OK },
+                        { title: 'Network', currentUsage: '0,1', usageUnit: 'MB/s', hoverText: ['50.10 kB/s', '23.47 kB/s'], status: ServerStatus.OK }
                     ]}>
-                {/*<TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>*/}
+                    {/*<TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>*/}
                 </ServerTile>
-                <LineChart 
+                <LineChart
                     title={'CPU USAGE'}
                     data={this.state.data}
                     width={330}
@@ -494,7 +495,7 @@ export class Index extends React.Component<any, any> {
 
     }
 
-    private _onCheckboxListChange(ev, itemId, checked) { 
+    private _onCheckboxListChange(ev, itemId, checked) {
         console.log(checked);
     }
     private _onToggle(checked) {
@@ -513,7 +514,7 @@ export class Index extends React.Component<any, any> {
         this.setState({ showDialog: false });
     }
 
-    
+
 };
 
 ReactDOM.render(<Index />, document.getElementById('root'));
