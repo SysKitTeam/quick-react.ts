@@ -22,7 +22,8 @@ export class BarChart extends React.Component<IBarChartProps, null> {
         height: 300,
         minWidth: 300,
         maxWidth: 1000,
-        isResponsive: false
+        isResponsive: false,
+        onClick: () => { return; }
     };
 
     public refs: {

@@ -122,6 +122,7 @@ export class Index extends React.Component<any, any> {
                         <Icon className="icon-Edit"></Icon>
                     </div>
                 </TagContainer>
+                <BarChart id={'bar-chart-1'} data={data}/>
                 <Ribbon items={[]}></Ribbon>
                 <AddToFavorites favorited={true} />
                 <AddToFavorites favorited={false} />
