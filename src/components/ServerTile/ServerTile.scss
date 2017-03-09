@@ -85,7 +85,7 @@ $server-status-color: $basic-text-color;
     .dialog-button-close {
         float: right;
         margin: 5px 10px 5px 5px;
-
+        cursor: pointer;
         &:hover {
             color: $light-text-color;
         }
