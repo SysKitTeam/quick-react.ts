@@ -10,12 +10,13 @@
         display: inline-block;
         padding: 3px;
         margin: 2px 4px;
-        background: #efefef;
+        background: $server-background-color;
         border-radius: 4px;
         cursor: default;
     }
     .icon{
         margin-right: 2px;
+        color: $light-text-color;
     }
     .edit-tags{
         display: inline-block;
@@ -25,10 +26,10 @@
 
     }
     .edit-tags:hover{
-        background: #0078d7;
+        background: $green-color;
         color: white;
         .icon{
-            background: #0078d7;
+            background: $green-color;
             color: white;
         }
     } 
