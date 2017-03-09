@@ -4,6 +4,8 @@ import * as d3 from 'd3';
 import { IBarChartProps, IBarChartData } from './BarChart.props';
 import './BarChart.scss';
 
+const ResizeSensor = require('css-element-queries/src/ResizeSensor');
+
 enum Update {
     Data = 1,
     Dimension
@@ -23,7 +25,7 @@ export class BarChart extends React.Component<IBarChartProps, null> {
         minWidth: 300,
         maxWidth: 1000,
         isResponsive: false,
-        onClick: () => { return; }
+        onClick: () => {}
     };
 
     public refs: {
@@ -32,31 +34,16 @@ export class BarChart extends React.Component<IBarChartProps, null> {
     };
 
     private margin = { top: 50, right: 50, bottom: 50, left: 50 };
-    private width = this.props.width - this.margin.right - this.margin.left;
-    private height = this.props.height - this.margin.top - this.margin.bottom;
+    private fullWidth;
+    private fullHeight;
+    private width;
+    private height;
     private x;
     private y;
     private focus;
     private svg;
     private container;
-
-    constructor(props: IBarChartProps) {
-        super(props);
-
-        this.x = this.generateX();
-        this.y = this.generateY();
-
-        // if (this.props.isResponsive) {
-        //     this.width = window.innerWidth / 2;
-        //     this.height = 0.7 * this.width;
-        // }
-    }
-
-    public componentWillReceiveProps(nextProps: IBarChartProps) {
-        // console.log('next props', nextProps);
-
-        // see what props have changed and set appropriate enum based on that
-    }
+    private mainContainer;
 
     public shouldComponentUpdate(nextProps: IBarChartProps, nextState: null) {
         if (this.props.id !== nextProps.id ||
@@ -88,7 +75,7 @@ export class BarChart extends React.Component<IBarChartProps, null> {
 
     public componentDidMount() {
         this.init();
-        if (this.props.isResponsive) { window.addEventListener('resize', () => this._onResize()); }
+        new ResizeSensor(document.getElementsByClassName('bar-chart-component'), () => this._onResize());
     }
 
     public componentDidUpdate() {
@@ -97,10 +84,21 @@ export class BarChart extends React.Component<IBarChartProps, null> {
     }
 
     public render() {
-        return <div className={'bar-chart-component'} ref={'container'}></div>;
+        return <div className={'bar-chart-component'} ref={'container'} style={{width: this.props.dimensions.width, height: this.props.dimensions.height}}></div>;
     }
 
     private init() {
+        this.mainContainer = document.getElementsByClassName('bar-chart-component')[0];
+
+        this.fullWidth = this.mainContainer.offsetWidth;
+        this.fullHeight = this.mainContainer.offsetHeight;
+        
+        this.width = this.fullWidth - this.margin.right - this.margin.left;
+        this.height = this.fullHeight - this.margin.top - this.margin.bottom;
+
+        this.x = this.generateX();
+        this.y = this.generateY();
+
         const xAxisClass = classNames('x-axis', this.props.id);
         const yAxisClass = classNames('y-axis', this.props.id);
 
@@ -120,9 +118,9 @@ export class BarChart extends React.Component<IBarChartProps, null> {
     }
 
     private _onResize() : any {
-        let width = window.innerWidth / 2;
-        width = width < this.props.minWidth ? this.props.minWidth : width;
-        const height = width * 0.7;
+        const node : any = document.getElementsByClassName('bar-chart-component')[0];
+        const width = node.offsetWidth;
+        const height = node.offsetHeight;
         this.rescale(width, height);
     }
 
@@ -137,7 +135,7 @@ export class BarChart extends React.Component<IBarChartProps, null> {
 
         d3.select('.x-axis.' + this.props.id).attr('transform', 'translate(0,' + this.height + ')').call(this.generateXAxis());
         d3.select('.y-axis.' + this.props.id).call(this.generateYAxis());
-        
+
         const bars = this.container.selectAll('.bar').data(this.props.data);
 
         bars.enter().insert('rect', '.tip-container').attr('class', 'bar').style('fill', this.props.barColor)
@@ -157,8 +155,8 @@ export class BarChart extends React.Component<IBarChartProps, null> {
 
         this.svg = d3.select(this.refs.container)
                 .append('svg')
-                .attr('width', this.props.width)
-                .attr('height', this.props.height);
+                .attr('width', this.fullWidth)
+                .attr('height', this.fullHeight);
         return this.svg.append('g')
                 .attr('class', containerClass)
                 .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');

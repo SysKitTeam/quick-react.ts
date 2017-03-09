@@ -8,12 +8,18 @@ export interface IBarChartProps {
     width?: number;
     height?: number;
     minWidth?: number;
+    className?: string;
     maxWidth?: number;
-    isResponsive?: boolean;
-    onClick?: (d: IBarChartData) => void; 
+    onClick?: (d: IBarChartData) => void;
+    dimensions: IBarChartDimensions;
 }
 
 export interface IBarChartData {
     argument: any;
     frequency: number;
+}
+
+export interface IBarChartDimensions {
+    width: string;
+    height: string;
 }
