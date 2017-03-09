@@ -121,10 +121,11 @@ export class BarChart extends React.Component<IBarChartProps, null> {
         const node : any = document.getElementsByClassName('bar-chart-component')[0];
         const width = node.offsetWidth;
         const height = node.offsetHeight;
-        this.rescale(width, height);
+        if(this.fullWidth !== width || this.fullHeight !== height) { this.rescale(width, height); }
     }
 
     private rescale(newWidth : number, newHeight: number) : void {
+        console.log('rescaling...');    // debug
         this.width = newWidth - this.margin.right - this.margin.left;
         this.height = newHeight - this.margin.top - this.margin.bottom;
 
