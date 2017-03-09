@@ -40,6 +40,8 @@ import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
 import { LineChart } from './components/LineChart/LineChart';
 import { PieChart } from './components/PieChart/PieChart';
 import { DataGenerator } from './utilities/DataGenerator';
+import { IPieChartData } from './components/PieChart/PieChart.props';
+import { data } from './MockData/pieData';
 
 export class Index extends React.Component<any, any> {
     constructor() {
@@ -72,6 +74,16 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
+                <PieChart
+                        id={'chart-1'} 
+                        text={'Sample text'} 
+                        title={'Partition C:'} 
+                        height={400} 
+                        width={400} 
+                        data={data}
+                        colors={['#344086', '#8bd764', '#f3f986', '#ec1271', '#636363', 'red', 'green', 'purple', 'aquamarine', 'lightgrey']}
+                        tipText={(d: IPieChartData) => ('asduhgasdouasdhalidjladba dadfadhaisasubsdauhd adjladhjkaushdkahs aldijasdhas')}
+                ></PieChart><br/>
                 <Ribbon items={[]}></Ribbon>
                 <AddToFavorites favorited={true} />
                 <AddToFavorites favorited={false} />
@@ -339,35 +351,6 @@ export class Index extends React.Component<any, any> {
                 <Treeview onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements} recursive={false}/>
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
-                <br/>
-                <PieChart
-                        id={'chart-1'} 
-                        text={'Sample text'} 
-                        title={'Partition C:'} 
-                        height={400} 
-                        width={400} 
-                        data={
-                            [
-                                {label: 'used', value: 99, text: 'Used: 68.36 GB', class: 'used-critical'},
-                                {label: 'option1', value: 124, text: 'Test1'},
-                                {label: 'option2', value: 251, text: 'Test2'}
-                            ]
-                        } 
-                ></PieChart><br/>
-                <PieChart
-                        id={'chart-2'} 
-                        text={'Sample text'} 
-                        title={'Partition D:'} 
-                        height={200} 
-                        width={200} 
-                        data={
-                            [
-                                {label: 'used', value: 99, text: 'Used: 68.36 GB', class: 'used-critical'},
-                                {label: 'option1', value: 124, text: 'Test1'},
-                                {label: 'option2', value: 251, text: 'Test2'}
-                            ]
-                        } 
-                ></PieChart><br/>
             </div>);
     };
 
