@@ -94,7 +94,7 @@ export class Index extends React.Component<any, any> {
         }, 1500);
 
         // setTimeout(() => this.setState({ width: 500 }), 1000);
-        setTimeout(() => this.setState({ data: updatedData }), 1000);
+        // setTimeout(() => this.setState({ data: updatedData }), 1000);
     }
 
     public render() {
@@ -103,7 +103,7 @@ export class Index extends React.Component<any, any> {
                 <CompactServer id={{FQDN: 'CUSTOM-PC.localdomain'}} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'CUSTOM-PC'} roles={[]} status={1} />
                 <CompactServer id={{FQDN: 'My very very long name of a server I am using I know its very long.domain.com'}} onClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} name={'My very very long name of a server I am using I know its very long'} roles={[]}  status={2}/>                
                 <CompactServer id={{FQDN:'BANANA-PC.banana.com'}}  onClose={this._onServerCloseCompactServer}  onRoleEdit={this._onClickCompactServer} name={'BANANA-PC'} roles={[{display:'WPF', iconName:'icon-Add'}, {display:'Search', iconName:'icon-Alert'}]} status={0} />
-                <BarChart id={'bar-chart-1'} data={this.state.data} height={300} width={this.state.width}/>
+                <BarChart id={'bar-chart-1'} data={this.state.data} height={300} width={this.state.width} isResponsive={true}/>
                 <TagContainer title={'Roles'} tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}>
 
                     <div className="edit-tags tag" title="Edit tags">

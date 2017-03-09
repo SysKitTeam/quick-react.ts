@@ -4,6 +4,11 @@ import * as d3 from 'd3';
 import { IBarChartProps, IBarChartData } from './BarChart.props';
 import './BarChart.scss';
 
+enum Update {
+    Data = 1,
+    Dimension
+};
+
 export class BarChart extends React.Component<IBarChartProps, null> {
 
     public static defaultProps = {
@@ -40,26 +45,26 @@ export class BarChart extends React.Component<IBarChartProps, null> {
         this.x = this.generateX();
         this.y = this.generateY();
 
-        // console.log(props);
-
-        if(this.props.isResponsive) {
-            this.width = window.innerWidth / 2;
-            this.height = 0.7 * this.width;
-        }
+        // if (this.props.isResponsive) {
+        //     this.width = window.innerWidth / 2;
+        //     this.height = 0.7 * this.width;
+        // }
     }
 
     public componentWillReceiveProps(nextProps: IBarChartProps) {
         // console.log('next props', nextProps);
+
+        // see what props have changed and set appropriate enum based on that
     }
 
     public shouldComponentUpdate(nextProps: IBarChartProps, nextState: null) {
-        if(this.props.id !== nextProps.id ||
+        if (this.props.id !== nextProps.id ||
             this.props.width !== nextProps.width ||
             this.props.height !== nextProps.height ||
             this.props.barColor !== nextProps.barColor) {
                 return true;
             }
-        if(!this.arraysEqual(this.props.data, nextProps.data)) { return true; }
+        if (!this.arraysEqual(this.props.data, nextProps.data)) { return true; }
         return false;
     }
 
@@ -82,12 +87,12 @@ export class BarChart extends React.Component<IBarChartProps, null> {
 
     public componentDidMount() {
         this.init();
-        if(this.props.isResponsive) { window.addEventListener('resize', () => this._onResize()); }
+        if (this.props.isResponsive) { window.addEventListener('resize', () => this._onResize()); }
     }
 
     public componentDidUpdate() {
         this.redraw();
-        console.log('updating bar chart...'); // debug...
+        // console.log('updating bar chart...'); // debug...
     }
 
     public render() {
@@ -100,9 +105,9 @@ export class BarChart extends React.Component<IBarChartProps, null> {
 
         this.container = this.createContainer();
         this.container.append('g').attr('class', xAxisClass).call(this.generateXAxis())
-                    .attr('transform', 'translate(0,' + this.height + ')')
-                    //.selectAll('text').attr('transform', 'rotate(45)').attr("y", 0)
-                    //.attr("x", 9).attr("dy", ".35em").style('text-anchor', 'start');
+                    .attr('transform', 'translate(0,' + this.height + ')');
+                    // .selectAll('text').attr('transform', 'rotate(45)').attr("y", 0)
+                    // .attr("x", 9).attr("dy", ".35em").style('text-anchor', 'start');
         this.container.append('g').attr('class', yAxisClass).call(this.generateYAxis());
         
         this.generateBars(this.container);
@@ -142,10 +147,6 @@ export class BarChart extends React.Component<IBarChartProps, null> {
         this.container.selectAll('.bar')
                     .attr('x', (d) => this.x(d.argument))
                     .attr('width', this.x.bandwidth())
-                    .attr('y', (d) => this.height)
-                    .attr('height', 0)
-                    .transition()
-                    .duration(600)
                     .attr('y', (d) => this.y(d.frequency))
                     .attr('height', (d) => (this.height - this.y(d.frequency)));
     }
@@ -171,7 +172,7 @@ export class BarChart extends React.Component<IBarChartProps, null> {
     }
 
     private generateXAxis() {
-        return d3.axisBottom(this.x).tickPadding(10); //.tickFormat(d3.timeFormat(this.props.xAxisFormat()));
+        return d3.axisBottom(this.x).tickPadding(10); // .tickFormat(d3.timeFormat(this.props.xAxisFormat()));
     }
 
     private generateYAxis() {
@@ -185,11 +186,7 @@ export class BarChart extends React.Component<IBarChartProps, null> {
                     .on('mouseout', () => this._onMouseOut())
                     .on('click', (event) => this._onBarClick(event))
                     .attr('x', (d) => this.x(d.argument))
-                    .attr('y', (d) => this.height)
                     .attr('width', this.x.bandwidth())
-                    .attr('height', 0)
-                    .transition()
-                    .duration(600)
                     .attr('y', (d) => this.y(d.frequency))
                     .attr('height', (d) => (this.height - this.y(d.frequency)));
     }
@@ -234,7 +231,7 @@ export class BarChart extends React.Component<IBarChartProps, null> {
         this.focus.style('display', 'none');
     }
 
-    private _onBarClick(ev) {
-        console.log(ev);
+    private _onBarClick(data) {
+        this.props.onClick(data);
     }
 }

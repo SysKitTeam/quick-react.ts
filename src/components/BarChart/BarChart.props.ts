@@ -10,6 +10,7 @@ export interface IBarChartProps {
     minWidth?: number;
     maxWidth?: number;
     isResponsive?: boolean;
+    onClick?: (d: IBarChartData) => void; 
 }
 
 export interface IBarChartData {
