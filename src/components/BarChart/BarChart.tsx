@@ -32,6 +32,7 @@ export class BarChart extends React.Component<IBarChartProps, null> {
     private y;
     private focus;
     private svg;
+    private container;
 
     constructor(props: IBarChartProps) {
         super(props);
@@ -71,7 +72,7 @@ export class BarChart extends React.Component<IBarChartProps, null> {
     }
 
     private compareValues(data1: IBarChartData, data2: IBarChartData) {
-        if (typeof data1.argument !== 'number') {
+        if (typeof data1.argument !== 'number' && typeof data1.argument !== 'string') {
             if ((data1.argument as Date).getTime() !== (data2.argument as Date).getTime()) { return false; }
         }
         if (data1.argument !== data2.argument) { return false; }
@@ -97,15 +98,15 @@ export class BarChart extends React.Component<IBarChartProps, null> {
         const xAxisClass = classNames('x-axis', this.props.id);
         const yAxisClass = classNames('y-axis', this.props.id);
 
-        const container = this.createContainer();
-        container.append('g').attr('class', xAxisClass).call(this.generateXAxis())
+        this.container = this.createContainer();
+        this.container.append('g').attr('class', xAxisClass).call(this.generateXAxis())
                     .attr('transform', 'translate(0,' + this.height + ')')
-                    .selectAll('text').attr('transform', 'rotate(45)').attr("y", 0)
-                    .attr("x", 9).attr("dy", ".35em").style('text-anchor', 'start');
-        container.append('g').attr('class', yAxisClass).call(this.generateYAxis());
+                    //.selectAll('text').attr('transform', 'rotate(45)').attr("y", 0)
+                    //.attr("x", 9).attr("dy", ".35em").style('text-anchor', 'start');
+        this.container.append('g').attr('class', yAxisClass).call(this.generateYAxis());
         
-        this.generateBars(container);
-        this.createTooltip(container);
+        this.generateBars(this.container);
+        this.createTooltip(this.container);
     }
 
     private redraw() {
@@ -119,22 +120,34 @@ export class BarChart extends React.Component<IBarChartProps, null> {
         this.rescale(width, height);
     }
 
-    private rescale(newWidth : number, newHeight: number) {
+    private rescale(newWidth : number, newHeight: number) : void {
         this.width = newWidth - this.margin.right - this.margin.left;
         this.height = newHeight - this.margin.top - this.margin.bottom;
 
-        this.x.range([0, this.width]);
-        this.y.range([this.height, 0]);
+        this.x = this.generateX();
+        this.y = this.generateY();
 
         this.svg.attr('height', newHeight).attr('width', newWidth);
 
         d3.select('.x-axis.' + this.props.id).attr('transform', 'translate(0,' + this.height + ')').call(this.generateXAxis());
         d3.select('.y-axis.' + this.props.id).call(this.generateYAxis());
-        d3.selectAll('.bar').data(this.props.data)
-                            .attr('x', (d) => this.x(d.argument))
-                        	.attr('y', (d) => this.y(d.frequency))
-                            .attr('width', this.x.bandwidth())
-                            .attr('height', (d) => (this.height - this.y(d.frequency)));
+        
+        const bars = this.container.selectAll('.bar').data(this.props.data);
+
+        bars.enter().insert('rect', '.tip-container').attr('class', 'bar').style('fill', this.props.barColor)
+                    .on('mouseover', () => this._onMouseOver())
+                    .on('mouseout', () => this._onMouseOut())
+                    .on('click', (event) => this._onBarClick(event));
+
+        this.container.selectAll('.bar')
+                    .attr('x', (d) => this.x(d.argument))
+                    .attr('width', this.x.bandwidth())
+                    .attr('y', (d) => this.height)
+                    .attr('height', 0)
+                    .transition()
+                    .duration(600)
+                    .attr('y', (d) => this.y(d.frequency))
+                    .attr('height', (d) => (this.height - this.y(d.frequency)));
     }
 
     private createContainer() {
@@ -158,7 +171,7 @@ export class BarChart extends React.Component<IBarChartProps, null> {
     }
 
     private generateXAxis() {
-        return d3.axisBottom(this.x).tickPadding(10).tickFormat(d3.timeFormat(this.props.xAxisFormat()));
+        return d3.axisBottom(this.x).tickPadding(10); //.tickFormat(d3.timeFormat(this.props.xAxisFormat()));
     }
 
     private generateYAxis() {
@@ -170,6 +183,7 @@ export class BarChart extends React.Component<IBarChartProps, null> {
                     .append('rect').attr('class', 'bar').style('fill', this.props.barColor)
                     .on('mouseover', () => this._onMouseOver())
                     .on('mouseout', () => this._onMouseOut())
+                    .on('click', (event) => this._onBarClick(event))
                     .attr('x', (d) => this.x(d.argument))
                     .attr('y', (d) => this.height)
                     .attr('width', this.x.bandwidth())
@@ -218,5 +232,9 @@ export class BarChart extends React.Component<IBarChartProps, null> {
     private _onMouseOut() {
         d3.select(d3.event.currentTarget).style('fill', this.props.barColor);
         this.focus.style('display', 'none');
+    }
+
+    private _onBarClick(ev) {
+        console.log(ev);
     }
 }
