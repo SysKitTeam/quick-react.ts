@@ -105,7 +105,7 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
                 <Popup
                     role="dialog"
                     onDismiss={ onDismiss }
-                    style={{height: '99%'}}>
+                    style={{height: '100%'}}>
                     <div className={ dialogClassName }
                         ref={ this._onDialogRef }>
                         <Overlay isDarkThemed={ isDarkOverlay } onClick={ isBlocking ? null : onDismiss } />

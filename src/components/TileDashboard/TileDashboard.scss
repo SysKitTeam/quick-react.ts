@@ -1,0 +1,96 @@
+ @import '../../index.scss';
+
+$tile-dashboard-background: $background-color;
+$server-status-color: $basic-text-color;
+$background-color: $background-color;
+
+.tile-dashboard-container{
+    @include baseFont();
+    width: 100%;
+    height: 100%;
+    background-color: $tile-dashboard-background;
+    border-color: $tile-dashboard-background;
+    overflow-y: auto;
+    .farm{
+        padding-bottom: 25px;
+        margin-top:50px;
+        &:first-child{
+            margin-top:70px;
+        }
+
+    }
+    .server-details {
+        width: 250px;
+        display: inline-block;
+        margin: 10px;
+        position: relative;
+        padding: 0;
+        border-left: 10px solid $server-status-color;
+        background-color: $background-color;
+
+        .server-details-header {
+            font-size: 14px;
+            width: 100%;
+            padding: 0;
+            display: block;
+            margin: 5px 0px 10px 0px;
+            cursor: pointer;
+
+            .icon-User{
+                width: calc(55% - 90px);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                vertical-align: text-bottom;
+            }
+            .icon:first-child{
+                padding-left: 10px;
+
+            }
+            hr{
+                width: calc(100% - 27px);
+            }
+            .server-name{
+                padding-left: 10px;
+                width: calc(45% - 10px);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                vertical-align: bottom;
+            }
+        }
+    }
+
+    .tile{
+        .label:nth-child(2){
+            max-width: 45%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: inline-flex;
+        }
+        .label{
+            &.status-warning{
+                color: $yellow-color;
+            }
+            &.status-critical{                
+                color: $red-color;
+            }
+        }
+    }
+    .status-ok{
+        border-left-color: $green-color;
+    }
+
+    .status-warning{
+        border-left-color: $yellow-color;
+    }
+
+    .status-critical{
+        border-left-color: $red-color;
+    }
+
+    .offline{
+        border-left-color: $basic-text-color;
+    }
+}
+

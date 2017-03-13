@@ -1,0 +1,159 @@
+@import '../../index.scss';
+
+$tile-height: 220px;
+$tile-width: 280px;
+$separator-color: white;
+$font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+$counters-data-size: 24px;
+$counters-unit-size: 14px;
+$header-font-size: 14px;
+$counters-title-font-size: 12px;
+$counters-title-font-color: $basic-text-color;
+$server-status-color: $basic-text-color;
+
+
+.server-details {
+    font-family: $font;
+    width: $tile-width;
+    display: inline-block;
+    margin: 5px;
+    position: relative;
+    padding: 0;
+    border-left: 10px solid $server-status-color;
+    background-color: $server-background-color;
+    .icon {
+        color: $basic-text-color;
+    }
+    .server-details-header {
+        font-size: $header-font-size;
+        width: 100%;
+        padding: 0;
+        display: block;
+        margin: 5px 0px 10px 0px;
+
+        .server-name {
+            padding: 0;
+            margin: 2px 2px 2px 5px;
+            display: inline-block;
+            font-weight: 400;
+            font-size: 17px;
+            color: $emphasized-text-color;
+            max-width: 40%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            vertical-align: bottom;
+        }
+
+        .disk-icon {
+            padding: 0;
+            margin: 5px 10px 5px 25px;
+        }
+
+        .tag-container{
+            position: relative;
+            float: left;
+            width: 100%;
+            margin: 10px 0;
+            background: $server-background-color;
+            color: $tag-color;
+            .tag{
+                background: $server-background-color;
+                margin-top: 0;
+                margin-bottom: 0;
+                padding-top: 0;
+                padding-bottom: 0;
+                margin: 0;
+                font-size:12px;
+                font-weight: normal;
+                margin-left: 4px;
+                .icon {
+                    color: $tag-color;
+                }
+            }
+            .edit-tags:hover{
+                background: inherit;
+                color:$green-color;
+                .icon{
+                    background: inherit;
+                    color:$green-color;
+                }
+            }
+        }
+    }
+
+    .dialog-button-close {
+        float: right;
+        margin: 5px 10px 5px 5px;
+        cursor: pointer;
+        &:hover {
+            color: $light-text-color;
+        }
+    }
+
+    .counters-container {
+        display: block;
+        width: 100%;
+        height: 75%;
+        margin: 10px 0px 10px 0px;
+
+        .tile {
+            width: calc(45% - 12px);
+            display: inline-block;
+            text-align: center;
+            height: calc(35% - 2px);
+            border-top: 1px solid $separator-color;
+            padding-left: 3px;
+            padding-right: 3px;
+
+            p {
+                text-align: center;
+                color: $light-text-color;
+                font-size: $counters-title-font-size;
+                margin: 9px 0px 2px 0px;;
+            }
+
+            &:nth-child(odd) {
+                border-right: 1px solid $separator-color;
+                margin-left: calc(5% + 1px);
+            }
+
+            &:nth-child(even) {
+                border-left: 1px solid $server-background-color;
+            }
+
+            
+
+            .label {
+                display: inline-block;
+                color: $emphasized-text-color;
+            }
+
+            .label:nth-child(2) {
+                font-size: $counters-data-size;
+            }
+
+            .label:nth-child(3) {
+                font-size: $counters-unit-size;
+            }
+        }
+    }
+
+    .icon-User:after {
+        content: attr(data-users);
+        padding: 0;
+        margin: 0px 0px 2px 5px;
+        font-family: $font;
+        font-size: $header-font-size;
+    }
+
+    .icon-Delete{
+        color: $emphasized-text-color;
+        &:hover{
+            color: $red-color;
+        }
+    }
+    .label.server-name{
+
+    }
+}

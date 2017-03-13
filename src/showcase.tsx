@@ -1,5 +1,7 @@
+/* tslint:disable:no-console */
 import 'babel-polyfill';
 import 'ts-helpers';
+
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Test } from './components/Test/Test';
@@ -35,35 +37,78 @@ import { DialogFooter } from './components/Dialog/DialogFooter';
 import { StatusBar } from './components/StatusBar/StatusBar';
 import { CheckboxList } from './components/CheckboxList/CheckboxList';
 import { Treeview } from './components/Treeview/Treeview';
+import { CompactDashboard } from './components/CompactDashboard/CompactDashboard';
+import { ICompactServerProps } from './components/CompactServer/CompactServer.Props';
+import { TagContainer } from './components/TagContainer/TagContainer';
+import { CompactServer } from './components/CompactServer/CompactServer';
+import { DashboardHeader } from './components/DashboardHeader/DashboardHeader';
+import { Dashboard } from './components/Dashboard/Dashboard';
+import { dummyDashboard, generateMeasures, generateRandomStatus, convertFarm } from './mockData/DashboardDummy';
+import { ServerTile } from './components/ServerTile/ServerTile';
 import { elements } from './treeviewElements';
 import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
 import { LineChart } from './components/LineChart/LineChart';
+import { ProgressBar } from './components/ProgressBar/ProgressBar';
 import { PieChart } from './components/PieChart/PieChart';
 import { DataGenerator } from './utilities/DataGenerator';
+<<<<<<< HEAD
 import { IPieChartData } from './components/PieChart/PieChart.props';
 import { data } from './MockData/pieData';
+=======
+import { IFarm, ISharePointServer, ServerStatus } from './models';
+>>>>>>> master
 
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
-        // const generator = new DataGenerator();
 
         this.state = {
             showDialog: false,
             treeviewElements: elements,
             selector: true,
-            data2: [
-                    {label: 'used', value: 99, text: 'Used: 68.36 GB', class: 'used-critical'},
-                    {label: 'option1', value: 124, text: 'Test1'},
-                    {label: 'option2', value: 251, text: 'Test2'}
-                ]
+            cpu: '74',
+            data: generator.generateValues(),
+            farms: dummyDashboard.farms
         };
 
-        // setInterval(() => {
-        //     this.setState({data2: null});
-        //     console.log('Hello');
-        // }, 500);
+        setInterval(() => this.setState({ data: generator.generateValues() }), 5000);
+        setInterval(() => {
+            let newFarms = this.state.farms.map((farm: IFarm) => {
+
+                let servers = farm.servers.map((server: ISharePointServer) => {
+                    let measures = generateMeasures();
+                    let status = ServerStatus.Offline;
+                    if (measures.length > 0) {
+                        status = ServerStatus.OK;
+                        if (measures.filter(t => { return t.status === ServerStatus.Warning; }).length > 0) {
+                            status = ServerStatus.Warning;
+                        }
+                        if (measures.filter(t => { return t.status === ServerStatus.Critical; }).length > 0) {
+                            status = ServerStatus.Critical;
+                        }
+                    }
+                    return {
+                        id: server.id,
+                        status: status,
+                        roles: server.roles,
+                        onRoleEdit: server.onRoleEdit,
+                        onClose: server.onClose,
+                        name: server.name,
+                        measures: measures
+                    };
+                });
+                return {
+                    id: farm.id,
+                    isCustom: farm.isCustom,
+                    version: farm.version,
+                    name: farm.name,
+                    servers: servers
+                };
+            });
+            this.setState({ farms: newFarms });
+        }, 2000);
     }
+
 
     private generateValues(d: any[]) {
         d[0].value = d[0].value + 1;
@@ -81,6 +126,16 @@ export class Index extends React.Component<any, any> {
                         colors={['#344086', '#8bd764', '#f3f986', '#ec1271', '#636363', 'red', 'green', 'purple', 'aquamarine', 'lightgrey']}
                         tipText={(d: IPieChartData) => (d.label + ' : ' + d.value)}/>
                 <br/>
+                <CompactServer id={{ FQDN: 'CUSTOM-PC.localdomain' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'CUSTOM-PC'} roles={[]} status={1} />
+                <CompactServer id={{ FQDN: 'My very very long name of a server I am using I know its very long.domain.com' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'My very very long name of a server I am using I know its very long'} roles={[]} status={2} />
+                <CompactServer id={{ FQDN: 'BANANA-PC.banana.com' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'BANANA-PC'} roles={[{ display: 'WPF', iconName: 'icon-Add' }, { display: 'Search', iconName: 'icon-Alert' }]} status={0} />
+
+                <TagContainer title={'Roles'} tags={[{ display: 'Tag1', iconName: 'icon-Add' }, { display: 'Tag2', iconName: 'icon-Alert' }, { display: 'Tag3', iconName: 'icon-Buy' }]}>
+
+                    <div className="edit-tags tag" title="Edit tags">
+                        <Icon className="icon-Edit"></Icon>
+                    </div>
+                </TagContainer>
                 <Ribbon items={[]}></Ribbon>
                 <AddToFavorites favorited={true} />
                 <AddToFavorites favorited={false} />
@@ -99,6 +154,18 @@ export class Index extends React.Component<any, any> {
                         <Label>Pivot #2</Label>
                     </PivotItem>
                     <PivotItem linkText={'Shared with me'}>
+                        <Label>Pivot #3</Label>
+                    </PivotItem>
+                </Pivot>
+                <br />
+                <Pivot onLinkClick={(item, ev) => console.log(item)}>
+                    <PivotItem linkText={'My Files'} linkIcon={'icon-User'}>
+                        <Label>Pivot #1</Label>
+                    </PivotItem>
+                    <PivotItem linkText={'Recent'} >
+                        <Label>Pivot #2</Label>
+                    </PivotItem>
+                    <PivotItem linkText={'Shared with me'} linkIcon={'icon-Add'}>
                         <Label>Pivot #3</Label>
                     </PivotItem>
                 </Pivot>
@@ -305,7 +372,7 @@ export class Index extends React.Component<any, any> {
                     />
                 <Checkbox label={'This is checkbox'} onChange={(ev, checked) => console.log('aaa')} defaultChecked={true} />
                 <Checkbox label={'This is disabled checkbox'} disabled={true} defaultChecked={true} />
-                <Checkbox label={'This is checkbox with icon'} onChange={(ev, checked) => console.log('icon')} iconClassName={'icon-User'} />                
+                <Checkbox label={'This is checkbox with icon'} onChange={(ev, checked) => console.log('icon')} iconClassName={'icon-User'} />
                 <br />
                 <ChoiceGroup options={[
                     { key: 'A', text: 'Option A' },
@@ -317,7 +384,7 @@ export class Index extends React.Component<any, any> {
                 </ChoiceGroup>
                 <br />
                 <ToggleSwitch onChange={this._onToggle} />
-                <br/>
+                <br />
                 <Slider label={'This is slider:'} min={0} max={50} step={5} defaultValue={20} showValue={true}></Slider>
                 <br />
                 <Label>I'm a Label</Label>
@@ -336,44 +403,111 @@ export class Index extends React.Component<any, any> {
                 <br />
                 <CheckboxList onCheckboxChanged={this._onCheckboxListChange}
                     items={[
-                        { id: 'A', text: 'Option A', isOpen: false, children: [{ text: 'Option B', checked: false, id: 'B1' }, { text: 'Option B', id: 'B2'}, { text: 'Option B', id: 'B3' }] },
+                        { id: 'A', text: 'Option A', isOpen: false, children: [{ text: 'Option B', checked: false, id: 'B1' }, { text: 'Option B', id: 'B2' }, { text: 'Option B', id: 'B3' }] },
                         { id: 'C', text: 'Option C', isOpen: false, children: [{ text: 'Option D', id: 'D1' }, { text: 'Option D', id: 'D2' }, { text: 'Option D', id: 'D3' }] },
                         { id: 'E', text: 'Option E', isOpen: false, children: [{ text: 'Option F', id: 'F1' }, { text: 'Option F', id: 'F2' }, { text: 'Option F', id: 'F3' }] },
                         { id: 'G', text: 'Option G', isOpen: false, children: [{ text: 'Option H', id: 'H1' }, { text: 'Option H', id: 'H2' }, { text: 'Option H', id: 'H3' }] }
                     ]}>
                 </CheckboxList>
                 <br />
-                <Treeview onSelect={this._onCheckboxListChange} showCheckbox={false} items={elements}/>
+                <Treeview onSelect={this._onCheckboxListChange} showCheckbox={false} items={elements} />
                 <br />
-                <Treeview onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements} recursive={false}/>
+                <Treeview onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements} recursive={false} />
                 <br />
                 <StatusBar text={'Initializing index...'}></StatusBar>
+                <Dashboard
+                    differentDashboards={dummyDashboard.differentDashboards}
+                    groupOnClick={dummyDashboard.groupOnClick}
+                    farms={this.state.farms}
+                    filter={''}
+                    title={dummyDashboard.title}
+                    activeView={0} hasAddButton={true}
+                    addFarm={dummyDashboard.addFarm}
+                    groupAddFunc={dummyDashboard.groupAddFunc}
+                    groupDeleteFunc={dummyDashboard.groupDeleteFunc}
+                    groupEditFunc={dummyDashboard.groupEditFunc}
+                    serverClose={dummyDashboard.serverClose}
+                    serverRoleEdit={dummyDashboard.serverRoleEdit}
+                    />
+
+
+
+                <br />
+                <ServerTile
+                    id={{ FQDN: 'server-123' }}
+                    status={0}
+                    hasCloseButton={true}
+                    name={'SP2016-Martin-Pisacic'}
+                    numberOfUsers={'3432'}
+                    onClose={(id: string) => console.log('Go away!', id)}
+                    diskInformation={['C: 49 / 259 GB (30%)', 'D: 49 / 259 GB (30 %)']}
+                    roles={[]}
+                    countersData={[
+                        { title: 'CPU', currentUsage: '43', usageUnit: '%', hoverText: [''], status: ServerStatus.OK },
+                        { title: 'Memory', currentUsage: '7', usageUnit: 'GB', hoverText: ['7GB/10GB (70%)'], status: ServerStatus.Warning },
+                        { title: 'Disk', currentUsage: '0,1', usageUnit: 'Mbps', hoverText: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps'], status: ServerStatus.OK },
+                        { title: 'Network', currentUsage: '0,1', usageUnit: 'MB/s', hoverText: ['50.10 kB/s', '23.47 kB/s'], status: ServerStatus.OK }
+                    ]}>
+                    {/*<TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>*/}
+                </ServerTile>
+                <LineChart
+                    title={'CPU USAGE'}
+                    data={this.state.data}
+                    width={330}
+                    height={200}
+                    xAxisScale={'TIME'}
+                    ></LineChart>
+                <br />
+                <PieChart text={'Sample text'}
+                    title={'Partition C:'}
+                    height={160}
+                    width={160}
+                    data={
+                        [
+                            { label: 'used', value: 99, text: 'Used: 68.36 GB', class: 'used-critical', unit: '%' },
+                            { label: 'free', value: 1, text: 'Free: 11.54 GB', unit: '%' },
+                            { label: 'option1', value: 124, text: 'Test1', unit: '%' },
+                            { label: 'option2', value: 251, text: 'Test2' }
+                        ]
+                    }
+                    ></PieChart>
+                <br />
+                <ProgressBar title={'RAM'} width={400} height={20} data={{ total: 15999, current: 12560 }}></ProgressBar>
             </div>);
     };
 
+    private _onClickCompactServer(serverId) {
+        console.log('Clicked on editing roles of server ' + serverId);
+    }
+
+    private _onServerCloseCompactServer(serverId) {
+        console.log('Clicked on closing server ' + serverId);
+    }
+
     private _onTreeviewItemClick(ev, itemId, checked) {
-        this.setState({treeviewElements : this.state.treeviewElements.map((item) => {
-            if (itemId.indexOf(item.id) > -1) {
-                return {id: item.id, text: item.text, parentId: item.parentId, checked: checked};
-            } else {
-                return item;
-            }
-        })
-    });
-        
+        this.setState({
+            treeviewElements: this.state.treeviewElements.map((item) => {
+                if (itemId.indexOf(item.id) > -1) {
+                    return { id: item.id, text: item.text, parentId: item.parentId, checked: checked };
+                } else {
+                    return item;
+                }
+            })
+        });
+
     }
 
     private _onCheckboxListChange(ev, itemId, checked) {
         console.log(checked);
     }
-    private _onToggle(checked){
+    private _onToggle(checked) {
         console.log(checked);
     }
 
     private _onTreeViewChange(ev, itemId, checked) {
         console.log(itemId + ':' + checked);
     }
-    
+
     private _showDialog() {
         this.setState({ showDialog: true });
     }
@@ -381,6 +515,8 @@ export class Index extends React.Component<any, any> {
     private _closeDialog() {
         this.setState({ showDialog: false });
     }
+
+
 };
 
 ReactDOM.render(<Index />, document.getElementById('root'));

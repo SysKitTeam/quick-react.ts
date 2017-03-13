@@ -22,14 +22,18 @@
     "d3": "^4.5.0",
     "node-sass": "3.13.0",
     "react": "15.4.2",
+    "react-addons-shallow-compare": "^15.4.2",
     "react-dom": "15.4.2",
     "react-redux": "5.0.2",
+    "react-virtualized": "^9.0.3",
     "redux": "3.6.0",
     "run-sequence": "^1.2.2"
   },
   "devDependencies": {
+    "@types/node": "^7.0.5",
     "@types/react": "15.0.1",
     "@types/react-dom": "^0.14.20",
+    "@types/react-virtualized": "^8.9.2",
     "awesome-typescript-loader": "1.0.0",
     "babel-core": "6.18.2",
     "babel-polyfill": "6.16.0",
