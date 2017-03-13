@@ -56,6 +56,9 @@ export class BarChart extends React.PureComponent<IBarChartProps, null> {
         return <div className={'bar-chart-component'} ref={'container'} style={{width: this.props.dimensions.width, height: this.props.dimensions.height}}></div>;
     }
 
+    /**
+     * Initial rendering of chart that only gets called on component mount.
+     */
     private init() {
         this.mainContainer = document.getElementsByClassName('bar-chart-component')[0];
 
@@ -80,6 +83,9 @@ export class BarChart extends React.PureComponent<IBarChartProps, null> {
         this.createTooltip(this.container);
     }
 
+    /**
+     * When component is resized get new dimensions and rescale chart.
+     */
     private _onResize() : any {
         const node : any = document.getElementsByClassName('bar-chart-component')[0];
         const width = node.offsetWidth;
@@ -87,6 +93,10 @@ export class BarChart extends React.PureComponent<IBarChartProps, null> {
         if(this.fullWidth !== width || this.fullHeight !== height) { this.rescale(width, height); }
     }
 
+    /**
+     * This method gets called when new data is given to chart.
+     * It updates chart based on new data but doesn't rescales it.
+     */
     private redraw() {
         this.x = this.generateX();
         this.y = this.generateY();
@@ -96,6 +106,10 @@ export class BarChart extends React.PureComponent<IBarChartProps, null> {
         this.redrawBars();
     }
 
+    /**
+     * Rescales all aspects of chart based on new dimensions. Also new dimensions are
+     * saved in local variables so that component can track its current dimensions.
+     */
     private rescale(newWidth : number, newHeight: number) : void {
         this.width = newWidth - this.margin.right - this.margin.left;
         this.height = newHeight - this.margin.top - this.margin.bottom;
@@ -146,6 +160,12 @@ export class BarChart extends React.PureComponent<IBarChartProps, null> {
                     .attr('height', (d) => (this.height - this.y(d.frequency)));
     }
 
+    /**
+     * Creates main container that holds chart. Root element is svg element that holds all other elements,
+        and g container is main container in which all other components are placed. G container is
+        centered to root svg element and its sizes is smaller that size of root svg element by margins.
+        Returns container which is child of root svg component.
+     */
     private createContainer() {
         const containerClass = classNames('bar-chart-container', this.props.id);
 
@@ -158,22 +178,40 @@ export class BarChart extends React.PureComponent<IBarChartProps, null> {
                 .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')');
     }
 
+    /**
+     * Creates x axis based on given data and scales it to given width so 
+        that domain of given values is placed appropriate on given width.
+     */
     private generateX() {
         return d3.scaleBand().domain(this.props.data.map((d) => d.argument)).rangeRound([0, this.width]).padding(0.1);
     }
 
+    /**
+     * Creates y axis based on given data and scales it to given height so that
+        domain of given values is appropriately placed on given height.
+     */
     private generateY() {
         return d3.scaleLinear().domain([0, d3.max(this.props.data, (d) => d.frequency)]).range([this.height, 0]);
     }
 
+    /**
+     * Sets x-axis position, formats label to given format and places earlier created x-axis on top of it.
+     */
     private generateXAxis() {
         return d3.axisBottom(this.x).tickPadding(10).tickFormat(this.formatAxisLabels());
     }
 
+    /**
+     * Sets y-axis position, styles it and places earlier created y-axis on top of it.
+     */
     private generateYAxis() {
         return d3.axisLeft(this.y).tickSizeInner(-this.width).tickPadding(5);
     }
 
+    /**
+     * Creates bars based on given data that is passed to component. 
+        Every bar gets its own place and dimensions based on that data.
+     */
     private generateBars(container: any) {
         container.selectAll('.bar').data(this.props.data).enter()
                     .append('rect').attr('class', 'bar').style('fill', this.props.barColor)
@@ -202,6 +240,11 @@ export class BarChart extends React.PureComponent<IBarChartProps, null> {
             .attr('dy', 15);
     }
 
+    /**
+     * This function gets called when mouse is hovered over bar. It changes color of that bar so it
+     * is distinguishable from others and also inserts appropriate tooltip text and places tooltip on top
+     * of hovered bar.
+     */
     private _onMouseOver() {
         const node = d3.select(d3.event.currentTarget).style('fill', this.props.hovColor);
         this.focus.style('display', 'block');
@@ -226,6 +269,12 @@ export class BarChart extends React.PureComponent<IBarChartProps, null> {
         this.focus.style('display', 'none');
     }
 
+    /**
+     * X axis could be any data type. This function ensures that if no format is specified
+     * d3 uses default formating for every type. If format is specified given format will be used.
+     * Based on given data format can be timeFormat or regular format. Returned null value tells d3 to use
+     * default formatting.
+     */
     private formatAxisLabels() : any {
         if (this.props.xAxisFormat() === null) { return null; }
         const formatFunc = typeof this.props.data[0].argument !== 'object' ? d3.format : d3.timeFormat;
