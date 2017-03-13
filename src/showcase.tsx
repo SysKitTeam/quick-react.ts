@@ -51,12 +51,15 @@ import { LineChart } from './components/LineChart/LineChart';
 import { ProgressBar } from './components/ProgressBar/ProgressBar';
 import { PieChart } from './components/PieChart/PieChart';
 import { IPieChartData } from './components/PieChart/PieChart.props';
-import { data } from './MockData/pieData';
+import { data, updatedData } from './MockData/pieData';
 import { IFarm, ISharePointServer, ServerStatus } from './models';
 
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
+        this.state = { data: data };
+
+        setTimeout(() => this.setState({data: updatedData}), 2000);
     }
 
     public render() {
@@ -64,8 +67,8 @@ export class Index extends React.Component<any, any> {
             <div>
                 <PieChart
                         id={'chart-1'}
-                        dimensions={{width: '25%', height: '300px'}}
-                        data={data}
+                        dimensions={{width: '25%', height: '100px'}}
+                        data={this.state.data}
                         colors={['#344086', '#8bd764', '#f3f986', '#ec1271', '#636363', 'red', 'green', 'purple', 'aquamarine', 'lightgrey']}
                         tipText={(d: IPieChartData) => (d.label + ' : ' + d.value)}/>
                 <br/>

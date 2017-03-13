@@ -70,7 +70,10 @@ export class PieChart extends React.PureComponent<IPieChartProps, null> {
         this._fullHeight = newHeight;
         this._fullWidth = newWidth;
         
-        this._radius = newWidth / 3;
+        this._radius = newWidth / 4;
+
+        if (2 * this._radius >= this._fullHeight) { return; }
+
         this._mainContainer.attr('width', this._fullWidth).attr('height', this._fullHeight);
         
         const arc = this.createArc();
@@ -100,7 +103,7 @@ export class PieChart extends React.PureComponent<IPieChartProps, null> {
     }
 
     private draw() {
-        this._radius = this._fullWidth / 3;
+        this._radius = this._fullWidth / 4;
         this._chartContainer = this.createContainer();
         const pie = this.createPie();
         const arc = this.createArc();
@@ -125,24 +128,9 @@ export class PieChart extends React.PureComponent<IPieChartProps, null> {
 
     private _onMouseOut() : any {
         d3.select(d3.event.currentTarget).attr('opacity', 1);
+        this._focus.select('.tip-pol-up').style('display', 'none');
+        this._focus.select('.tip-pol-down').style('display', 'none');
         this._focus.style('display', 'none');
-    }
-
-    private showTooltip(d: any) {
-        const coordinates = this._arc.centroid(d);
-        const textRef = this._focus.select('text.tip-text').text(this.props.tipText(d.data));
-        const textWidth = textRef.node().getComputedTextLength();
-        const textPadding = 16;
-
-        this._focus.style('display', 'block');
-
-        const translatePol = 'translate(' + (coordinates[0] - 10) + ',' + (coordinates[1] - 15) + ')';
-        const translateTextArea = 'translate(' + (coordinates[0] - textWidth / 2) + ',' + (coordinates[1] - 39) + ')';
-        const translateText = 'translate(' + coordinates[0] + ',' + (coordinates[1] - 39) + ')';
-
-        this._focus.select('.tip-pol').attr('transform', translatePol);
-        this._focus.select('.tip-rect').attr('width', textWidth + textPadding).attr('transform', translateTextArea);
-        this._focus.select('text.tip-text').attr('transform', translateText);
     }
 
     private createContainer() {
@@ -178,8 +166,16 @@ export class PieChart extends React.PureComponent<IPieChartProps, null> {
 
         this._focus.append('polygon')
             .attr('fill', 'white')
-            .attr('class', classNames(tipClassName, 'tip-pol'))
+            .attr('class', classNames(tipClassName, 'tip-pol-down'))
             .attr('points', '0,0 10,10 20,0')
+            .style('display', 'none')
+            .attr('pointer-events', 'none');
+
+        this._focus.append('polygon')
+            .attr('fill', 'white')
+            .attr('class', classNames(tipClassName, 'tip-pol-up'))
+            .attr('points', '0,0 10,-10, 20,0')
+            .style('display', 'none')
             .attr('pointer-events', 'none');
 
         this._focus.append('text')
@@ -189,6 +185,37 @@ export class PieChart extends React.PureComponent<IPieChartProps, null> {
             .attr('dy', 14)
             .attr('text-anchor', 'middle')
             .attr('pointer-events', 'none');
+    }
+
+     private showTooltip(d: any) {
+        const coordinates = this._arc.centroid(d);
+
+        const textRef = this._focus.select('text.tip-text').text(this.props.tipText(d.data));
+        const textWidth = textRef.node().getComputedTextLength();
+        const textPadding = 16;
+
+        this._focus.style('display', 'block');
+
+        let translatePol, translateTextArea, translateText;
+
+        // Flip tooltip
+        if (coordinates[1] < 0) {
+            this._focus.select('.tip-pol-up').style('display', 'block');
+            translatePol = 'translate(' + (coordinates[0] - 10) + ',' + (coordinates[1] + 10) + ')';
+            translateTextArea = 'translate(' + (coordinates[0] - textWidth / 2) + ',' + (coordinates[1] + 10) + ')';
+            translateText = 'translate(' + coordinates[0] + ',' + (coordinates[1] + 10) + ')';
+            this._focus.select('.tip-pol-up').attr('transform', translatePol);
+        } else {
+            this._focus.select('.tip-pol-down').style('display', 'block');
+            translatePol = 'translate(' + (coordinates[0] - 10) + ',' + (coordinates[1] - 15) + ')';
+            translateTextArea = 'translate(' + (coordinates[0] - textWidth / 2) + ',' + (coordinates[1] - 39) + ')';
+            translateText = 'translate(' + coordinates[0] + ',' + (coordinates[1] - 39) + ')';
+            this._focus.select('.tip-pol-down').attr('transform', translatePol);
+        }
+
+        // this._focus.select('.tip-pol-up').attr('transform', translatePol);
+        this._focus.select('.tip-rect').attr('width', textWidth + textPadding).attr('transform', translateTextArea);
+        this._focus.select('text.tip-text').attr('transform', translateText);
     }
 
     private createPie() {
