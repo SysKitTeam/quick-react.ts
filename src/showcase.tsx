@@ -107,7 +107,7 @@ export class Index extends React.Component<any, any> {
         }, 2000);
 
         // setTimeout(() => this.setState({ width: 500 }), 1000);
-        // setTimeout(() => this.setState({ data: updatedData }), 1000);
+        setTimeout(() => this.setState({ data: updatedData }), 2000);
     }
 
     public render() {
@@ -122,7 +122,7 @@ export class Index extends React.Component<any, any> {
                         <Icon className="icon-Edit"></Icon>
                     </div>
                 </TagContainer>
-                <BarChart id={'bar-chart-1'} data={data} dimensions={{width: '100%', height: '300px'}}/>
+                <BarChart id={'bar-chart-1'} data={this.state.data} dimensions={{width: '100%', height: '300px'}}/>
                 <Ribbon items={[]}></Ribbon>
                 <AddToFavorites favorited={true} />
                 <AddToFavorites favorited={false} />

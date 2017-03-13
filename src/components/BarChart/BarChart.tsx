@@ -6,12 +6,7 @@ import './BarChart.scss';
 
 const ResizeSensor = require('css-element-queries/src/ResizeSensor');
 
-enum Update {
-    Data = 1,
-    Dimension
-};
-
-export class BarChart extends React.Component<IBarChartProps, null> {
+export class BarChart extends React.PureComponent<IBarChartProps, null> {
 
     public static defaultProps = {
         id: '',
@@ -24,7 +19,6 @@ export class BarChart extends React.Component<IBarChartProps, null> {
         height: 300,
         minWidth: 300,
         maxWidth: 1000,
-        isResponsive: false,
         onClick: () => {}
     };
 
@@ -33,7 +27,7 @@ export class BarChart extends React.Component<IBarChartProps, null> {
         container: (HTMLInputElement);
     };
 
-    private margin = { top: 50, right: 50, bottom: 50, left: 50 };
+    private margin = { top: 50, right: 50, bottom: 70, left: 50 };
     private fullWidth;
     private fullHeight;
     private width;
@@ -45,42 +39,17 @@ export class BarChart extends React.Component<IBarChartProps, null> {
     private container;
     private mainContainer;
 
-    public shouldComponentUpdate(nextProps: IBarChartProps, nextState: null) {
-        if (this.props.id !== nextProps.id ||
-            this.props.width !== nextProps.width ||
-            this.props.height !== nextProps.height ||
-            this.props.barColor !== nextProps.barColor) {
-                return true;
-            }
-        if (!this.arraysEqual(this.props.data, nextProps.data)) { return true; }
-        return false;
-    }
-
-    private arraysEqual(arr1: IBarChartData[], arr2: IBarChartData[]) {
-        if (arr1.length !== arr2.length) { return false; }
-        for ( let i = arr1.length; i--; ) {
-            if (!this.compareValues(arr1[i], arr2[i])) { return false; }
-        }
-        return true;
-    }
-
-    private compareValues(data1: IBarChartData, data2: IBarChartData) {
-        if (typeof data1.argument !== 'number' && typeof data1.argument !== 'string') {
-            if ((data1.argument as Date).getTime() !== (data2.argument as Date).getTime()) { return false; }
-        }
-        if (data1.argument !== data2.argument) { return false; }
-        if (data1.frequency !== data2.frequency) { return false; }
-        return true;
-    }
-
     public componentDidMount() {
         this.init();
-        new ResizeSensor(document.getElementsByClassName('bar-chart-component'), () => this._onResize());
+        new ResizeSensor(document.getElementsByClassName('bar-chart-component')[0], () => this._onResize());
+    }
+
+    public componentWillUnmount() {
+        ResizeSensor.detach(document.getElementsByClassName('bar-chart-component')[0]);
     }
 
     public componentDidUpdate() {
         this.redraw();
-        // console.log('updating bar chart...'); // debug...
     }
 
     public render() {
@@ -105,16 +74,10 @@ export class BarChart extends React.Component<IBarChartProps, null> {
         this.container = this.createContainer();
         this.container.append('g').attr('class', xAxisClass).call(this.generateXAxis())
                     .attr('transform', 'translate(0,' + this.height + ')');
-                    // .selectAll('text').attr('transform', 'rotate(45)').attr("y", 0)
-                    // .attr("x", 9).attr("dy", ".35em").style('text-anchor', 'start');
         this.container.append('g').attr('class', yAxisClass).call(this.generateYAxis());
         
         this.generateBars(this.container);
         this.createTooltip(this.container);
-    }
-
-    private redraw() {
-        this.rescale(this.props.width, this.props.height);
     }
 
     private _onResize() : any {
@@ -124,8 +87,16 @@ export class BarChart extends React.Component<IBarChartProps, null> {
         if(this.fullWidth !== width || this.fullHeight !== height) { this.rescale(width, height); }
     }
 
+    private redraw() {
+        this.x = this.generateX();
+        this.y = this.generateY();
+
+        d3.select('.x-axis.' + this.props.id).attr('transform', 'translate(0,' + this.height + ')').call(this.generateXAxis());
+        d3.select('.y-axis.' + this.props.id).call(this.generateYAxis());
+        this.redrawBars();
+    }
+
     private rescale(newWidth : number, newHeight: number) : void {
-        console.log('rescaling...');    // debug
         this.width = newWidth - this.margin.right - this.margin.left;
         this.height = newHeight - this.margin.top - this.margin.bottom;
 
@@ -134,15 +105,39 @@ export class BarChart extends React.Component<IBarChartProps, null> {
 
         this.svg.attr('height', newHeight).attr('width', newWidth);
 
-        d3.select('.x-axis.' + this.props.id).attr('transform', 'translate(0,' + this.height + ')').call(this.generateXAxis());
+        const xAxis = d3.select('.x-axis.' + this.props.id).attr('transform', 'translate(0,' + this.height + ')').call(this.generateXAxis());
         d3.select('.y-axis.' + this.props.id).call(this.generateYAxis());
 
+        const spacing = 60;
+
+        const labels = d3.selectAll('.x-axis.' + this.props.id + ' > .tick > text').nodes();
+        let totalLength = 0;
+        labels.forEach((element : any) => totalLength += element.getComputedTextLength());
+
+        const rects = this.container.selectAll('.bar').nodes();
+        let totalRectLength = 0;
+        rects.forEach((element: any) => {
+            const attributes = element.getBBox();
+            totalRectLength += attributes.width;
+        });
+
+        if (totalLength > totalRectLength - spacing ) {
+            xAxis.selectAll('text').attr('transform', 'rotate(45)').attr('y', 10)
+                .attr('x', 10).attr('dy', '.35em').style('text-anchor', 'start');
+        } else {
+            xAxis.selectAll('text').attr('transform', 'rotate(0)').attr('x', 0).style('text-anchor', 'middle');
+        }
+
+        this.redrawBars();
+    }
+
+    private redrawBars() {
         const bars = this.container.selectAll('.bar').data(this.props.data);
 
         bars.enter().insert('rect', '.tip-container').attr('class', 'bar').style('fill', this.props.barColor)
                     .on('mouseover', () => this._onMouseOver())
                     .on('mouseout', () => this._onMouseOut())
-                    .on('click', (event) => this._onBarClick(event));
+                    .on('click', (data) => this.props.onClick(data));
 
         this.container.selectAll('.bar')
                     .attr('x', (d) => this.x(d.argument))
@@ -172,7 +167,7 @@ export class BarChart extends React.Component<IBarChartProps, null> {
     }
 
     private generateXAxis() {
-        return d3.axisBottom(this.x).tickPadding(10); // .tickFormat(d3.timeFormat(this.props.xAxisFormat()));
+        return d3.axisBottom(this.x).tickPadding(10).tickFormat(this.formatAxisLabels());
     }
 
     private generateYAxis() {
@@ -184,7 +179,7 @@ export class BarChart extends React.Component<IBarChartProps, null> {
                     .append('rect').attr('class', 'bar').style('fill', this.props.barColor)
                     .on('mouseover', () => this._onMouseOver())
                     .on('mouseout', () => this._onMouseOut())
-                    .on('click', (event) => this._onBarClick(event))
+                    .on('click', (data) => this.props.onClick(data))
                     .attr('x', (d) => this.x(d.argument))
                     .attr('width', this.x.bandwidth())
                     .attr('y', (d) => this.y(d.frequency))
@@ -231,7 +226,9 @@ export class BarChart extends React.Component<IBarChartProps, null> {
         this.focus.style('display', 'none');
     }
 
-    private _onBarClick(data) {
-        this.props.onClick(data);
+    private formatAxisLabels() : any {
+        if (this.props.xAxisFormat() === null) { return null; }
+        const formatFunc = typeof this.props.data[0].argument !== 'object' ? d3.format : d3.timeFormat;
+        return formatFunc(this.props.xAxisFormat());
     }
 }

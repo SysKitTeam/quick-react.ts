@@ -1,30 +1,30 @@
 export const data = [
     {
-        argument: 'A',
+        argument: 1,
         frequency: 5
     },
     {
-        argument: 'B',
+        argument: 2,
         frequency: 7
     },
     {
-        argument: 'C',
+        argument: 3,
         frequency: 2
     },
     {
-        argument: 'D',
+        argument: 4,
         frequency: 15
     },
     {
-        argument: 'E',
+        argument: 5,
         frequency: 11
     },
     {
-        argument: 'F',
+        argument: 6,
         frequency: 9
     },
     {
-        argument: 'G',
+        argument: 7,
         frequency: 4
     }
 ];

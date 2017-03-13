@@ -54,6 +54,7 @@
     "html-webpack-plugin": "2.24.1",
     "merge2": "0.3.6",
     "raw-loader": "0.5.1",
+    "react-addons-shallow-compare": "^15.4.2",
     "sass-loader": "4.0.2",
     "source-map-loader": "0.1.5",
     "style-loader": "0.13.1",
