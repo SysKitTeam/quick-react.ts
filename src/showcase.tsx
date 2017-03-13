@@ -107,7 +107,7 @@ export class Index extends React.Component<any, any> {
         }, 2000);
 
         // setTimeout(() => this.setState({ width: 500 }), 1000);
-        setTimeout(() => this.setState({ data: updatedData }), 2000);
+        // setTimeout(() => this.setState({ data: updatedData }), 2000);
     }
 
     public render() {

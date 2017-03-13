@@ -53,7 +53,13 @@ export class BarChart extends React.PureComponent<IBarChartProps, null> {
     }
 
     public render() {
-        return <div className={'bar-chart-component'} ref={'container'} style={{width: this.props.dimensions.width, height: this.props.dimensions.height}}></div>;
+        const mainContainerClass = classNames('bar-chart-component', this.props.id);
+        return (
+            <div className={mainContainerClass} 
+                ref={'container'} 
+                style={{width: this.props.dimensions.width, height: this.props.dimensions.height}}
+            ></div>
+        );
     }
 
     /**
@@ -210,11 +216,12 @@ export class BarChart extends React.PureComponent<IBarChartProps, null> {
 
     /**
      * Creates bars based on given data that is passed to component. 
-        Every bar gets its own place and dimensions based on that data.
+     * Every bar gets its own place and dimensions based on that data.
      */
     private generateBars(container: any) {
-        container.selectAll('.bar').data(this.props.data).enter()
-                    .append('rect').attr('class', 'bar').style('fill', this.props.barColor)
+        const barClassName = classNames('bar-char-component', 'bar', this.props.id)
+        container.selectAll(barClassName).data(this.props.data).enter()
+                    .append('rect').attr('class', barClassName).style('fill', this.props.barColor)
                     .on('mouseover', () => this._onMouseOver())
                     .on('mouseout', () => this._onMouseOut())
                     .on('click', (data) => this.props.onClick(data))
@@ -225,17 +232,18 @@ export class BarChart extends React.PureComponent<IBarChartProps, null> {
     }
 
     private createTooltip(container: any) {
+        const tipClass = classNames('bar-chart-component', 'tip', this.props.id);
         this.focus = container.append('g')
-                        .attr('class', 'tip-container')
+                        .attr('class', classNames(tipClass, 'tip-container'))
                         .style('display', 'none');
         this.focus.append('polygon')
-            .attr('class', 'tip-pol')
+            .attr('class', classNames(tipClass, 'tip-pol'))
             .attr('points', '0,24 10,35 20,24');
         this.focus.append('rect')
             .attr('height', 24)
-            .attr('class', 'tip-rect');
+            .attr('class', classNames(tipClass, 'tip-rect'));
         this.focus.append('text')
-            .attr('class', 'tooltip-text')
+            .attr('class', classNames(tipClass, 'tip-text'))
             .attr('dx', 4)
             .attr('dy', 15);
     }
@@ -253,8 +261,8 @@ export class BarChart extends React.PureComponent<IBarChartProps, null> {
         const xPol = +node.attr('x') + width - 10;
         const data = (node.datum() as IBarChartData);
 
-        const textRef = this.focus.select('.tooltip-text').text(this.props.tipText(data));
-        const textWidth = this.focus.select('.tooltip-text').node().getComputedTextLength();
+        const textRef = this.focus.select('.tip-text').text(this.props.tipText(data));
+        const textWidth = this.focus.select('.tip-text').node().getComputedTextLength();
         const tipMargin = 8;
 
         const xRect = +node.attr('x') + width - (textWidth + tipMargin) / 2;
