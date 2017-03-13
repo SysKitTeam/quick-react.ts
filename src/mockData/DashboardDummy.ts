@@ -105,7 +105,7 @@ export function generateMeasures(): Array<IMeasure> {
     let ramMeasure: RamMeasure = {
         type: MeasureType.Ram,
         status: generateRandomStatus(),
-        availableMB: generatePercentage(),
+        used: generatePercentage(),
         capacity: generatePercentage() + 100,
         time: new Date(Date.now())
     };

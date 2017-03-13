@@ -79,7 +79,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                                         ref={(reference) => {
                                             this.collection = reference;
                                         }}
-                                        verticalOverscanSize={1}
+                                        verticalOverscanSize={5}
                                         cellCount={this.props.farms.length}
                                         cellRenderer={this._renderRow}
                                         cellSizeAndPositionGetter={function (index) {

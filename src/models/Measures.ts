@@ -41,7 +41,7 @@ export interface CpuMeasure extends IMeasure {
 
 export interface RamMeasure extends IMeasure {
     type: MeasureType.Ram;
-    availableMB: number;
+    used: number;
     capacity: number;
 }
 

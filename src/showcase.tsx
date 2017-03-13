@@ -424,7 +424,6 @@ export class Index extends React.Component<any, any> {
                 <ServerTile
                     id={{ FQDN: 'server-123' }}
                     status={0}
-                    hasCloseButton={true}
                     name={'SP2016-Martin-Pisacic'}
                     numberOfUsers={'3432'}
                     onClose={(id: string) => console.log('Go away!', id)}
