@@ -33,13 +33,8 @@ export class PieChart extends React.PureComponent<IPieChartProps, null> {
     private _mainContainer;
     private _chartContainer;
 
-
-    constructor() {
-        super();
-    }
-
     public componentDidMount() {
-        const pieComponentClass = classNames('pie-chart-component' + this.props.id);
+        const pieComponentClass = classNames('pie-chart-component', this.props.id);
         const container: any = document.getElementsByClassName(pieComponentClass)[0];
         this._fullWidth = container.offsetWidth;
         this._fullHeight = container.offsetHeight;
@@ -47,6 +42,11 @@ export class PieChart extends React.PureComponent<IPieChartProps, null> {
         this.draw();
         
         new ResizeSensor(document.getElementsByClassName('pie-chart-component')[0], () => this._onResize());
+    }
+
+    public componentWillUnmount() {
+        const pieComponentClass = classNames('pie-chart-component', this.props.id)
+        ResizeSensor.detach(document.getElementsByClassName(pieComponentClass)[0]);
     }
 
     public componentDidUpdate() {
@@ -69,14 +69,18 @@ export class PieChart extends React.PureComponent<IPieChartProps, null> {
     private rescale(newWidth: number, newHeight: number) {
         this._fullHeight = newHeight;
         this._fullWidth = newWidth;
-        this._radius = this._fullWidth / 2;
+        
+        this._radius = newWidth / 3;
         this._mainContainer.attr('width', this._fullWidth).attr('height', this._fullHeight);
+        
         const arc = this.createArc();
         const pie = this.createPie();
         const color = this.createColorPallette();
+        
+        this._chartContainer.attr('transform', 'translate(' + (this._fullWidth / 2) + ',' + (this._fullHeight / 2) + ')');
+        
         this._chartContainer.selectAll('.pie-path')
             .data(pie(this.props.data))
-            .enter().append('path')
             .attr('d', arc)
             .attr('class', 'pie-path')
             .style('fill', (d) => color(d.data.label))
@@ -96,7 +100,7 @@ export class PieChart extends React.PureComponent<IPieChartProps, null> {
     }
 
     private draw() {
-        this._radius = this._fullWidth / 2;
+        this._radius = this._fullWidth / 3;
         this._chartContainer = this.createContainer();
         const pie = this.createPie();
         const arc = this.createArc();
