@@ -41,11 +41,13 @@ export class BarChart extends React.PureComponent<IBarChartProps, null> {
 
     public componentDidMount() {
         this.init();
-        new ResizeSensor(document.getElementsByClassName('bar-chart-component')[0], () => this._onResize());
+        const mainContainerClass = classNames('bar-chart-component', this.props.id);
+        new ResizeSensor(document.getElementsByClassName(mainContainerClass)[0], () => this._onResize());
     }
 
     public componentWillUnmount() {
-        ResizeSensor.detach(document.getElementsByClassName('bar-chart-component')[0]);
+        const mainContainerClass = classNames('bar-chart-component', this.props.id);
+        ResizeSensor.detach(document.getElementsByClassName(mainContainerClass)[0]);
     }
 
     public componentDidUpdate() {
