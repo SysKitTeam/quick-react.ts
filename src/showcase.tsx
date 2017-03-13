@@ -51,24 +51,26 @@ import { LineChart } from './components/LineChart/LineChart';
 import { ProgressBar } from './components/ProgressBar/ProgressBar';
 import { PieChart } from './components/PieChart/PieChart';
 import { DataGenerator } from './utilities/DataGenerator';
-import { IFarm, ISharePointServer, ServerStatus } from './models';
+import {IFarm , ISharePointServer, ServerStatus} from './models';
+import { BarChart } from './components/BarChart/BarChart';
+import { data, updatedData } from './/mockData/barChart';
+import { IBarChartData } from './components/BarChart/BarChart.props';
 
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
         let pieData = [];
-        const generator = new DataGenerator();
         this.state = {
             showDialog: false,
             treeviewElements: elements,
             selector: true,
             cpu: '74',
-            data: generator.generateValues(),
-            farms: dummyDashboard.farms
+            farms: dummyDashboard.farms,
+            width: 600,
+            data: data
         };
-
-        setInterval(() => this.setState({ data: generator.generateValues() }), 5000);
-        setInterval(() => {
+        
+        setInterval(() => { 
             let newFarms = this.state.farms.map((farm: IFarm) => {
 
                 let servers = farm.servers.map((server: ISharePointServer) => {
@@ -103,21 +105,9 @@ export class Index extends React.Component<any, any> {
             });
             this.setState({ farms: newFarms });
         }, 2000);
-    }
 
-    componentDidMount() {
-        /*let timer = setInterval(() => {
-           const currentCpu = this.state.selector ? '74%' : '85%';
-           const sel = !this.state.selector;
-           this.setState({cpu: currentCpu, selector: sel});
-       }, 1000);*/
-    }
-
-
-    private generateValues(d: any[]) {
-        d[0].value = d[0].value + 1;
-        d[1].value = d[1].value - 1;
-        return d;
+        // setTimeout(() => this.setState({ width: 500 }), 1000);
+        // setTimeout(() => this.setState({ data: updatedData }), 2000);
     }
 
     public render() {
@@ -128,11 +118,11 @@ export class Index extends React.Component<any, any> {
                 <CompactServer id={{ FQDN: 'BANANA-PC.banana.com' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'BANANA-PC'} roles={[{ display: 'WPF', iconName: 'icon-Add' }, { display: 'Search', iconName: 'icon-Alert' }]} status={0} />
 
                 <TagContainer title={'Roles'} tags={[{ display: 'Tag1', iconName: 'icon-Add' }, { display: 'Tag2', iconName: 'icon-Alert' }, { display: 'Tag3', iconName: 'icon-Buy' }]}>
-
                     <div className="edit-tags tag" title="Edit tags">
                         <Icon className="icon-Edit"></Icon>
                     </div>
                 </TagContainer>
+                <BarChart id={'bar-chart-1'} data={this.state.data} dimensions={{width: '100%', height: '300px'}}/>
                 <Ribbon items={[]}></Ribbon>
                 <AddToFavorites favorited={true} />
                 <AddToFavorites favorited={false} />
@@ -448,14 +438,6 @@ export class Index extends React.Component<any, any> {
                     ]}>
                     {/*<TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>*/}
                 </ServerTile>
-                <LineChart
-                    title={'CPU USAGE'}
-                    data={this.state.data}
-                    width={330}
-                    height={200}
-                    xAxisScale={'TIME'}
-                    ></LineChart>
-                <br />
                 <PieChart text={'Sample text'}
                     title={'Partition C:'}
                     height={160}
