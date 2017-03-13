@@ -4,10 +4,11 @@ import * as classNames from 'classnames';
 import { Label } from '../Label/Label';
 import { IPieChartProps } from './PieChart.props';
 import { IPieChartData } from './PieChart.props';
-
 import './PieChart.scss';
 
-export class PieChart extends React.Component<IPieChartProps, null> {
+const ResizeSensor = require('css-element-queries/src/ResizeSensor');
+
+export class PieChart extends React.PureComponent<IPieChartProps, null> {
 
     public static defaultProps = {
         title: '',
@@ -21,56 +22,35 @@ export class PieChart extends React.Component<IPieChartProps, null> {
         container: HTMLInputElement
     };
 
-    private margin = {
-        top: 10,
-        right: 10,
-        bottom: 10,
-        left: 10
-    };
+    private margin = { top: 10, right: 10, bottom: 10, left: 10 };
 
     private _radius: any;
     private _focus: any;
     private _arc: any;
     private _textCoordinates: number[];
+    private _fullWidth;
+    private _fullHeight;
+    private _mainContainer;
+    private _chartContainer;
+
 
     constructor() {
         super();
     }
 
     public componentDidMount() {
+        const pieComponentClass = classNames('pie-chart-component' + this.props.id);
+        const container: any = document.getElementsByClassName(pieComponentClass)[0];
+        this._fullWidth = container.offsetWidth;
+        this._fullHeight = container.offsetHeight;
+
         this.draw();
+        
+        new ResizeSensor(document.getElementsByClassName('pie-chart-component')[0], () => this._onResize());
     }
 
     public componentDidUpdate() {
         this.redraw();
-    }
-
-    public shouldComponentUpdate(nextProps: IPieChartProps, nextState: null) {
-        if (this.props.height === nextProps.height &&
-            this.props.width === nextProps.width &&
-            this.props.id === nextProps.id &&
-            this.props.text === nextProps.text &&
-            this.props.title === nextProps.title &&
-            this.state === null &&
-            nextState === null) {
-            return !this._arraysEqual(this.props.data, nextProps.data);
-        }
-        return true;
-    }
-
-    private _arraysEqual(arr1: IPieChartData[], arr2: IPieChartData[]) {
-        if (arr1.length !== arr2.length) { return false; }
-        for (let i = arr1.length; i--;) {
-            if (!this._compareValues(arr1[i], arr2[i])) { return false; }
-        }
-        return true;
-    }
-
-    private _compareValues(data1: IPieChartData, data2: IPieChartData) {
-        if (data1.class !== data2.class) { return false; }
-        if (data1.label !== data2.label) { return false; }
-        if (data1.value !== data2.value) { return false; }
-        return true;
     }
 
     private redraw() {
@@ -78,9 +58,36 @@ export class PieChart extends React.Component<IPieChartProps, null> {
         this.draw();
     }
 
+    private _onResize() {
+        const pieComponentClass = classNames('pie-chart-component', this.props.id);
+        const node: any = document.getElementsByClassName(pieComponentClass)[0];
+        const width = node.offsetWidth;
+        const height = node.offsetHeight;
+        if(this._fullWidth !== width || this._fullHeight !== height) { this.rescale(width, height); }
+    }
+
+    private rescale(newWidth: number, newHeight: number) {
+        this._fullHeight = newHeight;
+        this._fullWidth = newWidth;
+        this._radius = this._fullWidth / 2;
+        this._mainContainer.attr('width', this._fullWidth).attr('height', this._fullHeight);
+        const arc = this.createArc();
+        const pie = this.createPie();
+        const color = this.createColorPallette();
+        this._chartContainer.selectAll('.pie-path')
+            .data(pie(this.props.data))
+            .enter().append('path')
+            .attr('d', arc)
+            .attr('class', 'pie-path')
+            .style('fill', (d) => color(d.data.label))
+            .on('mouseover', (d) => this._onMouseOver(d))
+            .on('mouseout', () => this._onMouseOut());
+    }
+
     public render() {
+        const pieComponentClass = classNames('pie-chart-component', this.props.id);
         return (
-            <div className={'pie-chart-component'}>
+            <div className={pieComponentClass} style={{width: this.props.dimensions.width, height: this.props.dimensions.height}}>
                 <Label className={'title'}>{this.props.title}</Label>
                 <Label className={'text'}>{this.props.text}</Label>
                 <div className={'pie-chart-container'} ref={'container'}></div>
@@ -89,13 +96,13 @@ export class PieChart extends React.Component<IPieChartProps, null> {
     }
 
     private draw() {
-        this._radius = (this.props.width - 2) / 4;
-        const svg = this.createContainer();
+        this._radius = this._fullWidth / 2;
+        this._chartContainer = this.createContainer();
         const pie = this.createPie();
         const arc = this.createArc();
         const color = this.createColorPallette();
 
-        svg.selectAll('.pie-path')
+        this._chartContainer.selectAll('.pie-path')
             .data(pie(this.props.data))
             .enter().append('path')
             .attr('d', arc)
@@ -104,24 +111,22 @@ export class PieChart extends React.Component<IPieChartProps, null> {
             .on('mouseover', (d) => this._onMouseOver(d))
             .on('mouseout', () => this._onMouseOut());
 
-        this.createTooltip(svg);
+        this.createTooltip(this._chartContainer);
     }
 
     private _onMouseOver(d) : any {
-        // d3.select(d3.event.currentTarget).attr('opacity', 0.75);
-        d3.select(d3.event.currentTarget).attr('transform', 'translate(10, -20)');
+        d3.select(d3.event.currentTarget).attr('opacity', 0.75); 
         this.showTooltip(d);
     }
 
     private _onMouseOut() : any {
-        // d3.select(d3.event.currentTarget).attr('opacity', 1);
-        d3.select(d3.event.currentTarget).attr('transform', 'translate(0, 0)');
+        d3.select(d3.event.currentTarget).attr('opacity', 1);
         this._focus.style('display', 'none');
     }
 
     private showTooltip(d: any) {
         const coordinates = this._arc.centroid(d);
-        const textRef = this._focus.select('text.tooltip-text').text(this.props.tipText(d.data));
+        const textRef = this._focus.select('text.tip-text').text(this.props.tipText(d.data));
         const textWidth = textRef.node().getComputedTextLength();
         const textPadding = 16;
 
@@ -133,17 +138,17 @@ export class PieChart extends React.Component<IPieChartProps, null> {
 
         this._focus.select('.tip-pol').attr('transform', translatePol);
         this._focus.select('.tip-rect').attr('width', textWidth + textPadding).attr('transform', translateTextArea);
-        this._focus.select('text.tooltip-text').attr('transform', translateText);
+        this._focus.select('text.tip-text').attr('transform', translateText);
     }
 
     private createContainer() {
-        return d3.select(this.refs.container).append('svg')
+        this._mainContainer = d3.select(this.refs.container).append('svg')
             .attr('class', 'svg-container ' + this.props.id)
-            .attr('width', this.props.width - 2)    // minus 2 because of border
-            .attr('height', this.props.height - 20)
-            .append('g')
+            .attr('width', this._fullWidth) 
+            .attr('height', this._fullHeight)
+        return this._mainContainer.append('g')
             .attr('class', 'pie-chart-g')
-            .attr('transform', 'translate(' + (this.props.width / 2) + ',' + (this.props.height / 2) + ')');
+            .attr('transform', 'translate(' + (this._fullWidth / 2) + ',' + (this._fullHeight / 2) + ')');
     }
 
     private createArc() : any {
@@ -153,17 +158,15 @@ export class PieChart extends React.Component<IPieChartProps, null> {
         return this._arc;
     }
 
-    private createFocus(svg: any) {
-        return svg.append('g').style('display', 'none');
-    }
-
     private createTooltip(container: any) {
-        this._focus = this.createFocus(container);
+        const tipClassName = classNames('tip', this.props.id);
+
+        this._focus = container.append('g').attr('class', classNames(tipClassName, 'tip-container')).style('display', 'none');
 
         this._focus.append('rect')
             .attr('height', 24)
             .attr('width', 100)
-            .attr('class', 'tip-rect')
+            .attr('class', classNames(tipClassName, 'tip-rect'))
             .attr('fill', 'white')
             .attr('x', 0)
             .attr('y', 0)
@@ -171,12 +174,12 @@ export class PieChart extends React.Component<IPieChartProps, null> {
 
         this._focus.append('polygon')
             .attr('fill', 'white')
-            .attr('class', 'tip-pol')
+            .attr('class', classNames(tipClassName, 'tip-pol'))
             .attr('points', '0,0 10,10 20,0')
             .attr('pointer-events', 'none');
 
         this._focus.append('text')
-            .attr('class', 'tooltip-text')
+            .attr('class', classNames(tipClassName, 'tip-text'))
             .attr('fill', 'black')
             .attr('dx', 8)
             .attr('dy', 14)

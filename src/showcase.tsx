@@ -59,10 +59,10 @@ export class Index extends React.Component<any, any> {
                 ]
         };
 
-        setInterval(() => {
-            this.setState({data2: null});
-            console.log('Hello');
-        }, 500);
+        // setInterval(() => {
+        //     this.setState({data2: null});
+        //     console.log('Hello');
+        // }, 500);
     }
 
     private generateValues(d: any[]) {
@@ -75,15 +75,12 @@ export class Index extends React.Component<any, any> {
         return (
             <div>
                 <PieChart
-                        id={'chart-1'} 
-                        text={'Sample text'} 
-                        title={'Partition C:'} 
-                        height={400} 
-                        width={400} 
+                        id={'chart-1'}
+                        dimensions={{width: '100%', height: '300px'}}
                         data={data}
                         colors={['#344086', '#8bd764', '#f3f986', '#ec1271', '#636363', 'red', 'green', 'purple', 'aquamarine', 'lightgrey']}
-                        tipText={(d: IPieChartData) => ('asduhgasdouasdhalidjladba dadfadhaisasubsdauhd adjladhjkaushdkahs aldijasdhas')}
-                ></PieChart><br/>
+                        tipText={(d: IPieChartData) => (d.label + ' : ' + d.value)}/>
+                <br/>
                 <Ribbon items={[]}></Ribbon>
                 <AddToFavorites favorited={true} />
                 <AddToFavorites favorited={false} />
