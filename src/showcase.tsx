@@ -52,7 +52,7 @@ import { ProgressBar } from './components/ProgressBar/ProgressBar';
 import { PieChart } from './components/PieChart/PieChart';
 import { DataGenerator } from './utilities/DataGenerator';
 import {IFarm , ISharePointServer, ServerStatus} from './models';
-import { BarChart } from './components/BarChart/BarChart';
+// import { BarChart } from './components/BarChart/BarChart';
 import { data, updatedData } from './/mockData/barChart';
 import { IBarChartData } from './components/BarChart/BarChart.props';
 
@@ -122,7 +122,7 @@ export class Index extends React.Component<any, any> {
                         <Icon className="icon-Edit"></Icon>
                     </div>
                 </TagContainer>
-                <BarChart id={'bar-chart-1'} data={this.state.data} dimensions={{width: '100%', height: '300px'}}/>
+                {/*<BarChart id={'bar-chart-1'} data={this.state.data} dimensions={{width: '100%', height: '300px'}}/>*/}
                 <Ribbon items={[]}></Ribbon>
                 <AddToFavorites favorited={true} />
                 <AddToFavorites favorited={false} />

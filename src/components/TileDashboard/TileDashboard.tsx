@@ -68,7 +68,6 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
                                     }.bind(this)}
                                     rowRenderer={this._renderRow}
                                     width={width}
-                                    verticalOverscanSize={5}
                                     />
                             )}
                         </AutoSizer>
@@ -119,9 +118,6 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
                                 {
                                     server.roles.length > 0 &&
                                     <TagContainer title={''} tags={server.roles}>
-                                        <div className="edit-tags tag" title="Edit tags" onClick={this.props.serverRoleEdit}>
-                                            <Icon className="icon-Edit"></Icon>
-                                        </div>
                                     </TagContainer>
                                 }
                             </ServerTile>
@@ -151,31 +147,37 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
 
 function convertDisk(measure: IMeasure): ITileData {
     let disk = measure as DiskMeasure;
-    let maxWrite = disk.partitions.map(p => {
-        return p.writeSpeed;
-    }).reduce(function (a, b) {
-        return Math.max(a, b);
-    });
-    let partitionText = disk.partitions.map((p) => {
-        return (p.size - p.freeMB) + '/' + p.size;
-    });
+    let usageUnit = 'KB/s';
+    let value = disk.totalDiskIo.toString();
+
+    if (disk.totalDiskIo > 1024) {
+        value = (disk.totalDiskIo / 1024).toFixed(1);
+        usageUnit = 'MB/s';
+    }
+
     return {
         title: 'Disk',
-        usageUnit: 'Mbps',
-        hoverText: partitionText,
+        usageUnit: usageUnit,
+        hoverText: [],
         status: disk.status,
-        currentUsage: maxWrite.toString()
+        currentUsage: value
     };
 }
 
 function convertNetwork(measure: IMeasure): ITileData {
     let network = measure as NetworkMeasure;
+    let usageUnit = 'kbps';
+    let value = network.kbTotal.toString();
+    if (network.kbTotal > 1024) {
+        value = (network.kbTotal / 1024).toFixed(1);
+        usageUnit = 'Mbps';
+    }
     return {
         title: 'Network',
-        usageUnit: 'kB',
-        hoverText: [network.kBRecieved],
+        usageUnit: usageUnit,
+        hoverText: [''],
         status: network.status,
-        currentUsage: network.kbSent
+        currentUsage: value
     };
 }
 

@@ -37,10 +37,8 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
         let nextView = -1;
         if (item.props.linkText.toLowerCase().trim().indexOf('tiles') !== -1 ) {
             nextView = ActiveDashboard.Tiles;
-        } else  if (item.props.linkText.toLowerCase().trim().indexOf('compact horizontal') !== -1 ) {
+        } else  if (item.props.linkText.toLowerCase().trim().indexOf('compact') !== -1 ) {
             nextView = ActiveDashboard.CompactHorizontal;
-        } else  if (item.props.linkText.toLowerCase().trim().indexOf('compact vertical') !== -1 ) {
-            nextView = ActiveDashboard.CompactVertical;
         }
         this.setState({ activeView: nextView });
     }

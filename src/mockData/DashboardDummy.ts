@@ -112,27 +112,23 @@ export function generateMeasures(): Array<IMeasure> {
     let networkMeasure: NetworkMeasure = {
         type: MeasureType.Network,
         status: generateRandomStatus(),
-        kbSent: generateNetworkSpeed().toString(),
-        kBRecieved: generateNetworkSpeed().toString(),
+        kbTotal: generateNetworkSpeed(),
         time: new Date(Date.now())
     };
     let diskMeasure: DiskMeasure = {
         type: MeasureType.Disk,
         status: generateRandomStatus(),
+        totalDiskIo: generateNetworkSpeed(),
         partitions: [
             {
                 name: 'C',
                 freeMB: generatePercentage(),
                 size: generatePercentage() + 100,
-                readSpeed: generateNetworkSpeed(),
-                writeSpeed: generateNetworkSpeed()
             },
             {
                 name: 'F',
                 freeMB: generatePercentage(),
                 size: generatePercentage() + 100,
-                readSpeed: generateNetworkSpeed(),
-                writeSpeed: generateNetworkSpeed()
             }
         ],
         time: new Date(Date.now())
