@@ -2,6 +2,7 @@
 import { ICompactDashboardProps } from '../components/CompactDashboard';
 import { ITileDashboardProps, ITiledDashboardFarm, ITiledDashboardServer } from '../components/TileDashboard';
 import { IDashboardProps } from '../components/Dashboard';
+import { ActiveDashboard } from '../components/DashboardHeader/DashboardHeader.Props';
 import { IFarm, ServerStatus, IMeasure, MeasureType, CpuMeasure, Partition, DiskMeasure, NetworkMeasure, RamMeasure } from '../models';
 import { farms } from './farms';
 
@@ -26,7 +27,7 @@ export const dummyDashboard: IDashboardProps = {
     activeView: 0,
     hasAddButton: true,
     headerClass: '',
-    differentDashboards: [{ linkText: 'Compact Horizontal' }, { linkText: 'Tiles' }, { linkText: 'Compact Vertical' }],
+    differentDashboards: { 0: { linkText: 'Compact Horizontal' }, 2: { linkText: 'Tiles' }, 1: { linkText: 'Compact Vertical' } },
     farms: farms.map(convertFarm),
     addFarm: () => { console.log('Adding new farm, wop wop'); },
     groupAddFunc: (groupId: any) => { console.log('Clicked add icon of group ' + groupId); },

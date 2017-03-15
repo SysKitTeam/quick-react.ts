@@ -5,6 +5,7 @@ import { CompactDashboard } from '../CompactDashboard/CompactDashboard';
 import { TileDashboard } from '../TileDashboard/TileDashboard';
 import { ICompactDashboardProps } from '../CompactDashboard/CompactDashboard.Props';
 import { ActiveDashboard } from '../DashboardHeader/DashboardHeader.Props';
+import { PivotItem } from '../Pivot/PivotItem';
 import './Dashboard.scss';
 
 import { autobind } from '../../utilities/autobind';
@@ -33,14 +34,8 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
 
 
     @autobind
-    changeView(item) { 
-        let nextView = -1;
-        if (item.props.linkText.toLowerCase().trim().indexOf('tiles') !== -1 ) {
-            nextView = ActiveDashboard.Tiles;
-        } else  if (item.props.linkText.toLowerCase().trim().indexOf('compact') !== -1 ) {
-            nextView = ActiveDashboard.CompactHorizontal;
-        }
-        this.setState({ activeView: nextView });
+    changeView(item?: PivotItem, ev?: React.MouseEvent<any>) {
+        this.setState({ activeView: Number(item.props.itemKey) });
     }
 
     render() {
@@ -48,27 +43,36 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
         let {filter, activeView} = this.state;
         return (
             <div className="dashboard">
-                <DashboardHeader 
-                    onAddFarmClick={this.props.addFarm} headerClass={headerClass}  pivotItems={this.props.differentDashboards} hasAddFarmButton={hasAddButton} onChanged={this.changeSearchFilter} filter={filter} title={this.props.title} onViewChange={this.changeView} />
+                <DashboardHeader
+                    onAddFarmClick={this.props.addFarm}
+                    headerClass={headerClass}
+                    pivotItems={this.props.differentDashboards}
+                    hasAddFarmButton={hasAddButton}
+                    onChanged={this.changeSearchFilter}
+                    filter={filter}
+                    title={this.props.title}
+                    onViewChange={this.changeView}
+                    selectedDashboardKey={activeView}
+                     />
                 {
-                    ((activeView === ActiveDashboard.CompactHorizontal || activeView ===  ActiveDashboard.CompactVertical)) &&
-                    <CompactDashboard filter={filter} 
-                        className={'viewport-height'} 
-                        title={this.props.title} 
-                        farms={this.props.farms} 
-                        isVertical={activeView === ActiveDashboard.CompactVertical} 
+                    ((activeView === ActiveDashboard.CompactHorizontal || activeView === ActiveDashboard.CompactVertical)) &&
+                    <CompactDashboard filter={filter}
+                        className={'viewport-height'}
+                        title={this.props.title}
+                        farms={this.props.farms}
+                        isVertical={activeView === ActiveDashboard.CompactVertical}
                         groupEditFunc={this.props.groupEditFunc}
                         groupAddFunc={this.props.groupEditFunc}
                         groupDeleteFunc={this.props.groupDeleteFunc}
                         groupOnClick={this.props.groupOnClick}
                         serverRoleEdit={this.props.serverRoleEdit}
                         serverClose={this.props.serverClose}
-                    />
+                        />
                 }
-                { 
+                {
                     (activeView === ActiveDashboard.Tiles) &&
-                    <TileDashboard 
-                        className={'viewport-height'} 
+                    <TileDashboard
+                        className={'viewport-height'}
                         farms={this.props.farms}
                         filter={filter}
                         groupEditFunc={this.props.groupEditFunc}
@@ -77,8 +81,7 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
                         groupOnClick={this.props.groupOnClick}
                         serverRoleEdit={this.props.serverRoleEdit}
                         serverClose={this.props.serverClose}
-                    />
-
+                        />
                 }
             </div>
         );
@@ -88,6 +91,4 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
     private changeSearchFilter(newValue: any) {
         this.setState({ filter: newValue });
     }
-
-
 }

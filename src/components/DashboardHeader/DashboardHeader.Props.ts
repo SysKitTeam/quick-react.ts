@@ -14,9 +14,10 @@ export interface IDashboardHeaderProps {
     filter: string;
     headerClass?: string;
     hasAddFarmButton?: boolean;
-    onViewChange: (item?: any) => void;
+    onViewChange: (item?: PivotItem, ev?: React.MouseEvent<any>) => void;
     onSearch?: (newValue: any) => void;
     onChanged?: (newValue: any) => void;
     onAddFarmClick?: () => void;
-    pivotItems?: Array<IPivotItemProps>;
+    pivotItems?: { [id: number]: IPivotItemProps };
+    selectedDashboardKey: any;
 }
