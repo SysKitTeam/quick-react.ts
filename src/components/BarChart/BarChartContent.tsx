@@ -36,7 +36,7 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
     }
 
     public componentDidUpdate() {
-        this.bindData();    // DRUGACIJA IMPLEMENTACIJA !!!
+        this.bindData();
         this.calculate();
     }
 
@@ -73,8 +73,6 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
         const barClassName = classNames('bar-char-component', 'bar', this.props.id);
         const x = this.generateX();
         const y = this.generateY();
-
-        const dataSize = this.props.data.length;
 
         return this.props.data.map(
             (data: IBarChartData, index: number) =>

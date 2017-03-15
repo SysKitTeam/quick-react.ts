@@ -55,6 +55,9 @@ export class BarChart extends React.PureComponent<IBarChartProps, any> {
     private onResize() : void {
         const width = this.containerRef.offsetWidth;
         const height = this.containerRef.offsetHeight;
-        if(this.state.fullWidth !== width || this.state.fullHeight !== height) {  this.setState({ fullWidth: width, fullHeight: height }); }
+        if (this.state.fullWidth !== width || this.state.fullHeight !== height) {
+            this.setState({ fullWidth: width, fullHeight: height }); 
+            this.forceUpdate(); 
+        }
     }
 }

@@ -64,13 +64,17 @@ export class Index extends React.PureComponent<any, any> {
             data: data
         };
 
-        setInterval(() => this.setState({ data: updatedData }), 3000);
+        // setInterval(() => this.setState({ data: updatedData }), 3000);
     }
 
     public render() {
         return (
             <div>
-                <BarChart id={'bar-chart-1'} data={this.state.data} dimensions={{width: '100%', height: '300px'}} onClick={data => console.log(data)}/>
+                <BarChart 
+                    id={'bar-chart-1'} 
+                    data={this.state.data} 
+                    dimensions={{width: '100%', height: '300px'}} 
+                    onClick={data => console.log(data)} />
             </div>);
     };
 };
