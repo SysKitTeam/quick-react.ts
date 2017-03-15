@@ -145,14 +145,18 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
     }
 }
 
+const emptyValueString = '--';
 function convertDisk(measure: IMeasure): ITileData {
     let disk = measure as DiskMeasure;
-    let usageUnit = 'KB/s';
-    let value = disk.totalDiskIo.toString();
-
-    if (disk.totalDiskIo > 1024) {
-        value = (disk.totalDiskIo / 1024).toFixed(1);
-        usageUnit = 'MB/s';
+    let usageUnit = '';
+    let value = emptyValueString;
+    if (disk.totalDiskIo) {
+        usageUnit = 'KB/s';
+        value = disk.totalDiskIo.toString();
+        if (disk.totalDiskIo > 1024) {
+            value = (disk.totalDiskIo / 1024).toFixed(1);
+            usageUnit = 'MB/s';
+        }
     }
 
     return {
@@ -166,12 +170,17 @@ function convertDisk(measure: IMeasure): ITileData {
 
 function convertNetwork(measure: IMeasure): ITileData {
     let network = measure as NetworkMeasure;
-    let usageUnit = 'kbps';
-    let value = network.kbTotal.toString();
-    if (network.kbTotal > 1024) {
-        value = (network.kbTotal / 1024).toFixed(1);
-        usageUnit = 'Mbps';
+    let usageUnit = '';
+    let value = emptyValueString;
+    if (network.kbTotal) {
+        usageUnit = 'kbps';
+        value = network.kbTotal.toString();
+        if (network.kbTotal > 1024) {
+            value = (network.kbTotal / 1024).toFixed(1);
+            usageUnit = 'Mbps';
+        }
     }
+
     return {
         title: 'Network',
         usageUnit: usageUnit,
@@ -183,19 +192,26 @@ function convertNetwork(measure: IMeasure): ITileData {
 
 function convertRam(measure: IMeasure): ITileData {
     let ram = measure as RamMeasure;
-    let used = ram.used.toFixed(1);
-    let capacity = ram.capacity.toFixed(1);
-    let usageUnit = 'MB';
-
-    if (ram.used > 1024 || ram.capacity > 1024) {
-        used = (ram.used / 1024).toFixed(1);
-        capacity = (ram.capacity / 1024).toFixed(1);
-        usageUnit = 'GB';
+    let used = emptyValueString;
+    let capacity = '';
+    let hoverText = '';
+    let usageUnit = '';
+    if (ram.used) {
+        used = ram.used.toFixed(1);
+        capacity = ram.capacity.toFixed(1);
+        usageUnit = 'MB';
+        hoverText = (used) + '/' + capacity + '' + usageUnit;
+        if (ram.used > 1024 || ram.capacity > 1024) {
+            used = (ram.used / 1024).toFixed(1);
+            capacity = (ram.capacity / 1024).toFixed(1);
+            usageUnit = 'GB';
+        }
     }
+
     return {
         title: 'Memory',
         usageUnit: usageUnit,
-        hoverText: [(used) + '/' + capacity + '' + usageUnit],
+        hoverText: [hoverText],
         status: ram.status,
         currentUsage: used.toString()
     };
@@ -203,11 +219,17 @@ function convertRam(measure: IMeasure): ITileData {
 
 function convertCPU(measure: IMeasure): ITileData {
     let cpu = measure as CpuMeasure;
+    let usage = emptyValueString;
+    let usageUnit = '';
+    if (cpu.usage) {
+        usageUnit = '%';
+        usage = cpu.usage.toString();
+    }
     return {
         title: 'CPU',
-        usageUnit: '%',
+        usageUnit: usageUnit,
         hoverText: [''],
         status: cpu.status,
-        currentUsage: cpu.usage.toString()
+        currentUsage: usage
     };
 }
