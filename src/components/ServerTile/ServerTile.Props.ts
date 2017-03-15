@@ -7,8 +7,7 @@ export interface IServerTileProps extends ISharePointServer {
      * Disk information that is displayed on icon hover in the header of the component.
      * Each row should display the partition name, as well as the usage of each one. 
      */
-    diskInformation: Array<string>;
-    hasCloseButton?: boolean;    
+    diskInformation?: Array<string>;
     countersData: Array<ITileData>;
 }
 

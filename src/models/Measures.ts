@@ -21,12 +21,11 @@ export interface Partition {
     name: string;
     freeMB: number;
     size: number;
-    readSpeed: number;
-    writeSpeed: number;
 }
 
 export interface DiskMeasure extends IMeasure {
     partitions: Array<Partition>;    
+    totalDiskIo: number;
     type: MeasureType.Disk;
 }
 
@@ -41,13 +40,12 @@ export interface CpuMeasure extends IMeasure {
 
 export interface RamMeasure extends IMeasure {
     type: MeasureType.Ram;
-    availableMB: number;
+    used: number;
     capacity: number;
 }
 
 export interface NetworkMeasure extends IMeasure {
-    kBRecieved: string;
-    kbSent: string;
+    kbTotal: number;
     type: MeasureType.Network;
 }
 
