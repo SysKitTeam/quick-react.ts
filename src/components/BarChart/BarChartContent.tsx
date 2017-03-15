@@ -8,6 +8,7 @@ const margin = { top: 50, right: 40, bottom: 70, left: 80 };
 
 export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
     private tooltip: SVGAElement;
+    private selected;
 
     constructor(props: IBarChartProps) {
         super(props);
@@ -73,17 +74,33 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
         const x = this.generateX();
         const y = this.generateY();
 
+        const dataSize = this.props.data.length;
+
         return this.props.data.map(
-            (data: IBarChartData, index: number) => 
-                <rect className={ barClassName }
+            (data: IBarChartData, index: number) =>
+                    <rect className={ index === this.props.selectedIndex ? classNames(barClassName, 'clicked') : barClassName }
                         key={index}
                         x={ x(data.argument) }
                         y={ y(data.frequency) }
                         width={ x.bandwidth() }
                         height={ this.state.containerHeight - y(data.frequency) }
-                        onMouseOver={(event: React.MouseEvent<SVGAElement>) => this._onMouseOver(event.currentTarget)}
-                        onMouseOut={() => d3.select(this.tooltip).style('display', 'none')}/>
+                        onMouseOver={(event: React.MouseEvent<SVGAElement>) => this.onMouseOver(event.currentTarget)}
+                        onMouseOut={() => d3.select(this.tooltip).style('display', 'none')}
+                        onClick={(event: React.MouseEvent<SVGAElement>) => this.handleOnClick(event.currentTarget)}/>
         );
+    }
+
+    private handleOnClick(element: SVGAElement) {
+        if (this.selected === undefined) {
+            const bar = d3.selectAll('.bar-chart-container.' + this.props.id + '> .bar').nodes()[this.props.selectedIndex];
+            d3.select(bar).classed('clicked', false);
+            this.selected = d3.select(element); 
+        } else {
+            this.selected.classed('clicked', false);
+            this.selected = d3.select(element);
+        }
+        this.selected.classed('clicked', true);
+        this.props.onClick(this.selected.datum() as IBarChartData);
     }
 
     private renderXAxis(element: SVGAElement) {
@@ -94,11 +111,8 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
 
     private renderYAxis(element: SVGAElement) {
         if (element === null) { return; }
-
-        let tickValues = Array(0);
-
-
-        const yAxis = d3.axisLeft(this.generateY()).tickSizeInner(-this.state.containerWidth).tickValues(d3.extent(this.props.data, (d: IBarChartData) => d.frequency)).tickPadding(5);
+        const y = this.generateY();
+        const yAxis = d3.axisLeft(y).tickSizeInner(-this.state.containerWidth).ticks(5).tickPadding(5);
         d3.select(element).call(yAxis);
     }
 
@@ -116,7 +130,7 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
         return formatFunc(this.props.xAxisFormat());
     }
 
-    private _onMouseOver(element: SVGAElement) {
+    private onMouseOver(element: SVGAElement) {
         const tipContainer = d3.select(this.tooltip);
         tipContainer.style('display', 'block');
 
@@ -138,23 +152,21 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
 
     private calculate() {
         const spacing = 80;
-        const labels = d3.selectAll('.x-axis.' + this.props.id + ' > .tick > text').nodes();
-        let totalLength = 0;
-        labels.forEach((element : any) => totalLength += element.getComputedTextLength());
+
+        const labels = d3.selectAll('.x-axis.' + this.props.id + ' > .tick > text');
         const rects = d3.selectAll('.bar.' + this.props.id).nodes();
+
+        let totalTextLength = 0;
+        labels.nodes().forEach( (element: any) => totalTextLength += element.getComputedTextLength() );
+        
         let totalRectLength = 0;
-        rects.forEach((element: any) => {
-            const attributes = element.getBBox();
-            totalRectLength += attributes.width;
-        });
+        rects.forEach( (element: SVGAElement) => totalRectLength += element.getBBox().width );
 
-        const elements = d3.selectAll('.x-axis.' + this.props.id + '> .tick > text');
-
-        if (totalLength > totalRectLength - spacing ) {
-            elements.attr('transform', 'rotate(45)').attr('y', 10)
+        if (totalTextLength > totalRectLength - spacing ) {
+            labels.attr('transform', 'rotate(45)').attr('y', 10)
                 .attr('x', 10).attr('dy', '.35em').style('text-anchor', 'start');
         } else {
-            elements.attr('transform', 'rotate(0)').attr('x', 0).style('text-anchor', 'middle');
+            labels.attr('transform', 'rotate(0)').attr('x', 0).style('text-anchor', 'middle');
         }
     }
 }

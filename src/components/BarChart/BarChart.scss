@@ -27,34 +27,27 @@
     }
 
     .bar {
-        fill: lightblue;
+        fill: #ff9900;
+
+        &.clicked {
+            fill: #00ff99;
+        }
     }
 
     .bar:hover {
-        fill: red;
+        fill: #00ff99;
     }
 
     .tip-container {
-
-        &.hidden {
-            display: none;
-        }
-
-        &.displayed {
-            display: block;
-        }
-
         polygon, rect {
-            fill: white;
-            stroke: lightgrey;
-            stroke-width: 1;
+            fill: #f6f6f6;
         }
 
         .tip-text {
             font-family: $font-family-base;
             font-size: 12px;
             fill: #898989;
-            font-weight: 500;
+            font-weight: 400;
         }
     }
 }

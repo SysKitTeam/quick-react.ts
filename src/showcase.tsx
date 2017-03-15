@@ -70,7 +70,7 @@ export class Index extends React.PureComponent<any, any> {
     public render() {
         return (
             <div>
-                <BarChart id={'bar-chart-1'} data={this.state.data} dimensions={{width: '100%', height: '300px'}}/>
+                <BarChart id={'bar-chart-1'} data={this.state.data} dimensions={{width: '100%', height: '300px'}} onClick={data => console.log(data)}/>
             </div>);
     };
 };
