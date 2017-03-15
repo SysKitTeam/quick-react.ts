@@ -26,7 +26,24 @@
         }
     }
 
+    .bar {
+        fill: lightblue;
+    }
+
+    .bar:hover {
+        fill: red;
+    }
+
     .tip-container {
+
+        &.hidden {
+            display: none;
+        }
+
+        &.displayed {
+            display: block;
+        }
+
         polygon, rect {
             fill: white;
             stroke: lightgrey;

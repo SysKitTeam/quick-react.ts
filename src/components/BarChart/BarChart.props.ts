@@ -1,7 +1,5 @@
 export interface IBarChartProps {
     id: string;
-    barColor?: string;
-    hovColor?: string;
     data: Array<IBarChartData>;
     tipText?: (data: IBarChartData) => string;
     xAxisFormat?: () => string;
