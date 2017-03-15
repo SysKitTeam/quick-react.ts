@@ -32,12 +32,12 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
 
     public componentDidMount() {
         this.bindData();
-        this.calculate();
+        this.calculateAvailableSpace();
     }
 
     public componentDidUpdate() {
         this.bindData();
-        this.calculate();
+        this.calculateAvailableSpace();
     }
 
     private bindData() : void {
@@ -148,7 +148,7 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
         textRef.attr('transform', 'translate(' + xRect + ',' + height + ')');
     }
 
-    private calculate() {
+    private calculateAvailableSpace() {
         const spacing = 80;
 
         const labels = d3.selectAll('.x-axis.' + this.props.id + ' > .tick > text');
