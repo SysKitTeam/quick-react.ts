@@ -34,7 +34,7 @@ export class PieChartContent extends React.PureComponent<IPieChartProps, any> {
             for (let i = 0; i < props.displayingElements - 1; i++) { data.push(sortedData[i]); }
             
             let value = 0;
-            for (let i = props.data.length - 1; i >= props.data.length - props.displayingElements - 2; i--) { value += sortedData[i].value; }
+            for (let i = props.displayingElements - 1; i < props.data.length; i++) { value += sortedData[i].value; }
             data.push({ label: 'Other', value: value });
 
             return data;
