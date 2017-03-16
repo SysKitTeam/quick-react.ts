@@ -1,57 +1,49 @@
-export const data = [
+export const pieData = [
     {
-        label: "Unexpected",
+        label: 'Ana',
         value: 290
       },
       {
-        label: "Monitorable",
+        label: 'Ivana',
         value: 26
       },
       {
-        label: "High",
+        label: 'Sanja',
         value: 20691
       },
       {
-        label: "Critical",
+        label: 'Marko',
         value: 1412
       },
       {
-        label: "Error",
+        label: 'Luka',
         value: 240
       },
       {
-        label: "Exception",
+        label: 'Kreso',
         value: 10
-      },
-      {
-        label: "Warning",
-        value: 106
-      },
-      {
-        label: "Information",
-        value: 1542
       }
 ];
 
-export const updatedData = [
+export const pieUpdatedData = [
     {
-        label: "Unexpected",
+        label: 'Ana',
         value: 123
       },
       {
-        label: "Monitorable",
+        label: 'Luka',
         value: 57
       },
       {
-        label: "High",
+        label: 'Ivana',
         value: 643
       },
       {
-        label: "Critical",
+        label: 'Matija',
         value: 1800
       },
       {
-        label: "Error",
+        label: 'Mirko',
         value: 233
       }
 ];

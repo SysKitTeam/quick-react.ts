@@ -53,62 +53,21 @@ import { PieChart } from './components/PieChart/PieChart';
 import { IPieChartData } from './components/PieChart/PieChart.props';
 import { IFarm, ISharePointServer, ServerStatus } from './models';
 import { DataGenerator } from './utilities/DataGenerator';
-// import { BarChart } from './components/BarChart/BarChart';
-import { data, updatedData } from './/mockData/barChart';
+import { BarChart } from './components/BarChart/BarChart';
+import { barData, barUpdatedData } from './/mockData/barChart';
+import { pieData, pieUpdatedData } from './/mockData/pieData';
+
 import { IBarChartData } from './components/BarChart/BarChart.props';
 
-export class Index extends React.Component<any, any> {
+export class Index extends React.PureComponent<any, any> {
     constructor() {
         super();
-        this.state = { data: updatedData };
-
-        setTimeout(() => this.setState({data: updatedData}), 2000);
-        let pieData = [];
-        this.state = {
-            showDialog: false,
-            treeviewElements: elements,
-            selector: true,
-            cpu: '74',
-            farms: dummyDashboard.farms,
-            width: 600,
-            data: updatedData
+        this.state = { 
+            pieData: pieData,
+            barData: barData
         };
-        
-        setInterval(() => { 
-            let newFarms = this.state.farms.map((farm: IFarm) => {
 
-                let servers = farm.servers.map((server: ISharePointServer) => {
-                    let measures = generateMeasures();
-                    let status = ServerStatus.Offline;
-                    if (measures.length > 0) {
-                        status = ServerStatus.OK;
-                        if (measures.filter(t => { return t.status === ServerStatus.Warning; }).length > 0) {
-                            status = ServerStatus.Warning;
-                        }
-                        if (measures.filter(t => { return t.status === ServerStatus.Critical; }).length > 0) {
-                            status = ServerStatus.Critical;
-                        }
-                    }
-                    return {
-                        id: server.id,
-                        status: status,
-                        roles: server.roles,
-                        onRoleEdit: server.onRoleEdit,
-                        onClose: server.onClose,
-                        name: server.name,
-                        measures: measures
-                    };
-                });
-                return {
-                    id: farm.id,
-                    isCustom: farm.isCustom,
-                    version: farm.version,
-                    name: farm.name,
-                    servers: servers
-                };
-            });
-            this.setState({ farms: newFarms });
-        }, 2000);
+        // setInterval(() => this.setState({ pieData: pieUpdatedData }), 3000);
     }
 
     public render() {
@@ -116,11 +75,18 @@ export class Index extends React.Component<any, any> {
             <div>
                 <PieChart
                         id={'chart-1'}
-                        dimensions={{width: '25%', height: '100px'}}
-                        data={this.state.data}
+                        dimensions={{width: '50%', height: '300px'}}
+                        data={this.state.pieData}
                         colors={['#344086', '#8bd764', '#f3f986', '#ec1271', '#636363', 'red', 'green', 'purple', 'aquamarine', 'lightgrey']}
-                        tipText={(d: IPieChartData) => (d.label + ' : ' + d.value)}/>
+                        tipText={(d: IPieChartData) => (d.label + ' : ' + d.value)}
+                        displayingElements={2}/>
                 <br/>
+                <BarChart
+                    id={'bar-chart-1'}
+                    data={this.state.barData}
+                    dimensions={{width: '75%', height: '300px'}}
+                    onClick={data => console.log(data)}
+                    selectedIndex={4}/>
             </div>
         );
     };

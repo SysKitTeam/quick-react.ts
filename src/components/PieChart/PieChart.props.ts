@@ -8,6 +8,7 @@ export interface IPieChartProps {
     dimensions: Dimensions;
     height?: number;
     width?: number;
+    displayingElements?: number;
 }
 
 export interface IPieChartData {
