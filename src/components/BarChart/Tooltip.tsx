@@ -3,6 +3,8 @@ import * as classNames from 'classnames';
 import * as d3 from 'd3';
 import { ITooltipProps } from './Tooltip.props';
 
+import './Tooltip.scss';
+
 const padding = { top: 5, right: 5, bottom: 5, left: 5 };
 const TEXT_Y_TRANSLATE = 3.3;    // constant that best approximates text position inside rectangle
 const TIP_ARROW_HEIGHT = 10;
@@ -33,7 +35,7 @@ export class Tooltip extends React.PureComponent<ITooltipProps, any> {
         const visibility = this.props.visible ? 'block' : 'none';
         
         return (
-            <g className={classNames(tipClass, 'tip-container')} style={{ display: visibility }} transform={translate}>
+            <g className={classNames(tipClass, 'tip-container')} style={{ display: visibility}} transform={translate}>
                 <polygon className={classNames(tipClass, 'tip-pol')} 
                     points={this.state.arrowPoints}/>
                 <rect className={classNames(tipClass, 'tip-rect')} 

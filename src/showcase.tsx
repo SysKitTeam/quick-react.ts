@@ -64,7 +64,7 @@ export class Index extends React.PureComponent<any, any> {
             data: data
         };
 
-        setInterval(() => this.setState({ data: updatedData }), 3000);
+        // setInterval(() => this.setState({ data: updatedData }), 3000);
     }
 
     public render() {
@@ -74,7 +74,8 @@ export class Index extends React.PureComponent<any, any> {
                     id={'bar-chart-1'} 
                     data={this.state.data} 
                     dimensions={{width: '75%', height: '300px'}} 
-                    onClick={data => console.log(data)} />
+                    onClick={data => console.log(data)} 
+                    selectedIndex={4}/>
             </div>);
     };
 };
