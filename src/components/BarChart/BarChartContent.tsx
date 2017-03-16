@@ -131,6 +131,7 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
         const dimensions = element.getBBox();
         const data = (d3.select(element).datum() as IBarChartData);
         const tipText = this.props.tipText(data);
+        console.log(dimensions.x + (dimensions.width/2), dimensions.y);
         this.setState({ tipX: dimensions.x + (dimensions.width / 2), tipY: dimensions.y, tipText: tipText, isTipVisible: true });
     }
 

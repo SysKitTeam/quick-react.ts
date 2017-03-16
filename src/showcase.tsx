@@ -64,7 +64,7 @@ export class Index extends React.PureComponent<any, any> {
             data: data
         };
 
-        // setInterval(() => this.setState({ data: updatedData }), 3000);
+        setInterval(() => this.setState({ data: updatedData }), 3000);
     }
 
     public render() {
