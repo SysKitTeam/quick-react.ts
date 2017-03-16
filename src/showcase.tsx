@@ -51,15 +51,64 @@ import { LineChart } from './components/LineChart/LineChart';
 import { ProgressBar } from './components/ProgressBar/ProgressBar';
 import { PieChart } from './components/PieChart/PieChart';
 import { IPieChartData } from './components/PieChart/PieChart.props';
-import { data, updatedData } from './MockData/pieData';
 import { IFarm, ISharePointServer, ServerStatus } from './models';
+import { DataGenerator } from './utilities/DataGenerator';
+// import { BarChart } from './components/BarChart/BarChart';
+import { data, updatedData } from './/mockData/barChart';
+import { IBarChartData } from './components/BarChart/BarChart.props';
 
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
         this.state = { data: updatedData };
 
-        // setTimeout(() => this.setState({data: updatedData}), 2000);
+        setTimeout(() => this.setState({data: updatedData}), 2000);
+        let pieData = [];
+        this.state = {
+            showDialog: false,
+            treeviewElements: elements,
+            selector: true,
+            cpu: '74',
+            farms: dummyDashboard.farms,
+            width: 600,
+            data: updatedData
+        };
+        
+        setInterval(() => { 
+            let newFarms = this.state.farms.map((farm: IFarm) => {
+
+                let servers = farm.servers.map((server: ISharePointServer) => {
+                    let measures = generateMeasures();
+                    let status = ServerStatus.Offline;
+                    if (measures.length > 0) {
+                        status = ServerStatus.OK;
+                        if (measures.filter(t => { return t.status === ServerStatus.Warning; }).length > 0) {
+                            status = ServerStatus.Warning;
+                        }
+                        if (measures.filter(t => { return t.status === ServerStatus.Critical; }).length > 0) {
+                            status = ServerStatus.Critical;
+                        }
+                    }
+                    return {
+                        id: server.id,
+                        status: status,
+                        roles: server.roles,
+                        onRoleEdit: server.onRoleEdit,
+                        onClose: server.onClose,
+                        name: server.name,
+                        measures: measures
+                    };
+                });
+                return {
+                    id: farm.id,
+                    isCustom: farm.isCustom,
+                    version: farm.version,
+                    name: farm.name,
+                    servers: servers
+                };
+            });
+            this.setState({ farms: newFarms });
+        }, 2000);
     }
 
     public render() {

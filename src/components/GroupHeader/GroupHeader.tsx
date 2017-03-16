@@ -19,7 +19,7 @@ export class GroupHeader extends React.Component<IGroupHeaderProps, any> {
             <div className={classname} >
                 <div><Icon iconName={version.icon}></Icon><i className="farm-header-info" title="SharePoint version">SharePoint {version.version}</i> </div>
                 {
-                    isCustomFarm &&
+                    !isCustomFarm &&
                     <div><Icon iconName={farmId.configDataBaseIcon}></Icon><i className="farm-header-info">{farmId.configDataBaseName}</i></div>
                 }                            
             </div>

@@ -2,6 +2,7 @@
 import { ICompactDashboardProps } from '../components/CompactDashboard';
 import { ITileDashboardProps, ITiledDashboardFarm, ITiledDashboardServer } from '../components/TileDashboard';
 import { IDashboardProps } from '../components/Dashboard';
+import { ActiveDashboard } from '../components/DashboardHeader/DashboardHeader.Props';
 import { IFarm, ServerStatus, IMeasure, MeasureType, CpuMeasure, Partition, DiskMeasure, NetworkMeasure, RamMeasure } from '../models';
 import { farms } from './farms';
 
@@ -26,7 +27,7 @@ export const dummyDashboard: IDashboardProps = {
     activeView: 0,
     hasAddButton: true,
     headerClass: '',
-    differentDashboards: [{ linkText: 'Compact Horizontal' }, { linkText: 'Tiles' }, { linkText: 'Compact Vertical' }],
+    differentDashboards: { 0: { linkText: 'Compact Horizontal' }, 2: { linkText: 'Tiles' }, 1: { linkText: 'Compact Vertical' } },
     farms: farms.map(convertFarm),
     addFarm: () => { console.log('Adding new farm, wop wop'); },
     groupAddFunc: (groupId: any) => { console.log('Clicked add icon of group ' + groupId); },
@@ -105,34 +106,30 @@ export function generateMeasures(): Array<IMeasure> {
     let ramMeasure: RamMeasure = {
         type: MeasureType.Ram,
         status: generateRandomStatus(),
-        availableMB: generatePercentage(),
+        used: generatePercentage(),
         capacity: generatePercentage() + 100,
         time: new Date(Date.now())
     };
     let networkMeasure: NetworkMeasure = {
         type: MeasureType.Network,
         status: generateRandomStatus(),
-        kbSent: generateNetworkSpeed().toString(),
-        kBRecieved: generateNetworkSpeed().toString(),
+        kbTotal: generateNetworkSpeed(),
         time: new Date(Date.now())
     };
     let diskMeasure: DiskMeasure = {
         type: MeasureType.Disk,
         status: generateRandomStatus(),
+        totalDiskIo: generateNetworkSpeed(),
         partitions: [
             {
                 name: 'C',
                 freeMB: generatePercentage(),
                 size: generatePercentage() + 100,
-                readSpeed: generateNetworkSpeed(),
-                writeSpeed: generateNetworkSpeed()
             },
             {
                 name: 'F',
                 freeMB: generatePercentage(),
                 size: generatePercentage() + 100,
-                readSpeed: generateNetworkSpeed(),
-                writeSpeed: generateNetworkSpeed()
             }
         ],
         time: new Date(Date.now())
