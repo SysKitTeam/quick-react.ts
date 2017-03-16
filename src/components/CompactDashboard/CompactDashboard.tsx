@@ -8,7 +8,7 @@ const List = require('react-virtualized').List;
 const AutoSizer = require('react-virtualized').AutoSizer;
 const Collection = require('react-virtualized').Collection;
 import * as classNames from 'classnames';
-import {IFarm} from '../../models';
+import { IFarm } from '../../models';
 import { autobind } from '../../utilities/autobind';
 import './CompactDashboard.scss';
 
@@ -32,7 +32,7 @@ function sortFarmServers(ob1: { status: number, name: string }, ob2: { status: n
 }
 
 
-function checkFilter(filter: string, serverName: string) : boolean {
+function checkFilter(filter: string, serverName: string): boolean {
     return serverName.toLowerCase().trim().indexOf(filter.toLowerCase().trim()) !== -1;
 }
 
@@ -59,12 +59,12 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
             }
             if (this.list) {
                 this.list.recomputeRowHeights();
-            }            
-        }       
+            }
+        }
     }
 
 
-    public render() { 
+    public render() {
         let {title, farms} = this.props;
         let classname = classNames({ [this.props.className]: this.props.className !== undefined });
         return (
@@ -78,8 +78,8 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                                     <Collection
                                         ref={(reference) => {
                                             this.collection = reference;
-                                        }}
-                                        verticalOverscanSize={1}
+                                        } }
+                                        verticalOverscanSize={5}
                                         cellCount={this.props.farms.length}
                                         cellRenderer={this._renderRow}
                                         cellSizeAndPositionGetter={function (index) {
@@ -101,9 +101,9 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                                 {({ width, height }) => (
                                     <List
                                         height={height}
-                                         ref={(reference) => {
+                                        ref={(reference) => {
                                             this.list = reference;
-                                        }}
+                                        } }
                                         rowCount={farms.length}
                                         rowHeight={function (index) {
                                             return this.calculateRowHeight(width, index);
@@ -126,10 +126,10 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
     private calculateRowHeight(width, obj: { index: number }): number {
         let numberPerRow = Math.floor((width - 72) / 251.0);
 
-        let farmServerCount = this.getRow(obj.index).servers.filter((server) => {return checkFilter(this.props.filter, server.name); } ).length;
+        let farmServerCount = this.getRow(obj.index).servers.filter((server) => { return checkFilter(this.props.filter, server.name); }).length;
         let rowCount = (Math.floor(farmServerCount / numberPerRow) + (farmServerCount % numberPerRow === 0 ? 0 : 1));
         let serverHeight = rowCount * 60;
-        let serverRoleDiff = (this.getRow(obj.index).servers.some((server) => {return checkFilter(this.props.filter, server.name) && server.roles.length > 0; } )) ? rowCount * 27 : 0;
+        let serverRoleDiff = (this.getRow(obj.index).servers.some((server) => { return checkFilter(this.props.filter, server.name) && server.roles.length > 0; })) ? rowCount * 27 : 0;
         if (this.getRow(obj.index).isCustom) {
             serverRoleDiff += 21;
         }
@@ -142,8 +142,8 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
         const columnCount = Math.floor((1800 - 72) / (CELL_WIDTH + GUTTER_SIZE));
 
         let columnPosition = obj.index % (columnCount || 1);
-        let height = 120 + this.getRow(obj.index).servers.filter((server) => {return checkFilter(this.props.filter, server.name); } ).length * 70;
-        let serverRoleDiff = (this.getRow(obj.index).servers.filter((server) => {return checkFilter(this.props.filter, server.name) && server.roles.length > 0; } )).length * 27;
+        let height = 120 + this.getRow(obj.index).servers.filter((server) => { return checkFilter(this.props.filter, server.name); }).length * 70;
+        let serverRoleDiff = (this.getRow(obj.index).servers.filter((server) => { return checkFilter(this.props.filter, server.name) && server.roles.length > 0; })).length * 27;
         if (this.getRow(obj.index).isCustom) {
             serverRoleDiff += 21;
         }
@@ -173,15 +173,22 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
     @autobind
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
         const farm = this.getRow(index);
-        const servers  = farm.servers.filter((server) => {return checkFilter(this.props.filter, server.name); } ).sort(sortFarmServers);
+        const servers = farm.servers.filter((server) => { return checkFilter(this.props.filter, server.name); }).sort(sortFarmServers);
         return (
             <div style={style} key={index}>
                 <Group serverChildrenCount={servers.length} filter={this.props.filter} className={'farm-name-inside'} id={farm.id} name={farm.name} key={farm.id.configDataBaseName + '-' + farm.id.sqlInstance}>
-                    <GroupHeader version={farm.version}  isCustomFarm={farm.isCustom} farmId={farm.id} />
+                    <GroupHeader version={farm.version} isCustomFarm={farm.isCustom} farmId={farm.id} />
                     {
                         servers.map((server) => (
-                            <CompactServer filter={this.props.filter} key={server.id.FQDN} roles={server.roles} id={server.id} status={server.status} onRoleEdit={server.onRoleEdit} onClose={server.onClose} name={server.name} />
-
+                            <CompactServer
+                                filter={this.props.filter}
+                                key={server.id.FQDN}
+                                roles={server.roles}
+                                id={server.id}
+                                status={server.status}
+                                onRoleEdit={server.onRoleEdit}
+                                onClose={server.onClose}
+                                name={server.name} />
                         ))
                     }
                 </Group>

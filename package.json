@@ -6,7 +6,7 @@
   "typings": "./lib/index",
   "scripts": {
     "build": "tsc -p . && gulp build",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server -d --inline --hot --progress --no-info",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server -d --inline --progress --no-info",
     "prepublish": "npm run build"
   },
   "repository": {
@@ -19,6 +19,7 @@
   "dependencies": {
     "@types/d3": "^4.5.0",
     "classnames": "2.2.5",
+    "css-element-queries": "^0.4.0",
     "d3": "^4.5.0",
     "node-sass": "3.13.0",
     "react": "15.4.2",
@@ -53,6 +54,7 @@
     "html-webpack-plugin": "2.24.1",
     "merge2": "0.3.6",
     "raw-loader": "0.5.1",
+    "react-addons-shallow-compare": "^15.4.2",
     "sass-loader": "4.0.2",
     "source-map-loader": "0.1.5",
     "style-loader": "0.13.1",

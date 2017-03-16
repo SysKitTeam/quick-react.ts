@@ -32,7 +32,6 @@ module.exports = {
         preLoaders: [loaders.tslint],
         loaders: [
             loaders.ts,
-            loaders.tsx,
             loaders.html,
             loaders.css,
             loaders.svg,

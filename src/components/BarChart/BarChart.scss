@@ -1,0 +1,43 @@
+@import '../../index.scss';
+
+.bar-chart-component {
+    display: inline-block;
+    border: 1px solid lightgrey;
+
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;  
+
+    svg { display: block; }
+
+    .domain {
+        display: none;
+    }
+
+    .tick {
+        line {
+            opacity: 0.7;
+            stroke: #bfbfbf;
+        }
+        text {
+            font-family: $font-family-base;
+            font-size: 12px;
+            fill: #9a9a9a;
+        }
+    }
+
+    .tip-container {
+        polygon, rect {
+            fill: white;
+            stroke: lightgrey;
+            stroke-width: 1;
+        }
+
+        .tip-text {
+            font-family: $font-family-base;
+            font-size: 12px;
+            fill: #898989;
+            font-weight: 500;
+        }
+    }
+}

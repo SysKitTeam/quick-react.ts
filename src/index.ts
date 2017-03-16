@@ -42,6 +42,7 @@ export * from './components/ProgressBar';
 export * from './components/PieChart';
 export * from './components/LineChart';
 export * from './components/ToggleSwitch';
+export * from './components/BarChart';
 
 export * from './utilities/autobind';
 export * from './utilities/KeyCodes';
