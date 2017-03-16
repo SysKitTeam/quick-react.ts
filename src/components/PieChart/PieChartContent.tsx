@@ -12,7 +12,7 @@ export class PieChartContent extends React.PureComponent<IPieChartProps, any> {
         this.state = {
             fullWidth: props.width,
             fullHeight: props.height,
-            radius: props.width / 2,
+            radius: this.checkRadius(props.width, props.height),
             tipX: 0,
             tipY: 0,
             tipText: '',
@@ -43,13 +43,19 @@ export class PieChartContent extends React.PureComponent<IPieChartProps, any> {
         return props.data;
     }
 
-    public componentWillReceiveProps(newProps: IPieChartProps, newState: any) {
-        const radius = newProps.width / 2;
-        
+    private checkRadius(width: number, height: number): number {
+        let radius = width / 2;
+        if (2 * radius > height) {
+            return height / 2;
+        }
+        return radius;
+    }
+
+    public componentWillReceiveProps(newProps: IPieChartProps, newState: any) {        
         this.setState({
             fullWidth: newProps.width,
             fullHeight: newProps.height,
-            radius: radius,
+            radius: this.checkRadius(newProps.width, newProps.height),
             data: this.transformData(newProps)
         });
     }
