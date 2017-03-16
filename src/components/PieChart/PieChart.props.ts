@@ -1,15 +1,20 @@
 export interface IPieChartProps {
-    title: string;
-    text: string;
-    width: number;
-    height: number;
+    id: string;
+    title?: string;
+    text?: string;
     data: IPieChartData[];
+    colors?: Array<string>;
+    tipText?: (d?: IPieChartData) => string;
+    dimensions: Dimensions;
 }
 
 export interface IPieChartData {
     label: string;
     value: number;
-    text?: string;
     class?: string;
-    unit?: string;
+}
+
+export interface Dimensions {
+    width: string;
+    height: string;
 }

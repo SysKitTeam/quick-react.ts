@@ -50,6 +50,9 @@ import { ToggleSwitch } from './components/ToggleSwitch/ToggleSwitch';
 import { LineChart } from './components/LineChart/LineChart';
 import { ProgressBar } from './components/ProgressBar/ProgressBar';
 import { PieChart } from './components/PieChart/PieChart';
+import { IPieChartData } from './components/PieChart/PieChart.props';
+import { data, updatedData } from './MockData/pieData';
+import { IFarm, ISharePointServer, ServerStatus } from './models';
 import { DataGenerator } from './utilities/DataGenerator';
 import {IFarm , ISharePointServer, ServerStatus} from './models';
 // import { BarChart } from './components/BarChart/BarChart';
@@ -59,6 +62,9 @@ import { IBarChartData } from './components/BarChart/BarChart.props';
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
+        this.state = { data: data };
+
+        setTimeout(() => this.setState({data: updatedData}), 2000);
         let pieData = [];
         this.state = {
             showDialog: false,
@@ -113,6 +119,15 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
+                <PieChart
+                        id={'chart-1'}
+                        dimensions={{width: '25%', height: '100px'}}
+                        data={this.state.data}
+                        colors={['#344086', '#8bd764', '#f3f986', '#ec1271', '#636363', 'red', 'green', 'purple', 'aquamarine', 'lightgrey']}
+                        tipText={(d: IPieChartData) => (d.label + ' : ' + d.value)}/>
+                <br/>
+            </div>
+        );
                 <CompactServer id={{ FQDN: 'CUSTOM-PC.localdomain' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'CUSTOM-PC'} roles={[]} status={1} />
                 <CompactServer id={{ FQDN: 'My very very long name of a server I am using I know its very long.domain.com' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'My very very long name of a server I am using I know its very long'} roles={[]} status={2} />
                 <CompactServer id={{ FQDN: 'BANANA-PC.banana.com' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'BANANA-PC'} roles={[{ display: 'WPF', iconName: 'icon-Add' }, { display: 'Search', iconName: 'icon-Alert' }]} status={0} />
@@ -454,48 +469,6 @@ export class Index extends React.Component<any, any> {
                 <ProgressBar title={'RAM'} width={400} height={20} data={{ total: 15999, current: 12560 }}></ProgressBar>
             </div>);
     };
-
-    private _onClickCompactServer(serverId) {
-        console.log('Clicked on editing roles of server ' + serverId);
-    }
-
-    private _onServerCloseCompactServer(serverId) {
-        console.log('Clicked on closing server ' + serverId);
-    }
-
-    private _onTreeviewItemClick(ev, itemId, checked) {
-        this.setState({
-            treeviewElements: this.state.treeviewElements.map((item) => {
-                if (itemId.indexOf(item.id) > -1) {
-                    return { id: item.id, text: item.text, parentId: item.parentId, checked: checked };
-                } else {
-                    return item;
-                }
-            })
-        });
-
-    }
-
-    private _onCheckboxListChange(ev, itemId, checked) {
-        console.log(checked);
-    }
-    private _onToggle(checked) {
-        console.log(checked);
-    }
-
-    private _onTreeViewChange(ev, itemId, checked) {
-        console.log(itemId + ':' + checked);
-    }
-
-    private _showDialog() {
-        this.setState({ showDialog: true });
-    }
-
-    private _closeDialog() {
-        this.setState({ showDialog: false });
-    }
-
-
 };
 
 ReactDOM.render(<Index />, document.getElementById('root'));

@@ -6,8 +6,8 @@ $font: 'Segoe UI';
 
 .pie-chart-component {
     display: inline-block;
-    margin: 5px 5px 5px 5px;
-    border: 1px solid #e8e9ef;
+    // margin: 5px 5px 5px 5px;
+    // border: 1px solid #e8e9ef;
 
     .label {
         text-align: center;
@@ -30,7 +30,7 @@ $font: 'Segoe UI';
         display: block;
 
         svg {
-            margin-top: -25px;
+            // margin-top: -25px;
         }
     }
 
@@ -46,8 +46,9 @@ $font: 'Segoe UI';
             fill: $normal;
         }
 
-        rect {
+        rect, polygon {
             stroke: #e8e9ef;
+            stroke-width: 2;
         }
     }
 
