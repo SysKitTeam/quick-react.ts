@@ -57,9 +57,9 @@ import { IFarm, ISharePointServer, ServerStatus } from './models';
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
-        this.state = { data: data };
+        this.state = { data: updatedData };
 
-        setTimeout(() => this.setState({data: updatedData}), 2000);
+        // setTimeout(() => this.setState({data: updatedData}), 2000);
     }
 
     public render() {

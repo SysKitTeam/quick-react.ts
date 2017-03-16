@@ -1,15 +1,13 @@
 import * as React from 'react';
 import * as d3 from 'd3';
 import * as classNames from 'classnames';
-import { Label } from '../Label/Label';
-import { IPieChartProps } from './PieChart.props';
-import { IPieChartData } from './PieChart.props';
-import './PieChart.scss';
+import { IPieChartProps, IPieChartData } from './PieChart.props';
+import { PieChartContent } from './PieChartContent';
 
+const objectAssign = require('object-assign');
 const ResizeSensor = require('css-element-queries/src/ResizeSensor');
 
-export class PieChart extends React.PureComponent<IPieChartProps, null> {
-
+export class PieChart extends React.PureComponent<IPieChartProps, any> {
     public static defaultProps = {
         title: '',
         text: '',
@@ -17,212 +15,158 @@ export class PieChart extends React.PureComponent<IPieChartProps, null> {
         tipText: () => ''
     };
 
-    refs: {
-        [key: string]: (Element),
-        container: HTMLInputElement
-    };
+    private containerRef : HTMLDivElement;
 
-    private margin = { top: 10, right: 10, bottom: 10, left: 10 };
+    constructor(props: IPieChartProps) {
+        super(props);
 
-    private _radius: any;
-    private _focus: any;
-    private _arc: any;
-    private _textCoordinates: number[];
-    private _fullWidth;
-    private _fullHeight;
-    private _mainContainer;
-    private _chartContainer;
-
-    public componentDidMount() {
-        const pieComponentClass = classNames('pie-chart-component', this.props.id);
-        const container: any = document.getElementsByClassName(pieComponentClass)[0];
-        this._fullWidth = container.offsetWidth;
-        this._fullHeight = container.offsetHeight;
-
-        this.draw();
-        
-        new ResizeSensor(document.getElementsByClassName('pie-chart-component')[0], () => this._onResize());
-    }
-
-    public componentWillUnmount() {
-        const pieComponentClass = classNames('pie-chart-component', this.props.id)
-        ResizeSensor.detach(document.getElementsByClassName(pieComponentClass)[0]);
-    }
-
-    public componentDidUpdate() {
-        this.redraw();
-    }
-
-    private redraw() {
-        d3.select('.svg-container.' + this.props.id).remove();
-        this.draw();
-    }
-
-    private _onResize() {
-        const pieComponentClass = classNames('pie-chart-component', this.props.id);
-        const node: any = document.getElementsByClassName(pieComponentClass)[0];
-        const width = node.offsetWidth;
-        const height = node.offsetHeight;
-        if(this._fullWidth !== width || this._fullHeight !== height) { this.rescale(width, height); }
-    }
-
-    private rescale(newWidth: number, newHeight: number) {
-        this._fullHeight = newHeight;
-        this._fullWidth = newWidth;
-        
-        this._radius = newWidth / 4;
-
-        if (2 * this._radius >= this._fullHeight) { return; }
-
-        this._mainContainer.attr('width', this._fullWidth).attr('height', this._fullHeight);
-        
-        const arc = this.createArc();
-        const pie = this.createPie();
-        const color = this.createColorPallette();
-        
-        this._chartContainer.attr('transform', 'translate(' + (this._fullWidth / 2) + ',' + (this._fullHeight / 2) + ')');
-        
-        this._chartContainer.selectAll('.pie-path')
-            .data(pie(this.props.data))
-            .attr('d', arc)
-            .attr('class', 'pie-path')
-            .style('fill', (d) => color(d.data.label))
-            .on('mouseover', (d) => this._onMouseOver(d))
-            .on('mouseout', () => this._onMouseOut());
+        this.state = {
+            fullWidth: 0,
+            fullHeight: 0,
+            isParentMounted: false
+        };
     }
 
     public render() {
         const pieComponentClass = classNames('pie-chart-component', this.props.id);
+        const props = objectAssign({}, this.props, { width: this.state.fullWidth, height: this.state.fullHeight });
         return (
-            <div className={pieComponentClass} style={{width: this.props.dimensions.width, height: this.props.dimensions.height}}>
-                <Label className={'title'}>{this.props.title}</Label>
-                <Label className={'text'}>{this.props.text}</Label>
-                <div className={'pie-chart-container'} ref={'container'}></div>
+            <div className={pieComponentClass} 
+                style={{width: this.props.dimensions.width, height: this.props.dimensions.height}}
+                ref={(element: HTMLDivElement) => this.init(element)}>
+                { this.state.isParentMounted && <PieChartContent {...props}/> }
             </div>
         );
     }
 
-    private draw() {
-        this._radius = this._fullWidth / 4;
-        this._chartContainer = this.createContainer();
-        const pie = this.createPie();
-        const arc = this.createArc();
-        const color = this.createColorPallette();
+    private init(element: HTMLDivElement): void {
+        if (element === null) { return; }
 
-        this._chartContainer.selectAll('.pie-path')
-            .data(pie(this.props.data))
-            .enter().append('path')
-            .attr('d', arc)
-            .attr('class', 'pie-path')
-            .style('fill', (d) => color(d.data.label))
-            .on('mouseover', (d) => this._onMouseOver(d))
-            .on('mouseout', () => this._onMouseOut());
+        this.containerRef = element;
 
-        this.createTooltip(this._chartContainer);
-    }
+        const sensor = new ResizeSensor(element, () => this.onResize());
 
-    private _onMouseOver(d) : any {
-        d3.select(d3.event.currentTarget).attr('opacity', 0.75); 
-        this.showTooltip(d);
-    }
+        const width = element.offsetWidth;
+        const height = element.offsetHeight;
 
-    private _onMouseOut() : any {
-        d3.select(d3.event.currentTarget).attr('opacity', 1);
-        this._focus.select('.tip-pol-up').style('display', 'none');
-        this._focus.select('.tip-pol-down').style('display', 'none');
-        this._focus.style('display', 'none');
-    }
-
-    private createContainer() {
-        this._mainContainer = d3.select(this.refs.container).append('svg')
-            .attr('class', 'svg-container ' + this.props.id)
-            .attr('width', this._fullWidth) 
-            .attr('height', this._fullHeight)
-        return this._mainContainer.append('g')
-            .attr('class', 'pie-chart-g')
-            .attr('transform', 'translate(' + (this._fullWidth / 2) + ',' + (this._fullHeight / 2) + ')');
-    }
-
-    private createArc() : any {
-        this._arc = d3.arc()
-            .outerRadius(this._radius)
-            .innerRadius(0);
-        return this._arc;
-    }
-
-    private createTooltip(container: any) {
-        const tipClassName = classNames('tip', this.props.id);
-
-        this._focus = container.append('g').attr('class', classNames(tipClassName, 'tip-container')).style('display', 'none');
-
-        this._focus.append('rect')
-            .attr('height', 24)
-            .attr('width', 100)
-            .attr('class', classNames(tipClassName, 'tip-rect'))
-            .attr('fill', 'white')
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('pointer-events', 'none');
-
-        this._focus.append('polygon')
-            .attr('fill', 'white')
-            .attr('class', classNames(tipClassName, 'tip-pol-down'))
-            .attr('points', '0,0 10,10 20,0')
-            .style('display', 'none')
-            .attr('pointer-events', 'none');
-
-        this._focus.append('polygon')
-            .attr('fill', 'white')
-            .attr('class', classNames(tipClassName, 'tip-pol-up'))
-            .attr('points', '0,0 10,-10, 20,0')
-            .style('display', 'none')
-            .attr('pointer-events', 'none');
-
-        this._focus.append('text')
-            .attr('class', classNames(tipClassName, 'tip-text'))
-            .attr('fill', 'black')
-            .attr('dx', 8)
-            .attr('dy', 14)
-            .attr('text-anchor', 'middle')
-            .attr('pointer-events', 'none');
-    }
-
-     private showTooltip(d: any) {
-        const coordinates = this._arc.centroid(d);
-
-        const textRef = this._focus.select('text.tip-text').text(this.props.tipText(d.data));
-        const textWidth = textRef.node().getComputedTextLength();
-        const textPadding = 16;
-
-        this._focus.style('display', 'block');
-
-        let translatePol, translateTextArea, translateText;
-
-        // Flip tooltip
-        if (coordinates[1] < 0) {
-            this._focus.select('.tip-pol-up').style('display', 'block');
-            translatePol = 'translate(' + (coordinates[0] - 10) + ',' + (coordinates[1] + 10) + ')';
-            translateTextArea = 'translate(' + (coordinates[0] - textWidth / 2) + ',' + (coordinates[1] + 10) + ')';
-            translateText = 'translate(' + coordinates[0] + ',' + (coordinates[1] + 10) + ')';
-            this._focus.select('.tip-pol-up').attr('transform', translatePol);
-        } else {
-            this._focus.select('.tip-pol-down').style('display', 'block');
-            translatePol = 'translate(' + (coordinates[0] - 10) + ',' + (coordinates[1] - 15) + ')';
-            translateTextArea = 'translate(' + (coordinates[0] - textWidth / 2) + ',' + (coordinates[1] - 39) + ')';
-            translateText = 'translate(' + coordinates[0] + ',' + (coordinates[1] - 39) + ')';
-            this._focus.select('.tip-pol-down').attr('transform', translatePol);
+        if (this.state.fullWidth !== width || this.state.fullHeight !== height) {
+            this.setState({ fullWidth: width, fullHeight: height, isParentMounted: true });
         }
-
-        // this._focus.select('.tip-pol-up').attr('transform', translatePol);
-        this._focus.select('.tip-rect').attr('width', textWidth + textPadding).attr('transform', translateTextArea);
-        this._focus.select('text.tip-text').attr('transform', translateText);
     }
 
-    private createPie() {
-        return d3.pie<IPieChartData>().sort(null).value((d): any => d.value);
+    private onResize(): void {
+        const width = this.containerRef.offsetWidth;
+        const height = this.containerRef.offsetHeight;
+
+        if (this.state.fullWidth !== width || this.state.fullHeight !== height) {
+            this.setState({ fullWidth: width, fullHeight: height });
+            this.forceUpdate();
+        }
     }
 
-    private createColorPallette() {
-        return d3.scaleOrdinal(this.props.colors);
-    }
+    public componentWillUnmount() { ResizeSensor.detach(this.containerRef); }
+
+    // private draw() {
+    //     this._radius = this._fullWidth / 4;
+    //     this._chartContainer = this.createContainer();
+
+    //     const pie = this.createPie();
+    //     const arc = this.createArc();
+    //     const color = this.createColorPallette();
+
+    //     this._chartContainer.selectAll('.pie-path')
+    //         .data(pie(this.props.data))
+    //         .enter().append('path')
+    //         .attr('d', arc)
+    //         .attr('class', 'pie-path')
+    //         .style('fill', (d) => color(d.data.label))
+    //         .on('mouseover', (d) => this._onMouseOver(d))
+    //         .on('mouseout', () => this._onMouseOut());
+
+    //     // this.createTooltip(this._chartContainer);
+    // }
+
+    // private _onMouseOver(d) : any {
+    //     d3.select(d3.event.currentTarget).attr('opacity', 0.75); 
+    //     // this.showTooltip(d);
+    // }
+
+    // private _onMouseOut() : any {
+    //     d3.select(d3.event.currentTarget).attr('opacity', 1);
+    //     this._focus.select('.tip-pol-up').style('display', 'none');
+    //     this._focus.select('.tip-pol-down').style('display', 'none');
+    //     this._focus.style('display', 'none');
+    // }
+
+    // private createColorPallette() {
+    //     return d3.scaleOrdinal(this.props.colors);
+    // }
+
+    // private createTooltip(container: any) {
+    //     const tipClassName = classNames('tip', this.props.id);
+
+    //     this._focus = container.append('g').attr('class', classNames(tipClassName, 'tip-container')).style('display', 'none');
+
+    //     this._focus.append('rect')
+    //         .attr('height', 24)
+    //         .attr('width', 100)
+    //         .attr('class', classNames(tipClassName, 'tip-rect'))
+    //         .attr('fill', 'white')
+    //         .attr('x', 0)
+    //         .attr('y', 0)
+    //         .attr('pointer-events', 'none');
+
+    //     this._focus.append('polygon')
+    //         .attr('fill', 'white')
+    //         .attr('class', classNames(tipClassName, 'tip-pol-down'))
+    //         .attr('points', '0,0 10,10 20,0')
+    //         .style('display', 'none')
+    //         .attr('pointer-events', 'none');
+
+    //     this._focus.append('polygon')
+    //         .attr('fill', 'white')
+    //         .attr('class', classNames(tipClassName, 'tip-pol-up'))
+    //         .attr('points', '0,0 10,-10, 20,0')
+    //         .style('display', 'none')
+    //         .attr('pointer-events', 'none');
+
+    //     this._focus.append('text')
+    //         .attr('class', classNames(tipClassName, 'tip-text'))
+    //         .attr('fill', 'black')
+    //         .attr('dx', 8)
+    //         .attr('dy', 14)
+    //         .attr('text-anchor', 'middle')
+    //         .attr('pointer-events', 'none');
+    // }
+
+    //  private showTooltip(d: any) {
+    //     const coordinates = this._arc.centroid(d);
+
+    //     const textRef = this._focus.select('text.tip-text').text(this.props.tipText(d.data));
+    //     const textWidth = textRef.node().getComputedTextLength();
+    //     const textPadding = 16;
+
+    //     this._focus.style('display', 'block');
+
+    //     let translatePol, translateTextArea, translateText;
+
+    //     // Flip tooltip
+    //     if (coordinates[1] < 0) {
+    //         this._focus.select('.tip-pol-up').style('display', 'block');
+    //         translatePol = 'translate(' + (coordinates[0] - 10) + ',' + (coordinates[1] + 10) + ')';
+    //         translateTextArea = 'translate(' + (coordinates[0] - textWidth / 2) + ',' + (coordinates[1] + 10) + ')';
+    //         translateText = 'translate(' + coordinates[0] + ',' + (coordinates[1] + 10) + ')';
+    //         this._focus.select('.tip-pol-up').attr('transform', translatePol);
+    //     } else {
+    //         this._focus.select('.tip-pol-down').style('display', 'block');
+    //         translatePol = 'translate(' + (coordinates[0] - 10) + ',' + (coordinates[1] - 15) + ')';
+    //         translateTextArea = 'translate(' + (coordinates[0] - textWidth / 2) + ',' + (coordinates[1] - 39) + ')';
+    //         translateText = 'translate(' + coordinates[0] + ',' + (coordinates[1] - 39) + ')';
+    //         this._focus.select('.tip-pol-down').attr('transform', translatePol);
+    //     }
+
+    //     // this._focus.select('.tip-pol-up').attr('transform', translatePol);
+    //     this._focus.select('.tip-rect').attr('width', textWidth + textPadding).attr('transform', translateTextArea);
+    //     this._focus.select('text.tip-text').attr('transform', translateText);
+    // }
 }

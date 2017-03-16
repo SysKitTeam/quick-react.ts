@@ -6,6 +6,8 @@ export interface IPieChartProps {
     colors?: Array<string>;
     tipText?: (d?: IPieChartData) => string;
     dimensions: Dimensions;
+    height?: number;
+    width?: number;
 }
 
 export interface IPieChartData {
