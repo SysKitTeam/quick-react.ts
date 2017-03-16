@@ -48,7 +48,7 @@ export class BarChart extends React.PureComponent<IBarChartProps, any> {
     private init(element: HTMLDivElement) : void {
         if (element === null) { return; }
         this.containerRef = element;
-        new ResizeSensor(element, (element) => this.onResize());
+        new ResizeSensor(element, () => this.onResize());
         this.setState({ fullWidth : element.offsetWidth, fullHeight: element.offsetHeight, parentMounted: true });
     }
 

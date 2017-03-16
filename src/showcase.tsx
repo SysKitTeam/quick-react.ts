@@ -73,7 +73,7 @@ export class Index extends React.PureComponent<any, any> {
                 <BarChart 
                     id={'bar-chart-1'} 
                     data={this.state.data} 
-                    dimensions={{width: '100%', height: '300px'}} 
+                    dimensions={{width: '75%', height: '300px'}} 
                     onClick={data => console.log(data)} />
             </div>);
     };

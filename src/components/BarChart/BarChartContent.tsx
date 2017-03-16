@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import * as d3 from 'd3';
 import { IBarChartProps, IBarChartData } from './BarChart.props';
+import { Tooltip } from './Tooltip';
 import './BarChart.scss';
 
 const margin = { top: 50, right: 40, bottom: 70, left: 80 };
@@ -17,7 +18,11 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
             fullWidth: props.width,
             fullHeight: props.height,
             containerWidth: props.width - margin.left - margin.right,
-            containerHeight: props.height - margin.top - margin.bottom
+            containerHeight: props.height - margin.top - margin.bottom,
+            tipX: 0,
+            tipY: 0,
+            tipText: '',
+            isTipVisible: false
         }
     }
 
@@ -59,11 +64,7 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
                     <g className={xAxisClass} transform={translateXAxis} ref={(element: SVGAElement) => this.renderXAxis(element)}></g>
                     <g className={yAxisClass} ref={(element: SVGAElement) => this.renderYAxis(element)}></g>
                     { this.renderBars() }
-                    <g className={classNames(tipClass, 'tip-container')} style={{ display: 'none' }} ref={(tooltip: SVGAElement) => this.tooltip = tooltip}>
-                        <polygon className={classNames(tipClass, 'tip-pol')} points={'0,24 10,35 20,24'}></polygon>
-                        <rect className={classNames(tipClass, 'tip-rect')} height={24} width={50}></rect>
-                        <text className={classNames(tipClass, 'tip-text')} dx={4} dy={15}></text>
-                    </g>
+                    <Tooltip id={this.props.id} text={this.state.tipText} x={this.state.tipX} y={this.state.tipY} visible={this.state.isTipVisible}/>
                 </g>
             </svg>
         );
@@ -83,7 +84,7 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
                         width={ x.bandwidth() }
                         height={ this.state.containerHeight - y(data.frequency) }
                         onMouseOver={(event: React.MouseEvent<SVGAElement>) => this.onMouseOver(event.currentTarget)}
-                        onMouseOut={() => d3.select(this.tooltip).style('display', 'none')}
+                        onMouseOut={() => this.setState({ isTipVisible: false })}
                         onClick={(event: React.MouseEvent<SVGAElement>) => this.handleOnClick(event.currentTarget)}/>
         );
     }
@@ -92,11 +93,10 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
         if (this.selected === undefined) {
             const bar = d3.selectAll('.bar-chart-container.' + this.props.id + '> .bar').nodes()[this.props.selectedIndex];
             d3.select(bar).classed('clicked', false);
-            this.selected = d3.select(element); 
         } else {
             this.selected.classed('clicked', false);
-            this.selected = d3.select(element);
         }
+        this.selected = d3.select(element);
         this.selected.classed('clicked', true);
         this.props.onClick(this.selected.datum() as IBarChartData);
     }
@@ -109,8 +109,7 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
 
     private renderYAxis(element: SVGAElement) {
         if (element === null) { return; }
-        const y = this.generateY();
-        const yAxis = d3.axisLeft(y).tickSizeInner(-this.state.containerWidth).ticks(5).tickPadding(5);
+        const yAxis = d3.axisLeft(this.generateY()).tickSizeInner(-this.state.containerWidth).ticks(5).tickPadding(5);
         d3.select(element).call(yAxis);
     }
 
@@ -129,23 +128,10 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
     }
 
     private onMouseOver(element: SVGAElement) {
-        const tipContainer = d3.select(this.tooltip);
-        tipContainer.style('display', 'block');
-
-        const height = +element.getAttribute('y') - 38;
-        const width = Math.floor(+element.getAttribute('width') / 2);
-        const xPol = +element.getAttribute('x') + width - 10;
+        const dimensions = element.getBBox();
         const data = (d3.select(element).datum() as IBarChartData);
-
-        const textRef = tipContainer.select('.tip-text').text(this.props.tipText(data));
-        const textWidth = (tipContainer.select('.tip-text').node() as any).getComputedTextLength();
-        const tipMargin = 8;
-
-        const xRect = +element.getAttribute('x') + width - (textWidth + tipMargin) / 2;
-
-        tipContainer.select('.tip-rect').attr('width', textWidth + tipMargin).attr('transform', 'translate(' + xRect + ',' + height + ')');
-        tipContainer.select('.tip-pol').attr('transform', 'translate(' + xPol + ',' + height + ')');
-        textRef.attr('transform', 'translate(' + xRect + ',' + height + ')');
+        const tipText = this.props.tipText(data);
+        this.setState({ tipX: dimensions.x + (dimensions.width / 2), tipY: dimensions.y, tipText: tipText, isTipVisible: true });
     }
 
     private calculateAvailableSpace() {
