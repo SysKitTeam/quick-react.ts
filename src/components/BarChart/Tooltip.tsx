@@ -31,8 +31,6 @@ export class Tooltip extends React.PureComponent<ITooltipProps, any> {
         const tipClass = classNames('tip', this.props.id);
         const translate = 'translate(' + this.state.translateX + ',' + this.state.translateY + ')';
         const visibility = this.props.visible ? 'block' : 'none';
-
-        console.log('rendering tooltip');
         
         return (
             <g className={classNames(tipClass, 'tip-container')} style={{ display: visibility }} transform={translate}>
