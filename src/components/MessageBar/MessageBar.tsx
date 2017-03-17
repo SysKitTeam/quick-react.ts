@@ -21,10 +21,10 @@ export class MessageBar extends React.Component<IMessageBarProps, IMessageBarSta
     };
 
     private ICON_MAP = {
-        [MessageBarType.info]: 'icon-Details',
-        [MessageBarType.warning]: 'icon-Warning',
-        [MessageBarType.error]: 'icon-Error',
-        [MessageBarType.success]: 'icon-Checkmark'
+        [MessageBarType.info]: 'icon-details',
+        [MessageBarType.warning]: 'icon-warning',
+        [MessageBarType.error]: 'icon-error',
+        [MessageBarType.success]: 'icon-checkmark'
     };
 
     constructor(props: IMessageBarProps) {
@@ -100,7 +100,7 @@ export class MessageBar extends React.Component<IMessageBarProps, IMessageBarSta
                     disabled={ false }
                     className={'messageBar-dismissal'}
                     onClick={ this.props.onDismiss } 
-                    iconName={'icon-Delete'}/>
+                    iconName={'icon-delete'}/>
             );
         }
         return null;

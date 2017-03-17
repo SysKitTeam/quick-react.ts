@@ -127,11 +127,11 @@ export class Index extends React.Component<any, any> {
                 <br />
                 <CompactServer id={{ FQDN: 'CUSTOM-PC.localdomain' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'CUSTOM-PC'} roles={[]} status={1} />
                 <CompactServer id={{ FQDN: 'My very very long name of a server I am using I know its very long.domain.com' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'My very very long name of a server I am using I know its very long'} roles={[]} status={2} />
-                <CompactServer id={{ FQDN: 'BANANA-PC.banana.com' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'BANANA-PC'} roles={[{ display: 'WPF', iconName: 'icon-Add' }, { display: 'Search', iconName: 'icon-Alert' }]} status={0} />
+                <CompactServer id={{ FQDN: 'BANANA-PC.banana.com' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'BANANA-PC'} roles={[{ display: 'WPF', iconName: 'icon-add' }, { display: 'Search', iconName: 'icon-alert' }]} status={0} />
 
-                <TagContainer title={'Roles'} tags={[{ display: 'Tag1', iconName: 'icon-Add' }, { display: 'Tag2', iconName: 'icon-Alert' }, { display: 'Tag3', iconName: 'icon-Buy' }]}>
+                <TagContainer title={'Roles'} tags={[{ display: 'Tag1', iconName: 'icon-add' }, { display: 'Tag2', iconName: 'icon-alert' }, { display: 'Tag3', iconName: 'icon-buy' }]}>
                     <div className="edit-tags tag" title="Edit tags">
-                        <Icon className="icon-Edit"></Icon>
+                        <Icon className="icon-edit"></Icon>
                     </div>
                 </TagContainer>
                 {/*<BarChart id={'bar-chart-1'} data={this.state.data} dimensions={{width: '100%', height: '300px'}}/>*/}
@@ -139,8 +139,8 @@ export class Index extends React.Component<any, any> {
                 <AddToFavorites favorited={true} />
                 <AddToFavorites favorited={false} />
                 <Callout> AAAAAAA<Callout>BBBBBBBB</Callout> </Callout>
-                <MainNavigation id={'mainNavigation'} logo={'icon-Logo'}>
-                    <Icon iconName={'icon-Buy'}></Icon>
+                <MainNavigation id={'mainNavigation'} logo={'icon-logo'}>
+                    <Icon iconName={'icon-buy'}></Icon>
                 </MainNavigation>
                 <br />
                 <MessageBar messageBarType={MessageBarType.warning} hasDontShowAgain={true} onDismiss={() => { console.log('test'); }}>Ovo je message bar!</MessageBar>
@@ -158,13 +158,13 @@ export class Index extends React.Component<any, any> {
                 </Pivot>
                 <br />
                 <Pivot onLinkClick={(item, ev) => console.log(item)}>
-                    <PivotItem linkText={'My Files'} linkIcon={'icon-User'}>
+                    <PivotItem linkText={'My Files'} linkIcon={'icon-user'}>
                         <Label>Pivot #1</Label>
                     </PivotItem>
                     <PivotItem linkText={'Recent'} >
                         <Label>Pivot #2</Label>
                     </PivotItem>
-                    <PivotItem linkText={'Shared with me'} linkIcon={'icon-Add'}>
+                    <PivotItem linkText={'Shared with me'} linkIcon={'icon-add'}>
                         <Label>Pivot #3</Label>
                     </PivotItem>
                 </Pivot>
@@ -192,9 +192,9 @@ export class Index extends React.Component<any, any> {
                         label="Basic example:"
                         options={
                             [
-                                { key: 'A', text: 'Option a', icon: 'icon-Add' },
-                                { key: 'B', text: 'Option b', icon: 'icon-Buy' },
-                                { key: 'C', text: 'Option c', icon: 'icon-User' },
+                                { key: 'A', text: 'Option a', icon: 'icon-add' },
+                                { key: 'B', text: 'Option b', icon: 'icon-buy' },
+                                { key: 'C', text: 'Option c', icon: 'icon-user' },
                                 { key: 'D', text: 'Option d' },
                                 { key: 'E', text: 'Option e' },
                                 { key: 'F', text: 'Option f' },
@@ -207,15 +207,15 @@ export class Index extends React.Component<any, any> {
                     />
                 </div>
                 <div>
-                    <Dropdown icon={'icon-SwitchView'} dropdownType={DropdownType.customDropdown}>
+                    <Dropdown icon={'icon-switchView'} dropdownType={DropdownType.customDropdown}>
                         <Label>Header</Label>
                         <hr />
                         <li style={{ 'display': 'inline-flex' }}>
-                            <Icon iconName={'icon-Account'}></Icon>
+                            <Icon iconName={'icon-account'}></Icon>
                             <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
                         </li>
                         <li style={{ 'display': 'inline-flex' }}>
-                            <Icon iconName={'icon-Account'}></Icon>
+                            <Icon iconName={'icon-account'}></Icon>
                             <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
                         </li>
                     </Dropdown>
@@ -226,7 +226,7 @@ export class Index extends React.Component<any, any> {
                     onSearch={(newValue) => console.log('SearchBox onSearch fired: ' + newValue)}
                 />
                 <br />
-                <Icon iconName={'icon-Account'}></Icon>
+                <Icon iconName={'icon-account'}></Icon>
                 <br />
                 <Breadcrumbs items={[
                     { text: 'Files', 'key': 'Files' },
@@ -245,11 +245,11 @@ export class Index extends React.Component<any, any> {
                 </Breadcrumbs>
                 <br />
                 <LeftNavigation id={'leftNavigation'} options={[
-                    { text: 'Home', id: 'Home', href: 'http://Acceleratio.net', icon: 'icon-Help' },
-                    { text: 'Activity', id: 'Activity', href: '#1', disabled: true, icon: 'icon-Account' },
-                    { text: 'News', id: 'News', href: '#2', icon: 'icon-Add' },
-                    { text: 'Documents', id: 'Documents', href: '#3', selected: true, icon: 'icon-Alert' },
-                    { text: 'Books', id: 'Books', href: '#4', icon: 'icon-Trash' }
+                    { text: 'Home', id: 'Home', href: 'http://Acceleratio.net', icon: 'icon-help' },
+                    { text: 'Activity', id: 'Activity', href: '#1', disabled: true, icon: 'icon-account' },
+                    { text: 'News', id: 'News', href: '#2', icon: 'icon-add' },
+                    { text: 'Documents', id: 'Documents', href: '#3', selected: true, icon: 'icon-alert' },
+                    { text: 'Books', id: 'Books', href: '#4', icon: 'icon-trash' }
                 ]}
                 ></LeftNavigation>
                 <br />
@@ -371,7 +371,7 @@ export class Index extends React.Component<any, any> {
                 />
                 <Checkbox label={'This is checkbox'} onChange={(ev, checked) => console.log('aaa')} defaultChecked={true} />
                 <Checkbox label={'This is disabled checkbox'} disabled={true} defaultChecked={true} />
-                <Checkbox label={'This is checkbox with icon'} onChange={(ev, checked) => console.log('icon')} iconClassName={'icon-User'} />
+                <Checkbox label={'This is checkbox with icon'} onChange={(ev, checked) => console.log('icon')} iconClassName={'icon-user'} />
                 <br />
                 <ChoiceGroup options={[
                     { key: 'A', text: 'Option A' },
@@ -447,7 +447,7 @@ export class Index extends React.Component<any, any> {
                         { title: 'Disk', currentUsage: '0,1', usageUnit: 'Mbps', hoverText: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps'], status: ServerStatus.OK },
                         { title: 'Network', currentUsage: '0,1', usageUnit: 'MB/s', hoverText: ['50.10 kB/s', '23.47 kB/s'], status: ServerStatus.OK }
                     ]}>
-                    {/*<TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>*/}
+                    {/*<TagContainer tags={[{display:'Tag1', iconName:'icon-add'}, {display:'Tag2', iconName:'icon-alert'}, {display:'Tag3', iconName:'icon-buy'}]}/>*/}
                 </ServerTile>
                 <br />
                 <ProgressBar title={'RAM'} width={400} height={20} data={{ total: 15999, current: 12560 }}></ProgressBar>

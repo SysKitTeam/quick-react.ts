@@ -65,7 +65,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
                 ref={ this._resolveRef('_rootElement') }
                 className={ searchClassName }
                 { ...{ onFocusCapture: this._onFocusCapture } }>
-                <Icon className={'search-icon'} iconName={'icon-Search'}></Icon>
+                <Icon className={'search-icon'} iconName={'icon-search'}></Icon>
                 <input
                     id={ id }
                     className={'search-field'}
@@ -77,7 +77,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
                     <div
                         className={'search-clearButton'}
                         onClick={ this._onClearClick }>
-                        <Icon iconName={'icon-Delete'}></Icon>
+                        <Icon iconName={'icon-delete'}></Icon>
                     </div>
             </div>
         );
