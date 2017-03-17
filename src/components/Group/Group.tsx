@@ -24,13 +24,13 @@ export class Group extends React.Component<IGroupProps, any> {
                     <span className="farm-name" title={this.props.name}>
                         <span onClick={() => { this.props.onClick(this.props.id); } }>{this.props.name}</span>
                         {this.props.deleteFunc &&
-                            <Icon title={'Delete'} iconName={'icon-Delete'} onClick={() => { this.props.deleteFunc(this.props.id); } }></Icon>
+                            <Icon title={'Delete'} iconName={'icon-delete'} onClick={() => { this.props.deleteFunc(this.props.id); } }></Icon>
                         }
                         {this.props.editFunc &&
-                            <Icon title={'Edit'} iconName={'icon-Edit'} onClick={() => { this.props.editFunc(this.props.id); } }></Icon>
+                            <Icon title={'Edit'} iconName={'icon-edit'} onClick={() => { this.props.editFunc(this.props.id); } }></Icon>
                         }
                         {this.props.addFunc &&
-                            <Icon title={'Add'} iconName={'icon-Add'} onClick={() => { this.props.addFunc(this.props.id); } }></Icon>
+                            <Icon title={'Add'} iconName={'icon-add'} onClick={() => { this.props.addFunc(this.props.id); } }></Icon>
                         }
                     </span>
                 }

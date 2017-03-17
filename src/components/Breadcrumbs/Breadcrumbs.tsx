@@ -76,9 +76,9 @@ export class Breadcrumbs extends React.Component<IBreadcrumbsProps, any> {
                                 onClick={ this._onOverflowClicked }
                                 data-is-focusable={ true }
                                 role="button">
-                                <Icon iconName={'icon-InProgress'}></Icon>
+                                <Icon iconName={'icon-inProgress'}></Icon>
                             </div>
-                            <Icon iconName={ getRTL() ? 'icon-ArrowDownRight' : 'icon-ArrowRight'}></Icon>
+                            <Icon iconName={ getRTL() ? 'icon-arrowDownRight' : 'icon-arrowRight'}></Icon>
                         </li>
                     ) : (null) }
                     { renderedItems.map((item, index) => (
@@ -89,7 +89,7 @@ export class Breadcrumbs extends React.Component<IBreadcrumbsProps, any> {
                                 role={ item.onClick ? 'button' : 'link' }>
                             { item.text }
                             </a>
-                            <Icon iconName={ getRTL() ? 'icon-ArrowDownRight' : 'icon-ArrowRight'}></Icon>
+                            <Icon iconName={ getRTL() ? 'icon-arrowDownRight' : 'icon-arrowRight'}></Icon>
                         </li>
                     )) }
                     { isOverflowOpen ? (
