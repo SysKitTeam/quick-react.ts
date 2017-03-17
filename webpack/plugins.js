@@ -18,16 +18,16 @@ const basePlugins = [
     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
   }),  
   new webpack.NoErrorsPlugin(),
-  /*new CopyWebpackPlugin([
-    { from: 'src/assets', to: 'assets' },
-  ]),*/
+  new CopyWebpackPlugin([
+    { from: 'src/fonts', to: 'fonts' },
+  ]),
 ].concat(sourceMap);
 
 const devPlugins = [
-  new HtmlWebpackPlugin({
-    template: './src/index.html',
-    inject: 'body',
-  }),
+  // new HtmlWebpackPlugin({
+  //   template: './src/index.html',
+  //   inject: 'body',
+  // }),
 ];
 
 const prodPlugins = [
