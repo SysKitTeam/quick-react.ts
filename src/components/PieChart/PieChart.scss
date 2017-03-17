@@ -1,10 +1,14 @@
 @import '../../index.scss';
 
 .pie-chart-component {
-    display: table;
+    min-width: 115px;
+    display: block;
+    overflow: visible;
+    text-align: center;
     svg {
-        display: table-cell;
-
+        position: relative;
+        display: inline-block;
+        overflow: visible;
         .pie-arc:hover {
             opacity: 0.75;
         }
@@ -17,15 +21,19 @@
         }
     }
     .pie-chart-legend {
-        display: table-cell;
-        vertical-align: middle;
+        position: relative;
+        display: inline-block;
+        box-sizing: border-box;
+        padding-left: 5px;
+        vertical-align: top;
+        z-index: -1000;
         .legend-item {
             margin-bottom: 5px;
             display: block;
             div {
-                width: 18px;
-                height: 18px;
-                vertical-align: bottom;
+                width: 12px;
+                height: 12px;
+                vertical-align: middle;
                 display: inline-block;
                 padding: 0;
             }

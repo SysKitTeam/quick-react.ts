@@ -11,7 +11,7 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
         this.state = {
             fullWidth: props.width,
             fullHeight: props.height,
-            radius: this.checkRadius(props.width, props.height),
+            radius: props.width / 2,
             tipX: 0,
             tipY: 0,
             tipText: '',
@@ -23,17 +23,17 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
     private createPie = () => d3.pie<IPieChartData>().padAngle(.02).sort(null).value((d : IPieChartData): number => d.value);
     private createColorPallette = () => d3.scaleOrdinal(this.props.colors);
 
-    private checkRadius(width: number, height: number): number {
-        let radius = width / 2;
-        if (2 * radius > height) { return height / 2; }
-        return radius;
-    }
+    // private checkRadius(width: number, height: number): number {
+    //     let radius = width / 2;
+    //     if (2 * radius > height) { return height / 2; }
+    //     return radius;
+    // }
 
     public componentWillReceiveProps(newProps: IPieChartContentProps, newState: any) {        
         this.setState({
             fullWidth: newProps.width,
             fullHeight: newProps.height,
-            radius: this.checkRadius(newProps.width, newProps.height)
+            radius: newProps.width / 2
         });
     }
 

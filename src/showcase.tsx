@@ -73,12 +73,11 @@ export class Index extends React.PureComponent<any, any> {
     public render() {
         return (
             <div>
-                <BarChart
-                    id={'bar-chart-1'}
-                    data={this.state.barData}
-                    dimensions={{width: '75%', height: '300px'}}
-                    onClick={data => console.log(data)}
-                    selectedIndex={4}/>
+                <PieChart
+                    data={this.state.pieData}
+                    id={'pie-chart-1'}
+                    dimensions={{width: '80%', height:'200px'}}
+                    showLegend={true}/>
             </div>
         );
     };

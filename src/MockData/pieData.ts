@@ -22,6 +22,10 @@ export const pieData = [
       {
         label: 'Kreso',
         value: 10
+      },
+      {
+        label: 'Matija',
+        value: 1800
       }
 ];
 
