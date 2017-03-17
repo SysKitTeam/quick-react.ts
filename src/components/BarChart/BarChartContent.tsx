@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import * as d3 from 'd3';
 import { IBarChartProps, IBarChartData } from './BarChart.props';
-import { Tooltip } from './Tooltip';
+import { Tooltip } from '../Tooltip/Tooltip';
 import './BarChart.scss';
 
 const margin = { top: 50, right: 40, bottom: 70, left: 80 };
