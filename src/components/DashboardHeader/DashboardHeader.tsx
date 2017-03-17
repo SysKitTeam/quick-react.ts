@@ -23,7 +23,7 @@ export class DashboardHeader extends React.Component<IDashboardHeaderProps, any>
                     <span className={'dashboard-header-title'} title={title}>{title}</span>
                     {
                         hasAddFarmButton &&
-                        <Icon className={'add-farm'} iconName={'icon-Add'} onClick={this.props.onAddFarmClick} title={'Add'} />
+                        <Icon className={'add-farm'} iconName={'icon-add'} onClick={this.props.onAddFarmClick} title={'Add'} />
                     }
                 </span>
                 <Search onSearch={this.props.onSearch} onChange={this.props.onChanged} value={this.props.filter} />

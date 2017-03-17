@@ -13,7 +13,7 @@ export class AddToFavorites extends React.Component <AddToFavoritesProps, any> {
         );
 
         return (
-            <Icon className={favoriteClass} iconName="icon-Ghost"  />
+            <Icon className={favoriteClass} iconName="icon-ghost"  />
         );
     }
 

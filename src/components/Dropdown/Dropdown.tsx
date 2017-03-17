@@ -97,7 +97,7 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
               selectedOption ? onRenderItem(selectedOption, this._onRenderItem) : ''
             : null }
           </span>   
-          <Icon className={dropdownIconClassName} iconName={'icon-ArrowDown'}></Icon>
+          <Icon className={dropdownIconClassName} iconName={'icon-arrowDown'}></Icon>
         </div>
         { isOpen && (
           <Callout

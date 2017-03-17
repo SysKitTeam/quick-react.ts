@@ -51,62 +51,105 @@ import { LineChart } from './components/LineChart/LineChart';
 import { ProgressBar } from './components/ProgressBar/ProgressBar';
 import { PieChart } from './components/PieChart/PieChart';
 import { IPieChartData } from './components/PieChart/PieChart.props';
-import { data, updatedData } from './MockData/pieData';
+import { data1, updatedData1 } from './mockData/pieData';
 import { IFarm, ISharePointServer, ServerStatus } from './models';
 import { DataGenerator } from './utilities/DataGenerator';
-import {IFarm , ISharePointServer, ServerStatus} from './models';
-// import { BarChart } from './components/BarChart/BarChart';
-import { data, updatedData } from './/mockData/barChart';
+import { BarChart } from './components/BarChart/BarChart';
+import { data, updatedData } from './mockData/barChart';
 import { IBarChartData } from './components/BarChart/BarChart.props';
 
-export class Index extends React.PureComponent<any, any> {
+export class Index extends React.Component<any, any> {
     constructor() {
         super();
         this.state = { data: data };
 
-        setTimeout(() => this.setState({data: updatedData}), 2000);
+        setTimeout(() => this.setState({ data: updatedData }), 2000);
         let pieData = [];
         this.state = {
-            data: data
+            showDialog: false,
+            treeviewElements: elements,
+            selector: true,
+            cpu: '74',
+            farms: dummyDashboard.farms,
+            width: 600,
+            barChartData: data,
+            pieChartData: data1
         };
 
-        // setInterval(() => this.setState({ data: updatedData }), 3000);
+        setInterval(() => {
+            let newFarms = this.state.farms.map((farm: IFarm) => {
+
+                let servers = farm.servers.map((server: ISharePointServer) => {
+                    let measures = generateMeasures();
+                    let status = ServerStatus.Offline;
+                    if (measures.length > 0) {
+                        status = ServerStatus.OK;
+                        if (measures.filter(t => { return t.status === ServerStatus.Warning; }).length > 0) {
+                            status = ServerStatus.Warning;
+                        }
+                        if (measures.filter(t => { return t.status === ServerStatus.Critical; }).length > 0) {
+                            status = ServerStatus.Critical;
+                        }
+                    }
+                    return {
+                        id: server.id,
+                        status: status,
+                        roles: server.roles,
+                        onRoleEdit: server.onRoleEdit,
+                        onClose: server.onClose,
+                        name: server.name,
+                        measures: measures
+                    };
+                });
+                return {
+                    id: farm.id,
+                    isCustom: farm.isCustom,
+                    version: farm.version,
+                    name: farm.name,
+                    servers: servers
+                };
+            });
+            this.setState({ farms: newFarms });
+        }, 2000);
+
+        // setTimeout(() => this.setState({ width: 500 }), 1000);
+        // setTimeout(() => this.setState({ data: updatedData }), 2000);
     }
 
     public render() {
         return (
             <div>
-                <BarChart 
+                <PieChart
+                    id={'chart-1'}
+                    dimensions={{ width: '25%', height: '100px' }}
+                    data={this.state.pieChartData}
+                    colors={['#344086', '#8bd764', '#f3f986', '#ec1271', '#636363', 'red', 'green', 'purple', 'aquamarine', 'lightgrey']}
+                    tipText={(d: IPieChartData) => (d.label + ' : ' + d.value)} />
+                <br />
+                <CompactServer id={{ FQDN: 'CUSTOM-PC.localdomain' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'CUSTOM-PC'} roles={[]} status={1} />
+                <CompactServer id={{ FQDN: 'My very very long name of a server I am using I know its very long.domain.com' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'My very very long name of a server I am using I know its very long'} roles={[]} status={2} />
+                <CompactServer id={{ FQDN: 'BANANA-PC.banana.com' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'BANANA-PC'} roles={[{ display: 'WPF', iconName: 'icon-add' }, { display: 'Search', iconName: 'icon-alert' }]} status={0} />
+
+                <TagContainer title={'Roles'} tags={[{ display: 'Tag1', iconName: 'icon-add' }, { display: 'Tag2', iconName: 'icon-alert' }, { display: 'Tag3', iconName: 'icon-buy' }]}>
+                    <div className="edit-tags tag" title="Edit tags">
+                        <Icon className="icon-edit"></Icon>
+                    </div>
+                </TagContainer>
+                 <BarChart 
                     id={'bar-chart-1'} 
-                    data={this.state.data} 
+                    data={this.state.barChartData} 
                     dimensions={{width: '75%', height: '300px'}} 
                     onClick={data => console.log(data)} 
                     selectedIndex={4}/>
-                <PieChart
-                        id={'chart-1'}
-                        dimensions={{width: '25%', height: '100px'}}
-                        data={this.state.data}
-                        colors={['#344086', '#8bd764', '#f3f986', '#ec1271', '#636363', 'red', 'green', 'purple', 'aquamarine', 'lightgrey']}
-                        tipText={(d: IPieChartData) => (d.label + ' : ' + d.value)}/>
-                <br/>
-                <CompactServer id={{ FQDN: 'CUSTOM-PC.localdomain' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'CUSTOM-PC'} roles={[]} status={1} />
-                <CompactServer id={{ FQDN: 'My very very long name of a server I am using I know its very long.domain.com' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'My very very long name of a server I am using I know its very long'} roles={[]} status={2} />
-                <CompactServer id={{ FQDN: 'BANANA-PC.banana.com' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'BANANA-PC'} roles={[{ display: 'WPF', iconName: 'icon-Add' }, { display: 'Search', iconName: 'icon-Alert' }]} status={0} />
-
-                <TagContainer title={'Roles'} tags={[{ display: 'Tag1', iconName: 'icon-Add' }, { display: 'Tag2', iconName: 'icon-Alert' }, { display: 'Tag3', iconName: 'icon-Buy' }]}>
-                    <div className="edit-tags tag" title="Edit tags">
-                        <Icon className="icon-Edit"></Icon>
-                    </div>
-                </TagContainer>
                 <Ribbon items={[]}></Ribbon>
                 <AddToFavorites favorited={true} />
                 <AddToFavorites favorited={false} />
                 <Callout> AAAAAAA<Callout>BBBBBBBB</Callout> </Callout>
-                <MainNavigation id={'mainNavigation'} logo={'icon-Logo'}>
-                    <Icon iconName={'icon-Buy'}></Icon>
+                <MainNavigation id={'mainNavigation'} logo={'icon-logo'}>
+                    <Icon iconName={'icon-buy'}></Icon>
                 </MainNavigation>
                 <br />
-                <MessageBar messageBarType={MessageBarType.warning} hasDontShowAgain={true} onDismiss={() => { console.log('test'); } }>Ovo je message bar!</MessageBar>
+                <MessageBar messageBarType={MessageBarType.warning} hasDontShowAgain={true} onDismiss={() => { console.log('test'); }}>Ovo je message bar!</MessageBar>
                 <br />
                 <Pivot onLinkClick={(item, ev) => console.log(item)}>
                     <PivotItem linkText={'My Files'}>
@@ -121,13 +164,13 @@ export class Index extends React.PureComponent<any, any> {
                 </Pivot>
                 <br />
                 <Pivot onLinkClick={(item, ev) => console.log(item)}>
-                    <PivotItem linkText={'My Files'} linkIcon={'icon-User'}>
+                    <PivotItem linkText={'My Files'} linkIcon={'icon-user'}>
                         <Label>Pivot #1</Label>
                     </PivotItem>
                     <PivotItem linkText={'Recent'} >
                         <Label>Pivot #2</Label>
                     </PivotItem>
-                    <PivotItem linkText={'Shared with me'} linkIcon={'icon-Add'}>
+                    <PivotItem linkText={'Shared with me'} linkIcon={'icon-add'}>
                         <Label>Pivot #3</Label>
                     </PivotItem>
                 </Pivot>
@@ -155,9 +198,9 @@ export class Index extends React.PureComponent<any, any> {
                         label="Basic example:"
                         options={
                             [
-                                { key: 'A', text: 'Option a', icon: 'icon-Add' },
-                                { key: 'B', text: 'Option b', icon: 'icon-Buy' },
-                                { key: 'C', text: 'Option c', icon: 'icon-User' },
+                                { key: 'A', text: 'Option a', icon: 'icon-add' },
+                                { key: 'B', text: 'Option b', icon: 'icon-buy' },
+                                { key: 'C', text: 'Option c', icon: 'icon-user' },
                                 { key: 'D', text: 'Option d' },
                                 { key: 'E', text: 'Option e' },
                                 { key: 'F', text: 'Option f' },
@@ -167,18 +210,18 @@ export class Index extends React.PureComponent<any, any> {
                                 { key: 'J', text: 'Option j' },
                             ]
                         }
-                        />
+                    />
                 </div>
                 <div>
-                    <Dropdown icon={'icon-SwitchView'} dropdownType={DropdownType.customDropdown}>
+                    <Dropdown icon={'icon-switchView'} dropdownType={DropdownType.customDropdown}>
                         <Label>Header</Label>
                         <hr />
                         <li style={{ 'display': 'inline-flex' }}>
-                            <Icon iconName={'icon-Account'}></Icon>
+                            <Icon iconName={'icon-account'}></Icon>
                             <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
                         </li>
                         <li style={{ 'display': 'inline-flex' }}>
-                            <Icon iconName={'icon-Account'}></Icon>
+                            <Icon iconName={'icon-account'}></Icon>
                             <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
                         </li>
                     </Dropdown>
@@ -187,9 +230,9 @@ export class Index extends React.PureComponent<any, any> {
                 <Search
                     onChange={(newValue) => console.log('SearchBox onChange fired: ' + newValue)}
                     onSearch={(newValue) => console.log('SearchBox onSearch fired: ' + newValue)}
-                    />
+                />
                 <br />
-                <Icon iconName={'icon-Account'}></Icon>
+                <Icon iconName={'icon-account'}></Icon>
                 <br />
                 <Breadcrumbs items={[
                     { text: 'Files', 'key': 'Files' },
@@ -208,13 +251,13 @@ export class Index extends React.PureComponent<any, any> {
                 </Breadcrumbs>
                 <br />
                 <LeftNavigation id={'leftNavigation'} options={[
-                    { text: 'Home', id: 'Home', href: 'http://Acceleratio.net', icon: 'icon-Help' },
-                    { text: 'Activity', id: 'Activity', href: '#1', disabled: true, icon: 'icon-Account' },
-                    { text: 'News', id: 'News', href: '#2', icon: 'icon-Add' },
-                    { text: 'Documents', id: 'Documents', href: '#3', selected: true, icon: 'icon-Alert' },
-                    { text: 'Books', id: 'Books', href: '#4', icon: 'icon-Trash' }
+                    { text: 'Home', id: 'Home', href: 'http://Acceleratio.net', icon: 'icon-help' },
+                    { text: 'Activity', id: 'Activity', href: '#1', disabled: true, icon: 'icon-account' },
+                    { text: 'News', id: 'News', href: '#2', icon: 'icon-add' },
+                    { text: 'Documents', id: 'Documents', href: '#3', selected: true, icon: 'icon-alert' },
+                    { text: 'Books', id: 'Books', href: '#4', icon: 'icon-trash' }
                 ]}
-                    ></LeftNavigation>
+                ></LeftNavigation>
                 <br />
                 <History />
                 <br />
@@ -222,7 +265,7 @@ export class Index extends React.PureComponent<any, any> {
                     shouldFocusOnMount={true}
                     targetPoint={{ x: 500, y: 500 }}
                     useTargetPoint={true}
-                    onDismiss={() => { } }
+                    onDismiss={() => { }}
                     directionalHint={DirectionalHint.bottomRightEdge}
                     items={
                         [
@@ -331,10 +374,10 @@ export class Index extends React.PureComponent<any, any> {
                             },
                         ]
                     }
-                    />
+                />
                 <Checkbox label={'This is checkbox'} onChange={(ev, checked) => console.log('aaa')} defaultChecked={true} />
                 <Checkbox label={'This is disabled checkbox'} disabled={true} defaultChecked={true} />
-                <Checkbox label={'This is checkbox with icon'} onChange={(ev, checked) => console.log('icon')} iconClassName={'icon-User'} />
+                <Checkbox label={'This is checkbox with icon'} onChange={(ev, checked) => console.log('icon')} iconClassName={'icon-user'} />
                 <br />
                 <ChoiceGroup options={[
                     { key: 'A', text: 'Option A' },
@@ -391,7 +434,7 @@ export class Index extends React.PureComponent<any, any> {
                     groupEditFunc={dummyDashboard.groupEditFunc}
                     serverClose={dummyDashboard.serverClose}
                     serverRoleEdit={dummyDashboard.serverRoleEdit}
-                    />
+                />
 
 
 
@@ -410,27 +453,14 @@ export class Index extends React.PureComponent<any, any> {
                         { title: 'Disk', currentUsage: '0,1', usageUnit: 'Mbps', hoverText: ['4.49 Mbps', '2.63 Mbps', '0.3 Mbps'], status: ServerStatus.OK },
                         { title: 'Network', currentUsage: '0,1', usageUnit: 'MB/s', hoverText: ['50.10 kB/s', '23.47 kB/s'], status: ServerStatus.OK }
                     ]}>
-                    {/*<TagContainer tags={[{display:'Tag1', iconName:'icon-Add'}, {display:'Tag2', iconName:'icon-Alert'}, {display:'Tag3', iconName:'icon-Buy'}]}/>*/}
+                    {/*<TagContainer tags={[{display:'Tag1', iconName:'icon-add'}, {display:'Tag2', iconName:'icon-alert'}, {display:'Tag3', iconName:'icon-buy'}]}/>*/}
                 </ServerTile>
-                <PieChart text={'Sample text'}
-                    title={'Partition C:'}
-                    height={160}
-                    width={160}
-                    data={
-                        [
-                            { label: 'used', value: 99, text: 'Used: 68.36 GB', class: 'used-critical', unit: '%' },
-                            { label: 'free', value: 1, text: 'Free: 11.54 GB', unit: '%' },
-                            { label: 'option1', value: 124, text: 'Test1', unit: '%' },
-                            { label: 'option2', value: 251, text: 'Test2' }
-                        ]
-                    }
-                    ></PieChart>
                 <br />
                 <ProgressBar title={'RAM'} width={400} height={20} data={{ total: 15999, current: 12560 }}></ProgressBar>
             </div>);
     };
 
-private _onClickCompactServer(serverId) {
+    private _onClickCompactServer(serverId) {
         console.log('Clicked on editing roles of server ' + serverId);
     }
 

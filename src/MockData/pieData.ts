@@ -1,4 +1,4 @@
-export const data = [
+export const data1 = [
     {
         label: "Unexpected",
         value: 290
@@ -33,7 +33,7 @@ export const data = [
       }
 ];
 
-export const updatedData = [
+export const updatedData1 = [
     {
         label: "Unexpected",
         value: 123

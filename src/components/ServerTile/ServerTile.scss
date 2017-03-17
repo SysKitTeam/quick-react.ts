@@ -54,7 +54,7 @@ $server-status-color: $basic-text-color;
             position: relative;
             float: left;
             width: 100%;
-            margin: 10px 0;
+            margin: 3px 0 10px 0;
             background: $server-background-color;
             color: $tag-color;
             .tag{
@@ -139,7 +139,7 @@ $server-status-color: $basic-text-color;
         }
     }
 
-    .icon-User:after {
+    .icon-user:after {
         content: attr(data-users);
         padding: 0;
         margin: 0px 0px 2px 5px;
@@ -147,13 +147,10 @@ $server-status-color: $basic-text-color;
         font-size: $header-font-size;
     }
 
-    .icon-Delete{
+    .icon-delete{
         color: $emphasized-text-color;
         &:hover{
             color: $red-color;
         }
-    }
-    .label.server-name{
-
     }
 }
