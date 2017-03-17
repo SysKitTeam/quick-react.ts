@@ -5,11 +5,16 @@ import 'ts-helpers';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-// import { BarChart } from './../../src/components/BarChart/BarChart';
-// import { data, updatedData } from './../../src//mockData/barChart';
-// import { IBarChartData } from './../../src/components/BarChart/BarChart.props';
+import { BarChart } from './../../src/components/BarChart/BarChart';
+import { IBarChartData } from './../../src/components/BarChart/BarChart.props';
+import { data, updatedData } from './../../src//mockData/barChart';
 
 export class Index extends React.Component<any, any> {
+     constructor() {
+        super();
+        this.state = { data: data };
+        // setTimeout(() => this.setState({ data: updatedData }), 2000);
+    };
     public render() {
         return (
             <div>

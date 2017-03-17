@@ -36,7 +36,7 @@ module.exports = {
         StatusBar: "./examples/src/StatusBar.tsx",
         Dashboard: "./examples/src/Dashboard.tsx",
         ServerTile: "./examples/src/ServerTile.tsx",
-        //PieChart: "./examples/src/PieChart.tsx",
+        PieChart: "./examples/src/PieChart.tsx",
         ProgressBar: "./examples/src/ProgressBar.tsx",        
     },
     output: {

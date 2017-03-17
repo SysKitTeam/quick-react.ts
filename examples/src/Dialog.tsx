@@ -21,6 +21,7 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
+                 <Button onClick={this._showDialog.bind(this)}>Open Dialog</Button>
                  <Dialog
                     isOpen={this.state.showDialog}
                     onDismiss={this._closeDialog.bind(this)}
