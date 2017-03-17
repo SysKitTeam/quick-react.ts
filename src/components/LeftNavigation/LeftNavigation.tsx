@@ -92,7 +92,7 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
             ),
             <div>
                 <div className="nav-item" onClick={() => { this.onLeftNavigationClick(); }}>
-                    <Icon iconName={'icon-SwitchView'}></Icon>
+                    <Icon iconName={'icon-switchView'}></Icon>
                 </div>
                 {children}
             </div>

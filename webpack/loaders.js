@@ -1,18 +1,12 @@
 'use strict';
 
-exports.ts = {
-  test: /\.ts?$/,
-  loader: 'awesome-typescript-loader',
-  exclude: /node_modules/
-};
-
 exports.tslint = {
   test: /\.tsx?$/,
   loader: 'tslint',
   exclude: /node_modules/,
 };
 
-exports.tsx = {
+exports.ts = {
   test: /\.tsx?$/,
   loader: 'awesome-typescript-loader',
   exclude: /node_modules/,
