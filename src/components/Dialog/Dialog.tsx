@@ -13,10 +13,10 @@ import { Icon } from '../../components/Icon/Icon';
 import './Dialog.scss';
 
 export interface IDialogState {
-    isOpen ?: boolean;
-    isAnimatingOpen ?: boolean;
-    isAnimatingClose ?: boolean;
-    id ?: string;
+    isOpen?: boolean;
+    isAnimatingOpen?: boolean;
+    isAnimatingClose?: boolean;
+    id?: string;
 }
 
 export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
@@ -73,9 +73,10 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
             onLayerMounted,
             subText,
             title,
-            layerClassName
+            layerClassName,
+            useOpenCloseAnimation
         } = this.props;
-
+        useOpenCloseAnimation = useOpenCloseAnimation === undefined ? true : useOpenCloseAnimation;
         let { id, isOpen, isAnimatingOpen, isAnimatingClose } = this.state;
 
         if (!isOpen) {
@@ -89,48 +90,48 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
             this.props.className,
             {
                 'is-open': isOpen,
-                'is-animatingOpen': isAnimatingOpen,
-                'is-animatingClose': isAnimatingClose
+                'is-animatingOpen': isAnimatingOpen && useOpenCloseAnimation,
+                'is-animatingClose': isAnimatingClose && useOpenCloseAnimation
             }
         );
 
         let groupings = this._groupChildren();
 
         if (subText) {
-            subTextContent = <p className={'dialog-subText'} id={ id + '-subText' }>{ subText }</p>;
+            subTextContent = <p className={'dialog-subText'} id={id + '-subText'}>{subText}</p>;
         }
 
         return (
-            <Layer onLayerMounted={ onLayerMounted || onLayerDidMount } className={ layerClassName }>
+            <Layer onLayerMounted={onLayerMounted || onLayerDidMount} className={layerClassName}>
                 <Popup
                     role="dialog"
-                    onDismiss={ onDismiss }
-                    style={{height: '100%'}}>
-                    <div className={ dialogClassName }
-                        ref={ this._onDialogRef }>
-                        <Overlay isDarkThemed={ isDarkOverlay } onClick={ isBlocking ? null : onDismiss } />
-                        <div className={ classNames('dialog-main', this.props.containerClassName) }>
+                    onDismiss={onDismiss}
+                    style={{ height: '100%' }}>
+                    <div className={dialogClassName}
+                        ref={this._onDialogRef}>
+                        <Overlay isDarkThemed={isDarkOverlay} onClick={isBlocking ? null : onDismiss} />
+                        <div className={classNames('dialog-main', this.props.containerClassName)}>
                             <div className={'dialog-header'}>
-                                <p className={'dialog-title'} id={ id + '-title' }>{ title }</p>
+                                <p className={'dialog-title'} id={id + '-title'}>{title}</p>
                                 <div className={'dialog-topButton'}>
-                                    { hasCloseXButton && 
+                                    {hasCloseXButton &&
                                         <Icon
-                                            disabled={ false }
+                                            disabled={false}
                                             className={'dialog-button dialog-button-close'}
-                                            onClick={ onDismiss } 
-                                            iconName={'icon-Delete'}/>
+                                            onClick={onDismiss}
+                                            iconName={'icon-Delete'} />
                                     }
                                 </div>
                             </div>
                             <div className={'dialog-inner'}>
-                                <div className={ classNames('dialog-content', this.props.contentClassName) }>
-                                    { subTextContent }
-                                    { groupings.contents }
+                                <div className={classNames('dialog-content', this.props.contentClassName)}>
+                                    {subTextContent}
+                                    {groupings.contents}
                                 </div>
-                                { groupings.footers }
+                                {groupings.footers}
                             </div>
                         </div>
-                    </div>    
+                    </div>
                 </Popup>
             </Layer>
         );
