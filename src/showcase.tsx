@@ -63,7 +63,7 @@ export class Index extends React.PureComponent<any, any> {
     constructor() {
         super();
         this.state = { 
-            pieData: pieData,
+            pieData: pieUpdatedData,
             barData: barData
         };
 
@@ -73,14 +73,6 @@ export class Index extends React.PureComponent<any, any> {
     public render() {
         return (
             <div>
-                <PieChart
-                        id={'chart-1'}
-                        dimensions={{width: '50%', height: '300px'}}
-                        data={this.state.pieData}
-                        colors={['#344086', '#8bd764', '#f3f986', '#ec1271', '#636363', 'red', 'green', 'purple', 'aquamarine', 'lightgrey']}
-                        tipText={(d: IPieChartData) => (d.label + ' : ' + d.value)}
-                        displayingElements={5}/>
-                <br/>
                 <BarChart
                     id={'bar-chart-1'}
                     data={this.state.barData}

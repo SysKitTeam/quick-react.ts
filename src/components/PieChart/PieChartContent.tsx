@@ -1,12 +1,11 @@
 import * as React from 'react';
 import * as d3 from 'd3';
 import * as classNames from 'classnames';
-import { IPieChartProps, IPieChartData } from './PieChart.props';
+import { IPieChartContentProps, IPieChartData } from './PieChart.props';
 import { Tooltip } from '../Tooltip/Tooltip';
-import './PieChart.scss';
 
-export class PieChartContent extends React.PureComponent<IPieChartProps, any> {
-    constructor(props: IPieChartProps) {
+export class PieChartContent extends React.PureComponent<IPieChartContentProps, any> {
+    constructor(props: IPieChartContentProps) {
         super(props);
 
         this.state = {
@@ -16,8 +15,7 @@ export class PieChartContent extends React.PureComponent<IPieChartProps, any> {
             tipX: 0,
             tipY: 0,
             tipText: '',
-            isTipVisible: false,
-            data: this.transformData(props)
+            isTipVisible: false
         };
     }
 
@@ -25,38 +23,17 @@ export class PieChartContent extends React.PureComponent<IPieChartProps, any> {
     private createPie = () => d3.pie<IPieChartData>().padAngle(.02).sort(null).value((d : IPieChartData): number => d.value);
     private createColorPallette = () => d3.scaleOrdinal(this.props.colors);
 
-    private transformData(props: IPieChartProps): Array<any> {
-        let data = Array(0);        
-
-        if (props.displayingElements !== undefined) {
-            const sortedData = props.data.sort((a, b) => b.value - a.value);
-
-            for (let i = 0; i < props.displayingElements - 1; i++) { data.push(sortedData[i]); }
-            
-            let value = 0;
-            for (let i = props.displayingElements - 1; i < props.data.length; i++) { value += sortedData[i].value; }
-            data.push({ label: 'Other', value: value });
-
-            return data;
-        }
-
-        return props.data;
-    }
-
     private checkRadius(width: number, height: number): number {
         let radius = width / 2;
-        if (2 * radius > height) {
-            return height / 2;
-        }
+        if (2 * radius > height) { return height / 2; }
         return radius;
     }
 
-    public componentWillReceiveProps(newProps: IPieChartProps, newState: any) {        
+    public componentWillReceiveProps(newProps: IPieChartContentProps, newState: any) {        
         this.setState({
             fullWidth: newProps.width,
             fullHeight: newProps.height,
-            radius: this.checkRadius(newProps.width, newProps.height),
-            data: this.transformData(newProps)
+            radius: this.checkRadius(newProps.width, newProps.height)
         });
     }
 
@@ -70,14 +47,14 @@ export class PieChartContent extends React.PureComponent<IPieChartProps, any> {
 
     private bindData() {
         const pie = this.createPie();
-        d3.selectAll('.pie-arc.' + this.props.id).data(pie(this.state.data));
+        d3.selectAll('.pie-arc.' + this.props.id).data(pie(this.props.data));
     }
 
     public render() {
         const containerClass = classNames('pie-chart-container', this.props.id);
         const translate = 'translate(' + (this.state.fullWidth / 2) + ',' + (this.state.fullHeight / 2) + ')';
         return(
-            <svg width={'100%'} height={this.props.height}>
+            <svg width={this.props.width} height={this.props.height}>
                 <g className={containerClass} transform={translate}>
                     { this.renderPaths() }
                     <Tooltip id={'pie-chart-tooltip'} x={this.state.tipX} y={this.state.tipY} text={this.state.tipText} visible={this.state.isTipVisible}/>
@@ -91,14 +68,14 @@ export class PieChartContent extends React.PureComponent<IPieChartProps, any> {
         const color = this.createColorPallette();
         const pie = this.createPie();
 
-        const arcData = pie(this.state.data) as Array<any>;
+        const arcData = pie(this.props.data) as Array<any>;
 
         const pieArcClass = classNames('pie-arc', this.props.id);
 
-        return arcData.map((d, index) =>
+        return arcData.map((d, index: number) =>
             <path className={pieArcClass} key={index}
-                    d={ arc({ startAngle: d.startAngle, endAngle: d.endAngle }) }
-                    style={{ fill: color(d.data.label) }} 
+                    d={arc({ startAngle: d.startAngle, endAngle: d.endAngle })}
+                    style={{ fill: color(d.data.label) }}
                     onMouseOver={ (event: React.MouseEvent<SVGAElement>) => this.onMouseOver(event.currentTarget) }
                     onMouseOut={ (event: React.MouseEvent<SVGAElement>) => this.onMouseOut(event.currentTarget) }/>
         );

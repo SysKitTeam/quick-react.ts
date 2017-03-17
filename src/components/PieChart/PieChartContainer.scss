@@ -1,0 +1,23 @@
+@import '../../index.scss';
+
+.pie-chart-legend {
+    display: table-cell;
+    vertical-align: middle;
+    .legend-item {
+        margin-bottom: 5px;
+        display: block;
+        div {
+            width: 18px;
+            height: 18px;
+            vertical-align: bottom;
+            display: inline-block;
+            padding: 0;
+        }
+        label {
+            font-family: $font-family-base;
+            font-size: 12px;
+            margin-left: 5px;
+            padding: 0;
+        }
+    }
+}

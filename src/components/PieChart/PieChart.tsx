@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import * as classNames from 'classnames';
 import { IPieChartProps, IPieChartData } from './PieChart.props';
 import { PieChartContent } from './PieChartContent';
+import './PieChart.scss';
 
 const objectAssign = require('object-assign');
 const ResizeSensor = require('css-element-queries/src/ResizeSensor');
@@ -11,46 +12,112 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
     public static defaultProps = {
         title: '',
         text: '',
-        colors: d3.schemeCategory10,
-        tipText: () => ''
+        colors: d3.schemeCategory20,
+        tipText: () => '',
+        showLegend: false
     };
 
     private containerRef : HTMLDivElement;
+    private legendWidth : number;
 
     constructor(props: IPieChartProps) {
         super(props);
 
         this.state = {
-            fullWidth: 0,
-            fullHeight: 0,
-            isParentMounted: false
+            chartWidth: 0,
+            chartHeight: 0,
+            isParentMounted: false,
+            data: this.transformData(props)
         };
+    }
+
+    private createColorPallette = () => d3.scaleOrdinal(this.props.colors);
+
+    public componentWillReceiveProps(nextProps: IPieChartProps, nextState: any) {
+        this.setState({ data: this.transformData(nextProps) });
     }
 
     public render() {
         const pieComponentClass = classNames('pie-chart-component', this.props.id);
-        const props = objectAssign({}, this.props, { width: this.state.fullWidth, height: this.state.fullHeight });
+        
+        const props = objectAssign({}, 
+            {
+                width: this.state.chartWidth, 
+                height: this.state.chartHeight, 
+                data: this.state.data, 
+                id: this.props.id,
+                colors: this.props.colors,
+                tipText: this.props.tipText
+            }
+        );
+        
         return (
             <div className={pieComponentClass} 
                 style={{width: this.props.dimensions.width, height: this.props.dimensions.height}}
                 ref={(element: HTMLDivElement) => this.init(element)}>
                 { this.state.isParentMounted && <PieChartContent {...props}/> }
+                { this.props.showLegend && this.renderLegend() }
             </div>
         );
+    }
+
+    private transformData(props: IPieChartProps): Array<any> {
+        let data = Array(0);        
+
+        if (props.displayingElements !== undefined) {
+            const sortedData = props.data.sort((a, b) => b.value - a.value);
+            
+            for (let i = 0; i < props.displayingElements - 1; i++) { data.push(sortedData[i]); }
+    
+            let value = 0;
+            for (let i = props.displayingElements - 1; i < props.data.length; i++) { value += sortedData[i].value; }
+            data.push({ label: 'Other', value: value });
+
+            return data;
+        }
+
+        return props.data;
+    }
+
+    private renderLegend() : JSX.Element {
+        const legendClass = classNames('pie-chart-legend', this.props.id);
+        const color = this.createColorPallette();
+        const legend = this.state.data.map((data: IPieChartData, index: number) => {
+            return (
+                <div key={index} className={'legend-item'}>
+                    <div style={{backgroundColor: color(data.label)}}/>
+                    <label style={{display: 'inline-block'}}>{data.label}</label>
+                </div>
+            );
+        });
+        return ( <div className={legendClass}>{legend}</div> );
     }
 
     private init(element: HTMLDivElement): void {
         if (element === null) { return; }
 
-        this.containerRef = element;
-
-        const sensor = new ResizeSensor(element, () => this.onResize());
-
         const width = element.offsetWidth;
         const height = element.offsetHeight;
 
-        if (this.state.fullWidth !== width || this.state.fullHeight !== height) {
-            this.setState({ fullWidth: width, fullHeight: height, isParentMounted: true });
+        let legendIndex = 0;
+        let chartWidth = 0;
+
+        if (this.state.isParentMounted === false) {
+            this.containerRef = element;
+            const sensor = new ResizeSensor(element, () => this.onResize());
+            this.setState({ chartWidth: width, chartHeight: height, isParentMounted: true });
+            return;
+        } else { legendIndex = 1; }
+
+        if (!this.props.showLegend) {
+            chartWidth = width;
+        } else {
+            this.legendWidth = element.children[legendIndex].getBoundingClientRect().width;
+            if (width - 10 < this.legendWidth) { chartWidth = width; } else { chartWidth = width - this.legendWidth - 10; }
+        }
+
+        if (this.state.chartWidth !== width || this.state.chartHeight !== height) {
+            this.setState({ chartWidth: chartWidth, chartHeight: height, isParentMounted: true });
         }
     }
 
@@ -58,8 +125,15 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         const width = this.containerRef.offsetWidth;
         const height = this.containerRef.offsetHeight;
 
-        if (this.state.fullWidth !== width || this.state.fullHeight !== height) {
-            this.setState({ fullWidth: width, fullHeight: height });
+        let chartWidth = 0;
+
+        if (!this.props.showLegend) {
+            chartWidth = width;
+        } else {
+            if (width - 10 < this.legendWidth) { chartWidth = width; } else { chartWidth = width - this.legendWidth - 10; }
+        }
+        if (this.state.chartWidth !== width || this.state.chartHeight !== height) {
+            this.setState({ chartWidth: chartWidth, chartHeight: height });
             this.forceUpdate();
         }
     }
