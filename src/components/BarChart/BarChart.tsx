@@ -45,6 +45,10 @@ export class BarChart extends React.PureComponent<IBarChartProps, any> {
 
     public componentWillUnmount() { ResizeSensor.detach(this.containerRef); }
 
+    /**
+     * When root container is rendered and its dimensions are known set resize sensor to it and
+     * calculate dimensions so that chart content could be displayed inside it.
+     */
     private init(element: HTMLDivElement) : void {
         if (element === null) { return; }
         this.containerRef = element;
@@ -52,6 +56,10 @@ export class BarChart extends React.PureComponent<IBarChartProps, any> {
         this.setState({ fullWidth : element.offsetWidth, fullHeight: element.offsetHeight, parentMounted: true });
     }
 
+    /**
+     * When root element is resized calculate new dimensions and update state which causes all other child components
+     * to be scaled to appropriate dimensions. SetState will not be called if new dimensions are the same as ones in state.
+     */
     private onResize() : void {
         const width = this.containerRef.offsetWidth;
         const height = this.containerRef.offsetHeight;
