@@ -7,37 +7,29 @@
 
         <title>{{ site.title }}{% if page.title %} : {{ page.title }}{% endif %}</title>
         <meta name="description" content="{{ site.subtitle }}">
-
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+        
         <link rel="stylesheet" href="{{ site.baseurl }}/css/syntax.css">
         <link rel="stylesheet" href="{{ site.baseurl }}/css/main.css">
     </head>
     <body>
-        <div class="container">
-            <div class="row">
-                <div id="header" class="col-sm-12">
+        <div id="mainContainer">
+            <div class="siteRow">
+                <div id="header" class="siteColumn">
                     {% include header.html %}
                 </div>
             </div>
-            <div class="row">
-                {% assign post_count = site.posts|size %}
-                {% if site.navigation != 0 and site.navigation == 1 or post_count > 0 %}
-                    <div id="navigation" class="col-sm-2">
-                        {% include navigation.html %}
-                    </div>
+            <div class="siteRow">              
+                <div id="navigation">
+                    {% include navigation.html %}
+                </div>
 
-                    <div id="content" class="col-sm-10">
-                        {{ content }}
-                    </div>
-                {% else %}
-                    <div id="content" class="col-sm-12">
-                        {{ content }}
-                    </div>
-                {% endif %}
+                <div id="content" class="siteColumn col-10">
+                    {{ content }}
+                </div>               
             </div>
            
-            <div class="row">
-                <div id="footer" class="col-sm-12">
+            <div class="siteRow">
+                <div id="footer" class="siteColumn">
                     {% include footer.html %}
                 </div>
             </div>
