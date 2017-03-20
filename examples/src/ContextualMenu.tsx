@@ -7,6 +7,7 @@ import * as ReactDOM from 'react-dom';
 
 import { DirectionalHint } from './../../src/utilities/DirectionalHint';
 import { ContextualMenu } from './../../src/components/ContextualMenu/ContextualMenu';
+
 import { Button } from './../../src/components/Button/Button';
 import { ButtonType } from './../../src/components/Button/Button.Props';
 

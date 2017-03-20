@@ -5,7 +5,6 @@ import 'ts-helpers';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-// import { BarChart } from './../../src/components/BarChart/BarChart';
 import { IBarChartData } from './../../src/components/BarChart/BarChart.props';
 import { data, updatedData } from './../../src//mockData/barChart';
 

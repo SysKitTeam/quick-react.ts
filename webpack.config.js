@@ -35,10 +35,10 @@ module.exports = {
         Treeview: "./examples/src/Treeview.tsx",
         StatusBar: "./examples/src/StatusBar.tsx",
         Dashboard: "./examples/src/Dashboard.tsx",
-        ServerTile: "./examples/src/ServerTile.tsx",
-        PieChart: "./examples/src/PieChart.tsx",
+        ServerTile: "./examples/src/ServerTile.tsx",       
         ProgressBar: "./examples/src/ProgressBar.tsx",   
         History: "./examples/src/History.tsx",                     
+        PieChart: "./examples/src/PieChart.tsx",
     },
     output: {
         path: path.join(__dirname, '/dist'),
