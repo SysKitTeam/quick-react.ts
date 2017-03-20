@@ -14,6 +14,8 @@ export class Index extends React.Component<any, any> {
             data: data,
             linearData: linearData
         };
+
+        // setTimeout(() => this.setState({ linearData: linearDataUpdated }), 2000);
     }
 
     public render() {

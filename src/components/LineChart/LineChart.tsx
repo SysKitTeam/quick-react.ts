@@ -11,14 +11,15 @@ const objectAssign = require('object-assign');
 
 const margin: any = { top: 20, bottom: 30, left: 50, right: 40 };
 
-export class LineChart extends React.Component<ILineChartProps, any> {
+export class LineChart extends React.PureComponent<ILineChartProps, any> {
     public static defaultProps = {
         width: 0,
         height: 0,
         id: '',
         title: '',
         ticks: 2,
-        xAxisFormat: () => null
+        xAxisFormat: () => null,
+        colors: d3.schemeCategory20
     };
 
     private containerRef: HTMLDivElement;
@@ -63,7 +64,7 @@ export class LineChart extends React.Component<ILineChartProps, any> {
         const width = this.containerRef.offsetWidth;
         const height = this.containerRef.offsetHeight;
         if (height !== this.state.height || width !== this.state.width) {
-            this.setState({ width: width, height: height, isParentMounted: true });
+            this.setState({ width: width, height: height });
             this.forceUpdate();
         }
     }

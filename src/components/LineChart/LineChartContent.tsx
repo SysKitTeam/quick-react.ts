@@ -6,7 +6,7 @@ import { Tooltip } from '../Tooltip/Tooltip';
 
 const margin = { top: 20, bottom: 30, left: 50, right: 40 };
 
-export class LineChartContent extends React.Component<ILineChartProps, any> {
+export class LineChartContent extends React.PureComponent<ILineChartProps, any> {
     private x;
     private y;
     private bisect = d3.bisector<ILineChartData, any>((d) => d.argument).left;
@@ -29,6 +29,8 @@ export class LineChartContent extends React.Component<ILineChartProps, any> {
         this.y = this.generateY();
     }
 
+    private createColorPallette = () => d3.scaleOrdinal(this.props.colors);
+
     public componentWillReceiveProps(newProps: ILineChartProps, newState: any) {
         this.setState({ 
             fullWidth: newProps.width, 
@@ -42,12 +44,16 @@ export class LineChartContent extends React.Component<ILineChartProps, any> {
     }
 
     public render() {
-        const translateContainer = 'translate(' + margin.left + ',' + margin.top + ')';
-        const xAxisClass = classNames('x-axis', this.props.id);
-        const yAxisClass = classNames('y-axis', this.props.id);
-        const tipClass = classNames('bar-chart-component', 'tip', this.props.id);
+        const xAxisClass = classNames('x-axis', this.props.id, this.props.className);
+        const yAxisClass = classNames('y-axis', this.props.id, this.props.className);
+        const tipClass = classNames('bar-chart-component', 'tip', this.props.id, this.props.className);
+        const containerClass = classNames('line-chart-container', this.props.id, this.props.className);
+        
         const translateXAxis = 'translate(0,' + this.state.containerHeight + ')';
-        const containerClass = classNames('line-chart-container', this.props.id);
+         const translateContainer = 'translate(' + margin.left + ',' + margin.top + ')';
+
+        this.x = this.generateX();
+        this.y = this.generateY();
 
         return (
             <svg width={this.state.fullWidth} height={this.state.fullHeight}>
@@ -55,13 +61,19 @@ export class LineChartContent extends React.Component<ILineChartProps, any> {
                     <g className={xAxisClass} transform={translateXAxis} ref={(element: SVGAElement) => this.renderXAxis(element)}></g>
                     <g className={yAxisClass} ref={(element: SVGAElement) => this.renderYAxis(element)}></g>
                     <path d={this.renderLine()}></path>
-                    <rect 
-                        className={'capture-area'} width={this.state.fullWidth} height={this.state.fullHeight}
+                    <rect
+                        className={'capture-area'} width={this.state.containerWidth} height={this.state.containerHeight}
                         ref={(element: SVGAElement) => this.initCapture(element)}/>
                     <Tooltip id={this.props.id} text={this.state.tipText} x={this.state.tipX} y={this.state.tipY} visible={this.state.isTipVisible}/>
                 </g>
             </svg>
         );
+    }
+
+    private renderPaths() {
+        const color = this.createColorPallette();
+
+        return <path d={this.renderLine()} style={{stroke: color('something...')}}/>
     }
 
     private initCapture(element: SVGAElement) {
@@ -85,17 +97,25 @@ export class LineChartContent extends React.Component<ILineChartProps, any> {
             d = x0 - (d0.argument as any) > (d1.argument as any) - x0 ? d1 : d0;
         }
 
-        this.setState({ isTipVisible: true, tipX: this.x(d.argument), tipY: this.y(d.value), tipText: d.value + '%'})
+        this.setState({ isTipVisible: true, tipX: this.x(d.argument), tipY: this.y(d.value), tipText: d.value + '%'});
     }
 
     private renderXAxis(element: SVGAElement) {
         if (element === null) { return; }
 
+        let ticks = Array(0);
+        const delta = Math.floor(this.props.data.length / 5);
+        for (let i = 0; i < this.props.data.length; i = i + 2) { ticks.push(this.props.data[i].argument); }
+        ticks.concat(d3.extent(this.props.data, (d) => d.argument));
+
+        console.log(ticks);
+
         const xAxis = d3.axisBottom(this.generateX())
                 .tickSizeInner(-(this.state.containerHeight))
                 .tickSizeOuter(0)
                 .tickPadding(20)
-                .ticks(this.props.xAxisTicks)
+                .tickValues(ticks)
+                // .ticks(this.props.xAxisTicks)
                 .tickFormat(this.formatAxisLabels());
 
         d3.select(element).call(xAxis);
@@ -114,20 +134,20 @@ export class LineChartContent extends React.Component<ILineChartProps, any> {
         d3.select(element).call(yAxis);
     }
 
+     private generateX() {
+        const scale: any = (typeof this.props.data[0].argument) === 'number' ? d3.scaleLinear() : d3.scaleTime();
+        return scale.domain(d3.extent(this.props.data, (d) => d.argument)).range([0, this.state.containerWidth]);
+    }
+
+    private generateY() {
+        return d3.scaleLinear().domain([0, 100]).range([this.state.containerHeight, 0]).nice();
+    }
+
     private renderLine() {
         const x = this.generateX();
         const y = this.generateY();
         const lineGenerator = d3.line<ILineChartData>().x((d) => x(d.argument)).y((d) => y(d.value)).curve(d3.curveCatmullRom.alpha(0.5));
         return lineGenerator(this.props.data);
-    }
-
-    private generateX() {
-        const scale: any = (typeof this.props.data[0].argument) === 'number' ? d3.scaleLinear() : d3.scaleTime();
-        return scale.domain(d3.extent(this.props.data, (d) => d.argument)).range([0, this.state.containerWidth]).nice();
-    }
-
-    private generateY() {
-        return d3.scaleLinear().domain([0, 100]).range([this.state.containerHeight, 0]).nice();
     }
 
     private formatAxisLabels() : any {

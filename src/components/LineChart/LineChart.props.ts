@@ -9,6 +9,7 @@ export interface ILineChartProps {
     dimensions: ILineChartDimensions;
     xAxisFormat?: () => string;
     className?: string;
+    colors?: Array<string>;
 }
 
 export interface ILineChartData {

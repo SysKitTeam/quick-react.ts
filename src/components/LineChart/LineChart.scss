@@ -14,12 +14,17 @@ $border-color: #e8e9ef;
 
     svg {
         display: block;
+        overflow: visible;
+        
         .line-chart-container {
             path {
                 fill: none;
                 stroke: blue;
             }
             .x-axis, .y-axis {
+                path {
+                    visibility: hidden;
+                }
                 .tick {
                     line {
                         stroke: $background-color;
