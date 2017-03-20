@@ -1,6 +1,7 @@
 @import '../../index.scss';
 
 .tip-container {
+    pointer-events: none;
     polygon, rect {
         fill: #f6f6f6;
     }

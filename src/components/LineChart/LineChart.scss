@@ -4,80 +4,31 @@ $main-color: #5d5d5d;
 $background-color: #e8e9ef;
 $border-color: #e8e9ef;
 
-$font: 'Segoe UI';
-
-.line-chart-container {
-    text-align: center;
-    font-family: $font;
-    font-size: 16px;
-    font-weight: 500;
-    color: $main-color;
-    padding-left: 10px;
+.line-chart-component {
     display: inline-block;
     user-select: none;
     cursor: default;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    
-    .line-chart-title {
-        padding: 0px 0px 0px 0px;
-        margin: 2px 0px 2px 0px;
-        font-size: 16px;
-    }
 
     svg {
         display: block;
-        margin-top: -25px;
-
-        .svg-container {
-            .line-chart-capture {
+        .line-chart-container {
+            path {
                 fill: none;
-                pointer-events: all;
+                stroke: blue;
             }
-            .tip-container {
-                polygon {
-                    fill: white;
-                    stroke: #e8e9ef;
-                    stroke-width: 2;
-                }
-                rect {
-                    stroke: #e8e9ef;
-                    stroke-width: 2;
-                    fill: white;
-                }
-            }
-            g {
-                .domain {
-                    visibility: hidden;
-                }
-
+            .x-axis, .y-axis {
                 .tick {
                     line {
-                        stroke: #c7c7c7;
-                        stroke-width: 1px;
-                        margin: 0 auto;
-                    }
-
-                    text {
-                        font-family: $font;
-                        font-size: 12px;
-                        opacity: 0.8;
-                        fill: $main-color;
+                        stroke: $background-color;
                     }
                 }
             }
-
-            .line-chart-line {
-                fill: lightblue;
-                // stroke: $main-color;
-                // stroke-width: 2px;
-                opacity: 0.8;
-            }
-
-            .tooltip-text {
-                font-family: $font;
-                font-size: 12px;
+            .capture-area {
+                fill: none;
+                pointer-events: all;
             }
         }
     }

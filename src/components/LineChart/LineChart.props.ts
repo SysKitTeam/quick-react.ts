@@ -7,6 +7,8 @@ export interface ILineChartProps {
     yAxisTicks?: number;
     data: ILineChartData[];
     dimensions: ILineChartDimensions;
+    xAxisFormat?: () => string;
+    className?: string;
 }
 
 export interface ILineChartData {
