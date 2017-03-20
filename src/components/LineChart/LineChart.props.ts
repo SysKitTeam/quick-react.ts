@@ -6,9 +6,15 @@ export interface ILineChartProps {
     xAxisTicks?: number;
     yAxisTicks?: number;
     data: ILineChartData[];
+    dimensions: ILineChartDimensions;
 }
 
 export interface ILineChartData {
     argument: Date | number;
     value: number;
+}
+
+export interface ILineChartDimensions {
+    width: string;
+    height: string;
 }
