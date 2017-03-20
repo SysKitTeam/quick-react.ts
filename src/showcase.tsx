@@ -25,6 +25,7 @@ export class Index extends React.Component<any, any> {
                     data={this.state.linearData}
                     yAxisTicks={7}
                     xAxisTicks={5}
+                    dimensions={{width: '100%', height: '300px'}}
                 ></LineChart>
                 {/*<LineChart
                     id={'graf-1'}

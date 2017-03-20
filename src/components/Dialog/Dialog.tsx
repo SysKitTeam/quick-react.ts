@@ -118,7 +118,7 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
                                             disabled={ false }
                                             className={'dialog-button dialog-button-close'}
                                             onClick={ onDismiss } 
-                                            iconName={'icon-Delete'}/>
+                                            iconName={'icon-delete'}/>
                                     }
                                 </div>
                             </div>

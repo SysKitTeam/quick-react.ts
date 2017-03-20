@@ -86,10 +86,10 @@ export class Ribbon extends React.Component<IRibbonProps, ICommandBarState> {
         <div className={'ms-CommandBarSearch'} ref={'searchSurface'}>
           <input className={'ms-CommandBarSearch-input'} type={'text'} placeholder={ searchPlaceholderText } />
           <div className={'ms-CommandBarSearch-iconWrapper ms-CommandBarSearch-iconSearchWrapper'}>
-            <i className={'ms-Icon ms-Icon--Search'}></i>
+            <i className={'ms-Icon ms-Icon--search'}></i>
           </div>
           <div className={'ms-CommandBarSearch-iconWrapper ms-CommandBarSearch-iconClearWrapper ms-font-s'}>
-            <i className={'ms-Icon ms-Icon--Cancel'}></i>
+            <i className={'ms-Icon ms-Icon--cancel'}></i>
           </div>
         </div>
       );

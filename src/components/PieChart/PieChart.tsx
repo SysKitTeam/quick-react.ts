@@ -4,169 +4,218 @@ import * as classNames from 'classnames';
 import { Label } from '../Label/Label';
 import { IPieChartProps } from './PieChart.props';
 import { IPieChartData } from './PieChart.props';
-
 import './PieChart.scss';
 
-export class PieChart extends React.Component<IPieChartProps, any> {
+const ResizeSensor = require('css-element-queries/src/ResizeSensor');
+
+export class PieChart extends React.PureComponent<IPieChartProps, null> {
+
+    public static defaultProps = {
+        title: '',
+        text: '',
+        colors: d3.schemeCategory10,
+        tipText: () => ''
+    };
 
     refs: {
         [key: string]: (Element),
         container: HTMLInputElement
     };
 
-    private margin = {
-        top: 10,
-        right: 10,
-        bottom: 10,
-        left: 10
-    };
+    private margin = { top: 10, right: 10, bottom: 10, left: 10 };
 
     private _radius: any;
     private _focus: any;
     private _arc: any;
     private _textCoordinates: number[];
+    private _fullWidth;
+    private _fullHeight;
+    private _mainContainer;
+    private _chartContainer;
 
-    constructor() {
-        super();
-    }
+    public componentDidMount() {
+        const pieComponentClass = classNames('pie-chart-component', this.props.id);
+        const container: any = document.getElementsByClassName(pieComponentClass)[0];
+        this._fullWidth = container.offsetWidth;
+        this._fullHeight = container.offsetHeight;
 
-    componentDidMount() {
         this.draw();
+        
+        const sensor = new ResizeSensor(document.getElementsByClassName('pie-chart-component')[0], () => this._onResize());
     }
 
-    componentDidUpdate() {
+    public componentWillUnmount() {
+        const pieComponentClass = classNames('pie-chart-component', this.props.id);
+        ResizeSensor.detach(document.getElementsByClassName(pieComponentClass)[0]);
+    }
+
+    public componentDidUpdate() {
         this.redraw();
     }
 
     private redraw() {
-        d3.select('.svg-container').remove();
+        d3.select('.svg-container.' + this.props.id).remove();
         this.draw();
     }
 
+    private _onResize() {
+        const pieComponentClass = classNames('pie-chart-component', this.props.id);
+        const node: any = document.getElementsByClassName(pieComponentClass)[0];
+        const width = node.offsetWidth;
+        const height = node.offsetHeight;
+        if (this._fullWidth !== width || this._fullHeight !== height) { this.rescale(width, height); }
+    }
+
+    private rescale(newWidth: number, newHeight: number) {
+        this._fullHeight = newHeight;
+        this._fullWidth = newWidth;
+        
+        this._radius = newWidth / 4;
+
+        if (2 * this._radius >= this._fullHeight) { return; }
+
+        this._mainContainer.attr('width', this._fullWidth).attr('height', this._fullHeight);
+        
+        const arc = this.createArc();
+        const pie = this.createPie();
+        const color = this.createColorPallette();
+        
+        this._chartContainer.attr('transform', 'translate(' + (this._fullWidth / 2) + ',' + (this._fullHeight / 2) + ')');
+        
+        this._chartContainer.selectAll('.pie-path')
+            .data(pie(this.props.data))
+            .attr('d', arc)
+            .attr('class', 'pie-path')
+            .style('fill', (d) => color(d.data.label))
+            .on('mouseover', (d) => this._onMouseOver(d))
+            .on('mouseout', () => this._onMouseOut());
+    }
+
     public render() {
-        return (<div className={'pie-chart-component'}>
-                    <Label className={'title'}>{this.props.title}</Label>
-                    <Label className={'text'}>{this.props.text}</Label>
-                    <div className={'pie-chart-container'} ref={'container'}></div>
-                </div>);
+        const pieComponentClass = classNames('pie-chart-component', this.props.id);
+        return (
+            <div className={pieComponentClass} style={{width: this.props.dimensions.width, height: this.props.dimensions.height}}>
+                <Label className={'title'}>{this.props.title}</Label>
+                <Label className={'text'}>{this.props.text}</Label>
+                <div className={'pie-chart-container'} ref={'container'}></div>
+            </div>
+        );
     }
 
     private draw() {
-        this._radius = (this.props.width - 2) / 4;
-        const svg = this.createContainer();
+        this._radius = this._fullWidth / 4;
+        this._chartContainer = this.createContainer();
         const pie = this.createPie();
         const arc = this.createArc();
         const color = this.createColorPallette();
 
-        let g = svg.selectAll('.arc')
+        this._chartContainer.selectAll('.pie-path')
             .data(pie(this.props.data))
-            .enter()
-            .append('g')
-            .attr('class', 'arc');
+            .enter().append('path')
+            .attr('d', arc)
+            .attr('class', 'pie-path')
+            .style('fill', (d) => color(d.data.label))
+            .on('mouseover', (d) => this._onMouseOver(d))
+            .on('mouseout', () => this._onMouseOut());
 
-        g.append('path').attr('d', (arc as any))
-            .attr('class', (d) => (d.data.class) ? d.data.class : 'arc-path')
-            .style('fill', (d) => color(d.data.label));
-
-        g = svg.selectAll('.arc-text')
-            .data(pie(this.props.data))
-            .enter()
-            .append('g')
-            .attr('class', 'arc-text');
-
-        g.append('text')
-            .attr('transform',
-            (d) => { 
-                this._textCoordinates = arc.centroid(d); 
-                return 'translate(' + arc.centroid(d) + ')'; 
-            })
-            .text((d) => {
-                const unit = d.data.unit === undefined ? '' : d.data.unit;
-                return d.data.value + ' ' + unit;
-            })
-            .style('font-size', (this._radius / 3))
-            .attr('text-anchor', 'middle')
-            .attr('class', 'percentage-label')
-            .on('mouseover', (d) => this.showTooltip(d))
-            .on('mouseout', () => this._focus.style('display', 'none'));
-
-            this.createTooltip(svg);
+        this.createTooltip(this._chartContainer);
     }
 
-    private showTooltip(d: any) {
-        const coordinates = this._arc.centroid(d);
+    private _onMouseOver(d) : any {
+        d3.select(d3.event.currentTarget).attr('opacity', 0.75); 
+        this.showTooltip(d);
+    }
 
-        this._focus.style('display', 'block');
-
-        this._focus.select('.tip-rect')
-            .attr('transform',
-            'translate(' + (coordinates[0] - this._radius * 1.5) + ',' + (coordinates[1] - this._radius * (3 / 2)) + ')');
-
-        this._focus.select('.tip-pol')
-            .attr('transform',
-            'translate(' + (coordinates[0] - this._radius) + ',' + (coordinates[1] - this._radius * (3 / 2)) + ')');
-
-        this._focus.select('text.tooltip-text')
-            .attr('transform',
-            'translate(' + (coordinates[0] - this._radius * 1.5) + ',' + (coordinates[1] - this._radius * (5 / 4)) + ')')
-            .text(d.data.text);
+    private _onMouseOut() : any {
+        d3.select(d3.event.currentTarget).attr('opacity', 1);
+        this._focus.select('.tip-pol-up').style('display', 'none');
+        this._focus.select('.tip-pol-down').style('display', 'none');
+        this._focus.style('display', 'none');
     }
 
     private createContainer() {
-        return d3.select(this.refs.container).append('svg')
-            .attr('class', 'svg-container')
-            .attr('width', this.props.width - 2)    // minus 2 because of border
-            .attr('height', this.props.height - 20)
-            .append('g')
+        this._mainContainer = d3.select(this.refs.container).append('svg')
+            .attr('class', 'svg-container ' + this.props.id)
+            .attr('width', this._fullWidth) 
+            .attr('height', this._fullHeight);
+        return this._mainContainer.append('g')
             .attr('class', 'pie-chart-g')
-            .attr('transform', 'translate(' + (this.props.width / 2) + ',' + (this.props.height / 2) + ')');
+            .attr('transform', 'translate(' + (this._fullWidth / 2) + ',' + (this._fullHeight / 2) + ')');
     }
 
-    private createArc() {
+    private createArc() : any {
         this._arc = d3.arc()
             .outerRadius(this._radius)
             .innerRadius(0);
         return this._arc;
     }
 
-    private createFocus(svg: any) {
-        return svg.append('g').style('display', 'none');
-    }
-
     private createTooltip(container: any) {
-        this._focus = this.createFocus(container);
+        const tipClassName = classNames('tip', this.props.id);
+
+        this._focus = container.append('g').attr('class', classNames(tipClassName, 'tip-container')).style('display', 'none');
 
         this._focus.append('rect')
-            .attr('width', this._radius * 3)
-            .attr('height', this._radius)
-            .attr('class', 'tip-rect')
+            .attr('height', 24)
+            .attr('width', 100)
+            .attr('class', classNames(tipClassName, 'tip-rect'))
             .attr('fill', 'white')
             .attr('x', 0)
-            .attr('y', 0);
-
-        // Calculate position of tip pointer
-        const middlePoint = this._radius; // width is 2 times of a radius
-        const width = this._radius / 4;
-        const leftPoint = middlePoint - width;
-        const rightPoint = middlePoint + width;
-        const tipHeight = this._radius * (5 / 4);
-        const bottomPoint = this._radius - 2;
-
-        const p1 = leftPoint + ',' + bottomPoint;
-        const p2 = middlePoint + ',' + tipHeight;
-        const p3 = rightPoint + ',' + bottomPoint;
+            .attr('y', 0)
+            .attr('pointer-events', 'none');
 
         this._focus.append('polygon')
             .attr('fill', 'white')
-            .attr('class', 'tip-pol')
-            .attr('points', p1 + ' ' + p2 + ' ' + p3);
+            .attr('class', classNames(tipClassName, 'tip-pol-down'))
+            .attr('points', '0,0 10,10 20,0')
+            .style('display', 'none')
+            .attr('pointer-events', 'none');
+
+        this._focus.append('polygon')
+            .attr('fill', 'white')
+            .attr('class', classNames(tipClassName, 'tip-pol-up'))
+            .attr('points', '0,0 10,-10, 20,0')
+            .style('display', 'none')
+            .attr('pointer-events', 'none');
 
         this._focus.append('text')
-            .attr('class', 'tooltip-text')
+            .attr('class', classNames(tipClassName, 'tip-text'))
             .attr('fill', 'black')
-            .attr('dx', this._radius * 1.5)
-            .attr('dy', this._radius / 2)
-            .attr('text-anchor', 'middle');
+            .attr('dx', 8)
+            .attr('dy', 14)
+            .attr('text-anchor', 'middle')
+            .attr('pointer-events', 'none');
+    }
+
+     private showTooltip(d: any) {
+        const coordinates = this._arc.centroid(d);
+
+        const textRef = this._focus.select('text.tip-text').text(this.props.tipText(d.data));
+        const textWidth = textRef.node().getComputedTextLength();
+        const textPadding = 16;
+
+        this._focus.style('display', 'block');
+
+        let translatePol, translateTextArea, translateText;
+
+        // Flip tooltip
+        if (coordinates[1] < 0) {
+            this._focus.select('.tip-pol-up').style('display', 'block');
+            translatePol = 'translate(' + (coordinates[0] - 10) + ',' + (coordinates[1] + 10) + ')';
+            translateTextArea = 'translate(' + (coordinates[0] - textWidth / 2) + ',' + (coordinates[1] + 10) + ')';
+            translateText = 'translate(' + coordinates[0] + ',' + (coordinates[1] + 10) + ')';
+            this._focus.select('.tip-pol-up').attr('transform', translatePol);
+        } else {
+            this._focus.select('.tip-pol-down').style('display', 'block');
+            translatePol = 'translate(' + (coordinates[0] - 10) + ',' + (coordinates[1] - 15) + ')';
+            translateTextArea = 'translate(' + (coordinates[0] - textWidth / 2) + ',' + (coordinates[1] - 39) + ')';
+            translateText = 'translate(' + coordinates[0] + ',' + (coordinates[1] - 39) + ')';
+            this._focus.select('.tip-pol-down').attr('transform', translatePol);
+        }
+
+        // this._focus.select('.tip-pol-up').attr('transform', translatePol);
+        this._focus.select('.tip-rect').attr('width', textWidth + textPadding).attr('transform', translateTextArea);
+        this._focus.select('text.tip-text').attr('transform', translateText);
     }
 
     private createPie() {
@@ -174,17 +223,6 @@ export class PieChart extends React.Component<IPieChartProps, any> {
     }
 
     private createColorPallette() {
-        return d3.scaleOrdinal(d3.schemeCategory10);
-    }
-
-    private _checkNameLen(name: string) : string {
-        if (name.length > 5) {
-            if (name.indexOf('.') !== -1 && name.indexOf('.') < 5) {
-                name = name.substr(0, name.indexOf('.') + 1);
-            } else {
-                name = name.substr(0, 2) + '...';
-            }                
-        }
-        return name;
+        return d3.scaleOrdinal(this.props.colors);
     }
 }
