@@ -54,7 +54,7 @@ import { IPieChartData } from './components/PieChart/PieChart.props';
 import { data1, updatedData1 } from './mockData/pieData';
 import { IFarm, ISharePointServer, ServerStatus } from './models';
 import { DataGenerator } from './utilities/DataGenerator';
-// import { BarChart } from './components/BarChart/BarChart';
+import { BarChart } from './components/BarChart/BarChart';
 import { data, updatedData } from './mockData/barChart';
 import { IBarChartData } from './components/BarChart/BarChart.props';
 
@@ -72,7 +72,8 @@ export class Index extends React.Component<any, any> {
             cpu: '74',
             farms: dummyDashboard.farms,
             width: 600,
-            data: data1
+            barChartData: data,
+            pieChartData: data1
         };
 
         setInterval(() => {
@@ -121,7 +122,7 @@ export class Index extends React.Component<any, any> {
                 <PieChart
                     id={'chart-1'}
                     dimensions={{ width: '25%', height: '100px' }}
-                    data={this.state.data}
+                    data={this.state.pieChartData}
                     colors={['#344086', '#8bd764', '#f3f986', '#ec1271', '#636363', 'red', 'green', 'purple', 'aquamarine', 'lightgrey']}
                     tipText={(d: IPieChartData) => (d.label + ' : ' + d.value)} />
                 <br />
@@ -134,7 +135,12 @@ export class Index extends React.Component<any, any> {
                         <Icon className="icon-edit"></Icon>
                     </div>
                 </TagContainer>
-                {/*<BarChart id={'bar-chart-1'} data={this.state.data} dimensions={{width: '100%', height: '300px'}}/>*/}
+                 <BarChart 
+                    id={'bar-chart-1'} 
+                    data={this.state.barChartData} 
+                    dimensions={{width: '75%', height: '300px'}} 
+                    onClick={data => console.log(data)} 
+                    selectedIndex={4}/>
                 <Ribbon items={[]}></Ribbon>
                 <AddToFavorites favorited={true} />
                 <AddToFavorites favorited={false} />

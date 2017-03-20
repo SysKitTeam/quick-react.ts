@@ -41,11 +41,11 @@ export class PieChart extends React.PureComponent<IPieChartProps, null> {
 
         this.draw();
         
-        new ResizeSensor(document.getElementsByClassName('pie-chart-component')[0], () => this._onResize());
+        const sensor = new ResizeSensor(document.getElementsByClassName('pie-chart-component')[0], () => this._onResize());
     }
 
     public componentWillUnmount() {
-        const pieComponentClass = classNames('pie-chart-component', this.props.id)
+        const pieComponentClass = classNames('pie-chart-component', this.props.id);
         ResizeSensor.detach(document.getElementsByClassName(pieComponentClass)[0]);
     }
 
@@ -63,7 +63,7 @@ export class PieChart extends React.PureComponent<IPieChartProps, null> {
         const node: any = document.getElementsByClassName(pieComponentClass)[0];
         const width = node.offsetWidth;
         const height = node.offsetHeight;
-        if(this._fullWidth !== width || this._fullHeight !== height) { this.rescale(width, height); }
+        if (this._fullWidth !== width || this._fullHeight !== height) { this.rescale(width, height); }
     }
 
     private rescale(newWidth: number, newHeight: number) {
@@ -137,7 +137,7 @@ export class PieChart extends React.PureComponent<IPieChartProps, null> {
         this._mainContainer = d3.select(this.refs.container).append('svg')
             .attr('class', 'svg-container ' + this.props.id)
             .attr('width', this._fullWidth) 
-            .attr('height', this._fullHeight)
+            .attr('height', this._fullHeight);
         return this._mainContainer.append('g')
             .attr('class', 'pie-chart-g')
             .attr('transform', 'translate(' + (this._fullWidth / 2) + ',' + (this._fullHeight / 2) + ')');

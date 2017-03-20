@@ -1,57 +1,57 @@
 export const data = [
     {
-        label: "Unexpected",
+        label: 'A',
         value: 290
       },
       {
-        label: "Monitorable",
+        label: 'B',
         value: 26
       },
       {
-        label: "High",
+        label: 'C',
         value: 20691
       },
       {
-        label: "Critical",
+        label: 'D',
         value: 1412
       },
       {
-        label: "Error",
+        label: 'E',
         value: 240
       },
       {
-        label: "Exception",
+        label: 'F',
         value: 10
       },
       {
-        label: "Warning",
+        label: 'G',
         value: 106
       },
       {
-        label: "Information",
+        label: 'H',
         value: 1542
       }
 ];
 
 export const updatedData = [
     {
-        label: "Unexpected",
+        label: 'A',
         value: 123
       },
       {
-        label: "Monitorable",
+        label: 'B',
         value: 57
       },
       {
-        label: "High",
+        label: 'C',
         value: 643
       },
       {
-        label: "Critical",
+        label: 'D',
         value: 1800
       },
       {
-        label: "Error",
+        label: 'E',
         value: 233
       }
 ];
