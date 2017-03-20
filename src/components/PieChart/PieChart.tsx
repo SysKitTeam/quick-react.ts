@@ -26,26 +26,20 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         this.state = {
             chartWidth: 0,
             chartHeight: 0,
-            isParentMounted: false,
-            data: this.transformData(props)
+            isParentMounted: false
         };
     }
 
     private createColorPallette = () => d3.scaleOrdinal(this.props.colors);
 
-    public componentWillReceiveProps(nextProps: IPieChartProps, nextState: any) {
-        this.setState({ data: this.transformData(nextProps) });
-    }
-
     public render() {
-        console.log('rendering...');
         const pieComponentClass = classNames('pie-chart-component', this.props.id);
         
         const props = objectAssign({}, 
             {
                 width: this.state.chartWidth, 
                 height: this.state.chartHeight, 
-                data: this.state.data, 
+                data: this.transformData(),
                 id: this.props.id,
                 colors: this.props.colors,
                 tipText: this.props.tipText
@@ -57,7 +51,7 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
                 style={{width: this.props.dimensions.width, height: this.props.dimensions.height}}
                 ref={(element: HTMLDivElement) => this.init(element)}>
                     { this.state.isParentMounted && <PieChartContent {...props}/>}
-                    { this.props.showLegend && this.renderLegend() }
+                    { this.props.showLegend && this.renderLegend(props.data) }
             </div>
         );
     }
@@ -65,23 +59,24 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
     private init(element: HTMLDivElement): void {
         if (element === null) { return; }
 
+        // get width and height of component container
         const width = element.offsetWidth;
         const height = element.offsetHeight;
-
-        let legendIndex = 0;
+        
         let chartWidth = 0;
 
-        if (this.state.isParentMounted === false) {
+        // first rendering
+        if ( this.state.isParentMounted === false ) {
             this.containerRef = element;
             const sensor = new ResizeSensor(element, () => this.onResize());
             this.setState({ chartWidth: width, chartHeight: height, isParentMounted: true });
             return;
-        } else { legendIndex = 1; }
+        }
 
-        if (!this.props.showLegend) {
+        if ( !this.props.showLegend ) {
             chartWidth = width;
         } else {
-            this.legendWidth = element.children[legendIndex].getBoundingClientRect().width;
+            this.legendWidth = element.children[1].getBoundingClientRect().width;
             if (width - 10 < this.legendWidth) { chartWidth = width; } else { chartWidth = width - this.legendWidth - 10; }
             if (chartWidth >= height) { chartWidth = height; }
         }
@@ -91,36 +86,35 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         }
     }
 
-    private renderLegend() : JSX.Element {
+    private renderLegend(data: Array<IPieChartData>) : JSX.Element {
         const legendClass = classNames('pie-chart-legend', this.props.id);
         const color = this.createColorPallette();
-        const legend = this.state.data.map((data: IPieChartData, index: number) => {
-            return (
+        const legend = data.map(
+            (d: IPieChartData, index: number) =>
                 <div key={index} className={'legend-item'}>
-                    <div style={{backgroundColor: color(data.label)}}/>
-                    <label style={{display: 'inline-block'}}>{data.label}</label>
-                </div>
-            );
-        });
+                    <div style={{backgroundColor: color(d.label)}}/>
+                    <label style={{display: 'inline-block'}}>{d.label}</label>
+                </div> 
+        );
         return ( <div className={legendClass}>{legend}</div> );
     }
 
-    private transformData(props: IPieChartProps): Array<any> {
+    private transformData(): Array<any> {
         let data = Array(0);        
 
-        if (props.displayingElements !== undefined) {
-            const sortedData = props.data.sort((a, b) => b.value - a.value);
+        if (this.props.displayingElements !== undefined) {
+            const sortedData = this.props.data.sort((a, b) => b.value - a.value);
             
-            for (let i = 0; i < props.displayingElements - 1; i++) { data.push(sortedData[i]); }
+            for (let i = 0; i < this.props.displayingElements - 1; i++) { data.push(sortedData[i]); }
     
             let value = 0;
-            for (let i = props.displayingElements - 1; i < props.data.length; i++) { value += sortedData[i].value; }
+            for (let i = this.props.displayingElements - 1; i < this.props.data.length; i++) { value += sortedData[i].value; }
             data.push({ label: 'Other', value: value });
 
             return data;
         }
 
-        return props.data;
+        return this.props.data;
     }
 
     private onResize(): void {

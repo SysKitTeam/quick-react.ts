@@ -76,8 +76,9 @@ export class Index extends React.PureComponent<any, any> {
                 <PieChart
                     data={this.state.pieData}
                     id={'pie-chart-1'}
-                    dimensions={{width: '80%', height:'200px'}}
-                    showLegend={true}/>
+                    dimensions={{width: '80%', height:'400px'}}
+                    showLegend={true}
+                    displayingElements={2}/>
             </div>
         );
     };

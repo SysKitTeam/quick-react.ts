@@ -9,9 +9,6 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
         super(props);
 
         this.state = {
-            fullWidth: props.width,
-            fullHeight: props.height,
-            radius: props.width / 2,
             tipX: 0,
             tipY: 0,
             tipText: '',
@@ -19,23 +16,9 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
         };
     }
 
-    private createArc = () : any => d3.arc().outerRadius(0).innerRadius(this.state.radius);
+    private createArc = () : any => d3.arc().outerRadius(0).innerRadius(this.props.width / 2);
     private createPie = () => d3.pie<IPieChartData>().padAngle(.02).sort(null).value((d : IPieChartData): number => d.value);
     private createColorPallette = () => d3.scaleOrdinal(this.props.colors);
-
-    // private checkRadius(width: number, height: number): number {
-    //     let radius = width / 2;
-    //     if (2 * radius > height) { return height / 2; }
-    //     return radius;
-    // }
-
-    public componentWillReceiveProps(newProps: IPieChartContentProps, newState: any) {        
-        this.setState({
-            fullWidth: newProps.width,
-            fullHeight: newProps.height,
-            radius: newProps.width / 2
-        });
-    }
 
     public componentDidMount() {
         this.bindData();
@@ -52,7 +35,7 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
 
     public render() {
         const containerClass = classNames('pie-chart-container', this.props.id);
-        const translate = 'translate(' + (this.state.fullWidth / 2) + ',' + (this.state.fullHeight / 2) + ')';
+        const translate = 'translate(' + (this.props.width / 2) + ',' + (this.props.height / 2) + ')';
         return(
             <svg width={this.props.width} height={this.props.height}>
                 <g className={containerClass} transform={translate}>
