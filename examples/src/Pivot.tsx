@@ -26,13 +26,13 @@ export class Index extends React.Component<any, any> {
                 </Pivot>
                 <br />
                 <Pivot onLinkClick={(item, ev) => console.log(item)}>
-                    <PivotItem linkText={'My Files'} linkIcon={'icon-User'}>
+                    <PivotItem linkText={'My Files'} linkIcon={'icon-user'}>
                         <Label>Pivot #1</Label>
                     </PivotItem>
                     <PivotItem linkText={'Recent'} >
                         <Label>Pivot #2</Label>
                     </PivotItem>
-                    <PivotItem linkText={'Shared with me'} linkIcon={'icon-Add'}>
+                    <PivotItem linkText={'Shared with me'} linkIcon={'icon-add'}>
                         <Label>Pivot #3</Label>
                     </PivotItem>
                 </Pivot>

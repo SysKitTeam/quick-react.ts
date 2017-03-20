@@ -16,7 +16,7 @@ export class Index extends React.Component<any, any> {
                 <Label>Normal Spinner</Label>
                 <Spinner />
                 <Label>Large Spinner With Label</Label>
-                <Spinner type={SpinnerType.large} label="Seriously, still loading..." />
+                <Spinner type={SpinnerType.large} label="Loading label..." />
             </div>
         );
     };

@@ -11,7 +11,16 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-                <Callout> AAAAAAA<Callout>BBBBBBBB</Callout> </Callout>
+                <Callout
+                    targetPoint={{ x: 1000, y: 300 }}
+                    useTargetPoint={true}>
+                    Callout1_Inner
+                    <Callout
+                        targetPoint={{ x: 1000, y: 350 }}
+                        useTargetPoint={true}>                    
+                            Callout2_Inner
+                    </Callout>
+                </Callout>
             </div>
         );
     };

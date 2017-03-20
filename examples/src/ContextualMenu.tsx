@@ -7,15 +7,24 @@ import * as ReactDOM from 'react-dom';
 
 import { DirectionalHint } from './../../src/utilities/DirectionalHint';
 import { ContextualMenu } from './../../src/components/ContextualMenu/ContextualMenu';
-
+import { Button } from './../../src/components/Button/Button';
+import { ButtonType } from './../../src/components/Button/Button.Props';
 
 export class Index extends React.Component<any, any> {
+     public constructor() {
+        super();
+        this.state = { visible: true };
+    }
+    private _toggleMenu() {
+        this.setState({ showDialog: true });
+    }
     public render() {
-        return (
+         return (
             <div>
+                 <Button onClick={this._toggleMenu.bind(this)}>Toggle Menu</Button>
                  <ContextualMenu
                     shouldFocusOnMount={true}
-                    targetPoint={{ x: 500, y: 500 }}
+                    targetPoint={{ x: 1000, y: 300 }}
                     useTargetPoint={true}
                     onDismiss={() => { } }
                     directionalHint={DirectionalHint.bottomRightEdge}

@@ -13,9 +13,7 @@ import { DialogFooter } from './../../src/components/Dialog/DialogFooter';
 export class Index extends React.Component<any, any> {
     constructor() {
         super();
-        this.state = {
-            showDialog: false,
-        };
+        this.state = { showDialog: false };
     }
     
     public render() {
@@ -37,7 +35,7 @@ export class Index extends React.Component<any, any> {
         );
     };
 
-     private _showDialog() {
+    private _showDialog() {
         this.setState({ showDialog: true });
     }
 

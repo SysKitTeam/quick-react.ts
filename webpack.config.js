@@ -37,7 +37,8 @@ module.exports = {
         Dashboard: "./examples/src/Dashboard.tsx",
         ServerTile: "./examples/src/ServerTile.tsx",
         PieChart: "./examples/src/PieChart.tsx",
-        ProgressBar: "./examples/src/ProgressBar.tsx",        
+        ProgressBar: "./examples/src/ProgressBar.tsx",   
+        History: "./examples/src/History.tsx",                     
     },
     output: {
         path: path.join(__dirname, '/dist'),

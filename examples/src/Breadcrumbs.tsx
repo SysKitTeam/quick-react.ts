@@ -24,7 +24,7 @@ export class Index extends React.Component<any, any> {
                     { text: 'This is folder 4', key: 'f4', href: '#4' },
                     { text: 'This is folder 5', key: 'f5', onClick: () => { console.log('click'); } }
                 ]}
-                                    maxDisplayedItems={3}>
+                maxDisplayedItems={3}>
                 </Breadcrumbs>
             </div>
         );

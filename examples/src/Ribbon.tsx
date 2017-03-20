@@ -11,7 +11,27 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-               <Ribbon items={[]}></Ribbon>
+               <Ribbon
+               isSearchBoxVisible={true}               
+               items={[
+                    {
+                        key: 'item1',
+                        name: 'item1',
+                    },
+                    {
+                        key: 'divider_1',
+                        name: '-',
+                    },
+                    {
+                        key: 'item2',
+                        name: 'item2'
+                    },
+                    {
+                        key: 'item3',
+                        name: 'item3'
+                    },
+               ]}                               
+               ></Ribbon>
             </div>
         );
     };

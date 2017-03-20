@@ -18,9 +18,9 @@ export class Index extends React.Component<any, any> {
                         label="Basic example:"
                         options={
                             [
-                                { key: 'A', text: 'Option a', icon: 'icon-Add' },
-                                { key: 'B', text: 'Option b', icon: 'icon-Buy' },
-                                { key: 'C', text: 'Option c', icon: 'icon-User' },
+                                { key: 'A', text: 'Option a', icon: 'icon-add' },
+                                { key: 'B', text: 'Option b', icon: 'icon-buy' },
+                                { key: 'C', text: 'Option c', icon: 'icon-user' },
                                 { key: 'D', text: 'Option d' },
                                 { key: 'E', text: 'Option e' },
                                 { key: 'F', text: 'Option f' },
