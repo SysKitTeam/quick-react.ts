@@ -1,0 +1,56 @@
+@import '../../index.scss';
+
+.tag-container{
+    @include baseFont();
+    width: 95%;
+    margin:5px 2.5%;
+    height: auto;
+
+    .tag{
+        display: inline-block;
+        padding: 3px;
+        margin: 2px 4px;
+        background: $server-background-color;
+        border-radius: 4px;
+        cursor: default;
+    }
+    .icon{
+        margin-right: 2px;
+        color: $light-text-color;
+    }
+    .edit-tags{
+        display: inline-block;
+        margin:5px;
+        cursor: pointer;
+        background: none;
+
+    }
+    .edit-tags:hover{
+        background: $green-color;
+        color: white;
+        .icon{
+            background: $green-color;
+            color: white;
+        }
+    } 
+    h5{
+        margin: 0;
+        margin-top: 5px;
+        cursor: default;
+    }
+
+    .tag.points{
+        cursor: pointer;
+        margin-left: 0 !important;
+        padding: 0;
+    }
+    .tag-text{
+            max-width: 37px;
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+            top: 2px;
+            white-space: nowrap;
+    }
+}

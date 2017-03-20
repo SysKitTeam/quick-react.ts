@@ -21,12 +21,15 @@ export interface IDeclaredEventsByName {
   [eventName: string]: boolean;
 }
 
+const argsKey = 'args';
+const createEventObjectKey = 'createEventObject';
 export class EventGroup {
   private static _uniqueId = 0;
   private _parent;
   private _eventRecords: IEventRecord[];
   private _id = EventGroup._uniqueId++;
   private _isDisposed: boolean;
+
 
   public static raise(
     target: any,
@@ -41,10 +44,10 @@ export class EventGroup {
         let ev = document.createEvent('HTMLEvents');
 
         ev.initEvent(eventName, bubbleEvent, true);
-        ev['args'] = eventArgs;
+        ev[argsKey] = eventArgs;
         retVal = target.dispatchEvent(ev);
-      } else if (document['createEventObject']) {
-        let evObj = document['createEventObject'](eventArgs);
+      } else if (document[createEventObjectKey]) {
+        let evObj = document[createEventObjectKey](eventArgs);
 
         target.fireEvent('on' + eventName, evObj);
       }
@@ -180,7 +183,7 @@ export class EventGroup {
 
         if (target.addEventListener) {
           (<EventTarget>target).addEventListener(eventName, processElementEvent, useCapture);
-        } else if (target.attachEvent) { 
+        } else if (target.attachEvent) {
           target.attachEvent('on' + eventName, processElementEvent);
         }
       } else {

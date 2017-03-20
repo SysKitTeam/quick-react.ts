@@ -1,0 +1,96 @@
+ @import '../../index.scss';
+
+.dashboard-header-container {
+    @include baseFont();
+    display: flex;
+    width: calc(100% - 32px);
+    color: $basic-text-color;
+    padding: 15px;
+    border: 1px solid #eee;
+    overflow: hidden;
+    display: block;
+   .icon{
+       color: $emphasized-text-color;
+   }
+    .dashboard-header-title-container {
+        width: 30%;
+        display: inline-block;
+        font-weight: 400;
+        font-size: 25px;
+        color: $emphasized-text-color;
+
+        .dashboard-header-title {
+            display: inherit;
+            width: auto;
+            position: relative;
+            max-width: 80%;
+            vertical-align: middle;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .icon.add-farm {
+            display: inherit;
+            width: auto;
+            padding: 0;
+            margin: 5px 10px 0px 10px;
+            vertical-align: middle;
+            top: -3px;
+            position: relative;
+            color: $green-color;
+            cursor: pointer;
+            &:hover {
+                    opacity: 0.7;
+            }
+        }
+    }
+    .search {
+        width:30%;
+        display: inline-block;
+        position: relative;
+        right: 0;
+        float: right;
+        border-radius: 5px;
+    }
+    div:nth-child(4) {
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+        float: right;
+        margin-right: 10px;
+        margin-left: 10px;
+    }
+    .pivot-link{
+        color: $basic-text-color;
+        &.is-selected{
+            color:$emphasized-text-color;
+            &::before{
+                background-color: $light-text-color;
+            }
+        }
+    }
+
+    .search{
+        position: relative;
+        top: 3px;
+        border-color: $search-border-color;
+        .icon{
+            color: $light-text-color;
+        }
+        &.is-active{
+            border-color: $light-text-color;
+        }
+
+        .search-field{
+                
+                height: 28px;
+                line-height: 28px;
+                padding: 5px 26px 8px 27px;
+        }
+        .icon-Search, .search-clearButton{
+                height: 29px;
+                line-height: 29px;
+        }
+    }
+}
