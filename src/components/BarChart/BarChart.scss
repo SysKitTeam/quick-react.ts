@@ -8,12 +8,15 @@
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;  
 
-    svg { display: block; }
+    svg { 
+        display: block;
+        overflow: visible;
+    }
 
     .domain {
         display: none;
     }
-
+    
     .tick {
         line {
             opacity: 0.7;
@@ -26,18 +29,13 @@
         }
     }
 
-    .tip-container {
-        polygon, rect {
-            fill: white;
-            stroke: lightgrey;
-            stroke-width: 1;
+    .bar {
+        fill: #326FAD;
+        &.clicked {
+            fill: #9CB9D7;
         }
-
-        .tip-text {
-            font-family: $font-family-base;
-            font-size: 12px;
-            fill: #898989;
-            font-weight: 500;
+        &:hover {
+            fill: #9CB9D7;
         }
     }
 }
