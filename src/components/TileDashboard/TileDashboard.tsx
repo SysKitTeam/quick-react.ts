@@ -35,7 +35,7 @@ function sortFarmServers(ob1: { status: number, name: string }, ob2: { status: n
 
 
 export class TileDashboard extends React.Component<ITileDashboardProps, any> {
-    list: any;
+    private list: any;
 
     constructor(props?: ITileDashboardProps) {
         super(props);
@@ -49,32 +49,37 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
     }
 
     render() {
-        let {farms} = this.props;
+        let { farms } = this.props;
         let classname = classNames({ [this.props.className]: this.props.className !== undefined });
         return (
             <div className={classname}>
                 <div className="tile-dashboard-container">
                     {
-                        <AutoSizer  >
+                        <AutoSizer onResize={this._onResize}>
                             {({ width, height }) => (
                                 <List
                                     height={height}
                                     ref={(reference) => {
                                         this.list = reference;
-                                    } }
+                                    }}
                                     rowCount={farms.length}
                                     rowHeight={function (index) {
                                         return this.calculateRowHeight(width, index);
                                     }.bind(this)}
                                     rowRenderer={this._renderRow}
                                     width={width}
-                                    />
+                                />
                             )}
                         </AutoSizer>
                     }
                 </div>
             </div>
         );
+    }
+
+    @autobind
+    _onResize() {
+        this.list.recomputeRowHeights();
     }
 
     @autobind
@@ -93,7 +98,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
 
     @autobind
     private getRow(index: number): ITiledDashboardFarm {
-        const {farms} = this.props;
+        const { farms } = this.props;
 
         return farms[index];
     }
@@ -102,6 +107,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
         const farm = this.getRow(index);
         const servers = farm.servers.filter((server) => { return checkFilter(this.props.filter, server.name); }).sort(sortFarmServers);
+
         return (
             <div style={style} key={index}>
                 <Group serverChildrenCount={servers.length} filter={this.props.filter} className={'farm-name-inside'} id={farm.id} name={farm.name} key={farm.id.configDataBaseName + '-' + farm.id.sqlInstance}>
@@ -114,7 +120,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
                                 roles={server.roles}
                                 status={server.status}
                                 countersData={this.getMeasures(server.measures)}
-                                >
+                            >
                                 {
                                     server.roles.length > 0 &&
                                     <TagContainer title={''} tags={server.roles}>
