@@ -117,7 +117,7 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
         );
 
         return (
-            <div className={ textFieldClassName }>
+            <div className={ textFieldClassName } id={this.props.id} >
                 { label && <Label htmlFor={ this._id }>{ label }</Label> }
                 { iconClass && <i className={ iconClass }></i> }
                 { multiline ? this._renderTextArea() : this._renderInput() }
