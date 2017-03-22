@@ -16,18 +16,38 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
         };
     }
 
+    /**
+     * Creates arc generator function with given arguments.
+     */
     private createArc = () : any => d3.arc().outerRadius(0).innerRadius(this.props.width / 2);
+    
+    /**
+     * Create pie generator for given data arguments.
+     */
     private createPie = () => d3.pie<IPieChartData>().padAngle(.02).sort(null).value((d : IPieChartData): number => d.value);
+
+    /**
+     * Creates color function that returns color based on given string.
+     */
     private createColorPallette = () => d3.scaleOrdinal(this.props.colors);
 
+    /**
+     * When component is mounted bind given data to arc elements.
+     */
     public componentDidMount() {
         this.bindData();
     }
 
+    /**
+     * When component is updated bind given data to arc elements.
+     */
     public componentDidUpdate() {
         this.bindData();
     }
 
+    /**
+     * Binds given data to arc elements.
+     */
     private bindData() {
         const pie = this.createPie();
         d3.selectAll('.pie-arc.' + this.props.id).data(pie(this.props.data));
@@ -46,6 +66,9 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
         );
     }
 
+    /**
+     * Create pie arcs based on given data array.
+     */
     private renderPaths() : Array<JSX.Element> {
         const arc = this.createArc();
         const color = this.createColorPallette();
@@ -64,6 +87,9 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
         );
     }
 
+    /**
+     * When mouse is moved over arc of component show tooltip with appropriate text.
+     */
     private onMouseOver(element: SVGAElement) {
         const arc = this.createArc();
         const elementData: any = d3.select(element).datum();
@@ -72,6 +98,9 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
         this.setState({ isTipVisible: true, tipX: coordinates[0], tipY: coordinates[1], tipText: this.props.tipText(elementData.data) });
     }
 
+    /**
+     * Hide tooltip when mouse is moved out of position.
+     */
     private onMouseOut(element: SVGAElement) {
         this.setState({ isTipVisible: false });
     }
