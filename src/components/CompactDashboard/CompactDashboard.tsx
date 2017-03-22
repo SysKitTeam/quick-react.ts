@@ -78,7 +78,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                                     <Collection
                                         ref={(reference) => {
                                             this.collection = reference;
-                                        }}
+                                        } }
                                         verticalOverscanSize={5}
                                         cellCount={this.props.farms.length}
                                         cellRenderer={this._renderRow}
@@ -87,7 +87,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                                         }.bind(this)}
                                         height={height}
                                         width={width}
-                                    />
+                                        />
                                 )}
                             </AutoSizer>
                         }
@@ -103,14 +103,14 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                                         height={height}
                                         ref={(reference) => {
                                             this.list = reference;
-                                        }}
+                                        } }
                                         rowCount={farms.length}
                                         rowHeight={function (index) {
                                             return this.calculateRowHeight(width, index);
                                         }.bind(this)}
                                         rowRenderer={this._renderRow}
                                         width={width}
-                                    />
+                                        />
                                 )}
                             </AutoSizer>
 
@@ -193,7 +193,9 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                                 status={server.status}
                                 onRoleEdit={server.onRoleEdit}
                                 onClose={server.onClose}
-                                name={server.name} />
+                                name={server.name}
+                                serverOnClick={this.props.serverOnClick}
+                                />
                         ))
                     }
                 </Group>
