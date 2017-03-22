@@ -65,7 +65,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
 
 
     public render() {
-        let {title, farms} = this.props;
+        let { title, farms } = this.props;
         let classname = classNames({ [this.props.className]: this.props.className !== undefined });
         return (
             <div className={classname}>
@@ -74,11 +74,11 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                     <div className="compact-dashboard-container vertical">
                         {
                             <AutoSizer  >
-                                {({ width, height}) => (
+                                {({ width, height }) => (
                                     <Collection
                                         ref={(reference) => {
                                             this.collection = reference;
-                                        } }
+                                        }}
                                         verticalOverscanSize={5}
                                         cellCount={this.props.farms.length}
                                         cellRenderer={this._renderRow}
@@ -87,7 +87,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                                         }.bind(this)}
                                         height={height}
                                         width={width}
-                                        />
+                                    />
                                 )}
                             </AutoSizer>
                         }
@@ -97,20 +97,20 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                     !this.props.isVertical &&
                     <div className="compact-dashboard-container ">
                         {
-                            <AutoSizer  >
+                            <AutoSizer onResize={this._onResize}>
                                 {({ width, height }) => (
                                     <List
                                         height={height}
                                         ref={(reference) => {
                                             this.list = reference;
-                                        } }
+                                        }}
                                         rowCount={farms.length}
                                         rowHeight={function (index) {
                                             return this.calculateRowHeight(width, index);
                                         }.bind(this)}
                                         rowRenderer={this._renderRow}
                                         width={width}
-                                        />
+                                    />
                                 )}
                             </AutoSizer>
 
@@ -120,6 +120,11 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
 
             </div>
         );
+    }
+
+    @autobind
+    _onResize() {
+        this.list.recomputeRowHeights();
     }
 
     @autobind
@@ -165,7 +170,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
 
     @autobind
     private getRow(index: number): IFarm {
-        const {farms} = this.props;
+        const { farms } = this.props;
 
         return farms[index];
     }

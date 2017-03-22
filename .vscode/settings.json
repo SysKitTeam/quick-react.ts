@@ -3,7 +3,7 @@
     "files.exclude": {
         "node_modules": true,
         "dist": true,
-        "lib": false
+        "lib": true
     }
 ,
 "vsicons.presets.angular": false

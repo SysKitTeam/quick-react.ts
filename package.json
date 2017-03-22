@@ -6,7 +6,7 @@
   "typings": "./lib/index",
   "scripts": {
     "build": "tsc -p . && gulp build",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server -d --inline --progress --no-info",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --no-info --content-base examples/pages",
     "prepublish": "npm run build"
   },
   "repository": {
