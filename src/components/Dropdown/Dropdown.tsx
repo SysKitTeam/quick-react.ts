@@ -76,7 +76,7 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
     if (onCustomSelectionText) {
       selectionText = onCustomSelectionText();
     } else if (dropdownType === DropdownType.selectionDropdown && selectedOption) {
-      selectionText = onRenderItem(selectedOption, this._onRenderItem)
+      selectionText = onRenderItem(selectedOption, this._onRenderItem);
     } else {
       selectionText = '';
     }

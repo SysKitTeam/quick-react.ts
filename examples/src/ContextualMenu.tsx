@@ -11,18 +11,10 @@ import { ContextualMenu } from './../../src/components/ContextualMenu/Contextual
 import { Button } from './../../src/components/Button/Button';
 import { ButtonType } from './../../src/components/Button/Button.Props';
 
-export class Index extends React.Component<any, any> {
-     public constructor() {
-        super();
-        this.state = { visible: true };
-    }
-    private _toggleMenu() {
-        this.setState({ showDialog: true });
-    }
+export class Index extends React.Component<any, any> {    
     public render() {
          return (
             <div>
-                 <Button onClick={this._toggleMenu.bind(this)}>Toggle Menu</Button>
                  <ContextualMenu
                     shouldFocusOnMount={true}
                     targetPoint={{ x: 1000, y: 300 }}

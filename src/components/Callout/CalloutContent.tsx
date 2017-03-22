@@ -29,6 +29,7 @@ export class CalloutContent extends CommonComponent<ICalloutProps, ICalloutState
 
     public static defaultProps = {
         isBeakVisible: true,
+        hideBorder: false,
         beakWidth: 16,
         gapSpace: 16,
         directionalHint: DirectionalHint.bottomAutoEdge
@@ -42,6 +43,7 @@ export class CalloutContent extends CommonComponent<ICalloutProps, ICalloutState
     private _maxHeight: number;
     private _positionAttempts: number;
     private _target: HTMLElement | MouseEvent;
+    private _borderWidth: number;
 
     constructor(props: ICalloutProps) {
         super(props, { 'beakStyle': 'beakWidth' });
@@ -53,6 +55,7 @@ export class CalloutContent extends CommonComponent<ICalloutProps, ICalloutState
             calloutElementRect: null
         };
         this._positionAttempts = 0;
+        this._borderWidth = this.props.hideBorder ? 0 : BORDER_WIDTH;
     }
 
     public componentDidUpdate() {
@@ -106,6 +109,7 @@ export class CalloutContent extends CommonComponent<ICalloutProps, ICalloutState
                         classNames(
                             'callout',
                             className,
+                            { 'callout-no-border': this.props.hideBorder },
                             slideDirectionalClassName ? `${slideDirectionalClassName}` : ''
                         ) }
                     style={ positions ? positions.callout : OFF_SCREEN_POSITION }
@@ -233,7 +237,7 @@ export class CalloutContent extends CommonComponent<ICalloutProps, ICalloutState
 
     private _getMaxHeight(): number {
         if (!this._maxHeight) {
-            this._maxHeight = this._getBounds().height - BORDER_WIDTH * 2;
+            this._maxHeight = this._getBounds().height - this._borderWidth * 2;
         }
         return this._maxHeight;
     }

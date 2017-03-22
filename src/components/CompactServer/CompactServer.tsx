@@ -11,9 +11,7 @@ function checkFilter(filter: string, serverName: string) {
     return serverName.toLowerCase().trim().indexOf(filter.toLowerCase().trim()) !== -1;
 }
 
-
 export class CompactServer extends React.Component<ICompactServerProps, any> {
-
     constructor(props?: ICompactServerProps) {
         super(props);
     }
@@ -33,21 +31,21 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
         let isWarning = this.props.status === ServerStatus.Warning;
         let isOK = this.props.status === ServerStatus.OK;
 
-
         let showItem = this.props.filter ? checkFilter(this.props.filter, this.props.name) : true;
         let className = classNames({ 'compact-server-container': showItem },
             { 'status-warning': isWarning },
             { 'status-ok': isOK },
             { 'status-critical': isCritical });
 
-
         return (
-
-            <div className={className}>
+            <div
+             className={className}
+             onMouseEnter={this.props.onMouseEnter}
+             onMouseLeave={this.props.onMouseLeave} 
+             >
                 <span className={'server-title'}>
-                    <span title={this.props.name} >{this.props.name}
-                    </span>
-                    <span className={'server-close'} onClick={this.closeServer}>&times;</span>
+                    <span>{this.props.name}</span>
+                    {/*<span className={'server-close'} onClick={this.closeServer}>&times;</span>*/}
                 </span>
                 {
                     this.props.roles.length > 0 &&
@@ -65,13 +63,11 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
     private editRoles(event) {
         const {onRoleEdit} = this.props;
         onRoleEdit(this.props.id);
-
     }
 
     @autobind
     private closeServer(event) {
         const {onClose} = this.props;
         onClose(this.props.id);
-
     }
 }
