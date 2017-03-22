@@ -1,61 +1,49 @@
 @import '../../index.scss';
 
-$normal: #657386 ;
-
-$font: 'Segoe UI';
-
 .pie-chart-component {
-    display: inline-block;
-    // margin: 5px 5px 5px 5px;
-    // border: 1px solid #e8e9ef;
-
-    .label {
-        text-align: center;
-        padding: 0px 0px 5px 0px;
-        color: $normal;
-        font-size: 13px;
-    }
-
-    .label.text {
-        padding-bottom: 2px;
-        font-size: 12px;
-    }
-
-    .label.title {
-        padding: 2px 0px 2px 0px;
-        font-weight: 600;
-    }
-
-    .pie-chart-container {
-        display: block;
-
-        svg {
-            // margin-top: -25px;
-        }
-    }
-
-    g {
-        text {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            cursor: default;
-            font-family: $font;
-            font-size: 11px;
-            fill: $normal;
+    min-width: 115px;
+    display: block;
+    overflow: visible;
+    text-align: center;
+    svg {
+        position: relative;
+        display: inline-block;
+        overflow: visible;
+        .pie-arc:hover {
+            opacity: 0.75;
         }
 
-        rect, polygon {
-            stroke: #e8e9ef;
-            stroke-width: 2;
+        .pie-chart-legend {
+            display: block;
+            text {
+                font-family: $font-family-base;
+            }
         }
     }
-
-    .arc-text {
-        .percentage-label {
-            font-family: $font;
-            fill: white;
+    .pie-chart-legend {
+        position: relative;
+        display: inline-block;
+        box-sizing: border-box;
+        padding-left: 5px;
+        vertical-align: top;
+        z-index: -1000;
+        text-align: start;
+        .legend-item {
+            margin-bottom: 5px;
+            display: block;
+            div {
+                width: 12px;
+                height: 12px;
+                vertical-align: middle;
+                display: inline-block;
+                padding: 0;
+            }
+            label {
+                font-family: $font-family-base;
+                font-size: 12px;
+                margin-left: 5px;
+                padding: 0;
+            }
         }
     }
 }
