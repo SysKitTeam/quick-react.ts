@@ -5,11 +5,13 @@ export interface ILineChartProps {
     height?: number;
     xAxisTicks?: number;
     yAxisTicks?: number;
-    data: ILineChartData[];
     dimensions: ILineChartDimensions;
     xAxisFormat?: () => string;
+    yAxisFormat?: (data: number) => string;
     className?: string;
     colors?: Array<string>;
+    yAxisDomain?: [any, any];
+    series: Array<ISeriesData>;
 }
 
 export interface ILineChartData {
@@ -20,4 +22,10 @@ export interface ILineChartData {
 export interface ILineChartDimensions {
     width: string;
     height: string;
+}
+
+export interface ISeriesData {
+    name: string;
+    data: Array<ILineChartData>;
+    className: string;
 }

@@ -12,6 +12,12 @@ $border-color: #e8e9ef;
     -moz-user-select: none;
     -ms-user-select: none;
 
+    .line-chart-title {
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
     svg {
         display: block;
         overflow: visible;
@@ -20,6 +26,7 @@ $border-color: #e8e9ef;
             path {
                 fill: none;
                 stroke: blue;
+                stroke-width: 2px;
             }
             .x-axis, .y-axis {
                 path {
@@ -28,6 +35,10 @@ $border-color: #e8e9ef;
                 .tick {
                     line {
                         stroke: $background-color;
+                    }
+                    text {
+                        font-family: $font-family-base;
+                        font-size: 12px;
                     }
                 }
             }

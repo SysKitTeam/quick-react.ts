@@ -9,16 +9,15 @@ import './LineChart.scss';
 const ResizeSensor = require('css-element-queries/src/ResizeSensor');
 const objectAssign = require('object-assign');
 
-const margin: any = { top: 20, bottom: 30, left: 50, right: 40 };
-
 export class LineChart extends React.PureComponent<ILineChartProps, any> {
     public static defaultProps = {
         width: 0,
         height: 0,
         id: '',
-        title: '',
         ticks: 2,
+        yAxisDomain: [0, 100],
         xAxisFormat: () => null,
+        yAxisFormat: (d: number) => d,
         colors: d3.schemeCategory20
     };
 
@@ -37,11 +36,12 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
      public render() {
         const props = objectAssign({}, this.props, {width: this.state.width, height: this.state.height});
         const componentClass = classNames('line-chart-component', this.props.id, this.props.className);
-
+        const titleClass = classNames('line-chart-title', this.props.id, this.props.className);
         return (
             <div className={componentClass} 
                 style={{ width: this.props.dimensions.width, height: this.props.dimensions.height }} 
                 ref={(element: HTMLDivElement) => this.init(element)}>
+                { this.props.title && <Label className={titleClass}>{this.props.title}</Label> }
                 { this.state.isParentMounted && <LineChartContent {...props}/> }
             </div>
         );

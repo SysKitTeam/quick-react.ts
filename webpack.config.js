@@ -39,6 +39,7 @@ module.exports = {
         ProgressBar: "./examples/src/ProgressBar.tsx",   
         History: "./examples/src/History.tsx",                     
         PieChart: "./examples/src/PieChart.tsx",
+        LineChart: "./examples/src/LineChart.tsx"
     },
     output: {
         path: path.join(__dirname, '/dist'),
