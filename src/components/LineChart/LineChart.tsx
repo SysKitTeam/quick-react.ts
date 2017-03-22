@@ -68,4 +68,6 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
             this.forceUpdate();
         }
     }
+
+    public componentWillUnmount() { ResizeSensor.detach(this.containerRef); }
 }
