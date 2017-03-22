@@ -100,7 +100,7 @@ export const sData1 = {
 
 export const sData2 = {
     name: 'Data 2',
-    data: updatedData1,
+    data: data2,
     className: 'updatedData'
 };
 
