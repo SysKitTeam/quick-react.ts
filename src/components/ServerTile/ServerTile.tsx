@@ -5,6 +5,7 @@ import { IServerTileProps, ITileData } from './ServerTile.Props';
 import { Icon } from '../Icon/Icon';
 import { ServerStatus } from '../../models';
 import './ServerTile.scss';
+import { autobind } from '../../utilities/autobind';
 
 export class ServerTile extends React.PureComponent<IServerTileProps, any> {
 
@@ -21,7 +22,7 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
             { 'status-ok': isOK },
             { 'status-critical': isCritical });
         return (
-            <div className={className}>
+            <div className={className} onClick={this.serverOnClick}>
                 <div className={'server-details-header'}>
                     <Label className="server-name" title={this.props.name}>{this.props.name}</Label>
                     <Icon
@@ -47,6 +48,14 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
                 </div>
             </div>
         );
+    }
+
+    @autobind
+    private serverOnClick() {
+        const {id, serverOnClick} = this.props;
+        if (serverOnClick) {
+            serverOnClick(id);
+        }
     }
 
     private dismiss() {

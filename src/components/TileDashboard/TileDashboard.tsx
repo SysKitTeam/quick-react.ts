@@ -120,6 +120,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
                                 roles={server.roles}
                                 status={server.status}
                                 countersData={this.getMeasures(server.measures)}
+                                serverOnClick={this.props.serverOnClick}
                             >
                                 {
                                     server.roles.length > 0 &&

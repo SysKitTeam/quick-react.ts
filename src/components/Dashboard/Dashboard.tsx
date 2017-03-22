@@ -65,6 +65,7 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
                         groupOnClick={this.props.groupOnClick}
                         serverRoleEdit={this.props.serverRoleEdit}
                         serverClose={this.props.serverClose}
+                        serverOnClick={this.props.serverOnClick}
                         />
                 }
                 {
@@ -79,6 +80,7 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
                         groupOnClick={this.props.groupOnClick}
                         serverRoleEdit={this.props.serverRoleEdit}
                         serverClose={this.props.serverClose}
+                        serverOnClick={this.props.serverOnClick}
                         />
                 }
             </div>
