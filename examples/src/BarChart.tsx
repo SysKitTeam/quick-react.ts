@@ -13,7 +13,6 @@ export class Index extends React.Component<any, any> {
      constructor() {
         super();
         this.state = { barChartData: barData };
-        // setTimeout(() => this.setState({ barChartData: updatedData }), 2000);
     };
     public render() {
         return (
