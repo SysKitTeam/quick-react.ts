@@ -19,6 +19,8 @@ export interface IDropdownProps {
   className ?: string;
   calloutClassName ?: string;
   layerClassName ?: string;
+  onClosed?: () => void;
+  onCustomSelectionText?: () => string;
 }
 
 export interface IDropdownOption {

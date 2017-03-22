@@ -257,7 +257,7 @@ export class ContextualMenu extends CommonComponent < IContextualMenuProps, ICon
             <div className="contextualMenu-linkContent">
                 { (hasCheckmarks) ? (
                 <Icon
-                    iconName={ isItemChecked ? 'icon-Checkmark' : '' }
+                    iconName={ isItemChecked ? 'icon-checkmark' : '' }
                     className={'contextualMenu-icon'}
                     onClick={ this._onItemClick.bind(this, item) } />
                 ) : (null) }
@@ -266,7 +266,7 @@ export class ContextualMenu extends CommonComponent < IContextualMenuProps, ICon
                 ) : (null) }
                 <span className={'contextualMenu-itemText'}>{ item.name }</span>
                 { (item.items && item.items.length) ? (
-                <Icon className={'contextualMenu-submenu-chevron'} iconName={ getRTL() ? 'icon-ArrowLeftSlim' : 'icon-ArrowRightSlim' } />
+                <Icon className={'contextualMenu-submenu-chevron'} iconName={ getRTL() ? 'icon-arrowLeftSlim' : 'icon-arrowRightSlim' } />
                 ) : (null) }
             </div>
         );

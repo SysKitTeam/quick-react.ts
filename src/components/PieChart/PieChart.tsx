@@ -30,6 +30,9 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         };
     }
 
+    /**
+     * Function that returns color based on given string.
+     */
     private createColorPallette = () => d3.scaleOrdinal(this.props.colors);
 
     public render() {
@@ -56,6 +59,10 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         );
     }
 
+    /**
+     * Initialize width and height of component. This method gets invoked when
+     * parent div component is mounted.
+     */
     private init(element: HTMLDivElement): void {
         if (element === null) { return; }
 
@@ -78,14 +85,18 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         } else {
             this.legendWidth = element.children[1].getBoundingClientRect().width;
             if (width - 10 < this.legendWidth) { chartWidth = width; } else { chartWidth = width - this.legendWidth - 10; }
-            if (chartWidth >= height) { chartWidth = height; }
         }
+
+        if (chartWidth >= height) { chartWidth = height; }
 
         if (this.state.chartWidth !== chartWidth || this.state.chartHeight !== height) {
             this.setState({ chartWidth: chartWidth, chartHeight: height, isParentMounted: true });
         }
     }
 
+    /**
+     * Creates legend for chart based on given data.
+     */
     private renderLegend(data: Array<IPieChartData>) : JSX.Element {
         const legendClass = classNames('pie-chart-legend', this.props.id);
         const color = this.createColorPallette();
@@ -99,6 +110,11 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         return ( <div className={legendClass}>{legend}</div> );
     }
 
+    /**
+     * If props for number of data is specified this function transforms given data so first n-1 
+     * elements are shown in descending order and all other elements are displayed together
+     * as one value.
+     */
     private transformData(): Array<any> {
         let data = Array(0);        
 
@@ -117,6 +133,9 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         return this.props.data;
     }
 
+    /**
+     * Rescales component to new size base od parent component.
+     */
     private onResize(): void {
         const width = this.containerRef.offsetWidth;
         const height = this.containerRef.offsetHeight;

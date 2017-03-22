@@ -76,7 +76,7 @@ export class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
                     onFocus={ this._onFocus }
                     onBlur={ this._onBlur }  
                 />
-                { isChecked && <Icon htmlFor={ this.id } className={'checkboxCheckmark'} iconName={'icon-Checkmark'}></Icon> }
+                { isChecked && <Icon htmlFor={ this.id } className={'checkboxCheckmark'} iconName={'icon-checkmark'}></Icon> }
                 
                 <label htmlFor={ this.id }
                     className={labelClassName}>

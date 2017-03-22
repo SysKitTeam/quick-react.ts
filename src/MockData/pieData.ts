@@ -1,53 +1,57 @@
 export const pieData = [
     {
-        label: 'Ana',
+        label: 'A',
         value: 290
       },
       {
-        label: 'Ivana',
+        label: 'B',
         value: 26
       },
       {
-        label: 'Sanja',
+        label: 'C',
         value: 20691
       },
       {
-        label: 'Marko',
+        label: 'D',
         value: 1412
       },
       {
-        label: 'Luka',
+        label: 'E',
         value: 240
       },
       {
-        label: 'Kreso',
+        label: 'F',
         value: 10
       },
       {
-        label: 'Matija',
-        value: 1800
+        label: 'G',
+        value: 106
+      },
+      {
+        label: 'H',
+        value: 1542
       }
 ];
 
 export const pieUpdatedData = [
-    {
-        label: 'Ana',
+      {
+        label: 'A',
         value: 123
       },
       {
-        label: 'Luka',
+        label: 'B',
         value: 57
       },
       {
-        label: 'Ivana',
+        label: 'C',
         value: 643
       },
       {
-        label: 'Matija',
+        label: 'D',
         value: 1800
       },
       {
-        label: 'Mirko',
+        label: 'E',
         value: 233
       }
 ];

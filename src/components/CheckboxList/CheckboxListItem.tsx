@@ -12,18 +12,18 @@ export class CheckboxListItem extends CommonComponent<ICheckboxListItemProps, an
         isOpen: false
     };
 
-    constructor (props) {
+    constructor(props) {
         super(props);
 
-        this.state = { isOpen: props.isOpen, iconArrow: 'icon-ArrowRight' };
+        this.state = { isOpen: props.isOpen, iconArrow: 'icon-arrowRight' };
     }
 
-     public shouldComponentUpdate(nextProps, nextState) {
+    public shouldComponentUpdate(nextProps, nextState) {
         return !(this.props.item === nextProps.item
             // && this.props.onChange === nextProps.onChange
             && this.state.isOpen === nextState.isOpen
             && this.state.iconArrow === nextState.iconArrow
-            );
+        );
     }
 
     public render(): JSX.Element {
@@ -36,32 +36,38 @@ export class CheckboxListItem extends CommonComponent<ICheckboxListItemProps, an
                 'expanded': this.state.isOpen,
                 'collapsed': !this.state.isOpen
             }
-        ); 
-
-        return (
+        );
+        let isParent = item.children && item.children.length > 0;
+        return (          
             <div>
-                <div className={'checkboxlist-item'} onClick={ this._onItemClick.bind(this) }>
-                    <Icon iconName={this.state.iconArrow}></Icon>
-                    {item.text}
-                </div>
+                {
+                    isParent && <div className={'checkboxlist-item'} onClick={this._onItemClick.bind(this)}>
+                        <Icon iconName={this.state.iconArrow}></Icon>
+                        {item.text}
+                    </div>
+                }
+                {
+                    !isParent && <Checkbox checked={item.checked !== undefined ? item.checked : false} label={item.text} onChange={onChange} itemId={item.id}></Checkbox>
+                }
+
                 <div className={itemClassName}>
-                    { item.children && item.children.map((child, index) => (
+                    {item.children && item.children.map((child, index) => (
                         <div key={index}>
                             <Checkbox checked={child.checked !== undefined ? child.checked : false} label={child.text} onChange={onChange} itemId={child.id}></Checkbox>
-                        </div>           
+                        </div>
                     ))}
                 </div>
-            </div>  
+            </div>
         );
     }
 
     @autobind
-    private _onItemClick(ev: MouseEvent ) {
+    private _onItemClick(ev: MouseEvent) {
         let { isOpen } = this.state;
 
-        this.setState({ 
+        this.setState({
             isOpen: !isOpen,
-            iconArrow: isOpen ? 'icon-ArrowRight' : 'icon-ArrowDownRight'
+            iconArrow: isOpen ? 'icon-arrowRight' : 'icon-arrowDownRight'
         });
 
         ev.stopPropagation();
