@@ -7,4 +7,5 @@ import {ServerStatus, ISharePointServer} from '../../models';
  */
 export interface ICompactServerProps extends ISharePointServer {
     filter?: string;
+    serverOnClick?: (serverId: any) => void;
 };

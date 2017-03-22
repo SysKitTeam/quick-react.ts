@@ -9,6 +9,7 @@ export interface IServerTileProps extends ISharePointServer {
      */
     diskInformation?: Array<string>;
     countersData: Array<ITileData>;
+    serverOnClick?: (serverId: any) => void;
 }
 
 export interface ITileData {

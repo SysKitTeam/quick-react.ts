@@ -58,5 +58,9 @@ export interface IDashboardProps extends React.Props<any> {
     * Action that is called on closing a certain server of some farm. The function is supplied with server FQDN.
     */
     serverClose?: (serverFQDN: any) => void;
+    /**
+    * Action is call when the server is clicked. The server ID is supplied.
+    */
+    serverOnClick?: (serverId: any) => void;
 
 }
