@@ -47,8 +47,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         this.calculateAvailableSpace();
 
         const lines = d3.selectAll('.line-chart-container.' + this.props.id +  ' > path');
-        lines.on('mousemove', () => this.onMouseMove());
-        lines.on('mouseover', () => this.setState({ isTipVisible: true }));
+        lines.on('mouseover', () => this.onMouseMove());
         lines.on('mouseout', () => this.setState({ isTipVisible: false }));
     }
 
@@ -74,9 +73,6 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
                     <g className={xAxisClass} transform={translateXAxis} ref={(element: SVGAElement) => this.renderXAxis(element)}/>
                     <g className={yAxisClass} ref={(element: SVGAElement) => this.renderYAxis(element)}/>
                     { this.renderPaths() }
-                    {/*<rect
-                        className={'capture-area'} width={this.state.containerWidth} height={this.state.containerHeight}
-                        ref={(element: SVGAElement) => this.initCapture(element)}/>*/}
                     <Tooltip id={this.props.id} text={this.state.tipText} x={this.state.tipX} y={this.state.tipY} visible={this.state.isTipVisible}/>
                 </g>
             </svg>
@@ -92,10 +88,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
     private initCapture(element: SVGAElement) {
         const capture = d3.select(element);
         capture.on('mousemove', () => this.onMouseMove());
-        capture.on('mouseout', () => {
-            this.setState({ isTipVisible: false });
-            d3.select(d3.event.currentTarget).style('stroke-width', 1);
-        });
+        capture.on('mouseout', () => this.setState({ isTipVisible: false }));
         capture.on('mouseover', () => this.setState({ isTipVisible: true }));
     }
 
