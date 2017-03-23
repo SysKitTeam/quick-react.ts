@@ -135,16 +135,10 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
     private renderXAxis(element: SVGAElement) {
         if (element === null) { return; }
 
-        // let ticks = Array(0);
-        // const delta = Math.floor(this.props.data.length / 5);
-        // for (let i = 0; i < this.props.data.length; i = i + 2) { ticks.push(this.props.data[i].argument); }
-        // ticks.concat(d3.extent(this.props.data, (d) => d.argument));
-
         const xAxis = d3.axisBottom(this.generateX())
                 .tickSizeInner(-(this.state.containerHeight))
                 .tickSizeOuter(0)
                 .tickPadding(20)
-                // .tickValues(ticks)
                 .ticks(this.props.xAxisTicks)
                 .tickFormat(this.formatAxisLabels());
 
