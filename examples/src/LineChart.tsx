@@ -24,6 +24,7 @@ export class Index extends React.PureComponent<any, any> {
                     series={series}
                     yAxisFormat={(d) => d + '%'}
                     colorPallette={['#344086', '#8bd764', '#f3f986', '#ec1271', '#636363', 'red', 'green', 'purple', 'aquamarine', 'lightgrey']}
+                    showLegend={true}
                 />
             </div>
         );

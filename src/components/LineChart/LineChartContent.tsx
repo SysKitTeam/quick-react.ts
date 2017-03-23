@@ -4,7 +4,7 @@ import * as classNames from 'classnames';
 import { ILineChartProps, ILineChartData, ISeriesData } from './LineChart.props';
 import { Tooltip } from '../Tooltip/Tooltip';
 
-const margin = { top: 20, bottom: 30, left: 50, right: 40 };
+const margin = { top: 20, bottom: 70, left: 50, right: 40 };
 
 export class LineChartContent extends React.PureComponent<ILineChartProps, any> {
     private x;
