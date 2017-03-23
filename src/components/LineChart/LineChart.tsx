@@ -41,7 +41,7 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
         return (
             <div className={componentClass} 
                 style={{ width: this.props.dimensions.width, height: this.props.dimensions.height }}
-                ref={(element: HTMLDivElement) => this.init(element)}>>
+                ref={(element: HTMLDivElement) => this.init(element)}>
                 { this.props.title && <Label className={titleClass}>{this.props.title}</Label> }
                 {this.renderLegend()}
                 { this.state.isParentMounted && <LineChartContent {...props}/> }
