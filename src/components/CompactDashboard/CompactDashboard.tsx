@@ -97,7 +97,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, an
                                     <Collection
                                         ref={(reference) => {
                                             this.collection = reference;
-                                        }}
+                                        } }
                                         verticalOverscanSize={5}
                                         cellCount={this.props.farms.length}
                                         cellRenderer={this._renderRow}
@@ -106,7 +106,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, an
                                         }.bind(this)}
                                         height={height}
                                         width={width}
-                                    />
+                                        />
                                 )}
                             </AutoSizer>
                         }
@@ -122,14 +122,14 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, an
                                         height={height}
                                         ref={(reference) => {
                                             this.list = reference;
-                                        }}
+                                        } }
                                         rowCount={farms.length}
                                         rowHeight={function (index) {
                                             return this.calculateRowHeight(width, index);
                                         }.bind(this)}
                                         rowRenderer={this._renderRow}
                                         width={width}
-                                    />
+                                        />
                                 )}
                             </AutoSizer>
 
@@ -164,8 +164,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, an
         if (this.getRow(obj.index).isCustom) {
             serverRoleDiff += 21;
         }
-        let rowHeight = serverHeight + 140 + serverRoleDiff;
-        return rowHeight;
+        return serverHeight + 140 + serverRoleDiff;
     }
 
     @autobind
@@ -268,6 +267,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, an
                                     onRoleEdit={server.onRoleEdit}
                                     onClose={server.onClose}
                                     name={server.name}    
+                                    serverOnClick={this.props.serverOnClick}
                                     onMouseEnter={this._onItemMouseEnter.bind(this, farm.id, server.id)}
                                     onMouseLeave={this._onMouseLeave}                          
                                 />                            

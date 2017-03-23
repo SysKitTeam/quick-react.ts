@@ -39,13 +39,13 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
 
         return (
             <div
-             className={className}
-             onMouseEnter={this.props.onMouseEnter}
-             onMouseLeave={this.props.onMouseLeave} 
+            className={className}
+            onMouseEnter={this.props.onMouseEnter}
+            onMouseLeave={this.props.onMouseLeave} 
+            onClick={this.onclick}
              >
                 <span className={'server-title'}>
-                    <span>{this.props.name}</span>
-                    {/*<span className={'server-close'} onClick={this.closeServer}>&times;</span>*/}
+                    <span>{this.props.name}</span>                    
                 </span>
                 {
                     this.props.roles.length > 0 &&
@@ -59,6 +59,15 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
             </div>
         );
     }
+
+    @autobind
+    private onclick() {
+        const {serverOnClick, id} = this.props;
+        if (serverOnClick) {
+            serverOnClick(id);
+        }
+    }
+
     @autobind
     private editRoles(event) {
         const {onRoleEdit} = this.props;
