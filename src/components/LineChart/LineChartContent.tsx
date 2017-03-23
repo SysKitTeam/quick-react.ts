@@ -79,11 +79,66 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         );
     }
 
-    private renderPaths() {
+    private renderPaths(): Array<JSX.Element> {
         const color = this.createColorPallette();
-        return this.props.series.map( (data: ISeriesData, index: number) =>
-            <path className={data.id} key={index} d={this.renderLine(data.data)} style={{ stroke: color(data.name) }}/>
-        );
+        let paths = Array<JSX.Element>(0);
+        let index = 0;
+
+        for (let j = 0; j < this.props.series.length; j++) {
+            const series = this.props.series[j];
+
+            let start = 0;
+
+            let previous = series.data[0].value;
+            if (previous === null) { start = 1; }
+
+            let i;
+
+            for (i = 1; i < series.data.length - 1; i++) {
+
+                if (series.data[i].value === null && previous === null) {
+                    previous = series.data[i].value;
+                    start = i + 1;
+                    continue;
+                }
+
+                if (series.data[i].value === null && previous !== null) {
+                    paths.push( 
+                        <path 
+                            key={index} 
+                            className={series.id} 
+                            d={this.renderLine(series.data.slice().slice(start, i))} 
+                            style={{ stroke: color(series.name) }}/> 
+                    );
+                    start = i + 1;
+                    index++;
+                }
+                previous = series.data[i].value;
+            }
+
+            --i;
+
+            if (series.data[i].value === null && previous !== null) {
+                paths.push( 
+                        <path 
+                            key={index} 
+                            className={series.id} 
+                            d={this.renderLine(series.data.slice().slice(start, i))} 
+                            style={{ stroke: color(series.name) }}/> 
+                );
+                ++index;
+            } else if (series.data[i].value !== null) {
+                paths.push( 
+                        <path 
+                            key={index} 
+                            className={series.id} 
+                            d={this.renderLine(series.data.slice().slice(start, i + 1))} 
+                            style={{ stroke: color(series.name) }}/> 
+                );
+                ++index;
+            }
+        }
+        return paths;
     }
 
     private renderLegend() {

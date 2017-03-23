@@ -109,7 +109,7 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
 
     private showHideSeries(element: HTMLDivElement) {
         const className = element.getAttribute('class');
-        const series = d3.select('.line-chart-container.' + this.props.id + ' > .' + className );
+        const series = d3.selectAll('.line-chart-container.' + this.props.id + ' > .' + className );
         const selector = d3.select(element).style('background-color', 'white');
 
         if (series.attr('display') === 'none') {
