@@ -27,5 +27,5 @@ export interface ILineChartDimensions {
 export interface ISeriesData {
     name: string;
     data: Array<ILineChartData>;
-    className: string;
+    id: string;
 }

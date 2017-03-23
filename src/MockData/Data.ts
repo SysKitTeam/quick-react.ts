@@ -95,24 +95,24 @@ export const updatedData1 = [
 export const sData1 = {
     name: 'Data 1',
     data: data,
-    className: 'data1'
+    id: 'data1'
 };
 
 export const sData2 = {
     name: 'some longer name',
     data: data2,
-    className: 'updatedData'
+    id: 'updatedData'
 };
 
 export const sData3 = {
     name: 'very very long series name',
-    className: 'data-3',
+    id: 'data-3',
     data: updatedData
 };
 
 export const sData4 = {
     name: 'irrelevant name for a chart',
-    className: 'data-4',
+    id: 'data-4',
     data: updatedData1
 };
 

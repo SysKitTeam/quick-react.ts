@@ -69,7 +69,6 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
 
         return (
             <svg width={this.state.fullWidth} height={this.state.fullHeight}>
-                {/*<g>{ this.renderLegend() }</g>*/}
                 <g className={containerClass} transform={translateContainer}>
                     <g className={xAxisClass} transform={translateXAxis} ref={(element: SVGAElement) => this.renderXAxis(element)}/>
                     <g className={yAxisClass} ref={(element: SVGAElement) => this.renderYAxis(element)}/>
@@ -83,7 +82,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
     private renderPaths() {
         const color = this.createColorPallette();
         return this.props.series.map( (data: ISeriesData, index: number) =>
-            <path className={data.className} key={index} d={this.renderLine(data.data)} style={{ stroke: color(data.name) }}/>
+            <path className={data.id} key={index} d={this.renderLine(data.data)} style={{ stroke: color(data.name) }}/>
         );
     }
 
@@ -114,7 +113,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         
         let index = 0;
         for (index = 0; index < this.props.series.length; index++) {
-            if (this.props.series[index].className === elementClass) { break; }
+            if (this.props.series[index].id === elementClass) { break; }
         }
 
         let x0 = this.x.invert(d3.mouse(d3.event.currentTarget)[0]);
