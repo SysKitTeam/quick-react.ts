@@ -40,7 +40,7 @@ export const farms: Array<IFarm> = [
                 id: {
                     FQDN: 'FQDN3'
                 },
-                name: 'server1',
+                name: 'server3',
                 roles: roleListFarms,
                 status: 1
             },
@@ -48,7 +48,7 @@ export const farms: Array<IFarm> = [
                 id: {
                     FQDN: 'FQDN4'
                 },
-                name: 'server2',
+                name: 'server4',
                 roles: roleListFarms,
                 status: 2
             },
@@ -56,7 +56,7 @@ export const farms: Array<IFarm> = [
                 id: {
                     FQDN: 'FQDN5'
                 },
-                name: 'server1',
+                name: 'server5',
                 roles: roleListFarms,
                 status: 1
             },
@@ -64,7 +64,7 @@ export const farms: Array<IFarm> = [
                 id: {
                     FQDN: 'FQDN6'
                 },
-                name: 'server2',
+                name: 'server6',
                 roles: roleListFarms,
                 status: 2
             },
@@ -72,7 +72,7 @@ export const farms: Array<IFarm> = [
                 id: {
                     FQDN: 'FQDN7'
                 },
-                name: 'server1',
+                name: 'server7',
                 roles: roleListFarms,
                 status: 1
             },
@@ -80,7 +80,7 @@ export const farms: Array<IFarm> = [
                 id: {
                     FQDN: 'FQDN8'
                 },
-                name: 'server2',
+                name: 'server8',
                 roles: roleListFarms,
                 status: 2
             },
@@ -88,7 +88,7 @@ export const farms: Array<IFarm> = [
                 id: {
                     FQDN: 'FQDN9'
                 },
-                name: 'server1',
+                name: 'server9',
                 roles: roleListFarms,
                 status: 1
             },
@@ -96,7 +96,7 @@ export const farms: Array<IFarm> = [
                 id: {
                     FQDN: 'FQDN10'
                 },
-                name: 'server2',
+                name: 'server10',
                 roles: roleListFarms,
                 status: 2
             }

@@ -1,5 +1,5 @@
 /* tslint:disable:no-console */
-import { ICompactDashboardProps } from '../components/CompactDashboard';
+import { ICompactDashboardProps, ICompactDashboardServer, ICompactDashboardFarm } from '../components/CompactDashboard';
 import { ITileDashboardProps, ITiledDashboardFarm, ITiledDashboardServer } from '../components/TileDashboard';
 import { IDashboardProps } from '../components/Dashboard';
 import { ActiveDashboard } from '../components/DashboardHeader/DashboardHeader.Props';
@@ -8,7 +8,7 @@ import { farms } from './farms';
 
 export const dummyCompact: ICompactDashboardProps = {
     title: 'My compact dashboard',
-    farms: farms,
+    farms: farms.map(convertFarm),
     className: '',
     filter: '',
     isVertical: false,
@@ -70,6 +70,10 @@ export function convertFarm(farm: IFarm): ITiledDashboardFarm {
         isCustom: farm.isCustom,
         version: farm.version
     };
+}
+
+function convertToCompactFarm(farm: ITiledDashboardFarm): ICompactDashboardFarm {
+    return farm;
 }
 
 export function generatePercentage() {

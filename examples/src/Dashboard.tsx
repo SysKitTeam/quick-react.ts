@@ -6,16 +6,14 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { Dashboard } from './../../src/components/Dashboard/Dashboard';
-import { dummyDashboard, generateMeasures, generateRandomStatus, convertFarm } from './../../src/mockData/DashboardDummy';
+import { dummyDashboard, generateMeasures } from './../../src/mockData/DashboardDummy';
 import { IFarm, ISharePointServer, ServerStatus } from './../../src/models';
 
 export class Index extends React.Component<any, any> {
     public constructor() {
         super();
          this.state = {
-            cpu: '74',
             farms: dummyDashboard.farms,
-            width: 600
         };
         setInterval(() => {
             let newFarms = this.state.farms.map((farm: IFarm) => {
@@ -51,7 +49,7 @@ export class Index extends React.Component<any, any> {
                 };
             });
             this.setState({ farms: newFarms });
-        }, 2000);
+        }, 30000);
     }
 
     public render() {
@@ -63,7 +61,8 @@ export class Index extends React.Component<any, any> {
                     farms={this.state.farms}
                     filter={''}
                     title={dummyDashboard.title}
-                    activeView={0} hasAddButton={true}
+                    activeView={0} 
+                    hasAddButton
                     addFarm={dummyDashboard.addFarm}
                     groupAddFunc={dummyDashboard.groupAddFunc}
                     groupDeleteFunc={dummyDashboard.groupDeleteFunc}
