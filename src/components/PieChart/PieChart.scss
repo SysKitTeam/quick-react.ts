@@ -1,10 +1,10 @@
 @import '../../index.scss';
 
 .pie-chart-component {
-    min-width: 115px;
     display: block;
     overflow: visible;
     text-align: center;
+    position: relative;
     svg {
         position: relative;
         display: inline-block;
@@ -26,7 +26,7 @@
         box-sizing: border-box;
         padding-left: 5px;
         vertical-align: top;
-        z-index: -1000;
+        z-index: -2;
         text-align: start;
         .legend-item {
             margin-bottom: 5px;
