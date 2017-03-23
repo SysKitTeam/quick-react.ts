@@ -104,7 +104,19 @@ export const sData2 = {
     className: 'updatedData'
 };
 
-export const series = [sData1, sData2];
+export const sData3 = {
+    name: 'Data 3',
+    className: 'data-3',
+    data: updatedData
+};
+
+export const sData4 = {
+    name: 'Data 4',
+    className: 'data-4',
+    data: updatedData1
+};
+
+export const series = [sData1, sData2, sData3, sData4];
 
 export const linearData = [
 {argument: 1, value: 48},

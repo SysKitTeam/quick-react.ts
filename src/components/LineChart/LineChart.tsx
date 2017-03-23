@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as d3 from 'd3';
 import * as classNames from 'classnames';
 import { Label } from '../Label/Label';
-import { ILineChartProps, ILineChartData } from './LineChart.props';
+import { ILineChartProps, ILineChartData, ISeriesData } from './LineChart.props';
 import { LineChartContent } from './LineChartContent';
 import './LineChart.scss';
 
@@ -14,11 +14,12 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
         width: 0,
         height: 0,
         id: '',
-        ticks: 2,
+        xAxisTicks: 6,
+        yAxisTicks: 6,
         yAxisDomain: [0, 100],
         xAxisFormat: () => null,
         yAxisFormat: (d: number) => d,
-        colors: d3.schemeCategory20
+        colorPallette: d3.schemeCategory20
     };
 
     private containerRef: HTMLDivElement;
@@ -41,10 +42,24 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
             <div className={componentClass} 
                 style={{ width: this.props.dimensions.width, height: this.props.dimensions.height }} 
                 ref={(element: HTMLDivElement) => this.init(element)}>
+                {this.renderLegend()}
                 { this.props.title && <Label className={titleClass}>{this.props.title}</Label> }
                 { this.state.isParentMounted && <LineChartContent {...props}/> }
             </div>
         );
+    }
+
+    private renderLegend() {
+        const colorFunc = d3.scaleOrdinal(this.props.colorPallette);
+        const items = this.props.series.map( (data: ISeriesData, index: number) => {
+            return (
+                <div key={index} className={'legend-item'}>
+                    <div style={{ backgroundColor: colorFunc(data.name)}}></div>
+                    <Label style={{ display: 'inline-block' }}>{ data.name }</Label>
+                </div>
+            );
+        });
+        return <div className={'line-chart-legend'}>{items}</div>;
     }
 
     private init(element: HTMLDivElement) {

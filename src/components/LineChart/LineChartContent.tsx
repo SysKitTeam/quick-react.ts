@@ -29,7 +29,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         this.y = this.generateY();
     }
 
-    private createColorPallette = () => d3.scaleOrdinal(this.props.colors);
+    private createColorPallette = () => d3.scaleOrdinal(this.props.colorPallette);
 
     public componentWillReceiveProps(newProps: ILineChartProps, newState: any) {
         this.setState({ 
@@ -69,6 +69,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
 
         return (
             <svg width={this.state.fullWidth} height={this.state.fullHeight}>
+                {/*<g>{ this.renderLegend() }</g>*/}
                 <g className={containerClass} transform={translateContainer}>
                     <g className={xAxisClass} transform={translateXAxis} ref={(element: SVGAElement) => this.renderXAxis(element)}/>
                     <g className={yAxisClass} ref={(element: SVGAElement) => this.renderYAxis(element)}/>
@@ -80,9 +81,23 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
     }
 
     private renderPaths() {
+        const color = this.createColorPallette();
         return this.props.series.map( (data: ISeriesData, index: number) =>
-            <path className={data.className} key={index} d={this.renderLine(data.data)}/>
+            <path className={data.className} key={index} d={this.renderLine(data.data)} style={{ stroke: color(data.name) }}/>
         );
+    }
+
+    private renderLegend() {
+        const xMove = 20;
+        const color = this.createColorPallette();
+        return this.props.series.map( (data: ISeriesData, index: number) => {
+           return(
+                <g key={index} className={'legend-item-container'} transform={'translate(' + (index * xMove) + '0)'}>
+                    <rect width={30} height={30} style={{ fill: color(data.name) }}></rect>
+                    <text>{ data.name }</text>
+                </g> 
+            );
+        });
     }
 
     private initCapture(element: SVGAElement) {
