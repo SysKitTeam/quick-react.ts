@@ -4,64 +4,90 @@ $main-color: #5d5d5d;
 $background-color: #e8e9ef;
 $border-color: #e8e9ef;
 
-$font: 'Segoe UI';
-
-.line-chart-container {
-    text-align: center;
-    font-family: $font;
-    font-size: 16px;
-    font-weight: 500;
-    color: $main-color;
-    padding-left: 10px;
+.line-chart-component {
     display: inline-block;
     user-select: none;
     cursor: default;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    
+
     .line-chart-title {
-        padding: 0px 0px 0px 0px;
-        margin: 2px 0px 2px 0px;
-        font-size: 16px;
+        text-align: center;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        font-size: 14px;
+        font-weight: 500;
+        display: block;
     }
 
     svg {
         display: block;
-        margin-top: -25px;
-
-        .graph-container {
-            g {
-                .domain {
+        overflow: visible;
+        
+        .line-chart-container {
+            path {
+                fill: none;
+                stroke: blue;
+                stroke-width: 2px;
+            }
+            .x-axis, .y-axis {
+                path {
                     visibility: hidden;
                 }
-
                 .tick {
                     line {
-                        stroke: #c7c7c7;
-                        stroke-width: 1px;
-                        margin: 0 auto;
+                        stroke: $background-color;
                     }
-
                     text {
-                        font-family: $font;
+                        font-family: $font-family-base;
                         font-size: 12px;
-                        opacity: 0.8;
-                        fill: $main-color;
                     }
                 }
             }
-
-            .graph-line {
+            .capture-area {
                 fill: none;
-                stroke: $main-color;
-                stroke-width: 2px;
-                opacity: 0.8;
+                pointer-events: all;
             }
+        }
+    }
 
-            .tooltip-text {
-                font-family: $font;
+    .line-chart-legend {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+
+        position: relative;
+        box-sizing: border-box;
+        vertical-align: top;
+        text-align: start;
+
+        .legend-item {
+
+            margin-bottom: 5px;
+            display: block;
+            padding: 0px 5px 0px 0px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            div {
+                width: 12px;
+                height: 12px;
+                vertical-align: middle;
+                display: inline-block;
+                padding: 0;
+
+                &:hover {
+                    opacity: 0.7;
+                    cursor: pointer;
+                }
+            }
+            label {
+                font-family: $font-family-base;
                 font-size: 12px;
+                padding: 0px 5px 0px 5px;
             }
         }
     }

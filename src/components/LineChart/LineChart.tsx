@@ -1,215 +1,88 @@
 import * as React from 'react';
 import * as d3 from 'd3';
-
+import * as classNames from 'classnames';
 import { Label } from '../Label/Label';
-import { ILineChartProps } from './LineChart.props';
-import { ILineChartData } from './LineChart.props';
+import { ILineChartProps, ILineChartData, ISeriesData } from './LineChart.props';
+import { LineChartContent } from './LineChartContent';
 import './LineChart.scss';
 
-export class LineChart extends React.Component<ILineChartProps, undefined> {
+const ResizeSensor = require('css-element-queries/src/ResizeSensor');
+const objectAssign = require('object-assign');
 
-    private _focus: any;
-    private margin: any = {
-        top: 20,
-        bottom: 30,
-        left: 50,
-        right: 40
+export class LineChart extends React.PureComponent<ILineChartProps, any> {
+    public static defaultProps = {
+        width: 0,
+        height: 0,
+        id: '',
+        xAxisTicks: 6,
+        yAxisTicks: 6,
+        yAxisDomain: [0, 100],
+        xAxisFormat: () => null,
+        yAxisFormat: (d: number) => d,
+        colorPallette: d3.schemeCategory20
     };
-    private width: number = this.props.width - this.margin.left - this.margin.right - 10;
-    private height: number = this.props.height - this.margin.top - this.margin.bottom;
-    private _y = this.generateY();
-    
-    GRAPH_CONTAINER_CLASS: string = 'graph-container';
-    LINE_CLASS: string = 'graph-line';
-    TRANSLATE_WIDTH: number = 10;
-    TRANSFORM_X_AXIS: string = 'translate(0,' + (this.height) + ')';
-    TRANSLATE_LINE: string = 'translate(' + this.TRANSLATE_WIDTH + ', 0)';
 
-    refs: {
-        [argument: string]: (Element);
-        container: (HTMLInputElement);
-    };
+    private containerRef: HTMLDivElement;
 
     constructor(props: ILineChartProps) {
         super(props);
+
+        this.state = {
+            width: 0,
+            height: 0,
+            isParentMounted: false
+        };
     }
 
-    public componentDidMount() {
-        this.draw();
-    }
-
-    public componentDidUpdate() {
-        this.redraw();
-    }
-
-    public render() {
+     public render() {
+        const props = objectAssign({}, this.props, {width: this.state.width, height: this.state.height});
+        const componentClass = classNames('line-chart-component', this.props.id, this.props.className);
+        const titleClass = classNames('line-chart-title', this.props.id, this.props.className);
         return (
-            <div className={'line-chart-container'} ref="container">
-                <Label className={'line-chart-title'}>{this.props.title}</Label>
+            <div className={componentClass} 
+                style={{ width: this.props.dimensions.width, height: this.props.dimensions.height }}
+                ref={(element: HTMLDivElement) => this.init(element)}>
+                { this.props.title && <Label className={titleClass}>{this.props.title}</Label> }
+                {this.renderLegend()}
+                { this.state.isParentMounted && <LineChartContent {...props}/> }
             </div>
         );
     }
 
-    private redraw() {
-        d3.select('.x-axis').call(this.generateXAxis());
-        d3.select('.' + this.LINE_CLASS).attr('d', this.constructLine());
+    private renderLegend() {
+        const colorFunc = d3.scaleOrdinal(this.props.colorPallette);
+        const items = this.props.series.map( (data: ISeriesData, index: number) => {
+            return (
+                <div key={index} className={'legend-item'}>
+                    <div style={{ backgroundColor: colorFunc(data.name)}}></div>
+                    <Label style={{ display: 'inline-block' }}>{ data.name }</Label>
+                </div>
+            );
+        });
+        return <div className={'line-chart-legend'}>{items}</div>;
     }
 
-    private draw() {
-        const svg = this.createContainer();
-        this.drawXAxis(svg);
-        this.drawYAxis(svg);
-        this.drawLine(svg);
-        this.createFocus(svg);
-        this.addTooltip();
-        this.drawCaptureArea(svg);
-    }
+    private init(element: HTMLDivElement) {
+        if (element === null) { return; }
+        this.containerRef = element;
+        const sensor = new ResizeSensor(element, () => this.onResize());
+        
+        const width = element.offsetWidth;
+        const height = element.offsetHeight;
 
-    private style(g: any) {
-        g.selectAll('.tick').attr('stroke', 'white');
-    }
-
-    private drawXAxis(svg: any) : void {
-        svg.insert('g', ':first-child')
-            .attr('transform', this.TRANSFORM_X_AXIS)
-            .attr('class', 'x-axis')
-            .call(this.generateXAxis());
-    }
-
-    private drawYAxis(svg: any) : void {
-        const g = svg.append('g')
-                .attr('class', 'y-axis')
-                .call(this.generateYAxis());
-        g.selectAll('line').attr('transform', 'translate(-15, 0)');
-    }
-
-    private drawLine(svg: any) {
-        return svg.insert('path', '.y-axis + *')
-            .data([this.props.data])
-            .attr('class', this.LINE_CLASS)
-            .attr('d', this.constructLine());
-    }
-
-    private createContainer() {
-        return d3.select(this.refs.container).append('svg')
-                    .attr('width', this.props.width - 10)
-                    .attr('height', this.props.height + 20)
-                    .append('g')
-                    .attr('class', this.GRAPH_CONTAINER_CLASS)
-                    .attr('transform', 'translate(' + this.margin.left + ',' + (this.margin.top + 20) + ')');        
-    }
-
-    private generateX() : any {
-        const domain = d3.extent(this.props.data, (d) => d.argument);
-        const range = d3.extent([0, this.width]);
-        switch (this.props.xAxisScale) {
-            case 'TIME':
-                return d3.scaleTime().domain(domain).range(range);
-            case 'LINEAR':
-                return d3.scaleLinear().domain(domain).range(range);
-            default:
-                return null;
+        if (height !== this.state.height || width !== this.state.width) {
+            this.setState({ width: width, height: height, isParentMounted: true });
         }
     }
 
-    private generateY() {
-        return d3.scaleLinear()
-                .domain([0, 100])
-                .range([this.height, 0]);
-    }
-
-    private generateXAxis() {
-        return d3.axisBottom(this.generateX())
-                .tickValues(d3.extent(this.props.data, (d) => d.argument))
-                .tickSizeInner(-(this.height))
-                .tickSizeOuter(0)
-                .ticks(2, '%I:%M:%S %p')
-                .tickPadding(15);        
-    }
-
-    private generateYAxis() {
-        let ticks = 2;
-        if (this.props.gridSize !== undefined) { ticks = this.props.gridSize; }
-        return d3.axisLeft(this.generateY())
-                .tickSizeInner(-(this.width + 15))
-                .tickSizeOuter(-10)
-                .ticks(ticks)
-                .tickFormat((d) => (d + '%'))
-                .tickPadding(20);   
-    }
-
-    private constructLine() {
-        const x = this.generateX();
-        return d3.line<ILineChartData>()
-                    .x((d) => x(d.argument))
-                    .y((d) => this._y(d.value));
-    }
-
-    private createFocus(svg: any) {
-        this._focus =  svg.append('g').style('display', 'none');
-        return this._focus;
-    }
-
-    private drawCaptureArea(svg: any) {
-        return svg.append('rect')
-                    .attr('width', this.width)
-                    .attr('height', this.height)
-                    .attr('class', 'line-chart-capture')
-                    .style('fill', 'none')
-                    .style('pointer-events', 'all')
-                    .on('mouseover', () => this._focus.style('display', null))
-                    .on('mouseout', () =>  this._focus.style('display', 'none'))
-                    .on('mousemove', () => this.mouseMove());
-    }
-
-    private addTooltip() {
-        this._focus.append('polygon')
-            .attr('fill', 'white')
-            .attr('class', 'tip-pol')
-            .attr('stroke', '#e8e9ef')
-            .attr('stroke-width', 2)
-            .attr('points', '10,20 20,35 30,20');
-
-        this._focus.append('rect')
-            .attr('width', '40')
-            .attr('height', '24')
-            .attr('class', 'tip-rect')
-            .attr('display', 'none')
-            .attr('stroke', '#e8e9ef')
-            .attr('stroke-width', 2)
-            .attr('fill', 'white');
-
-        this._focus.append('text')
-            .attr('class', 'tooltip-text')
-            .attr('dx', 8)
-            .attr('dy', '-.3em');
-    }
-
-    private mouseMove() {
-        const x = this.generateX();
-        const bisect = d3.bisector<ILineChartData, any>((d) => d.argument).left;
-
-        let x0 = x.invert(d3.mouse(d3.event.currentTarget)[0]);
-
-        let i = bisect(this.props.data, x0, 1);
-        let d0 = this.props.data[i - 1];
-        let d1 = this.props.data[i];
-
-        let d;
-
-        if (this.props.xAxisScale === 'TIME') {
-            d = (x0.getTime() - (d0.argument as Date).getTime()) > ((d1.argument as Date).getTime() - x0.getTime()) ? d1 : d0;
+    private onResize() {
+        const width = this.containerRef.offsetWidth;
+        const height = this.containerRef.offsetHeight;
+        if (height !== this.state.height || width !== this.state.width) {
+            this.setState({ width: width, height: height });
+            this.forceUpdate();
         }
-
-        d = x0 - (d0.argument as any) > (d1.argument as any) - x0 ? d1 : d0;
-
-        this._focus.select('.tip-rect')
-                .attr('transform', 'translate(' + (x(d.argument) - 20) + ',' + (this._y(d.value) - 40) + ')')
-                .attr('display', 'block');
-        this._focus.select('.tip-pol')
-                .attr('transform', 'translate(' + (x(d.argument) - 20) + ',' + (this._y(d.value) - 40) + ')');
-        this._focus.select('text.tooltip-text')
-                .attr('transform', 'translate(' + (x(d.argument) - 24) + ',' + (this._y(d.value) - 20) + ')')
-                .text(() => d.value + ' %');
     }
+
+    public componentWillUnmount() { ResizeSensor.detach(this.containerRef); }
 }
