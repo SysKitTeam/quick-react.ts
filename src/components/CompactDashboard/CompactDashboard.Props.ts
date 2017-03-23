@@ -46,5 +46,7 @@ export interface ICompactDashboardProps {
   * Action that is called on clicking the title of a cetrain group. The function is supplied with a group id.
   */
   groupOnClick?: (groupId: any) => void;
+
+  serverOnClick?: (serverId: any) => void;
 }
 

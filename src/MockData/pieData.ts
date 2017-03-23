@@ -1,4 +1,4 @@
-export const data = [
+export const pieData = [
     {
         label: 'A',
         value: 290
@@ -33,8 +33,8 @@ export const data = [
       }
 ];
 
-export const updatedData = [
-    {
+export const pieUpdatedData = [
+      {
         label: 'A',
         value: 123
       },
