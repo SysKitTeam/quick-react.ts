@@ -43,23 +43,10 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
                 style={{ width: this.props.dimensions.width, height: this.props.dimensions.height }}
                 ref={(element: HTMLDivElement) => this.init(element)}>
                 { this.props.title && <Label className={titleClass}>{this.props.title}</Label> }
-                {this.renderLegend()}
+                { this.renderLegend() }
                 { this.state.isParentMounted && <LineChartContent {...props}/> }
             </div>
         );
-    }
-
-    private renderLegend() {
-        const colorFunc = d3.scaleOrdinal(this.props.colorPallette);
-        const items = this.props.series.map( (data: ISeriesData, index: number) => {
-            return (
-                <div key={index} className={'legend-item'}>
-                    <div style={{ backgroundColor: colorFunc(data.name)}}></div>
-                    <Label style={{ display: 'inline-block' }}>{ data.name }</Label>
-                </div>
-            );
-        });
-        return <div className={'line-chart-legend'}>{items}</div>;
     }
 
     private init(element: HTMLDivElement) {
@@ -85,4 +72,25 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
     }
 
     public componentWillUnmount() { ResizeSensor.detach(this.containerRef); }
+
+    private renderLegend() {
+        const colorFunc = d3.scaleOrdinal(this.props.colorPallette);
+        const items = this.props.series.map( (data: ISeriesData, index: number) => {
+            return (
+                <div key={index} className={'legend-item'}>
+                    <div style={{ backgroundColor: colorFunc(data.name)}}
+                        className={ data.id }
+                        onClick={(ev: React.MouseEvent<HTMLDivElement>) => this.showHideSeries(ev.currentTarget)}></div>
+                    <Label style={{ display: 'inline-block' }}>{ data.name }</Label>
+                </div>
+            );
+        });
+        return <div className={'line-chart-legend'}>{items}</div>;
+    }
+
+    private showHideSeries(element: HTMLDivElement) {
+        const className = element.getAttribute('class');
+        const series = d3.select('.line-chart-container.' + this.props.id + ' > .' + className );
+        series.attr('display') === 'none' ? series.attr('display', 'block') : series.attr('display', 'none');
+    }
 }
