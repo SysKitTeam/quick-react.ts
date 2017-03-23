@@ -69,6 +69,8 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         // get width and height of component container
         const width = element.offsetWidth;
         const height = element.offsetHeight;
+
+        this.containerRef = element;
         
         let chartWidth = 0;
 
@@ -80,18 +82,7 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
             return;
         }
 
-        if ( !this.props.showLegend ) {
-            chartWidth = width;
-        } else {
-            this.legendWidth = element.children[1].getBoundingClientRect().width;
-            if (width - 10 < this.legendWidth) { chartWidth = width; } else { chartWidth = width - this.legendWidth - 10; }
-        }
-
-        if (chartWidth >= height) { chartWidth = height; }
-
-        if (this.state.chartWidth !== chartWidth || this.state.chartHeight !== height) {
-            this.setState({ chartWidth: chartWidth, chartHeight: height, isParentMounted: true });
-        }
+        this.setDimensions(width, height);
     }
 
     /**
@@ -107,7 +98,7 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
                     <label style={{display: 'inline-block'}}>{d.label}</label>
                 </div> 
         );
-        return ( <div className={legendClass}>{legend}</div> );
+        return <div className={legendClass}>{legend}</div>;
     }
 
     /**
@@ -137,20 +128,22 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
      * Rescales component to new size base od parent component.
      */
     private onResize(): void {
-        const width = this.containerRef.offsetWidth;
-        const height = this.containerRef.offsetHeight;
+        this.setDimensions(this.containerRef.offsetWidth, this.containerRef.offsetHeight);
+    }
 
+    private setDimensions(width: number, height: number): void {
         let chartWidth = 0;
-
-        if (!this.props.showLegend) {
+        if ( !this.props.showLegend ) {
             chartWidth = width;
-        } else {  
+        } else {
+            this.legendWidth = this.containerRef.children[1].getBoundingClientRect().width;
             if (width - 10 < this.legendWidth) { chartWidth = width; } else { chartWidth = width - this.legendWidth - 10; }
         }
-        if (chartWidth < 50) { return; }
+
+        if (chartWidth >= height) { chartWidth = height; }
+
         if (this.state.chartWidth !== chartWidth || this.state.chartHeight !== height) {
-            this.setState({ chartWidth: chartWidth, chartHeight: height });
-            this.forceUpdate();
+            this.setState({ chartWidth: chartWidth, chartHeight: height, isParentMounted: true });
         }
     }
 
