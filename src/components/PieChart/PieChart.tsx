@@ -110,6 +110,12 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         let data = Array(0);        
 
         if (this.props.displayingElements !== undefined) {
+
+            if (this.props.displayingElements > this.props.data.length || 
+                    this.props.displayingElements === this.props.data.length ) { 
+                        return this.props.data; 
+            }
+
             const sortedData = this.props.data.sort((a, b) => b.value - a.value);
             
             for (let i = 0; i < this.props.displayingElements - 1; i++) { data.push(sortedData[i]); }
