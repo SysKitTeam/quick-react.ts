@@ -16,7 +16,8 @@ export class Index extends React.PureComponent<any, any> {
     public render() {
         return (
             <div>
-                <LineChart 
+                <LineChart
+                    title={'Acceleratio responsive line chart'}
                     id={'line-chart-1'} 
                     dimensions={{ width: '100%', height: '300px' }}
                     xAxisFormat={() => '%d.%m.%y'}

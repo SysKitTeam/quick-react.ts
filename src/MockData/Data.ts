@@ -99,19 +99,19 @@ export const sData1 = {
 };
 
 export const sData2 = {
-    name: 'Data 2',
+    name: 'some longer name',
     data: data2,
     className: 'updatedData'
 };
 
 export const sData3 = {
-    name: 'Data 3',
+    name: 'very very long series name',
     className: 'data-3',
     data: updatedData
 };
 
 export const sData4 = {
-    name: 'Data 4',
+    name: 'irrelevant name for a chart',
     className: 'data-4',
     data: updatedData1
 };
