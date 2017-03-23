@@ -24,10 +24,16 @@ export class Index extends React.PureComponent<any, any> {
             textAlign: 'center'
         };
 
+        const labelStyle = {
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis'
+        }
+
         return (
             <div>
                 <div style={ divStyle }>
-                    <Label>Pie chart component</Label>
+                    <Label style={ labelStyle }>Pie chart component</Label>
                     <PieChart
                             id={'chart-1'}
                             dimensions={{ width: '100%', height: 'calc(100% - 40px)' }}
