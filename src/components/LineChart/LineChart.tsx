@@ -85,6 +85,16 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
         }
     }
 
+    public componentDidUpdate() {
+        const series = d3.selectAll('.line-chart-container.' + this.props.id + ' > path,circle');
+        series.attr('display', 'block');
+        const items = d3.selectAll('.line-chart-legend.' + this.props.id + ' > .legend-item > div').nodes();
+        for (let i = 0; i < items.length; i++) {
+            const el = d3.select(items[i]);
+            el.style('background-color', el.style('border-color'));
+        }
+    }
+
     public componentWillUnmount() { ResizeSensor.detach(this.containerRef); }
 
     private renderLegend() {
@@ -105,7 +115,7 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
                 </div>
             );
         });
-        return <div className={'line-chart-legend'}>{items}</div>;
+        return <div className={classNames('line-chart-legend', this.props.id)}>{items}</div>;
     }
 
     private showHideSeries(element: HTMLDivElement) {

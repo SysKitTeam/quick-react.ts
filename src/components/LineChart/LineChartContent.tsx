@@ -46,14 +46,19 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
 
     public componentDidMount() {
         this.calculateAvailableSpace();
-        const circles = d3.selectAll('.line-chart-container.' + this.props.id + ' > circle');
-        circles.on('mouseover', () => this.onMouseMove());
-        circles.on('mouseout', () => this.setState({ isTipVisible: false }));
-        circles.data(this.circleData);
+        this.setEventsAndBindData();
     }
 
     public componentDidUpdate() {
         this.calculateAvailableSpace();
+        this.setEventsAndBindData();
+    }
+
+    private setEventsAndBindData() {
+        const circles = d3.selectAll('.line-chart-container.' + this.props.id + ' > circle');
+        circles.on('mouseover', () => this.onMouseMove());
+        circles.on('mouseout', () => this.setState({ isTipVisible: false }));
+        circles.data(this.circleData);
     }
 
     public render() {
@@ -73,14 +78,14 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
                 <g className={containerClass} transform={translateContainer}>
                     <g className={xAxisClass} transform={translateXAxis} ref={(element: SVGAElement) => this.renderXAxis(element)} />
                     <g className={yAxisClass} ref={(element: SVGAElement) => this.renderYAxis(element)} />
-                    {this.draw()}
+                    {this.drawSeries()}
                     <Tooltip id={this.props.id} text={this.state.tipText} x={this.state.tipX} y={this.state.tipY} visible={this.state.isTipVisible} />
                 </g>
             </svg>
         );
     }
 
-    private draw(): Array<JSX.Element> {
+    private drawSeries(): Array<JSX.Element> {
         const values = this.normalizeData();
         const x = this.generateX();
         const y = this.generateY();
@@ -98,7 +103,8 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
                 circles.push(
                     <circle key={index++} className={values[i].id} r={6} 
                         cx={x(values[i].data[j].argument)} cy={y(values[i].data[j].value)}
-                        style={{ fill: 'transparent' }}/>
+                        style={{ fill: 'transparent' }}
+                       />
                 );
                 circleData.push(values[i].data[j]);
             }
