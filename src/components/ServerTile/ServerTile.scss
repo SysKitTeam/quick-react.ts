@@ -16,7 +16,6 @@ $server-status-color: $basic-text-color;
     font-family: $font;
     width: $tile-width;
     display: inline-block;
-    margin: 5px;
     position: relative;
     padding: 0;
     border-left: 10px solid $server-status-color;
@@ -120,13 +119,17 @@ $server-status-color: $basic-text-color;
 
             &:nth-child(even) {
                 border-left: 1px solid $server-background-color;
-            }
-
-            
+            }            
 
             .label {
                 display: inline-block;
                 color: $emphasized-text-color;
+                &.status-warning{
+                    color: $yellow-color;
+                }
+                &.status-critical{                
+                    color: $red-color;
+                }
             }
 
             .label:nth-child(2) {
@@ -152,5 +155,15 @@ $server-status-color: $basic-text-color;
         &:hover{
             color: $red-color;
         }
-    }
+    }  
 }
+
+.status-ok{
+    border-left-color: $green-color;
+}
+.status-warning{
+    border-left-color: $yellow-color;
+}
+.status-critical{
+    border-left-color: $red-color;
+}    

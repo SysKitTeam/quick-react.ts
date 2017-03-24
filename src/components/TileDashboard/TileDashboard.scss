@@ -67,16 +67,9 @@ $background-color: $background-color;
             text-overflow: ellipsis;
             overflow: hidden;
             display: inline-flex;
-        }
-        .label{
-            &.status-warning{
-                color: $yellow-color;
-            }
-            &.status-critical{                
-                color: $red-color;
-            }
-        }
-    }
+        }      
+    }    
+    
     .status-ok{
         border-left-color: $green-color;
     }
@@ -87,7 +80,7 @@ $background-color: $background-color;
 
     .status-critical{
         border-left-color: $red-color;
-    }
+    }    
 
     .offline{
         border-left-color: $basic-text-color;

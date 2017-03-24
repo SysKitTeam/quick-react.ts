@@ -1,4 +1,4 @@
-export const data = [
+export const barData = [
     {
         argument: 1,
         frequency: 5
@@ -29,7 +29,7 @@ export const data = [
     }
 ];
 
-export const updatedData = [
+export const barUpdatedData = [
     {
         argument: 'Ana',
         frequency: 5

@@ -23,4 +23,5 @@ export interface ICalloutProps extends React.Props<Callout | CalloutContent> {
   doNotLayer?: boolean;
   setInitialFocus?: boolean;
   layerClassName?: string;
+  hideBorder?: boolean;
 }

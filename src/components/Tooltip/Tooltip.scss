@@ -4,11 +4,13 @@
     pointer-events: none;
     polygon, rect {
         fill: #f6f6f6;
+        pointer-events: inherit;
     }
     .tip-text {
         font-family: $font-family-base;
         font-size: 12px;
         fill: #898989;
         font-weight: 400;
+        pointer-events: inherit;
     }
 }

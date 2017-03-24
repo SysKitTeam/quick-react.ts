@@ -5,7 +5,7 @@ import { IBarChartProps, IBarChartData } from './BarChart.props';
 import { Tooltip } from '../Tooltip/Tooltip';
 import './BarChart.scss';
 
-const margin = { top: 50, right: 40, bottom: 70, left: 80 };
+const margin = { top: 20, right: 40, bottom: 70, left: 80 };
 
 export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
     private tooltip: SVGAElement;

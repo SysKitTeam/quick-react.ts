@@ -5,26 +5,47 @@ import 'ts-helpers';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { PieChart } from './../../src/components/PieChart/PieChart';
-import { IPieChartData } from './../../src/components/PieChart/PieChart.props';
-import { data, updatedData } from './../../src/mockData/pieData';
+import { Label } from '../../src/components/Label/Label';
 
-export class Index extends React.Component<any, any> {
+import { PieChart } from '../../src/components/PieChart/PieChart';
+import { IPieChartData } from '../../src/components/PieChart/PieChart.props';
+import { pieData, pieUpdatedData } from '../../src/MockData/pieData';
+
+export class Index extends React.PureComponent<any, any> {
    constructor() {
         super();
-        this.state = { pieChartData: data };
-   }
+    }
     public render() {
+
+        const divStyle = {
+            width: '50%',
+            height: '200px',
+            border: '1px solid lightgrey',
+            textAlign: 'center'
+        };
+
+        const labelStyle = {
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis'
+        }
+
         return (
             <div>
-               <PieChart
-                    id={'chart-1'}
-                    dimensions={{ width: '25%', height: '100px' }}
-                    data={this.state.pieChartData}
-                    colors={['#344086', '#8bd764', '#f3f986', '#ec1271', '#636363', 'red', 'green', 'purple', 'aquamarine', 'lightgrey']}
-                    tipText={(d: IPieChartData) => (d.label + ' : ' + d.value)} />
+                <div style={ divStyle }>
+                    <Label style={ labelStyle }>Pie chart component</Label>
+                    <PieChart
+                            id={'chart-1'}
+                            dimensions={{ width: '100%', height: 'calc(100% - 40px)' }}
+                            data={pieUpdatedData}
+                            colors={['#344086', '#8bd764', '#f3f986', '#ec1271', '#636363', 'red', 'green', 'purple', 'aquamarine', 'lightgrey']}
+                            tipText={(d: IPieChartData) => (d.label + ' : ' + d.value)} 
+                            showLegend={true}
+                            displayingElements={4}/>
+                </div>
             </div>
         );
     };
 };
+
 ReactDOM.render(<Index />, document.getElementById('root'));
