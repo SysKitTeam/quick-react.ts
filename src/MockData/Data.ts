@@ -116,7 +116,8 @@ export const sData4 = {
     data: updatedData1
 };
 
-export const series = [sData1, sData2, sData3, sData4];
+export const series = [ sData1, sData2, sData3, sData4 ];
+export const series1 = [ sData3, sData4 ];
 
 export const linearData = [
 {argument: 1, value: 48},

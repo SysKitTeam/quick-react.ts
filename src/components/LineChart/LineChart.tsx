@@ -20,7 +20,8 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
         xAxisFormat: () => null,
         yAxisFormat: (d: number) => d,
         colorPallette: d3.schemeCategory20,
-        showLegend: false
+        showLegend: false,
+        tooltipText: (d: ILineChartData) => d.value
     };
 
     private containerRef: HTMLDivElement;

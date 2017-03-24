@@ -13,6 +13,7 @@ export interface ILineChartProps {
     yAxisDomain?: [any, any];
     series: Array<ISeriesData>;
     showLegend?: boolean;
+    tooltipText?: (data: ILineChartData) => string;
 }
 
 export interface ILineChartData {
