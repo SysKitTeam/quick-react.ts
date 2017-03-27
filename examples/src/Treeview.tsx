@@ -6,7 +6,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { Treeview } from './../../src/components/Treeview/Treeview';
-import { elements } from './../../src/treeviewElements';
+import { elements } from './../MockData/treeviewElements';
 
 export class Index extends React.Component<any, any> {
     constructor() {

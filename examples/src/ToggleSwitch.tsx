@@ -13,7 +13,9 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-                <ToggleSwitch onChange={this._onToggle} />
+                <ToggleSwitch onChange={this._onToggle} /> <br/>
+                <ToggleSwitch offText={'OFF'} onText={'ON'} /> <br/>
+                <ToggleSwitch offText={'O'} onText={'I'} />
             </div>
         );
     };
