@@ -30,8 +30,15 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         this.y = this.generateY();
     }
 
+    /**
+     * Color generator which is constructed based on given array of colors and returns
+     * appropriate color from given array for given string.
+     */
     private createColorPallette = () => d3.scaleOrdinal(this.props.colorPallette);
 
+    /**
+     * When component receives new props set state based on new props.
+     */
     public componentWillReceiveProps(newProps: ILineChartProps, newState: any) {
         this.setState({
             fullWidth: newProps.width,
@@ -44,19 +51,31 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         this.y = this.generateY();
     }
 
+    /**
+     * When component is mounted calculate space for labels and bind events and data
+     * to circles which are used for showing tooltips.
+     */
     public componentDidMount() {
         this.calculateAvailableSpace();
         this.setEventsAndBindData();
     }
 
+    /**
+     * When component is updated calculate space for labels and bind events and data
+     * to circles which are used for showing tooltips.
+     */
     public componentDidUpdate() {
         this.calculateAvailableSpace();
         this.setEventsAndBindData();
     }
 
+    /**
+     * Binds on mouse over event to circles and binds data to it so when mouse is hovered over
+     * given circle tooltip with given information about that chart point can be displayed.
+     */
     private setEventsAndBindData() {
         const circles = d3.selectAll('.line-chart-container.' + this.props.id + ' > circle');
-        circles.on('mouseover', () => this.onMouseMove());
+        circles.on('mouseover', () => this.onMouseOver());
         circles.on('mouseout', () => this.setState({ isTipVisible: false }));
         circles.data(this.circleData);
     }
@@ -85,6 +104,10 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         );
     }
 
+    /**
+     * Draws chart lines and given transparent circles that are used for displaying tooltips based
+     * on transformed data which does not containe null values.
+     */
     private drawSeries(): Array<JSX.Element> {
         const values = this.normalizeData();
         const x = this.generateX();
@@ -113,6 +136,10 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         return [...lines, ...circles];
     }
 
+    /**
+     * Algorithm that finds null values for y-axis in given datasets and returns new arrays
+     * without null values in between for charting.
+     */
     private normalizeData(): Array<any> {
         let data = Array(0);
         for (let j = 0; j < this.props.series.length; j++) {
@@ -156,20 +183,12 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         return data;
     }
 
-    private renderLegend() {
-        const xMove = 20;
-        const color = this.createColorPallette();
-        return this.props.series.map((data: ISeriesData, index: number) => {
-            return (
-                <g key={index} className={'legend-item-container'} transform={'translate(' + (index * xMove) + '0)'}>
-                    <rect width={30} height={30} style={{ fill: color(data.name) }}></rect>
-                    <text>{data.name}</text>
-                </g>
-            );
-        });
-    }
-
-    private onMouseMove() {
+    /**
+     * When mouse is moved over a given point on chart calculate dimensions,
+     * get data that is bound to that circle and call props function that formats
+     * tooltip text.
+     */
+    private onMouseOver() {
         const element = d3.event.currentTarget;
         const el = d3.select(element);
         const boundData = el.datum() as ILineChartData;
@@ -179,6 +198,10 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         this.setState({ isTipVisible: true, tipX: x, tipY: y, tipText: this.props.tooltipText(boundData) });
     }
 
+    /**
+     * Renders x axis inside given element. This function gets called when
+     * container for x axis gets mounted into DOM.
+     */
     private renderXAxis(element: SVGAElement) {
         if (element === null) { return; }
 
@@ -194,6 +217,10 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         d3.select(element).call(xAxis);
     }
 
+    /**
+     * Renders y axis inside given element. This function gets called when
+     * container for y axis gets mounted into DOM.
+     */
     private renderYAxis(element: SVGAElement) {
         if (element === null) { return; }
 
@@ -207,6 +234,11 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         d3.select(element).call(yAxis);
     }
 
+    /**
+     * Creates x-axis generator based on given domain and range. Domain of given x-axis generator
+     * is in range of minimum value of x argument of all given datasets and maximum value of y argument
+     * of all given datasets.
+     */
     private generateX() {
         const first = this.props.series[0].data;
         let max = d3.max(first, (d) => d.argument);
@@ -225,10 +257,16 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         return scale.domain([min, max]).range([0, this.state.containerWidth]);
     }
 
+    /**
+     * Creates y-axis generator based on given domain and range.
+     */
     private generateY() {
         return d3.scaleLinear().domain(this.props.yAxisDomain).range([this.state.containerHeight, 0]).nice();
     }
 
+    /**
+     * Creates line generator based on given dataset and x and y axis generators.
+     */
     private renderLine(data: Array<ILineChartData>) {
         const x = this.generateX();
         const y = this.generateY();
@@ -236,6 +274,10 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         return lineGenerator(data);
     }
 
+    /** 
+     * Returns format function or null value if no format function is specified which is then used
+     * in d3s function for formatting axis ticks.
+     */
     private formatAxisLabels(): any {
         if (this.props.xAxisFormat() === null) { return null; }
         const formatFunc = typeof this.props.series[0].data[0].argument !== 'object' ? d3.format : d3.timeFormat;

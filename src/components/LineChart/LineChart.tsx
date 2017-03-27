@@ -56,6 +56,10 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
         );
     }
 
+    /**
+     * Initializes component. On first render only main container is rendered and based on his
+     * width and height content inside it is rendered.
+     */
     private init(element: HTMLDivElement) {
         if (element === null) { return; }
         this.containerRef = element;
@@ -72,6 +76,10 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
         }
     }
 
+    /**
+     * When resize sensor detect change in size of parent container calculates new dimensions
+     * for chart content and render chart content based on new dimensions.
+     */
     private onResize() {
         const width = this.containerRef.offsetWidth;
         const height = this.containerRef.offsetHeight;
@@ -85,6 +93,9 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
         }
     }
 
+    /**
+     * When component updates reset legend and lines to be shown.
+     */
     public componentDidUpdate() {
         const series = d3.selectAll('.line-chart-container.' + this.props.id + ' > path,circle');
         series.attr('display', 'block');
@@ -95,8 +106,14 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
         }
     }
 
+    /**
+     * When component is unmounting detach resize sensor from main container.
+     */
     public componentWillUnmount() { ResizeSensor.detach(this.containerRef); }
 
+    /**
+     * Renders legend based on given dataset. Legend is rendered as standard html elements.
+     */
     private renderLegend() {
         const colorFunc = d3.scaleOrdinal(this.props.colorPallette);
         const items = this.props.series.map( (data: ISeriesData, index: number) => {
@@ -118,6 +135,10 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
         return <div className={classNames('line-chart-legend', this.props.id)}>{items}</div>;
     }
 
+    /**
+     * When legend item is clicked this function gets called which show or hide 
+     * line series based on class of clicked legend item.
+     */
     private showHideSeries(element: HTMLDivElement) {
         const className = element.getAttribute('class');
         const series = d3.selectAll('.line-chart-container.' + this.props.id + ' > .' + className );
