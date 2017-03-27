@@ -9,7 +9,7 @@ import { Label } from '../../src/components/Label/Label';
 
 import { PieChart } from '../../src/components/PieChart/PieChart';
 import { IPieChartData } from '../../src/components/PieChart/PieChart.props';
-import { pieData, pieUpdatedData } from '../../src/MockData/pieData';
+import { pieData, pieUpdatedData } from '../MockData/pieData';
 
 export class Index extends React.PureComponent<any, any> {
    constructor() {
