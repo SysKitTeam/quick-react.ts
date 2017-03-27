@@ -16,13 +16,13 @@ export class Spinner extends React.Component<ISpinnerProps, any> {
                 <div className={ classNames('spinner-circle',
                    { 'spinner-normal': type === SpinnerType.normal },
                    { 'spinner-large': type === SpinnerType.large })
-                }>
-                </div>
-                { label && (
-                    <div className={'spinner-label'}>{ label }</div>
-                )}
+                }/>
+                { label &&
+                    <div
+                        className={classNames('spinner-label', { 'normal': type === SpinnerType.normal }, { 'large': type === SpinnerType.large })}
+                    >{label}</div>
+                }
             </div>
         );
     }
 }
-
