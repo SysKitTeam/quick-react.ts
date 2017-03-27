@@ -12,6 +12,8 @@ export interface ILineChartProps {
     colorPallette?: Array<string>;
     yAxisDomain?: [any, any];
     series: Array<ISeriesData>;
+    showLegend?: boolean;
+    tooltipText?: (data: ILineChartData) => string;
 }
 
 export interface ILineChartData {

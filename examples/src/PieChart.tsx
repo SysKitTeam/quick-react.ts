@@ -9,7 +9,7 @@ import { Label } from '../../src/components/Label/Label';
 
 import { PieChart } from '../../src/components/PieChart/PieChart';
 import { IPieChartData } from '../../src/components/PieChart/PieChart.props';
-import { pieData, pieUpdatedData } from '../../src/MockData/pieData';
+import { pieData, pieUpdatedData } from '../MockData/pieData';
 
 export class Index extends React.PureComponent<any, any> {
    constructor() {
@@ -40,7 +40,8 @@ export class Index extends React.PureComponent<any, any> {
                             data={pieUpdatedData}
                             colors={['#344086', '#8bd764', '#f3f986', '#ec1271', '#636363', 'red', 'green', 'purple', 'aquamarine', 'lightgrey']}
                             tipText={(d: IPieChartData) => (d.label + ' : ' + d.value)} 
-                            showLegend={true}/>
+                            showLegend={true}
+                            displayingElements={4}/>
                 </div>
             </div>
         );
