@@ -1,6 +1,26 @@
 import { IMeasure, MeasureType, IFarm, Partition, DiskMeasure, CpuMeasure, RamMeasure, NetworkMeasure } from '../models';
 import { ITileData } from '../components/ServerTile/ServerTile.Props';
 
+export function sortServersByStatusAndName(ob1: { status: number, name: string }, ob2: { status: number, name: string }) {
+    if (ob1.status > ob2.status) {
+        return 1;
+    } else if (ob1.status < ob2.status) {
+        return -1;
+    }
+
+    if (ob1.name < ob2.name) {
+        return -1;
+    } else if (ob1.name > ob2.name) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+export function filterServerByName(filter: string, serverName: string): boolean {
+    return serverName.toLowerCase().trim().indexOf(filter.toLowerCase().trim()) !== -1;
+}
+
 export function getServerMeasures(serverMeasures: Array<IMeasure>) {
     let counters = [];
     serverMeasures.forEach((measure) => {

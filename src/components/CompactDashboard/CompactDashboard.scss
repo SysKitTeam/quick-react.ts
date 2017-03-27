@@ -1,32 +1,15 @@
 @import '../../index.scss';
 
-
-
 .compact-dashboard-container{
     @include baseFont();
     width: 100%;
     height: 100%;
     background-color: $background-color;
     border-color: $background-color;
-    overflow: hidden;
-    color: $basic-text-color;
-    .farm {
-        padding-bottom: 25px;
-        &:first-child{
-            margin-top:70px;
-        }   
-    }
-    .compact-dashboard-server{
-            order:1;
-    }
-
-    .compact-server-container{
-            font-size: 14px;
-            max-width: 215px;
-            display: inline-block;
-    }
-        
+    overflow: hidden; // hidden scroll
+    color: $basic-text-color;  
 }
+
 .compact-dashboard-container.vertical{
     width: 100%;
     color: $basic-text-color;

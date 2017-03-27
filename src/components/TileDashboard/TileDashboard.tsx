@@ -10,30 +10,9 @@ import * as classNames from 'classnames';
 import { TagContainer } from '../TagContainer/TagContainer';
 import { Icon } from '../Icon/Icon';
 import { autobind } from '../../utilities/autobind';
-import { getServerMeasures } from '../../utilities/serverMeasures';
+import { getServerMeasures, sortServersByStatusAndName, filterServerByName  } from '../../utilities/server';
 
 import './TileDashboard.scss';
-
-function checkFilter(filter: string, serverName: string): boolean {
-    return serverName.toLowerCase().trim().indexOf(filter.toLowerCase().trim()) !== -1;
-}
-
-function sortFarmServers(ob1: { status: number, name: string }, ob2: { status: number, name: string }) {
-    if (ob1.status > ob2.status) {
-        return 1;
-    } else if (ob1.status < ob2.status) {
-        return -1;
-    }
-
-    if (ob1.name < ob2.name) {
-        return -1;
-    } else if (ob1.name > ob2.name) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
 
 export class TileDashboard extends React.Component<ITileDashboardProps, any> {
     private list: any;
@@ -87,10 +66,10 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
     private calculateRowHeight(width, obj: { index: number }): number {
         let numberPerRow = Math.floor((width - 72) / 281.0);
 
-        let farmServerCount = this.getRow(obj.index).servers.filter((server) => { return checkFilter(this.props.filter, server.name); }).length;
+        let farmServerCount = this.getRow(obj.index).servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
         let rowCount = (Math.floor(farmServerCount / numberPerRow) + (farmServerCount % numberPerRow === 0 ? 0 : 1));
         let serverHeight = rowCount * 183;
-        let serverRoleDiff = (this.getRow(obj.index).servers.some((server) => { return checkFilter(this.props.filter, server.name) && server.roles.length > 0; })) ? rowCount * 30 : 0;
+        let serverRoleDiff = (this.getRow(obj.index).servers.some((server) => { return filterServerByName(this.props.filter, server.name) && server.roles.length > 0; })) ? rowCount * 30 : 0;
         if (this.getRow(obj.index).isCustom) {
             serverRoleDiff += 21;
         }
@@ -106,7 +85,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
     @autobind
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
         const farm = this.getRow(index);
-        const servers = farm.servers.filter((server) => { return checkFilter(this.props.filter, server.name); }).sort(sortFarmServers);
+        const servers = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).sort(sortServersByStatusAndName);
 
         return (
             <div style={style} key={index}>

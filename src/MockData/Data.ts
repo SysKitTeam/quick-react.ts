@@ -67,7 +67,7 @@ export const updatedData = [
 {argument: new Date('06/27/2016'), value: 39},
 {argument: new Date('06/28/2016'), value: 32},
 {argument: new Date('06/29/2016'), value: 25},
-{argument: new Date('06/30/2016'), value: 47},];
+{argument: new Date('06/30/2016'), value: 47}];
 
 export const updatedData1 = [
 {argument: new Date('07/10/2016'), value: 25},
@@ -90,7 +90,7 @@ export const updatedData1 = [
 {argument: new Date('07/27/2016'), value: 39},
 {argument: new Date('07/28/2016'), value: 32},
 {argument: new Date('07/29/2016'), value: 25},
-{argument: new Date('07/30/2016'), value: 47},];
+{argument: new Date('07/30/2016'), value: 47}];
 
 export const sData1 = {
     name: 'Data 1',

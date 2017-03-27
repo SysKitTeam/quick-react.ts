@@ -43,7 +43,7 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
             onMouseEnter={this.props.onMouseEnter}
             onMouseLeave={this.props.onMouseLeave} 
             onClick={this.onclick}
-             >
+            >
                 <span className={'server-title'}>
                     <span>{this.props.name}</span>                    
                 </span>
@@ -55,7 +55,6 @@ export class CompactServer extends React.Component<ICompactServerProps, any> {
                         </TagContainer>
                     </div>
                 }
-
             </div>
         );
     }
