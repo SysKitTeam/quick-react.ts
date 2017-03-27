@@ -4,12 +4,13 @@ import * as classNames from 'classnames';
 import { ILineChartProps, ILineChartData, ISeriesData } from './LineChart.props';
 import { Tooltip } from '../Tooltip/Tooltip';
 
-const margin = { top: 20, bottom: 30, left: 50, right: 40 };
+const margin = { top: 20, bottom: 70, left: 50, right: 40 };
 
 export class LineChartContent extends React.PureComponent<ILineChartProps, any> {
     private x;
     private y;
     private bisect = d3.bisector<ILineChartData, any>((d) => d.argument).left;
+    private circleData;
 
     constructor(props: ILineChartProps) {
         super(props);
@@ -29,30 +30,54 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         this.y = this.generateY();
     }
 
+    /**
+     * Color generator which is constructed based on given array of colors and returns
+     * appropriate color from given array for given string.
+     */
     private createColorPallette = () => d3.scaleOrdinal(this.props.colorPallette);
 
+    /**
+     * When component receives new props set state based on new props.
+     */
     public componentWillReceiveProps(newProps: ILineChartProps, newState: any) {
-        this.setState({ 
-            fullWidth: newProps.width, 
-            fullHeight: newProps.height, 
+        this.setState({
+            fullWidth: newProps.width,
+            fullHeight: newProps.height,
             containerWidth: newProps.width - margin.right - margin.left,
             containerHeight: newProps.height - margin.top - margin.bottom
-         });
+        });
 
-         this.x = this.generateX();
-         this.y = this.generateY();
+        this.x = this.generateX();
+        this.y = this.generateY();
     }
 
+    /**
+     * When component is mounted calculate space for labels and bind events and data
+     * to circles which are used for showing tooltips.
+     */
     public componentDidMount() {
         this.calculateAvailableSpace();
-
-        const lines = d3.selectAll('.line-chart-container.' + this.props.id +  ' > path');
-        lines.on('mouseover', () => this.onMouseMove());
-        lines.on('mouseout', () => this.setState({ isTipVisible: false }));
+        this.setEventsAndBindData();
     }
 
+    /**
+     * When component is updated calculate space for labels and bind events and data
+     * to circles which are used for showing tooltips.
+     */
     public componentDidUpdate() {
         this.calculateAvailableSpace();
+        this.setEventsAndBindData();
+    }
+
+    /**
+     * Binds on mouse over event to circles and binds data to it so when mouse is hovered over
+     * given circle tooltip with given information about that chart point can be displayed.
+     */
+    private setEventsAndBindData() {
+        const circles = d3.selectAll('.line-chart-container.' + this.props.id + ' > circle');
+        circles.on('mouseover', () => this.onMouseOver());
+        circles.on('mouseout', () => this.setState({ isTipVisible: false }));
+        circles.data(this.circleData);
     }
 
     public render() {
@@ -60,7 +85,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         const yAxisClass = classNames('y-axis', this.props.id, this.props.className);
         const tipClass = classNames('bar-chart-component', 'tip', this.props.id, this.props.className);
         const containerClass = classNames('line-chart-container', this.props.id, this.props.className);
-        
+
         const translateXAxis = 'translate(0,' + this.state.containerHeight + ')';
         const translateContainer = 'translate(' + margin.left + ',' + margin.top + ')';
 
@@ -70,94 +95,150 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         return (
             <svg width={this.state.fullWidth} height={this.state.fullHeight}>
                 <g className={containerClass} transform={translateContainer}>
-                    <g className={xAxisClass} transform={translateXAxis} ref={(element: SVGAElement) => this.renderXAxis(element)}/>
-                    <g className={yAxisClass} ref={(element: SVGAElement) => this.renderYAxis(element)}/>
-                    { this.renderPaths() }
-                    <Tooltip id={this.props.id} text={this.state.tipText} x={this.state.tipX} y={this.state.tipY} visible={this.state.isTipVisible}/>
+                    <g className={xAxisClass} transform={translateXAxis} ref={(element: SVGAElement) => this.renderXAxis(element)} />
+                    <g className={yAxisClass} ref={(element: SVGAElement) => this.renderYAxis(element)} />
+                    {this.drawSeries()}
+                    <Tooltip id={this.props.id} text={this.state.tipText} x={this.state.tipX} y={this.state.tipY} visible={this.state.isTipVisible} />
                 </g>
             </svg>
         );
     }
 
-    private renderPaths() {
+    /**
+     * Draws chart lines and given transparent circles that are used for displaying tooltips based
+     * on transformed data which does not containe null values.
+     */
+    private drawSeries(): Array<JSX.Element> {
+        const values = this.normalizeData();
+        const x = this.generateX();
+        const y = this.generateY();
         const color = this.createColorPallette();
-        return this.props.series.map( (data: ISeriesData, index: number) =>
-            <path className={data.id} key={index} d={this.renderLine(data.data)} style={{ stroke: color(data.name) }}/>
-        );
+
+        let circleData = Array(0);
+
+        let lines = Array(0), circles = Array(0), index = 0;
+
+        for (let i = 0; i < values.length; i++) {
+            lines.push(<path key={index++} className={values[i].id}
+                d={this.renderLine(values[i].data)}
+                style={{ stroke: color(values[i].name) }}></path>);
+            for (let j = 0; j < values[i].data.length; j++) {
+                circles.push(
+                    <circle key={index++} className={values[i].id} r={6} 
+                        cx={x(values[i].data[j].argument)} cy={y(values[i].data[j].value)}
+                        style={{ fill: 'transparent' }}
+                       />
+                );
+                circleData.push(values[i].data[j]);
+            }
+        }
+        this.circleData = circleData;
+        return [...lines, ...circles];
     }
 
-    private renderLegend() {
-        const xMove = 20;
-        const color = this.createColorPallette();
-        return this.props.series.map( (data: ISeriesData, index: number) => {
-           return(
-                <g key={index} className={'legend-item-container'} transform={'translate(' + (index * xMove) + '0)'}>
-                    <rect width={30} height={30} style={{ fill: color(data.name) }}></rect>
-                    <text>{ data.name }</text>
-                </g> 
-            );
-        });
-    }
-
-    private initCapture(element: SVGAElement) {
-        const capture = d3.select(element);
-        capture.on('mousemove', () => this.onMouseMove());
-        capture.on('mouseout', () => this.setState({ isTipVisible: false }));
-        capture.on('mouseover', () => this.setState({ isTipVisible: true }));
-    }
-
-    private onMouseMove() {
-        const element = d3.event.currentTarget;
-        const elementClass = element.getAttribute('class');
-        d3.select(element).style('stroke-width', 2);
+    /**
+     * Algorithm that finds null values for y-axis in given datasets and returns new arrays
+     * without null values in between for charting.
+     */
+    private normalizeData(): Array<any> {
+        let data = Array(0);
+        for (let j = 0; j < this.props.series.length; j++) {
+            const series = this.props.series[j];
+            let start = 0;
+            let previous = series.data[0].value;
+            if (previous === null) { start = 1; }
+            let i;
+            for (i = 1; i < series.data.length - 1; i++) {
+                if (series.data[i].value === null && previous === null) {
+                    previous = series.data[i].value;
+                    start = i + 1;
+                    continue;
+                }
+                if (series.data[i].value === null && previous !== null) {
+                    data.push({
+                        name: series.name,
+                        id: series.id,
+                        data: series.data.slice().slice(start, i)
+                    });
+                    start = i + 1;
+                }
+                previous = series.data[i].value;
+            }
+            --i;
+            if (series.data[i].value === null && previous !== null) {
+                data.push({
+                    name: series.name,
+                    id: series.id,
+                    data: series.data.slice().slice(start, i)
+                });
+            } else if (series.data[i].value !== null) {
+                data.push({
+                    name: series.name,
+                    id: series.id,
+                    data: series.data.slice().slice(start, i + 1)
+                });
+            }
+        }
         
-        let index = 0;
-        for (index = 0; index < this.props.series.length; index++) {
-            if (this.props.series[index].id === elementClass) { break; }
-        }
-
-        let x0 = this.x.invert(d3.mouse(d3.event.currentTarget)[0]);
-
-        let i = this.bisect(this.props.series[index].data, x0, 1);
-        let d0 = this.props.series[index].data[i - 1];
-        let d1 = this.props.series[index].data[i];
-        let d;
-
-        if (typeof this.props.series[index].data[0].argument !== 'number') {
-            d = (x0.getTime() - (d0.argument as Date).getTime()) > ((d1.argument as Date).getTime() - x0.getTime()) ? d1 : d0;
-        } else {
-            d = x0 - (d0.argument as any) > (d1.argument as any) - x0 ? d1 : d0;
-        }
-
-        this.setState({ isTipVisible: true, tipX: this.x(d.argument), tipY: this.y(d.value), tipText: d.value + '%'});
+        return data;
     }
 
+    /**
+     * When mouse is moved over a given point on chart calculate dimensions,
+     * get data that is bound to that circle and call props function that formats
+     * tooltip text.
+     */
+    private onMouseOver() {
+        const element = d3.event.currentTarget;
+        const el = d3.select(element);
+        const boundData = el.datum() as ILineChartData;
+        const x = el.attr('cx');
+        const y = el.attr('cy');
+
+        this.setState({ isTipVisible: true, tipX: x, tipY: y, tipText: this.props.tooltipText(boundData) });
+    }
+
+    /**
+     * Renders x axis inside given element. This function gets called when
+     * container for x axis gets mounted into DOM.
+     */
     private renderXAxis(element: SVGAElement) {
         if (element === null) { return; }
 
-        const xAxis = d3.axisBottom(this.generateX())
-                .tickSizeInner(-(this.state.containerHeight))
-                .tickSizeOuter(0)
-                .tickPadding(20)
-                .ticks(this.props.xAxisTicks)
-                .tickFormat(this.formatAxisLabels());
+        const scale = this.generateX();
+
+        const xAxis = d3.axisBottom(scale)
+            .tickSizeInner(-(this.state.containerHeight))
+            .tickSizeOuter(0)
+            .tickPadding(20)
+            .ticks(this.props.xAxisTicks)
+            .tickFormat(this.formatAxisLabels());
 
         d3.select(element).call(xAxis);
     }
 
+    /**
+     * Renders y axis inside given element. This function gets called when
+     * container for y axis gets mounted into DOM.
+     */
     private renderYAxis(element: SVGAElement) {
         if (element === null) { return; }
-      
+
         const yAxis = d3.axisLeft(this.generateY())
-                .tickSizeInner(-(this.state.containerWidth))
-                .tickSizeOuter(0)
-                .ticks(this.props.yAxisTicks)
-                .tickFormat((d: number) => this.props.yAxisFormat(d))
-                .tickPadding(20);   
+            .tickSizeInner(-(this.state.containerWidth))
+            .tickSizeOuter(0)
+            .ticks(this.props.yAxisTicks)
+            .tickFormat((d: number) => this.props.yAxisFormat(d))
+            .tickPadding(20);
 
         d3.select(element).call(yAxis);
     }
 
+    /**
+     * Creates x-axis generator based on given domain and range. Domain of given x-axis generator
+     * is in range of minimum value of x argument of all given datasets and maximum value of y argument
+     * of all given datasets.
+     */
     private generateX() {
         const first = this.props.series[0].data;
         let max = d3.max(first, (d) => d.argument);
@@ -176,10 +257,16 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         return scale.domain([min, max]).range([0, this.state.containerWidth]);
     }
 
+    /**
+     * Creates y-axis generator based on given domain and range.
+     */
     private generateY() {
         return d3.scaleLinear().domain(this.props.yAxisDomain).range([this.state.containerHeight, 0]).nice();
     }
 
+    /**
+     * Creates line generator based on given dataset and x and y axis generators.
+     */
     private renderLine(data: Array<ILineChartData>) {
         const x = this.generateX();
         const y = this.generateY();
@@ -187,7 +274,11 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         return lineGenerator(data);
     }
 
-    private formatAxisLabels() : any {
+    /** 
+     * Returns format function or null value if no format function is specified which is then used
+     * in d3s function for formatting axis ticks.
+     */
+    private formatAxisLabels(): any {
         if (this.props.xAxisFormat() === null) { return null; }
         const formatFunc = typeof this.props.series[0].data[0].argument !== 'object' ? d3.format : d3.timeFormat;
         return formatFunc(this.props.xAxisFormat());
@@ -203,9 +294,9 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         const labels = d3.selectAll('.x-axis.' + this.props.id + ' > .tick > text');
 
         let totalTextLength = 0;
-        labels.nodes().forEach( (element: any) => totalTextLength += element.getComputedTextLength() );
+        labels.nodes().forEach((element: any) => totalTextLength += element.getComputedTextLength());
 
-        if (totalTextLength > this.state.containerWidth - spacing ) {
+        if (totalTextLength > this.state.containerWidth - spacing) {
             labels.attr('transform', 'rotate(45)').attr('y', 10)
                 .attr('x', 10).attr('dy', '.35em').style('text-anchor', 'start');
         } else {
