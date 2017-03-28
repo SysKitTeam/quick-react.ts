@@ -33,12 +33,8 @@ const prodPlugins = [
   new webpack.optimize.CommonsChunkPlugin({
              name: "Common", 
              filename : "Common.js"           
-  }) 
-  // new webpack.optimize.UglifyJsPlugin({
-  //   compress: {
-  //     warnings: false,
-  //   },
-  // }),
+  }),
+  new webpack.optimize.UglifyJsPlugin()
 ];
 
 module.exports = basePlugins

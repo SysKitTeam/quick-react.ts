@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { Label } from '../Label/Label';
-import { IDetailServerProps, IProcessorUsage, IPartitionUsage } from './DetailedServerTile.Props';
+import { IDetailedServerProps, IProcessorUsage, IPartitionUsage } from './DetailedServerTile.Props';
 import { Icon } from '../Icon/Icon';
 import { ServerStatus } from '../../models';
 import './DetailedServerTile.scss';
@@ -13,10 +13,9 @@ import { ProgressBar } from '../ProgressBar/ProgressBar';
 import { PieChart } from '../PieChart/PieChart';
 import { IPieChartData } from '../PieChart/PieChart.props';
 
+export class DetailedServerTile extends React.PureComponent<IDetailedServerProps, any> {
 
-export class DetailedServerTile extends React.PureComponent<IDetailServerProps, any> {
-
-    constructor(props?: IDetailServerProps) {
+    constructor(props?: IDetailedServerProps) {
         super(props);
     }
 
@@ -61,13 +60,13 @@ export class DetailedServerTile extends React.PureComponent<IDetailServerProps, 
                         <LineChart
                             id={'cpu-chart'} 
                             dimensions={{ width: '100%', height: '150px' }}
-                            // xAxisFormat={() => ''}
                             series= {this.transformCPUdata(this.props.processorUsage) }
                             yAxisFormat={(d) => d + '%'}
+                            xAxisFormat={() => '%d.%m.%y'}
                             yAxisTicks={3}
-                            xAxisTicks={2}
+                            xAxisTicks={3}
                             colorPallette={['#344086', '#8bd764', '#f3f986', '#ec1271', '#636363', 'red', 'green', 'purple', 'aquamarine', 'lightgrey']}
-                            // hide Legend                        
+                            showLegend={false}                     
                         />   
                     </div> 
                     <div>                              
@@ -76,30 +75,34 @@ export class DetailedServerTile extends React.PureComponent<IDetailServerProps, 
                     </div> 
                     <div>   
                         {
-                            this.props.partitionUsages.map((usage) => (this.renderPartition(usage)))
+                            this.props.partitionUsages.map((data, index) => (this.Partition(data, index)))
                         }
                     </div> 
                 </div>
             </div>
         );
-    }
+    } 
 
-    @autobind
-    private renderPartition(partition: IPartitionUsage): JSX.Element {       
-        return (
-             <div>   
-                <Label className="server-name">Partition {partition.name}</Label>                           
+    Partition = (data: IPartitionUsage, index: number) => {
+        return(
+            <div key={index}>   
+                <Label className="server-name">{data.name}</Label>   
+                <Label>{data.used} / {data.capactiy} {data.usageUnit}</Label>            
                 <PieChart
-                    id={'chart-1'}
+                    id={'chart-' + index }
                     dimensions={{ width: '100%', height: '70px' }}
-                    data={this.transformPartitionData(partition)}
+                    data={this.transformPartitionData(data)}
                     colors={['grey', 'green']}
-                    tipText={(d: IPieChartData) => (d.label + ' : ' + d.value)} 
+                    tipText={(d: IPieChartData) => (d.label + ' : ' + d.value + ' ' +  data.usageUnit)} 
                     showLegend={false}/>
             </div> 
-        );
-    }    
+        );         
+    };
 
+    componentDidUpdate() {
+        console.log('Server');
+    }
+ 
     private transformPartitionData(partition: IPartitionUsage):  Array<IPieChartData> {
         let free = partition.capactiy - partition.used;
         return [{label: 'Used', value: partition.used}, {label: 'Free', value: free}];

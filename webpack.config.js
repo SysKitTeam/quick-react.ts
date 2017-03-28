@@ -41,8 +41,8 @@ module.exports = {
         PieChart: "./examples/src/PieChart.tsx",
         LineChart: "./examples/src/LineChart.tsx",
         CompactFarm: "./examples/src/CompactFarm.tsx",
-        DetailedServerGroup: "./examples/src/DetailedServerGroup.tsx",
-        DetailedServerDashboard: "./examples/src/DetailedServerDashboard.tsx",
+        DetailedServerFarm: "./examples/src/DetailedServerFarm.tsx",
+        // DetailedServerDashboard: "./examples/src/DetailedServerDashboard.tsx",
         DetailedServerTile: "./examples/src/DetailedServerTile.tsx",  
     },
     output: {

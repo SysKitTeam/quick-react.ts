@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {ISharePointServer} from '../../models';
 
-export interface IDetailServerProps extends ISharePointServer {
+export interface IDetailedServerProps extends ISharePointServer {
     numberOfUsers?: string;  
 
     memoryUsage?: IMemoryUsage;
@@ -10,7 +10,7 @@ export interface IDetailServerProps extends ISharePointServer {
 }
 
 export interface IProcessorUsage {
-    time: number;
+    time: Date;
     usage: number;
 }
 
