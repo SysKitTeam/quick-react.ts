@@ -34,7 +34,7 @@ const prodPlugins = [
              name: "Common", 
              filename : "Common.js"           
   }),
-  new webpack.optimize.UglifyJsPlugin()
+  // new webpack.optimize.UglifyJsPlugin()
 ];
 
 module.exports = basePlugins

@@ -11,21 +11,11 @@ function checkFilter(filter: string, serverName: string) {
     return serverName.toLowerCase().trim().indexOf(filter.toLowerCase().trim()) !== -1;
 }
 
-export class CompactServer extends React.Component<ICompactServerProps, any> {
+export class CompactServer extends React.PureComponent<ICompactServerProps, any> {
     constructor(props?: ICompactServerProps) {
         super(props);
     }
-
-    getRoleDisplay(role) {
-        return role.display;
-    }
-
-    public shouldComponentUpdate(nextProps: ICompactServerProps, nextState) {
-        return !(this.props.name === nextProps.name
-            && this.props.status === nextProps.status
-            && this.props.roles === nextProps.roles);
-    }
-
+    
     render() {
         let isCritical = this.props.status === ServerStatus.Critical;
         let isWarning = this.props.status === ServerStatus.Warning;

@@ -42,7 +42,6 @@ module.exports = {
         LineChart: "./examples/src/LineChart.tsx",
         CompactFarm: "./examples/src/CompactFarm.tsx",
         DetailedServerFarm: "./examples/src/DetailedServerFarm.tsx",
-        // DetailedServerDashboard: "./examples/src/DetailedServerDashboard.tsx",
         DetailedServerTile: "./examples/src/DetailedServerTile.tsx",  
     },
     output: {

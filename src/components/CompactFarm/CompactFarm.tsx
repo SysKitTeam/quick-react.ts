@@ -12,7 +12,6 @@ import { CommonComponent } from '../Common/Common';
 import { Callout } from '../Callout/Callout';
 
 import './CompactFarm.scss';
-
 const HOVER_TIME = 500; // ms 
 
 export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
@@ -83,7 +82,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
         return(            
              <div className={'compact-farm'}>
              <Group serverChildrenCount={servers.length} filter={this.props.filter} className={'farm-name-inside'} id={farm.id} name={farm.name} key={farm.id.configDataBaseName + '-' + farm.id.sqlInstance}>
-                    <GroupHeader version={farm.version} isCustomFarm={farm.isCustom} farmId={farm.id} />
+                    {/*<GroupHeader version={farm.version} isCustomFarm={farm.isCustom} farmId={farm.id} />*/}
                     {
                         servers.map((server) => (                           
                                 <CompactServer

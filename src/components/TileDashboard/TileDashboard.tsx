@@ -10,7 +10,7 @@ import * as classNames from 'classnames';
 import { TagContainer } from '../TagContainer/TagContainer';
 import { Icon } from '../Icon/Icon';
 import { autobind } from '../../utilities/autobind';
-import { getServerMeasures, sortServersByStatusAndName, filterServerByName  } from '../../utilities/server';
+import { getServerMeasures, sortServersByStatusAndName, filterServerByName } from '../../utilities/server';
 
 import './TileDashboard.scss';
 
@@ -90,7 +90,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
         return (
             <div style={style} key={index}>
                 <Group serverChildrenCount={servers.length} filter={this.props.filter} className={'farm-name-inside'} id={farm.id} name={farm.name} key={farm.id.configDataBaseName + '-' + farm.id.sqlInstance}>
-                    <GroupHeader version={farm.version} isCustomFarm={farm.isCustom} farmId={farm.id} />
+                    {/*<GroupHeader version={farm.version} isCustomFarm={farm.isCustom} farmId={farm.id} />*/}
                     {
                         servers.map((server, serverIndex) => (
                             <ServerTile 

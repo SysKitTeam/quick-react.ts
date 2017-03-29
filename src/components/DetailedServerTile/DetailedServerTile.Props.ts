@@ -6,7 +6,11 @@ export interface IDetailedServerProps extends ISharePointServer {
 
     memoryUsage?: IMemoryUsage;
     partitionUsages?: Array<IPartitionUsage>;
-    processorUsage?: Array<IProcessorUsage>;
+    processorUsage?: IProcessorUsageData;
+}
+
+export interface IProcessorUsageData {
+    data: Array<IProcessorUsage>;
 }
 
 export interface IProcessorUsage {

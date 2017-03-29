@@ -115,7 +115,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
         const compact_farm_margin = 20;
         const compact_farm_padding = 5;
         const customFarmHeaderHeight = 19;
-        const headerTotalHeight = 161;
+        const headerTotalHeight = 141;
         const totalPadding  = 2 * (compact_farm_margin + compact_farm_padding) + scrollbarWidth;
 
         const farm = this.getRow(obj.index);
@@ -128,9 +128,9 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
         const serverHeight = rowCount * servertileHeight;
 
         let serverRoleDiff = (farm.servers.some((server) => { return filterServerByName(this.props.filter, server.name) && server.roles.length > 0; })) ? rowCount * serverRoleTagContainerHeight : 0;
-        if (farm.isCustom) {
-            serverRoleDiff += customFarmHeaderHeight;
-        }
+        // if (farm.isCustom) {
+        //     serverRoleDiff += customFarmHeaderHeight;
+        // }
         const totalHeight = serverHeight + headerTotalHeight + serverRoleDiff;
         return totalHeight;
     }

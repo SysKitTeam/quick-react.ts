@@ -4,23 +4,18 @@ import { Label } from '../Label/Label';
 import { IServerTileProps, ITileData } from './ServerTile.Props';
 import { Icon } from '../Icon/Icon';
 import { ServerStatus } from '../../models';
-import './ServerTile.scss';
 import { autobind } from '../../utilities/autobind';
+import { GetClassForStatus } from '../../utilities/server';
+
+import './ServerTile.scss';
 
 export class ServerTile extends React.PureComponent<IServerTileProps, any> {
-
     constructor(props?: IServerTileProps) {
         super(props);
     }
 
-    public render() {
-        let isCritical = this.props.status === ServerStatus.Critical;
-        let isWarning = this.props.status === ServerStatus.Warning;
-        let isOK = this.props.status === ServerStatus.OK;
-        let className = classNames('server-details',
-            { 'status-warning': isWarning },
-            { 'status-ok': isOK },
-            { 'status-critical': isCritical });
+    public render() {     
+        let className = GetClassForStatus('server-details', this.props.status);
         return (
             <div className={className} onClick={this.serverOnClick}>
                 <div className={'server-details-header'}>
@@ -28,7 +23,7 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
                     <Icon
                         className={classNames('disk-icon')}
                         iconName={'icon-sql_log'}
-                        title={'Disks\n' + this.createTooltipText(this.props.diskInformation)} />
+                        title={'Disks\n' + Uitlity.CreateTooltipText(this.props.diskInformation)} />
                     {this.props.numberOfUsers &&
                         <Icon data-users={this.props.numberOfUsers}
                             iconName={'icon-user'}
@@ -41,10 +36,13 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
                             iconName={'icon-delete'} />
                     }
                     {this.props.children}
-
                 </div>
                 <div className={'counters-container'}>
-                    {this.createCountersTiles(this.props.countersData)}
+                    {
+                        this.props.countersData.map((data: ITileData, index) => 
+                            <CounterTile key={index} {...data} />
+                        )
+                    }
                 </div>
             </div>
         );
@@ -60,27 +58,24 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
 
     private dismiss() {
         this.props.onClose(this.props.id);
-    }
+    } 
+}
 
-    private createCountersTiles(collection: Array<ITileData>): Array<JSX.Element> {
-
-        return collection.map(
-            (data: ITileData, index) =>
-                <div key={index} className={'tile'} title={this.createTooltipText(data.hoverText)}>
-                    <p>{data.title}</p>
-                    <Label className={classNames(
-                        { 'status-warning': data.status === ServerStatus.Warning },
-                        { 'status-ok': data.status === ServerStatus.OK },
-                        { 'status-critical': data.status === ServerStatus.Critical })}>{data.currentUsage}</Label>
-                    <Label className={classNames(
-                        { 'status-warning': data.status === ServerStatus.Warning },
-                        { 'status-ok': data.status === ServerStatus.OK },
-                        { 'status-critical': data.status === ServerStatus.Critical })}>{data.usageUnit}</Label>
-                </div>
+class CounterTile extends React.PureComponent<ITileData, any> {
+    public render() {
+        const statusClass =  GetClassForStatus('', this.props.status);
+        return (
+            <div className={'tile'} title={Uitlity.CreateTooltipText(this.props.hoverText)}>
+                <p>{this.props.title}</p>
+                <Label className={ statusClass }>{this.props.currentUsage}</Label>
+                <Label className={ statusClass }>{this.props.usageUnit}</Label>
+            </div>
         );
     }
+}
 
-    private createTooltipText(arr: Array<string>): string {
+class Uitlity {   
+    public static CreateTooltipText(arr: Array<string>): string {
         if (!arr) {
             return '';
         }
@@ -89,5 +84,5 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
             data += arr[i] + '\n';
         }
         return data;
-    }
+    }    
 }
