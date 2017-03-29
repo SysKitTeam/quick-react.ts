@@ -19,7 +19,10 @@ $server-status-color: $basic-text-color;
     position: relative;
     padding: 0;
     border-left: 10px solid $server-status-color;
-    background-color: $server-background-color;
+    border-top: 1px solid $background-color;
+    border-right: 1px solid $background-color;
+    border-bottom: 1px solid $background-color;
+    // background-color: $server-background-color;
     .icon {
         color: $basic-text-color;
     }
@@ -31,7 +34,7 @@ $server-status-color: $basic-text-color;
         margin: 5px 0px 10px 0px;
 
         .server-name {
-            padding: 0;
+            padding: 0 0 0 5px;
             margin: 2px 2px 2px 5px;
             display: inline-block;
             font-weight: 400;
@@ -54,10 +57,10 @@ $server-status-color: $basic-text-color;
             float: left;
             width: 100%;
             margin: 3px 0 10px 0;
-            background: $server-background-color;
+            // background: $server-background-color;
             color: $tag-color;
             .tag{
-                background: $server-background-color;
+                // background: $server-background-color;
                 margin-top: 0;
                 margin-bottom: 0;
                 padding-top: 0;
@@ -101,7 +104,7 @@ $server-status-color: $basic-text-color;
             display: inline-block;
             text-align: center;
             height: calc(35% - 2px);
-            border-top: 1px solid $separator-color;
+            border-top: 1px solid $background-color;
             padding-left: 3px;
             padding-right: 3px;
 
@@ -113,13 +116,9 @@ $server-status-color: $basic-text-color;
             }
 
             &:nth-child(odd) {
-                border-right: 1px solid $separator-color;
+                border-right: 1px solid $background-color;
                 margin-left: calc(5% + 1px);
-            }
-
-            &:nth-child(even) {
-                border-left: 1px solid $server-background-color;
-            }            
+            }          
 
             .label {
                 display: inline-block;

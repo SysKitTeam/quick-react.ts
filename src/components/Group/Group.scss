@@ -8,7 +8,7 @@
     margin: 20px;
     margin-top:50px;
     position: relative;
-    border: 1px solid $background-color;
+    // border: 1px solid $background-color;
     background-color: white;
     font:14px;
 }
@@ -16,9 +16,9 @@
     position: absolute;
     background: inherit;
     top: -22px;
-    border-top: 1px solid $background-color;
-    border-left: 1px solid $background-color;
-    border-right: 1px solid $background-color;
+    // border-top: 1px solid $background-color;
+    // border-left: 1px solid $background-color;
+    // border-right: 1px solid $background-color;
     left: 30px;
     padding: 5px;
     padding-top: 0;
@@ -35,11 +35,11 @@
         padding-top: 10px;
         width:270px;
         padding-bottom: 0;
-        top: -43px;
+        top: -35px;
         left: -1px;
         padding-left: 15px;
-        border: 1px solid $background-color;
-        border-bottom: white;
+        // border: 1px solid $background-color;
+        // border-bottom: white;
         color: $emphasized-text-color;
         span{
             display: inline-block;
