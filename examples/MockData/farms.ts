@@ -23,14 +23,14 @@ function createFarms() {
                 id: {
                     FQDN: 'FQDN' + i
                 },
-                name: 'server' + i,
+                name: 'server ' + i,
                 roles: roleListFarms,
                 status: Math.random() >= 0.5 ? 1 : 2
             });
         }
         farms.push({
             id: { sqlInstance: 'instance' + farmIndex, configDataBaseIcon: 'icon-sql_log', configDataBaseName: 'db' + farmIndex },
-            name: 'farm' + farmIndex,
+            name: 'Demo Farm ' + farmIndex,
             isCustom: Math.random() >= 0.5,
             version: {
                 version: '14',

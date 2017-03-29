@@ -8,12 +8,14 @@
     // border-color: $background-color;
     overflow: hidden;
     color: $basic-text-color;
-    
+        
     .farm {
-        padding-bottom: 25px;
-        &:first-child{
-            margin-top:70px;
-        }   
+        // padding-bottom: 25px;
+        margin-bottom: 0px;
+        margin-top: 60px;
+        // &:first-child{
+        //     margin-top: 50px;
+        // }   
     }
     .compact-dashboard-server{
             order:1;

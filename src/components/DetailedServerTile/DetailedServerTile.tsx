@@ -75,7 +75,7 @@ class ProcessorTile extends React.PureComponent<IProcessorUsageData, any> {
     public render() {
         return (
             <div>
-                <Label className="server-name" >CPU</Label>
+                <Label className="server-name">CPU</Label>
                 <LineChart
                     id={'cpu-chart'}
                     dimensions={{ width: '100%', height: '150px' }}

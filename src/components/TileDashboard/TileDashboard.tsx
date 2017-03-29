@@ -14,6 +14,14 @@ import { getServerMeasures, sortServersByStatusAndName, filterServerByName } fro
 
 import './TileDashboard.scss';
 
+const serverTileWidth = 281.0; // LeftMargin 10px + LeftBodrder 10px + Server 250px + LeftBodrder 1px + RightMargin 10px
+const servertileHeight = 236; // Server 52px + 2 * (Margin 8 + Padding 5 + border 1)
+const scrollbarWidth = 13;
+const farm_margin = 20;
+const farm_padding = 5;
+const headerTotalHeight = 65;
+const totalPaddingHorizontal  = 2 * (farm_margin + farm_padding) + scrollbarWidth;
+
 export class TileDashboard extends React.Component<ITileDashboardProps, any> {
     private list: any;
 
@@ -63,17 +71,17 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
     }
 
     @autobind
-    private calculateRowHeight(width, obj: { index: number }): number {
-        let numberPerRow = Math.floor((width - 72) / 281.0);
-
-        let farmServerCount = this.getRow(obj.index).servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
-        let rowCount = (Math.floor(farmServerCount / numberPerRow) + (farmServerCount % numberPerRow === 0 ? 0 : 1));
-        let serverHeight = rowCount * 183;
-        let serverRoleDiff = (this.getRow(obj.index).servers.some((server) => { return filterServerByName(this.props.filter, server.name) && server.roles.length > 0; })) ? rowCount * 30 : 0;
-        if (this.getRow(obj.index).isCustom) {
-            serverRoleDiff += 21;
-        }
-        return serverHeight + 140 + serverRoleDiff + 60;
+    private calculateRowHeight(width, obj: { index: number }): number {    
+        const farm = this.getRow(obj.index);
+        if (farm === undefined) {
+            return 0;
+        } 
+        const serversPerRow = Math.floor((width - totalPaddingHorizontal) / serverTileWidth);
+        const farmServerCount = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
+        const rowCount = Math.ceil(farmServerCount / serversPerRow);
+        const serverHeight = rowCount * servertileHeight;
+        const totalHeight = serverHeight + headerTotalHeight; 
+        return totalHeight;
     }
 
     @autobind

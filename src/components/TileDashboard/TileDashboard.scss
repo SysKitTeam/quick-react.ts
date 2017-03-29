@@ -12,11 +12,12 @@ $background-color: $background-color;
     // border-color: $tile-dashboard-background;
     overflow-y: auto;
     .farm{
-        padding-bottom: 25px;
-        margin-top:50px;
-        &:first-child{
-            margin-top:70px;
-        }
+        // padding-bottom: 25px;
+        margin-top: 60px;
+        margin-bottom: 0px;
+        // &:first-child{ //every one is first child
+        //     margin-top:70px;
+        // }
 
     }
     .server-details {

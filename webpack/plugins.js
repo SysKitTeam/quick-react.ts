@@ -27,14 +27,10 @@ const devPlugins = [
 ];
 
 const prodPlugins = [
-  new SplitByPathPlugin([
-    { name: 'vendor', path: [path.join(__dirname, '..', 'node_modules/')] },
-  ]),
   new webpack.optimize.CommonsChunkPlugin({
              name: "Common", 
              filename : "Common.js"           
-  }),
-  // new webpack.optimize.UglifyJsPlugin()
+  })
 ];
 
 module.exports = basePlugins

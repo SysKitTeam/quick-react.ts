@@ -16,6 +16,14 @@ import './CompactDashboard.scss';
 const GUTTER_SIZE = 3;
 const CELL_WIDTH = 330;
 
+const serverTileWidth = 252.0; // LeftMargin 8px + LeftBodrder 10px + LeftPadding 5px + Server 215px + RightPadding 5px + LeftBodrder 1px + RightMargin 8px
+const servertileHeight = 80; // Server 52px + 2 * (Margin 8 + Padding 5 + border 1)
+const scrollbarWidth = 13;
+const compact_farm_margin = 20;
+const compact_farm_padding = 5;
+const headerTotalHeight = 65; // Farm DIV size - servertileHeight  
+const totalPaddingHorizontal  = 2 * (compact_farm_margin + compact_farm_padding) + scrollbarWidth;
+
 export class CompactDashboard extends React.Component<ICompactDashboardProps, any> {
     collection: any;
     list: any;
@@ -108,30 +116,15 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
     
     @autobind 
     private getRowHeigth(width, obj: { index: number }): number {        
-        const serverTileWidth = 246.0; // Server 215px + LeftMargin 8px + LeftBodrder 10px + LeftPadding 5px + RightPadding 5px + RightMargin 8px
-        const servertileHeight = 53; // Server 27px + 2 * (Margin 8 + Padding 5)
-        const serverRoleTagContainerHeight = 25;
-        const scrollbarWidth = 13;
-        const compact_farm_margin = 20;
-        const compact_farm_padding = 5;
-        const customFarmHeaderHeight = 19;
-        const headerTotalHeight = 141;
-        const totalPadding  = 2 * (compact_farm_margin + compact_farm_padding) + scrollbarWidth;
-
         const farm = this.getRow(obj.index);
         if (farm === undefined) {
             return 0;
         } 
-        const serversPerRow = Math.floor((width - totalPadding) / serverTileWidth);
+        const serversPerRow = Math.floor((width - totalPaddingHorizontal) / serverTileWidth);
         const farmServerCount = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
         const rowCount = Math.ceil(farmServerCount / serversPerRow);
         const serverHeight = rowCount * servertileHeight;
-
-        let serverRoleDiff = (farm.servers.some((server) => { return filterServerByName(this.props.filter, server.name) && server.roles.length > 0; })) ? rowCount * serverRoleTagContainerHeight : 0;
-        // if (farm.isCustom) {
-        //     serverRoleDiff += customFarmHeaderHeight;
-        // }
-        const totalHeight = serverHeight + headerTotalHeight + serverRoleDiff;
+        const totalHeight = serverHeight + headerTotalHeight;
         return totalHeight;
     }
 
