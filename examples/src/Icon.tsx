@@ -11,7 +11,7 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>                
-                <div> <Icon iconName={'icon-sql_log'}></Icon> <span>   icon-sql_log</span></div> 
+                <div> <Icon iconName={'icon-disk'}></Icon> <span>   icon-disk</span></div> 
                 <div> <Icon iconName={'icon-viewType'}></Icon> <span>   icon-viewType</span></div> 
                 <div> <Icon iconName={'icon-alert'}></Icon> <span>   icon-alert</span></div> 
                 <div> <Icon iconName={'icon-alert1'}></Icon> <span>   icon-alert1</span></div> 

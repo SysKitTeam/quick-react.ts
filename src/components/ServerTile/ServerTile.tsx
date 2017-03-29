@@ -27,7 +27,7 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
                     <Label className="server-name" title={this.props.name}>{this.props.name}</Label>
                     <Icon
                         className={classNames('disk-icon')}
-                        iconName={'icon-sql_log'}
+                        iconName={'icon-disk'}
                         title={'Disks\n' + this.createTooltipText(this.props.diskInformation)} />
                     {this.props.numberOfUsers &&
                         <Icon data-users={this.props.numberOfUsers}
