@@ -22,6 +22,7 @@ export class Index extends React.Component<any, any> {
                     memoryUsage={server.memoryUsage}
                     processorUsage={server.processorUsage}
                     partitionUsages={server.partitionUsages}
+                    onClose={(id) => console.log('closing with id : ' + id)}
                     >
                 </DetailedServerTile>
              </div>

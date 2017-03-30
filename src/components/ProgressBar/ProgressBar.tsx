@@ -53,16 +53,14 @@ export class ProgressBar extends React.Component<IProgressBarProps, any> {
         element.append('rect')
             .attr('class', 'progress progress-baseline')
             .attr('height', this.props.height)
-            .attr('width', this.props.width - 50)
-            .attr('rx', '10');
+            .attr('width', this.props.width - 50);
     }
 
     private drawFilledArea(element: any, width: number) {
         element.append('rect')
             .attr('class', this.props.progressClass ? this.props.progressClass : 'current-progress')
             .attr('height', this.props.height)
-            .attr('width', width)
-            .attr('rx', '10');
+            .attr('width', width);
     }
 
     private scaleBar() {

@@ -22,7 +22,7 @@ export interface IProcessorUsageData {
 export interface IPartitionUsage {
     name: string;
     usageUnit: string;
-    capactiy: number;
+    capacity: number;
     used: number;
     status: ServerStatus;    
 }

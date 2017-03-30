@@ -26,7 +26,19 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                     onClose={ this.dismiss.bind(this) }
                 />
                 <div className={'counters-container'}>
-                    <ProcessorTile {...this.props.processorUsage} />
+                    <LineChart
+                        title={'CPU USAGE'}
+                        id={'cpu-chart'}
+                        dimensions={{ width: '100%', height: '220px' }}
+                        series={this.transformCPUdata(this.props.processorUsage.data)}
+                        yAxisFormat={(d) => d + '%'}
+                        xAxisFormat={() => '%d.%m.%y'}
+                        yAxisTicks={3}
+                        xAxisTicks={3}
+                        showLegend={false}
+                        tooltipText={(d: ILineChartData) => d.value + '%'}
+                        colorPallette={['#676767']}
+                    />
                     <MemoryTile {...this.props.memoryUsage} />
                     <div className={'partition-container'} >
                     {
@@ -37,8 +49,17 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
             </div>
         );
     }
+
     private dismiss() {
         this.props.onClose(this.props.id);
+    }
+
+    private transformCPUdata(cpuData: Array<IProcessorUsageData>): Array<ISeriesData> {
+        return [{
+            name: 'CPU',
+            data: cpuData.map((point) => { return { argument: point.time, value: point.usage }; }),
+            id: 'CPU'
+        }];
     }
 }
 
@@ -55,53 +76,12 @@ class ServerHeader extends React.PureComponent<any, any> {
                 {this.props.onClose &&
                     <Icon disabled={false}
                         className={'dialog-button dialog-button-close'}
-                        onClick={this.props.onClose }
+                        onClick={this.props.onClose}
                         iconName={'icon-delete'} />
                 }
-                {
-                    this.props.roles.length > 0 &&
-                    <div>
-                        <hr />
-                        <TagContainer title={''} tags={this.props.roles}>
-                        </TagContainer>
-                    </div>
-                }
+                { this.props.roles.length > 0 && <TagContainer title={''} tags={this.props.roles}/> }
             </div>           
         );
-    }
-}
-
-class ProcessorTile extends React.PureComponent<IProcessorUsage, any> {    
-    public render() {
-        let className = GetClassForStatus('', this.props.status);  
-        // todo change color depending on status 
-        // change xAxisFormat to minutes:seconds
-        // maximize chart size - remove padding
-        // 
-        return (
-            <div className={className} >
-                <Label className="server-name">CPU</Label>
-                <LineChart
-                    id={'cpu-chart'}
-                    dimensions={{ width: '100%', height: '150px' }}
-                    series={this.transformCPUdata(this.props.data)}
-                    yAxisFormat={(d) => d + '%'}
-                    xAxisFormat={() => '%d.%m.%y'}
-                    yAxisTicks={3}
-                    xAxisTicks={3}
-                    colorPallette={['#344086', '#8bd764', '#f3f986', '#ec1271', '#636363', 'red', 'green', 'purple', 'aquamarine', 'lightgrey']}
-                    showLegend={false}
-                    />
-            </div>
-        );
-    }
-
-    private transformCPUdata(cpuData: Array<IProcessorUsageData>): Array<ISeriesData> {
-        return [{
-            name: 'CPU',
-            data: cpuData.map((point) => { return { argument: point.time, value: point.usage }; }),
-            id: 'CPU'
-        }];
     }
 }
 
@@ -110,8 +90,13 @@ class MemoryTile extends React.PureComponent<IMemoryUsage, any> {
         let className = GetClassForStatus('', this.props.status);  
         return (
             <div className={className} >
-                <Label className="server-name">Memory</Label>
-                <ProgressBar title={'RAM'} width={250} height={20} data={{ total: this.props.capactiy, current: this.props.used }}></ProgressBar>
+                <ProgressBar
+                    title={'RAM'}
+                    info={'ram usage'} 
+                    width={285} 
+                    height={15} 
+                    data={{ total: this.props.capactiy, current: this.props.used }} 
+                />
             </div>
         );
     }
@@ -123,13 +108,13 @@ class PartitionTile extends React.PureComponent<IPartitionUsage, any> {
         let className = GetClassForStatus('', this.props.status);          
         return (
             <div className={className} >
-                <Label className="server-name">{this.props.name}</Label>
-                <Label>{this.props.used}/ {this.props.capactiy} {this.props.usageUnit}</Label>
+                <Label className="server-name">Partition {this.props.name}:</Label>
+                <Label>{this.props.used}/ {this.props.capacity} {this.props.usageUnit}</Label>
                 <PieChart
                     id={'chart-' + this.props.name}
                     dimensions={{ width: '100%', height: '70px' }}
                     data={this.transformPartitionData(this.props)}
-                    colors={['grey', 'green']}
+                    colors={this.getColorsByStatus(this.props.status)}
                     tipText={(d: IPieChartData) => (d.label + ' : ' + d.value + ' ' + this.props.usageUnit)}
                     showLegend={false} />
             </div>
@@ -137,7 +122,20 @@ class PartitionTile extends React.PureComponent<IPartitionUsage, any> {
     }
 
     private transformPartitionData(partition: IPartitionUsage): Array<IPieChartData> {
-        let free = partition.capactiy - partition.used;
+        let free = partition.capacity - partition.used;
         return [{ label: 'Used', value: partition.used }, { label: 'Free', value: free }];
+    }
+
+    private getColorsByStatus(status: ServerStatus) {
+        let colors = Array(2);
+        colors[1] = 'lightgrey';
+        if (status === ServerStatus.Critical) {
+            colors[0] = '#fb6464';
+        } else if (status === ServerStatus.Warning) {
+            colors[0] = '#EAC71A';
+        } else {
+            colors[0] = '#7DC458';
+        }
+        return colors;
     }
 }

@@ -63,9 +63,9 @@ function createProcessorUsages(): Array<IProcessorUsageData> {
 const processorUsage: IProcessorUsage = {data: createProcessorUsages(), status: 1 } ;
 
 const partitionUsages: Array<IPartitionUsage> = [
-    { name: 'C', usageUnit: 'GB', capactiy: 60, used: 55, status: 0 },
-    { name: 'D', usageUnit: 'GB', capactiy: 200, used: 10, status: 1 },
-    { name: 'E', usageUnit: 'GB', capactiy: 5, used: 3, status: 2 },
+    { name: 'C', usageUnit: 'GB', capacity: 60, used: 55, status: 0 },
+    { name: 'D', usageUnit: 'GB', capacity: 200, used: 10, status: 1 },
+    { name: 'E', usageUnit: 'GB', capacity: 5, used: 3, status: 2 },
 ];
 const roleList = [{ display: 'Web', iconName: 'icon-site2' }, { display: 'SQL', iconName: 'icon-sql_log' }, { display: 'FireWall', iconName: 'icon-logOut' }];
 
