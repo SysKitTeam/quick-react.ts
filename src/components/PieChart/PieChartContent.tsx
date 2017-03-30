@@ -19,7 +19,7 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
     /**
      * Creates arc generator function with given arguments.
      */
-    private createArc = () : any => d3.arc().outerRadius(0).innerRadius(this.props.width / 2);
+    private createArc = () : any => d3.arc().outerRadius(0).innerRadius(this.calculateRadius());
     
     /**
      * Create pie generator for given data arguments.
@@ -58,7 +58,7 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
         const translate = 'translate(' + (this.props.width / 2) + ',' + (this.props.height / 2) + ')';
         return(
             <svg width={this.props.width} height={this.props.height}>
-                <g className={containerClass} transform={translate}>
+                <g className={containerClass} transform={translate} width={this.props.width} height={this.props.height}>
                     { this.renderPaths() }
                     <Tooltip id={'pie-chart-tooltip'} x={this.state.tipX} y={this.state.tipY} text={this.state.tipText} visible={this.state.isTipVisible}/>
                 </g>
@@ -103,5 +103,16 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
      */
     private onMouseOut(element: SVGAElement) {
         this.setState({ isTipVisible: false });
+    }
+
+    private calculateRadius() {
+        let { width, height } = this.props;
+        if (width === height) {
+            return width / 2;
+        } else if (width < height) {
+            return width / 2;
+        } else {
+            return height / 2;
+        }
     }
 }
