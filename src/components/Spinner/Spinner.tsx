@@ -19,7 +19,13 @@ export class Spinner extends React.Component<ISpinnerProps, any> {
                 }/>
                 { label &&
                     <div
-                        className={classNames('spinner-label', { 'normal': type === SpinnerType.normal }, { 'large': type === SpinnerType.large })}
+                        className={
+                            classNames(
+                                'spinner-label', 
+                                { 'spinner-size-normal': type === SpinnerType.normal }, 
+                                { 'spinner-size-large': type === SpinnerType.large }
+                            )
+                        }
                     >{label}</div>
                 }
             </div>
