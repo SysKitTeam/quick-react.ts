@@ -28,7 +28,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                 <div className={'counters-container'}>
                     <ProcessorTile {...this.props.processorUsage} />
                     <MemoryTile {...this.props.memoryUsage} />
-                    <div>
+                    <div className={'partition-container'} >
                     {
                         this.props.partitionUsages.map((data, index) => <PartitionTile key={index} {...data} />)
                     }
@@ -71,10 +71,15 @@ class ServerHeader extends React.PureComponent<any, any> {
     }
 }
 
-class ProcessorTile extends React.PureComponent<IProcessorUsageData, any> {
+class ProcessorTile extends React.PureComponent<IProcessorUsage, any> {    
     public render() {
+        let className = GetClassForStatus('', this.props.status);  
+        // todo change color depending on status 
+        // change xAxisFormat to minutes:seconds
+        // maximize chart size - remove padding
+        // 
         return (
-            <div>
+            <div className={className} >
                 <Label className="server-name">CPU</Label>
                 <LineChart
                     id={'cpu-chart'}
@@ -91,7 +96,7 @@ class ProcessorTile extends React.PureComponent<IProcessorUsageData, any> {
         );
     }
 
-    private transformCPUdata(cpuData: Array<IProcessorUsage>): Array<ISeriesData> {
+    private transformCPUdata(cpuData: Array<IProcessorUsageData>): Array<ISeriesData> {
         return [{
             name: 'CPU',
             data: cpuData.map((point) => { return { argument: point.time, value: point.usage }; }),
@@ -102,8 +107,9 @@ class ProcessorTile extends React.PureComponent<IProcessorUsageData, any> {
 
 class MemoryTile extends React.PureComponent<IMemoryUsage, any> {
     public render() {
+        let className = GetClassForStatus('', this.props.status);  
         return (
-            <div>
+            <div className={className} >
                 <Label className="server-name">Memory</Label>
                 <ProgressBar title={'RAM'} width={250} height={20} data={{ total: this.props.capactiy, current: this.props.used }}></ProgressBar>
             </div>
@@ -112,9 +118,11 @@ class MemoryTile extends React.PureComponent<IMemoryUsage, any> {
 }
 
 class PartitionTile extends React.PureComponent<IPartitionUsage, any> {
+     // todo change pie slice color depending on status 
     public render() {
+        let className = GetClassForStatus('', this.props.status);          
         return (
-            <div>
+            <div className={className} >
                 <Label className="server-name">{this.props.name}</Label>
                 <Label>{this.props.used}/ {this.props.capactiy} {this.props.usageUnit}</Label>
                 <PieChart

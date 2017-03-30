@@ -44,9 +44,9 @@ function createFarms() {
 export const farms: Array<IFarm> = createFarms();
 
 
-const memoryUsage: IMemoryUsage = { usageUnit: 'MB', capactiy: 1024, used: 300 };
+const memoryUsage: IMemoryUsage = { usageUnit: 'MB', capactiy: 1024, used: 300, status: 1 };
 
-function createProcessorUsages(): Array<IProcessorUsage> {
+function createProcessorUsages(): Array<IProcessorUsageData> {
     let time = new Date();
     time.setSeconds(0);
     let cpuUsage = [];
@@ -60,12 +60,12 @@ function createProcessorUsages(): Array<IProcessorUsage> {
     return cpuUsage;
 }
 
-const processorUsage: IProcessorUsageData = {data: createProcessorUsages()} ;
+const processorUsage: IProcessorUsage = {data: createProcessorUsages(), status: 1 } ;
 
 const partitionUsages: Array<IPartitionUsage> = [
-    { name: 'C', usageUnit: 'GB', capactiy: 60, used: 55 },
-    { name: 'D', usageUnit: 'GB', capactiy: 200, used: 10 },
-    { name: 'E', usageUnit: 'GB', capactiy: 5, used: 3 },
+    { name: 'C', usageUnit: 'GB', capactiy: 60, used: 55, status: 0 },
+    { name: 'D', usageUnit: 'GB', capactiy: 200, used: 10, status: 1 },
+    { name: 'E', usageUnit: 'GB', capactiy: 5, used: 3, status: 2 },
 ];
 const roleList = [{ display: 'Web', iconName: 'icon-site2' }, { display: 'SQL', iconName: 'icon-sql_log' }, { display: 'FireWall', iconName: 'icon-logOut' }];
 

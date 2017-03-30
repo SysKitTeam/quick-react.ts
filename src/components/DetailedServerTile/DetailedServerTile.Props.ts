@@ -1,19 +1,20 @@
 import * as React from 'react';
-import {ISharePointServer} from '../../models';
+import {ISharePointServer, ServerStatus } from '../../models';
 
 export interface IDetailedServerProps extends ISharePointServer {
     numberOfUsers?: string;  
 
     memoryUsage?: IMemoryUsage;
     partitionUsages?: Array<IPartitionUsage>;
-    processorUsage?: IProcessorUsageData;
-}
-
-export interface IProcessorUsageData {
-    data: Array<IProcessorUsage>;
+    processorUsage?: IProcessorUsage;
 }
 
 export interface IProcessorUsage {
+    data: Array<IProcessorUsageData>;
+    status: ServerStatus;
+}
+
+export interface IProcessorUsageData {
     time: Date;
     usage: number;
 }
@@ -23,10 +24,12 @@ export interface IPartitionUsage {
     usageUnit: string;
     capactiy: number;
     used: number;
+    status: ServerStatus;    
 }
 
 export interface IMemoryUsage {
     usageUnit: string;
     capactiy: number;
     used: number;
+    status: ServerStatus;
 }
