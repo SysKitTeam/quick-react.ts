@@ -28,7 +28,7 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
             chartHeight: 0,
             isParentMounted: false
         };
-    }
+    };
 
     /**
      * Function that returns color based on given string.

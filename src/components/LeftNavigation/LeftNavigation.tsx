@@ -39,6 +39,18 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
         }
     };
 
+    onOtherLinkClick(index, item: any, ev: React.MouseEvent<HTMLElement>) {
+        const {onClick} = this.props;
+
+        if (this.state.isOpen) {
+            this.setState({ isOpen: false });
+        }
+
+        if (onClick !== undefined) {
+            onClick(ev, item);
+        }
+    };
+
     getSelectedIndex(options: ILeftNavigationOption[]) {
         return findIndex(options, (option => option.selected));
     };
@@ -46,7 +58,8 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
     public render(): JSX.Element {
         let {
             options,
-            id
+            id,
+            otherOptions
         } = this.props;
 
         const tag = 'div';
@@ -63,7 +76,7 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
                 'collapsed': !this.state.isOpen
             }, [this.props.className]);
 
-        const children = this.props.options.map((option, index) => {
+        const childrenItems = this.props.options.map((option, index) => {
 
             let linkClasses = classNames(
                 'nav-item',
@@ -84,6 +97,26 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
             );
         });
 
+        const otherChildrenItems = this.props.otherOptions.map((option, index) => {
+
+            let linkClasses = classNames(
+                'nav-item',
+                {
+                    'disabled': option.disabled
+                });
+
+            return (
+                <div key={option.id} className={linkClasses} title={option.text}>
+                    <a
+                        id={option.id}
+                        onClick={(ev) => this.onOtherLinkClick(index, option, ev)}>
+                        <Icon iconName={option.icon}></Icon>
+                        <span>{option.text}</span>
+                    </a>
+                </div>
+            );
+        });
+
         return React.createElement(
             tag,
             assign(
@@ -94,7 +127,10 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
                 <div className="nav-item" onClick={() => { this.onLeftNavigationClick(); }}>
                     <Icon iconName={'icon-switchView'}></Icon>
                 </div>
-                {children}
+                {childrenItems}
+                <div>
+                    {otherChildrenItems}
+                </div>
             </div>
         );
     };
