@@ -18,7 +18,6 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
     };
 
     private containerRef : HTMLDivElement;
-    private legendWidth : number;
 
     constructor(props: IPieChartProps) {
         super(props);
@@ -95,7 +94,7 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
             (d: IPieChartData, index: number) =>
                 <div key={index} className={'legend-item'}>
                     <div style={{backgroundColor: color(d.label)}}/>
-                    <label style={{display: 'inline-block'}}>{d.label}</label>
+                    <label style={{display: 'inline-block'}}>{d.label} ({d.value})</label>
                 </div> 
         );
         return <div className={legendClass}>{legend}</div>;
@@ -107,7 +106,6 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
      * as one value.
      */
      private transformData(): Array<any> {
-
 
         const sortedData = this.props.data.sort((a, b) => b.value - a.value);
 
@@ -143,18 +141,11 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
     }
 
     private setDimensions(width: number, height: number): void {
-        let chartWidth = 0;
-        if ( !this.props.showLegend ) {
-            chartWidth = width;
+        if (this.props.showLegend) {
+            const legendHeight = this.containerRef.children[1].getBoundingClientRect().height;
+            this.setState({ chartWidth: width, chartHeight: height - legendHeight, isParentMounted: true });
         } else {
-            this.legendWidth = this.containerRef.children[1].getBoundingClientRect().width;
-            if (width - 10 < this.legendWidth) { chartWidth = width; } else { chartWidth = width - this.legendWidth - 10; }
-        }
-
-        if (chartWidth >= height) { chartWidth = height; }
-
-        if (this.state.chartWidth !== chartWidth || this.state.chartHeight !== height) {
-            this.setState({ chartWidth: chartWidth, chartHeight: height, isParentMounted: true });
+            this.setState({ chartWidth: width, chartHeight: height, isParentMounted: true });
         }
     }
 

@@ -2,13 +2,14 @@
 
 .pie-chart-component {
     display: block;
-    overflow: visible;
     text-align: center;
     position: relative;
+    
     svg {
         position: relative;
-        display: inline-block;
+        display: block;
         overflow: visible;
+
         .pie-arc:hover {
             opacity: 0.75;
         }
@@ -21,28 +22,36 @@
         }
     }
     .pie-chart-legend {
+        padding-top: 5px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
         position: relative;
-        display: inline-block;
+        display: block;
         box-sizing: border-box;
-        padding-left: 5px;
-        vertical-align: top;
-        z-index: -2;
-        text-align: start;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
         .legend-item {
-            margin-bottom: 5px;
-            display: block;
+            display: inline-block;
+            padding: 0px 5px 0px 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            
             div {
                 width: 12px;
                 height: 12px;
-                vertical-align: middle;
                 display: inline-block;
                 padding: 0;
             }
+
             label {
                 font-family: $font-family-base;
                 font-size: 12px;
                 margin-left: 5px;
                 padding: 0;
+                white-space: nowrap;
             }
         }
     }
