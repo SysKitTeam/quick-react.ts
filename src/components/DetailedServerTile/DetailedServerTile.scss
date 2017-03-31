@@ -1,7 +1,7 @@
 @import '../../index.scss';
 
 $tile-height: 220px;
-$tile-width: 320px;
+$tile-width: 300px;
 $counters-data-size: 24px;
 $counters-unit-size: 14px;
 $header-font-size: 14px;
@@ -9,9 +9,9 @@ $counters-title-font-size: 12px;
 $counters-title-font-color: $basic-text-color;
 $server-status-color: $basic-text-color;
 
-
 .server-details {
-
+    @include disableUserSelection();
+    margin: 10px;
     padding: 0px 10px 0px 10px;
     font-family: $font-family-base;
     width: $tile-width;
@@ -52,7 +52,6 @@ $server-status-color: $basic-text-color;
             text-overflow: ellipsis;
             font-weight: 400;
             font-size: 17px;
-            margin: 2px 2px 2px 5px;
             vertical-align: bottom;
         }
 
@@ -71,10 +70,9 @@ $server-status-color: $basic-text-color;
         }
 
         .dialog-button-close {
-            vertical-align: super;
             padding: 0;
             float: right;
-            margin: 15px 10px 0px 0px;
+            margin: 10px 0px 0px 0px;
             cursor: pointer;
 
             &:hover {
@@ -115,23 +113,37 @@ $server-status-color: $basic-text-color;
         }
     }
 
-    .line-chart-title {
-        text-align: left;
-    }
-
     .counters-container {
         display: block;
         width: 100%;
         height: 75%;
         margin: 10px 0px 10px 0px;
-        padding-left: 5px;
+        padding: 0;
 
+        .line-chart-component {
+            border-bottom: 1px solid #e8e9ef;
+        }
 
+        .line-chart-title {
+            text-align: left;
+        }
+
+        .progress-bar-component {
+            margin: 10px 0px 15px 0px;
+            label:nth-child(1) {
+                font-weight: 500;
+            }
+        }
 
         .partition-container {
+            padding-top: 10px;
+            border-top: 1px solid #e8e9ef;
             display: block;
-            margin-top: 5px;
+
             div {
+                margin-top: 10px;
+                text-align: center;
+
                 label:nth-child(1) {
                     font-weight: 500;
                     font-size: 14px;
@@ -144,9 +156,15 @@ $server-status-color: $basic-text-color;
                     padding: 0px 0px 5px 0px;
                 }
 
-                text-align: center;
-                width: 50%;
-                display: inline-block;
+                &.partition-tile {
+                    width: 100%;
+                    display: block;
+                }
+
+                &.partition-col {
+                    width: 50%;
+                    display: inline-block;
+                }
             }
         }
     }

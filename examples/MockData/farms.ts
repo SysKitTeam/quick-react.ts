@@ -44,7 +44,7 @@ function createFarms() {
 export const farms: Array<IFarm> = createFarms();
 
 
-const memoryUsage: IMemoryUsage = { usageUnit: 'MB', capactiy: 1024, used: 300, status: 1 };
+const memoryUsage: IMemoryUsage = { usageUnit: 'MB', capacity: 1024, used: 300, status: 1 };
 
 function createProcessorUsages(): Array<IProcessorUsageData> {
     let time = new Date();
@@ -64,8 +64,9 @@ const processorUsage: IProcessorUsage = {data: createProcessorUsages(), status: 
 
 const partitionUsages: Array<IPartitionUsage> = [
     { name: 'C', usageUnit: 'GB', capacity: 60, used: 55, status: 0 },
-    { name: 'D', usageUnit: 'GB', capacity: 200, used: 10, status: 1 },
-    { name: 'E', usageUnit: 'GB', capacity: 5, used: 3, status: 2 },
+    { name: 'D', usageUnit: 'GB', capacity: 200, used: 142.5, status: 1 },
+    { name: 'E', usageUnit: 'GB', capacity: 52.4, used: 33.2, status: 2 },
+    { name: 'F', usageUnit: 'GB', capacity: 550, used: 512, status: 0 }
 ];
 const roleList = [{ display: 'Web', iconName: 'icon-site2' }, { display: 'SQL', iconName: 'icon-sql_log' }, { display: 'FireWall', iconName: 'icon-logOut' }];
 
