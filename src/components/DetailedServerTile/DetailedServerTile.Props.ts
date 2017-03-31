@@ -21,6 +21,7 @@ export interface IProcessorUsageData {
 
 export interface IPartitionUsage {
     className?: string;
+    id?: string;
     name: string;
     usageUnit: string;
     capacity: number;

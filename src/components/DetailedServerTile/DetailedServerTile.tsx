@@ -51,7 +51,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                     />
                     <div className={'partition-container'} >
                     {
-                        this.props.partitionUsages.map((data, index) => <PartitionTile className={partitionTileClass} key={index} {...data} />)
+                        this.props.partitionUsages.map((data, index) => <PartitionTile id={this.props.id.FQDN} className={partitionTileClass} key={index} {...data} />)
                     }
                     </div>
                 </div>
@@ -115,7 +115,7 @@ class PartitionTile extends React.PureComponent<IPartitionUsage, any> {
                 <Label className="server-name">Partition {this.props.name}:</Label>
                 <Label>{this.props.used}/ {this.props.capacity} {this.props.usageUnit}</Label>
                 <PieChart
-                    id={'chart-' + this.props.name}
+                    id={'partition-usage-chart-' + this.props.name + '-' + this.props.id}
                     dimensions={{ width: '100%', height: '70px' }}
                     data={this.transformPartitionData(this.props)}
                     colors={this.getColorsByStatus(this.props.status)}
