@@ -21,7 +21,7 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
     };
 
     onLinkClick(index, item: any, ev: React.MouseEvent<HTMLElement>) {
-        const {onClick} = this.props;
+        const { onClick } = this.props;
 
         if (this.state.isOpen) {
             this.setState({ isOpen: false });
@@ -40,7 +40,7 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
     };
 
     onOtherLinkClick(index, item: any, ev: React.MouseEvent<HTMLElement>) {
-        const {onClick} = this.props;
+        const { onClick } = this.props;
 
         if (this.state.isOpen) {
             this.setState({ isOpen: false });
@@ -76,8 +76,7 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
                 'collapsed': !this.state.isOpen
             }, [this.props.className]);
 
-        const childrenItems = this.props.options.map((option, index) => {
-
+        const childrenItems = this.props.options && this.props.options.map((option, index) => {
             let linkClasses = classNames(
                 'nav-item',
                 {
@@ -97,8 +96,7 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
             );
         });
 
-        const otherChildrenItems = this.props.otherOptions.map((option, index) => {
-
+        const otherChildrenItems = this.props.otherOptions && this.props.otherOptions.map((option, index) => {
             let linkClasses = classNames(
                 'nav-item',
                 {

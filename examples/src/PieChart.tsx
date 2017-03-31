@@ -28,7 +28,7 @@ export class Index extends React.PureComponent<any, any> {
             overflow: 'hidden',
             whiteSpace: 'nowrap',
             textOverflow: 'ellipsis'
-        }
+        };
 
         return (
             <div>
