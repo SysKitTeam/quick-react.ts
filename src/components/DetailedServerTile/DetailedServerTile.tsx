@@ -19,6 +19,8 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
     public render() {
         const className = GetClassForStatus('server-details', this.props.status);
         const partitionTileClass = this.props.partitionUsages.length === 1 ? 'partition-tile' : 'partition-col';
+        const cpuDataProp = this.transformCPUdata(this.props.processorUsage.data);
+        const cpuData = cpuDataProp[0].data;
         return (
             <div className={classNames(className, this.props.id.FQDN)}>
                 <ServerHeader 
@@ -32,9 +34,10 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                         title={'CPU USAGE'}
                         id={'cpu-counter-' + this.props.id.FQDN}
                         dimensions={{ width: '100%', height: '220px' }}
-                        series={this.transformCPUdata(this.props.processorUsage.data)}
+                        series={cpuDataProp}
+                        tickValues={[cpuData[0].argument, cpuData[cpuData.length - 1].argument]}
                         yAxisFormat={(d) => d + '%'}
-                        xAxisFormat={() => '%S:%M:%H'}
+                        xAxisFormat={() => '%H:%M'}
                         yAxisTicks={3}
                         xAxisTicks={3}
                         showLegend={false}

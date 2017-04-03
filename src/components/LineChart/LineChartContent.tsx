@@ -4,7 +4,7 @@ import * as classNames from 'classnames';
 import { ILineChartProps, ILineChartData, ISeriesData } from './LineChart.props';
 import { Tooltip } from '../Tooltip/Tooltip';
 
-const margin = { top: 20, bottom: 70, left: 50, right: 10 };
+const margin = { top: 20, bottom: 70, left: 50, right: 20 };
 
 export class LineChartContent extends React.PureComponent<ILineChartProps, any> {
     private x;
@@ -115,9 +115,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         const y = this.generateY();
         const color = this.createColorPallette();
 
-        let circleData = Array(0);
-
-        let lines = Array(0), circles = Array(0), index = 0;
+        let lines = Array(0), circles = Array(0), index = 0, circleData = Array(0);
 
         for (let i = 0; i < values.length; i++) {
             lines.push(<path key={index++} className={values[i].id}
@@ -165,7 +163,6 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
                 }
                 previous = series.data[i].value;
             }
-            --i;
             if (series.data[i].value === null && previous !== null) {
                 data.push({
                     name: series.name,
@@ -276,7 +273,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
     private renderLine(data: Array<ILineChartData>) {
         const x = this.generateX();
         const y = this.generateY();
-        const lineGenerator = d3.line<ILineChartData>().x((d) => x(d.argument)).y((d) => y(d.value)).curve(d3.curveCatmullRom.alpha(0.5));
+        const lineGenerator = d3.line<ILineChartData>().x((d) => x(d.argument)).y((d) => y(d.value));
         return lineGenerator(data);
     }
 

@@ -121,23 +121,23 @@ $server-status-color: $basic-text-color;
         padding: 0;
 
         .line-chart-component {
-            border-bottom: 1px solid #e8e9ef;
-        }
+            .line-chart-title {
+                text-align: left;
+            }
 
-        .line-chart-title {
-            text-align: left;
+            svg > .line-chart-container > .y-axis > .tick > text {
+                transform: translateX(10px) !important;
+            }
         }
 
         .progress-bar-component {
-            margin: 10px 0px 15px 0px;
+            margin: -30px 0px 15px 0px;
             label:nth-child(1) {
                 font-weight: 500;
             }
         }
 
         .partition-container {
-            padding-top: 10px;
-            border-top: 1px solid #e8e9ef;
             display: block;
 
             div {
