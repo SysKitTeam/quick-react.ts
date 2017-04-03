@@ -5,21 +5,21 @@ import 'ts-helpers';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { DetailedServerFarm } from './../../src/components/DetailedServerFarm/DetailedServerFarm';
-import { DetailedFarm } from './../MockData/farms';
+import { DetailedServerGroup } from './../../src/components/DetailedServerGroup/DetailedServerGroup';
+import { DemoServerGroup } from './../MockData/farms';
 
 export class Index extends React.Component<any, any> {
        public constructor() {
         super();
          this.state = {
-            farm: DetailedFarm,
+            farm: DemoServerGroup,
         };    
     }
 
     public render() {
         return (
             <div>
-                <DetailedServerFarm farm={this.state.farm} filter={''} />              
+                <DetailedServerGroup serverGroup={this.state.farm} filter={''} />              
             </div>
         );
     };  

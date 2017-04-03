@@ -107,7 +107,6 @@ class ServerHeader extends React.PureComponent<any, any> {
 }
 
 class PartitionTile extends React.PureComponent<IPartitionUsage, any> {
-     // todo change pie slice color depending on status 
     public render() {
         let className = GetClassForStatus('', this.props.status);          
         return (

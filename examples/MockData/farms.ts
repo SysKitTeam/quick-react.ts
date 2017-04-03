@@ -1,6 +1,6 @@
 import { ICompactDashboardProps } from '../../src/components/CompactDashboard/CompactDashboard.Props';
 import { IDetailedServerProps, IProcessorUsage, IPartitionUsage, IMemoryUsage, IProcessorUsageData } from '../../src/components/DetailedServerTile/DetailedServerTile.Props';
-import { IDetailedServerFarm } from '../../src/components/DetailedServerFarm/DetailedServerFarm.Props';
+import { IDetailedServerGroup } from '../../src/components/DetailedServerGroup/DetailedServerGroup.Props';
 
 import { IFarm } from '../../src/models';
 
@@ -70,9 +70,9 @@ const partitionUsages: Array<IPartitionUsage> = [
 ];
 const roleList = [{ display: 'Web', iconName: 'icon-site2' }, { display: 'SQL', iconName: 'icon-sql_log' }, { display: 'FireWall', iconName: 'icon-logOut' }];
 
-export const DetailedFarm: IDetailedServerFarm = {
+export const DemoServerGroup: IDetailedServerGroup = {
     id: { sqlInstance: 'instance', configDataBaseIcon: 'icon-sql_log', configDataBaseName: 'db' },
-    name: 'demo farm',
+    name: 'demo server group',
     isCustom: Math.random() >= 0.5,
     version: {
         version: '14',

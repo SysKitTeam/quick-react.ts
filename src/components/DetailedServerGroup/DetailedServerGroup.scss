@@ -1,6 +1,6 @@
 @import '../../index.scss';
 
-.compact-farm{
+.detailed-server-group{
     @include baseFont();
     width: 100%;
     height: 100%;
@@ -9,16 +9,18 @@
     overflow: hidden;
     color: $basic-text-color;
     
-    .farm {
+    .server-group {
         padding-bottom: 25px;
         &:first-child{
             margin-top:70px;
         }   
     }
-    .compact-dashboard-server{
+
+    .detailed-dashboard-server{
             order:1;
     }
-    .compact-server-container{
+    
+    .detailed-server-container{
             font-size: 14px;
             max-width: 215px;
             display: inline-block;
