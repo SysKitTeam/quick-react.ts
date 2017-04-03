@@ -6,9 +6,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { DetailedServerTile } from './../../src/components/DetailedServerTile/DetailedServerTile';
-import { DetailedFarm } from '../MockData/farms';
+import { DemoServerGroup } from '../MockData/farms';
 
-const server = DetailedFarm.servers[0];
+const server = DemoServerGroup.servers[0];
 export class Index extends React.Component<any, any> {  
     public render() {
         return (
