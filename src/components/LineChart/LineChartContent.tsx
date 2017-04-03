@@ -31,12 +31,6 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
     }
 
     /**
-     * Color generator which is constructed based on given array of colors and returns
-     * appropriate color from given array for given string.
-     */
-    private createColorPallette = () => d3.scaleOrdinal(this.props.colorPallette);
-
-    /**
      * When component receives new props set state based on new props.
      */
     public componentWillReceiveProps(newProps: ILineChartProps, newState: any) {
@@ -103,6 +97,13 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
             </svg>
         );
     }
+
+    /**
+     * Color generator which is constructed based on given array of colors and returns
+     * appropriate color from given array for given string.
+     */
+    private createColorPallette = () => d3.scaleOrdinal(this.props.colorPallette);
+
 
     /**
      * Draws chart lines and given transparent circles that are used for displaying tooltips based
@@ -207,12 +208,13 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
 
         const scale = this.generateX();
 
-        const xAxis = d3.axisBottom(scale)
+        let xAxis = d3.axisBottom(scale)
             .tickSizeInner(-(this.state.containerHeight))
             .tickSizeOuter(0)
             .tickPadding(20)
-            .ticks(this.props.xAxisTicks)
             .tickFormat(this.formatAxisLabels());
+
+        xAxis =  this.props.tickValues ? xAxis.tickValues(this.props.tickValues) : xAxis.ticks(this.props.xAxisTicks);
 
         d3.select(element).call(xAxis);
     }
@@ -240,6 +242,12 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
      * of all given datasets.
      */
     private generateX() {
+        const minMax = this.getMinMaxFromSeries();
+        const scale: any = (typeof this.props.series[0].data[0].argument) === 'number' ? d3.scaleLinear() : d3.scaleTime();
+        return scale.domain(minMax).range([0, this.state.containerWidth]);
+    }
+
+    private getMinMaxFromSeries() : [number | Date, number | Date] {
         const first = this.props.series[0].data;
         let max = d3.max(first, (d) => d.argument);
         let min = d3.min(first, (d) => d.argument);
@@ -252,9 +260,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
                 if (newMin < min) { min = newMin; }
             }
         }
-
-        const scale: any = (typeof this.props.series[0].data[0].argument) === 'number' ? d3.scaleLinear() : d3.scaleTime();
-        return scale.domain([min, max]).range([0, this.state.containerWidth]);
+        return [min, max];
     }
 
     /**
