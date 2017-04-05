@@ -34,9 +34,7 @@ export class Breadcrumbs extends React.Component<IBreadcrumbsProps, any> {
     public render(): JSX.Element {
         const paths = this.state.currentPath.map((item, index) => (
             <li className={'breadcrumbs-list-item'} key={index} onClick={this.handlePathClick.bind(this, item)}>
-                <span>
-                    { !item.selected ? <Icon iconName={'icon-arrow_right'} /> : <Icon iconName={'icon-arrow_down_right'} /> }
-                </span>
+                { !item.selected ? <Icon iconName={'icon-arrow_right'} /> : <Icon iconName={'icon-arrow_down_right'} /> }
                 <a className={'breadcrumbs-item-link'}>{item.name}</a>
             </li>
         ));
