@@ -1,6 +1,6 @@
 @import '../../index.scss';
 
-.navigationGroupContainer{
+.navigation-group-container{
     margin: 5px 45px 10px 0;
     padding: 10px;    
     height: 100%;
@@ -9,7 +9,7 @@
     vertical-align: top;
 }
 
-.navigationGroupHeader{
+.navigation-group-header{
     font-weight:bold;
     font-size: $font-size-xl;
     text-transform: uppercase;
@@ -17,13 +17,13 @@
     color: $font-primary-color;
 }
 
-.navigationGroupList{
+.navigation-group-list{
     list-style-type: none;
 	padding: 0;
     margin-top: 10px;
 }
 
-.navigationGroupItem{
+.navigation-group-item{
     color: $secondary-color;
     font-size: $font-size-xxl;
     cursor: default;
@@ -39,20 +39,20 @@
 	}
 }
 
-.navigationGroupItem:hover{
+.navigation-group-item:hover{
   cursor: pointer;
   color: $secondary-hover-color;
 }
 
-.navigationGroupItem:not(:last-child){
+.navigation-group-item:not(:last-child){
   margin-bottom: 20px;
 }
 
-.navigationGroupItemDisabled{
+.navigation-group-item-disabled{
     color: $disabled-color!important;
     font-size: $font-size-xxl - 2;
 }
 
-.navigationGroupItemDisabled:hover{
+.navigation-group-item-disabled:hover{
   cursor: default;
 }

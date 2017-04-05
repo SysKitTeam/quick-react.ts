@@ -4,7 +4,7 @@ import { autobind } from '../../utilities/autobind';
 import './NavigationGroup.scss';
 import * as classNames from 'classnames';
 
-export class NavigationGroup extends React.Component<INavigationGroupProps, void> {
+export class NavigationGroup extends React.PureComponent<INavigationGroupProps, void> {
     constructor(props) {
         super(props);
     }
@@ -12,12 +12,12 @@ export class NavigationGroup extends React.Component<INavigationGroupProps, void
     public render() {
         const category = this.props.Category;
         return (
-            <div className="navigationGroupContainer">
-                <div className="navigationGroupHeader">{category.text}</div>
-                <ul className="navigationGroupList">
+            <div className="navigation-group-container">
+                <div className="navigation-group-header">{category.text}</div>
+                <ul className="navigation-group-list">
                     {category.items && category.items.map((item, itemIndex) => (
                         <li key={item.Key} disabled={item.disabled}
-                            className={classNames({'navigationGroupItem':true, 'navigationGroupItemDisabled':item.disabled})}
+                            className={classNames({'navigation-group-item':true, 'navigation-group-item-disabled':item.disabled})}
                             onClick={() => this.navigationItemClicked(item.disabled, item.Key)}
                         >
                             <a title={item.text}>{item.text}</a>
