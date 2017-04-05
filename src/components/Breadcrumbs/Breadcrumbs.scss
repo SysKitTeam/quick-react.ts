@@ -28,13 +28,10 @@ $Breadcrumb-overflowButtonSize: 16px;
             margin: 0;
             cursor: pointer;
         }
-
-        &:hover .breadcrumbs-item-link {
-            color: $secondary-color;
-        }
     }
 
     .breadcrumbs-item-link {
+        font-weight: 500;
         color: $font-primary-color;
         display: inline-block;
         padding: 0 4px;
@@ -44,6 +41,10 @@ $Breadcrumb-overflowButtonSize: 16px;
         vertical-align: sub;
         cursor: pointer;
         text-decoration: none;
+
+        &:hover {
+            color: $secondary-color;
+        }
     }
 
     .breadcrumbs-overflow {

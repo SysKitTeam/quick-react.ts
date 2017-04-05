@@ -67,7 +67,7 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-                <Breadcrumbs items={items} url={'/performance/07bf612a-1354-4269-9339-bbca5ecca246/1'} />
+                <Breadcrumbs items={items} url={'/performance/07bf612a-1354-4269-9339-bbca5ecca246/1'} onPathClick={(path) => console.log(path)} />
             </div>
         );
     };
