@@ -51,7 +51,7 @@ export class Index extends React.Component<any, any> {
         const item : INavigationGroupItem = {
             text: 'Payroll Calculation',
             disabled: false, 
-            Key : 'PayrollCalculation''
+            Key : 'PayrollCalculation'
         };
         const item2 : INavigationGroupItem = {
             text: 'Detailed Sessions Data',
