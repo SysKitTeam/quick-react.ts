@@ -20,7 +20,7 @@ export class NavigationGroup extends React.PureComponent<INavigationGroupProps, 
                             className={classNames({'navigation-group-item':true, 'navigation-group-item-disabled':item.disabled})}
                             onClick={() => this.navigationItemClicked(item.disabled, item.Key)}
                         >
-                            <a title={item.text}>{item.text}</a>
+                            <a title={item.tooltip}>{item.text}</a>
                         </li>
                     ))}
                 </ul>                                   

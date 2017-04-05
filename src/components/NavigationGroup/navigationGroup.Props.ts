@@ -2,8 +2,9 @@ import * as React from 'react';
 
 export interface INavigationGroupItem {
     text: string;
+    tooltip?: string;
     disabled: boolean;
-    Key: number;
+    Key: string;
 }
 
 export interface INavigationGroupCategory {
