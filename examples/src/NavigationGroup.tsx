@@ -19,27 +19,27 @@ export class Index extends React.Component<any, any> {
             text: 'User Sessions',
             tooltip: 'User Sessions report displays data about user sessions.',
             disabled: false, 
-            Key : "UserSessions"
+            Key : 'UserSessions'
         };
         const item2 : INavigationGroupItem = {
             text: 'Users by Session State',
             disabled: false, 
-            Key : "UsersBySessionState"
+            Key : 'UsersBySessionState'
         };
         const item3 : INavigationGroupItem = {
             text: 'Logon History',
             disabled: false, 
-            Key : "LogonHistory"
+            Key : 'LogonHistory'
         };
         const item4 : INavigationGroupItem = {
             text: 'Time Spent',
             disabled: true, 
-            Key : "TimeSpent"
+            Key : 'TimeSpent'
         };
         const item5 : INavigationGroupItem = {
             text: 'Users per Day',
             disabled: false, 
-            Key : "UsersPerDay"
+            Key : 'UsersPerDay'
         };
         const testarosa : INavigationGroupCategory = {
             text: 'User management',
@@ -51,22 +51,22 @@ export class Index extends React.Component<any, any> {
         const item : INavigationGroupItem = {
             text: 'Payroll Calculation',
             disabled: false, 
-            Key : "PayrollCalculation'"
+            Key : 'PayrollCalculation''
         };
         const item2 : INavigationGroupItem = {
             text: 'Detailed Sessions Data',
             disabled: true, 
-            Key : "DetailedSessionsData"
+            Key : 'DetailedSessionsData'
         };
         const item3 : INavigationGroupItem = {
             text: 'IP Addresses',
             disabled: false, 
-            Key : "IPAddresses"
+            Key : 'IPAddresses'
         };
         const item4 : INavigationGroupItem = {
             text: 'Concurrent Usage',
             disabled: false, 
-            Key : "ConcurrentUsage"
+            Key : 'ConcurrentUsage'
         };
         const testarosa : INavigationGroupCategory = {
             text: 'Resource Usage',
