@@ -1,0 +1,58 @@
+@import '../../index.scss';
+
+.navigationGroupContainer{
+    margin: 5px 45px 10px 0;
+    padding: 10px;    
+    height: 100%;
+    user-select: none;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.navigationGroupHeader{
+    font-weight:bold;
+    font-size: $font-size-xl;
+    text-transform: uppercase;
+    cursor: default;
+    color: $font-primary-color;
+}
+
+.navigationGroupList{
+    list-style-type: none;
+	padding: 0;
+    margin-top: 10px;
+}
+
+.navigationGroupItem{
+    color: $secondary-color;
+    font-size: $font-size-xxl;
+    cursor: default;
+    height: $font-size-xxl + 2;
+
+	a {
+		height: 100%;
+		color: inherit;
+		display: inline-block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+}
+
+.navigationGroupItem:hover{
+  cursor: pointer;
+  color: $secondary-hover-color;
+}
+
+.navigationGroupItem:not(:last-child){
+  margin-bottom: 20px;
+}
+
+.navigationGroupItemDisabled{
+    color: $disabled-color!important;
+    font-size: $font-size-xxl - 2;
+}
+
+.navigationGroupItemDisabled:hover{
+  cursor: default;
+}
