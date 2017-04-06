@@ -10,6 +10,11 @@ const objectAssign = require('object-assign');
 export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
     private _dropdown: Dropdown[] = Array<Dropdown>(0);
 
+    public static defaultProps = {
+        iconNameCollapsed: 'icon-arrow_right',
+        iconNameExpanded: 'icon-arrow_down_right'
+    };
+
     constructor(props) {
         super(props);
 
@@ -24,7 +29,7 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
 
     public render(): JSX.Element {
         const paths = this.state.currentPath.map((item, index) => {
-                const iconName = item.selected ? 'icon-arrow_down_right' : 'icon-arrow_right';
+                const iconName = item.selected ? this.props.iconNameExpanded : this.props.iconNameCollapsed;
                 return (
                     <li className={'breadcrumbs-list-item'} key={index} >
                         <Dropdown
@@ -32,7 +37,7 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
                             dropdownType={DropdownType.customDropdown} 
                             icon={iconName} 
                             onClosed={() => this.closeMenu(item)} 
-                            onOpenedClick={(willOpen) => this.openMenu(item, willOpen)}
+                            onMenuToggle={(willOpen) => this.openMenu(item, willOpen)}
                         >
                             {this.mapSiblingsToMenu(item.siblings)}
                         </Dropdown>

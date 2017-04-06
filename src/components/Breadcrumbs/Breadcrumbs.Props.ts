@@ -6,6 +6,8 @@ export interface IBreadcrumbsProps extends React.Props<any> {
     className?: string;
     url: string;
     onPathClick: (path: string) => void;  // return constructed url
+    iconNameCollapsed?: string;
+    iconNameExpanded?: string;
 }
 
 export interface IBreadcrumbItem extends React.Props<any> {
