@@ -1,185 +1,143 @@
 import * as React from 'react';
-import * as classNames from 'classnames';
-import { IBreadcrumbsProps, IBreadcrumbItem } from './Breadcrumbs.Props';
-import { Icon } from '../../components/Icon/Icon';
-import { Callout } from '../../components/Callout/Callout';
-import { Dropdown } from '../../components/Dropdown/Dropdown';
-import { ContextualMenu } from '../../components/ContextualMenu/ContextualMenu';
-import {getId} from '../../utilities/getId';
 import { autobind } from '../../utilities/autobind';
-import { getRTL } from '../../utilities/rtl';
-import { DirectionalHint } from '../../utilities/DirectionalHint';
+import { IBreadcrumbsProps, IBreadcrumbItem, ICurrentPathItem } from './Breadcrumbs.Props';
+import { Dropdown } from '../Dropdown/Dropdown';
+import { DropdownType, IDropdownOption } from '../Dropdown/Dropdown.Props';
 import './Breadcrumbs.scss';
 
-export interface IBreadcrumbState {
-    isOverflowOpen: boolean;
-    overflowAnchor?: HTMLElement;
-    renderedItems?: IBreadcrumbItem[];
-    renderedOverflowItems?: IBreadcrumbItem[];
-}
+const objectAssign = require('object-assign');
 
-const OVERFLOW_KEY = 'overflow';
-const OVERFLOW_WIDTH = 44;
+export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
+    private _dropdown: Dropdown[] = Array<Dropdown>(0);
 
-export class Breadcrumbs extends React.Component<IBreadcrumbsProps, any> {
-     public static defaultProps: IBreadcrumbsProps = {
-        items: [],
-        maxDisplayedItems: 999
+    public static defaultProps = {
+        iconNameCollapsed: 'icon-arrow_right',
+        iconNameExpanded: 'icon-arrow_down_right'
     };
 
-    public refs: {
-        [key: string]: React.ReactInstance;
-        renderingArea: HTMLElement;
-    };
-
-    private _breadcrumbItemWidths: { [key: string]: number };
-    private _id: string;
-
-    constructor (props) {
+    constructor(props) {
         super(props);
 
-        this._id = getId('Breadcrumb');
-        this.state = this._getStateFromProps(props);
+        const currentPath = this.getDisplayItemsFromProps(props);
+        this.state = { currentPath: currentPath };
     }
 
-     public componentDidMount() {
-        this._updateItemMeasurements();
-        this._updateRenderedItems();
-    }
-    
-    public renderedOverflowItems;
-    public renderedItems;
-
-    public componentWillReceiveProps(nextProps: IBreadcrumbsProps) {
-        this.setState(this._getStateFromProps(nextProps));
-        this._breadcrumbItemWidths = null;
-    }
-
-    public componentDidUpdate(prevProps: IBreadcrumbsProps, prevStates: IBreadcrumbState) {
-        if (!this._breadcrumbItemWidths) {
-            this._updateItemMeasurements();
-            this._updateRenderedItems();
-        }
+    public componentWillReceiveProps(nextProps: IBreadcrumbsProps, nextState: any) {
+        const currentPath = this.getDisplayItemsFromProps(nextProps);
+        this.setState({ currentPath: currentPath });
     }
 
     public render(): JSX.Element {
-        let { className } = this.props;
-        let { isOverflowOpen, overflowAnchor, renderedItems, renderedOverflowItems } = this.state;
-        let overflowMenuId = this._id + '-overflow';
-        
+        const paths = this.state.currentPath.map((item, index) => {
+                const iconName = item.selected ? this.props.iconNameExpanded : this.props.iconNameCollapsed;
+                return (
+                    <li className={'breadcrumbs-list-item'} key={index} >
+                        <Dropdown
+                            ref={this.setDropdownReference}
+                            dropdownType={DropdownType.customDropdown} 
+                            icon={iconName} 
+                            onClosed={() => this.closeMenu(item)} 
+                            onMenuToggle={(willOpen) => this.openMenu(item, willOpen)}
+                        >
+                            {this.mapSiblingsToMenu(item.siblings)}
+                        </Dropdown>
+                        <a 
+                            className={'breadcrumbs-item-link'} 
+                            onClick={() => this.props.onPathClick(item.url)}
+                        >{item.name}</a>
+                    </li>
+                );
+            }
+        );
+
         return (
-            <div className={'breadcrumbs'} ref="renderingArea">
-                <ul className={'breadcrumbs-list'}>
-                    { renderedOverflowItems  && renderedOverflowItems .length ? (
-                        <li className={'breadcrumbs-overflow'} key={ OVERFLOW_KEY } ref={ OVERFLOW_KEY }>
-                            <div className={'breadcrumb-overflowButton'}
-                                onClick={ this._onOverflowClicked }
-                                data-is-focusable={ true }
-                                role="button">
-                                <Icon iconName={'icon-inProgress'}></Icon>
-                            </div>
-                            <Icon iconName={ getRTL() ? 'icon-arrowDownRight' : 'icon-arrowRight'}></Icon>
-                        </li>
-                    ) : (null) }
-                    { renderedItems.map((item, index) => (
-                        <li className={'breadcrumbs-list-item'} key={ item.key || String(index) } ref={ item.key || String(index) }>
-                            <a className={'breadcrumbs-item-link'}
-                                onClick={ item.onClick ? this._onBreadcrumbClicked.bind(this, item) : null }
-                                href={ item.href }
-                                role={ item.onClick ? 'button' : 'link' }>
-                            { item.text }
-                            </a>
-                            <Icon iconName={ getRTL() ? 'icon-arrowDownRight' : 'icon-arrowRight'}></Icon>
-                        </li>
-                    )) }
-                    { isOverflowOpen ? (
-                        <ContextualMenu
-                            target={ overflowAnchor }
-                            isBeakVisible={ true }
-                            items={ renderedOverflowItems.map((item, index) => ({
-                                name: item.text,
-                                key: item.key,
-                                onClick: this._onBreadcrumbClicked.bind(this, item),
-                                href: item.href
-                            })
-                            ) }
-                            id={ overflowMenuId }
-                            directionalHint={ DirectionalHint.bottomLeftEdge }
-                            onDismiss={ this._onOverflowDismissed } />
-                    ) : (null) }
-                </ul>
+            <div className={'breadcrumbs'}>
+                <ul className={'breadcrumbs-list'}>{paths}</ul>
             </div>
         );
-    };
-
-    @autobind
-    private _onOverflowClicked(ev: React.MouseEvent<HTMLElement>) {
-        this.setState({
-        'isOverflowOpen': !this.state.isOverflowOpen,
-        'overflowAnchor': ev.currentTarget as HTMLElement
-        });
     }
 
     @autobind
-    private _onOverflowDismissed(ev: MouseEvent) {
-        this.setState({
-            'isOverflowOpen': false,
-            'overflowAnchor': null
+    private setDropdownReference(dropdown) {
+        this._dropdown.push(dropdown);
+    }
+
+    private mapSiblingsToMenu(siblings: Array<ICurrentPathItem>) {
+        return siblings.map((sibling, index) => {
+            return <li key={index} onClick={() => this.handleMenuClick(sibling)}>{sibling.name}</li>;
         });
     }
 
-    @autobind
-    private _onBreadcrumbClicked(item: IBreadcrumbItem, ev: React.MouseEvent<HTMLElement>) {
-        if (item.onClick) {
-            item.onClick(ev, item);
-        }
-
-        this.setState({
-            'isOverflowOpen': false
-        });
+    private handleMenuClick(item: ICurrentPathItem) {
+        this.props.onPathClick(item.url);
+        this.closeMenu(item);
+        this._dropdown[item.index].closeDropdown();
     }
 
-    private _updateItemMeasurements() {
-        let { items } = this.props;
-
-        if (!this._breadcrumbItemWidths) {
-            this._breadcrumbItemWidths = {};
-        }
-
-        for (let i = 0; i < items.length; i++) {
-            let item = items[i];
-
-            if (!this._breadcrumbItemWidths[item.key]) {
-                let el = this.refs[item.key] as HTMLElement;
-
-                this._breadcrumbItemWidths[item.key] = el.getBoundingClientRect().width;
+    private closeMenu(item: ICurrentPathItem) {
+        const newPath = this.state.currentPath.map((path) => {
+            if (path.index === item.index) { 
+                return objectAssign({}, path, { selected: false }); 
             }
-        }
-    }
-
-    private _updateRenderedItems() {
-        let { items, maxDisplayedItems } = this.props;
-        let renderedItems = [];
-        let renderedOverflowItems = [].concat(items);
-
-        let minIndex = Math.max(0, renderedOverflowItems.length - maxDisplayedItems);
-
-        renderedItems = renderedOverflowItems.splice(minIndex);
-
-        this.setState({
-            isOverflowOpen: this.state.isOverflowOpen,
-            overflowAnchor: this.state.overflowAnchor,
-            renderedItems: renderedItems,
-            renderedOverflowItems: renderedOverflowItems,
+            return path;
         });
+        this.setState({ currentPath: newPath });
     }
 
-    private _getStateFromProps(nextProps: IBreadcrumbsProps) {
-        return {
-            isOverflowOpen: false,
-            overflowAnchor: null,
-            renderedItems: nextProps.items || [],
-            renderedOverflowItems: null
-        };
+    private openMenu(item: ICurrentPathItem, willOpen: boolean) {
+        const newPath = this.state.currentPath.map((path) => {
+            if (item.index === path.index) {
+                return objectAssign({}, path, { selected: willOpen });
+            }
+            return path;
+        });
+        this.setState({ currentPath: newPath });
     }
-};
+
+    private getDisplayItemsFromProps(props: IBreadcrumbsProps): Array<ICurrentPathItem> {
+        const paths = props.url.slice(1, props.url.length).split('/');
+
+        let currentLevel = props.items,
+            elements = Array<ICurrentPathItem>(0),
+            path = '';
+
+        for (let i = 0; i < paths.length; i++) {
+            let key = paths[i], 
+                target, 
+                targetPath, 
+                targetIndex, 
+                siblings = Array<ICurrentPathItem>(0);
+
+            for (let j = 0; j < currentLevel.length; j++) {
+                const item = currentLevel[j];
+                if (key === item.key) {
+                    target = { 
+                        name: item.displayName, 
+                        key: item.key, 
+                        index: i, 
+                        selected: false, 
+                        siblings: null, 
+                        url: path + '/' + item.key 
+                    };
+                    targetIndex = j;
+                    targetPath = item.key;
+                } else {
+                    siblings.push(
+                        { 
+                            name: item.displayName, 
+                            key: item.key, 
+                            index: i, 
+                            selected: false, 
+                            url: path + '/' + item.key 
+                        }
+                    );
+                }
+            }
+
+            path += '/' + targetPath;
+            elements.push(objectAssign({}, target, {siblings: siblings}));
+            currentLevel = currentLevel[targetIndex].children;
+        }
+        return elements;
+    }
+}
