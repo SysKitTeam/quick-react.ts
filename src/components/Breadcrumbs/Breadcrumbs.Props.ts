@@ -16,15 +16,6 @@ export interface IBreadcrumbItem extends React.Props<any> {
     children?: IBreadcrumbItem[];
 }
 
-export interface IBreadcrumbsItemProps {
-    iconName: string;
-    name: string;
-    onClick: () => any;
-    selected: boolean;
-    siblingItems: Array<any>;
-}
-
-
 export interface ICurrentPathItem {
     name: string;
     key: string;
@@ -32,5 +23,4 @@ export interface ICurrentPathItem {
     url: string;
     selected: boolean;
     siblings?: Array<ICurrentPathItem>;
-    onClick?: (ev?: React.MouseEvent<any>, item?: any) => void;
 }
