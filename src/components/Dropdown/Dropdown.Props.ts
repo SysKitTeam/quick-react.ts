@@ -20,6 +20,7 @@ export interface IDropdownProps {
   calloutClassName ?: string;
   layerClassName ?: string;
   onClosed?: () => void;
+  onOpenedClick?: (opened?: boolean) => void;
   onCustomSelectionText?: () => string;
 }
 
