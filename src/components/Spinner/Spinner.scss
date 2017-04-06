@@ -13,8 +13,10 @@
 }
 
 .spinner {
+    text-align: center;
 
-    > .spinner-circle {
+    .spinner-circle {
+        margin: 0 auto;
         border-top: 1.4em solid #efefef;
         border-right: 1.4em solid #efefef;
         border-bottom: 1.4em solid #efefef;
@@ -40,8 +42,17 @@
         }
     }
 
-    > .spinner-label {
+    .spinner-label {
         color: $secondary-color;
         margin-top: 10px;
+        font-family: $font-family-base;
+
+        &.spinner-size-normal {
+            font-size: 12px;
+        }
+
+        &.spinner-size-large {
+            font-size: 14px;
+        }
     }
 }

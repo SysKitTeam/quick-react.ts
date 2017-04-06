@@ -43,6 +43,7 @@ module.exports = {
         CompactFarm: "./examples/src/CompactFarm.tsx",
         DetailedServerGroup: "./examples/src/DetailedServerGroup.tsx",
         DetailedServerTile: "./examples/src/DetailedServerTile.tsx",  
+        NavigationGroup: "./examples/src/NavigationGroup.tsx"
     },
     output: {
         path: path.join(__dirname, '/dist'),
