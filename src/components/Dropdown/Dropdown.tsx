@@ -109,7 +109,7 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
         {isOpen && (
           <Callout
             isBeakVisible={false}
-            className={classNames('dropdown-callout', calloutClassName, layerClassName)}
+            className={classNames('dropdown-callout', calloutClassName, layerClassName, this.props.className)}
             gapSpace={0}
             doNotLayer={false}
             targetElement={this._dropDown}

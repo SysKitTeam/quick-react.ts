@@ -33,6 +33,7 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
                 return (
                     <li className={'breadcrumbs-list-item'} key={index} >
                         <Dropdown
+                            className={'breadcrumbs-dropdown'}
                             ref={this.setDropdownReference}
                             dropdownType={DropdownType.customDropdown} 
                             icon={iconName} 

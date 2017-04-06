@@ -1,16 +1,18 @@
  @import '../../index.scss';
 
-.callout-main {
-    @include disableUserSelection();
-    ul {
-        font-size: 13px;
-        li {
-            cursor: pointer;
-            padding: 5px;
-            text-align: center;
+.breadcrumbs-dropdown {
+    .callout-main {
+        @include disableUserSelection();
+        ul {
+            font-size: 13px;
+            li {
+                cursor: pointer;
+                padding: 5px;
+                text-align: center;
 
-            &:hover {
-                background-color: lightblue;
+                &:hover {
+                    background-color: lightblue;
+                }
             }
         }
     }
