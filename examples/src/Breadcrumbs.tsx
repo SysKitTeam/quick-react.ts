@@ -17,8 +17,8 @@ const items = [
                 displayName: 'Farm 1',
                 key: '1db521f3-f28a-427f-8dec-8aadf5224ce7',
                 children: [
-                    { displayName: 'Server 1', key: '6353dfd5-62ae-43fb-95b1-793069970c16' },
-                    { displayName: 'Server 1', key: '0625a264-9a87-4339-acc1-852fed86fda7' }
+                    { displayName: 'Server 33', key: '6353dfd5-62ae-43fb-95b1-793069970c16' },
+                    { displayName: 'Server 43', key: '0625a264-9a87-4339-acc1-852fed86fda7' }
                 ]
             },
             {

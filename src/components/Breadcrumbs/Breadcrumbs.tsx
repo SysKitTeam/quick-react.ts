@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { autobind } from '../../utilities/autobind';
 import { IBreadcrumbsProps, IBreadcrumbItem, ICurrentPathItem } from './Breadcrumbs.Props';
 import { Dropdown } from '../Dropdown/Dropdown';
 import { DropdownType, IDropdownOption } from '../Dropdown/Dropdown.Props';
@@ -7,6 +8,8 @@ import './Breadcrumbs.scss';
 const objectAssign = require('object-assign');
 
 export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
+    private _dropdown: Dropdown[] = Array<Dropdown>(0);
+
     constructor(props) {
         super(props);
 
@@ -24,7 +27,8 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
                 const iconName = item.selected ? 'icon-arrow_down_right' : 'icon-arrow_right';
                 return (
                     <li className={'breadcrumbs-list-item'} key={index} >
-                        <Dropdown 
+                        <Dropdown
+                            ref={this.setDropdownReference}
                             dropdownType={DropdownType.customDropdown} 
                             icon={iconName} 
                             onClosed={() => this.closeMenu(item)} 
@@ -32,7 +36,10 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
                         >
                             {this.mapSiblingsToMenu(item.siblings)}
                         </Dropdown>
-                        <a className={'breadcrumbs-item-link'} onClick={() => this.props.onPathClick(item.url)}>{item.name}</a>
+                        <a 
+                            className={'breadcrumbs-item-link'} 
+                            onClick={() => this.props.onPathClick(item.url)}
+                        >{item.name}</a>
                     </li>
                 );
             }
@@ -45,6 +52,11 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
         );
     }
 
+    @autobind
+    private setDropdownReference(dropdown) {
+        this._dropdown.push(dropdown);
+    }
+
     private mapSiblingsToMenu(siblings: Array<ICurrentPathItem>) {
         return siblings.map((sibling, index) => {
             return <li key={index} onClick={() => this.handleMenuClick(sibling)}>{sibling.name}</li>;
@@ -54,6 +66,7 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
     private handleMenuClick(item: ICurrentPathItem) {
         this.props.onPathClick(item.url);
         this.closeMenu(item);
+        this._dropdown[item.index].closeDropdown();
     }
 
     private closeMenu(item: ICurrentPathItem) {
@@ -93,11 +106,26 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
             for (let j = 0; j < currentLevel.length; j++) {
                 const item = currentLevel[j];
                 if (key === item.key) {
-                    target = { name: item.displayName, key: item.key, index: i, selected: false, siblings: null, url: path + '/' + item.key };
+                    target = { 
+                        name: item.displayName, 
+                        key: item.key, 
+                        index: i, 
+                        selected: false, 
+                        siblings: null, 
+                        url: path + '/' + item.key 
+                    };
                     targetIndex = j;
                     targetPath = item.key;
                 } else {
-                    siblings.push({ name: item.displayName, key: item.key, index: i, selected: false, url: path + '/' + item.key });
+                    siblings.push(
+                        { 
+                            name: item.displayName, 
+                            key: item.key, 
+                            index: i, 
+                            selected: false, 
+                            url: path + '/' + item.key 
+                        }
+                    );
                 }
             }
 
@@ -105,6 +133,7 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
             elements.push(objectAssign({}, target, {siblings: siblings}));
             currentLevel = currentLevel[targetIndex].children;
         }
+        console.log(elements);
         return elements;
     }
 }
