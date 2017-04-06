@@ -1,0 +1,28 @@
+@import '../../index.scss';
+
+.detailed-server-group{
+    @include baseFont();
+    width: 100%;
+    height: 100%;
+    // background-color: $background-color;
+    // border-color: $background-color;
+    overflow: hidden;
+    color: $basic-text-color;
+    
+    .server-group {
+        padding-bottom: 25px;
+        &:first-child{
+            margin-top:70px;
+        }   
+    }
+
+    .detailed-dashboard-server{
+            order:1;
+    }
+    
+    .detailed-server-container{
+            font-size: 14px;
+            max-width: 215px;
+            display: inline-block;
+    }        
+}

@@ -5,7 +5,6 @@ import { Icon } from '../Icon/Icon';
 import * as classNames from 'classnames';
 import './Group.scss';
 
-
 export class Group extends React.Component<IGroupProps, any> {
 
     constructor(props?: IGroupProps) {

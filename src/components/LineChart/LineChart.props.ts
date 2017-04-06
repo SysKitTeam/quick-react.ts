@@ -14,6 +14,7 @@ export interface ILineChartProps {
     series: Array<ISeriesData>;
     showLegend?: boolean;
     tooltipText?: (data: ILineChartData) => string;
+    tickValues?: Array<any>;
 }
 
 export interface ILineChartData {

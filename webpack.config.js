@@ -39,7 +39,11 @@ module.exports = {
         ProgressBar: "./examples/src/ProgressBar.tsx",   
         History: "./examples/src/History.tsx",                     
         PieChart: "./examples/src/PieChart.tsx",
-        LineChart: "./examples/src/LineChart.tsx"
+        LineChart: "./examples/src/LineChart.tsx",
+        CompactFarm: "./examples/src/CompactFarm.tsx",
+        DetailedServerGroup: "./examples/src/DetailedServerGroup.tsx",
+        DetailedServerTile: "./examples/src/DetailedServerTile.tsx",  
+        NavigationGroup: "./examples/src/NavigationGroup.tsx"
     },
     output: {
         path: path.join(__dirname, '/dist'),
@@ -61,12 +65,7 @@ module.exports = {
         ]
     },
 
-    plugins: [
-         new webpack.optimize.CommonsChunkPlugin({
-             name: "Common", 
-             filename : "Common.js"           
-         })
-    ].concat(plugins),
+    plugins: plugins,
 
     module: {
         preLoaders: [loaders.tslint],
