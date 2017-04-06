@@ -133,7 +133,6 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
             elements.push(objectAssign({}, target, {siblings: siblings}));
             currentLevel = currentLevel[targetIndex].children;
         }
-        console.log(elements);
         return elements;
     }
 }
