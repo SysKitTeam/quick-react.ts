@@ -1,94 +1,120 @@
 import * as React from 'react';
 import * as d3 from 'd3';
-
+import * as classNames from 'classnames';
+import { Label } from '../Label/Label';
 import { IProgressBarProps } from './ProgressBar.props';
-
+import { Tooltip } from '../Tooltip/Tooltip';
 import './ProgressBar.scss';
+
+const resizeSensor = require('css-element-queries/src/ResizeSensor');
+const PERCENTAGE_LABEL_SIZE = 45;
 
 export class ProgressBar extends React.Component<IProgressBarProps, any> {
 
-    refs: {
-        [key: string]: (Element),
-        container: HTMLInputElement
-    };
+    public static defaultProps = { progressColor: '#6699CC' };
 
-    constructor() {
-        super();
-    }
+    private containerRef: HTMLDivElement;
+    private labelHeight: number;
+    private percentageWidth: number;
 
-    componentDidMount() {
-        this.draw();
-    }
+    constructor(props: IProgressBarProps) {
+        super(props);
 
-    componentDidUpdate() {
-        this.redraw();
-    }
-
-    private draw() {
-        const svg = this.createContainer();
-        const bar = this.scaleBar();
-        this.drawRect(svg);
-        this.drawFilledArea(svg, bar(this.props.data.current));
-    }
-
-    private createContainer() {
-        const container = d3.select(this.refs.container);
-
-        return container.insert('svg', ':first-child')
-                        .attr('class', 'svg-progress')
-                        .attr('width', this.props.width - 50)
-                        .attr('height', this.props.height)
-                        .append('g')
-                        .attr('class', 'g-container');
-    }
-
-    private redraw() {
-        d3.select('.progress-filled').remove();
-        const baseContainer = d3.select('.progress-bar-container');        
-        const bar = this.scaleBar();
-        this.drawFilledArea(d3.select('.g-container'), bar(this.props.data.current));
-    }
-
-    private drawRect(element: any) : void {
-        element.append('rect')
-            .attr('class', 'progress progress-baseline')
-            .attr('height', this.props.height)
-            .attr('width', this.props.width - 50)
-            .attr('rx', '10');
-    }
-
-    private drawFilledArea(element: any, width: number) {
-        element.append('rect')
-            .attr('class', this.props.progressClass ? this.props.progressClass : 'current-progress')
-            .attr('height', this.props.height)
-            .attr('width', width)
-            .attr('rx', '10');
-    }
-
-    private scaleBar() {
-        return d3.scaleLinear().domain([0, this.props.data.total]).range([0, (this.props.width - 50)]);
+        this.state = {
+            isParentMounted: false,
+            width: 0,
+            height: 0,
+            tipX: 0,
+            tipY: 0,
+            tipText: '',
+            isTipVisible: false
+        };
     }
 
     public render() {
+        const className = classNames('progress-bar-component', this.props.id);
+        const bar = this.scaleBar();
         return (
-            <div className={'progress-bar-component'}>
-                <div className={'progress-label'}>
-                    {this.props.title}
-                    {
-                        this.props.info &&
-                        <div className={'help-tip'}>
-                            <p>{this.props.info}</p>
-                        </div>
-                    }
-                </div>
-                <div className={'progress-bar-container'} ref={'container'}>
-                    <div width={40}>{this._calculatePercentage()}</div>
-                </div>
+            <div style={this.props.dimensions} className={className} ref={(element: HTMLDivElement) => this.init(element)}>
+                <Label className={classNames('progress-title', this.props.id)}>{this.props.title}</Label>
+                { this.state.isParentMounted && 
+                    <svg width={this.state.width} height={this.state.height}>
+                        <g>
+                            <rect className={'progress-baseline'} height={this.state.height} width={this.state.width} fill={'#ececec'}/>
+                            <rect 
+                                className={'progress-current'} 
+                                height={this.state.height}
+                                fill={this.props.progressColor}
+                                width={bar(this.props.data.current)}
+                            />
+                            <rect
+                                width={this.state.width}
+                                height={this.state.height}
+                                fill={'transparent'}
+                                onMouseOver={(event: React.MouseEvent<SVGRectElement>) => this.showTooltip(event.currentTarget)}
+                                onMouseOut={() => this.hideTooltip()}
+                                cursor={'pointer'}
+                            />
+                        </g>
+                        { this.props.info && 
+                            <Tooltip id={'progress-bar-tooltip'} x={this.state.tipX} y={this.state.tipY} text={this.state.tipText} visible={this.state.isTipVisible} />
+                        }
+                    </svg>
+                }
+                <Label className={classNames('percentage-label', this.props.id)}>{this.calculatePercentage()}</Label>
             </div>
         );
     }
 
-    private _calculatePercentage() : string {
+    private showTooltip(element: SVGRectElement) {
+        const x = this.state.width / 2;
+        const y = this.state.height / 2;
+        this.setState({ isTipVisible: true, tipText: this.props.info, tipX: x, tipY: y });
+    }
+
+    private hideTooltip() {
+        this.setState({ isTipVisible: false });
+    }
+
+    private init(element: HTMLDivElement) {
+        if (element === null) { return; }
+
+        let index = 2;
+        this.containerRef = element;
+
+        if (!this.state.isParentMounted) {
+            const sensor = new resizeSensor(element, () => this.onResize());
+            index = 1;
+        }
+
+        const dimensions = element.getBoundingClientRect();
+        let width = dimensions.width;
+
+        const height = dimensions.height;
+        this.labelHeight = element.children[0].getBoundingClientRect().height;
+
+        this.percentageWidth = element.children[index].getBoundingClientRect().width;
+        width = dimensions.width - this.percentageWidth;
+        
+        if (width !== this.state.width || (height - this.labelHeight) !== this.state.height) {
+            this.setState({ width: width, height: height - this.labelHeight, isParentMounted: true });
+        }
+    }
+
+    public componentWillUnmount() {
+        resizeSensor.detach(this.containerRef);
+    }
+
+    private onResize() {
+        const dimensions = this.containerRef.getBoundingClientRect();
+        this.setState({ width: this.containerRef.offsetWidth - this.percentageWidth, height: this.containerRef.offsetHeight - this.labelHeight });
+    }
+
+    private scaleBar() {
+        return d3.scaleLinear().domain([0, this.props.data.total]).range([0, this.state.width]);
+    }
+
+    private calculatePercentage() : string {
         const percentage = Math.floor( (this.props.data.current / this.props.data.total) * 100 );
         return percentage.toString() + '%';
     }

@@ -23,22 +23,14 @@ const basePlugins = [
   ]),
 ].concat(sourceMap);
 
-const devPlugins = [
-  // new HtmlWebpackPlugin({
-  //   template: './src/index.html',
-  //   inject: 'body',
-  // }),
+const devPlugins = [ 
 ];
 
 const prodPlugins = [
-  new SplitByPathPlugin([
-    { name: 'vendor', path: [path.join(__dirname, '..', 'node_modules/')] },
-  ]),
-  // new webpack.optimize.UglifyJsPlugin({
-  //   compress: {
-  //     warnings: false,
-  //   },
-  // }),
+  new webpack.optimize.CommonsChunkPlugin({
+             name: "Common", 
+             filename : "Common.js"           
+  })
 ];
 
 module.exports = basePlugins

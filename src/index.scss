@@ -113,6 +113,14 @@ $font-family-base: "Segoe UI WestEuropean","Segoe UI",-apple-system,BlinkMacSyst
     float: $direction;
 }
 
+@mixin disableUserSelection() {
+    user-select: none;
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
 ::-webkit-scrollbar {
        width: 13px;
        margin-top:10px;

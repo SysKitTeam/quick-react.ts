@@ -6,11 +6,7 @@ $border-color: #e8e9ef;
 
 .line-chart-component {
     display: inline-block;
-    user-select: none;
-    cursor: default;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+    @include disableUserSelection();
 
     .line-chart-title {
         text-align: center;

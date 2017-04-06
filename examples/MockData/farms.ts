@@ -1,4 +1,7 @@
 import { ICompactDashboardProps } from '../../src/components/CompactDashboard/CompactDashboard.Props';
+import { IDetailedServerProps, IProcessorUsage, IPartitionUsage, IMemoryUsage, IProcessorUsageData } from '../../src/components/DetailedServerTile/DetailedServerTile.Props';
+import { IDetailedServerGroup } from '../../src/components/DetailedServerGroup/DetailedServerGroup.Props';
+
 import { IFarm } from '../../src/models';
 
 export const classListExample = {
@@ -8,293 +11,93 @@ export const classListExample = {
     offline: 'offline'
 };
 
-
+const numOfServersOnFarm = [10, 15, 6, 8, 11, 30, 15, 61, 45, 7, 11];
 let roleListFarms = [{ display: 'WPF', iconName: 'icon-add' }, { display: 'WPF1111111', iconName: 'icon-add' }, { display: 'Not another', iconName: 'icon-add' }, { display: 'Search', iconName: 'icon-alert' }];
-export const farms: Array<IFarm> = [
-    {
-        id: { sqlInstance: 'instanca1', configDataBaseIcon: '', configDataBaseName: 'db1' },
-        name: 'farm1',
-        isCustom: false,
-        version: {
-            version: '14',
-            icon: 'icon-SharePoint'
-        },
-        servers: [
-            {
+function createFarms() {
+    let farms = [];
+    for (let farmIndex = 0; farmIndex <= numOfServersOnFarm.length; farmIndex++) {
+        let numOfServers = numOfServersOnFarm[farmIndex];
+        let servers = [];
+        for (let i = 0; i <= numOfServers; i++) {
+            servers.push({
                 id: {
-                    FQDN: 'FQDN1'
+                    FQDN: 'FQDN' + i
                 },
-                name: 'server1',
+                name: 'server ' + i,
                 roles: roleListFarms,
-                status: 1
+                status: Math.random() >= 0.5 ? 1 : 2
+            });
+        }
+        farms.push({
+            id: { sqlInstance: 'instance' + farmIndex, configDataBaseIcon: 'icon-sql_log', configDataBaseName: 'db' + farmIndex },
+            name: 'Demo Farm ' + farmIndex,
+            isCustom: Math.random() >= 0.5,
+            version: {
+                version: '14',
+                icon: 'icon-SharePoint'
             },
-            {
-                id: {
-                    FQDN: 'FQDN2'
-                },
-                name: 'server2',
-                roles: roleListFarms,
-                status: 2
-            },
-            {
-                id: {
-                    FQDN: 'FQDN3'
-                },
-                name: 'server3',
-                roles: roleListFarms,
-                status: 1
-            },
-            {
-                id: {
-                    FQDN: 'FQDN4'
-                },
-                name: 'server4',
-                roles: roleListFarms,
-                status: 2
-            },
-            {
-                id: {
-                    FQDN: 'FQDN5'
-                },
-                name: 'server5',
-                roles: roleListFarms,
-                status: 1
-            },
-            {
-                id: {
-                    FQDN: 'FQDN6'
-                },
-                name: 'server6',
-                roles: roleListFarms,
-                status: 2
-            },
-            {
-                id: {
-                    FQDN: 'FQDN7'
-                },
-                name: 'server7',
-                roles: roleListFarms,
-                status: 1
-            },
-            {
-                id: {
-                    FQDN: 'FQDN8'
-                },
-                name: 'server8',
-                roles: roleListFarms,
-                status: 2
-            },
-            {
-                id: {
-                    FQDN: 'FQDN9'
-                },
-                name: 'server9',
-                roles: roleListFarms,
-                status: 1
-            },
-            {
-                id: {
-                    FQDN: 'FQDN10'
-                },
-                name: 'server10',
-                roles: roleListFarms,
-                status: 2
-            }
-        ]
-    },
-    {
-        id: { sqlInstance: 'instanca2', configDataBaseIcon: '', configDataBaseName: 'db2' },
-        name: 'farm2',
-        isCustom: true,
-        version: {
-            version: '15',
-            icon: 'icon-SharePoint'
-        },
-        servers: [
-            {
-                id: {
-                    FQDN: 'FQDN1'
-                },
-                name: 'server1',
-                roles: roleListFarms,
-                status: 1
-            },
-            {
-                id: {
-                    FQDN: 'FQDN2'
-                },
-                name: 'server2',
-                roles: roleListFarms,
-                status: 2
-            },
-            {
-                id: {
-                    FQDN: 'FQDN3'
-                },
-                name: 'server1',
-                roles: roleListFarms,
-                status: 1
-            },
-            {
-                id: {
-                    FQDN: 'FQDN4'
-                },
-                name: 'server2',
-                roles: roleListFarms,
-                status: 2
-            },
-            {
-                id: {
-                    FQDN: 'FQDN5'
-                },
-                name: 'server1',
-                roles: roleListFarms,
-                status: 1
-            },
-            {
-                id: {
-                    FQDN: 'FQDN6'
-                },
-                name: 'server2',
-                roles: roleListFarms,
-                status: 2
-            },
-            {
-                id: {
-                    FQDN: 'FQDN7'
-                },
-                name: 'server1',
-                roles: roleListFarms,
-                status: 1
-            },
-            {
-                id: {
-                    FQDN: 'FQDN8'
-                },
-                name: 'server2',
-                roles: roleListFarms,
-                status: 2
-            },
-            {
-                id: {
-                    FQDN: 'FQDN9'
-                },
-                name: 'server1',
-                roles: roleListFarms,
-                status: 1
-            },
-            {
-                id: {
-                    FQDN: 'FQDN10'
-                },
-                name: 'server2',
-                roles: roleListFarms,
-                status: 2
-            }
-        ]
-    },
-    {
-        id: { sqlInstance: 'instanca3', configDataBaseIcon: '', configDataBaseName: 'db3' },
-        name: 'farm1',
-        isCustom: false,
-        version: {
-            version: '14',
-            icon: 'icon-SharePoint'
-        },
-        servers: [
-            {
-                id: {
-                    FQDN: 'FQDN4'
-                },
-                name: 'server2',
-                roles: roleListFarms,
-                status: 2
-            },
-            {
-                id: {
-                    FQDN: 'FQDN5'
-                },
-                name: 'server1',
-                roles: roleListFarms,
-                status: 1
-            },
-            {
-                id: {
-                    FQDN: 'FQDN6'
-                },
-                name: 'server2',
-                roles: roleListFarms,
-                status: 2
-            },
-            {
-                id: {
-                    FQDN: 'FQDN7'
-                },
-                name: 'server1',
-                roles: roleListFarms,
-                status: 1
-            },
-            {
-                id: {
-                    FQDN: 'FQDN8'
-                },
-                name: 'server2',
-                roles: roleListFarms,
-                status: 2
-            },
-            {
-                id: {
-                    FQDN: 'FQDN9'
-                },
-                name: 'server1',
-                roles: roleListFarms,
-                status: 1
-            },
-            {
-                id: {
-                    FQDN: 'FQDN10'
-                },
-                name: 'server2',
-                roles: roleListFarms,
-                status: 2
-            }
-        ]
-    },
-    {
-        id: { sqlInstance: 'instanca4', configDataBaseIcon: '', configDataBaseName: 'db4' },
-        name: 'farm2',
-        isCustom: true,
-        version: {
-            version: '15',
-            icon: 'icon-SharePoint'
-        },
-        servers: [
-            {
-                id: {
-                    FQDN: 'FQDN8'
-                },
-                name: 'server2',
-                roles: roleListFarms,
-                status: 2
-            },
-            {
-                id: {
-                    FQDN: 'FQDN9'
-                },
-                name: 'server1',
-                roles: roleListFarms,
-                status: 1
-            },
-            {
-                id: {
-                    FQDN: 'FQDN10'
-                },
-                name: 'server2',
-                roles: roleListFarms,
-                status: 2
-            }
-        ]
+            servers: servers
+        });
     }
+    return farms;
+}
+export const farms: Array<IFarm> = createFarms();
+
+
+const memoryUsage: IMemoryUsage = { usageUnit: 'MB', capacity: 1024, used: 300, status: 1 };
+
+function createProcessorUsages(): Array<IProcessorUsageData> {
+    let time = new Date();
+    time.setSeconds(0);
+    let cpuUsage = [];
+    for (let i = 0; i < 15; i++) {
+        cpuUsage.push({
+            time: new Date(time.getTime()),
+            usage: Math.round(Math.random() * 100)
+        });
+        time.setSeconds(time.getSeconds() + 20);
+    }
+    return cpuUsage;
+}
+
+const processorUsage: IProcessorUsage = {data: createProcessorUsages(), status: 1 } ;
+
+const partitionUsages: Array<IPartitionUsage> = [
+    { name: 'C', usageUnit: 'GB', capacity: 60, used: 55, status: 0 },
+    { name: 'D', usageUnit: 'GB', capacity: 200, used: 142.5, status: 1 },
+    { name: 'E', usageUnit: 'GB', capacity: 52.4, used: 33.2, status: 2 },
+    { name: 'F', usageUnit: 'GB', capacity: 550, used: 512, status: 0 }
 ];
+const roleList = [{ display: 'Web', iconName: 'icon-site2' }, { display: 'SQL', iconName: 'icon-sql_log' }, { display: 'FireWall', iconName: 'icon-logOut' }];
 
-
+export const DemoServerGroup: IDetailedServerGroup = {
+    id: { sqlInstance: 'instance', configDataBaseIcon: 'icon-sql_log', configDataBaseName: 'db' },
+    name: 'demo server group',
+    isCustom: Math.random() >= 0.5,
+    version: {
+        version: '14',
+        icon: 'icon-SharePoint'
+    },
+    servers: [
+        {
+            id: { FQDN: 'FQDN1' },
+            name: 'server1',
+            roles: roleListFarms,
+            status: Math.random() >= 0.5 ? 1 : 2,
+            numberOfUsers: '50111',
+            memoryUsage: memoryUsage,
+            partitionUsages: partitionUsages,
+            processorUsage: processorUsage,
+        },
+        {
+            id: { FQDN: 'FQDN2' },
+            name: 'server2',
+            roles: roleListFarms,
+            status: Math.random() >= 0.5 ? 1 : 2,
+            numberOfUsers: '2351',
+            memoryUsage: memoryUsage,
+            partitionUsages: partitionUsages,
+            processorUsage: processorUsage,
+        }
+    ]
+};

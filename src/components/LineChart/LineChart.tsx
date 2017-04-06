@@ -36,7 +36,7 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
         };
     }
 
-     public render() {
+    public render() {
         const props = objectAssign({}, this.props, {width: this.state.width, height: this.state.height});
         const componentClass = classNames('line-chart-component', this.props.id, this.props.className);
         const titleClass = classNames('line-chart-title', this.props.id, this.props.className);

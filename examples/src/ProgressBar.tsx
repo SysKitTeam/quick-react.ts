@@ -12,7 +12,14 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-                <ProgressBar title={'RAM'} width={400} height={20} data={{ total: 15999, current: 12560 }}></ProgressBar>
+                <ProgressBar
+                    id={'progress-bar-1'}
+                    title={'RAM'} 
+                    dimensions={{ height: '50px', width: '100%' }}
+                    info={'12560 of 15999 GB Used'}
+                    data={{ total: 15999, current: 12560 }}
+                    showTooltip={true}
+                />
             </div>
         );
     };
