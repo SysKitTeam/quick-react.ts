@@ -29,6 +29,7 @@ export interface ICurrentPathItem {
     name: string;
     key: string;
     index: number;
+    url: string;
     selected: boolean;
     siblings?: Array<ICurrentPathItem>;
     onClick?: (ev?: React.MouseEvent<any>, item?: any) => void;

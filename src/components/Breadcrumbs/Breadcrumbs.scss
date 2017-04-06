@@ -1,6 +1,20 @@
  @import '../../index.scss';
 
-$Breadcrumb-overflowButtonSize: 16px;
+.callout-main {
+    @include disableUserSelection();
+    ul {
+        font-size: 13px;
+        li {
+            cursor: pointer;
+            padding: 5px;
+            text-align: center;
+
+            &:hover {
+                background-color: lightblue;
+            }
+        }
+    }
+}
 
 .breadcrumbs {
     @include baseFont();
@@ -11,6 +25,10 @@ $Breadcrumb-overflowButtonSize: 16px;
         white-space: nowrap;
         padding: 0;
         margin: 0;
+
+        div { 
+            display: inline-block; 
+        }
     }
 
     .breadcrumbs-list-item {
@@ -45,17 +63,5 @@ $Breadcrumb-overflowButtonSize: 16px;
         &:hover {
             color: $secondary-color;
         }
-    }
-
-    .breadcrumbs-overflow {
-        display: inline-block;
-        position: relative;
-    }
-
-    .breadcrumb-overflowButton {
-        font-size: $Breadcrumb-overflowButtonSize;
-        display: inline-block;
-        cursor: pointer;
-        vertical-align: top;
     }
 }

@@ -5,6 +5,8 @@ import { Icon } from '../../components/Icon/Icon';
 import { autobind } from '../../utilities/autobind';
 import { ContextualMenu } from '../ContextualMenu/ContextualMenu';
 import { DirectionalHint } from '../../utilities/DirectionalHint';
+import { Dropdown } from '../Dropdown/Dropdown';
+import { DropdownType, IDropdownOption } from '../Dropdown/Dropdown.Props';
 import { ICurrentPathItem } from './Breadcrumbs.props';
 import './Breadcrumbs.scss';
 
@@ -23,22 +25,20 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
         };
     }
 
+    public componentWillReceiveProps(nextProps: IBreadcrumbsProps, nextState: any) {
+        const newState = this.getDisplayItemsFromProps(nextProps);
+        this.setState({ currentPath: newState });
+    }
+
     public render(): JSX.Element {
         const paths = this.state.currentPath.map((item, index) => {
                 const iconName = item.selected ? 'icon-arrow_down_right' : 'icon-arrow_right';
                 return (
                     <li className={'breadcrumbs-list-item'} key={index} >
-                        <Icon iconName={iconName} onClick={this.handlePathClick.bind(this, item)}/>
-                        <a className={'breadcrumbs-item-link'} onClick={() => this.props.onPathClick(this.constructPath(item.index))}>{item.name}</a>
-                        {item.selected &&  
-                            <ContextualMenu
-                                    target={ this.state.overflowAnchor }
-                                    isBeakVisible={ true }
-                                    items={item.siblings}
-                                    id={ null }
-                                    directionalHint={ DirectionalHint.bottomLeftEdge }
-                                    onDismiss={this.handleContextDismiss.bind(this, item)} /> 
-                        }
+                        <Dropdown dropdownType={DropdownType.customDropdown} icon={iconName}>
+                            {this.mapSiblingsToMenu(item.siblings)}
+                        </Dropdown>
+                        <a className={'breadcrumbs-item-link'} onClick={() => this.props.onPathClick(item.url)}>{item.name}</a>
                     </li>
                 );
             }
@@ -49,17 +49,27 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
                 <ul className={'breadcrumbs-list'}>{paths}</ul>
             </div>
         );
-    };
+    }
 
-    @autobind
-    private handleContextDismiss(item, ev: React.MouseEvent<HTMLElement>) {
+    private mapSiblingsToMenu(siblings: Array<ICurrentPathItem>) {
+        return siblings.map((sibling, index) => {
+            return <li key={index} onClick={() => this.props.onPathClick(sibling.url)}>{sibling.name}</li>;
+        });
+    }
+
+    private handlePathClick(item, ev: React.MouseEvent<HTMLElement>) {
+        let currentSelected;
         const newPath = this.state.currentPath.map((path) => {
             if (path.index === this.state.currentSelected) {
+                currentSelected = null;
                 return objectAssign({}, path, { selected: false });
+            } else if (path.index === item.index) {
+                currentSelected = item.index;
+                return objectAssign({}, path, { selected: !path.selected });
             }
             return path;
         });
-        this.setState({ currentPath: newPath, currentSelected: null, overflowAnchor: null });
+        this.setState({ currentPath: newPath, currentSelected: currentSelected, overflowAnchor: ev.currentTarget });
     }
 
     private getDisplayItemsFromProps(props: IBreadcrumbsProps): Array<ICurrentPathItem> {
@@ -68,43 +78,26 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
             elements = Array<ICurrentPathItem>(0),
             siblings = Array<ICurrentPathItem>(0),
             target,
-            targetIndex;
+            targetIndex,
+            path = '';
         for (let i = 0; i < paths.length; i++) {
             let key = paths[i];
+            let targetPath;
             for (let j = 0; j < currentLevel.length; j++) {
                 const item = currentLevel[j];
-                if (key === currentLevel[j].key) {
-                    target = { name: item.displayName, key: item.key, index: i, selected: false, siblings: null };
+                if (key === item.key) {
+                    target = { name: item.displayName, key: item.key, index: i, selected: false, siblings: null, url: path + '/' + item.key };
                     targetIndex = j;
+                    targetPath = item.key;
                 } else {
-                    siblings.push({ name: item.displayName, key: item.key, index: i, selected: false, onClick: () => this.props.onPathClick(this.constructPath(j)) });
+                    siblings.push({ name: item.displayName, key: item.key, index: i, selected: false, url: path + '/' + item.key });
                 }
             }
+            path += '/' + targetPath;
             elements.push(objectAssign({}, target, {siblings: siblings}));
             currentLevel = currentLevel[targetIndex].children;
             siblings = Array(0);
         }
         return elements;
     }
-
-    @autobind
-    private handlePathClick(item, ev: React.MouseEvent<HTMLElement>) {
-        const newPath = this.state.currentPath.map((path) => {
-            if (path.index === item.index) {
-                return objectAssign({}, path, { selected: !item.selected });
-            }
-            if (path.index === this.state.currentSelected) {
-                return objectAssign({}, path, { selected: false });
-            }
-            return path;
-        });
-        this.setState({ currentPath: newPath, currentSelected: item.index, overflowAnchor: ev.currentTarget });
-    }
-
-    private constructPath(clickedIndex: number) {
-        let path = '/';
-        let i;
-        for (i = 0; i < clickedIndex; i++) { path += this.state.currentPath[i].key + '/'; }
-        return path + this.state.currentPath[i].key;
-    }
-};
+}

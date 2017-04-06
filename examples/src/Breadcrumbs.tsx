@@ -64,10 +64,19 @@ const items = [
 ];
 
 export class Index extends React.Component<any, any> {
+    constructor(props) {
+        super(props);
+        this.state = {
+            url: '/performance/07bf612a-1354-4269-9339-bbca5ecca246/1'
+        };
+
+        setTimeout(() => this.setState({ url: '/eventViewer/1db521f3-f28a-427f-8dec-8aadf5224ce7/6353dfd5-62ae-43fb-95b1-793069970c16' }), 1000);
+    }
+
     public render() {
         return (
             <div>
-                <Breadcrumbs items={items} url={'/performance/07bf612a-1354-4269-9339-bbca5ecca246/1'} onPathClick={(path) => console.log(path)} />
+                <Breadcrumbs items={items} url={this.state.url} onPathClick={(path) => console.log(path)} />
             </div>
         );
     };
