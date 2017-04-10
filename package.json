@@ -6,7 +6,7 @@
   "typings": "./lib/index",
   "scripts": {
     "build": "tsc -p . && gulp build",
-    "lib": "cross-env NODE_ENV=production webpack",  
+    "lib": "cross-env NODE_ENV=production webpack",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --no-info --content-base examples/pages",
     "prepublish": "npm run build"
   },
@@ -22,10 +22,12 @@
     "classnames": "2.2.5",
     "css-element-queries": "0.4.0",
     "d3": "4.5.0",
+    "moment": "2.18.1",
     "node-sass": "3.13.0",
     "object-assign": "4.1.1",
     "react": "15.4.2",
     "react-addons-shallow-compare": "15.4.2",
+    "react-datetime": "^2.8.9",
     "react-dom": "15.4.2",
     "react-redux": "5.0.2",
     "react-virtualized": "9.0.3",
