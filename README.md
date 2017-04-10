@@ -1,5 +1,5 @@
 # quick-react-ts
-quick-react-ts is a collection of useful React components. You will find different components ranging from commonly used checkbox components to highly focused dashboard components.
+quick-react-ts is a collection of useful React components. You will find different components ranging from commonly used checkbox components to highly focused dashboard components. The working examples can be found [here](https://acceleratio.github.io/quick-react.ts/)
 
 ## Installation
 We recommend to clone this repository locally and build the current quick-react-ts version.
