@@ -27,6 +27,10 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
         this.setState({ currentPath: currentPath });
     }
 
+    public componentWillUnmount() {
+        this._dropdown = Array(0);
+    }
+
     public render(): JSX.Element {
         const paths = this.state.currentPath.map((item, index) => {
                 const iconName = item.selected ? this.props.iconNameExpanded : this.props.iconNameCollapsed;
@@ -38,7 +42,7 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
                             dropdownType={DropdownType.customDropdown} 
                             icon={iconName} 
                             onClosed={() => this.closeMenu(item)} 
-                            onMenuToggle={(willOpen) => this.openMenu(item, willOpen)}
+                            onMenuToggle={(willOpen) => this.menuToggle(item, willOpen)}
                         >
                             {this.mapSiblingsToMenu(item.siblings)}
                         </Dropdown>
@@ -60,6 +64,7 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
 
     @autobind
     private setDropdownReference(dropdown) {
+        if (dropdown === null) { return; }
         this._dropdown.push(dropdown);
     }
 
@@ -85,7 +90,8 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
         this.setState({ currentPath: newPath });
     }
 
-    private openMenu(item: ICurrentPathItem, willOpen: boolean) {
+    private menuToggle(item: ICurrentPathItem, willOpen: boolean) {
+        this._dropdown = Array(0);
         const newPath = this.state.currentPath.map((path) => {
             if (item.index === path.index) {
                 return objectAssign({}, path, { selected: willOpen });
@@ -96,7 +102,9 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
     }
 
     private getDisplayItemsFromProps(props: IBreadcrumbsProps): Array<ICurrentPathItem> {
-        const paths = props.url.slice(1, props.url.length).split('/');
+        const url = props.url.slice(0, 1) === '/' ? props.url.slice(1, props.url.length) : props.url;
+
+        const paths = url.split('/');
 
         let currentLevel = props.items,
             elements = Array<ICurrentPathItem>(0),
