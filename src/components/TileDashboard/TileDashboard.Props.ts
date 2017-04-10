@@ -48,5 +48,5 @@ export interface ITileDashboardProps {
     /**
     * Action is call when the server is clicked. The server ID is supplied.
     */
-    serverOnClick?: (serverId: any) => void;
+    serverOnClick?: (groupId: any, serverId: any) => void;
 }
