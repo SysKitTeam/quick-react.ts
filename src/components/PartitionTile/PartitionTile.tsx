@@ -12,11 +12,10 @@ export class PartitionTile extends React.PureComponent<IPartitionTileProps, any>
     public render() {
         let className = GetClassForStatus('', this.props.usage.status);
         return (
-            <div className={classNames(className, this.props.usage.className)} >
+            <div className={classNames(className, this.props.usage.className, this.props.className)} >
                 <Label className="server-name">{this.props.usage.name}</Label>
                 <Label>{this.props.usage.used}/ {this.props.usage.capacity} {this.props.usage.usageUnit}</Label>
                 <PieChart
-                    id={'partition-usage-chart-' + this.props.usage.id}
                     dimensions={{ width: '100%', height: '70px' }}
                     data={this.transformPartitionData(this.props.usage)}
                     colors={this.getColorsByStatus(this.props.usage.status)}
