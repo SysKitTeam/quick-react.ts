@@ -24,5 +24,6 @@ export interface ICurrentPathItem {
     index: number;
     url: string;
     selected: boolean;
+    children?: Array<ICurrentPathItem>;
     siblings?: Array<ICurrentPathItem>;
 }

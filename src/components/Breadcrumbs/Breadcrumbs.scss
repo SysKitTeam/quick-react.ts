@@ -21,9 +21,18 @@
 .breadcrumbs {
     @include baseFont();
     @include disableUserSelection();
-    margin-top: 25px;
+    
+    .icon-home {
+        vertical-align: sub;
+        cursor: pointer;
+
+        &:hover {
+            color: $secondary-color;
+        }
+    }
 
     .breadcrumbs-list {
+        display: inline-block;
         white-space: nowrap;
         padding: 0;
         margin: 0;
@@ -46,6 +55,10 @@
         .icon {
             margin: 0;
             cursor: pointer;
+
+            &:hover {
+                color: $secondary-color;
+            }
         }
 
         div {
