@@ -7,7 +7,8 @@ export interface IDetailedServerGroup extends IFarm {
 }
 
 export interface IDetailedServerGroupProps {
+  id: string;
   serverGroup: IDetailedServerGroup;
-  filter?: string;
-  serverOnClick?: (serverId: any) => void;
+  filter: string;
+  serverOnClick?: (groupId: any, serverId: any) => void;
 }

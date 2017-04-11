@@ -19,7 +19,7 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-                <DetailedServerGroup serverGroup={this.state.farm} filter={''} />              
+                <DetailedServerGroup id={''} serverGroup={this.state.farm} filter={''} />              
             </div>
         );
     };  

@@ -47,6 +47,6 @@ export interface ICompactDashboardProps {
   */
   groupOnClick?: (groupId: any) => void;
 
-  serverOnClick?: (serverId: any) => void;
+  serverOnClick?: (groupId: any, serverId: any) => void;
 }
 
