@@ -36,7 +36,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                     />
                 <div className={'counters-container'}>
                     <LineChart
-                        title={'CPU USAGE'}
+                        title={'CPU'}
                         dimensions={{ width: '100%', height: '220px' }}
                         series={cpuDataProp}
                         tickValues={[cpuData[0].argument, cpuData[cpuData.length - 1].argument]}
