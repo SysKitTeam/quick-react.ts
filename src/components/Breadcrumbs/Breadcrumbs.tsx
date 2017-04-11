@@ -73,7 +73,7 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
 
         return (
             <div className={'breadcrumbs'}>
-                <Icon iconName={'icon-home'} />
+                <Icon iconName={'icon-home'} onClick={() => this.props.onPathClick(this.props.homeUrl)} />
                 <ul className={'breadcrumbs-list'}>{paths}</ul>
             </div>
         );
