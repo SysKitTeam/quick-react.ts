@@ -103,6 +103,7 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
     }
 
     private handleLastDropdownClick(child: ICurrentPathItem) {
+        this._lastPicked = false;
         this.props.onPathClick(child.url);
         this._dropdown[this._dropdown.length - 1].closeDropdown();
     }
