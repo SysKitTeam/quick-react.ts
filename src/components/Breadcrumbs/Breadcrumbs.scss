@@ -1,23 +1,5 @@
  @import '../../index.scss';
 
-.breadcrumbs-dropdown {
-    .callout-main {
-        @include disableUserSelection();
-        ul {
-            font-size: 13px;
-            li {
-                cursor: pointer;
-                padding: 5px;
-                text-align: center;
-
-                &:hover {
-                    background-color: lightblue;
-                }
-            }
-        }
-    }
-}
-
 .breadcrumbs {
     @include baseFont();
     @include disableUserSelection();

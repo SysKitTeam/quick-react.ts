@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Breadcrumbs } from './Breadcrumbs';
+import { IBreadcrumbsChild } from './BreadcrumbsItem.Props';
 
 export interface IBreadcrumbsProps extends React.Props<any> {
     items: IBreadcrumbItem[];
     className?: string;
     url: string;
-    homeUrl: string;
     onPathClick: (path: string) => void;  // return constructed url
     iconNameCollapsed?: string;
     iconNameExpanded?: string;
@@ -21,10 +21,8 @@ export interface IBreadcrumbItem extends React.Props<any> {
 
 export interface ICurrentPathItem {
     name: string;
-    key: string;
-    index: number;
     url: string;
-    selected: boolean;
-    children?: Array<ICurrentPathItem>;
-    siblings?: Array<ICurrentPathItem>;
+    iconName?: string;
+    text?: string;
+    children: Array<IBreadcrumbsChild>;
 }
