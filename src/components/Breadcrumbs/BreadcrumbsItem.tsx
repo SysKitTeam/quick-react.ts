@@ -57,6 +57,9 @@ export class BreadcrumbsItem extends React.Component<IBreadcrumbsItemProps, any>
                         {this.mapChildrenToMenu(children)}
                     </Dropdown>
                 }
+                {/*{
+                    !children && <div style={{ width: 34, height: 41, display: 'inline-block', boxSizing: 'border-box' }} />
+                }*/}
             </div>
         );
     }

@@ -27,6 +27,11 @@
 
     @include disableUserSelection();
 
+    .icon {
+        margin-top: 4px;
+        vertical-align: middle;
+    }
+
     .breadcrumbs-item-label {
         display: inline-block;
         font-weight: 500;
@@ -36,7 +41,8 @@
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
-        vertical-align: sub;
+        vertical-align: middle;
+        margin-top: 8px;
         cursor: pointer;
         text-decoration: none;
 
@@ -47,6 +53,7 @@
 
     div:nth-child(2) {
         display: inline-block;
+        vertical-align: sub;
     }
 
     .icon:hover {
