@@ -9,6 +9,12 @@ import { GetClassForStatus } from '../../utilities/server';
 import * as classNames from 'classnames';
 
 export class PartitionTile extends React.PureComponent<IPartitionTileProps, any> {
+    public static defaultProps = {
+        okColor: '#7DC458',
+        warningColor: '#EAC71A',
+        criticalColor: '#fb6464'
+    };
+
     public render() {
         let className = GetClassForStatus('', this.props.usage.status);
         return (
@@ -19,7 +25,7 @@ export class PartitionTile extends React.PureComponent<IPartitionTileProps, any>
                     dimensions={{ width: '100%', height: '70px' }}
                     data={this.transformPartitionData(this.props.usage)}
                     colors={this.getColorsByStatus(this.props.usage.status)}
-                    tipText={(d: IPieChartData) => (d.label + ' : ' + d.value + ' ' + this.props.usage.usageUnit)}
+                    tipText={(d: IPieChartData) => (d.label + ': ' + d.value + ' ' + this.props.usage.usageUnit)}
                     showLegend={false} />
             </div>
         );
@@ -34,11 +40,11 @@ export class PartitionTile extends React.PureComponent<IPartitionTileProps, any>
         let colors = Array(2);
         colors[1] = '#ececec';
         if (status === ServerStatus.Critical) {
-            colors[0] = '#fb6464';
+            colors[0] = this.props.criticalColor;
         } else if (status === ServerStatus.Warning) {
-            colors[0] = '#EAC71A';
+            colors[0] = this.props.warningColor;
         } else {
-            colors[0] = '#7DC458';
+            colors[0] = this.props.okColor;
         }
         return colors;
     }

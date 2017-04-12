@@ -16,6 +16,12 @@ import { ServerHeader } from '../ServerHeader/ServerHeader';
 import './DetailedServerTile.scss';
 
 export class DetailedServerTile extends React.PureComponent<IDetailedServerProps, any> {
+    public static defaultProps = {
+        okColor: '#7DC458',
+        warningColor: '#EAC71A',
+        criticalColor: '#fb6464'
+    };
+
     public render() {
         const className = GetClassForStatus('server-details', this.props.status);
         const partitionTileClass = this.props.partitionUsages.length === 1 ? 'partition-tile' : 'partition-col';
@@ -89,11 +95,11 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
     private getProgressColor() {
         let status = this.props.memoryUsage.status;
         if (status === ServerStatus.Critical) {
-            return '#fb6464';
+            return this.props.criticalColor;
         } else if (status === ServerStatus.Warning) {
-            return '#EAC71A';
+            return this.props.warningColor;
         } else if (status === ServerStatus.OK) {
-            return '#7DC458';
+            return this.props.okColor;
         }
         return undefined;
     }
