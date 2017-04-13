@@ -7,6 +7,9 @@ export interface IDetailedServerProps extends ISharePointServer {
     partitionUsages?: Array<IPartitionUsage>;
     processorUsage?: IProcessorUsage;
     serverOnClick?: (serverId: any) => void;
+    criticalColor?: string;
+    warningColor?: string;
+    okColor?: string;
 }
 
 export interface IProcessorUsage {
