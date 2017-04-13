@@ -6,7 +6,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Label } from './../../src/components/Label/Label';
 import { Breadcrumbs } from './../../src/components/Breadcrumbs/Breadcrumbs';
-import { BreadcrumbItem } from './../../src/components/Breadcrumbs/BreadcrumbsItem';
+import { BreadcrumbItem } from './../../src/components/Breadcrumbs/BreadcrumbItem';
 
 const items = [
     { displayName: 'Home', key: 'home' },
