@@ -1,0 +1,147 @@
+ @import '../../index.scss';
+
+$tile-dashboard-background: $background-color;
+$server-status-color: $basic-text-color;
+$background-color: $background-color;
+
+.ReactVirtualized__Table__headerRow {
+  font-weight: 700;
+  text-transform: uppercase;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+     -moz-box-orient: horizontal;
+     -moz-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-align-items: center;
+     -moz-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.ReactVirtualized__Table__row {
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+     -moz-box-orient: horizontal;
+     -moz-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-align-items: center;
+     -moz-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.ReactVirtualized__Table__headerTruncatedText {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.ReactVirtualized__Table__headerColumn,
+.ReactVirtualized__Table__rowColumn {
+  margin-right: 10px;
+  min-width: 0px;
+}
+.ReactVirtualized__Table__rowColumn {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ReactVirtualized__Table__headerColumn:first-of-type,
+.ReactVirtualized__Table__rowColumn:first-of-type {
+  margin-left: 10px;
+}
+.ReactVirtualized__Table__sortableHeaderColumn {
+  cursor: pointer;
+}
+
+.ReactVirtualized__Table__sortableHeaderIconContainer {
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+     -moz-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.ReactVirtualized__Table__sortableHeaderIcon {
+  -webkit-flex: 0 0 24px;
+     -moz-box-flex: 0;
+      -ms-flex: 0 0 24px;
+          flex: 0 0 24px;
+  height: 1em;
+  width: 1em;
+  fill: currentColor;
+}
+
+.server-grid-dashboard-container{
+    @include baseFont();
+    width: 100%;
+    height: 100%;
+    
+    overflow-y: auto;
+
+    .farm{
+        margin-top: 60px;
+        margin-bottom: 0px;   
+    }
+    .Table {
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .headerRow,
+    .evenRow,
+    .oddRow {
+        border-bottom: 1px solid #e0e0e0;        
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+    .oddRow {
+        background-color: #fafafa;
+    }
+
+    .headerColumn {
+        text-transform: none;       
+        font-weight: 700; 
+            
+    }
+    .exampleColumn {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        // flex: 0 1 60px;  
+    }
+
+    .checkboxLabel {
+        margin-left: .5rem;
+    }
+    .checkboxLabel:first-of-type {
+        margin-left: 0;
+    }
+
+    .noRows {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1em;
+        color: #bdbdbd;
+    }
+
+}
+

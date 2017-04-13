@@ -47,7 +47,7 @@ export function getServerMeasures(serverMeasures: Array<IMeasure>) {
 }
 
 const emptyValueString = '--';
-function convertDisk(measure: IMeasure): ITileData {
+export function convertDisk(measure: IMeasure): ITileData {
     let disk = measure as DiskMeasure;
     let usageUnit = '';
     let value = emptyValueString;
@@ -69,7 +69,7 @@ function convertDisk(measure: IMeasure): ITileData {
     };
 }
 
-function convertNetwork(measure: IMeasure): ITileData {
+export function convertNetwork(measure: IMeasure): ITileData {
     let network = measure as NetworkMeasure;
     let usageUnit = '';
     let value = emptyValueString;
@@ -91,7 +91,7 @@ function convertNetwork(measure: IMeasure): ITileData {
     };
 }
 
-function convertRam(measure: IMeasure): ITileData {
+export function convertRam(measure: IMeasure): ITileData {
     let ram = measure as RamMeasure;
     let used = emptyValueString;
     let capacity = '';
@@ -118,7 +118,7 @@ function convertRam(measure: IMeasure): ITileData {
     };
 }
 
-function convertCPU(measure: IMeasure): ITileData {
+export function convertCPU(measure: IMeasure): ITileData {
     let cpu = measure as CpuMeasure;
     let usage = emptyValueString;
     let usageUnit = '';

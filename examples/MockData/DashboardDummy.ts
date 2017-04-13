@@ -54,6 +54,7 @@ export function convertFarm(farm: IFarm): ITiledDashboardFarm {
         }
         return {
             id: server.id,
+            numberOfUsers:  Math.round(Math.random() * 1000).toString(),
             name: server.name,
             onClose: server.onClose,
             onRoleChange: server.onRoleChange,
