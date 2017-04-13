@@ -2,8 +2,8 @@ import * as React from 'react';
 import { autobind } from '../../utilities/autobind';
 import { IBreadcrumbsProps, IBreadcrumbItem, ICurrentPathItem } from './Breadcrumbs.Props';
 import './Breadcrumbs.scss';
-import { IBreadcrumbChild } from './BreadcrumbsItem.Props';
-import { BreadcrumbItem } from './BreadcrumbsItem';
+import { IBreadcrumbChild } from './BreadcrumbItem.Props';
+import { BreadcrumbItem } from './BreadcrumbItem';
 import { Icon } from '../Icon/Icon';
 
 const objectAssign = require('object-assign');

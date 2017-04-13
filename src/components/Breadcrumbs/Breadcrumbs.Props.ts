@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Breadcrumbs } from './Breadcrumbs';
-import { IBreadcrumbChild } from './BreadcrumbsItem.Props';
+import { IBreadcrumbChild } from './BreadcrumbItem.Props';
 
 export interface IBreadcrumbsProps extends React.Props<any> {
     items: IBreadcrumbItem[];
