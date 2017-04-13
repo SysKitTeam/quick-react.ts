@@ -1,16 +1,16 @@
-export interface IBreadcrumbsItemProps {
+export interface IBreadcrumbItemProps {
     displayName: string;
     url: string;
     text?: string;
     iconName?: string;
     className?: string;
-    children?: Array<IBreadcrumbsChild>;
+    children?: Array<IBreadcrumbChild>;
     iconExpanded?: string;
     iconCollapsed?: string;
     onClick: (url: string) => void;
 }
 
-export interface IBreadcrumbsChild {
+export interface IBreadcrumbChild {
     displayName: string;
     url: string;
 }

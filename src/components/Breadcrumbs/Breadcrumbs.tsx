@@ -2,8 +2,8 @@ import * as React from 'react';
 import { autobind } from '../../utilities/autobind';
 import { IBreadcrumbsProps, IBreadcrumbItem, ICurrentPathItem } from './Breadcrumbs.Props';
 import './Breadcrumbs.scss';
-import { IBreadcrumbsChild } from './BreadcrumbsItem.Props';
-import { BreadcrumbsItem } from './BreadcrumbsItem';
+import { IBreadcrumbChild } from './BreadcrumbsItem.Props';
+import { BreadcrumbItem } from './BreadcrumbsItem';
 import { Icon } from '../Icon/Icon';
 
 const objectAssign = require('object-assign');
@@ -24,7 +24,7 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
                         items.map((item, index) => {
                             return (
                                 <li className={'breadcrumbs-list-item'} key={index}>
-                                    <BreadcrumbsItem
+                                    <BreadcrumbItem
                                         displayName={item.name} 
                                         text={item.text} 
                                         url={item.url}
@@ -75,7 +75,7 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
                     if (item.children) {
                         const currentUrl = path + '/' + item.key + '/';
                         children = item.children.map((item, index) => {
-                            const currentItem: IBreadcrumbsChild = {
+                            const currentItem: IBreadcrumbChild = {
                                 displayName: item.displayName,
                                 url: currentUrl + item.key,
                             };
@@ -97,7 +97,7 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
     }
 
     private getFirstLevelFromProps(props: IBreadcrumbsProps) : ICurrentPathItem {
-        let children = Array<IBreadcrumbsChild>(0);
+        let children = Array<IBreadcrumbChild>(0);
         for (let i = 0; i < props.items.length; i++) {
             const item = props.items[i];
             children.push(

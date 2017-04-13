@@ -5,10 +5,10 @@ import { Dropdown } from '../Dropdown/Dropdown';
 import { autobind } from '../../utilities/autobind';
 import { DropdownType } from '../Dropdown/Dropdown.Props';
 import * as classNames from 'classnames';
-import { IBreadcrumbsItemProps, IBreadcrumbsChild } from './BreadcrumbsItem.Props';
+import { IBreadcrumbItemProps, IBreadcrumbChild } from './BreadcrumbsItem.Props';
 import './BreadcrumbsItem.scss';
 
-export class BreadcrumbsItem extends React.Component<IBreadcrumbsItemProps, any> {
+export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
     private _dropdown;
 
      public static defaultProps = {
@@ -66,13 +66,13 @@ export class BreadcrumbsItem extends React.Component<IBreadcrumbsItemProps, any>
         this._dropdown = dropdown;
     }
 
-    private mapChildrenToMenu(children: Array<IBreadcrumbsChild>) {
+    private mapChildrenToMenu(children: Array<IBreadcrumbChild>) {
         return children.map((child, index) => {
             return <li key={index} onClick={() => this.handleChildClick(child)}>{child.displayName}</li>;
         });
     }
 
-    private handleChildClick(child: IBreadcrumbsChild) {
+    private handleChildClick(child: IBreadcrumbChild) {
         this.props.onClick(child.url);
         this.closeDropdown();
         this.setState({ isMenuOpen: false });

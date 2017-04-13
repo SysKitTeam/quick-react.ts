@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Breadcrumbs } from './Breadcrumbs';
-import { IBreadcrumbsChild } from './BreadcrumbsItem.Props';
+import { IBreadcrumbChild } from './BreadcrumbsItem.Props';
 
 export interface IBreadcrumbsProps extends React.Props<any> {
     items: IBreadcrumbItem[];
@@ -24,5 +24,5 @@ export interface ICurrentPathItem {
     url: string;
     iconName?: string;
     text?: string;
-    children: Array<IBreadcrumbsChild>;
+    children: Array<IBreadcrumbChild>;
 }
