@@ -42,7 +42,7 @@ export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
                 }
                 </div>
                 {
-                    children &&
+                    (children.length !== 0) &&
                     <Dropdown
                         className={'breadcrumbs-dropdown'}
                         ref={this.setDropdownReference}

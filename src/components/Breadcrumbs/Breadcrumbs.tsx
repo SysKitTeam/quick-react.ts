@@ -87,6 +87,8 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
                             };
                             return currentItem;
                         });
+                    } else {
+                        children = Array(0);
                     }
                     break;
                 }
