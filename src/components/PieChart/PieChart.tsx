@@ -7,6 +7,7 @@ import './PieChart.scss';
 
 const objectAssign = require('object-assign');
 const ResizeSensor = require('css-element-queries/src/ResizeSensor');
+const Guid = require('guid');
 
 export class PieChart extends React.PureComponent<IPieChartProps, any> {
     public static defaultProps = {
@@ -14,7 +15,7 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         text: '',
         colors: d3.schemeCategory20,
         tipText: (data: IPieChartData) => data.label + ' : ' + data.value,
-        showLegend: false
+        showLegend: false,
     };
 
     private containerRef : HTMLDivElement;
@@ -25,7 +26,8 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         this.state = {
             chartWidth: 0,
             chartHeight: 0,
-            isParentMounted: false
+            isParentMounted: false,
+            chartId: 'pie-' + Guid.raw()
         };
     };
 
@@ -35,14 +37,14 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
     private createColorPallette = () => d3.scaleOrdinal(this.props.colors);
 
     public render() {
-        const pieComponentClass = classNames('pie-chart-component', this.props.id);
+        const pieComponentClass = classNames('pie-chart-component', this.state.chartId);
         
         const props = objectAssign({}, 
             {
                 width: this.state.chartWidth, 
                 height: this.state.chartHeight, 
                 data: this.transformData(),
-                id: this.props.id,
+                id: this.state.chartId,
                 colors: this.props.colors,
                 tipText: this.props.tipText
             }
@@ -88,7 +90,7 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
      * Creates legend for chart based on given data.
      */
     private renderLegend(data: Array<IPieChartData>) : JSX.Element {
-        const legendClass = classNames('pie-chart-legend', this.props.id);
+        const legendClass = classNames('pie-chart-legend', this.state.chartId);
         const color = this.createColorPallette();
         const legend = data.map(
             (d: IPieChartData, index: number) =>

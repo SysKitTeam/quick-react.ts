@@ -13,7 +13,6 @@ export class Index extends React.Component<any, any> {
         return (
             <div>
                 <ProgressBar
-                    id={'progress-bar-1'}
                     title={'RAM'} 
                     dimensions={{ height: '50px', width: '100%' }}
                     info={'12560 of 15999 GB Used'}

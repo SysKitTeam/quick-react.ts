@@ -11,10 +11,17 @@ import { ProgressBar } from '../ProgressBar/ProgressBar';
 import { GetClassForStatus } from '../../utilities/server';
 import { PartitionTile } from '../PartitionTile';
 import * as classNames from 'classnames';
+import { ServerHeader } from '../ServerHeader/ServerHeader';
 
 import './DetailedServerTile.scss';
 
 export class DetailedServerTile extends React.PureComponent<IDetailedServerProps, any> {
+    public static defaultProps = {
+        okColor: '#7DC458',
+        warningColor: '#EAC71A',
+        criticalColor: '#fb6464'
+    };
+
     public render() {
         const className = GetClassForStatus('server-details', this.props.status);
         const partitionTileClass = this.props.partitionUsages.length === 1 ? 'partition-tile' : 'partition-col';
@@ -22,15 +29,20 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
         const cpuData = cpuDataProp[0].data;
         return (
             <div className={classNames(className)} onClick={this.serverOnClick}>
+                 {this.props.onClose &&
+                    <Icon disabled={false}
+                        className={'dialog-button dialog-button-close'}
+                        onClick={this.props.onClose}
+                        iconName={'icon-delete'} />
+                }
                 <ServerHeader
-                    name={this.props.name}
+                    serverName={this.props.name}
                     numberOfUsers={this.props.numberOfUsers}
                     roles={this.props.roles}
                     />
                 <div className={'counters-container'}>
                     <LineChart
-                        title={'CPU USAGE'}
-                        id={'cpu-counter-' + this.props.id}
+                        title={'CPU'}
                         dimensions={{ width: '100%', height: '220px' }}
                         series={cpuDataProp}
                         tickValues={[cpuData[0].argument, cpuData[cpuData.length - 1].argument]}
@@ -43,7 +55,6 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                         colorPallette={['#676767']}
                         />
                     <ProgressBar
-                        id={'memory-usage'}
                         title={'RAM'}
                         info={this.props.memoryUsage.used + ' of ' + this.props.memoryUsage.capacity + ' ' + this.props.memoryUsage.usageUnit + ' used'}
                         dimensions={{ height: '40px', width: '100%' }}
@@ -52,11 +63,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                         />
                     <div className={'partition-container'} >
                         {
-                            this.props.partitionUsages.map((data, index) =>
-                                <PartitionTile
-                                    usage={data}
-                                    />
-                            )
+                            this.props.partitionUsages.map((data, index) => <PartitionTile key={index} className={partitionTileClass} usage={data} />)
                         }
                     </div>
                 </div>
@@ -88,34 +95,12 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
     private getProgressColor() {
         let status = this.props.memoryUsage.status;
         if (status === ServerStatus.Critical) {
-            return '#fb6464';
+            return this.props.criticalColor;
         } else if (status === ServerStatus.Warning) {
-            return '#EAC71A';
+            return this.props.warningColor;
         } else if (status === ServerStatus.OK) {
-            return '#7DC458';
+            return this.props.okColor;
         }
         return undefined;
-    }
-}
-
-class ServerHeader extends React.PureComponent<any, any> {
-    public render() {
-        return (
-            <div className={'server-details-header'}>
-                <Label className="server-name" title={this.props.name}>{this.props.name}</Label>
-                {this.props.numberOfUsers &&
-                    <Icon data-users={this.props.numberOfUsers}
-                        iconName={'icon-user'}
-                        title={this.props.numberOfUsers + ' number of users online'} />
-                }
-                {this.props.onClose &&
-                    <Icon disabled={false}
-                        className={'dialog-button dialog-button-close'}
-                        onClick={this.props.onClose}
-                        iconName={'icon-delete'} />
-                }
-                {this.props.roles.length > 0 && <TagContainer title={''} tags={this.props.roles} />}
-            </div>
-        );
     }
 }
