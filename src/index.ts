@@ -45,6 +45,7 @@ export * from './components/ToggleSwitch';
 export * from './components/BarChart';
 export * from './components/Tooltip';
 export * from './components/NavigationGroup';
+export * from './components/DetailedServerGroup';
 
 export * from './utilities/autobind';
 export * from './utilities/KeyCodes';

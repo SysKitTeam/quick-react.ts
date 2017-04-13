@@ -1,5 +1,5 @@
 export interface IPieChartProps {
-    id: string;
+    id?: string;
     data: Array<IPieChartData>;
     colors?: Array<string>;
     tipText?: (d?: IPieChartData) => string;

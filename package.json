@@ -18,11 +18,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/d3": "4.5.0",
     "classnames": "2.2.5",
     "css-element-queries": "0.4.0",
     "d3": "4.5.0",
     "lodash.groupby": "4.6.0",
+    "guid": "0.0.12",
     "node-sass": "3.13.0",
     "object-assign": "4.1.1",
     "react": "15.4.2",
@@ -35,6 +35,7 @@
     "run-sequence": "1.2.2"
   },
   "devDependencies": {
+    "@types/d3": "4.5.0",
     "@types/node": "7.0.5",
     "@types/react": "15.0.1",
     "@types/react-dom": "0.14.20",

@@ -2,11 +2,14 @@ import * as React from 'react';
 import {ISharePointServer, ServerStatus } from '../../models';
 
 export interface IDetailedServerProps extends ISharePointServer {
-    numberOfUsers?: string;  
-
+    numberOfUsers?: string;
     memoryUsage?: IMemoryUsage;
     partitionUsages?: Array<IPartitionUsage>;
     processorUsage?: IProcessorUsage;
+    serverOnClick?: (serverId: any) => void;
+    criticalColor?: string;
+    warningColor?: string;
+    okColor?: string;
 }
 
 export interface IProcessorUsage {
