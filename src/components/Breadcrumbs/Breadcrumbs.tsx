@@ -11,7 +11,10 @@ const objectAssign = require('object-assign');
 export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
     public static defaultProps = {
         iconNameCollapsed: 'icon-arrow_right',
-        iconNameExpanded: 'icon-arrow_down_right'
+        iconNameExpanded: 'icon-arrow_down_right',
+        homeName: 'Home',
+        homeIcon: 'icon-home',
+        homeUrl: '/'
     };
 
     public render() {
@@ -29,6 +32,9 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
                                         text={item.text} 
                                         url={item.url}
                                         iconName={item.iconName}
+                                        iconExpanded={this.props.iconNameExpanded}
+                                        iconCollapsed={this.props.iconNameCollapsed}
+                                        className={index === 0 ? 'breadcrumbs-icon-home' : undefined}
                                         children={item.children} 
                                         onClick={(url) => this.props.onPathClick(url)}
                                     />
@@ -108,10 +114,10 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
             );
         }
         let item : ICurrentPathItem = {
-            name: 'Home',
-            iconName: 'icon-home',
+            name: this.props.homeName,
+            iconName: this.props.homeIcon,
             children: children,
-            url: '/'
+            url: this.props.homeUrl
         };
 
         return item;

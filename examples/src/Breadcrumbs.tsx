@@ -17,6 +17,7 @@ const items = [
             {
                 displayName: 'Farm 1',
                 key: '1db521f3-f28a-427f-8dec-8aadf5224ce7',
+                text: 'Farm 1',
                 children: [
                     { displayName: 'Server 33', key: '6353dfd5-62ae-43fb-95b1-793069970c16' },
                     { displayName: 'Server 43', key: '0625a264-9a87-4339-acc1-852fed86fda7' }
@@ -47,6 +48,7 @@ const items = [
             {
                 displayName: 'Farm 2',
                 key: '07bf612a-1354-4269-9339-bbca5ecca246',
+                text: 'Farm 2',
                 children: [
                     { displayName: 'Server 3', key: '1' },
                     { displayName: 'Server 4', key: '2' }
@@ -75,7 +77,7 @@ export class Index extends React.Component<any, any> {
             <div>
                 <Label>Breadcrumbs with default icons</Label>
                 <hr/>
-                <Breadcrumbs items={items} url={'/performance/07bf612a-1354-4269-9339-bbca5ecca246/1'} onPathClick={(path) => console.log(path)}/>
+                <Breadcrumbs homeName={'Home'} homeUrl={'/'} items={items} url={'/performance/07bf612a-1354-4269-9339-bbca5ecca246/1'} onPathClick={(path) => console.log(path)}/>
                 {/*<BreadcrumbsItem text="Farm 3" url="/performance/2c2e3d11-aaac-40a5-8136-071783ae8c36" displayName="Farm 3" onClick={(url) => console.log(url)} children={children} />*/}
             </div>
         );

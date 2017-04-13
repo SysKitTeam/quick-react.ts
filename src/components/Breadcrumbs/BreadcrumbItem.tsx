@@ -11,11 +11,6 @@ import './BreadcrumbItem.scss';
 export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
     private _dropdown;
 
-     public static defaultProps = {
-        iconCollapsed: 'icon-arrow_right',
-        iconExpanded: 'icon-arrow_down_right'
-    };
-
     constructor(props) {
         super(props);
 
@@ -29,6 +24,7 @@ export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
         const icon = this.state.isMenuOpen ? this.props.iconExpanded : this.props.iconCollapsed;
         return (
             <div className={classNames('breadcrumbs-item', className)}>
+                <div className={'breadcrumbs-item-title'}>
                 { 
                     iconName && 
                     <Icon 
@@ -44,11 +40,13 @@ export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
                         onClick={() => this.props.onClick(this.props.url)}
                     >{text}</Label> 
                 }
+                </div>
                 {
                     children &&
                     <Dropdown
                         className={'breadcrumbs-dropdown'}
                         ref={this.setDropdownReference}
+                        calloutClassName={'breadcrumbs-dropdown-callout'}
                         dropdownType={DropdownType.customDropdown}
                         icon={icon}
                         onClosed={this.onClosed}
@@ -68,7 +66,7 @@ export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
 
     private mapChildrenToMenu(children: Array<IBreadcrumbChild>) {
         return children.map((child, index) => {
-            return <li key={index} onClick={() => this.handleChildClick(child)}>{child.displayName}</li>;
+            return <li key={index} title={child.displayName} onClick={() => this.handleChildClick(child)}>{child.displayName}</li>;
         });
     }
 
