@@ -18,12 +18,23 @@ const getExpandedRows = (state) => state.expandedRows;
 const getSortColumn = state => state.sortColumn;
 const getSortDirection = state => state.sortDirection;
 
+const comparer = (a, b) => {
+  if (a > b) {
+    return 1;
+  } else if (a < b) {
+    return -1;
+  }
+  return 0;
+};
+
 const sortRows = (rows, sortColumn, sortDirection) => {
-    const sortFactor = sortDirection === 'DESC' ? 1 : -1;
-    // const sorted = Array<ServerGridRow>(rows).sort((a, b) => {
-    //     return a[sortColumn] < b[sortColumn] ? sortFactor : -1 * sortFactor;
-    // });
-    return rows; // sorted;
+    const sortFactor = sortDirection === 'ASC' ? 1 : -1;
+    const sorted = Array<ServerGridRow>(rows).sort((a, b) => {
+        const firstValue = a[sortColumn];
+        const secondValue = a[sortColumn];
+        return sortFactor * comparer(firstValue, secondValue);
+    });
+    return sorted;
 };
 
 const getSortedRows = createSelector([getInputRows, getSortColumn, getSortDirection], (rows, sortColumn, sortDirection) => {
@@ -37,11 +48,3 @@ const getSortedRows = createSelector([getInputRows, getSortColumn, getSortDirect
 export const RowsSelector = createSelector([getSortedRows, getGroupedColumns, getExpandedRows], (rows, groupedColumns, expandedRows = {}) => {        
     return groupRows(rows, groupedColumns, expandedRows);
 });
-       //  const sortKey = this.state.sortBy;
-        // const sortFactor = this.state.sortDirection === SortDirection.DESC ? 1 : -1; 
-        // const sorted = Array<ServerGridRow>(this.state.rows).sort((a, b) => {             
-        //         return a[sortKey] < b[sortKey] ? sortFactor : -1 * sortFactor;
-        //      });
-//         let rows = this.getGroupedRows(this.state.rows, this.state.groupBy, this.state.expandedRows, []);
-//         return rows;
-// )

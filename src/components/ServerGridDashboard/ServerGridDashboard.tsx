@@ -46,8 +46,7 @@ const gridColumns: Array<GridColumn> = [{
             return '';
         }
         return (
-            <ProgressBar
-                id={'memory-usage'}
+            <ProgressBar              
                 title={'RAM'}
                 info={cellData.used + ' of ' + cellData.capacity + ' used'}
                 dimensions={{ height: '40px', width: '100%' }}
