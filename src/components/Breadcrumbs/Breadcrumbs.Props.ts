@@ -6,9 +6,9 @@ export interface IBreadcrumbsProps extends React.Props<any> {
     items: IBreadcrumbItem[];
     className?: string;
     url: string;
-    homeName?: string;
+    homeDisplayName?: string;
     homeUrl?: string; 
-    homeIcon?: string;
+    homeIconName?: string;
     onPathClick: (path: string) => void;
     iconNameCollapsed?: string;
     iconNameExpanded?: string;

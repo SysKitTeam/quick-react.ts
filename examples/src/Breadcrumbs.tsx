@@ -77,7 +77,7 @@ export class Index extends React.Component<any, any> {
             <div>
                 <Label>Breadcrumbs with default icons</Label>
                 <hr/>
-                <Breadcrumbs homeName={'Home'} homeUrl={'/'} items={items} url={'/performance/07bf612a-1354-4269-9339-bbca5ecca246/1'} onPathClick={(path) => console.log(path)}/>
+                <Breadcrumbs homeDisplayName={'Home'} homeUrl={'/'} items={items} url={'/performance/07bf612a-1354-4269-9339-bbca5ecca246/1'} onPathClick={(path) => console.log(path)}/>
                 {/*<BreadcrumbsItem text="Farm 3" url="/performance/2c2e3d11-aaac-40a5-8136-071783ae8c36" displayName="Farm 3" onClick={(url) => console.log(url)} children={children} />*/}
             </div>
         );

@@ -115,8 +115,8 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
             );
         }
         let item : ICurrentPathItem = {
-            name: this.props.homeName,
-            iconName: this.props.homeIcon,
+            name: this.props.homeDisplayName,
+            iconName: this.props.homeIconName,
             children: children,
             url: this.props.homeUrl
         };
