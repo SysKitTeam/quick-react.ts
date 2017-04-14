@@ -6,7 +6,7 @@ import * as classNames from 'classnames';
 import { TagContainer } from '../TagContainer/TagContainer';
 import { Icon } from '../Icon/Icon';
 import { autobind } from '../../utilities/autobind';
-import { getServerMeasures, sortServersByStatusAndName, filterServerByName } from '../../utilities/server';
+import { getServerMeasures, sortServersByStatusAndName, filterServerByName, getDiskInformationFromMeasurements } from '../../utilities/server';
 
 import './TileGroup.scss';
 
@@ -35,6 +35,7 @@ export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
                             status={server.status}
                             countersData={getServerMeasures(server.measures)}
                             serverOnClick={this.serverOnClick}
+                            diskInformation={getDiskInformationFromMeasurements(server.measures)}
                             >
                             {
                                 server.roles.length > 0 &&

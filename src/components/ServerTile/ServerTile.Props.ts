@@ -1,13 +1,9 @@
 import * as React from 'react';
-import {ISharePointServer, ServerStatus} from '../../models';
+import { ISharePointServer, ServerStatus, Partition } from '../../models';
 
 export interface IServerTileProps extends ISharePointServer {
     numberOfUsers?: string;
-    /**
-     * Disk information that is displayed on icon hover in the header of the component.
-     * Each row should display the partition name, as well as the usage of each one. 
-     */
-    diskInformation?: Array<string>;
+    diskInformation?: Array<Partition>;
     countersData: Array<ITileData>;
     serverOnClick?: (serverId: any) => void;
 }
