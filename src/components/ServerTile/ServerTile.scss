@@ -11,6 +11,9 @@ $counters-title-font-size: 12px;
 $counters-title-font-color: $basic-text-color;
 $server-status-color: $basic-text-color;
 
+.disk-information-container {
+    float: right;
+}
 
 .server-details {
     font-family: $font;
@@ -44,12 +47,12 @@ $server-status-color: $basic-text-color;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            vertical-align: bottom;
+            vertical-align: bottom;            
         }
 
         .disk-icon {
             padding: 0;
-            margin: 5px 10px 5px 25px;
+            margin: 5px 10px 5px 16px;
         }
 
         .tag-container{

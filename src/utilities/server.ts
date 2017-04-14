@@ -24,10 +24,20 @@ export function GetClassForStatus(defaultClass: string, status: ServerStatus): s
         { 'status-warning': status === ServerStatus.Warning },
         { 'status-ok': status === ServerStatus.OK },
         { 'status-critical': status === ServerStatus.Critical });
- }
+}
 
 export function filterServerByName(filter: string, serverName: string): boolean {
     return serverName.toLowerCase().trim().indexOf(filter.toLowerCase().trim()) !== -1;
+}
+
+export function getDiskInformationFromMeasurements(serverMeasurements: Array<IMeasure>): Array<Partition> {
+    let diskMeasurement = serverMeasurements.filter(x => x.type === MeasureType.Disk)[0] as DiskMeasure;
+    if (!diskMeasurement) {
+        return null;
+    }
+
+    return diskMeasurement.partitions;
+
 }
 
 export function getServerMeasures(serverMeasures: Array<IMeasure>) {
