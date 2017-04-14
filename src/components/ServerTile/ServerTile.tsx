@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import { Label } from '../Label/Label';
 import { IServerTileProps, ITileData } from './ServerTile.Props';
+import { DisksInformation } from './DisksInformation/DisksInformation';
 import { Icon } from '../Icon/Icon';
 import { ServerStatus } from '../../models';
 import './ServerTile.scss';
@@ -25,10 +26,12 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
             <div className={className} onClick={this.serverOnClick}>
                 <div className={'server-details-header'}>
                     <Label className="server-name" title={this.props.name}>{this.props.name}</Label>
-                    <Icon
-                        className={classNames('disk-icon')}
-                        iconName={'icon-disk'}
-                        title={'Disks\n' + this.createTooltipText(this.props.diskInformation)} />
+                    {this.props.diskInformation &&
+                        <DisksInformation
+                            className="disk-information-container"
+                            diskInformation={this.props.diskInformation}
+                            />
+                    }
                     {this.props.numberOfUsers &&
                         <Icon data-users={this.props.numberOfUsers}
                             iconName={'icon-user'}
