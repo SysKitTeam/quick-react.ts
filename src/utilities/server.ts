@@ -53,10 +53,11 @@ function convertDisk(measure: IMeasure): ITileData {
     let value = emptyValueString;
     if (disk.totalDiskIo) {
         usageUnit = 'KB/s';
-        value = disk.totalDiskIo.toFixed(1).toString();
         if (disk.totalDiskIo > 1024) {
             value = (disk.totalDiskIo / 1024).toFixed(1);
             usageUnit = 'MB/s';
+        } else {
+            value = convertMeasureValue(disk.totalDiskIo);
         }
     }
 
@@ -74,11 +75,13 @@ function convertNetwork(measure: IMeasure): ITileData {
     let usageUnit = '';
     let value = emptyValueString;
     if (network.kbTotal) {
-        usageUnit = 'kbps';
-        value = network.kbTotal.toFixed(1).toString();
+        let measureValue = network.kbTotal;
+        usageUnit = 'Kbps';
         if (network.kbTotal > 1024) {
             value = (network.kbTotal / 1024).toFixed(1);
             usageUnit = 'Mbps';
+        } else {
+            value = convertMeasureValue(network.kbTotal);
         }
     }
 
@@ -89,6 +92,18 @@ function convertNetwork(measure: IMeasure): ITileData {
         status: network.status,
         currentUsage: value
     };
+}
+
+/**
+ * Formats and convert measure value. If value is bigger than 99
+ * decimal points are not displayed.
+ */
+function convertMeasureValue(measure: number) : string {
+    let value = measure.toFixed(1).toString();
+    if (value.length === 5) {
+        return value.substring(0, 3);
+    }
+    return value;
 }
 
 function convertRam(measure: IMeasure): ITileData {
