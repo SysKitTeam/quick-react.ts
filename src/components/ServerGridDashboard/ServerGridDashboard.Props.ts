@@ -5,7 +5,6 @@ import { ITiledDashboardFarm } from '../TileDashboard/TileDashboard.Props';
 export interface IServerGridDashboardProps {
     farms: Array<ITiledDashboardFarm>;
 }
-
 export interface DataRow {
     type: 'DataRow';
     FarmName: string;
@@ -32,5 +31,14 @@ export interface GridColumn {
     width: number;
     customRenderer?: ({ cellData, columnData, dataKey, rowData, rowIndex}) => any;
 }
+export interface RowState {
+    rows: any;
+    groupedColumns: any;
+    expandedRows: any;
+    sortColumn: any;
+    sortDirection: any;
+}
+
+
 
 export type ServerGridRow = DataRow | GroupRow;

@@ -116,7 +116,7 @@ function convertMeasureValue(measure: number) : string {
     return value;
 }
 
-function convertRam(measure: IMeasure): ITileData {
+export function convertRam(measure: IMeasure): ITileData {
     let ram = measure as RamMeasure;
     let used = emptyValueString;
     let capacity = '';

@@ -1,22 +1,14 @@
-
 const createSelector = require('reselect').createSelector;
-import { ServerGridRow } from './ServerGridDashboard.Props';
+import { ServerGridRow, RowState } from './ServerGridDashboard.Props';
 import { groupRows } from '../../utilities/RowGrouper';
+const objectAssign = require('object-assign');
+import { IServerGridDashboardState } from './ServerGridDashboard';
 
-
-export interface RowState {
-    rows: any;
-    groupedColumns: any;
-    expandedRows: any;
-    sortColumn: any;
-    sortDirection: any;
-}
-
-const getInputRows = state => state.rows;
-const getGroupedColumns = (state) => state.groupedColumns;
-const getExpandedRows = (state) => state.expandedRows;
-const getSortColumn = state => state.sortColumn;
-const getSortDirection = state => state.sortDirection;
+const getInputRows = (state: RowState) => state.rows;
+const getGroupedColumns = (state: RowState) => state.groupedColumns;
+const getExpandedRows = (state: RowState) => state.expandedRows;
+const getSortColumn = (state: RowState) => state.sortColumn;
+const getSortDirection = (state: RowState) => state.sortDirection;
 
 const comparer = (a, b) => {
   if (a > b) {
@@ -28,10 +20,11 @@ const comparer = (a, b) => {
 };
 
 const sortRows = (rows, sortColumn, sortDirection) => {
-    const sortFactor = sortDirection === 'ASC' ? 1 : -1;
-    const sorted = Array<ServerGridRow>(rows).sort((a, b) => {
+    const sortFactor = sortDirection === 'DESC' ? 1 : -1;
+    let sorted = rows.slice(0); 
+    sorted.sort((a, b) => {
         const firstValue = a[sortColumn];
-        const secondValue = a[sortColumn];
+        const secondValue = b[sortColumn];
         return sortFactor * comparer(firstValue, secondValue);
     });
     return sorted;
@@ -41,7 +34,7 @@ const getSortedRows = createSelector([getInputRows, getSortColumn, getSortDirect
     if (!sortDirection && !sortColumn) {
         return rows;
     }
-    return sortRows(rows, sortColumn, sortDirection);
+    return  sortRows(rows, sortColumn, sortDirection);
 });
 
 

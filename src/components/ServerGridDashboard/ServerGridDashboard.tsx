@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IServerGridDashboardProps, ServerGridRow, GridColumn, } from './ServerGridDashboard.Props';
+import { IServerGridDashboardProps, ServerGridRow, GridColumn, RowState } from './ServerGridDashboard.Props';
 import { customRowRenderer } from './rowRenderer';
 import { ITiledDashboardFarm } from '../TileDashboard/TileDashboard.Props';
 import { AutoSizer, Table, Column, ColumnProps } from 'react-virtualized';
@@ -90,16 +90,15 @@ const SortDirection = {
     DESC: 'DESC'
 };
 
-interface IServerGridDashboardState {
+export interface IServerGridDashboardState {
     rows: Array<ServerGridRow>;
     groupBy: Array<string>;
     expandedRows: any;
     sortColumn: string;
-    sortDirection: string;
+    sortDirection: any;
 }
 
-
-export class ServerGridDashboard extends React.Component<IServerGridDashboardProps, any> {
+export class ServerGridDashboard extends React.Component<IServerGridDashboardProps, IServerGridDashboardState> {
 
     private grid;
     constructor(props: IServerGridDashboardProps) {
@@ -109,7 +108,7 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
             groupBy: ['FarmName'],
             expandedRows: {},
             sortColumn: 'ServerName',
-            sortDirection: SortDirection.ASC,
+            sortDirection: SortDirection.DESC,
         };
     }
 
@@ -171,10 +170,10 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
 
 
     private getRows() {
-        const rowSortState = {
+        const rowSortState: RowState = {
             rows: this.state.rows,
             groupedColumns: this.state.groupBy,
-            expandedRows: this.state.expandedRow,
+            expandedRows: this.state.expandedRows,
             sortColumn: this.state.sortColumn,
             sortDirection: this.state.sortDirection,
         };
@@ -187,11 +186,13 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
         return this.getRows().length;
     }
 
-    private onRowExpandToggle(columnGroupName, name, shouldExpand) {
-        let expandedRows = objectAssign({}, this.state.expandedRows);
-        expandedRows[columnGroupName] = objectAssign({}, expandedRows[columnGroupName]);
-        expandedRows[columnGroupName][name] = { isExpanded: shouldExpand };
-        this.setState({ expandedRows: expandedRows });
+    private onRowExpandToggle(columnGroupName, name, shouldExpand) {       
+        this.setState((oldState) => {  
+            let expandedRows = objectAssign({}, oldState.expandedRows);
+            expandedRows[columnGroupName] = objectAssign({}, expandedRows[columnGroupName]);
+            expandedRows[columnGroupName][name] = { isExpanded: shouldExpand };
+            return objectAssign(oldState, { expandedRows: expandedRows});
+         });
     }
 
     /*
@@ -241,7 +242,9 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
     @autobind
     _sort({ sortBy, sortDirection }) {
         // change to prop dispatch
-        this.setState({ sortBy, sortDirection });
+        this.setState((oldState) => {
+            return objectAssign(oldState, { sortColumn: sortBy, sortDirection: sortDirection });
+        });
     }
 
     render() {
