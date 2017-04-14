@@ -12,8 +12,8 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
     public static defaultProps = {
         iconNameCollapsed: 'icon-arrow_right',
         iconNameExpanded: 'icon-arrow_down_right',
-        homeName: 'Home',
-        homeIcon: 'icon-home',
+        homeDisplayName: 'Home',
+        homeIconName: 'icon-home',
         homeUrl: '/'
     };
 
