@@ -38,6 +38,7 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
                     <li className={'breadcrumbs-list-item'} key={index} >
                         <Dropdown
                             className={'breadcrumbs-dropdown'}
+                            calloutClassName={'breadcrumbs-dropdown-callout'}
                             ref={this.setDropdownReference}
                             dropdownType={DropdownType.customDropdown} 
                             icon={iconName} 
@@ -70,7 +71,7 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
 
     private mapSiblingsToMenu(siblings: Array<ICurrentPathItem>) {
         return siblings.map((sibling, index) => {
-            return <li key={index} onClick={() => this.handleMenuClick(sibling)}>{sibling.name}</li>;
+            return <li key={index} onClick={() => this.handleMenuClick(sibling)} title={sibling.name}>{sibling.name}</li>;
         });
     }
 
@@ -142,6 +143,8 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
                     );
                 }
             }
+
+            if (!target) { break; }
 
             path += '/' + targetPath;
             elements.push(objectAssign({}, target, {siblings: siblings}));

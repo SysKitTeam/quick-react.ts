@@ -7,6 +7,7 @@ import { Tooltip } from '../Tooltip/Tooltip';
 import './ProgressBar.scss';
 
 const resizeSensor = require('css-element-queries/src/ResizeSensor');
+const Guid = require('guid');
 const PERCENTAGE_LABEL_SIZE = 45;
 
 export class ProgressBar extends React.Component<IProgressBarProps, any> {
@@ -27,16 +28,17 @@ export class ProgressBar extends React.Component<IProgressBarProps, any> {
             tipX: 0,
             tipY: 0,
             tipText: '',
-            isTipVisible: false
+            isTipVisible: false,
+            chartId: 'prog-' + Guid.raw()
         };
     }
 
     public render() {
-        const className = classNames('progress-bar-component', this.props.id);
+        const className = classNames('progress-bar-component', this.state.chartId);
         const bar = this.scaleBar();
         return (
             <div style={this.props.dimensions} className={className} ref={(element: HTMLDivElement) => this.init(element)}>
-                <Label className={classNames('progress-title', this.props.id)}>{this.props.title}</Label>
+                <Label className={classNames('progress-title', this.state.chartId)}>{this.props.title}</Label>
                 { this.state.isParentMounted && 
                     <svg width={this.state.width} height={this.state.height}>
                         <g>
@@ -61,7 +63,7 @@ export class ProgressBar extends React.Component<IProgressBarProps, any> {
                         }
                     </svg>
                 }
-                <Label className={classNames('percentage-label', this.props.id)}>{this.calculatePercentage()}</Label>
+                <Label className={classNames('percentage-label', this.state.chartId)}>{this.calculatePercentage()}</Label>
             </div>
         );
     }

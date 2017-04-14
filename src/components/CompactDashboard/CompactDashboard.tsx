@@ -22,7 +22,7 @@ const scrollbarWidth = 13;
 const compact_farm_margin = 20;
 const compact_farm_padding = 5;
 const headerTotalHeight = 65; // Farm DIV size - servertileHeight  
-const totalPaddingHorizontal  = 2 * (compact_farm_margin + compact_farm_padding) + scrollbarWidth;
+const totalPaddingHorizontal = 2 * (compact_farm_margin + compact_farm_padding) + scrollbarWidth;
 
 export class CompactDashboard extends React.Component<ICompactDashboardProps, any> {
     collection: any;
@@ -110,16 +110,16 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
     }
 
     @autobind
-    _onResize(obj: { height: number, width: number}) {
+    _onResize(obj: { height: number, width: number }) {
         this.list.recomputeRowHeights();
-    } 
-    
-    @autobind 
-    private getRowHeigth(width, obj: { index: number }): number {        
+    }
+
+    @autobind
+    private getRowHeigth(width, obj: { index: number }): number {
         const farm = this.getRow(obj.index);
         if (farm === undefined) {
             return 0;
-        } 
+        }
         const serversPerRow = Math.floor((width - totalPaddingHorizontal) / serverTileWidth);
         const farmServerCount = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
         const rowCount = Math.ceil(farmServerCount / serversPerRow);
@@ -161,15 +161,16 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
 
     @autobind
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
-        const farm = this.getRow(index);        
+        const farm = this.getRow(index);
         return (
             <div style={style} key={index}>
                 <CompactFarm
                     farm={farm as ICompactDashboardFarm}
                     filter={this.props.filter}
                     serverOnClick={this.props.serverOnClick}
+                    groupOnClick={this.props.groupOnClick}
                     />
             </div>
-        );      
+        );
     }
 }

@@ -1,5 +1,5 @@
 export interface ILineChartProps {
-    id: string;
+    id?: string;
     title?: string;
     width?: number;
     height?: number;

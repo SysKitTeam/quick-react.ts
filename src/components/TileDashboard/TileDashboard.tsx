@@ -11,6 +11,7 @@ import { TagContainer } from '../TagContainer/TagContainer';
 import { Icon } from '../Icon/Icon';
 import { autobind } from '../../utilities/autobind';
 import { getServerMeasures, sortServersByStatusAndName, filterServerByName } from '../../utilities/server';
+import { TileGroup } from '../TileGroup';
 
 import './TileDashboard.scss';
 
@@ -20,7 +21,7 @@ const scrollbarWidth = 13;
 const farm_margin = 20;
 const farm_padding = 5;
 const headerTotalHeight = 65;
-const totalPaddingHorizontal  = 2 * (farm_margin + farm_padding) + scrollbarWidth;
+const totalPaddingHorizontal = 2 * (farm_margin + farm_padding) + scrollbarWidth;
 
 export class TileDashboard extends React.Component<ITileDashboardProps, any> {
     private list: any;
@@ -49,14 +50,14 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
                                     height={height}
                                     ref={(reference) => {
                                         this.list = reference;
-                                    }}
+                                    } }
                                     rowCount={farms.length}
                                     rowHeight={function (index) {
                                         return this.calculateRowHeight(width, index);
                                     }.bind(this)}
                                     rowRenderer={this._renderRow}
                                     width={width}
-                                />
+                                    />
                             )}
                         </AutoSizer>
                     }
@@ -71,16 +72,16 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
     }
 
     @autobind
-    private calculateRowHeight(width, obj: { index: number }): number {    
+    private calculateRowHeight(width, obj: { index: number }): number {
         const farm = this.getRow(obj.index);
         if (farm === undefined) {
             return 0;
-        } 
+        }
         const serversPerRow = Math.floor((width - totalPaddingHorizontal) / serverTileWidth);
         const farmServerCount = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
         const rowCount = Math.ceil(farmServerCount / serversPerRow);
         const serverHeight = rowCount * servertileHeight;
-        const totalHeight = serverHeight + headerTotalHeight; 
+        const totalHeight = serverHeight + headerTotalHeight;
         return totalHeight;
     }
 
@@ -97,29 +98,13 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
 
         return (
             <div style={style} key={index}>
-                <Group serverChildrenCount={servers.length} filter={this.props.filter} className={'farm-name-inside'} id={farm.id} name={farm.name} key={farm.id.configDataBaseName + '-' + farm.id.sqlInstance}>
-                    {/*<GroupHeader version={farm.version} isCustomFarm={farm.isCustom} farmId={farm.id} />*/}
-                    {
-                        servers.map((server, serverIndex) => (
-                            <ServerTile 
-                                key={serverIndex}
-                                name={server.name}
-                                id={server.id}
-                                roles={server.roles}
-                                status={server.status}
-                                countersData={getServerMeasures(server.measures)}
-                                serverOnClick={this.props.serverOnClick}
-                            >
-                                {
-                                    server.roles.length > 0 &&
-                                    <TagContainer title={''} tags={server.roles}>
-                                    </TagContainer>
-                                }
-                            </ServerTile>
-                        ))
-                    }
-                </Group>
+                <TileGroup
+                    farm={farm}
+                    filter={this.props.filter}
+                    serverOnClick={this.props.serverOnClick}
+                    groupOnClick={this.props.groupOnClick}
+                    />
             </div>
         );
-    }   
+    }
 }

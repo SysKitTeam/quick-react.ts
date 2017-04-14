@@ -2,11 +2,6 @@
   "name": "quick-react-ts",
   "version": "0.0.3",
   "dependencies": {
-    "@types/d3": {
-      "version": "4.5.0",
-      "from": "@types/d3@>=4.5.0 <5.0.0",
-      "resolved": "https://registry.npmjs.org/@types/d3/-/d3-4.5.0.tgz"
-    },
     "@types/d3-array": {
       "version": "1.0.8",
       "from": "@types/d3-array@*",
@@ -2181,6 +2176,11 @@
       "version": "1.0.1",
       "from": "graceful-readlink@>=1.0.0",
       "resolved": "https://registry.npmjs.org/graceful-readlink/-/graceful-readlink-1.0.1.tgz"
+    },
+    "guid": {
+      "version": "0.0.12",
+      "from": "guid@latest",
+      "resolved": "https://registry.npmjs.org/guid/-/guid-0.0.12.tgz"
     },
     "gulp-sourcemaps": {
       "version": "1.11.1",

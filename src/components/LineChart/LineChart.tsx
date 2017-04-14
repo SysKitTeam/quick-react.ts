@@ -8,12 +8,12 @@ import './LineChart.scss';
 
 const ResizeSensor = require('css-element-queries/src/ResizeSensor');
 const objectAssign = require('object-assign');
+const Guid = require('guid');
 
 export class LineChart extends React.PureComponent<ILineChartProps, any> {
     public static defaultProps = {
         width: 0,
         height: 0,
-        id: '',
         xAxisTicks: 6,
         yAxisTicks: 6,
         yAxisDomain: [0, 100],
@@ -32,21 +32,22 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
         this.state = {
             width: 0,
             height: 0,
-            isParentMounted: false
+            isParentMounted: false,
+            chartId: 'line-' + Guid.raw()
         };
     }
 
     public render() {
-        const props = objectAssign({}, this.props, {width: this.state.width, height: this.state.height});
-        const componentClass = classNames('line-chart-component', this.props.id, this.props.className);
-        const titleClass = classNames('line-chart-title', this.props.id, this.props.className);
+        const props = objectAssign({}, this.props, { width: this.state.width, height: this.state.height, id: this.state.chartId });
+        const componentClass = classNames('line-chart-component', this.state.chartId, this.props.className);
+        const titleClass = classNames('line-chart-title', this.state.chartId, this.props.className);
         return (
             <div className={componentClass} 
                 style={{ width: this.props.dimensions.width, height: this.props.dimensions.height }}
                 ref={(element: HTMLDivElement) => this.init(element)}>
                 {  
                     ( this.props.showLegend || this.props.title ) && 
-                    <div className={classNames('line-chart-header', this.props.id)}>
+                    <div className={classNames('line-chart-header', this.state.chartId)}>
                         { this.props.title && <Label className={titleClass}>{this.props.title}</Label> }
                         { this.props.showLegend && this.renderLegend() }
                     </div>
@@ -68,7 +69,7 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
         const width = element.offsetWidth;
         const height = element.offsetHeight;
 
-        const header = d3.select('.line-chart-header.' + this.props.id).node() as HTMLDivElement;
+        const header = d3.select('.line-chart-header.' + this.state.chartId).node() as HTMLDivElement;
         const headerHeight = header === null ? 0 :  header.offsetHeight;
 
         if ((height - headerHeight) !== this.state.height || width !== this.state.width) {
@@ -84,7 +85,7 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
         const width = this.containerRef.offsetWidth;
         const height = this.containerRef.offsetHeight;
 
-        const header = d3.select('.line-chart-header.' + this.props.id).node() as HTMLDivElement;
+        const header = d3.select('.line-chart-header.' + this.state.chartId).node() as HTMLDivElement;
         const headerHeight = header === null ? 0 :  header.offsetHeight;
 
         if ((height - headerHeight) !== this.state.height || width !== this.state.width) {
@@ -97,9 +98,9 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
      * When component updates reset legend and lines to be shown.
      */
     public componentDidUpdate() {
-        const series = d3.selectAll('.line-chart-container.' + this.props.id + ' > path,circle');
+        const series = d3.selectAll('.line-chart-container.' + this.state.chartId + ' > path,circle');
         series.attr('display', 'block');
-        const items = d3.selectAll('.line-chart-legend.' + this.props.id + ' > .legend-item > div').nodes();
+        const items = d3.selectAll('.line-chart-legend.' + this.state.chartId + ' > .legend-item > div').nodes();
         for (let i = 0; i < items.length; i++) {
             const el = d3.select(items[i]);
             el.style('background-color', el.style('border-color'));
@@ -132,7 +133,7 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
                 </div>
             );
         });
-        return <div className={classNames('line-chart-legend', this.props.id)}>{items}</div>;
+        return <div className={classNames('line-chart-legend', this.state.chartId)}>{items}</div>;
     }
 
     /**
@@ -141,7 +142,7 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
      */
     private showHideSeries(element: HTMLDivElement) {
         const className = element.getAttribute('class');
-        const series = d3.selectAll('.line-chart-container.' + this.props.id + ' > .' + className );
+        const series = d3.selectAll('.line-chart-container.' + this.state.chartId + ' > .' + className );
         const selector = d3.select(element).style('background-color', 'white');
 
         if (series.attr('display') === 'none') {
