@@ -19,8 +19,11 @@ export interface IHazMeasures {
 
 export interface Partition {
     name: string;
-    freeMB: number;
-    size: number;
+    used: number;
+    capacity: number;
+    usageUnit: string;
+    id: number;  
+    status?: ServerStatus;
 }
 
 export interface DiskMeasure extends IMeasure {
