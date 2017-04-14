@@ -126,14 +126,18 @@ export function generateMeasures(): Array<IMeasure> {
         totalDiskIo: generateNetworkSpeed(),
         partitions: [
             {
-                name: 'C',
-                freeMB: generatePercentage(),
-                size: generatePercentage() + 100,
+                name: 'Local Disk (C:)',
+                used: 800,
+                capacity: 1000,
+                usageUnit: 'GB',
+                id: 1     
             },
             {
-                name: 'F',
-                freeMB: generatePercentage(),
-                size: generatePercentage() + 100,
+                name: 'Data (E:)',
+                used: 560,
+                capacity: 789,
+                usageUnit: 'GB',
+                id: 2    
             }
         ],
         time: new Date(Date.now())
