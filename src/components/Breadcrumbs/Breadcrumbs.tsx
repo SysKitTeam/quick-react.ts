@@ -19,7 +19,6 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
 
     public render() {
         const items = this.getDisplayItemsFromProps(this.props);
-        const rootItem = this.getFirstLevelFromProps(this.props);
         return (
             <div className={'breadcrumbs'}>
                 <ul className={'breadcrumbs-list'}>
