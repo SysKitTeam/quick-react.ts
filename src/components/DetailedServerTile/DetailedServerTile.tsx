@@ -12,6 +12,7 @@ import { GetClassForStatus } from '../../utilities/server';
 import { PartitionTile } from '../PartitionTile';
 import * as classNames from 'classnames';
 import { ServerHeader } from '../ServerHeader/ServerHeader';
+import { toPrettyString } from '../../utilities/valueFormatter';
 
 import './DetailedServerTile.scss';
 
@@ -51,11 +52,11 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                         yAxisTicks={3}
                         xAxisTicks={3}
                         showLegend={false}
-                        tooltipText={(d: ILineChartData) => d.value + '%'}
+                        tooltipText={(d: ILineChartData) => toPrettyString(d.value, 0) + '%'}
                         colorPallette={['#676767']}
                         />
                     <ProgressBar
-                        title={'RAM'}
+                        title={'Memory'}
                         info={this.props.memoryUsage.used + ' of ' + this.props.memoryUsage.capacity + ' ' + this.props.memoryUsage.usageUnit + ' used'}
                         dimensions={{ height: '40px', width: '100%' }}
                         data={{ total: this.props.memoryUsage.capacity, current: this.props.memoryUsage.used }}

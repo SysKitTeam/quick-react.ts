@@ -89,7 +89,7 @@ export function generateCoreCount() {
 }
 
 export function generateNetworkSpeed() {
-    return Math.random() * (10 - 0.1 + 1);
+    return Math.random() * (2000 - 0.1 + 1);
 }
 
 export function generateRandomStatus() {
@@ -117,13 +117,13 @@ export function generateMeasures(): Array<IMeasure> {
     let networkMeasure: NetworkMeasure = {
         type: MeasureType.Network,
         status: generateRandomStatus(),
-        kbTotal: generateNetworkSpeed(),
+        kbTotal: 45.0,
         time: new Date(Date.now())
     };
     let diskMeasure: DiskMeasure = {
         type: MeasureType.Disk,
         status: generateRandomStatus(),
-        totalDiskIo: generateNetworkSpeed(),
+        totalDiskIo: 1023,
         partitions: [
             {
                 name: 'Local Disk (C:)',

@@ -7,6 +7,7 @@ import { IPartitionUsage } from '../DetailedServerTile/DetailedServerTile.Props'
 import { IPartitionTileProps } from './PartitionTile.Props';
 import { GetClassForStatus } from '../../utilities/server';
 import * as classNames from 'classnames';
+import { toPrettyString } from '../../utilities/valueFormatter';
 
 export class PartitionTile extends React.PureComponent<IPartitionTileProps, any> {
     public static defaultProps = {
@@ -25,7 +26,7 @@ export class PartitionTile extends React.PureComponent<IPartitionTileProps, any>
                     dimensions={{ width: '100%', height: '70px' }}
                     data={this.transformPartitionData(this.props.usage)}
                     colors={this.getColorsByStatus(this.props.usage.status)}
-                    tipText={(d: IPieChartData) => (d.label + ': ' + d.value + ' ' + this.props.usage.usageUnit)}
+                    tipText={(d: IPieChartData) => (d.label + ': ' + toPrettyString(d.value) + ' ' + this.props.usage.usageUnit)}
                     showLegend={false} />
             </div>
         );

@@ -63,7 +63,7 @@ function convertDisk(measure: IMeasure): ITileData {
     let value = emptyValueString;
     if (disk.totalDiskIo) {
         usageUnit = 'KB/s';
-        if (disk.totalDiskIo > 1024) {
+        if (disk.totalDiskIo >= 1000) {
             value = (disk.totalDiskIo / 1024).toFixed(1);
             usageUnit = 'MB/s';
         } else {
@@ -87,7 +87,7 @@ function convertNetwork(measure: IMeasure): ITileData {
     if (network.kbTotal) {
         let measureValue = network.kbTotal;
         usageUnit = 'Kbps';
-        if (network.kbTotal > 1024) {
+        if (network.kbTotal >= 1000) {
             value = (network.kbTotal / 1024).toFixed(1);
             usageUnit = 'Mbps';
         } else {
@@ -106,12 +106,17 @@ function convertNetwork(measure: IMeasure): ITileData {
 
 /**
  * Formats and convert measure value. If value is bigger than 99
- * decimal points are not displayed.
+ * decimal points are not displayed. If values has zero behind decimal point
+ * ie. 70.0 value is converted to 70
  */
 function convertMeasureValue(measure: number) : string {
     let value = measure.toFixed(1).toString();
-    if (value.length === 5) {
+    const decimalZero = '.0';
+    const stringLength = value.length;
+    if (stringLength === 5) {
         return value.substring(0, 3);
+    } else if (value.indexOf('.0') > 0) {
+        return  value.substr(0, stringLength - 2);
     }
     return value;
 }
