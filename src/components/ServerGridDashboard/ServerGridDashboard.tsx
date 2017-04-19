@@ -1,52 +1,59 @@
 import * as React from 'react';
-import { IServerGridDashboardProps, ServerGridRow, GridColumn, RowState } from './ServerGridDashboard.Props';
-import { customRowRenderer } from './rowRenderer';
+import { IServerGridDashboardProps, ServerGridRow } from './ServerGridDashboard.Props';
 import { ITiledDashboardFarm } from '../TileDashboard/TileDashboard.Props';
-import { AutoSizer, Table, Column, ColumnProps } from 'react-virtualized';
 import * as classNames from 'classnames';
 import { Icon } from '../Icon/Icon';
 import { autobind } from '../../utilities/autobind';
-import { groupRows } from '../../utilities/RowGrouper';
-const createSelector = require('reselect').createSelector;
-const objectAssign = require('object-assign');
 import { ProgressBar } from '../ProgressBar/ProgressBar';
 
-import { RowsSelector } from './rowSelector';
+import { Grid } from '../Grid/Grid';
+import { IGridProps, GridColumn, RowState } from '../Grid/Grid.Props';
+
+const objectAssign = require('object-assign');
 
 import { sortServersByStatusAndName, filterServerByName, convertCPU, convertNetwork, convertDisk, convertRam } from '../../utilities/server';
 import { IMeasure, MeasureType, IFarm, Partition, DiskMeasure, CpuMeasure, RamMeasure, NetworkMeasure, ServerStatus } from '../../models';
 
 import './ServerGridDashboard.scss';
 
+class ServerGrid extends Grid<ServerGridRow> { }
 
 const gridColumns: Array<GridColumn> = [{
-    key: 'FarmName',
-    name: 'Farm Name',
+    valueMember: 'FarmName',
+    HeaderText: 'Farm Name',
     width: 120,
+    cellFormatter: (cellData) => {
+        return cellData; 
+    }
 },
 {
-    key: 'ServerName',
-    name: 'Server Name',
+    valueMember: 'ServerName',
+    HeaderText: 'Server Name',
     width: 100,
+    
 },
 {
-    key: 'UserCount',
-    name: 'User Count',
+    valueMember: 'UserCount',
+    HeaderText: 'User Count',
     width: 100,
+     cellFormatter: (cellData) => {
+        return cellData + ' users'; 
+    }
 }, {
-    key: 'CPU',
-    name: 'CPU',
+    valueMember: 'CPU',
+    HeaderText: 'CPU',
     width: 120,
+     cellFormatter: (cellData) => {
+        return cellData + ' %'; 
+    }
 }, {
-    key: 'Memory',
-    name: 'Memory',
+    valueMember: 'Memory',
+    HeaderText: 'Memory',
     width: 120,
-    customRenderer: ({ cellData, columnData, dataKey, rowData, rowIndex}) => {
-        if (cellData === undefined) {
-            return '';
-        }
+    dataMember: 'MemoryData',
+    cellFormatter: (cellData) => {
         return (
-            <ProgressBar              
+            <ProgressBar
                 title={'RAM'}
                 info={cellData.used + ' of ' + cellData.capacity + ' used'}
                 dimensions={{ height: '40px', width: '100%' }}
@@ -56,21 +63,21 @@ const gridColumns: Array<GridColumn> = [{
         );
     }
 }, {
-    key: 'DiskSpace',
-    name: 'Disk Space',
-    width: 80,
+    valueMember: 'DiskSpace',
+    HeaderText: 'Disk Space',
+    width: 120,
 },
 {
-    key: 'DiskActivity',
-    name: 'Disk Activity',
+    valueMember: 'DiskActivity',
+    HeaderText: 'Disk Activity',
+    width: 120,
+}, {
+    valueMember: 'Network',
+    HeaderText: 'Network',
     width: 80,
 }, {
-    key: 'Network',
-    name: 'Network',
-    width: 80,
-}, {
-    key: 'LastUpdated',
-    name: 'Last Updated',
+    valueMember: 'LastUpdated',
+    HeaderText: 'Last Updated',
     width: 100,
 }];
 
@@ -85,11 +92,6 @@ const getProgressColor = (status) => {
     return undefined;
 };
 
-const SortDirection = {
-    ASC: 'ASC',
-    DESC: 'DESC'
-};
-
 export interface IServerGridDashboardState {
     rows: Array<ServerGridRow>;
     groupBy: Array<string>;
@@ -99,16 +101,15 @@ export interface IServerGridDashboardState {
 }
 
 export class ServerGridDashboard extends React.Component<IServerGridDashboardProps, IServerGridDashboardState> {
-
     private grid;
     constructor(props: IServerGridDashboardProps) {
         super(props);
         this.state = {
             rows: this.transformFarmToRows(props.farms),
-            groupBy: ['FarmName'],
             expandedRows: {},
+            groupBy: ['FarmName'],
             sortColumn: 'ServerName',
-            sortDirection: SortDirection.DESC,
+            sortDirection: 'DESC',
         };
     }
 
@@ -124,8 +125,9 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
                     FarmName: farm.name,
                     ServerName: server.name,
                     UserCount: server.numberOfUsers,
-                    CPU: cpu,
-                    Memory: server.measures.filter((mes) => { return mes.type === MeasureType.Ram; })[0],
+                    CPU: (server.measures.filter((mes) => { return mes.type === MeasureType.CPU; })[0] as CpuMeasure).usage,
+                    Memory: mem,
+                    MemoryData: server.measures.filter((mes) => { return mes.type === MeasureType.Ram; })[0],
                     DiskSpace: 30,
                     DiskActivity: disk,
                     Network: net,
@@ -145,133 +147,14 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
         return '-';
     }
 
-
-    @autobind
-    private rowRenderer({ className, columns, index, isScrolling, key, onRowClick, onRowDoubleClick, onRowMouseOver, onRowMouseOut, rowData, style }) {
-        return customRowRenderer(gridColumns, this.onRowExpandToggle.bind(this), { className, columns, index, isScrolling, key, onRowClick, onRowDoubleClick, onRowMouseOver, onRowMouseOut, rowData, style });
-    }
-
-    @autobind
-    getColumnsToDisplay() {
-        // reselect
-        const groupedColumns: Array<string> = this.state.groupBy;
-        if (groupedColumns.length === 0) {
-            return gridColumns;
-        }
-        const nonGroupedColumns = gridColumns.filter((column) => { return groupedColumns.indexOf(column.key) === -1; });
-        return nonGroupedColumns;
-    }
-
-    @autobind
-    private getRow({ index }): ServerGridRow {
-        const rows = this.getRows();
-        return rows[index % rows.length];
-    }
-
-
-    private getRows() {
-        const rowSortState: RowState = {
-            rows: this.state.rows,
-            groupedColumns: this.state.groupBy,
-            expandedRows: this.state.expandedRows,
-            sortColumn: this.state.sortColumn,
-            sortDirection: this.state.sortDirection,
-        };
-        const rows = RowsSelector(rowSortState);
-        return rows;
-    }
-
-    @autobind
-    private getRowCount() {
-        return this.getRows().length;
-    }
-
-    private onRowExpandToggle(columnGroupName, name, shouldExpand) {       
-        this.setState((oldState) => {  
-            let expandedRows = objectAssign({}, oldState.expandedRows);
-            expandedRows[columnGroupName] = objectAssign({}, expandedRows[columnGroupName]);
-            expandedRows[columnGroupName][name] = { isExpanded: shouldExpand };
-            return objectAssign(oldState, { expandedRows: expandedRows});
-         });
-    }
-
-    /*
-        _headerRenderer ({
-        columnData,
-        dataKey,
-        disableSort,
-        label,
-        sortBy,
-        sortDirection
-    }) {
-        const iconName = sortDirection === SortDirection.ASC ? 'icon-Arrow_up' : 'icon-arrow_down';
-        return (
-        <div>
-            Full Name
-            { sortBy === dataKey &&
-                <Icon iconName={iconName} ></Icon>    
-            }
-        </div>
-        );
-    }*/
-
-    @autobind
-    getCells() {
-        return (
-            this.getColumnsToDisplay()
-                .map((column, index) => {
-                    let props: ColumnProps = {
-                        width: column.width,
-                        label: column.name,
-                        dataKey: column.key,
-                        className: 'headerRow'
-                    };
-                    if (column.customRenderer) {
-                        props.cellRenderer = column.customRenderer;
-                    }
-                    return (
-                        <Column
-                            key={index}
-                            {...props}
-                            />
-                    );
-                })
-        );
-    }
-
-    @autobind
-    _sort({ sortBy, sortDirection }) {
-        // change to prop dispatch
-        this.setState((oldState) => {
-            return objectAssign(oldState, { sortColumn: sortBy, sortDirection: sortDirection });
-        });
-    }
-
     render() {
         return (
             <div>
-                <div className="server-grid-dashboard-container">
-                    <AutoSizer disableHeight>
-                        {({ width }) => (
-                            <Table
-                                height={800}
-                                headerClassName={'headerColumn'}
-                                overscanRowCount={20}
-                                headerHeight={30}
-                                rowGetter={this.getRow}
-                                sort={this._sort}
-                                sortBy={this.state.sortColumn}
-                                sortDirection={this.state.sortDirection}
-                                rowHeight={100}
-                                rowCount={this.getRowCount()}
-                                width={width}
-                                rowRenderer={this.rowRenderer}
-                                >
-                                {this.getCells()}
-                            </Table>
-                        )}
-                    </AutoSizer>
-                </div>
+                <ServerGrid
+                    rows={this.state.rows}
+                    columns={gridColumns}
+                    groupBy={this.state.groupBy}
+                    />
             </div>
         );
     }

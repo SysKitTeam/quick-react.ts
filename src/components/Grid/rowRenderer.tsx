@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Icon } from '../Icon/Icon';
+import { IGridProps, GridColumn, RowState  } from './Grid.Props';
 
-// import type { RowRendererParams } from './types'
 
 class RowProps {
     tabIndex: number;
@@ -11,7 +11,7 @@ class RowProps {
     onMouseOver: any;
 }
 
-export function customRowRenderer( gridColumns, onRowExpandToggle, {
+export function customRowRenderer( gridColumns: Array<GridColumn> , onRowExpandToggle, {
     className,
     columns,
     index,
@@ -50,7 +50,7 @@ export function customRowRenderer( gridColumns, onRowExpandToggle, {
     }
     if (rowData.type === 'GroupRow') {
          const iconName = rowData.isExpanded ? 'icon-Arrow_up' : 'icon-arrow_down';
-         const columnName = gridColumns.find((col) => {return col.key === rowData.columnGroupName; }).name;
+         const columnName = gridColumns.filter((column) => {return column.valueMember === rowData.columnGroupName; })[0].HeaderText;
          const padding: React.CSSProperties =  { paddingLeft: 30 * rowData.depth, paddingRight: 10 };
          
          const toggleRow = () => {

@@ -5,40 +5,14 @@ import { ITiledDashboardFarm } from '../TileDashboard/TileDashboard.Props';
 export interface IServerGridDashboardProps {
     farms: Array<ITiledDashboardFarm>;
 }
-export interface DataRow {
+export interface ServerGridRow {
     type: 'DataRow';
     FarmName: string;
     UserCount: string;
-    CPU: string;
-    Memory: string;
-    Disk: string;
-    DiskActivity: string;
-    Network: string;
-    LastUpdated: string;
+    CPU: number;
+    Memory: number;
+    Disk: number;
+    DiskActivity: number;
+    Network: number;
+    LastUpdated: number;
 }
-
-export interface GroupRow {
-    type: 'GroupRow';
-    columnGroupName: string;
-    name: string;
-    depth: number;
-    isExpanded: boolean;
-}
-
-export interface GridColumn {
-     key: string;
-    name: string;
-    width: number;
-    customRenderer?: ({ cellData, columnData, dataKey, rowData, rowIndex}) => any;
-}
-export interface RowState {
-    rows: any;
-    groupedColumns: any;
-    expandedRows: any;
-    sortColumn: any;
-    sortDirection: any;
-}
-
-
-
-export type ServerGridRow = DataRow | GroupRow;

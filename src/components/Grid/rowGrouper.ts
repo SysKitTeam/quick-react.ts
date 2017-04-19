@@ -16,7 +16,7 @@ class RowGrouper {
         }
         return isExpanded;
     }
-
+    
     groupRowsByColumn(rows, columnIndex = 0, parentGroupKey = '') {
         let nextColumnIndex = columnIndex;
         let columnName = this.columns[columnIndex];

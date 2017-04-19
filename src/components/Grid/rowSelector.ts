@@ -1,8 +1,7 @@
 const createSelector = require('reselect').createSelector;
-import { ServerGridRow, RowState } from './ServerGridDashboard.Props';
-import { groupRows } from '../../utilities/RowGrouper';
+import { RowState } from './Grid.Props';
+import { groupRows } from './rowGrouper';
 const objectAssign = require('object-assign');
-import { IServerGridDashboardState } from './ServerGridDashboard';
 
 const getInputRows = (state: RowState) => state.rows;
 const getGroupedColumns = (state: RowState) => state.groupedColumns;

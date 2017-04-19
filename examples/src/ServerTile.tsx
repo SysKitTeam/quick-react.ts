@@ -9,23 +9,6 @@ import { ServerTile } from './../../src/components/ServerTile/ServerTile';
 import {IFarm , ISharePointServer, ServerStatus} from './../../src/models';
 import { dummyDashboard } from '../MockData/DashboardDummy';
 
-const partitions = [
-    {
-        id: 0,
-        name: 'C',
-        used: Math.floor(Math.random() * 100),
-        capacity: Math.floor(Math.random() * 100) + 200,
-        usageUnit: 'GB',
-    },
-    {
-        id: 1,
-        name: 'F',
-        used: Math.floor(Math.random() * 100),
-        capacity: Math.floor(Math.random() * 100) + 200,
-        usageUnit: 'GB',
-    }
-];
-
 export class Index extends React.Component<any, any> {
   
     public render() {
@@ -37,7 +20,22 @@ export class Index extends React.Component<any, any> {
                     name={'SP2016-Martin'}
                     numberOfUsers={'3432'}
                     onClose={(id: string) => console.log('Go away!', id)}
-                    diskInformation={ partitions }
+                    diskInformation={[
+                                        {
+                                            name: 'Local Disk (C:)',
+                                            used: 800,
+                                            capacity: 1000,
+                                            usageUnit: 'GB',
+                                            id: 1     
+                                        },
+                                        {
+                                            name: 'Data (E:)',
+                                            used: 560,
+                                            capacity: 789,
+                                            usageUnit: 'GB',
+                                            id: 2    
+                                        }
+                                    ]}
                     roles={[]}
                     countersData={[
                         { title: 'CPU', currentUsage: '43', usageUnit: '%', hoverText: [''], status: ServerStatus.OK },
