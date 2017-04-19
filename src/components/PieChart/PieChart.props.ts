@@ -6,6 +6,7 @@ export interface IPieChartProps {
     dimensions: IPieChartDimensions;
     displayingElements?: number;
     showLegend?: boolean;
+    sortValues?: boolean;
 }
 
 export interface IPieChartContentProps {
@@ -20,6 +21,7 @@ export interface IPieChartContentProps {
 export interface IPieChartData {
     label: string;
     value: number;
+    color?: string;
 }
 
 export interface IPieChartDimensions {

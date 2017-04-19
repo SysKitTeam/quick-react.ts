@@ -30,7 +30,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
         const cpuData = cpuDataProp[0].data;
         return (
             <div className={classNames(className)} onClick={this.serverOnClick}>
-                 {this.props.onClose &&
+                {this.props.onClose &&
                     <Icon disabled={false}
                         className={'dialog-button dialog-button-close'}
                         onClick={this.props.onClose}
@@ -40,7 +40,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                     serverName={this.props.name}
                     numberOfUsers={this.props.numberOfUsers}
                     roles={this.props.roles}
-                    />
+                />
                 <div className={'counters-container'}>
                     <LineChart
                         title={'CPU'}
@@ -54,14 +54,14 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                         showLegend={false}
                         tooltipText={(d: ILineChartData) => toPrettyString(d.value, 0) + '%'}
                         colorPallette={['#676767']}
-                        />
+                    />
                     <ProgressBar
                         title={'Memory'}
                         info={this.props.memoryUsage.used + ' of ' + this.props.memoryUsage.capacity + ' ' + this.props.memoryUsage.usageUnit + ' used'}
                         dimensions={{ height: '40px', width: '100%' }}
                         data={{ total: this.props.memoryUsage.capacity, current: this.props.memoryUsage.used }}
                         progressColor={this.getProgressColor()}
-                        />
+                    />
                     <div className={'partition-container'} >
                         {
                             this.props.partitionUsages.map((data, index) => <PartitionTile key={index} className={partitionTileClass} usage={data} />)

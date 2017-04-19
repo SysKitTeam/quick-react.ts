@@ -117,13 +117,13 @@ export function generateMeasures(): Array<IMeasure> {
     let networkMeasure: NetworkMeasure = {
         type: MeasureType.Network,
         status: generateRandomStatus(),
-        kbTotal: 45.0,
+        kbTotal: generateNetworkSpeed(),
         time: new Date(Date.now())
     };
     let diskMeasure: DiskMeasure = {
         type: MeasureType.Disk,
         status: generateRandomStatus(),
-        totalDiskIo: 1023,
+        totalDiskIo: generateNetworkSpeed(),
         partitions: [
             {
                 name: 'Local Disk (C:)',

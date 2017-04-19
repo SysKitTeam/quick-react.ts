@@ -21,11 +21,10 @@ export class PartitionTile extends React.PureComponent<IPartitionTileProps, any>
         return (
             <div className={classNames(className, this.props.usage.className, this.props.className)} >
                 <Label className="server-name">{this.props.usage.name}</Label>
-                <Label>{this.props.usage.used}/ {this.props.usage.capacity} {this.props.usage.usageUnit}</Label>
+                <Label>{this.props.usage.used}/{this.props.usage.capacity} {this.props.usage.usageUnit}</Label>
                 <PieChart
                     dimensions={{ width: '100%', height: '70px' }}
                     data={this.transformPartitionData(this.props.usage)}
-                    colors={this.getColorsByStatus(this.props.usage.status)}
                     tipText={(d: IPieChartData) => (d.label + ': ' + toPrettyString(d.value) + ' ' + this.props.usage.usageUnit)}
                     showLegend={false} />
             </div>
@@ -33,20 +32,16 @@ export class PartitionTile extends React.PureComponent<IPartitionTileProps, any>
     }
 
     private transformPartitionData(partition: IPartitionUsage): Array<IPieChartData> {
-        let free = partition.capacity - partition.used;
-        return [{ label: 'Used', value: partition.used }, { label: 'Free', value: free }];
+        const free = partition.capacity - partition.used;
+        return [{ label: 'Used', value: partition.used, color: this.getColorByStatus(partition.status) }, { label: 'Free', value: free, color: '#ececec' }];
     }
 
-    private getColorsByStatus(status: ServerStatus) {
-        let colors = Array(2);
-        colors[1] = '#ececec';
+    private getColorByStatus(status: ServerStatus) : string {
         if (status === ServerStatus.Critical) {
-            colors[0] = this.props.criticalColor;
+            return this.props.criticalColor;
         } else if (status === ServerStatus.Warning) {
-            colors[0] = this.props.warningColor;
-        } else {
-            colors[0] = this.props.okColor;
-        }
-        return colors;
+            return this.props.warningColor;
+        } 
+        return this.props.okColor;
     }
 }
