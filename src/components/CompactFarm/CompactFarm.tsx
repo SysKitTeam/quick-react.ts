@@ -7,7 +7,7 @@ import { Group } from '../Group/Group';
 import { GroupHeader } from '../GroupHeader/GroupHeader';
 import * as classNames from 'classnames';
 import { autobind } from '../../utilities/autobind';
-import { getServerMeasures, sortServersByStatusAndName, filterServerByName } from '../../utilities/server';
+import { getServerMeasures, sortServersByStatusAndName, filterServerByName, filterServerByStatus } from '../../utilities/server';
 import { CommonComponent } from '../Common/Common';
 import { Callout } from '../Callout/Callout';
 
@@ -86,7 +86,13 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
 
     public render() {
         const farm = this.props.farm;
-        const servers = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).sort(sortServersByStatusAndName);
+        let servers;
+        if (this.props.filter.indexOf('status:') !== -1) {
+            servers = farm.servers.filter((server) => filterServerByStatus(this.props.filter.replace('status:', '').trim(), server.status));
+        } else {
+            servers = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).sort(sortServersByStatusAndName);
+        }
+
         return (
             <div className={'compact-farm'}>
                 <Group

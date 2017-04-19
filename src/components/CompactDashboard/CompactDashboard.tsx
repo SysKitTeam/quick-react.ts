@@ -9,7 +9,7 @@ const Collection = require('react-virtualized').Collection;
 import * as classNames from 'classnames';
 import { IFarm, Partition } from '../../models';
 import { autobind } from '../../utilities/autobind';
-import { sortServersByStatusAndName, filterServerByName } from '../../utilities/server';
+import { sortServersByStatusAndName, filterServerByName, filterServerByStatus } from '../../utilities/server';
 import { ITiledDashboardFarm, ITiledDashboardServer } from '../TileDashboard/Tiledashboard.props'; 
 
 import './CompactDashboard.scss';
@@ -131,7 +131,12 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
             return 0;
         }
         const serversPerRow = Math.floor((width - totalPaddingHorizontal) / serverTileWidth);
-        const farmServerCount = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
+        let farmServerCount;
+        if (this.props.filter.indexOf('status:') !== -1) {
+            farmServerCount = farm.servers.filter((server) => filterServerByStatus(this.props.filter.replace('status:', '').trim(), server.status)).length;
+        } else {
+            farmServerCount = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
+        }
         const rowCount = Math.ceil(farmServerCount / serversPerRow);
         const serverHeight = rowCount * servertileHeight;
         const totalHeight = serverHeight + headerTotalHeight;
@@ -165,14 +170,18 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
 
     @autobind
     private getRow(index: number): IFarm {
-        const { farms } = this.state;
-        return farms[index];
+        return this.state.farms[index];
     }
 
     @autobind
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
         const farm = this.getRow(index);
-        const serversCount = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
+        let serversCount;
+        if (this.props.filter.indexOf('status:') !== -1) {
+            serversCount = farm.servers.filter((server) => filterServerByStatus(this.props.filter.replace('status:', '').trim(), server.status)).length;
+        } else {
+            serversCount = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
+        }
         if (serversCount === 0) {
             return;
         }
@@ -190,12 +199,22 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
 
     private filterFarms(farms: Array<ITiledDashboardFarm>, filter: string) {
         let filteredFarms = Array<ITiledDashboardFarm>(0);
-        farms.forEach(farm => {
-            const servers = farm.servers.filter((server) => filterServerByName(filter, server.name));
-            if (servers.length !== 0) {
-                filteredFarms.push(farm);
-            }
-        });
+        filter = filter.toLowerCase();
+        if (filter.indexOf('status:') !== -1) {
+            farms.forEach(farm => {
+                const servers = farm.servers.filter((server) => filterServerByStatus(filter.replace('status:', '').trim(), server.status));
+                if (servers.length !== 0) {
+                    filteredFarms.push(farm);
+                }
+            });
+        } else {
+            farms.forEach(farm => {
+                const servers = farm.servers.filter((server) => filterServerByName(filter, server.name));
+                if (servers.length !== 0) {
+                    filteredFarms.push(farm);
+                }
+            });
+        }
         return filteredFarms;
     }
 }

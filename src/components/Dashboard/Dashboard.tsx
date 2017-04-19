@@ -90,6 +90,5 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
     @autobind
     private changeSearchFilter(newValue: any) {
         this.setState({ filter: newValue });
-        this.forceUpdate();
     }
 }
