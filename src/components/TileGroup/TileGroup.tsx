@@ -6,7 +6,7 @@ import * as classNames from 'classnames';
 import { TagContainer } from '../TagContainer/TagContainer';
 import { Icon } from '../Icon/Icon';
 import { autobind } from '../../utilities/autobind';
-import { getServerMeasures, sortServersByStatusAndName, filterServerByName, getDiskInformationFromMeasurements } from '../../utilities/server';
+import { getServerMeasures, sortServersByStatusAndName, filterServerByName, getDiskInformationFromMeasurements, filterServerByStatus } from '../../utilities/server';
 
 import './TileGroup.scss';
 
@@ -14,7 +14,12 @@ export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
 
     public render(): JSX.Element {
         const { farm } = this.props;
-        const servers = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).sort(sortServersByStatusAndName);
+        let servers;
+        if (this.props.filter.indexOf('status:') !== -1) {
+            servers = farm.servers.filter((server) => filterServerByStatus(this.props.filter.replace('status:', '').trim(), server.status));
+        } else {
+            servers = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).sort(sortServersByStatusAndName);
+        }
         return (
             <Group
                 serverChildrenCount={servers.length}
@@ -39,7 +44,7 @@ export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
                             >
                             {
                                 server.roles.length > 0 &&
-                                <TagContainer title={''} tags={server.roles}/>
+                                <TagContainer title={''} tags={server.roles} />
                             }
                         </ServerTile>
                     ))

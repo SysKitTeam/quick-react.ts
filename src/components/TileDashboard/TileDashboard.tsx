@@ -10,7 +10,7 @@ import * as classNames from 'classnames';
 import { TagContainer } from '../TagContainer/TagContainer';
 import { Icon } from '../Icon/Icon';
 import { autobind } from '../../utilities/autobind';
-import { getServerMeasures, sortServersByStatusAndName, filterServerByName } from '../../utilities/server';
+import { getServerMeasures, sortServersByStatusAndName, filterServerByName, filterServerByStatus } from '../../utilities/server';
 import { TileGroup } from '../TileGroup';
 
 import './TileDashboard.scss';
@@ -28,7 +28,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
 
     constructor(props?: ITileDashboardProps) {
         super(props);
-    
+
         this.state = {
             farms: this.filterFarms(props.farms, props.filter)
         };
@@ -87,7 +87,12 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
             return 0;
         }
         const serversPerRow = Math.floor((width - totalPaddingHorizontal) / serverTileWidth);
-        const farmServerCount = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
+        let farmServerCount;
+        if (this.props.filter.indexOf('status:') !== -1) {
+            farmServerCount = farm.servers.filter((server) => filterServerByStatus(this.props.filter.replace('status:', '').trim(), server.status)).length;
+        } else {
+            farmServerCount = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
+        }
         const rowCount = Math.ceil(farmServerCount / serversPerRow);
         const serverHeight = rowCount * servertileHeight;
         const totalHeight = serverHeight + headerTotalHeight;
@@ -96,15 +101,19 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
 
     @autobind
     private getRow(index: number): ITiledDashboardFarm {
-        const { farms } = this.state;
-        return farms[index];
+        return this.state.farms[index];
     }
 
     @autobind
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
         const farm = this.getRow(index);
-        const servers = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).sort(sortServersByStatusAndName);
-        if (servers.length === 0) {
+        let serversCount;
+        if (this.props.filter.indexOf('status:') !== -1) {
+            serversCount = farm.servers.filter((server) => filterServerByStatus(this.props.filter.replace('status:', '').trim(), server.status)).length;
+        } else {
+            serversCount = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
+        }
+        if (serversCount === 0) {
             return;
         }
         return (
@@ -121,12 +130,22 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
 
     private filterFarms(farms: Array<ITiledDashboardFarm>, filter: string) {
         let filteredFarms = Array<ITiledDashboardFarm>(0);
-        farms.forEach(farm => {
-            const servers = farm.servers.filter((server) => filterServerByName(filter, server.name));
-            if (servers.length !== 0) {
-                filteredFarms.push(farm);
-            }
-        });
+        filter = filter.toLowerCase();
+        if (filter.indexOf('status:') !== -1) {
+            farms.forEach(farm => {
+                const servers = farm.servers.filter((server) => filterServerByStatus(filter.replace('status:', '').trim(), server.status));
+                if (servers.length !== 0) {
+                    filteredFarms.push(farm);
+                }
+            });
+        } else {
+            farms.forEach(farm => {
+                const servers = farm.servers.filter((server) => filterServerByName(filter, server.name));
+                if (servers.length !== 0) {
+                    filteredFarms.push(farm);
+                }
+            });
+        }
         return filteredFarms;
     }
 }
