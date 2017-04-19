@@ -108,33 +108,33 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
      * as one value.
      */
     private transformData(): Array<any> {
-        let data = this.props.data;
+        let chartData = this.props.data;
         if (this.props.sortValues) {
-            data = this.props.data.sort((a, b) => b.value - a.value);
+            chartData = this.props.data.sort((a, b) => b.value - a.value);
         }
 
-        if (this.props.displayingElements !== undefined && this.props.displayingElements < data.length) {
+        if (this.props.displayingElements !== undefined && this.props.displayingElements < chartData.length) {
 
             let data = Array(0);
             let elementsToTake = this.props.displayingElements - 1;
-            if (elementsToTake === data.length - 1) {
+            if (elementsToTake === chartData.length - 1) {
                 elementsToTake--;
             }
 
             for (let i = 0; i < elementsToTake; i++) {
-                data.push(data[i]);
+                data.push(chartData[i]);
             }
 
             let value = 0;
-            for (let i = elementsToTake; i < data.length; i++) {
-                value += data[i].value;
+            for (let i = elementsToTake; i < chartData.length; i++) {
+                value += chartData[i].value;
             }
             data.push({ label: 'Other', value: value });
 
             return data;
         }
 
-        return data;
+        return chartData;
     }
 
     /**
