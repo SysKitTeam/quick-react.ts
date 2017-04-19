@@ -28,6 +28,10 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
 
     constructor(props?: ITileDashboardProps) {
         super(props);
+    
+        this.state = {
+            farms: this.filterFarms(props.farms, props.filter)
+        };
     }
 
     @autobind
@@ -37,8 +41,13 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
         }
     }
 
-    render() {
-        let { farms } = this.props;
+    public componentWillReceiveProps(nextProps: ITileDashboardProps, nextState: any) {
+        const filteredFarms = this.filterFarms(nextProps.farms, nextProps.filter);
+        this.setState({ farms: filteredFarms });
+    }
+
+    public render() {
+        let { farms } = this.state;
         let classname = classNames({ [this.props.className]: this.props.className !== undefined });
         return (
             <div className={classname}>
@@ -87,7 +96,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
 
     @autobind
     private getRow(index: number): ITiledDashboardFarm {
-        const { farms } = this.props;
+        const { farms } = this.state;
         return farms[index];
     }
 
@@ -95,7 +104,9 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
         const farm = this.getRow(index);
         const servers = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).sort(sortServersByStatusAndName);
-
+        if (servers.length === 0) {
+            return;
+        }
         return (
             <div style={style} key={index}>
                 <TileGroup
@@ -106,5 +117,16 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
                     />
             </div>
         );
+    }
+
+    private filterFarms(farms: Array<ITiledDashboardFarm>, filter: string) {
+        let filteredFarms = Array<ITiledDashboardFarm>(0);
+        farms.forEach(farm => {
+            const servers = farm.servers.filter((server) => filterServerByName(filter, server.name));
+            if (servers.length !== 0) {
+                filteredFarms.push(farm);
+            }
+        });
+        return filteredFarms;
     }
 }

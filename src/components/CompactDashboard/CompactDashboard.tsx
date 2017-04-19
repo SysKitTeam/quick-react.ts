@@ -10,8 +10,11 @@ import * as classNames from 'classnames';
 import { IFarm, Partition } from '../../models';
 import { autobind } from '../../utilities/autobind';
 import { sortServersByStatusAndName, filterServerByName } from '../../utilities/server';
+import { ITiledDashboardFarm, ITiledDashboardServer } from '../TileDashboard/Tiledashboard.props'; 
 
 import './CompactDashboard.scss';
+
+const objectAssign = require('object-assign');
 
 const GUTTER_SIZE = 3;
 const CELL_WIDTH = 330;
@@ -33,6 +36,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
             columnYMap: [],
             collection: undefined,
             list: undefined,
+            farms: this.filterFarms(props.farms, props.filter)
         };
     }
 
@@ -53,8 +57,14 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
         }
     }
 
+    public componentWillReceiveProps(nextProps: ICompactDashboardProps, nextState) {
+        const filteredFarms = this.filterFarms(nextProps.farms, nextProps.filter);
+        this.setState({ farms: filteredFarms });
+    }
+
     public render() {
-        let { title, farms } = this.props;
+        let { title } = this.props;
+        let { farms } = this.state;
         let classname = classNames({ [this.props.className]: this.props.className !== undefined });
         return (
             <div className={classname}>
@@ -155,13 +165,17 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
 
     @autobind
     private getRow(index: number): IFarm {
-        const { farms } = this.props;
+        const { farms } = this.state;
         return farms[index];
     }
 
     @autobind
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
         const farm = this.getRow(index);
+        const serversCount = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
+        if (serversCount === 0) {
+            return;
+        }
         return (
             <div style={style} key={index}>
                 <CompactFarm
@@ -172,5 +186,16 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                     />
             </div>
         );
+    }
+
+    private filterFarms(farms: Array<ITiledDashboardFarm>, filter: string) {
+        let filteredFarms = Array<ITiledDashboardFarm>(0);
+        farms.forEach(farm => {
+            const servers = farm.servers.filter((server) => filterServerByName(filter, server.name));
+            if (servers.length !== 0) {
+                filteredFarms.push(farm);
+            }
+        });
+        return filteredFarms;
     }
 }
