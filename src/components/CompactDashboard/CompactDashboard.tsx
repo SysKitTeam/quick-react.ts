@@ -45,7 +45,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
         if (this.props.isVertical === false && prevProps.isVertical === true) {
             this.setState({ columnYMap: [] });
         }
-        if (this.props.filter !== prevProps.filter) {
+        if (this.props.filter !== prevProps.filter || (prevProps.farms !== this.props.farms)) {
             if (this.collection) {
                 this.setState({ columnYMap: [] }, () => {
                     this.collection.recomputeCellSizesAndPositions();
