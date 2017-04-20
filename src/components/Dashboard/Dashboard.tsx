@@ -44,12 +44,12 @@ export function filterFarms(farms: Array<ITiledDashboardFarm>, filter: string) :
     return filteredFarms;
 }
 
-export class Dashboard extends React.Component<IDashboardProps, any> {
+export class Dashboard extends React.PureComponent<IDashboardProps, any> {
     constructor(props?: IDashboardProps) {
         super(props);
         this.state = {
             activeView: props.activeView,
-            filter: props.filter
+            filter: this.props.filter
         };
     }
 

@@ -6,7 +6,13 @@ import * as classNames from 'classnames';
 import { TagContainer } from '../TagContainer/TagContainer';
 import { Icon } from '../Icon/Icon';
 import { autobind } from '../../utilities/autobind';
-import { getServerMeasures, sortServersByStatusAndName, filterServerByName, getDiskInformationFromMeasurements, filterServerByStatus } from '../../utilities/server';
+import { 
+    getServerMeasures, 
+    sortServersByStatusAndName, 
+    filterServerByName, 
+    getDiskInformationFromMeasurements, 
+    filterServerByStatus 
+} from '../../utilities/server';
 
 import './TileGroup.scss';
 
@@ -14,15 +20,15 @@ export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
 
     public render(): JSX.Element {
         const { farm } = this.props;
-        let servers;
-        if (this.props.filter.indexOf('status:') !== -1) {
-            servers = farm.servers.filter((server) => filterServerByStatus(this.props.filter.replace('status:', '').trim(), server.status));
-        } else {
-            servers = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).sort(sortServersByStatusAndName);
-        }
+        let servers = farm.servers.sort((server1, server2) => {
+            return sortServersByStatusAndName(
+                {status: server1.status, name: server1.name}, 
+                {status: server2.status, name: server2.name}
+            );
+        });
         return (
             <Group
-                serverChildrenCount={servers.length}
+                serverChildrenCount={farm.servers.length}
                 filter={this.props.filter}
                 className={'farm-name-inside'}
                 id={farm.id}
@@ -62,4 +68,3 @@ export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
         }
     }
 }
-

@@ -86,7 +86,12 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
 
     public render() {
         const farm = this.props.farm;
-        let servers = farm.servers;
+        let servers = farm.servers.sort((server1, server2) => {
+            return sortServersByStatusAndName(
+                {status: server1.status, name: server1.name}, 
+                {status: server2.status, name: server2.name}
+            );
+        });
 
         return (
             <div className={'compact-farm'}>

@@ -111,7 +111,6 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
             <div style={style} key={index}>
                 <TileGroup
                     farm={farm}
-                    filter={this.props.filter}
                     serverOnClick={this.props.serverOnClick}
                     groupOnClick={this.props.groupOnClick}
                     />
