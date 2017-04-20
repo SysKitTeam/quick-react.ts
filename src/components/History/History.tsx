@@ -19,8 +19,8 @@ export class History extends React.Component < IHistoryProps, any > {
             'div', 
             assign(''), 
             <div>
-                <Button icon={'icon-arrowLeftSlim'} onClick={this.props.onBack}></Button>
-                <Button icon={'icon-arrowRightSlim'} onClick={this.props.onForward}></Button>
+                <Button icon={'icon-arrow_L'} onClick={this.props.onBack}></Button>
+                <Button icon={'icon-arrow_R'} onClick={this.props.onForward}></Button>
             </div>
         );
     }

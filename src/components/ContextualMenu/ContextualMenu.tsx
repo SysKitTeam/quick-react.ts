@@ -266,7 +266,7 @@ export class ContextualMenu extends CommonComponent < IContextualMenuProps, ICon
                 ) : (null) }
                 <span className={'contextualMenu-itemText'}>{ item.name }</span>
                 { (item.items && item.items.length) ? (
-                <Icon className={'contextualMenu-submenu-chevron'} iconName={ getRTL() ? 'icon-arrowLeftSlim' : 'icon-arrowRightSlim' } />
+                <Icon className={'contextualMenu-submenu-chevron'} iconName={ getRTL() ? 'icon-arrow_L' : 'icon-arrow_R' } />
                 ) : (null) }
             </div>
         );

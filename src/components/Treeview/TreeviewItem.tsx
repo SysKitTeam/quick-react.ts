@@ -15,7 +15,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
 
     constructor(props) {
         super(props);
-        this.state = { isOpen: props.isOpen, iconArrow: 'icon-arrowRight' };
+        this.state = { isOpen: props.isOpen, iconArrow: 'icon-arrow_right' };
     }
 
     public shouldComponentUpdate(nextProps, nextState) {
@@ -112,7 +112,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
 
         this.setState({
             isOpen: !isOpen,
-            iconArrow: isOpen ? 'icon-arrowRight' : 'icon-arrowDownRight'
+            iconArrow: isOpen ? 'icon-arrow_right' : 'icon-arrow_down_right'
         });
 
         ev.stopPropagation();
