@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { autobind } from '../../utilities/autobind';
 import { IDashboardProps } from './Dashboard.Props';
 import { DashboardHeader } from '../DashboardHeader/DashboardHeader';
 import { CompactDashboard } from '../CompactDashboard/CompactDashboard';
@@ -6,9 +7,10 @@ import { TileDashboard } from '../TileDashboard/TileDashboard';
 import { ICompactDashboardProps } from '../CompactDashboard/CompactDashboard.Props';
 import { ActiveDashboard } from '../DashboardHeader/DashboardHeader.Props';
 import { PivotItem } from '../Pivot/PivotItem';
+import { ITiledDashboardFarm, ITiledDashboardServer } from '../TileDashboard/Tiledashboard.props';
+import { filterServerByName, filterServerByStatus } from '../../utilities/server';
 import './Dashboard.scss';
-
-import { autobind } from '../../utilities/autobind';
+const objectAssign = require('object-assign');
 
 function sortFarms(ob1: { farmName: string }, ob2: { farmName: string }) {
     if (ob1.farmName < ob2.farmName) {
@@ -19,6 +21,27 @@ function sortFarms(ob1: { farmName: string }, ob2: { farmName: string }) {
         return 1;
     }
     return 0;
+}
+
+export function filterFarms(farms: Array<ITiledDashboardFarm>, filter: string) : Array<ITiledDashboardFarm> {
+    let filteredFarms = Array<ITiledDashboardFarm>(0);
+    filter = filter.toLowerCase();
+    if (filter.indexOf('status:') !== -1) {
+        farms.forEach(farm => {
+            const servers = farm.servers.filter((server) => filterServerByStatus(filter.replace('status:', '').trim(), server.status));
+            if (servers.length !== 0) {
+                filteredFarms.push(objectAssign({}, farm, { servers: servers }));
+            }
+        });
+    } else {
+        farms.forEach(farm => {
+            const servers = farm.servers.filter((server) => filterServerByName(filter, server.name));
+            if (servers.length !== 0) {
+                filteredFarms.push(objectAssign({}, farm, { servers: servers }));
+            }
+        });
+    }
+    return filteredFarms;
 }
 
 export class Dashboard extends React.Component<IDashboardProps, any> {
@@ -33,7 +56,7 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
     public render() {
         let {headerClass, hasAddButton} = this.props;
         let {filter, activeView} = this.state;
-        
+
         return (
             <div className="dashboard">
                 <DashboardHeader
@@ -46,7 +69,7 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
                     title={this.props.title}
                     onViewChange={this.changeView}
                     selectedDashboardKey={activeView}
-                />
+                    />
                 {
                     ((activeView === ActiveDashboard.CompactHorizontal || activeView === ActiveDashboard.CompactVertical)) &&
                     <CompactDashboard
@@ -62,7 +85,7 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
                         serverRoleEdit={this.props.serverRoleEdit}
                         serverClose={this.props.serverClose}
                         serverOnClick={this.props.serverOnClick}
-                    />
+                        />
                 }
                 {
                     (activeView === ActiveDashboard.Tiles) &&
@@ -77,7 +100,7 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
                         serverRoleEdit={this.props.serverRoleEdit}
                         serverClose={this.props.serverClose}
                         serverOnClick={this.props.serverOnClick}
-                    />
+                        />
                 }
             </div>
         );

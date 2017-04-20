@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import { ICompactDashboardProps } from './CompactDashboard.Props';
 import { CompactFarm } from '../CompactFarm/CompactFarm';
@@ -10,7 +9,8 @@ import * as classNames from 'classnames';
 import { IFarm, Partition } from '../../models';
 import { autobind } from '../../utilities/autobind';
 import { sortServersByStatusAndName, filterServerByName, filterServerByStatus } from '../../utilities/server';
-import { ITiledDashboardFarm, ITiledDashboardServer } from '../TileDashboard/Tiledashboard.props'; 
+import { ITiledDashboardFarm, ITiledDashboardServer } from '../TileDashboard/Tiledashboard.props';
+import { filterFarms } from '../Dashboard/Dashboard';
 
 import './CompactDashboard.scss';
 
@@ -36,7 +36,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
             columnYMap: [],
             collection: undefined,
             list: undefined,
-            farms: this.filterFarms(props.farms, props.filter)
+            farms: filterFarms(props.farms, props.filter)
         };
     }
 
@@ -58,7 +58,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
     }
 
     public componentWillReceiveProps(nextProps: ICompactDashboardProps, nextState) {
-        const filteredFarms = this.filterFarms(nextProps.farms, nextProps.filter);
+        const filteredFarms = filterFarms(nextProps.farms, nextProps.filter);
         this.setState({ farms: filteredFarms });
     }
 
@@ -131,9 +131,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
             return 0;
         }
         const serversPerRow = Math.floor((width - totalPaddingHorizontal) / serverTileWidth);
-
         let farmServerCount = farm.servers.length; 
-        
         const rowCount = Math.ceil(farmServerCount / serversPerRow);
         const serverHeight = rowCount * servertileHeight;
         const totalHeight = serverHeight + headerTotalHeight;
@@ -174,7 +172,6 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
     @autobind
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
         const farm = this.getRow(index);
-
         if (farm.servers.length === 0) {
             return;
         }
@@ -189,26 +186,5 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                 />
             </div>
         );
-    }
-
-    private filterFarms(farms: Array<ITiledDashboardFarm>, filter: string) {
-        let filteredFarms = Array<ITiledDashboardFarm>(0);
-        filter = filter.toLowerCase();
-        if (filter.indexOf('status:') !== -1) {
-            farms.forEach(farm => {
-                const servers = farm.servers.filter((server) => filterServerByStatus(filter.replace('status:', '').trim(), server.status));
-                if (servers.length !== 0) {
-                    filteredFarms.push(objectAssign({}, farm, { servers: servers }));
-                }
-            });
-        } else {
-            farms.forEach(farm => {
-                const servers = farm.servers.filter((server) => filterServerByName(filter, server.name));
-                if (servers.length !== 0) {
-                    filteredFarms.push(objectAssign({}, farm, { servers: servers }));
-                }
-            });
-        }
-        return filteredFarms;
     }
 }

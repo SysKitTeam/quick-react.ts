@@ -3,15 +3,16 @@ import { ITileDashboardProps, ITiledDashboardFarm, ITiledDashboardServer } from 
 import { ServerTile } from '../ServerTile/ServerTile';
 import { ITileData } from '../ServerTile/ServerTile.Props';
 const AutoSizer = require('react-virtualized').AutoSizer;
+const List = require('react-virtualized').List;
 import { Group } from '../Group/Group';
 import { GroupHeader } from '../GroupHeader/GroupHeader';
-const List = require('react-virtualized').List;
 import * as classNames from 'classnames';
 import { TagContainer } from '../TagContainer/TagContainer';
 import { Icon } from '../Icon/Icon';
 import { autobind } from '../../utilities/autobind';
 import { getServerMeasures, sortServersByStatusAndName, filterServerByName, filterServerByStatus } from '../../utilities/server';
 import { TileGroup } from '../TileGroup';
+import { filterFarms } from '../Dashboard/Dashboard';
 
 import './TileDashboard.scss';
 
@@ -30,19 +31,19 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
         super(props);
 
         this.state = {
-            farms: this.filterFarms(props.farms, props.filter)
+            farms: filterFarms(props.farms, props.filter)
         };
     }
 
     @autobind
     private componentDidUpdate(prevProps: ITileDashboardProps, prevState) {
-        if (this.props.filter !== prevProps.filter && this.list) {
+        if ((this.props.filter !== prevProps.filter && this.list) || prevProps.farms !== this.props.farms) {
             this.list.recomputeRowHeights();
         }
     }
 
     public componentWillReceiveProps(nextProps: ITileDashboardProps, nextState: any) {
-        const filteredFarms = this.filterFarms(nextProps.farms, nextProps.filter);
+        const filteredFarms = filterFarms(nextProps.farms, nextProps.filter);
         this.setState({ farms: filteredFarms });
     }
 
@@ -87,12 +88,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
             return 0;
         }
         const serversPerRow = Math.floor((width - totalPaddingHorizontal) / serverTileWidth);
-        let farmServerCount;
-        if (this.props.filter.indexOf('status:') !== -1) {
-            farmServerCount = farm.servers.filter((server) => filterServerByStatus(this.props.filter.replace('status:', '').trim(), server.status)).length;
-        } else {
-            farmServerCount = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
-        }
+        let farmServerCount = farm.servers.length;
         const rowCount = Math.ceil(farmServerCount / serversPerRow);
         const serverHeight = rowCount * servertileHeight;
         const totalHeight = serverHeight + headerTotalHeight;
@@ -107,15 +103,10 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
     @autobind
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
         const farm = this.getRow(index);
-        let serversCount;
-        if (this.props.filter.indexOf('status:') !== -1) {
-            serversCount = farm.servers.filter((server) => filterServerByStatus(this.props.filter.replace('status:', '').trim(), server.status)).length;
-        } else {
-            serversCount = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
-        }
-        if (serversCount === 0) {
+        if (farm.servers.length === 0) {
             return;
         }
+        
         return (
             <div style={style} key={index}>
                 <TileGroup
@@ -126,26 +117,5 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
                     />
             </div>
         );
-    }
-
-    private filterFarms(farms: Array<ITiledDashboardFarm>, filter: string) {
-        let filteredFarms = Array<ITiledDashboardFarm>(0);
-        filter = filter.toLowerCase();
-        if (filter.indexOf('status:') !== -1) {
-            farms.forEach(farm => {
-                const servers = farm.servers.filter((server) => filterServerByStatus(filter.replace('status:', '').trim(), server.status));
-                if (servers.length !== 0) {
-                    filteredFarms.push(farm);
-                }
-            });
-        } else {
-            farms.forEach(farm => {
-                const servers = farm.servers.filter((server) => filterServerByName(filter, server.name));
-                if (servers.length !== 0) {
-                    filteredFarms.push(farm);
-                }
-            });
-        }
-        return filteredFarms;
     }
 }

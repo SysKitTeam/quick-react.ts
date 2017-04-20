@@ -28,12 +28,7 @@ function debounce(func, wait, immediate?) {
 }
 
 export class DashboardHeader extends React.Component<IDashboardHeaderProps, any> {
-
-    constructor(props?: IDashboardHeaderProps) {
-        super(props);
-    }
-
-    render() {
+    public render() {
         let { hasAddFarmButton, title, selectedDashboardKey } = this.props;
         return (
             <div className="dashboard-header-container">
@@ -44,7 +39,7 @@ export class DashboardHeader extends React.Component<IDashboardHeaderProps, any>
                         <Icon className={'add-farm'} iconName={'icon-add'} onClick={this.props.onAddFarmClick} title={'Add'} />
                     }
                 </span>
-                <Search onSearch={this.props.onSearch} onChange={debounce(this.props.onChanged, 250)} value={this.props.filter} />
+                <Search onSearch={this.props.onSearch} onChange={debounce(this.props.onChanged, 200)} value={this.props.filter} />
                 <div style={{ display: 'inline-block' }}>&nbsp;</div>
 
                 {this.props.pivotItems &&
