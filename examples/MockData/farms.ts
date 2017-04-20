@@ -13,7 +13,7 @@ export const classListExample = {
 
 let roleListFarms = [{ display: 'WPF', iconName: 'icon-add' }, { display: 'WPF1111111', iconName: 'icon-add' }, { display: 'Not another', iconName: 'icon-add' }, { display: 'Search', iconName: 'icon-alert' }];
 
-export const farms: Array<IFarm> = createFarms(20, generateServersCountPerFarm(20, 100, 150));
+export const farms: Array<IFarm> = createFarms(1, generateServersCountPerFarm(1, 1000, 1000));
 
 function generateServersCountPerFarm(numOfFarms: number, minServerCount: number, maxServerCount: number) : Array<number> {
     let serversCountPerFarm = Array<number>(0);
@@ -53,7 +53,6 @@ function createFarms(numOfFarms: number, serversPerFarm: Array<number>) {
     return farms;
 }
 
-const numOfServersOnFarm = [10, 15, 6, 8, 11, 30, 15, 61, 45, 7, 11];
 const memoryUsage: IMemoryUsage = { usageUnit: 'MB', capacity: 1024, used: 300, status: 1 };
 
 function createProcessorUsages(): Array<IProcessorUsageData> {

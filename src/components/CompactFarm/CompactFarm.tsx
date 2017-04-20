@@ -86,18 +86,12 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
 
     public render() {
         const farm = this.props.farm;
-        let servers;
-        if (this.props.filter.indexOf('status:') !== -1) {
-            servers = farm.servers.filter((server) => filterServerByStatus(this.props.filter.replace('status:', '').trim(), server.status));
-        } else {
-            servers = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).sort(sortServersByStatusAndName);
-        }
+        let servers = farm.servers;
 
         return (
             <div className={'compact-farm'}>
                 <Group
                     serverChildrenCount={servers.length}
-                    filter={this.props.filter}
                     className={'farm-name-inside'}
                     id={farm.id} name={farm.name}
                     key={farm.id.configDataBaseName + '-' + farm.id.sqlInstance}
@@ -106,7 +100,6 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
                     {
                         servers.map((server) => (
                             <CompactServer
-                                filter={this.props.filter}
                                 key={server.id.FQDN}
                                 roles={server.roles}
                                 id={server.id}

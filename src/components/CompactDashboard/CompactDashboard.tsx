@@ -131,12 +131,9 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
             return 0;
         }
         const serversPerRow = Math.floor((width - totalPaddingHorizontal) / serverTileWidth);
-        let farmServerCount;
-        if (this.props.filter.indexOf('status:') !== -1) {
-            farmServerCount = farm.servers.filter((server) => filterServerByStatus(this.props.filter.replace('status:', '').trim(), server.status)).length;
-        } else {
-            farmServerCount = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
-        }
+
+        let farmServerCount = farm.servers.length; 
+        
         const rowCount = Math.ceil(farmServerCount / serversPerRow);
         const serverHeight = rowCount * servertileHeight;
         const totalHeight = serverHeight + headerTotalHeight;
@@ -146,10 +143,11 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
     @autobind
     private cellSizeAndPositionGetter(width, obj: { index: number }) {
         const columnCount = Math.floor((1800 - 72) / (CELL_WIDTH + GUTTER_SIZE));
+        let row = this.getRow(obj.index);
         let columnPosition = obj.index % (columnCount || 1);
-        let height = 120 + this.getRow(obj.index).servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length * 70;
-        let serverRoleDiff = (this.getRow(obj.index).servers.filter((server) => { return filterServerByName(this.props.filter, server.name) && server.roles.length > 0; })).length * 27;
-        if (this.getRow(obj.index).isCustom) {
+        let height = 120 + row.servers.length * 70;
+        let serverRoleDiff = row.servers.length * 27;
+        if (row.isCustom) {
             serverRoleDiff += 21;
         }
         height += serverRoleDiff;
@@ -176,15 +174,11 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
     @autobind
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
         const farm = this.getRow(index);
-        let serversCount;
-        if (this.props.filter.indexOf('status:') !== -1) {
-            serversCount = farm.servers.filter((server) => filterServerByStatus(this.props.filter.replace('status:', '').trim(), server.status)).length;
-        } else {
-            serversCount = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
-        }
-        if (serversCount === 0) {
+
+        if (farm.servers.length === 0) {
             return;
         }
+
         return (
             <div style={style} key={index}>
                 <CompactFarm
@@ -204,14 +198,14 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
             farms.forEach(farm => {
                 const servers = farm.servers.filter((server) => filterServerByStatus(filter.replace('status:', '').trim(), server.status));
                 if (servers.length !== 0) {
-                    filteredFarms.push(farm);
+                    filteredFarms.push(objectAssign({}, farm, { servers: servers }));
                 }
             });
         } else {
             farms.forEach(farm => {
                 const servers = farm.servers.filter((server) => filterServerByName(filter, server.name));
                 if (servers.length !== 0) {
-                    filteredFarms.push(farm);
+                    filteredFarms.push(objectAssign({}, farm, { servers: servers }));
                 }
             });
         }

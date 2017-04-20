@@ -5,12 +5,12 @@ import { Icon } from '../Icon/Icon';
 import * as classNames from 'classnames';
 import { autobind } from '../../utilities/autobind';
 import { ServerStatus } from '../../models';
-import { filterServerByStatus } from '../../utilities/server';
+// import { filterServerByStatus } from '../../utilities/server';
 import './CompactServer.scss';
 
-function checkFilter(filter: string, serverName: string) {
-    return serverName.toLowerCase().trim().indexOf(filter.toLowerCase().trim()) !== -1;
-}
+// function checkFilter(filter: string, serverName: string) {
+//     return serverName.toLowerCase().trim().indexOf(filter.toLowerCase().trim()) !== -1;
+// }
 
 export class CompactServer extends React.PureComponent<ICompactServerProps, any> {
     constructor(props?: ICompactServerProps) {
@@ -18,16 +18,17 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, any>
     }
     
     render() {
-        let isCritical = this.props.status === ServerStatus.Critical;
-        let isWarning = this.props.status === ServerStatus.Warning;
-        let isOK = this.props.status === ServerStatus.OK;
+        let { status } = this.props;
+        // let isCritical = this.props.status === ServerStatus.Critical;
+        // let isWarning = this.props.status === ServerStatus.Warning;
+        // let isOK = this.props.status === ServerStatus.OK;
 
-        let showItem = this.props.filter ? 
-            checkFilter(this.props.filter, this.props.name) || filterServerByStatus(this.props.filter.replace('status:', '').trim(), this.props.status) : true;
-        let className = classNames({ 'compact-server-container': showItem },
-            { 'status-warning': isWarning },
-            { 'status-ok': isOK },
-            { 'status-critical': isCritical });
+        // let showItem = this.props.filter ? 
+        //     checkFilter(this.props.filter, this.props.name) || filterServerByStatus(this.props.filter.replace('status:', '').trim(), this.props.status) : true;
+        let className = classNames({ 'compact-server-container': true },
+            { 'status-warning': status === ServerStatus.Warning },
+            { 'status-ok': status === ServerStatus.OK },
+            { 'status-critical': status === ServerStatus.Critical });
 
         return (
             <div

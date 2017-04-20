@@ -33,7 +33,7 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
     public render() {
         let {headerClass, hasAddButton} = this.props;
         let {filter, activeView} = this.state;
-
+        
         return (
             <div className="dashboard">
                 <DashboardHeader

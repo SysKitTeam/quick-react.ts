@@ -8,6 +8,24 @@ import { Icon } from '../Icon/Icon';
 import * as classNames from 'classnames';
 import './DashboardHeader.scss';
 
+function debounce(func, wait, immediate?) {
+    let timeout;
+    return function () {
+        let context = this, args = arguments;
+        let later = function () {
+            timeout = null;
+            if (!immediate) {
+                func.apply(context, args);
+            }
+        };
+        let callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) {
+            func.apply(context, args);
+        }
+    };
+}
 
 export class DashboardHeader extends React.Component<IDashboardHeaderProps, any> {
 
@@ -26,7 +44,7 @@ export class DashboardHeader extends React.Component<IDashboardHeaderProps, any>
                         <Icon className={'add-farm'} iconName={'icon-add'} onClick={this.props.onAddFarmClick} title={'Add'} />
                     }
                 </span>
-                <Search onSearch={this.props.onSearch} onChange={this.props.onChanged} value={this.props.filter} />
+                <Search onSearch={this.props.onSearch} onChange={debounce(this.props.onChanged, 250)} value={this.props.filter} />
                 <div style={{ display: 'inline-block' }}>&nbsp;</div>
 
                 {this.props.pivotItems &&
