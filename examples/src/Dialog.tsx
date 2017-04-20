@@ -33,7 +33,7 @@ export class Index extends React.Component<any, any> {
                 </Dialog>
             </div>
         );
-    };
+    }
 
     private _showDialog() {
         this.setState({ showDialog: true });
@@ -42,5 +42,5 @@ export class Index extends React.Component<any, any> {
     private _closeDialog() {
         this.setState({ showDialog: false });
     }
-};
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

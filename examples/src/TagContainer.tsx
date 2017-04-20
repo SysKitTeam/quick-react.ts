@@ -19,6 +19,6 @@ export class Index extends React.Component<any, any> {
                 </TagContainer>           
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

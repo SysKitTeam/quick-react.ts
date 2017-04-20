@@ -35,7 +35,7 @@ export class Index extends React.Component<any, any> {
                                     {
                                         key: 'calendarEvent',
                                         name: 'Calendar event',
-                                        title: 'Create a calendar event',
+                                        title: 'Create a calendar event'
                                     }
                                 ],
                                 name: 'New'
@@ -48,7 +48,7 @@ export class Index extends React.Component<any, any> {
                             },
                             {
                                 key: 'divider_1',
-                                name: '-',
+                                name: '-'
                             },
                             {
                                 key: 'rename',
@@ -61,11 +61,11 @@ export class Index extends React.Component<any, any> {
                             {
                                 key: 'disabled',
                                 name: 'Disabled item',
-                                disabled: true,
+                                disabled: true
                             },
                             {
                                 key: 'divider_2',
-                                name: '-',
+                                name: '-'
                             },
                             {
                                 key: 'share',
@@ -78,7 +78,7 @@ export class Index extends React.Component<any, any> {
                                     },
                                     {
                                         key: 'sharetofacebook',
-                                        name: 'Share to Facebook',
+                                        name: 'Share to Facebook'
                                     },
                                     {
                                         key: 'sharetotwitter',
@@ -94,16 +94,16 @@ export class Index extends React.Component<any, any> {
                                             {
                                                 key: 'sharetofacebook_1',
                                                 name: 'Share to Facebook',
-                                                title: 'Share to Facebook',
+                                                title: 'Share to Facebook'
                                             },
                                             {
                                                 key: 'sharetotwitter_1',
                                                 name: 'Share to Twitter',
                                                 title: 'Share to Twitter',
                                                 icon: 'Share'
-                                            },
-                                        ],
-                                    },
+                                            }
+                                        ]
+                                    }
                                 ],
                                 name: 'Share'
                             },
@@ -115,22 +115,22 @@ export class Index extends React.Component<any, any> {
                             {
                                 key: 'music',
                                 icon: 'MusicInCollectionFill',
-                                name: 'Music',
+                                name: 'Music'
                             },
                             {
                                 key: 'divider_3',
-                                name: '-',
+                                name: '-'
                             },
                             {
                                 key: 'Bing',
                                 name: 'Go to Bing',
                                 href: 'http://www.bing.com'
-                            },
+                            }
                         ]
                     }
                     />
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

@@ -10,4 +10,4 @@ export interface ICompactServerProps extends ISharePointServer {
     serverOnClick?: (serverId: any) => void;
     onMouseEnter?: React.EventHandler<React.MouseEvent<HTMLDivElement>>;
     onMouseLeave?: React.EventHandler<React.MouseEvent<HTMLDivElement>>;
-};
+}

@@ -15,6 +15,6 @@ export class Index extends React.Component<any, any> {
                 <Button>Button</Button>
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

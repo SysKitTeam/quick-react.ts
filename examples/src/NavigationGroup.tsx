@@ -78,12 +78,10 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-                <NavigationGroup onNavigationItemClicked={(item) => {alert('ID= ' + item);}} Category={this.getCategory()}/>
-                <NavigationGroup onNavigationItemClicked={(item) => {alert('ID= ' + item);}} Category={this.getCategory2()}/>
+                <NavigationGroup onNavigationItemClicked={(item) => {alert('ID= ' + item); }} Category={this.getCategory()}/>
+                <NavigationGroup onNavigationItemClicked={(item) => {alert('ID= ' + item); }} Category={this.getCategory2()}/>
             </div>
         );
-    };
-};
-
-
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

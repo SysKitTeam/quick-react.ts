@@ -33,5 +33,5 @@ export class MainNavigation extends React.Component<IMainNavigationProps, any> {
                 { children }
             </nav>
         );
-    };
-};
+    }
+}
