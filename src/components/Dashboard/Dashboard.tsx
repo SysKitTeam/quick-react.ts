@@ -30,14 +30,10 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
         };
     }
 
-    @autobind
-    changeView(item?: PivotItem, ev?: React.MouseEvent<any>) {
-        this.setState({ activeView: Number(item.props.itemKey) });
-    }
-
-    render() {
+    public render() {
         let {headerClass, hasAddButton} = this.props;
         let {filter, activeView} = this.state;
+
         return (
             <div className="dashboard">
                 <DashboardHeader
@@ -50,7 +46,7 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
                     title={this.props.title}
                     onViewChange={this.changeView}
                     selectedDashboardKey={activeView}
-                     />
+                />
                 {
                     ((activeView === ActiveDashboard.CompactHorizontal || activeView === ActiveDashboard.CompactVertical)) &&
                     <CompactDashboard
@@ -66,7 +62,7 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
                         serverRoleEdit={this.props.serverRoleEdit}
                         serverClose={this.props.serverClose}
                         serverOnClick={this.props.serverOnClick}
-                        />
+                    />
                 }
                 {
                     (activeView === ActiveDashboard.Tiles) &&
@@ -81,14 +77,19 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
                         serverRoleEdit={this.props.serverRoleEdit}
                         serverClose={this.props.serverClose}
                         serverOnClick={this.props.serverOnClick}
-                        />
+                    />
                 }
             </div>
         );
     }
 
     @autobind
-    private changeSearchFilter(newValue: any) {
+    changeView(item?: PivotItem, ev?: React.MouseEvent<any>) {
+        this.setState({ activeView: Number(item.props.itemKey) });
+    }
+
+    @autobind
+    private changeSearchFilter(newValue: string) {
         this.setState({ filter: newValue });
     }
 }

@@ -15,6 +15,7 @@ export class Index extends React.Component<any, any> {
          this.state = {
             farms: dummyDashboard.farms,
         };
+        console.log(dummyDashboard.farms);
         // setInterval(() => {
         //     let newFarms = this.state.farms.map((farm: IFarm) => {
 

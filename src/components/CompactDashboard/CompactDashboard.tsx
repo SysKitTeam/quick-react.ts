@@ -192,7 +192,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                     filter={this.props.filter}
                     serverOnClick={this.props.serverOnClick}
                     groupOnClick={this.props.groupOnClick}
-                    />
+                />
             </div>
         );
     }

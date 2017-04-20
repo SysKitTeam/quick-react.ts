@@ -11,12 +11,23 @@ export const classListExample = {
     offline: 'offline'
 };
 
-const numOfServersOnFarm = [10, 15, 6, 8, 11, 30, 15, 61, 45, 7, 11];
 let roleListFarms = [{ display: 'WPF', iconName: 'icon-add' }, { display: 'WPF1111111', iconName: 'icon-add' }, { display: 'Not another', iconName: 'icon-add' }, { display: 'Search', iconName: 'icon-alert' }];
-function createFarms() {
-    let farms = [];
-    for (let farmIndex = 0; farmIndex <= numOfServersOnFarm.length; farmIndex++) {
-        let numOfServers = numOfServersOnFarm[farmIndex];
+
+export const farms: Array<IFarm> = createFarms(20, generateServersCountPerFarm(20, 100, 150));
+
+function generateServersCountPerFarm(numOfFarms: number, minServerCount: number, maxServerCount: number) : Array<number> {
+    let serversCountPerFarm = Array<number>(0);
+    for (let i = 0; i < numOfFarms; i++) {
+        serversCountPerFarm.push(Math.floor(Math.random() * (maxServerCount - minServerCount + 1)) + minServerCount);
+    }
+    return serversCountPerFarm;
+}
+
+function createFarms(numOfFarms: number, serversPerFarm: Array<number>) {
+    let farms = Array(0);
+    
+    for (let farmIndex = 0; farmIndex <= numOfFarms; farmIndex++) {
+        let numOfServers = serversPerFarm[farmIndex];
         let servers = [];
         for (let i = 0; i <= numOfServers; i++) {
             servers.push({
@@ -41,9 +52,8 @@ function createFarms() {
     }
     return farms;
 }
-export const farms: Array<IFarm> = createFarms();
 
-
+const numOfServersOnFarm = [10, 15, 6, 8, 11, 30, 15, 61, 45, 7, 11];
 const memoryUsage: IMemoryUsage = { usageUnit: 'MB', capacity: 1024, used: 300, status: 1 };
 
 function createProcessorUsages(): Array<IProcessorUsageData> {
