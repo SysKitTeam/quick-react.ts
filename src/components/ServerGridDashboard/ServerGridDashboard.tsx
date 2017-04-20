@@ -7,7 +7,7 @@ import { autobind } from '../../utilities/autobind';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
 
 import { Grid } from '../Grid/Grid';
-import { IGridProps, GridColumn, RowState } from '../Grid/Grid.Props';
+import { IGridProps, GridColumn, RowSelectorProps } from '../Grid/Grid.Props';
 
 const objectAssign = require('object-assign');
 
@@ -30,7 +30,7 @@ const gridColumns: Array<GridColumn> = [{
     valueMember: 'ServerName',
     HeaderText: 'Server Name',
     width: 100,
-    
+    cellClassName: '',
 },
 {
     valueMember: 'UserCount',
@@ -126,7 +126,7 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
                     ServerName: server.name,
                     UserCount: server.numberOfUsers,
                     CPU: (server.measures.filter((mes) => { return mes.type === MeasureType.CPU; })[0] as CpuMeasure).usage,
-                    Memory: mem,
+                    Memory: (server.measures.filter((mes) => { return mes.type === MeasureType.Ram; })[0] as RamMeasure).used,
                     MemoryData: server.measures.filter((mes) => { return mes.type === MeasureType.Ram; })[0],
                     DiskSpace: 30,
                     DiskActivity: disk,
@@ -147,13 +147,16 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
         return '-';
     }
 
-    render() {
+    
+    render() {        
         return (
-            <div>
+            <div className={'grid-container-content'}>
                 <ServerGrid
                     rows={this.state.rows}
                     columns={gridColumns}
                     groupBy={this.state.groupBy}
+                    rowHeight={150}
+                    headerHeight={40}
                     />
             </div>
         );

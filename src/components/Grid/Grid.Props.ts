@@ -1,12 +1,15 @@
 import * as React from 'react';
 
 export interface IGridProps<T> {
-    rows: Array<any>;
+    rows: Array<T>;
     columns: Array<GridColumn>;
     groupBy: Array<string>;
-
+    gridClassName?: string;
+    headerClassName?: string;
     sortColumn?: string;
-    sortDirection?: string;
+    sortDirection?: 'ASC' | 'DESC';
+    rowHeight: number | ((info: { index: number }) => number); // Number or a function that returns the height of a row given its index
+    headerHeight: number;
 }
 
 export interface IGridState {
@@ -15,10 +18,8 @@ export interface IGridState {
     expandedRows: any;
     
     sortColumn: string;
-    sortDirection: any;
+    sortDirection: 'ASC' | 'DESC';
 }
-
-export type GridRow = any | GroupRow;
 
 export interface GroupRow {
     type: 'GroupRow';
@@ -34,9 +35,10 @@ export interface GridColumn {
     width: number;
     dataMember?: string;
     cellFormatter?: (cellData) => any;
+    cellClassName?: string;
 }
 
-export interface RowState {
+export interface RowSelectorProps {
     rows: any;
     groupedColumns: any;
     expandedRows: any;

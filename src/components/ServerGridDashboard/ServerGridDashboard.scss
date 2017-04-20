@@ -1,5 +1,10 @@
  @import '../../index.scss';
 
+.grid-container-content {
+    overflow: hidden;   
+    height: 100vh;
+}
+
 $tile-dashboard-background: $background-color;
 $server-status-color: $basic-text-color;
 $background-color: $background-color;

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Icon } from '../Icon/Icon';
-import { IGridProps, GridColumn, RowState  } from './Grid.Props';
-
+import { IGridProps, GridColumn, RowSelectorProps } from './Grid.Props';
 
 class RowProps {
     tabIndex: number;
@@ -11,7 +10,7 @@ class RowProps {
     onMouseOver: any;
 }
 
-export function customRowRenderer( gridColumns: Array<GridColumn> , onRowExpandToggle, {
+export function customRowRenderer(gridColumns: Array<GridColumn>, onRowExpandToggle, {
     className,
     columns,
     index,
@@ -23,65 +22,66 @@ export function customRowRenderer( gridColumns: Array<GridColumn> , onRowExpandT
     onRowMouseOut,
     rowData,
     style
-    }) {
-    
-    let a11yProps = new RowProps();
+}) {
+
+    let rowProperties = new RowProps();
     if (
         onRowClick ||
         onRowDoubleClick ||
         onRowMouseOver ||
         onRowMouseOut
     ) {
-        a11yProps['aria-label'] = 'row';
-        a11yProps.tabIndex = 0;
+        rowProperties['aria-label'] = 'row';
+        rowProperties.tabIndex = 0;
 
         if (onRowClick) {
-            a11yProps.onClick = (event) => onRowClick({ event, index, rowData });
+            rowProperties.onClick = (event) => onRowClick({ event, index, rowData });
         }
         if (onRowDoubleClick) {
-            a11yProps.onDoubleClick = (event) => onRowDoubleClick({ event, index, rowData });
+            rowProperties.onDoubleClick = (event) => onRowDoubleClick({ event, index, rowData });
         }
         if (onRowMouseOut) {
-            a11yProps.onMouseOut = (event) => onRowMouseOut({ event, index, rowData });
+            rowProperties.onMouseOut = (event) => onRowMouseOut({ event, index, rowData });
         }
         if (onRowMouseOver) {
-            a11yProps.onMouseOver = (event) => onRowMouseOver({ event, index, rowData });
+            rowProperties.onMouseOver = (event) => onRowMouseOver({ event, index, rowData });
         }
-    }
-    if (rowData.type === 'GroupRow') {
-         const iconName = rowData.isExpanded ? 'icon-Arrow_up' : 'icon-arrow_down';
-         const columnName = gridColumns.filter((column) => {return column.valueMember === rowData.columnGroupName; })[0].HeaderText;
-         const padding: React.CSSProperties =  { paddingLeft: 30 * rowData.depth, paddingRight: 10 };
-         
-         const toggleRow = () => {
-            onRowExpandToggle(rowData.columnGroupName, rowData.groupKey, !rowData.isExpanded);
-         };
+    }  
 
-         return (  
+    if (rowData.type === 'GroupRow') {
+        const iconName = rowData.isExpanded ? 'icon-Arrow_up' : 'icon-arrow_down';
+        const columnName = gridColumns.filter((column) => { return column.valueMember === rowData.columnGroupName; })[0].HeaderText;
+        const padding: React.CSSProperties = { paddingLeft: 30 * rowData.depth, paddingRight: 10 }; // TODO: add to css 
+
+        const toggleRow = () => {
+            onRowExpandToggle(rowData.columnGroupName, rowData.groupKey, !rowData.isExpanded);
+        };
+
+        return (
             <div
-            {...a11yProps}
-            className={className}
-            key={key}
-            role={'row'}
-            style={style}
-        >
-            <p style={padding}>
-                {columnName}: {rowData.name} 
-            </p>  
-             <Icon iconName={iconName} onClick={toggleRow} ></Icon>    
-        </div>
-         );
-    } else {   
-    return (        
-        <div
-            {...a11yProps}
-            className={className}
-            key={key}
-            role={'row'}
-            style={style}
-        >
-            {columns}
-        </div>
-    );
-     }
+                {...rowProperties}
+                className={className}
+                key={key}
+                role={'row'}
+                style={style}
+                >
+                <p style={padding}>
+                    {columnName}: {rowData.name}
+                </p>
+                <Icon iconName={iconName} onClick={toggleRow} ></Icon>
+            </div>
+        );
+    } else {
+        return (
+            <div
+                {...rowProperties}
+                className={className}
+                key={key}
+                role={'row'}
+                style={style}
+                >
+                {columns}
+            </div>
+        );
+    }
 }

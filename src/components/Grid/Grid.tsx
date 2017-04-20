@@ -1,13 +1,12 @@
 import * as React from 'react';
-import { IGridProps, IGridState, GridColumn, RowState } from './Grid.Props';
-import { customRowRenderer } from './rowRenderer';
-import { AutoSizer, Table, Column, ColumnProps } from 'react-virtualized';
 import * as classNames from 'classnames';
-import { Icon } from '../Icon/Icon';
-import { autobind } from '../../utilities/autobind';
-const createSelector = require('reselect').createSelector;
 const objectAssign = require('object-assign');
+const createSelector = require('reselect').createSelector;
+import { AutoSizer, Table, Column, ColumnProps } from 'react-virtualized';
 
+import { IGridProps, IGridState, GridColumn, RowSelectorProps } from './Grid.Props';
+import { customRowRenderer } from './rowRenderer';
+import { autobind } from '../../utilities/autobind';
 import { RowsSelector } from './rowSelector';
 import { groupRows } from './rowGrouper';
 
@@ -21,8 +20,8 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
             rows: props.rows,
             groupBy: props.groupBy,
             expandedRows: {},
-            sortColumn: props.sortColumn, // def state
-            sortDirection: props.sortDirection  // 'DESC' // def state 
+            sortColumn: props.sortColumn,
+            sortDirection: props.sortDirection
         };
     }
 
@@ -42,7 +41,7 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
 
     @autobind
     getColumnsToDisplay() {
-        // TODO: reselect
+        // TODO: add reselect?
         const groupedColumns: Array<string> = this.state.groupBy;
         if (groupedColumns.length === 0) {
             return this.props.columns;
@@ -58,7 +57,7 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
     }
 
     private getRows() {
-        const rowSortState: RowState = {
+        const rowSortState: RowSelectorProps = {
             rows: this.state.rows,
             groupedColumns: this.state.groupBy,
             expandedRows: this.state.expandedRows,
@@ -74,6 +73,7 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
         return this.getRows().length;
     }
 
+   // TODO: change to prop dispatch - set in container
     private onRowExpandToggle(columnGroupName, name, shouldExpand) {
         this.setState((oldState) => {
             let expandedRows = objectAssign({}, oldState.expandedRows);
@@ -85,7 +85,7 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
 
     @autobind
     _sort({ sortBy, sortDirection }) {
-        // TODO: change to prop dispatch
+        // TODO: change to prop dispatch - set in container
         this.setState((oldState) => {
             return objectAssign(oldState, { sortColumn: sortBy, sortDirection: sortDirection });
         });
@@ -100,8 +100,8 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
                         width: column.width,
                         label: column.HeaderText,
                         dataKey: column.valueMember,
-                        className: 'grid-component-cell'
                     };
+                    props.className = classNames('grid-component-cell', column.cellClassName);
                     if (column.dataMember) {
                         props.dataKey = column.dataMember;
                     }
@@ -123,33 +123,33 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
                 })
         );
     }
-
     render() {
+        let mainClass = classNames('grid-component-container', this.props.gridClassName);
+        let headerClass = classNames('grid-component-header', this.props.headerClassName);
         return (
-            <div>
-                <div className="grid-component-container">
-                    <AutoSizer disableHeight>
-                        {({ width }) => (
-                            <Table
-                                height={800}
-                                headerClassName={'grid-component-header'}
-                                overscanRowCount={20}
-                                headerHeight={30}
-                                className="grid-component"
-                                rowGetter={this.getRow}
-                                sort={this._sort}
-                                sortBy={this.state.sortColumn}
-                                sortDirection={this.state.sortDirection}
-                                rowHeight={100}
-                                rowCount={this.getRowCount()}
-                                width={width}
-                                rowRenderer={this.rowRenderer}
-                                >
-                                {this.getCells()}
-                            </Table>
-                        )}
-                    </AutoSizer>
-                </div>
+            <div className={mainClass}>
+                <AutoSizer>
+                    {({ height, width }) => (
+                        <Table
+                            height={height} 
+                            headerClassName={headerClass}
+                            overscanRowCount={20}
+                            headerHeight={this.props.headerHeight}
+                            rowHeight={this.props.rowHeight}
+                            className="grid-component"
+                            rowGetter={this.getRow}
+                            sort={this._sort}
+                            sortBy={this.state.sortColumn}
+                            sortDirection={this.state.sortDirection}
+                            rowCount={this.getRowCount()}
+                            width={width}
+                            rowRenderer={this.rowRenderer}
+                            // headerRowRenderer={}
+                            >
+                            {this.getCells()}
+                        </Table>
+                    )}
+                </AutoSizer>
             </div>
         );
     }
