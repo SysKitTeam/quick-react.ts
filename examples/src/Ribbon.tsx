@@ -16,11 +16,11 @@ export class Index extends React.Component<any, any> {
                items={[
                     {
                         key: 'item1',
-                        name: 'item1',
+                        name: 'item1'
                     },
                     {
                         key: 'divider_1',
-                        name: '-',
+                        name: '-'
                     },
                     {
                         key: 'item2',
@@ -29,11 +29,11 @@ export class Index extends React.Component<any, any> {
                     {
                         key: 'item3',
                         name: 'item3'
-                    },
+                    }
                ]}                               
                ></Ribbon>
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

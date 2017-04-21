@@ -38,6 +38,6 @@ export class Index extends React.Component<any, any> {
                 </Pivot>
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

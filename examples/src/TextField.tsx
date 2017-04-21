@@ -16,6 +16,6 @@ export class Index extends React.Component<any, any> {
                 <TextField label="Multiline TextField" multiline rows={4} cols={50} />
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

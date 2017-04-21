@@ -22,9 +22,9 @@ export class Index extends React.Component<any, any> {
                 </CheckboxList>
             </div>
         );
-    };
+    }
      private _onCheckboxListChange(ev, itemId, checked) {
         console.log(checked);
     }
-};
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

@@ -14,6 +14,6 @@ export class Index extends React.Component<any, any> {
                  <History />                    
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

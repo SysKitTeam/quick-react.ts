@@ -99,7 +99,7 @@ let OppositeEdgeDictionary: { [key: number]: number } = {
   [RectangleEdge.top]: RectangleEdge.bottom,
   [RectangleEdge.bottom]: RectangleEdge.top,
   [RectangleEdge.right]: RectangleEdge.left,
-  [RectangleEdge.left]: RectangleEdge.right,
+  [RectangleEdge.left]: RectangleEdge.right
 };
 export function getRelativePositions(
   props: IPositionProps,
