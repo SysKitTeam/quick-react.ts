@@ -25,6 +25,10 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
         this._events.on(this._targetWindow, 'click', this._dismissOnClickOutsideComponent, true);
     }
 
+    public componentWillUnmount() {
+        this._events.dispose();
+    }
+
     private _setTargetWindowAndElement(target: HTMLElement): void {
         if (target) {
             let targetElement: HTMLElement = target as HTMLElement;
