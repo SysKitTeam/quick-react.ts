@@ -22,7 +22,7 @@ export class DashboardHeader extends React.PureComponent<IDashboardHeaderProps, 
                         <Icon className={'add-farm'} iconName={'icon-add'} onClick={this.props.onAddFarmClick} title={'Add'} />
                     }
                 </span>
-                <Search onSearch={this.props.onSearch} onChange={_.debounce(this.props.onChanged, 250)} />
+                <Search onSearch={this.props.onSearch} onChange={this.props.onChanged} />
                 <div style={{ display: 'inline-block' }}>&nbsp;</div>
 
                 {this.props.pivotItems &&
