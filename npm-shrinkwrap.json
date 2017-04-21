@@ -835,7 +835,9 @@
       "resolved": "https://registry.npmjs.org/clap/-/clap-1.1.2.tgz"
     },
     "classnames": {
-      "version": "2.2.5"
+      "version": "2.2.5",
+      "from": "classnames@2.2.5",
+      "resolved": "https://registry.npmjs.org/classnames/-/classnames-2.2.5.tgz"
     },
     "clean-css": {
       "version": "4.0.8",
@@ -2143,7 +2145,14 @@
     "globule": {
       "version": "1.1.0",
       "from": "globule@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/globule/-/globule-1.1.0.tgz"
+      "resolved": "https://registry.npmjs.org/globule/-/globule-1.1.0.tgz",
+      "dependencies": {
+        "lodash": {
+          "version": "4.16.6",
+          "from": "lodash@>=4.16.4 <4.17.0",
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.16.6.tgz"
+        }
+      }
     },
     "glogg": {
       "version": "1.0.0",
@@ -2864,9 +2873,9 @@
       "resolved": "https://registry.npmjs.org/lockfile/-/lockfile-1.0.3.tgz"
     },
     "lodash": {
-      "version": "4.16.6",
-      "from": "lodash@>=4.16.4 <4.17.0",
-      "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.16.6.tgz"
+      "version": "4.17.4",
+      "from": "lodash@4.17.4",
+      "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.4.tgz"
     },
     "lodash-es": {
       "version": "4.17.4",

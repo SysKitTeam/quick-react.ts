@@ -43,8 +43,10 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
     }
 
     public componentWillReceiveProps(nextProps: ITileDashboardProps, nextState: any) {
-        const filteredFarms = filterFarms(nextProps.farms, nextProps.filter);
-        this.setState({ farms: filteredFarms });
+        if ((nextProps.filter !== this.props.filter) || (this.props.farms !== nextProps.farms)) {
+            const filteredFarms = filterFarms(nextProps.farms, nextProps.filter);
+            this.setState({ farms: filteredFarms });
+        }
     }
 
     public render() {

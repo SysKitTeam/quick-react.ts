@@ -32,6 +32,7 @@ export function filterServerByName(filter: string, serverName: string): boolean 
 
 export function filterServerByStatus(status: string, serverStatus: ServerStatus) {
     let stringToStatus: ServerStatus;
+    status = status.replace('status:', '').toLowerCase().trim();
     switch (status) {
         case 'critical':
             stringToStatus = ServerStatus.Critical;

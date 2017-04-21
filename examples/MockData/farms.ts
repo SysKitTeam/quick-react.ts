@@ -13,7 +13,7 @@ export const classListExample = {
 
 let roleListFarms = [{ display: 'WPF', iconName: 'icon-add' }, { display: 'WPF1111111', iconName: 'icon-add' }, { display: 'Not another', iconName: 'icon-add' }, { display: 'Search', iconName: 'icon-alert' }];
 
-export const farms: Array<IFarm> = createFarms(20, generateServersCountPerFarm(20, 100, 200));
+export const farms: Array<IFarm> = createFarms(10, generateServersCountPerFarm(10, 100, 150));
 
 function generateServersCountPerFarm(numOfFarms: number, minServerCount: number, maxServerCount: number) : Array<number> {
     let serversCountPerFarm = Array<number>(0);
@@ -24,7 +24,7 @@ function generateServersCountPerFarm(numOfFarms: number, minServerCount: number,
 }
 
 function createFarms(numOfFarms: number, serversPerFarm: Array<number>) {
-    let farms = Array(0);
+    let _farms = Array(0);
     
     for (let farmIndex = 0; farmIndex <= numOfFarms; farmIndex++) {
         let numOfServers = serversPerFarm[farmIndex];
@@ -39,7 +39,7 @@ function createFarms(numOfFarms: number, serversPerFarm: Array<number>) {
                 status: Math.random() >= 0.5 ? 1 : 2
             });
         }
-        farms.push({
+        _farms.push({
             id: { sqlInstance: 'instance' + farmIndex, configDataBaseIcon: 'icon-sql_log', configDataBaseName: 'db' + farmIndex },
             name: 'Demo Farm ' + farmIndex,
             isCustom: Math.random() >= 0.5,
@@ -50,7 +50,7 @@ function createFarms(numOfFarms: number, serversPerFarm: Array<number>) {
             servers: servers
         });
     }
-    return farms;
+    return _farms;
 }
 
 const memoryUsage: IMemoryUsage = { usageUnit: 'MB', capacity: 1024, used: 300, status: 1 };

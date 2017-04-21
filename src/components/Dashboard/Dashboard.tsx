@@ -28,7 +28,7 @@ export function filterFarms(farms: Array<ITiledDashboardFarm>, filter: string) :
     filter = filter.toLowerCase();
     if (filter.indexOf('status:') !== -1) {
         farms.forEach(farm => {
-            const servers = farm.servers.filter((server) => filterServerByStatus(filter.replace('status:', '').trim(), server.status));
+            const servers = farm.servers.filter((server) => filterServerByStatus(filter, server.status));
             if (servers.length !== 0) {
                 filteredFarms.push(objectAssign({}, farm, { servers: servers }));
             }
