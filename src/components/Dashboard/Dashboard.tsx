@@ -16,7 +16,6 @@ function sortFarms(ob1: { farmName: string }, ob2: { farmName: string }) {
     if (ob1.farmName < ob2.farmName) {
         return -1;
     }
-
     if (ob1.farmName > ob2.farmName) {
         return 1;
     }
