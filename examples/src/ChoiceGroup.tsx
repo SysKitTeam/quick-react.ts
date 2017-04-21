@@ -20,6 +20,6 @@ export class Index extends React.Component<any, any> {
                 </ChoiceGroup>
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

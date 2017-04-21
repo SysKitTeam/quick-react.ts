@@ -12,7 +12,7 @@ export class Index extends React.Component<any, any> {
        public constructor() {
         super();
          this.state = {
-            farm: DemoServerGroup,
+            farm: DemoServerGroup
         };    
     }
 
@@ -22,6 +22,6 @@ export class Index extends React.Component<any, any> {
                 <DetailedServerGroup id={''} serverGroup={this.state.farm} filter={''} />              
             </div>
         );
-    };  
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

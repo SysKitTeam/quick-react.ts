@@ -206,7 +206,7 @@ export class CalloutContent extends CommonComponent<ICalloutProps, ICalloutState
                 this.setState({
                     positions: {
                         callout: positionInfo.calloutPosition,
-                        beak: positionInfo.beakPosition,
+                        beak: positionInfo.beakPosition
                     },
                     slideDirectionalClassName: positionInfo.directionalClassName
                 });

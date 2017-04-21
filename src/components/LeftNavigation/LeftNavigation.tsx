@@ -18,7 +18,7 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
 
     onLeftNavigationClick() {
         this.setState({ isOpen: !this.state.isOpen });
-    };
+    }
 
     onLinkClick(index, item: any, ev: React.MouseEvent<HTMLElement>) {
         const { onClick } = this.props;
@@ -37,7 +37,7 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
         if (onClick !== undefined) {
             onClick(ev, item);
         }
-    };
+    }
 
     onOtherLinkClick(index, item: any, ev: React.MouseEvent<HTMLElement>) {
         const { onClick } = this.props;
@@ -49,11 +49,11 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
         if (onClick !== undefined) {
             onClick(ev, item);
         }
-    };
+    }
 
     getSelectedIndex(options: ILeftNavigationOption[]) {
         return findIndex(options, (option => option.selected));
-    };
+    }
 
     public render(): JSX.Element {
         let {
@@ -131,5 +131,5 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
                 </div>
             </div>
         );
-    };
-};
+    }
+}

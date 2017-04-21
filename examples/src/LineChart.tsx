@@ -37,5 +37,4 @@ export class Index extends React.PureComponent<any, any> {
         );
     }
 }
-
 ReactDOM.render(<Index />, document.getElementById('root'));

@@ -47,7 +47,5 @@ export class Index extends React.Component<any, any> {
     private _onCheckboxIconChange() {
         this.setState({ iconChecked: !this.state.iconChecked });
     }
-
-};
-
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

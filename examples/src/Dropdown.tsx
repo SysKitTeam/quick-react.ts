@@ -32,7 +32,7 @@ export class Index extends React.Component<any, any> {
                             { key: 'G', text: 'Option g' },
                             { key: 'H', text: 'Option h', selected: true },
                             { key: 'I', text: 'Option i' },
-                            { key: 'J', text: 'Option j' },
+                            { key: 'J', text: 'Option j' }
                         ]
                     }
                     />
@@ -50,6 +50,6 @@ export class Index extends React.Component<any, any> {
                 </Dropdown>
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

@@ -13,7 +13,7 @@ export class Index extends React.Component<any, any> {
      constructor() {
         super();
         this.state = { barChartData: barData };
-    };
+    }
     public render() {
         return (
             <div>
@@ -25,6 +25,6 @@ export class Index extends React.Component<any, any> {
                      selectedIndex={4}/>
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

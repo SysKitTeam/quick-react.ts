@@ -19,6 +19,6 @@ export class Index extends React.Component<any, any> {
                 <Spinner type={SpinnerType.large} label="Loading label..." />
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));
