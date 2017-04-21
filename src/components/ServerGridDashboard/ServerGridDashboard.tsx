@@ -30,7 +30,7 @@ const gridColumns: Array<GridColumn> = [{
     valueMember: 'ServerName',
     HeaderText: 'Server Name',
     width: 100,
-    cellClassName: '',
+    cellClassName: ''
 },
 {
     valueMember: 'UserCount',
@@ -65,20 +65,20 @@ const gridColumns: Array<GridColumn> = [{
 }, {
     valueMember: 'DiskSpace',
     HeaderText: 'Disk Space',
-    width: 120,
+    width: 120
 },
 {
     valueMember: 'DiskActivity',
     HeaderText: 'Disk Activity',
-    width: 120,
+    width: 120
 }, {
     valueMember: 'Network',
     HeaderText: 'Network',
-    width: 80,
+    width: 80
 }, {
     valueMember: 'LastUpdated',
     HeaderText: 'Last Updated',
-    width: 100,
+    width: 100
 }];
 
 const getProgressColor = (status) => {
@@ -109,7 +109,7 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
             expandedRows: {},
             groupBy: ['FarmName'],
             sortColumn: 'ServerName',
-            sortDirection: 'DESC',
+            sortDirection: 'DESC'
         };
     }
 

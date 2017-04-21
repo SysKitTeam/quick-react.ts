@@ -44,7 +44,8 @@ module.exports = {
         DetailedServerGroup: "./examples/src/DetailedServerGroup.tsx",
         DetailedServerTile: "./examples/src/DetailedServerTile.tsx",  
         NavigationGroup: "./examples/src/NavigationGroup.tsx",
-        ServerGridDashboard: "./examples/src/ServerGridDashboard.tsx"        
+        ServerGridDashboard: "./examples/src/ServerGridDashboard.tsx",        
+        Resizable:"./examples/src/Resizable.tsx" 
     },
     output: {
         path: path.join(__dirname, '/dist'),

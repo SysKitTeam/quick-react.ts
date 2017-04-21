@@ -57,10 +57,8 @@ export function getServerMeasures(serverMeasures: Array<IMeasure>) {
     return counters;
 }
 
-==== BASE ====
 const emptyValueString = '--';
-function convertDisk(measure: IMeasure): ITileData {
-==== BASE ====
+export function convertDisk(measure: IMeasure): ITileData {
     let disk = measure as DiskMeasure;
     const measureData = getMeasureData(disk.totalDiskIo, ['KB/s', 'MB/s']);
     return {

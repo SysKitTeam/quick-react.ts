@@ -13,7 +13,7 @@ export class Index extends React.Component<any, any> {
        public constructor() {
         super();
         this.state = {
-            farms: dummyDashboard.farms,
+            farms: dummyDashboard.farms
         };    
     }
 
@@ -23,6 +23,6 @@ export class Index extends React.Component<any, any> {
                 <ServerGridDashboard farms={this.state.farms} />              
             </div>
         );
-    };  
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));
