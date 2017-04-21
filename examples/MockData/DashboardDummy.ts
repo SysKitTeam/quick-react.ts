@@ -11,7 +11,7 @@ export const dummyCompact: ICompactDashboardProps = {
     farms: farms.map(convertFarm),
     className: '',
     filter: '',
-    isVertical: false,
+    isVertical: false
 
 };
 
@@ -89,7 +89,7 @@ export function generateCoreCount() {
 }
 
 export function generateNetworkSpeed() {
-    return Math.random() * (10 - 0.1 + 1);
+    return Math.random() * (2000 - 0.1 + 1);
 }
 
 export function generateRandomStatus() {

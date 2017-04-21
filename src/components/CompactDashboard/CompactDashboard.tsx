@@ -16,13 +16,13 @@ import './CompactDashboard.scss';
 const GUTTER_SIZE = 3;
 const CELL_WIDTH = 330;
 
-const serverTileWidth = 252.0; // LeftMargin 8px + LeftBodrder 10px + LeftPadding 5px + Server 215px + RightPadding 5px + LeftBodrder 1px + RightMargin 8px
-const servertileHeight = 80; // Server 52px + 2 * (Margin 8 + Padding 5 + border 1)
+const serverTileWidth = 252.0; // LeftMargin 8px + LeftBoarder 10px + LeftPadding 5px + Server 215px + RightPadding 5px + LeftBoarder 1px + RightMargin 8px
+const serverTileHeight = 80; // Server 52px + 2 * (Margin 8 + Padding 5 + border 1)
 const scrollbarWidth = 13;
-const compact_farm_margin = 20;
-const compact_farm_padding = 5;
-const headerTotalHeight = 65; // Farm DIV size - servertileHeight  
-const totalPaddingHorizontal = 2 * (compact_farm_margin + compact_farm_padding) + scrollbarWidth;
+const compactFarmMargin = 20;
+const compactFarmPadding = 5;
+const headerTotalHeight = 65; // Farm DIV size - serverTileHeight  
+const totalPaddingHorizontal = 2 * (compactFarmMargin + compactFarmPadding) + scrollbarWidth;
 
 export class CompactDashboard extends React.Component<ICompactDashboardProps, any> {
     collection: any;
@@ -32,7 +32,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
         this.state = {
             columnYMap: [],
             collection: undefined,
-            list: undefined,
+            list: undefined
         };
     }
 
@@ -123,7 +123,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
         const serversPerRow = Math.floor((width - totalPaddingHorizontal) / serverTileWidth);
         const farmServerCount = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
         const rowCount = Math.ceil(farmServerCount / serversPerRow);
-        const serverHeight = rowCount * servertileHeight;
+        const serverHeight = rowCount * serverTileHeight;
         const totalHeight = serverHeight + headerTotalHeight;
         return totalHeight;
     }

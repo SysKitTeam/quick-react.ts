@@ -79,10 +79,10 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
 
                     if (item.children) {
                         const currentUrl = path + '/' + item.key + '/';
-                        children = item.children.map((item, index) => {
+                        children = item.children.map((childItem, index) => {
                             const currentItem: IBreadcrumbChild = {
-                                displayName: item.displayName,
-                                url: currentUrl + item.key,
+                                displayName: childItem.displayName,
+                                url: currentUrl + childItem.key
                             };
                             return currentItem;
                         });
@@ -110,7 +110,7 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
             children.push(
                 {
                     displayName: item.displayName,
-                    url: '/' + item.key,
+                    url: '/' + item.key
                 }
             );
         }

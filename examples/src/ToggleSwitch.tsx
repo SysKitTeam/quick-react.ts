@@ -18,9 +18,9 @@ export class Index extends React.Component<any, any> {
                 <ToggleSwitch offText={'O'} onText={'I'} />
             </div>
         );
-    };
+    }
      private _onToggle(checked) {
         console.log(checked);
     }
-};
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

@@ -49,7 +49,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
             }
             this.setState({
                 hoverServerId: serverId,
-                hoverTargetElement: target,
+                hoverTargetElement: target
             });
         }
     }

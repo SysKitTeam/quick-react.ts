@@ -6,8 +6,8 @@ import { PieChartContent } from './PieChartContent';
 import './PieChart.scss';
 
 const objectAssign = require('object-assign');
-const ResizeSensor = require('css-element-queries/src/ResizeSensor');
-const Guid = require('guid');
+const resizeSensor = require('css-element-queries/src/ResizeSensor');
+const guid = require('guid');
 
 export class PieChart extends React.PureComponent<IPieChartProps, any> {
     public static defaultProps = {
@@ -15,10 +15,10 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         text: '',
         colors: d3.schemeCategory20,
         tipText: (data: IPieChartData) => data.label + ' : ' + data.value,
-        showLegend: false,
+        showLegend: false
     };
 
-    private containerRef : HTMLDivElement;
+    private containerRef: HTMLDivElement;
 
     constructor(props: IPieChartProps) {
         super(props);
@@ -27,9 +27,9 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
             chartWidth: 0,
             chartHeight: 0,
             isParentMounted: false,
-            chartId: 'pie-' + Guid.raw()
+            chartId: 'pie-' + guid.raw()
         };
-    };
+    }
 
     /**
      * Function that returns color based on given string.
@@ -38,24 +38,24 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
 
     public render() {
         const pieComponentClass = classNames('pie-chart-component', this.state.chartId);
-        
-        const props = objectAssign({}, 
+
+        const props = objectAssign({},
             {
-                width: this.state.chartWidth, 
-                height: this.state.chartHeight, 
+                width: this.state.chartWidth,
+                height: this.state.chartHeight,
                 data: this.transformData(),
                 id: this.state.chartId,
                 colors: this.props.colors,
                 tipText: this.props.tipText
             }
         );
-        
+
         return (
             <div className={pieComponentClass}
-                style={{width: this.props.dimensions.width, height: this.props.dimensions.height}}
+                style={{ width: this.props.dimensions.width, height: this.props.dimensions.height }}
                 ref={(element: HTMLDivElement) => this.init(element)}>
-                    { this.state.isParentMounted && <PieChartContent {...props}/>}
-                    { this.props.showLegend && this.renderLegend(props.data) }
+                {this.state.isParentMounted && <PieChartContent {...props} />}
+                {this.props.showLegend && this.renderLegend(props.data)}
             </div>
         );
     }
@@ -72,13 +72,13 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         const height = element.offsetHeight;
 
         this.containerRef = element;
-        
+
         let chartWidth = 0;
 
         // first rendering
-        if ( this.state.isParentMounted === false ) {
+        if (this.state.isParentMounted === false) {
             this.containerRef = element;
-            const sensor = new ResizeSensor(element, () => this.onResize());
+            const sensor = new resizeSensor(element, () => this.onResize());
             this.setState({ chartWidth: width, chartHeight: height, isParentMounted: true });
             return;
         }
@@ -89,15 +89,15 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
     /**
      * Creates legend for chart based on given data.
      */
-    private renderLegend(data: Array<IPieChartData>) : JSX.Element {
+    private renderLegend(data: Array<IPieChartData>): JSX.Element {
         const legendClass = classNames('pie-chart-legend', this.state.chartId);
         const color = this.createColorPallette();
         const legend = data.map(
             (d: IPieChartData, index: number) =>
                 <div key={index} className={'legend-item'}>
-                    <div style={{backgroundColor: color(d.label)}}/>
-                    <label style={{display: 'inline-block'}}>{d.label} ({d.value})</label>
-                </div> 
+                    <div style={{ backgroundColor: color(d.label) }} />
+                    <label style={{ display: 'inline-block' }}>{d.label}({d.value})</label>
+                </div>
         );
         return <div className={legendClass}>{legend}</div>;
     }
@@ -107,32 +107,34 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
      * elements are shown in descending order and all other elements are displayed together
      * as one value.
      */
-     private transformData(): Array<any> {
+    private transformData(): Array<any> {
+        let chartData = this.props.data;
+        if (this.props.sortValues) {
+            chartData = this.props.data.sort((a, b) => b.value - a.value);
+        }
 
-        const sortedData = this.props.data.sort((a, b) => b.value - a.value);
-
-        if (this.props.displayingElements !== undefined && this.props.displayingElements < sortedData.length) {
+        if (this.props.displayingElements !== undefined && this.props.displayingElements < chartData.length) {
 
             let data = Array(0);
             let elementsToTake = this.props.displayingElements - 1;
-            if (elementsToTake === sortedData.length - 1) {
-                elementsToTake --;
-            }
-            
-            for (let i = 0; i < elementsToTake; i++) {
-                data.push(sortedData[i]);
+            if (elementsToTake === chartData.length - 1) {
+                elementsToTake--;
             }
 
-            let value = 0;            
-            for (let i = elementsToTake; i < sortedData.length; i++) {
-                value += sortedData[i].value;            
-            }            
-            data.push({ label: 'Other', value: value });            
-            
+            for (let i = 0; i < elementsToTake; i++) {
+                data.push(chartData[i]);
+            }
+
+            let value = 0;
+            for (let i = elementsToTake; i < chartData.length; i++) {
+                value += chartData[i].value;
+            }
+            data.push({ label: 'Other', value: value });
+
             return data;
         }
 
-        return sortedData;
+        return chartData;
     }
 
     /**
@@ -151,5 +153,5 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         }
     }
 
-    public componentWillUnmount() { ResizeSensor.detach(this.containerRef); }
+    public componentWillUnmount() { resizeSensor.detach(this.containerRef); }
 }

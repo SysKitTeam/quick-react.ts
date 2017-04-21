@@ -14,7 +14,7 @@ export interface IDropdownState {
   isOpen: boolean;
   selectedIndex: number;
   isDisabled: boolean;
-};
+}
 
 export class Dropdown extends React.Component<IDropdownProps, any> {
 

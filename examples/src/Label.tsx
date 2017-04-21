@@ -6,7 +6,6 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { Label } from './../../src/components/Label/Label';
-;
 
 export class Index extends React.Component<any, any> {
     public render() {
@@ -17,6 +16,6 @@ export class Index extends React.Component<any, any> {
                 <Label required={true}>I'm a required Label</Label>
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

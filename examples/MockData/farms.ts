@@ -63,7 +63,7 @@ function createProcessorUsages(): Array<IProcessorUsageData> {
 const processorUsage: IProcessorUsage = {data: createProcessorUsages(), status: 1 } ;
 
 const partitionUsages: Array<IPartitionUsage> = [
-    { name: 'C', usageUnit: 'GB', capacity: 60, used: 55, status: 0 },
+    { name: 'C', usageUnit: 'GB', capacity: 60, used: 20, status: 0 },
     { name: 'D', usageUnit: 'GB', capacity: 200, used: 142.5, status: 1 },
     { name: 'E', usageUnit: 'GB', capacity: 52.4, used: 33.2, status: 2 },
     { name: 'F', usageUnit: 'GB', capacity: 550, used: 512, status: 0 }
@@ -87,7 +87,7 @@ export const DemoServerGroup: IDetailedServerGroup = {
             numberOfUsers: '50111',
             memoryUsage: memoryUsage,
             partitionUsages: partitionUsages,
-            processorUsage: processorUsage,
+            processorUsage: processorUsage
         },
         {
             id: { FQDN: 'FQDN2' },
@@ -97,7 +97,7 @@ export const DemoServerGroup: IDetailedServerGroup = {
             numberOfUsers: '2351',
             memoryUsage: memoryUsage,
             partitionUsages: partitionUsages,
-            processorUsage: processorUsage,
+            processorUsage: processorUsage
         }
     ]
 };
