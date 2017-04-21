@@ -14,7 +14,7 @@ export interface IDropdownState {
   isOpen: boolean;
   selectedIndex: number;
   isDisabled: boolean;
-};
+}
 
 export class Dropdown extends React.Component<IDropdownProps, any> {
 
@@ -104,7 +104,7 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
             )}
             {selectionText}
           </span>
-          <Icon className={dropdownIconClassName} iconName={'icon-arrowDown'}></Icon>
+          <Icon className={dropdownIconClassName} iconName={'icon-arrow_down'}></Icon>
         </div>
         {isOpen && (
           <Callout

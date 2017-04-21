@@ -11,7 +11,7 @@ export const dummyCompact: ICompactDashboardProps = {
     farms: farms.map(convertFarm),
     className: '',
     filter: '',
-    isVertical: false,
+    isVertical: false
 
 };
 

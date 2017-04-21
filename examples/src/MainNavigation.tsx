@@ -17,6 +17,6 @@ export class Index extends React.Component<any, any> {
                 </MainNavigation>
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

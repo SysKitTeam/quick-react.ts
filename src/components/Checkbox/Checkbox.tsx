@@ -85,7 +85,7 @@ export class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
                 </label>
             </div>
         );
-    };
+    }
 
     public get checked(): boolean {
         return this._checkBox ? this._checkBox.checked : false;
@@ -132,4 +132,4 @@ export class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
             this.setState({ isChecked: isChecked });
         }
     }
-};
+}

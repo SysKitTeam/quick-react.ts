@@ -6,8 +6,8 @@ import { PieChartContent } from './PieChartContent';
 import './PieChart.scss';
 
 const objectAssign = require('object-assign');
-const ResizeSensor = require('css-element-queries/src/ResizeSensor');
-const Guid = require('guid');
+const resizeSensor = require('css-element-queries/src/ResizeSensor');
+const guid = require('guid');
 
 export class PieChart extends React.PureComponent<IPieChartProps, any> {
     public static defaultProps = {
@@ -15,7 +15,7 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         text: '',
         colors: d3.schemeCategory20,
         tipText: (data: IPieChartData) => data.label + ' : ' + data.value,
-        showLegend: false,
+        showLegend: false
     };
 
     private containerRef: HTMLDivElement;
@@ -27,9 +27,9 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
             chartWidth: 0,
             chartHeight: 0,
             isParentMounted: false,
-            chartId: 'pie-' + Guid.raw()
+            chartId: 'pie-' + guid.raw()
         };
-    };
+    }
 
     /**
      * Function that returns color based on given string.
@@ -78,7 +78,7 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         // first rendering
         if (this.state.isParentMounted === false) {
             this.containerRef = element;
-            const sensor = new ResizeSensor(element, () => this.onResize());
+            const sensor = new resizeSensor(element, () => this.onResize());
             this.setState({ chartWidth: width, chartHeight: height, isParentMounted: true });
             return;
         }
@@ -153,5 +153,5 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         }
     }
 
-    public componentWillUnmount() { ResizeSensor.detach(this.containerRef); }
+    public componentWillUnmount() { resizeSensor.detach(this.containerRef); }
 }

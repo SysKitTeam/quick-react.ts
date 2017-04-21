@@ -14,7 +14,7 @@ export class Index extends React.Component<any, any> {
         this.state = {
             treeviewElements: elements        
         };
-    };
+    }
     public render() {
         return (
             <div>
@@ -42,5 +42,5 @@ export class Index extends React.Component<any, any> {
         console.log(checked);
     }
 
-};
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

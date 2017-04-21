@@ -96,7 +96,7 @@ export const DemoServerGroup: IDetailedServerGroup = {
             numberOfUsers: '50111',
             memoryUsage: memoryUsage,
             partitionUsages: partitionUsages,
-            processorUsage: processorUsage,
+            processorUsage: processorUsage
         },
         {
             id: { FQDN: 'FQDN2' },
@@ -106,7 +106,7 @@ export const DemoServerGroup: IDetailedServerGroup = {
             numberOfUsers: '2351',
             memoryUsage: memoryUsage,
             partitionUsages: partitionUsages,
-            processorUsage: processorUsage,
+            processorUsage: processorUsage
         }
     ]
 };

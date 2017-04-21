@@ -14,7 +14,7 @@ export class Index extends React.Component<any, any> {
        public constructor() {
         super();
          this.state = {
-            farm: dummyDashboard.farms[0],
+            farm: dummyDashboard.farms[0]
         };    
     }
 
@@ -24,6 +24,6 @@ export class Index extends React.Component<any, any> {
                 <CompactFarm farm={this.state.farm} filter={''} />              
             </div>
         );
-    };  
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

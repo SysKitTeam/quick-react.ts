@@ -13,7 +13,7 @@ export class Index extends React.Component<any, any> {
     public constructor() {
         super();
          this.state = {
-            farms: dummyDashboard.farms,
+            farms: dummyDashboard.farms
         };
         // setInterval(() => {
         //     let newFarms = this.state.farms.map((farm: IFarm) => {
@@ -72,6 +72,6 @@ export class Index extends React.Component<any, any> {
                 />
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

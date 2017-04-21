@@ -17,7 +17,7 @@ export class Index extends React.Component<any, any> {
                 <CompactServer id={{ FQDN: 'BANANA-PC.banana.com' }} onClose={this._onServerCloseCompactServer} onRoleEdit={this._onClickCompactServer} name={'BANANA-PC'} roles={[{ display: 'WPF', iconName: 'icon-add' }, { display: 'Search', iconName: 'icon-alert' }]} status={0} />
             </div>
         );
-    };
+    }
       private _onClickCompactServer(serverId) {
         console.log('Clicked on editing roles of server ' + serverId);
     }
@@ -25,5 +25,5 @@ export class Index extends React.Component<any, any> {
     private _onServerCloseCompactServer(serverId) {
         console.log('Clicked on closing server ' + serverId);
     }
-};
+}
 ReactDOM.render(<Index />, document.getElementById('root'));
