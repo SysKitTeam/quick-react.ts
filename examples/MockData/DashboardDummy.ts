@@ -88,7 +88,7 @@ export function generateCoreCount() {
 }
 
 export function generateNetworkSpeed() {
-    return Math.random() * (10 - 0.1 + 1);
+    return Math.random() * (2000 - 0.1 + 1);
 }
 
 export function generateRandomStatus() {

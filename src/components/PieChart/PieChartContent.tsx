@@ -24,7 +24,7 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
     /**
      * Create pie generator for given data arguments.
      */
-    private createPie = () => d3.pie<IPieChartData>().padAngle(.02).sort(null).value((d : IPieChartData): number => d.value);
+    private createPie = () => d3.pie<IPieChartData>().padAngle(.02).value((d : IPieChartData): number => d.value).sort(null);
 
     /**
      * Creates color function that returns color based on given string.
@@ -78,12 +78,14 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
 
         const pieArcClass = classNames('pie-arc', this.props.id);
 
-        return arcData.map((d, index: number) =>
-            <path className={pieArcClass} key={index}
-                    d={arc({ startAngle: d.startAngle, endAngle: d.endAngle })}
-                    style={{ fill: color(d.data.label) }}
-                    onMouseOver={ (event: React.MouseEvent<SVGAElement>) => this.onMouseOver(event.currentTarget) }
-                    onMouseOut={ (event: React.MouseEvent<SVGAElement>) => this.onMouseOut(event.currentTarget) }/>
+        return arcData.map((d, index: number) => {
+                const fill = d.data.color ? d.data.color : color(d.data.label);
+                return <path className={pieArcClass} key={index}
+                        d={arc({ startAngle: d.startAngle, endAngle: d.endAngle })}
+                        style={{ fill: fill }}
+                        onMouseOver={ (event: React.MouseEvent<SVGAElement>) => this.onMouseOver(event.currentTarget) }
+                        onMouseOut={ (event: React.MouseEvent<SVGAElement>) => this.onMouseOut(event.currentTarget) }/>;
+            }
         );
     }
 
