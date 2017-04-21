@@ -83,7 +83,7 @@ function convertNetwork(measure: IMeasure): ITileData {
 
 function getMeasureData(measureValue: number, usageUnits: Array<string>) {
     let usageUnit = '';
-    let value = '--';
+    let value = noMeasureString;
     if (measureValue) {
         usageUnit = usageUnits[0];
         if (measureValue >= 1000) {
