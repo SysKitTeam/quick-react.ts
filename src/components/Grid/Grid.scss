@@ -69,13 +69,11 @@ $icon-color: $gray-color;
 
 
 .grid-column-draggable {
-    width: 5px;    
+    width: 3px;    
     cursor: col-resize;
-    z-index: 100;
-    margin-left: 3px;
-    position: absolute;
-    top:0px;
-    right: 0px;
+    display: 'inline';
+    height: 20px;
+    background-color: 'red'
 }
 
 .grid-component-container {

@@ -35,7 +35,7 @@ const gridColumns: Array<GridColumn> = [{
 {
     valueMember: 'UserCount',
     HeaderText: 'User Count',
-    width: 100,
+    width: 140,
      cellFormatter: (cellData) => {
         return cellData + ' users'; 
     }
@@ -70,7 +70,7 @@ const gridColumns: Array<GridColumn> = [{
 {
     valueMember: 'DiskActivity',
     HeaderText: 'Disk Activity',
-    width: 120
+    width: 140
 }, {
     valueMember: 'Network',
     HeaderText: 'Network',
@@ -78,7 +78,7 @@ const gridColumns: Array<GridColumn> = [{
 }, {
     valueMember: 'LastUpdated',
     HeaderText: 'Last Updated',
-    width: 100
+    width: 140
 }];
 
 const getProgressColor = (status) => {

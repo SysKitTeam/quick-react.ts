@@ -8,20 +8,25 @@ import { autobind } from '../../utilities/autobind';
 import { RowsSelector } from './rowSelector';
 import { groupRows } from './rowGrouper';
 import { headerRenderer } from './headerRenderer';
+const DraggableCore = require('react-draggable').DraggableCore;
 
 import './Grid.scss';
 
 export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
     private grid;
+    private _columnWidths: Array<number>;
+
     constructor(props: IGridProps<T>) {
         super(props);
         this.state = {
+            columnWidths: this.props.columns.map((col) => { return col.width; }),
             rows: props.rows,
             groupBy: props.groupBy,
             expandedRows: {},
             sortColumn: props.sortColumn,
             sortDirection: props.sortDirection
         };
+        this._columnWidths = this.state.columnWidths;
     }
 
     private getConvertedMeasure(measures, measureType, convertFunction): string {
@@ -89,14 +94,14 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
             return { ...oldState, sortColumn: sortBy, sortDirection: sortDirection };
         });
     }
-  
+
     @autobind
-    getCells() {
+    renderColumns() {
         return (
             this.getColumnsToDisplay()
                 .map((column, index) => {
                     let props: ColumnProps = {
-                        width: column.width,
+                        width: this.state.columnWidths[index],
                         label: column.HeaderText,
                         dataKey: column.valueMember,
                         headerRenderer: headerRenderer
@@ -116,13 +121,81 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
                     }
                     return (
                         <Column
-                            key={index}
+                            key={index}                            
                             {...props}
                         />
                     );
                 })
         );
     }
+
+    @autobind
+    customHeaderRowRenderer({ className, columns, style }) {
+        const columnItems = React.Children.toArray(columns);
+        return (<div
+            className={className}
+            role="row"
+            style={style}
+        >
+            {
+                columnItems.map((column, index) => { return this.renderColumnWrapper(column, index); })
+            }
+        </div>);
+    }
+
+    @autobind
+    renderColumnWrapper(column, index) {
+        const notLastIndex = index < this._columnWidths.length - 1;
+        return (
+            <div key={index} style={{ width: this._columnWidths[index] }}>
+                <div style={{ display: 'inline', float: 'left'}}>
+                    {column}
+                </div>
+                { notLastIndex && 
+                    <DraggableCore
+                        zIndex={100}
+                        axis="x"
+                        onStop={(e, data) => this.onDragHeaderStop(e, data, index)}
+                        onDrag={(e, data) => this._onDragHeaderColumn(e, data, index)}
+                        position={{ x: 0, y: 0 }}>
+                        <div
+                            style={{ width: '5px', cursor: 'col-resize', display: 'inline', height: 20, backgroundColor: 'red' }}
+                            className="grid-column-draggable">&nbsp;</div>
+                    </DraggableCore>     
+                }           
+            </div>
+        );
+    }
+   
+    @autobind
+    private _onDragHeaderColumn(e, data, columnIndex) {        
+       // let newColumnWidths = {...this.state.columnWidths };
+        let columnWidth =  this._columnWidths[columnIndex];
+        let nextColumnWidth = this._columnWidths[columnIndex + 1];
+        columnWidth = columnWidth + data.deltaX;
+        nextColumnWidth = nextColumnWidth - data.deltaX;
+        if (columnWidth < 0) {
+            columnWidth = 0;
+        }
+        if (nextColumnWidth < 0) {
+            nextColumnWidth = 0;
+        }       
+        this._columnWidths[columnIndex] = columnWidth;
+        this._columnWidths[columnIndex + 1] = nextColumnWidth;
+        // this.setState({ ...this.state, width: newColumnWidths });
+        // this.props.onChanged(this.props.name, this.state.width);
+    }
+
+    @autobind
+        private onDragHeaderStop(e, data, key) {
+            // let newColumnWidths = {...this.state.columnWidths };
+             this.setState({ ...this.state, width: this._columnWidths });
+
+            //  this.props.onChanged(key, this.state.width);
+            // set state
+            // refresh grid size 
+        }
+
 
     /*@autobind
     headerRowRenderer({ className, columns, style }) { 
@@ -161,9 +234,9 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
                             rowCount={this.getRowCount()}
                             width={width}
                             rowRenderer={this.rowRenderer}
-                        // headerRowRenderer={this.headerRowRenderer}
+                            headerRowRenderer={this.customHeaderRowRenderer}
                         >
-                            {this.getCells()}
+                            {this.renderColumns()}
                         </Table>
                     )}
                 </AutoSizer>

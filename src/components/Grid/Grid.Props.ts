@@ -16,7 +16,7 @@ export interface IGridState {
     rows: Array<any>;
     groupBy: Array<string>;
     expandedRows: any;
-    
+    columnWidths: Array<number>;
     sortColumn: string;
     sortDirection: 'ASC' | 'DESC';
 }

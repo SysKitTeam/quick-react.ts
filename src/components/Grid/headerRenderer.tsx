@@ -88,6 +88,10 @@ function _createHeader({ column, index }) { // TODO: change to component - heade
     );
 }
 
+
+
+
+
 export function headerRenderer({  // defaultHeaderRenderer({
     columnData, dataKey, disableSort, label, sortBy, sortDirection
 }) {
