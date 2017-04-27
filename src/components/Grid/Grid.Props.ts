@@ -30,8 +30,8 @@ export interface GroupRow {
 }
 
 export interface GridColumn {
-    valueMember: string; // for sort & grouping
     HeaderText: string;
+    valueMember: string; // for sort & grouping
     width: number;
     dataMember?: string;
     cellFormatter?: (cellData) => any;
@@ -39,6 +39,7 @@ export interface GridColumn {
     disableSort?: boolean;
     headerClassName?: string;
     // headerRenderer: 
+
 }
 
 export interface RowSelectorProps {

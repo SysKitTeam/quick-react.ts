@@ -66,7 +66,6 @@ export class Resizable extends React.Component<IResizableProps, IResizableState>
 
     @autobind
     private _onDragHeaderColumn(e, data, columnIndex) {
-
         let newColumnWidths = this.state.width;
         newColumnWidths = newColumnWidths + data.deltaX;
         if (newColumnWidths < 0) {
