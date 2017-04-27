@@ -75,6 +75,9 @@
             margin: 0;
             .dropdown-title > i {
                 font-size: 12px;
+                &:hover {
+                    color: $secondary-color;
+                }
             }
             i:nth-child(2) {
                 display: none;

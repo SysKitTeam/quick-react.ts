@@ -14,6 +14,6 @@ export class Index extends React.Component<any, any> {
                 <StatusBar text={'Initializing index...'}></StatusBar>
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

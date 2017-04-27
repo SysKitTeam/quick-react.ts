@@ -39,7 +39,7 @@ import './TagContainer.scss';
                 }
                 {
                     tags.length > 3 &&
-                    tags.map((i) => {return i; } ).slice(0,3).map((tag, tagIndex) => (
+                    tags.map((i) => {return i; } ).slice(0, 3).map((tag, tagIndex) => (
                          <div key={tag.display} className="tag">
                             { tag.iconName && <Icon iconName={tag.iconName}></Icon> }
                             <span style={{cursor: 'pointer'}} className={'tag-text'} title={tag.display}>

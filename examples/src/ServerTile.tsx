@@ -18,7 +18,22 @@ export class Index extends React.Component<any, any> {
                     name={'SP2016-Martin'}
                     numberOfUsers={'3432'}
                     onClose={(id: string) => console.log('Go away!', id)}
-                    diskInformation={['C: 49 / 259 GB (30%)', 'D: 49 / 259 GB (30 %)']}
+                    diskInformation={[
+                                        {
+                                            name: 'Local Disk (C:)',
+                                            used: 800,
+                                            capacity: 1000,
+                                            usageUnit: 'GB',
+                                            id: 1     
+                                        },
+                                        {
+                                            name: 'Data (E:)',
+                                            used: 560,
+                                            capacity: 789,
+                                            usageUnit: 'GB',
+                                            id: 2    
+                                        }
+                                    ]}
                     roles={[]}
                     countersData={[
                         { title: 'CPU', currentUsage: '43', usageUnit: '%', hoverText: [''], status: ServerStatus.OK },
@@ -29,6 +44,6 @@ export class Index extends React.Component<any, any> {
                 </ServerTile>
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

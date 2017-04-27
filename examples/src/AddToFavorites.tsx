@@ -22,6 +22,6 @@ export class Index extends React.Component<any, any> {
                 <Button onClick={ () => { this.setState({ favorited: !this.state.favorited }); } } >Toggle Favorite</Button>
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

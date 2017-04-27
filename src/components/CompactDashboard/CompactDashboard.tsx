@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import { ICompactDashboardProps } from './CompactDashboard.Props';
 import { CompactFarm } from '../CompactFarm/CompactFarm';
@@ -9,20 +8,24 @@ const Collection = require('react-virtualized').Collection;
 import * as classNames from 'classnames';
 import { IFarm, Partition } from '../../models';
 import { autobind } from '../../utilities/autobind';
-import { sortServersByStatusAndName, filterServerByName } from '../../utilities/server';
+import { sortServersByStatusAndName, filterServerByName, filterServerByStatus } from '../../utilities/server';
+import { ITiledDashboardFarm, ITiledDashboardServer } from '../TileDashboard/Tiledashboard.props';
+import { filterFarms } from '../Dashboard/Dashboard';
 
 import './CompactDashboard.scss';
+
+const objectAssign = require('object-assign');
 
 const GUTTER_SIZE = 3;
 const CELL_WIDTH = 330;
 
-const serverTileWidth = 252.0; // LeftMargin 8px + LeftBodrder 10px + LeftPadding 5px + Server 215px + RightPadding 5px + LeftBodrder 1px + RightMargin 8px
-const servertileHeight = 80; // Server 52px + 2 * (Margin 8 + Padding 5 + border 1)
+const serverTileWidth = 252.0; // LeftMargin 8px + LeftBoarder 10px + LeftPadding 5px + Server 215px + RightPadding 5px + LeftBoarder 1px + RightMargin 8px
+const serverTileHeight = 80; // Server 52px + 2 * (Margin 8 + Padding 5 + border 1)
 const scrollbarWidth = 13;
-const compact_farm_margin = 20;
-const compact_farm_padding = 5;
-const headerTotalHeight = 65; // Farm DIV size - servertileHeight  
-const totalPaddingHorizontal = 2 * (compact_farm_margin + compact_farm_padding) + scrollbarWidth;
+const compactFarmMargin = 20;
+const compactFarmPadding = 5;
+const headerTotalHeight = 65; // Farm DIV size - serverTileHeight  
+const totalPaddingHorizontal = 2 * (compactFarmMargin + compactFarmPadding) + scrollbarWidth;
 
 export class CompactDashboard extends React.Component<ICompactDashboardProps, any> {
     collection: any;
@@ -33,6 +36,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
             columnYMap: [],
             collection: undefined,
             list: undefined,
+            farms: filterFarms(props.farms, props.filter)
         };
     }
 
@@ -41,7 +45,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
         if (this.props.isVertical === false && prevProps.isVertical === true) {
             this.setState({ columnYMap: [] });
         }
-        if (this.props.filter !== prevProps.filter) {
+        if (this.props.filter !== prevProps.filter || (prevProps.farms !== this.props.farms)) {
             if (this.collection) {
                 this.setState({ columnYMap: [] }, () => {
                     this.collection.recomputeCellSizesAndPositions();
@@ -53,8 +57,14 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
         }
     }
 
+    public componentWillReceiveProps(nextProps: ICompactDashboardProps, nextState) {
+        const filteredFarms = filterFarms(nextProps.farms, nextProps.filter);
+        this.setState({ farms: filteredFarms });
+    }
+
     public render() {
-        let { title, farms } = this.props;
+        let { title } = this.props;
+        let { farms } = this.state;
         let classname = classNames({ [this.props.className]: this.props.className !== undefined });
         return (
             <div className={classname}>
@@ -121,9 +131,9 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
             return 0;
         }
         const serversPerRow = Math.floor((width - totalPaddingHorizontal) / serverTileWidth);
-        const farmServerCount = farm.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length;
+        let farmServerCount = farm.servers.length; 
         const rowCount = Math.ceil(farmServerCount / serversPerRow);
-        const serverHeight = rowCount * servertileHeight;
+        const serverHeight = rowCount * serverTileHeight;
         const totalHeight = serverHeight + headerTotalHeight;
         return totalHeight;
     }
@@ -131,10 +141,11 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
     @autobind
     private cellSizeAndPositionGetter(width, obj: { index: number }) {
         const columnCount = Math.floor((1800 - 72) / (CELL_WIDTH + GUTTER_SIZE));
+        let row = this.getRow(obj.index);
         let columnPosition = obj.index % (columnCount || 1);
-        let height = 120 + this.getRow(obj.index).servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).length * 70;
-        let serverRoleDiff = (this.getRow(obj.index).servers.filter((server) => { return filterServerByName(this.props.filter, server.name) && server.roles.length > 0; })).length * 27;
-        if (this.getRow(obj.index).isCustom) {
+        let height = 120 + row.servers.length * 70;
+        let serverRoleDiff = row.servers.length * 27;
+        if (row.isCustom) {
             serverRoleDiff += 21;
         }
         height += serverRoleDiff;
@@ -155,13 +166,16 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
 
     @autobind
     private getRow(index: number): IFarm {
-        const { farms } = this.props;
-        return farms[index];
+        return this.state.farms[index];
     }
 
     @autobind
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
         const farm = this.getRow(index);
+        if (farm.servers.length === 0) {
+            return;
+        }
+
         return (
             <div style={style} key={index}>
                 <CompactFarm
@@ -169,7 +183,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                     filter={this.props.filter}
                     serverOnClick={this.props.serverOnClick}
                     groupOnClick={this.props.groupOnClick}
-                    />
+                />
             </div>
         );
     }

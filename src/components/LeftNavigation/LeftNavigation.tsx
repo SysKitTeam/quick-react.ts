@@ -4,21 +4,55 @@ import { ILeftNavigationProps, ILeftNavigationOption } from './LeftNavigation.Pr
 import { assign } from '../../utilities/object';
 import { findIndex } from '../../utilities/array';
 import { Icon } from '../../components/Icon/Icon';
+import { CommonComponent } from '../Common/Common';
+import { elementContains } from '../../utilities/elementContains';
+import { getWindow } from '../../utilities/getDocument';
 import './LeftNavigation.scss';
 
-export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
+export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
+    private _targetWindow: Window;
+    private _leftNavElement: HTMLDivElement;
+    private _target: HTMLElement | MouseEvent;
+
     constructor(props) {
         super(props);
         this.state = { isOpen: false, selectedIndex: this.getSelectedIndex(this.props.options) };
+    }
+
+    public componentDidMount() {
+        let target = this._leftNavElement;
+        this._setTargetWindowAndElement(target);
+        this._events.on(this._targetWindow, 'click', this._dismissOnClickOutsideComponent, true);
+    }
+
+    public componentWillUnmount() {
+        this._events.dispose();
+    }
+
+    private _setTargetWindowAndElement(target: HTMLElement): void {
+        if (target) {
+            let targetElement: HTMLElement = target as HTMLElement;
+            this._target = target;
+            this._targetWindow = getWindow(targetElement);
+        } else {
+            this._targetWindow = getWindow();
+        }
     }
 
     public componentWillReceiveProps(newProps: ILeftNavigationProps) {
         this.setState({ selectedIndex: this.getSelectedIndex(newProps.options) });
     }
 
+    protected _dismissOnClickOutsideComponent(ev: Event) {
+        let target = ev.target as HTMLElement;
+        if (ev.target !== this._targetWindow && (!this._target || !elementContains(this._target as HTMLElement, target, false))) {
+            this.setState({ isOpen: false });
+        }
+    }
+
     onLeftNavigationClick() {
         this.setState({ isOpen: !this.state.isOpen });
-    };
+    }
 
     onLinkClick(index, item: any, ev: React.MouseEvent<HTMLElement>) {
         const { onClick } = this.props;
@@ -37,7 +71,7 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
         if (onClick !== undefined) {
             onClick(ev, item);
         }
-    };
+    }
 
     onOtherLinkClick(index, item: any, ev: React.MouseEvent<HTMLElement>) {
         const { onClick } = this.props;
@@ -49,11 +83,11 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
         if (onClick !== undefined) {
             onClick(ev, item);
         }
-    };
+    }
 
     getSelectedIndex(options: ILeftNavigationOption[]) {
         return findIndex(options, (option => option.selected));
-    };
+    }
 
     public render(): JSX.Element {
         let {
@@ -61,8 +95,6 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
             id,
             otherOptions
         } = this.props;
-
-        const tag = 'div';
 
         let leftNavigationTextClass = classNames({
             'show-text': this.state.isOpen,
@@ -115,21 +147,18 @@ export class LeftNavigation extends React.Component<ILeftNavigationProps, any> {
             );
         });
 
-        return React.createElement(
-            tag,
-            assign(
-                {},
-                { className }
-            ),
-            <div>
-                <div className="nav-item" onClick={() => { this.onLeftNavigationClick(); }}>
-                    <Icon iconName={'icon-switchView'}></Icon>
-                </div>
-                {childrenItems}
+        return (
+            <div className={className} ref={(c): HTMLElement => this._leftNavElement = c}>
                 <div>
-                    {otherChildrenItems}
+                    <div className="nav-item" onClick={() => { this.onLeftNavigationClick(); }}>
+                        <Icon iconName={'icon-switchView'}></Icon>
+                    </div>
+                    {childrenItems}
+                    <div>
+                        {otherChildrenItems}
+                    </div>
                 </div>
             </div>
         );
-    };
-};
+    }
+}

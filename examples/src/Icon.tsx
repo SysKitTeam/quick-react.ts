@@ -167,6 +167,6 @@ export class Index extends React.Component<any, any> {
                 <div> <Icon iconName={'icon-world'}></Icon> <span>   icon-world</span></div> 
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

@@ -11,7 +11,7 @@ export const dummyCompact: ICompactDashboardProps = {
     farms: farms.map(convertFarm),
     className: '',
     filter: '',
-    isVertical: false,
+    isVertical: false
 
 };
 
@@ -37,7 +37,6 @@ export const dummyDashboard: IDashboardProps = {
     serverRoleEdit: (serverFQDN: any) => { console.log('Clicked edit role icon of server ' + serverFQDN); },
     groupOnClick: (groupId: any) => { console.log('Clicked on group ' + groupId); }
 };
-
 
 export function convertFarm(farm: IFarm): ITiledDashboardFarm {
     let servers = farm.servers.map((server) => {
@@ -89,7 +88,7 @@ export function generateCoreCount() {
 }
 
 export function generateNetworkSpeed() {
-    return Math.random() * (10 - 0.1 + 1);
+    return Math.random() * (2000 - 0.1 + 1);
 }
 
 export function generateRandomStatus() {
@@ -126,14 +125,18 @@ export function generateMeasures(): Array<IMeasure> {
         totalDiskIo: generateNetworkSpeed(),
         partitions: [
             {
-                name: 'C',
-                freeMB: generatePercentage(),
-                size: generatePercentage() + 100,
+                name: 'Local Disk (C:)',
+                used: 800,
+                capacity: 1000,
+                usageUnit: 'GB',
+                id: 1     
             },
             {
-                name: 'F',
-                freeMB: generatePercentage(),
-                size: generatePercentage() + 100,
+                name: 'Data (E:)',
+                used: 560,
+                capacity: 789,
+                usageUnit: 'GB',
+                id: 2    
             }
         ],
         time: new Date(Date.now())

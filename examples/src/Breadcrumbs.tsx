@@ -81,6 +81,6 @@ export class Index extends React.Component<any, any> {
                 {/*<BreadcrumbsItem text="Farm 3" url="/performance/2c2e3d11-aaac-40a5-8136-071783ae8c36" displayName="Farm 3" onClick={(url) => console.log(url)} children={children} />*/}
             </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

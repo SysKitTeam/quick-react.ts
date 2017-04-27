@@ -11,12 +11,23 @@ export const classListExample = {
     offline: 'offline'
 };
 
-const numOfServersOnFarm = [10, 15, 6, 8, 11, 30, 15, 61, 45, 7, 11];
 let roleListFarms = [{ display: 'WPF', iconName: 'icon-add' }, { display: 'WPF1111111', iconName: 'icon-add' }, { display: 'Not another', iconName: 'icon-add' }, { display: 'Search', iconName: 'icon-alert' }];
-function createFarms() {
-    let farms = [];
-    for (let farmIndex = 0; farmIndex <= numOfServersOnFarm.length; farmIndex++) {
-        let numOfServers = numOfServersOnFarm[farmIndex];
+
+export const farms: Array<IFarm> = createFarms(10, generateServersCountPerFarm(10, 20, 50));
+
+function generateServersCountPerFarm(numOfFarms: number, minServerCount: number, maxServerCount: number) : Array<number> {
+    let serversCountPerFarm = Array<number>(0);
+    for (let i = 0; i < numOfFarms; i++) {
+        serversCountPerFarm.push(Math.floor(Math.random() * (maxServerCount - minServerCount + 1)) + minServerCount);
+    }
+    return serversCountPerFarm;
+}
+
+function createFarms(numOfFarms: number, serversPerFarm: Array<number>) {
+    let _farms = Array(0);
+    
+    for (let farmIndex = 0; farmIndex <= numOfFarms; farmIndex++) {
+        let numOfServers = serversPerFarm[farmIndex];
         let servers = [];
         for (let i = 0; i <= numOfServers; i++) {
             servers.push({
@@ -28,7 +39,7 @@ function createFarms() {
                 status: Math.random() >= 0.5 ? 1 : 2
             });
         }
-        farms.push({
+        _farms.push({
             id: { sqlInstance: 'instance' + farmIndex, configDataBaseIcon: 'icon-sql_log', configDataBaseName: 'db' + farmIndex },
             name: 'Demo Farm ' + farmIndex,
             isCustom: Math.random() >= 0.5,
@@ -39,10 +50,8 @@ function createFarms() {
             servers: servers
         });
     }
-    return farms;
+    return _farms;
 }
-export const farms: Array<IFarm> = createFarms();
-
 
 const memoryUsage: IMemoryUsage = { usageUnit: 'MB', capacity: 1024, used: 300, status: 1 };
 
@@ -63,7 +72,7 @@ function createProcessorUsages(): Array<IProcessorUsageData> {
 const processorUsage: IProcessorUsage = {data: createProcessorUsages(), status: 1 } ;
 
 const partitionUsages: Array<IPartitionUsage> = [
-    { name: 'C', usageUnit: 'GB', capacity: 60, used: 55, status: 0 },
+    { name: 'C', usageUnit: 'GB', capacity: 60, used: 20, status: 0 },
     { name: 'D', usageUnit: 'GB', capacity: 200, used: 142.5, status: 1 },
     { name: 'E', usageUnit: 'GB', capacity: 52.4, used: 33.2, status: 2 },
     { name: 'F', usageUnit: 'GB', capacity: 550, used: 512, status: 0 }
@@ -87,7 +96,7 @@ export const DemoServerGroup: IDetailedServerGroup = {
             numberOfUsers: '50111',
             memoryUsage: memoryUsage,
             partitionUsages: partitionUsages,
-            processorUsage: processorUsage,
+            processorUsage: processorUsage
         },
         {
             id: { FQDN: 'FQDN2' },
@@ -97,7 +106,7 @@ export const DemoServerGroup: IDetailedServerGroup = {
             numberOfUsers: '2351',
             memoryUsage: memoryUsage,
             partitionUsages: partitionUsages,
-            processorUsage: processorUsage,
+            processorUsage: processorUsage
         }
     ]
 };

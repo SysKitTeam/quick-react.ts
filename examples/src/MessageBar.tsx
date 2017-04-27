@@ -29,6 +29,6 @@ export class Index extends React.Component<any, any> {
                 >Ovo je message bar!</MessageBar>
              </div>
         );
-    };
-};
+    }
+}
 ReactDOM.render(<Index />, document.getElementById('root'));

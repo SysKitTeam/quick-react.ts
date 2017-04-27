@@ -2,6 +2,8 @@ import { IMeasure, MeasureType, IFarm, Partition, DiskMeasure, CpuMeasure, RamMe
 import { ITileData } from '../components/ServerTile/ServerTile.Props';
 import * as classNames from 'classnames';
 
+const noMeasureString = '--';
+
 export function sortServersByStatusAndName(ob1: { status: number, name: string }, ob2: { status: number, name: string }) {
     if (ob1.status > ob2.status) {
         return 1;
@@ -30,6 +32,25 @@ export function filterServerByName(filter: string, serverName: string): boolean 
     return serverName.toLowerCase().trim().indexOf(filter.toLowerCase().trim()) !== -1;
 }
 
+export function filterServerByStatus(status: string, serverStatus: ServerStatus) {
+    let stringToStatus: ServerStatus;
+    status = status.replace('status:', '').toLowerCase().trim();
+    switch (status) {
+        case 'critical':
+            stringToStatus = ServerStatus.Critical;
+            break;
+        case 'warning':
+            stringToStatus = ServerStatus.Warning;
+            break;
+        case 'ok': 
+            stringToStatus = ServerStatus.OK;
+            break;
+        default:
+            break;
+    }
+    return serverStatus === stringToStatus;
+}
+
 export function getDiskInformationFromMeasurements(serverMeasurements: Array<IMeasure>): Array<Partition> {
     let diskMeasurement = serverMeasurements.filter(x => x.type === MeasureType.Disk)[0] as DiskMeasure;
     if (!diskMeasurement) {
@@ -37,7 +58,6 @@ export function getDiskInformationFromMeasurements(serverMeasurements: Array<IMe
     }
 
     return diskMeasurement.partitions;
-
 }
 
 export function getServerMeasures(serverMeasures: Array<IMeasure>) {
@@ -56,69 +76,80 @@ export function getServerMeasures(serverMeasures: Array<IMeasure>) {
     return counters;
 }
 
-const emptyValueString = '--';
 function convertDisk(measure: IMeasure): ITileData {
     let disk = measure as DiskMeasure;
-    let usageUnit = '';
-    let value = emptyValueString;
-    if (disk.totalDiskIo) {
-        usageUnit = 'KB/s';
-        if (disk.totalDiskIo > 1024) {
-            value = (disk.totalDiskIo / 1024).toFixed(1);
-            usageUnit = 'MB/s';
-        } else {
-            value = convertMeasureValue(disk.totalDiskIo);
-        }
-    }
-
+    const measureData = getMeasureData(disk.totalDiskIo, ['KB/s', 'MB/s']);
     return {
         title: 'Disk',
-        usageUnit: usageUnit,
+        usageUnit: measureData.usageUnit,
         hoverText: [],
         status: disk.status,
-        currentUsage: value
+        currentUsage: measureData.value
     };
 }
 
 function convertNetwork(measure: IMeasure): ITileData {
     let network = measure as NetworkMeasure;
-    let usageUnit = '';
-    let value = emptyValueString;
-    if (network.kbTotal) {
-        let measureValue = network.kbTotal;
-        usageUnit = 'Kbps';
-        if (network.kbTotal > 1024) {
-            value = (network.kbTotal / 1024).toFixed(1);
-            usageUnit = 'Mbps';
-        } else {
-            value = convertMeasureValue(network.kbTotal);
-        }
-    }
-
+    const measureData = getMeasureData(network.kbTotal, ['Kbps', 'Mbps']);
     return {
         title: 'Network',
-        usageUnit: usageUnit,
+        usageUnit: measureData.usageUnit,
         hoverText: [''],
         status: network.status,
-        currentUsage: value
+        currentUsage: measureData.value
+    };
+}
+
+function getMeasureData(measureValue: number, usageUnits: Array<string>) {
+    let usageUnit = '';
+    let value = noMeasureString;
+    if (measureValue) {
+        usageUnit = usageUnits[0];
+        if (measureValue >= 1000) {
+            value = (measureValue / 1024).toFixed(1);
+            value = removeZeroAfterDecimalPoint(value);
+            usageUnit = usageUnits[1];
+        } else {
+            value = convertMeasureValue(measureValue);
+        }
+    }
+    return {
+        value: value,
+        usageUnit: usageUnit
     };
 }
 
 /**
  * Formats and convert measure value. If value is bigger than 99
- * decimal points are not displayed.
+ * decimal points are not displayed. If values has zero behind decimal point
+ * ie. 70.0 value is converted to 70
  */
 function convertMeasureValue(measure: number) : string {
-    let value = measure.toFixed(1).toString();
-    if (value.length === 5) {
+    let value = measure.toFixed(1);
+    const stringLength = value.length;
+    if (stringLength === 5) {
         return value.substring(0, 3);
+    } else if (value.indexOf('.0') > 0) {
+        return  value.substr(0, stringLength - 2);
+    }
+    return value;
+}
+
+/**
+ * If value has zero behind decimal point, ie. 50.0 then .0 is trimmer from
+ * number and only 50 is returned.
+ */
+function removeZeroAfterDecimalPoint(value: string) : string {
+    if (value.indexOf('.0') > 0) {
+        const valueLengthEndPosition = value.length - 2;
+        return value.substr(0, valueLengthEndPosition);
     }
     return value;
 }
 
 function convertRam(measure: IMeasure): ITileData {
     let ram = measure as RamMeasure;
-    let used = emptyValueString;
+    let used = noMeasureString;
     let capacity = '';
     let hoverText = '';
     let usageUnit = '';
@@ -127,7 +158,7 @@ function convertRam(measure: IMeasure): ITileData {
         capacity = ram.capacity.toFixed(1);
         usageUnit = 'MB';
         hoverText = (used) + '/' + capacity + '' + usageUnit;
-        if (ram.used > 1024 || ram.capacity > 1024) {
+        if (ram.used >= 1000 || ram.capacity >= 1000) {
             used = (ram.used / 1024).toFixed(1);
             capacity = (ram.capacity / 1024).toFixed(1);
             usageUnit = 'GB';
@@ -145,7 +176,7 @@ function convertRam(measure: IMeasure): ITileData {
 
 function convertCPU(measure: IMeasure): ITileData {
     let cpu = measure as CpuMeasure;
-    let usage = emptyValueString;
+    let usage = noMeasureString;
     let usageUnit = '';
     if (cpu.usage) {
         usageUnit = '%';

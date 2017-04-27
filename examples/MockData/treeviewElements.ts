@@ -90,6 +90,6 @@ export const elements = [
     { id: 'G41', text: 'Option G4', parentId: 'F21' },
     { id: 'G51', text: 'Option G5', parentId: 'F2' },
     { id: 'G61', text: 'Option G6', parentId: 'F2' },
-    { id: 'G71', text: 'Option G7', parentId: 'F2' },
+    { id: 'G71', text: 'Option G7', parentId: 'F2' }
     
 ];
