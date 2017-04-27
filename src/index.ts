@@ -46,6 +46,9 @@ export * from './components/BarChart';
 export * from './components/Tooltip';
 export * from './components/NavigationGroup';
 export * from './components/DetailedServerGroup';
+export * from './components/DateTimePicker';
+export * from './components/DateTimeDropdownPicker';
+export * from './components/DateTimePickerBar';
 
 export * from './utilities/autobind';
 export * from './utilities/KeyCodes';
