@@ -129,6 +129,8 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
         );
     }
 
+    
+
     @autobind
     customHeaderRowRenderer({ className, columns, style }) {
         const columnItems = React.Children.toArray(columns);
@@ -223,7 +225,7 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
                         <Table
                             height={height}
                             headerClassName={headerClass}
-                            overscanRowCount={20}
+                            overscanRowCount={20} // TODO: optional prop
                             headerHeight={this.props.headerHeight}
                             rowHeight={this.props.rowHeight}
                             className="grid-component"

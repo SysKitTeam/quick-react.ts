@@ -29,20 +29,20 @@ const gridColumns: Array<GridColumn> = [{
 {
     valueMember: 'ServerName',
     HeaderText: 'Server Name',
-    width: 100,
+    width: 250,
     cellClassName: ''
 },
 {
     valueMember: 'UserCount',
     HeaderText: 'User Count',
-    width: 140,
+    width: 150,
      cellFormatter: (cellData) => {
         return cellData + ' users'; 
     }
 }, {
     valueMember: 'CPU',
     HeaderText: 'CPU',
-    width: 120,
+    width: 100,
      cellFormatter: (cellData) => {
         return cellData + ' %'; 
     }
@@ -65,20 +65,20 @@ const gridColumns: Array<GridColumn> = [{
 }, {
     valueMember: 'DiskSpace',
     HeaderText: 'Disk Space',
-    width: 120
+    width: 180
 },
 {
     valueMember: 'DiskActivity',
     HeaderText: 'Disk Activity',
-    width: 140
+    width: 180
 }, {
     valueMember: 'Network',
     HeaderText: 'Network',
-    width: 80
+    width: 100
 }, {
     valueMember: 'LastUpdated',
     HeaderText: 'Last Updated',
-    width: 140
+    width: 250
 }];
 
 const getProgressColor = (status) => {
