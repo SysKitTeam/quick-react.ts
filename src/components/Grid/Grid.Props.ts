@@ -10,6 +10,7 @@ export interface IGridProps<T> {
     sortDirection?: 'ASC' | 'DESC';
     rowHeight: number | ((info: { index: number }) => number); // Number or a function that returns the height of a row given its index
     headerHeight: number;
+    overscanRowCount?: number;
 }
 
 export interface IGridState {
@@ -19,6 +20,7 @@ export interface IGridState {
     columnWidths: Array<number>;
     sortColumn: string;
     sortDirection: 'ASC' | 'DESC';
+    columns: Array<GridColumn>;
 }
 
 export interface GroupRow {
@@ -39,13 +41,5 @@ export interface GridColumn {
     disableSort?: boolean;
     headerClassName?: string;
     // headerRenderer: 
-
 }
 
-export interface RowSelectorProps {
-    rows: any;
-    groupedColumns: any;
-    expandedRows: any;
-    sortColumn: any;
-    sortDirection: any;
-}

@@ -7,7 +7,7 @@ import { autobind } from '../../utilities/autobind';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
 
 import { Grid } from '../Grid/Grid';
-import { IGridProps, GridColumn, RowSelectorProps } from '../Grid/Grid.Props';
+import { IGridProps, GridColumn } from '../Grid/Grid.Props';
 
 const objectAssign = require('object-assign');
 
@@ -49,7 +49,7 @@ const gridColumns: Array<GridColumn> = [{
 }, {
     valueMember: 'Memory',
     HeaderText: 'Memory',
-    width: 120,
+    width: 200,
     dataMember: 'MemoryData',
     cellFormatter: (cellData) => {
         return (
@@ -146,17 +146,17 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
         }
         return '-';
     }
-
     
     render() {        
         return (
             <div className={'grid-container-content'}>
                 <ServerGrid
-                    rows={this.state.rows}
+                    rows={this.state.rows}                    
                     columns={gridColumns}
                     groupBy={this.state.groupBy}
-                    rowHeight={150}
+                    rowHeight={40}
                     headerHeight={40}
+                    overscanRowCount={30}
                     />
             </div>
         );

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Icon } from '../Icon/Icon';
-import { IGridProps, GridColumn, RowSelectorProps } from './Grid.Props';
+import { IGridProps, GridColumn } from './Grid.Props';
 
 class RowProps {
     tabIndex: number;

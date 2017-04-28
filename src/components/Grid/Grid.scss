@@ -66,14 +66,13 @@ $icon-color: $gray-color;
     padding-left: 20px !important;
 }
 
-
-
 .grid-column-draggable {
-    width: 3px;    
+    width: 4px;    
     cursor: col-resize;
-    display: 'inline';
+    display: inline-block;
     height: 20px;
-    background-color: 'red'
+    background-color: black;
+    float: right;
 }
 
 .grid-component-container {
@@ -105,4 +104,19 @@ $icon-color: $gray-color;
     padding-top: 15px;
     text-align: center;
     color: #a09f9f;
+}
+
+.grid-header{
+    outline: none;
+}
+.grid-header-column{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;    
+    border-bottom: 2px solid $gray-light-color;
+    display: inline-block;
+}
+
+.header-column-content{
+    display: inline;
 }
