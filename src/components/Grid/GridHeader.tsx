@@ -1,12 +1,8 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { createSelector } from 'reselect';
 import { AutoSizer, Table, Column, ColumnProps, SortIndicator } from 'react-virtualized';
 import { IGridProps, IGridState, GridColumn } from './Grid.Props';
-import { customRowRenderer } from './rowRenderer';
 import { autobind } from '../../utilities/autobind';
-import { RowsSelector } from './rowSelector';
-import { groupRows } from './rowGrouper';
 const DraggableCore = require('react-draggable').DraggableCore;
 
 import './Grid.scss';

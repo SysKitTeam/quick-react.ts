@@ -44,8 +44,8 @@ const gridColumns: Array<GridColumn> = [{
     HeaderText: 'CPU',
     width: 100,
      cellFormatter: (cellData) => {
-        return cellData + ' %'; 
-    }
+        return <div style={{ backgroundColor: getProgressColor(cellData.status) }} > {cellData.usage} %</div>; 
+    }    
 }, {
     valueMember: 'Memory',
     HeaderText: 'Memory',
@@ -125,7 +125,7 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
                     FarmName: farm.name,
                     ServerName: server.name,
                     UserCount: server.numberOfUsers,
-                    CPU: (server.measures.filter((mes) => { return mes.type === MeasureType.CPU; })[0] as CpuMeasure).usage,
+                    CPU: (server.measures.filter((mes) => { return mes.type === MeasureType.CPU; })[0] as CpuMeasure),
                     Memory: (server.measures.filter((mes) => { return mes.type === MeasureType.Ram; })[0] as RamMeasure).used,
                     MemoryData: server.measures.filter((mes) => { return mes.type === MeasureType.Ram; })[0],
                     DiskSpace: 30,

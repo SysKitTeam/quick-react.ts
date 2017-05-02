@@ -10,7 +10,6 @@ import { groupRows } from './rowGrouper';
 import { GridHeader } from './GridHeader';
 
 import './Grid.scss';
-
 export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
     public static defaultProps = {
         overscanRowCount: 20
