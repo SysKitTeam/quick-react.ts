@@ -150,3 +150,19 @@ $background-color: $background-color;
 
 }
 
+.server-status{
+    width: 20px;    
+    float: left;
+    margin-right: 5px;
+}
+
+.status-critical {
+    background-color: $red-color;
+}
+.status-warning {
+     background-color: $yellow-color;
+}
+.status-ok {
+     background-color: $green-color;
+}
+

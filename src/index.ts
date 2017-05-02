@@ -46,6 +46,8 @@ export * from './components/BarChart';
 export * from './components/Tooltip';
 export * from './components/NavigationGroup';
 export * from './components/DetailedServerGroup';
+export * from './components/Grid';
+export * from './components/ServerGridDashboard';
 
 export * from './utilities/autobind';
 export * from './utilities/KeyCodes';

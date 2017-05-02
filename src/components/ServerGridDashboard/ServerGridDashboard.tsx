@@ -5,92 +5,83 @@ import * as classNames from 'classnames';
 import { Icon } from '../Icon/Icon';
 import { autobind } from '../../utilities/autobind';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
-
 import { Grid } from '../Grid/Grid';
 import { IGridProps, GridColumn } from '../Grid/Grid.Props';
+import { GetClassForStatus } from '../../utilities/server';
 
 const objectAssign = require('object-assign');
 
-import { sortServersByStatusAndName, filterServerByName, convertCPU, convertNetwork, convertDisk, convertRam } from '../../utilities/server';
+import { sortServersByStatusAndName, filterServerByName, convertNetwork, convertDisk } from '../../utilities/server';
 import { IMeasure, MeasureType, IFarm, Partition, DiskMeasure, CpuMeasure, RamMeasure, NetworkMeasure, ServerStatus } from '../../models';
 
 import './ServerGridDashboard.scss';
-
 class ServerGrid extends Grid<ServerGridRow> { }
+
+const getMeasure = (measures, measureType) => {
+    return measures.filter((mes) => { return mes.type === measureType; })[0];
+};
 
 const gridColumns: Array<GridColumn> = [{
     valueMember: 'FarmName',
     HeaderText: 'Farm Name',
     width: 120,
-    cellFormatter: (cellData) => {
-        return cellData; 
-    }
-},
-{
+    minWidth: 50
+
+}, {
     valueMember: 'ServerName',
     HeaderText: 'Server Name',
+    dataMember: 'ServerData',
     width: 250,
-    cellClassName: ''
+    minWidth: 50,
+
+    cellFormatter: (cellData) => {
+        return (
+            <div>
+                <div className={GetClassForStatus('server-status', cellData.status)}>&nbsp;</div>
+                <span>{cellData.name}</span>
+            </div>
+        );
+    }
 },
 {
     valueMember: 'UserCount',
     HeaderText: 'User Count',
     width: 150,
-     cellFormatter: (cellData) => {
-        return cellData + ' users'; 
+    minWidth: 50,
+    cellFormatter: (cellData) => {
+        return cellData + ' users';
     }
 }, {
     valueMember: 'CPU',
     HeaderText: 'CPU',
+    dataMember: 'CPUData',
     width: 100,
-     cellFormatter: (cellData) => {
-        return <div style={{ backgroundColor: getProgressColor(cellData.status) }} > {cellData.usage} %</div>; 
-    }    
+    minWidth: 50,
+    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status)} > {cellData.usage}%</div>; }
 }, {
     valueMember: 'Memory',
     HeaderText: 'Memory',
     width: 200,
+    minWidth: 50,
     dataMember: 'MemoryData',
-    cellFormatter: (cellData) => {
-        return (
-            <ProgressBar
-                title={'RAM'}
-                info={cellData.used + ' of ' + cellData.capacity + ' used'}
-                dimensions={{ height: '40px', width: '100%' }}
-                data={{ total: cellData.capacity, current: cellData.used }}
-                progressColor={getProgressColor(cellData.status)}
-                />
-        );
-    }
-}, {
-    valueMember: 'DiskSpace',
-    HeaderText: 'Disk Space',
-    width: 180
+    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status)}> {cellData.used}%</div>; }
 },
 {
     valueMember: 'DiskActivity',
     HeaderText: 'Disk Activity',
-    width: 180
+    dataMember: 'DiskActivityData',
+    width: 180,
+    minWidth: 50,
+    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status)}> {cellData.currentUsage}%</div>; }
+
 }, {
     valueMember: 'Network',
     HeaderText: 'Network',
-    width: 100
-}, {
-    valueMember: 'LastUpdated',
-    HeaderText: 'Last Updated',
-    width: 250
+    dataMember: 'NetworkData',
+    width: 100,
+    minWidth: 50,
+    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status)}> {cellData.currentUsage}%</div>; }
 }];
-
-const getProgressColor = (status) => {
-    if (status === ServerStatus.Critical) {
-        return '#fb6464';
-    } else if (status === ServerStatus.Warning) {
-        return '#EAC71A';
-    } else if (status === ServerStatus.OK) {
-        return '#7DC458';
-    }
-    return undefined;
-};
 
 export interface IServerGridDashboardState {
     rows: Array<ServerGridRow>;
@@ -117,48 +108,42 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
         let rows = [];
         farms.forEach(farm => {
             farm.servers.forEach(server => {
-                const cpu = this.getConvertedMeasure(server.measures, MeasureType.CPU, convertCPU);
-                const mem = this.getConvertedMeasure(server.measures, MeasureType.Ram, convertRam);
-                const disk = this.getConvertedMeasure(server.measures, MeasureType.Disk, convertDisk);
-                const net = this.getConvertedMeasure(server.measures, MeasureType.Network, convertNetwork);
+                const cpu = getMeasure(server.measures, MeasureType.CPU);
+                const mem = getMeasure(server.measures, MeasureType.Ram);
+                const disk = getMeasure(server.measures, MeasureType.Disk);
+                const net = getMeasure(server.measures, MeasureType.Network);
                 rows.push({
                     FarmName: farm.name,
-                    ServerName: server.name,
                     UserCount: server.numberOfUsers,
-                    CPU: (server.measures.filter((mes) => { return mes.type === MeasureType.CPU; })[0] as CpuMeasure),
-                    Memory: (server.measures.filter((mes) => { return mes.type === MeasureType.Ram; })[0] as RamMeasure).used,
-                    MemoryData: server.measures.filter((mes) => { return mes.type === MeasureType.Ram; })[0],
-                    DiskSpace: 30,
-                    DiskActivity: disk,
-                    Network: net,
-                    LastUpdated: Math.round(Math.random() * 3).toString() + ' sec'
+                    ServerName: server.name,
+                    ServerData: { name: server.name, status: server.status },
+                    CPU: cpu.usage,
+                    CPUData: cpu,
+                    Memory: mem.used,
+                    MemoryData: mem,
+                    DiskActivity: disk.totalDiskIo,
+                    DiskActivityData: convertDisk(disk),
+                    Network: net.kbTotal,
+                    NetworkData: convertNetwork(net)
                 });
             });
         });
         return rows;
     }
 
-    private getConvertedMeasure(measures, measureType, convertFunction): string {
-        const measure = measures.filter((mes) => { return mes.type === measureType; })[0];
-        if (measure !== undefined) {
-            const converted = convertFunction(measure);
-            return converted.currentUsage + ' ' + converted.usageUnit;
-        }
-        return '-';
-    }
-    
-    render() {        
+    render() {
         return (
             <div className={'grid-container-content'}>
                 <ServerGrid
-                    rows={this.state.rows}                    
+                    rows={this.state.rows}
                     columns={gridColumns}
                     groupBy={this.state.groupBy}
                     rowHeight={40}
                     headerHeight={40}
                     overscanRowCount={30}
-                    />
+                />
             </div>
         );
     }
 }
+

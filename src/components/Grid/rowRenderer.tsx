@@ -49,7 +49,7 @@ export function customRowRenderer(gridColumns: Array<GridColumn>, onRowExpandTog
     }  
 
     if (rowData.type === 'GroupRow') {
-        const iconName = rowData.isExpanded ? 'icon-Arrow_up' : 'icon-arrow_down';
+        const iconName = rowData.isExpanded ? 'icon-arrow_down_right' : 'icon-arrow_right';
         const columnName = gridColumns.filter((column) => { return column.valueMember === rowData.columnGroupName; })[0].HeaderText;
         const padding: React.CSSProperties = { paddingLeft: 30 * rowData.depth, paddingRight: 10 }; // TODO: add to css 
 
@@ -65,10 +65,10 @@ export function customRowRenderer(gridColumns: Array<GridColumn>, onRowExpandTog
                 role={'row'}
                 style={style}
                 >
+                <Icon iconName={iconName} onClick={toggleRow} ></Icon>
                 <p style={padding}>
                     {columnName}: {rowData.name}
                 </p>
-                <Icon iconName={iconName} onClick={toggleRow} ></Icon>
             </div>
         );
     } else {

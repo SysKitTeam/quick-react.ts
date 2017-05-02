@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { createSelector } from 'reselect';
 import { AutoSizer, Table, Column, ColumnProps } from 'react-virtualized';
 import { IGridProps, IGridState, GridColumn } from './Grid.Props';
 import { customRowRenderer } from './rowRenderer';

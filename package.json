@@ -44,7 +44,6 @@
     "@types/react": "15.0.1",
     "@types/react-dom": "0.14.20",
     "@types/react-virtualized": "9.5.0",
-    "@types/reselect": "^2.2.0",
     "awesome-typescript-loader": "3.1.2",
     "babel-core": "6.18.2",
     "babel-polyfill": "6.16.0",

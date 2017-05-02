@@ -35,11 +35,11 @@ export interface GridColumn {
     HeaderText: string;
     valueMember: string; // for sort & grouping
     width: number;
+    minWidth?: number;
     dataMember?: string;
     cellFormatter?: (cellData) => any;
     cellClassName?: string;
     disableSort?: boolean;
     headerClassName?: string;
-    // headerRenderer: 
 }
 

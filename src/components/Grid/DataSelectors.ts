@@ -1,5 +1,4 @@
 const createSelector = require('reselect').createSelector;
-// import { createSelector } from 'reselect';
 import { IGridState } from './Grid.Props';
 import { groupRows } from './rowGrouper';
 const objectAssign = require('object-assign');
@@ -31,7 +30,7 @@ const sortRows = (rows, sortColumn, sortDirection) => {
     return sorted;
 };
 
-const getSortedRows = createSelector([getInputRows, getSortColumn, getSortDirection], (rows, sortColumn, sortDirection) => {
+const getSortedRows = createSelector(getInputRows, getSortColumn, getSortDirection, (rows, sortColumn, sortDirection) => {
     if (!sortDirection && !sortColumn) {
         return rows;
     }
@@ -39,12 +38,11 @@ const getSortedRows = createSelector([getInputRows, getSortColumn, getSortDirect
 });
 
 
-export const getRowsSelector = createSelector([getSortedRows, getGroupBy, getExpandedRows], (rows, groupedColumns, expandedRows = {}) => {        
+export const getRowsSelector = createSelector(getSortedRows, getGroupBy, getExpandedRows, (rows, groupedColumns, expandedRows = {}) => {        
     return groupRows(rows, groupedColumns, expandedRows);
 });
 
 
 export const getColumnsSelector = createSelector(getColumns, getGroupBy, (columns, groupBy) => {     
-    const nonGroupedColumns = columns.filter((column) => { return groupBy.indexOf(column.valueMember) === -1; });
-    return nonGroupedColumns;
+    return columns.filter((column) => { return groupBy.indexOf(column.valueMember) === -1; });
 });

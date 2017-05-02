@@ -68,16 +68,19 @@ export class GridHeader extends React.Component<IGridHeaderProps, any> {
 
     @autobind
     private _onDragHeaderColumn(e, data, columnIndex) {
+        const columnDefinition = this.props.columns;        
         let columnWidth = this.state.columnWidths[columnIndex];
+        const columnMinWidth = this.props.columns[columnIndex].minWidth || 0;        
         let nextColumnWidth = this.state.columnWidths[columnIndex + 1];
+        const nextColumnMinWidth = this.props.columns[columnIndex + 1].minWidth || 0;
         columnWidth = columnWidth + data.deltaX;
-        nextColumnWidth = nextColumnWidth - data.deltaX; 
-        if (columnWidth < 0) {            
-            columnWidth = 0;
+        nextColumnWidth = nextColumnWidth - data.deltaX;         
+        if (columnWidth < columnMinWidth) {            
+            columnWidth = columnMinWidth;
             nextColumnWidth = this.state.columnWidths[columnIndex + 1];
         }
-        if (nextColumnWidth < 0) {            
-            nextColumnWidth = 0;
+        if (nextColumnWidth < nextColumnMinWidth) {            
+            nextColumnWidth = nextColumnMinWidth;
             columnWidth = this.state.columnWidths[columnIndex];
         }        
         let newColumnWidths = [...this.state.columnWidths ];
