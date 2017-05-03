@@ -126,7 +126,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
                 circles.push(
                     <circle 
                         key={index++} className={values[i].id} r={6}
-                        fill={color(values[i].data)}
+                        fill={color(values[i].name)}
                         cx={x(values[i].data[j].argument)} cy={y(values[i].data[j].value)}
                         style={{ fill: 'transparent' }}
                        />
@@ -191,6 +191,8 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
      */
     private onMouseOver() {
         const element = d3.event.currentTarget;
+        // tslint:disable-next-line:no-console
+        console.log(element);
         const el = d3.select(element);
         const boundData = el.datum() as ILineChartData;
         const x = el.attr('cx');
