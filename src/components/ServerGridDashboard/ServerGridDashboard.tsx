@@ -5,7 +5,7 @@ import * as classNames from 'classnames';
 import { Icon } from '../Icon/Icon';
 import { autobind } from '../../utilities/autobind';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
-import { Grid } from '../Grid/Grid';
+import { QuickGrid } from '../Grid/Grid';
 import { IGridProps, GridColumn } from '../Grid/Grid.Props';
 import { GetClassForStatus } from '../../utilities/server';
 
@@ -15,7 +15,7 @@ import { sortServersByStatusAndName, filterServerByName, convertNetwork, convert
 import { IMeasure, MeasureType, IFarm, Partition, DiskMeasure, CpuMeasure, RamMeasure, NetworkMeasure, ServerStatus } from '../../models';
 
 import './ServerGridDashboard.scss';
-class ServerGrid extends Grid<ServerGridRow> { }
+class ServerGrid extends QuickGrid<ServerGridRow> { }
 
 const getMeasure = (measures, measureType) => {
     return measures.filter((mes) => { return mes.type === measureType; })[0];
@@ -70,7 +70,7 @@ const gridColumns: Array<GridColumn> = [{
     valueMember: 'DiskActivity',
     HeaderText: 'Disk Activity',
     dataMember: 'DiskActivityData',
-    width: 180,
+    width: 1000,
     minWidth: 50,
     cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status)}> {cellData.currentUsage}%</div>; }
 
@@ -78,7 +78,7 @@ const gridColumns: Array<GridColumn> = [{
     valueMember: 'Network',
     HeaderText: 'Network',
     dataMember: 'NetworkData',
-    width: 100,
+    width: 1500,
     minWidth: 50,
     cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status)}> {cellData.currentUsage}%</div>; }
 }];

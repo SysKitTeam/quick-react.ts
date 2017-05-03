@@ -1,18 +1,25 @@
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import * as classNames from 'classnames';
-import { AutoSizer, Table, Column, ColumnProps } from 'react-virtualized';
-import { IGridProps, IGridState, GridColumn } from './Grid.Props';
+import { AutoSizer, Table, Column, ColumnProps, ScrollSync, Grid } from 'react-virtualized';
+import { IGridProps, IGridState, GridColumn, GroupRow } from './Grid.Props';
 import { customRowRenderer } from './rowRenderer';
 import { autobind } from '../../utilities/autobind';
-import { getColumnsSelector, getRowsSelector} from './DataSelectors';
+const scrollbarSize = require('dom-helpers/util/scrollbarSize');
+import { getColumnsSelector, getRowsSelector } from './DataSelectors';
 import { groupRows } from './rowGrouper';
 import { GridHeader } from './GridHeader';
 
 import './Grid.scss';
-export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
+
+export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
     public static defaultProps = {
         overscanRowCount: 20
     };
+    private _grid: any;
+    private headerGrid: any;
+    private parentElement: HTMLElement;
+    private columnsMinWidth;
 
     constructor(props: IGridProps<T>) {
         super(props);
@@ -25,25 +32,25 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
             sortDirection: props.sortDirection,
             columns: props.columns
         };
-    }
-   
-    @autobind
-    private rowRenderer({ className, columns, index, isScrolling, key, onRowClick, onRowDoubleClick, onRowMouseOver, onRowMouseOut, rowData, style }) {
-        return customRowRenderer(this.props.columns, this.onRowExpandToggle.bind(this), { className, columns, index, isScrolling, key, onRowClick, onRowDoubleClick, onRowMouseOver, onRowMouseOut, rowData, style });
+         this.columnsMinWidth = props.columns.map(x => x.minWidth).reduce((a, b) => a + b, 0);
     }
 
     @autobind
-    getColumnsToDisplay() {         
+    getColumnsToDisplay(): Array<GridColumn> {
         return getColumnsSelector(this.state);
     }
+    @autobind
+    getColumnsCount() {
+        return this.getColumnsToDisplay().length;
+    }
 
     @autobind
-    private getRow({ index }): T {
+    private getRow({ index }) {
         const rows = this.getRows();
         return rows[index % rows.length];
     }
 
-    private getRows() {              
+    private getRows() {
         return getRowsSelector(this.state);
     }
 
@@ -70,7 +77,7 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
         });
     }
 
-    @autobind
+    /*@autobind
     renderColumns() {
         return (
             this.getColumnsToDisplay()
@@ -101,13 +108,14 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
                     );
                 })
         );
-    }
+    }*/
 
     @autobind
     onGridResize(newColumnWidths: Array<number>) {
         this.setState((oldState) => {
             return { ...oldState, columnWidths: newColumnWidths };
         });
+        this._grid.recomputeGridSize({});
     }
 
     @autobind
@@ -116,17 +124,103 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
     }
 
     @autobind
-    customHeaderRowRenderer({ className, columns, style }) {
+    _cellRenderer({ columnIndex, key, rowIndex, style }) {
+        const rowData = this.getRow({ index: rowIndex });
+        const columns = this.getColumnsToDisplay();
+        const column = columns[columnIndex];
+        if (rowData.type === 'GroupRow') {
+            return this._renderGroupCell(columnIndex, key, rowIndex, style);
+        } else {
+            return this._renderBodyCell(columnIndex, key, rowIndex, style);
+        }
+    }
+
+    @autobind
+    _noContentRenderer() {
         return (
-            <GridHeader
-                columns={this.getColumnsToDisplay()}
-                columnWidths={this.state.columnWidths}
-                onResize={this.onGridResize}
-                sortColumn={this.state.sortColumn}
-                sortDirection={this.state.sortDirection}
-                onSort={this.sortColumns}
-            />
+            <div className="grid-component-no-data">
+                No items to show...
+            </div>
         );
+    }
+
+    _renderGroupCell(columnIndex: number, key, rowIndexNumber: number, style) {
+        if (columnIndex === 0) {
+            return (<div key={key} style={style}> expandable </div>); // TODO: add expandable  - from rowRenderer
+        } else {
+            return (<div key={key} style={style}></div>);
+        }
+    }
+
+    _renderBodyCell(columnIndex: number, key, rowIndexNumber: number, style) {
+        const columns = this.getColumnsToDisplay();
+        const column = columns[columnIndex];
+        const rowData = this.getRow({ index: rowIndexNumber });
+
+        const width = this.state.columnWidths[columnIndex];
+        const label = column.HeaderText;
+        const dataKey = column.dataMember || column.valueMember;
+        const cellData = rowData[dataKey];
+        const className = classNames('grid-component-cell', column.cellClassName);
+
+        if (column.cellFormatter) {
+            return (
+                <div
+                    key={key}
+                    style={style}
+                    className={className}
+                >
+                    {column.cellFormatter(cellData)}
+                </div>
+            );
+        }
+        return (
+            <div
+                key={key}
+                style={style}
+                className={className}
+            // onMouseOver={() => this.setState({ hoverRowIndex: rowIndex })}
+            // onClick={() => this._setSelectedRowIndex(rowIndex)}
+            // onDoubleClick={() => { this._onRowDblClicked(rowIndex); }}
+            >
+                <div style={{ padding: '5px 5px 0 10px', fontSize: '14px' }} >
+                    {cellData}
+                </div>
+            </div>
+        );
+    }
+
+     componentDidMount() {
+        this.parentElement = ReactDOM.findDOMNode(this).parentElement;
+        this.refreshColumnWidthsInState();
+    }
+
+    @autobind
+    _onResize() {
+        this.refreshColumnWidthsInState(); // set new widths in state
+        // this.calcExpandedRowWidth(); // expand last
+        this._grid.recomputeGridSize();
+        this.headerGrid._headerGrid.recomputeGridSize();
+    }
+
+    private refreshColumnWidthsInState() {
+        let gridWidth = Math.floor(this.parentElement.clientWidth) - 12;
+        let columnWidths = this.getColumnsWidth(gridWidth);
+        this.setState(( prevState) => { return { ...prevState, columnWidths }; });
+    }
+
+    private getColumnsWidth(available: number) {
+        return available > this.columnsMinWidth ? this.props.columns.map(x => this.getColumnWidthInPx(available, x.width)) : this.props.columns.map(x => x.minWidth);
+    }
+
+    private getColumnWidthInPx(available: number, widthInPercentage) {
+        return Math.floor(available * (widthInPercentage / 100));
+    }
+
+    @autobind
+    _getColumnWidth({ index }) {
+        const columns = this.getColumnsToDisplay();
+        return this.state.columnWidths[index];
     }
 
     render() {
@@ -134,28 +228,45 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
         let headerClass = classNames('grid-component-header', this.props.headerClassName);
         return (
             <div className={mainClass}>
-                <AutoSizer>
-                    {({ height, width }) => (
-                        <Table
-                            height={height}
-                            headerClassName={headerClass}
-                            overscanRowCount={this.props.overscanRowCount} 
-                            headerHeight={this.props.headerHeight}
-                            rowHeight={this.props.rowHeight}
-                            className="grid-component"
-                            rowGetter={this.getRow}
-                            sort={this._sort}
-                            sortBy={this.state.sortColumn}
-                            sortDirection={this.state.sortDirection}
-                            rowCount={this.getRowCount()}
-                            width={width}
-                            rowRenderer={this.rowRenderer}
-                            headerRowRenderer={this.customHeaderRowRenderer}
-                        >
-                            {this.renderColumns()}
-                        </Table>
+                <ScrollSync>
+                    {({ clientHeight, clientWidth, onScroll, scrollHeight, scrollLeft, scrollTop, scrollWidth }) => (
+                        <AutoSizer onResize={this._onResize}>
+                            {({ height, width }) => (
+                                <div style={{ width, height }} >
+                                    <GridHeader
+                                        ref={(g) => { this.headerGrid = g; }}
+                                        columns={this.getColumnsToDisplay()}
+                                        columnWidths={this.state.columnWidths}
+                                        onResize={this.onGridResize}
+                                        sortColumn={this.state.sortColumn}
+                                        sortDirection={this.state.sortDirection}
+                                        onSort={this.sortColumns}
+                                        width={width - scrollbarSize()}
+                                        onScroll={onScroll}
+                                        scrollLeft={scrollLeft}
+                                    />
+                                    <div style={{ width }} >
+                                        <Grid
+                                            ref={(r) => { this._grid = r; }}
+                                            height={height}
+                                            width={width}
+                                            noContentRenderer={this._noContentRenderer}
+                                            onScroll={onScroll}
+                                            scrollLeft={scrollLeft}
+                                            cellRenderer={this._cellRenderer}
+                                            overscanRowCount={this.props.overscanRowCount}
+                                            columnWidth={this._getColumnWidth}
+                                            rowHeight={this.props.rowHeight}
+                                            className= "grid-component"
+                                            rowCount={this.getRowCount()}
+                                            columnCount={this.getColumnsCount()}
+                                        />
+                                    </div>
+                                </div>
+                            )}
+                        </AutoSizer>
                     )}
-                </AutoSizer>
+                </ScrollSync>
             </div>
         );
     }

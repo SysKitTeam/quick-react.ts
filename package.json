@@ -33,7 +33,8 @@
     "react-virtualized": "9.7.3",
     "redux": "3.6.0",
     "reselect": "2.5.4",
-    "run-sequence": "1.2.2"
+    "run-sequence": "1.2.2",
+    "dom-helpers": "3.2.1"
   },
   "devDependencies": {
     "@types/classnames": "0.0.32",

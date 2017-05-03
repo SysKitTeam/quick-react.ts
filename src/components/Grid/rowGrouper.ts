@@ -1,4 +1,5 @@
 const groupBy = require('lodash.groupby');
+import { GroupRow } from './Grid.Props';
 
 class RowGrouper {
     columns: any;
@@ -27,7 +28,7 @@ class RowGrouper {
             let groupKeyValue = groupKeys[i];
             const groupKey = parentGroupKey + '||' + groupKeyValue;            
             let isExpanded = this.isRowExpanded(columnName, groupKey);
-            let rowGroupHeader = { type: 'GroupRow', columnGroupName: columnName, name: groupKeyValue, groupKey: groupKey, depth: columnIndex, isExpanded: isExpanded };
+            const rowGroupHeader : GroupRow = { type: 'GroupRow', columnGroupName: columnName, name: groupKeyValue, groupKey: groupKey, depth: columnIndex, isExpanded: isExpanded };
             dataViewRows.push(rowGroupHeader);
 
             if (isExpanded) {
@@ -48,3 +49,5 @@ export const groupRows = (rows, groupedColumns, expandedRows) => {
     let rowGrouper = new RowGrouper(groupedColumns, expandedRows);
     return rowGrouper.groupRowsByColumn(rows, 0);
 };
+
+

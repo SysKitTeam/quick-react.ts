@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export interface IGridProps<T> {
-    rows: Array<T>;
+    rows: Array<T | GroupRow>;
     columns: Array<GridColumn>;
     groupBy: Array<string>;
     gridClassName?: string;
@@ -28,6 +28,7 @@ export interface GroupRow {
     columnGroupName: string;
     name: string;
     depth: number;
+    groupKey: string;
     isExpanded: boolean;
 }
 
