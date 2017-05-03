@@ -7,6 +7,7 @@ import { CommonComponent } from '../Common/Common';
 import { KeyCodes } from '../../utilities/KeyCodes';
 import { Icon } from '../../components/Icon/Icon';
 import { getDocument } from '../../utilities/getDocument';
+import { getWindow } from '../../utilities/getDocument';
 import { elementContains } from '../../utilities/elementContains';
 import * as _ from 'lodash';
 import './Search.scss';
@@ -25,6 +26,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
 
     private _rootElement: HTMLElement;
     private _inputElement: HTMLInputElement;
+    private _targetWindow: Window;
 
     public constructor(props: ISearchProps) {
         super(props);
@@ -35,7 +37,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
         }
 
         this._callOnChange = _.debounce(this._callOnChange, props.debounceWaitMs);
-        
+
         this.state = {
             value: props.value || '',
             hasFocus: false,
@@ -48,6 +50,35 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
             this.setState({
                 value: newProps.value
             });
+        }
+    }
+
+    public componentDidMount() {
+        this._setTargetWindowAndElement(this._rootElement);
+        this._events.on(this._targetWindow, 'click', this._removeFocus);
+    }
+
+    @autobind
+    private _removeFocus(ev: Event) {
+        const target = ev.target as HTMLElement;
+
+        if (ev.target !== this._targetWindow && (!this._inputElement || !elementContains(this._inputElement as HTMLElement, target, false))) {
+            this.setState({
+                hasFocus: false
+            });
+        }
+    }
+
+    public componentWillUnmount() {
+        this._events.dispose();
+    }
+
+    private _setTargetWindowAndElement(target: HTMLElement): void {
+        if (target) {
+            let targetElement: HTMLElement = target as HTMLElement;
+            this._targetWindow = getWindow(targetElement);
+        } else {
+            this._targetWindow = getWindow();
         }
     }
 

@@ -45,14 +45,7 @@
             }
         }
     }
-    .search {
-        width:30%;
-        display: inline-block;
-        position: relative;
-        right: 0;
-        float: right;
-        border-radius: 5px;
-    }
+    
     div:nth-child(4) {
         display: inline-block;
         position: relative;
@@ -71,24 +64,30 @@
         }
     }
 
-    .search{
+    .search {
+        width:30%;
+        display: inline-block;
+        position: relative;
+        right: 0;
+        float: right;
+        border-radius: 5px;
         position: relative;
         top: 3px;
         border-color: $search-border-color;
-        .icon{
+        .icon {
             color: $light-text-color;
         }
-        &.is-active{
+        &.is-active {
             border-color: $light-text-color;
         }
 
-        .search-field{
+        .search-field {
                 
                 height: 28px;
                 line-height: 28px;
                 padding: 5px 26px 8px 27px;
         }
-        .icon-search, .search-clearButton{
+        .icon-search, .search-clearButton {
                 height: 29px;
                 line-height: 29px;
         }
