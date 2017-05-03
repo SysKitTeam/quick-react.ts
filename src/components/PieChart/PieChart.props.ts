@@ -7,6 +7,7 @@ export interface IPieChartProps {
     displayingElements?: number;
     showLegend?: boolean;
     sortValues?: boolean;
+    tooltipBorderColor?: string;
 }
 
 export interface IPieChartContentProps {
@@ -16,6 +17,7 @@ export interface IPieChartContentProps {
     tipText?: (d?: IPieChartData) => string;
     colors?: Array<string>;
     data: Array<IPieChartData>;
+    tooltipBorderColor?: string;
 }
 
 export interface IPieChartData {

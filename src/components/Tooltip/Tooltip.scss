@@ -3,13 +3,14 @@
 .tip-container {
     pointer-events: none;
     polygon, rect {
-        fill: #f6f6f6;
+        fill: white;
         pointer-events: inherit;
+        opacity: 0.8;
     }
     .tip-text {
         font-family: $font-family-base;
         font-size: 12px;
-        fill: #898989;
+        fill: black;
         font-weight: 400;
         pointer-events: inherit;
     }

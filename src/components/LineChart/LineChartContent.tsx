@@ -23,7 +23,8 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
             tipX: 0,
             tipY: 0,
             tipText: '',
-            isTipVisible: false
+            isTipVisible: false,
+            tooltipBorderColor: ''
         };
 
         this.x = this.generateX();
@@ -92,7 +93,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
                     <g className={xAxisClass} transform={translateXAxis} ref={(element: SVGAElement) => this.renderXAxis(element)} />
                     <g className={yAxisClass} ref={(element: SVGAElement) => this.renderYAxis(element)} />
                     {this.drawSeries()}
-                    <Tooltip id={this.props.id} text={this.state.tipText} x={this.state.tipX} y={this.state.tipY} visible={this.state.isTipVisible} />
+                    <Tooltip id={this.props.id} text={this.state.tipText} x={this.state.tipX} y={this.state.tipY} visible={this.state.isTipVisible} tipBorderColor={this.state.tooltipBorderColor}/>
                 </g>
             </svg>
         );
@@ -123,7 +124,9 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
                 style={{ stroke: color(values[i].name) }}></path>);
             for (let j = 0; j < values[i].data.length; j++) {
                 circles.push(
-                    <circle key={index++} className={values[i].id} r={6} 
+                    <circle 
+                        key={index++} className={values[i].id} r={6}
+                        fill={color(values[i].data)}
                         cx={x(values[i].data[j].argument)} cy={y(values[i].data[j].value)}
                         style={{ fill: 'transparent' }}
                        />
@@ -193,7 +196,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         const x = el.attr('cx');
         const y = el.attr('cy');
 
-        this.setState({ isTipVisible: true, tipX: x, tipY: y, tipText: this.props.tooltipText(boundData) });
+        this.setState({ isTipVisible: true, tipX: x, tipY: y, tipText: this.props.tooltipText(boundData), tooltipBorderColor: el.attr('fill') });
     }
 
     /**

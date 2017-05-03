@@ -2,14 +2,19 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import * as d3 from 'd3';
 import { ITooltipProps } from './Tooltip.props';
-
 import './Tooltip.scss';
 
 const padding = { top: 5, right: 5, bottom: 5, left: 5 };
 const TEXT_Y_TRANSLATE = 3.3;    // constant that best approximates text position inside rectangle
 const TIP_ARROW_HEIGHT = 10;
 
+const pathLine = d3.line().x((d: any) => d.x).y((d: any) => d.y);
+
 export class Tooltip extends React.PureComponent<ITooltipProps, any> {
+    public static defaultProps = {
+        tipBorderColor: '#05486C'
+    };
+
     constructor(props: ITooltipProps) {
         super(props);
 
@@ -19,7 +24,8 @@ export class Tooltip extends React.PureComponent<ITooltipProps, any> {
             height: 0,
             textYPosition: 0,
             translateX: 0,
-            translateY: 0
+            translateY: 0,
+            pathPoints: []
         };
     }
 
@@ -41,6 +47,7 @@ export class Tooltip extends React.PureComponent<ITooltipProps, any> {
                 <rect className={classNames(tipClass, 'tip-rect')} 
                     height={this.state.height} 
                     width={this.state.width}/>
+                <path d={pathLine(this.state.pathPoints)} style={{ fill: 'none', stroke: this.props.tipBorderColor, strokeWidth: 1 }} />
                 <text className={classNames(tipClass, 'tip-text')} 
                         dx={padding.right} 
                         dy={this.state.textYPosition} 
@@ -54,22 +61,33 @@ export class Tooltip extends React.PureComponent<ITooltipProps, any> {
         if (element === null) { return; }
 
         const dimensions = element.getBBox();
-        const textWidth = dimensions.width + padding.left + padding.right;
+        const width = dimensions.width + padding.left + padding.right;
         const height = dimensions.height + padding.top + padding.bottom;
         const yPosition = height - TEXT_Y_TRANSLATE - padding.bottom;
 
-        const center = textWidth / 2;
-        const xLeft = center - 10;
-        const xRight = center + 10;
+        const center = width / 2;
+        const xLeft = center - 8;
+        const xRight = center + 8;
         const arrowHeight = height + TIP_ARROW_HEIGHT;
 
-        const points = xLeft + ',' + (height - 2) + ' ' + center + ',' + arrowHeight + ' ' + xRight + ',' + (height - 2);
+        const points = xLeft + ',' + (height) + ' ' + center + ',' + arrowHeight + ' ' + xRight + ',' + (height);
 
-        const x = this.props.x - textWidth / 2;
+        const x = this.props.x - width / 2;
         const y = this.props.y - height - TIP_ARROW_HEIGHT;
 
-        if (textWidth !== this.state.width || height !== this.state.height || x !== this.state.translateX || y !== this.state.translateY) {
-            this.setState({ width: textWidth, height: height, textYPosition: yPosition, arrowPoints: points, translateX: x, translateY: y });
+        const pathPoints = [
+            {x: 0, y: 0},
+            {x: width, y: 0},
+            {x: width, y: height},
+            {x: xRight, y: height},
+            {x: center, y: arrowHeight},
+            {x: xLeft, y: height},
+            {x: 0, y: height},
+            {x: 0, y: 0}
+        ];
+
+        if (width !== this.state.width || height !== this.state.height || x !== this.state.translateX || y !== this.state.translateY) {
+            this.setState({ width: width, height: height, textYPosition: yPosition, arrowPoints: points, translateX: x, translateY: y, pathPoints: pathPoints });
         }
     }
 }
