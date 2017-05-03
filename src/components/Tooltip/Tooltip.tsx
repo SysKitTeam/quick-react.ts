@@ -7,6 +7,7 @@ import './Tooltip.scss';
 const padding = { top: 5, right: 5, bottom: 5, left: 5 };
 const TEXT_Y_TRANSLATE = 3.3;    // constant that best approximates text position inside rectangle
 const TIP_ARROW_HEIGHT = 8;
+const ARROW_WIDTH_FROM_CENTER = 6.5;
 
 const pathLine = d3.line().x((d: any) => d.x).y((d: any) => d.y);
 
@@ -66,8 +67,8 @@ export class Tooltip extends React.PureComponent<ITooltipProps, any> {
         const yPosition = height - TEXT_Y_TRANSLATE - padding.bottom;
 
         const center = width / 2;
-        const xLeft = center - 6.5;
-        const xRight = center + 6.5;
+        const xLeft = center - ARROW_WIDTH_FROM_CENTER;
+        const xRight = center + ARROW_WIDTH_FROM_CENTER;
         const arrowHeight = height + TIP_ARROW_HEIGHT;
 
         const points = xLeft + ',' + (height) + ' ' + center + ',' + arrowHeight + ' ' + xRight + ',' + (height);
