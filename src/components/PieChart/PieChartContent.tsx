@@ -12,7 +12,8 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
             tipX: 0,
             tipY: 0,
             tipText: '',
-            isTipVisible: false
+            isTipVisible: false,
+            tooltipColor: ''
         };
     }
 
@@ -60,7 +61,7 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
             <svg width={this.props.width} height={this.props.height}>
                 <g className={containerClass} transform={translate} width={this.props.width} height={this.props.height}>
                     { this.renderPaths() }
-                    <Tooltip id={'pie-chart-tooltip'} x={this.state.tipX} y={this.state.tipY} text={this.state.tipText} visible={this.state.isTipVisible}/>
+                    <Tooltip id={'pie-chart-tooltip'} x={this.state.tipX} y={this.state.tipY} text={this.state.tipText} visible={this.state.isTipVisible} tipBorderColor={this.state.tooltipColor}/>
                 </g>
             </svg>
         );
@@ -97,7 +98,7 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
         const elementData: any = d3.select(element).datum();
         const coordinates = arc.centroid(elementData);
 
-        this.setState({ isTipVisible: true, tipX: coordinates[0], tipY: coordinates[1], tipText: this.props.tipText(elementData.data) });
+        this.setState({ isTipVisible: true, tipX: coordinates[0], tipY: coordinates[1], tipText: this.props.tipText(elementData.data), tooltipColor: element.style.fill });
     }
 
     /**
