@@ -11,10 +11,14 @@ import * as moment from 'moment';
 export interface IDateTimePickerProps {
     selectedDateTime: Date;
     is24HourFormat: boolean;
+    includeTime?: boolean;
     onTimeSelectionChanged: (selectedDateTime: Date) => void;
 }
 
 export class DateTimePicker extends React.Component<IDateTimePickerProps, void> {
+    public static defaultProps = {
+        includeTime: false
+    };
 
     @autobind
     onDatePickerChanged(dt) {        
@@ -41,7 +45,10 @@ export class DateTimePicker extends React.Component<IDateTimePickerProps, void> 
         return (
             <div className="date-time-picker">
                 <DateTime input={false} value={this.props.selectedDateTime} timeFormat={false} onChange={this.onDatePickerChanged} />
-                <TimePicker hour={hour} minute={minute} is24Hour={this.props.is24HourFormat} onTimeChanged={this.onTimePickerChanged} />
+                {
+                    this.props.includeTime &&
+                    <TimePicker hour={hour} minute={minute} is24Hour={this.props.is24HourFormat} onTimeChanged={this.onTimePickerChanged} />
+                }
             </div>
         );
     }
