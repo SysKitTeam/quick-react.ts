@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as classNames from 'classnames';
 import { Icon } from '../Icon/Icon';
 import { IGridProps, GridColumn } from './Grid.Props';
 
@@ -60,7 +61,7 @@ export function customRowRenderer(gridColumns: Array<GridColumn>, onRowExpandTog
         return (
             <div
                 {...rowProperties}
-                className={className}
+                className={classNames('grid-group-row', className)}
                 key={key}
                 role={'row'}
                 style={style}

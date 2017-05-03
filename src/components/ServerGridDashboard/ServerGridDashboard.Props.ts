@@ -4,6 +4,7 @@ import { ITiledDashboardFarm } from '../TileDashboard/TileDashboard.Props';
 
 export interface IServerGridDashboardProps {
     farms: Array<ITiledDashboardFarm>;
+    className?: string;
 }
 export interface ServerGridRow {
     type: 'DataRow';

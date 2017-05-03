@@ -23,8 +23,11 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
 
     constructor(props: IGridProps<T>) {
         super(props);
+
+        let gridWidth = this._getGridWidth() - 40;
+
         this.state = {
-            columnWidths: this.props.columns.map((col) => { return col.width; }),
+            columnWidths: this.props.columns.map((col) => { return this.getColumWidthInPx(gridWidth, col.width); }),
             rows: props.rows,
             groupBy: props.groupBy,
             expandedRows: {},
@@ -32,20 +35,23 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
             sortDirection: props.sortDirection,
             columns: props.columns
         };
-         this.columnsMinWidth = props.columns.map(x => x.minWidth).reduce((a, b) => a + b, 0);
+    }
+
+    private getColumWidthInPx(available: number, widthInPercentage) {
+        return Math.floor(available * (widthInPercentage / 100));
+    }
+    @autobind
+    private rowRenderer({ className, columns, index, isScrolling, key, onRowClick, onRowDoubleClick, onRowMouseOver, onRowMouseOut, rowData, style }) {
+        return customRowRenderer(this.props.columns, this.onRowExpandToggle.bind(this), { className, columns, index, isScrolling, key, onRowClick, onRowDoubleClick, onRowMouseOver, onRowMouseOut, rowData, style });
     }
 
     @autobind
-    getColumnsToDisplay(): Array<GridColumn> {
+    getColumnsToDisplay() {
         return getColumnsSelector(this.state);
     }
-    @autobind
-    getColumnsCount() {
-        return this.getColumnsToDisplay().length;
-    }
 
     @autobind
-    private getRow({ index }) {
+    private getRow({ index }): T {
         const rows = this.getRows();
         return rows[index % rows.length];
     }
@@ -77,7 +83,15 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
         });
     }
 
-    /*@autobind
+    private _getGridWidth() {
+        if (document.getElementsByClassName('viewport-height')[0] !== undefined) {
+            return document.getElementsByClassName('viewport-height')[0].clientWidth;
+        } else {
+            return document.getElementById('root').clientWidth;
+        }
+    }
+
+    @autobind
     renderColumns() {
         return (
             this.getColumnsToDisplay()
