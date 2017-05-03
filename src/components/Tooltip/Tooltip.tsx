@@ -66,8 +66,8 @@ export class Tooltip extends React.PureComponent<ITooltipProps, any> {
         const yPosition = height - TEXT_Y_TRANSLATE - padding.bottom;
 
         const center = width / 2;
-        const xLeft = center - 8;
-        const xRight = center + 8;
+        const xLeft = center - 6.5;
+        const xRight = center + 6.5;
         const arrowHeight = height + TIP_ARROW_HEIGHT;
 
         const points = xLeft + ',' + (height) + ' ' + center + ',' + arrowHeight + ' ' + xRight + ',' + (height);
