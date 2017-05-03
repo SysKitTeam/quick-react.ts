@@ -3,6 +3,7 @@ import { IDashboardProps } from './Dashboard.Props';
 import { DashboardHeader } from '../DashboardHeader/DashboardHeader';
 import { CompactDashboard } from '../CompactDashboard/CompactDashboard';
 import { TileDashboard } from '../TileDashboard/TileDashboard';
+import { ServerGridDashboard } from '../ServerGridDashboard/ServerGridDashboard';
 import { ICompactDashboardProps } from '../CompactDashboard/CompactDashboard.Props';
 import { ActiveDashboard } from '../DashboardHeader/DashboardHeader.Props';
 import { PivotItem } from '../Pivot/PivotItem';
@@ -81,6 +82,13 @@ export class Dashboard extends React.Component<IDashboardProps, any> {
                         serverRoleEdit={this.props.serverRoleEdit}
                         serverClose={this.props.serverClose}
                         serverOnClick={this.props.serverOnClick}
+                        />
+                }
+                {
+                    (activeView === ActiveDashboard.Grid) &&
+                    <ServerGridDashboard
+                        className={'viewport-height'}
+                        farms={this.props.farms}
                         />
                 }
             </div>

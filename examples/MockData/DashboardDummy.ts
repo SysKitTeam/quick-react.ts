@@ -27,7 +27,7 @@ export const dummyDashboard: IDashboardProps = {
     activeView: 0,
     hasAddButton: true,
     headerClass: '',
-    differentDashboards: { 0: { linkText: 'Compact Horizontal' }, 2: { linkText: 'Tiles' }, 1: { linkText: 'Compact Vertical' } },
+    differentDashboards: { 0: { linkText: 'Compact Horizontal' }, 2: { linkText: 'Tiles' }, 1: { linkText: 'Compact Vertical' }, 3: { linkText: 'Grid' } },
     farms: farms.map(convertFarm),
     addFarm: () => { console.log('Adding new farm, wop wop'); },
     groupAddFunc: (groupId: any) => { console.log('Clicked add icon of group ' + groupId); },

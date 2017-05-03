@@ -10,17 +10,17 @@ import { IServerGridDashboardProps } from './../../src/components/ServerGridDash
 import { dummyDashboard } from '../MockData/DashboardDummy';
 
 export class Index extends React.Component<any, any> {
-       public constructor() {
+    public constructor() {
         super();
         this.state = {
             farms: dummyDashboard.farms
-        };    
+        };
     }
 
     public render() {
         return (
             <div>
-                <ServerGridDashboard farms={this.state.farms} />              
+                <ServerGridDashboard farms={this.state.farms} />
             </div>
         );
     }

@@ -8,7 +8,7 @@ $icon-color: $gray-color;
 
 
 .grid-component-cell {
-    >div {
+    > div {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -69,17 +69,13 @@ $icon-color: $gray-color;
 .grid-column-draggable {
     width: 4px;    
     cursor: col-resize;
-    display: inline-block;
     height: 20px;
-    background-color: black;
     float: right;
 }
 
 .grid-component-container {
     height: 98%;
 }
-
-
 
 .grid-component-header {
     overflow: hidden !important;
@@ -108,7 +104,9 @@ $icon-color: $gray-color;
 
 .grid-header{
     outline: none;
+    height: 26px;
 }
+
 .grid-header-column{
     white-space: nowrap;
     overflow: hidden;
@@ -119,4 +117,8 @@ $icon-color: $gray-color;
 
 .header-column-content{
     display: inline;
+}
+
+.grid-group-row {
+    background-color: $hr-background-color;
 }

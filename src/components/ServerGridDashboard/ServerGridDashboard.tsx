@@ -23,16 +23,15 @@ const getMeasure = (measures, measureType) => {
 
 const gridColumns: Array<GridColumn> = [{
     valueMember: 'FarmName',
-    HeaderText: 'Farm Name',
-    width: 120,
+    HeaderText: 'Farm',
+    width: 20,
     minWidth: 50
-
 }, {
     valueMember: 'ServerName',
-    HeaderText: 'Server Name',
+    HeaderText: 'Server',
     dataMember: 'ServerData',
-    width: 250,
-    minWidth: 50,
+    width: 20,
+    minWidth: 200,
 
     cellFormatter: (cellData) => {
         return (
@@ -44,43 +43,35 @@ const gridColumns: Array<GridColumn> = [{
     }
 },
 {
-    valueMember: 'UserCount',
-    HeaderText: 'User Count',
-    width: 150,
-    minWidth: 50,
-    cellFormatter: (cellData) => {
-        return cellData + ' users';
-    }
-}, {
     valueMember: 'CPU',
-    HeaderText: 'CPU',
+    HeaderText: 'CPU (%)',
     dataMember: 'CPUData',
-    width: 100,
-    minWidth: 50,
-    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status)} > {cellData.usage}%</div>; }
+    width: 20,
+    minWidth: 200,
+    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status)} > {cellData.usage}</div>; }
 }, {
     valueMember: 'Memory',
     HeaderText: 'Memory',
-    width: 200,
-    minWidth: 50,
+    width: 20,
+    minWidth: 200,
     dataMember: 'MemoryData',
-    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status)}> {cellData.used}%</div>; }
+    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status)}> {cellData.used}</div>; }
 },
 {
     valueMember: 'DiskActivity',
     HeaderText: 'Disk Activity',
     dataMember: 'DiskActivityData',
-    width: 180,
-    minWidth: 50,
-    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status)}> {cellData.currentUsage}%</div>; }
+    width: 20,
+    minWidth: 200,
+    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status)}> {cellData.currentUsage}</div>; }
 
 }, {
     valueMember: 'Network',
     HeaderText: 'Network',
     dataMember: 'NetworkData',
-    width: 100,
-    minWidth: 50,
-    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status)}> {cellData.currentUsage}%</div>; }
+    width: 20,
+    minWidth: 200,
+    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status)}> {cellData.currentUsage}</div>; }
 }];
 
 export interface IServerGridDashboardState {
@@ -132,14 +123,16 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
     }
 
     render() {
+        let classname = classNames({ [this.props.className]: this.props.className !== undefined }, 'server-grid-dashboard-container');
+
         return (
-            <div className={'grid-container-content'}>
+            <div className={classname}>
                 <ServerGrid
                     rows={this.state.rows}
                     columns={gridColumns}
                     groupBy={this.state.groupBy}
-                    rowHeight={40}
-                    headerHeight={40}
+                    rowHeight={28}
+                    headerHeight={28}
                     overscanRowCount={30}
                 />
             </div>

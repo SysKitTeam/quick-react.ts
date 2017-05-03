@@ -1,10 +1,11 @@
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import * as classNames from 'classnames';
 import { AutoSizer, Table, Column, ColumnProps } from 'react-virtualized';
 import { IGridProps, IGridState, GridColumn } from './Grid.Props';
 import { customRowRenderer } from './rowRenderer';
 import { autobind } from '../../utilities/autobind';
-import { getColumnsSelector, getRowsSelector} from './DataSelectors';
+import { getColumnsSelector, getRowsSelector } from './DataSelectors';
 import { groupRows } from './rowGrouper';
 import { GridHeader } from './GridHeader';
 
@@ -16,8 +17,11 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
 
     constructor(props: IGridProps<T>) {
         super(props);
+
+        let gridWidth = this._getGridWidth() - 40;
+
         this.state = {
-            columnWidths: this.props.columns.map((col) => { return col.width; }),
+            columnWidths: this.props.columns.map((col) => { return this.getColumWidthInPx(gridWidth, col.width); }),
             rows: props.rows,
             groupBy: props.groupBy,
             expandedRows: {},
@@ -26,14 +30,18 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
             columns: props.columns
         };
     }
-   
+
+    private getColumWidthInPx(available: number, widthInPercentage) {
+        return Math.floor(available * (widthInPercentage / 100));
+    }
+
     @autobind
     private rowRenderer({ className, columns, index, isScrolling, key, onRowClick, onRowDoubleClick, onRowMouseOver, onRowMouseOut, rowData, style }) {
         return customRowRenderer(this.props.columns, this.onRowExpandToggle.bind(this), { className, columns, index, isScrolling, key, onRowClick, onRowDoubleClick, onRowMouseOver, onRowMouseOut, rowData, style });
     }
 
     @autobind
-    getColumnsToDisplay() {         
+    getColumnsToDisplay() {
         return getColumnsSelector(this.state);
     }
 
@@ -43,7 +51,7 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
         return rows[index % rows.length];
     }
 
-    private getRows() {              
+    private getRows() {
         return getRowsSelector(this.state);
     }
 
@@ -68,6 +76,14 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
         this.setState((oldState) => {
             return { ...oldState, sortColumn: sortBy, sortDirection: sortDirection };
         });
+    }
+
+    private _getGridWidth() {
+        if (document.getElementsByClassName('viewport-height')[0] !== undefined) {
+            return document.getElementsByClassName('viewport-height')[0].clientWidth;
+        } else {
+            return document.getElementById('root').clientWidth;
+        }
     }
 
     @autobind
@@ -139,7 +155,7 @@ export class Grid<T> extends React.Component<IGridProps<T>, IGridState> {
                         <Table
                             height={height}
                             headerClassName={headerClass}
-                            overscanRowCount={this.props.overscanRowCount} 
+                            overscanRowCount={this.props.overscanRowCount}
                             headerHeight={this.props.headerHeight}
                             rowHeight={this.props.rowHeight}
                             className="grid-component"
