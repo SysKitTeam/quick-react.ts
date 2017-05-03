@@ -6,7 +6,7 @@ import './Tooltip.scss';
 
 const padding = { top: 5, right: 5, bottom: 5, left: 5 };
 const TEXT_Y_TRANSLATE = 3.3;    // constant that best approximates text position inside rectangle
-const TIP_ARROW_HEIGHT = 10;
+const TIP_ARROW_HEIGHT = 8;
 
 const pathLine = d3.line().x((d: any) => d.x).y((d: any) => d.y);
 

@@ -191,9 +191,8 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
      */
     private onMouseOver() {
         const element = d3.event.currentTarget;
-        // tslint:disable-next-line:no-console
-        console.log(element);
         const el = d3.select(element);
+        el.style('fill', el.attr('fill'));
         const boundData = el.datum() as ILineChartData;
         const x = el.attr('cx');
         const y = el.attr('cy');
