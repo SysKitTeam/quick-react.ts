@@ -215,19 +215,17 @@ $background-color: $background-color;
         height: calc(100% - 50px);
     }
 
-    .ReactVirtualized__Table__rowColumn {
-        &.grid-component-cell {
-            div {
-                .status-critical {
-                    background-color: $red-color;
-                }
-                .status-warning {
-                    background-color: $yellow-color;
-                }
-                .status-ok {
-                    background-color: $green-color;
-                }
+    .grid-component-cell {
+        div {
+            .status-critical {
+                background-color: $red-color;
+            }
+            .status-warning {
+                background-color: $yellow-color;
+            }
+            .status-ok {
+                background-color: $green-color;
             }
         }
-    }
+    }    
 }

@@ -123,10 +123,9 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
     }
 
     render() {
-        let classname = classNames({ [this.props.className]: this.props.className !== undefined }, 'server-grid-dashboard-container');
-
+        const className = classNames({ [this.props.className]: this.props.className !== undefined }, 'server-grid-dashboard-container');
         return (
-            <div className={classname}>
+            <div className={className}>
                 <ServerGrid
                     rows={this.state.rows}
                     columns={gridColumns}
