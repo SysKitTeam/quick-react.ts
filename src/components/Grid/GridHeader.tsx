@@ -15,7 +15,6 @@ export interface IGridHeaderProps {
     onSort: (sortBy: string, sortDirection: string) => void;
     className?: string;
     width: number;
-    onScroll: any;
     scrollLeft: any;
 }
 
@@ -57,15 +56,6 @@ export class GridHeader extends React.Component<IGridHeaderProps, IGridHeaderSta
                     scrollLeft={scrollLeft}
                 />
             </div>
-
-            /*<div
-                className={headerClass}
-                style={{ width: totalWidth }}
-            >
-                {this.props.columns.map((column, index) =>
-                    this.renderColumnWrapper(column, index)
-                )}
-            </div>*/
         );
     }
 

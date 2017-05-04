@@ -11,6 +11,9 @@ export interface IGridProps<T> {
     rowHeight: number | ((info: { index: number }) => number); // Number or a function that returns the height of a row given its index
     headerHeight: number;
     overscanRowCount?: number;
+    onSelectedRowChanged?: (selectedRowIndex: number) => void;
+    onRowDoubleClicked?: (selectedRowIndex: number) => void;
+
 }
 
 export interface IGridState {
@@ -21,6 +24,8 @@ export interface IGridState {
     sortColumn: string;
     sortDirection: 'ASC' | 'DESC';
     columns: Array<GridColumn>;
+    selectedRowIndex?: number;
+    hoverRowIndex?: number;
 }
 
 export interface GroupRow {

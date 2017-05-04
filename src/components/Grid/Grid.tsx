@@ -10,6 +10,7 @@ import { getColumnsSelector, getRowsSelector } from './DataSelectors';
 import { groupRows } from './rowGrouper';
 import { GridHeader } from './GridHeader';
 import { Icon } from '../Icon/Icon';
+import * as _ from 'lodash';
 
 import './Grid.scss';
 
@@ -20,25 +21,34 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
     private _grid: any;
     private headerGrid: any;
     private parentElement: HTMLElement;
-    private columnsMinWidth;
-
+    private columnsMinTotalWidth;
     constructor(props: IGridProps<T>) {
         super(props);
-        let gridWidth = this._getGridWidth() - 40;
+        const totalWidth = props.columns.map(x => x.width).reduce((a, b) => a + b, 0);
+        const columnWidths = this.props.columns
+            .filter((column) => { return props.groupBy.indexOf(column.valueMember) === -1; })
+            .map((col) => { return this.getColumnWidthInPx(this.getGridWidth(), totalWidth, col.width); });
         this.state = {
-            columnWidths: this.props.columns.map((col) => { return this.getColumnWidthInPx(gridWidth, col.width); }),
+            columnWidths: columnWidths,
             rows: props.rows,
             groupBy: props.groupBy,
             expandedRows: {},
             sortColumn: props.sortColumn,
             sortDirection: props.sortDirection,
-            columns: props.columns
+            columns: props.columns,
+            selectedRowIndex: undefined,
+            hoverRowIndex: undefined
         };
-        this.columnsMinWidth = props.columns.map(x => x.minWidth).reduce((a, b) => a + b, 0);
+        this.columnsMinTotalWidth = props.columns.map(x => x.minWidth).reduce((a, b) => a + b, 0);
+        this._onResize = _.debounce(this._onResize, 100);
     }
 
-    private getColumnWidthInPx(available: number, widthInPercentage) {
-        return Math.floor(available * (widthInPercentage / 100));
+    private getColumnWidthInPx(available: number, totalWidth: number, currentWidth: number) {
+        return Math.floor((available / totalWidth) * currentWidth);
+    }
+
+    getGridWidth() {
+        return this._getGridWidth() - 40;
     }
 
     @autobind
@@ -66,7 +76,6 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
         return this.getRows().length;
     }
 
-    // TODO: change to prop dispatch? - set in container
     private onRowExpandToggle(columnGroupName, name, shouldExpand) {
         this.setState((oldState) => {
             let expandedRows = { ...oldState.expandedRows };
@@ -78,7 +87,6 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
 
     @autobind
     _sort({ sortBy, sortDirection }) {
-        // TODO: change to prop dispatch - set in container
         this.setState((oldState) => {
             return { ...oldState, sortColumn: sortBy, sortDirection: sortDirection };
         });
@@ -160,12 +168,13 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
     }
 
     _renderGroupCell(columnIndex: number, key, rowIndexNumber: number, style) {
-        if (columnIndex === 0) {          
+        if (columnIndex === 0) {
             const rowData = this.getRow({ index: rowIndexNumber });
-            const customStyle = {...style, width: this._getGridWidth() };
+            const columnsTotalWidth = this.state.columnWidths.reduce((a, b) => a + b, 0);
+            const customStyle = { ...style, width: columnsTotalWidth, zIndex: 1 };
             const iconName = rowData.isExpanded ? 'icon-arrow_down_right' : 'icon-arrow_right';
             const columnName = this.props.columns.filter((column) => { return column.valueMember === rowData.columnGroupName; })[0].HeaderText;
-            const paragraphStyle: React.CSSProperties = { paddingLeft: 30 * rowData.depth, paddingRight: 10, display: 'inline' }; // TODO: add to css 
+            const paragraphStyle: React.CSSProperties = { paddingLeft: 30 * rowData.depth, paddingRight: 10, display: 'inline' };
             const toggleRow = () => {
                 this.onRowExpandToggle(rowData.columnGroupName, rowData.groupKey, !rowData.isExpanded);
             };
@@ -174,9 +183,9 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
                     className={'grid-group-row'}
                     key={key}
                     style={customStyle}
-                    >
-                    <Icon 
-                        iconName={iconName} 
+                >
+                    <Icon
+                        iconName={iconName}
                         onClick={toggleRow} />
                     <p style={paragraphStyle}>
                         {columnName}: {rowData.name}
@@ -184,69 +193,80 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
                 </div>
             );
         } else {
-            return (<div key={key}/>);
+            return (<div key={key} style={style} className={'grid-group-row'} />);
         }
     }
 
-    _renderBodyCell(columnIndex: number, key, rowIndexNumber: number, style) {
+    _renderBodyCell(columnIndex: number, key, rowIndex: number, style) {
         const columns = this.getColumnsToDisplay();
         const column = columns[columnIndex];
-        const rowData = this.getRow({ index: rowIndexNumber });
+        const rowData = this.getRow({ index: rowIndex });
 
         const width = this.state.columnWidths[columnIndex];
         const label = column.HeaderText;
         const dataKey = column.dataMember || column.valueMember;
         const cellData = rowData[dataKey];
-        const className = classNames('grid-component-cell', column.cellClassName);
+        const className = classNames(
+            'grid-component-cell',
+            column.cellClassName,
+            { 'is-selected': rowIndex === this.state.selectedRowIndex },
+            { 'is-hover': rowIndex === this.state.hoverRowIndex });
+        const onMouseOver = () => { this.setState((prevState) => { return { ...prevState, hoverRowIndex: rowIndex }; }); };
+        const onClick = () => { this._setSelectedRowIndex(rowIndex); };
 
-        if (column.cellFormatter) {
-            return (
-                <div
-                    key={key}
-                    style={style}
-                    className={className}
-                >
-                    {column.cellFormatter(cellData)}
-                </div>
-            );
-        }
+        const columnElement = () => {
+            if (column.cellFormatter) {
+                return column.cellFormatter(cellData);
+            } else {
+                return (
+                    <div style={{ padding: '5px 5px 0 10px', fontSize: '14px' }} >
+                        {cellData}
+                    </div>
+                );
+            }
+        };
         return (
             <div
                 key={key}
                 style={style}
                 className={className}
-            // onMouseOver={() => this.setState({ hoverRowIndex: rowIndex })}
-            // onClick={() => this._setSelectedRowIndex(rowIndex)}
-            // onDoubleClick={() => { this._onRowDblClicked(rowIndex); }}
+                onMouseOver={onMouseOver}
+                onClick={onClick}
             >
-                <div style={{ padding: '5px 5px 0 10px', fontSize: '14px' }} >
-                    {cellData}
-                </div>
+                {columnElement()}
             </div>
         );
     }
 
-    componentDidMount() {
-        this.parentElement = ReactDOM.findDOMNode(this).parentElement;
-        // this.refreshColumnWidthsInState();
+    @autobind
+    _setSelectedRowIndex(rowIndex: number) {
+        this.setState((prevState) => { return { ...prevState, selectedRowIndex: rowIndex }; });
+        if (this.props.onSelectedRowChanged) {
+            this.props.onSelectedRowChanged(rowIndex);
+        }
     }
 
     @autobind
     _onResize() {
-        // this.refreshColumnWidthsInState(); // set new widths in state
-        // this.calcExpandedRowWidth(); // expand last
+        this.refreshColumnWidthsInState();
         this._grid.recomputeGridSize();
         this.headerGrid._headerGrid.recomputeGridSize();
     }
 
-    // private refreshColumnWidthsInState() {
-    //     let gridWidth = Math.floor(this.parentElement.clientWidth) - 12;
-    //     let columnWidths = this.getColumnsWidth(gridWidth);
-    //     this.setState((prevState) => { return { ...prevState, columnWidths }; });
-    // }
+    private refreshColumnWidthsInState() {
+        let columnWidths = this.getColumnsWidth();
+        this.setState((prevState) => { return { ...prevState, columnWidths }; });
+    }
 
-    private getColumnsWidth(available: number) {
-        return available > this.columnsMinWidth ? this.props.columns.map(x => this.getColumnWidthInPx(available, x.width)) : this.props.columns.map(x => x.minWidth);
+    private getColumnsWidth() {
+        const available = this.getGridWidth();
+        const columns = this.getColumnsToDisplay();
+        if (available > this.columnsMinTotalWidth) {
+            const totalWidth = columns.map(x => x.width).reduce((a, b) => a + b, 0);
+            return columns.map(x => this.getColumnWidthInPx(available, totalWidth, x.width));
+        } else {
+            return columns.map(x => x.minWidth);
+        }
     }
 
     @autobind
@@ -255,13 +275,18 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
         return this.state.columnWidths[index];
     }
 
+    @autobind
+    private onMouseLeaveGrid() {
+        this.setState((prevState) => { return { ...prevState, hoverRowIndex: -1 }; });
+    }
+
     render() {
         let mainClass = classNames('grid-component-container', this.props.gridClassName);
         let headerClass = classNames('grid-component-header', this.props.headerClassName);
         return (
             <div className={mainClass}>
                 <ScrollSync>
-                    {({ clientHeight, clientWidth, onScroll, scrollHeight, scrollLeft, scrollTop, scrollWidth }) => (
+                    {({ onScroll, scrollLeft }) => (
                         <AutoSizer onResize={this._onResize}>
                             {({ height, width }) => (
                                 <div style={{ width, height }} >
@@ -274,25 +299,26 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
                                         sortDirection={this.state.sortDirection}
                                         onSort={this.sortColumns}
                                         width={width - scrollbarSize()}
-                                        onScroll={onScroll}
                                         scrollLeft={scrollLeft}
                                         className={headerClass}
                                     />
-                                    <Grid
-                                        ref={(r) => { this._grid = r; }}
-                                        height={height}
-                                        width={width}
-                                        noContentRenderer={this._noContentRenderer}
-                                        onScroll={onScroll}
-                                        scrollLeft={scrollLeft}
-                                        cellRenderer={this._cellRenderer}
-                                        overscanRowCount={this.props.overscanRowCount}
-                                        columnWidth={this._getColumnWidth}
-                                        rowHeight={this.props.rowHeight}
-                                        className="grid-component"
-                                        rowCount={this.getRowCount()}
-                                        columnCount={this.getColumnsCount()}
-                                    />
+                                    <div style={{ width }} onMouseLeave={this.onMouseLeaveGrid} >
+                                        <Grid
+                                            ref={(r) => { this._grid = r; }}
+                                            height={height}
+                                            width={width}
+                                            noContentRenderer={this._noContentRenderer}
+                                            onScroll={onScroll}
+                                            scrollLeft={scrollLeft}
+                                            cellRenderer={this._cellRenderer}
+                                            overscanRowCount={this.props.overscanRowCount}
+                                            columnWidth={this._getColumnWidth}
+                                            rowHeight={this.props.rowHeight}
+                                            className="grid-component"
+                                            rowCount={this.getRowCount()}
+                                            columnCount={this.getColumnsCount()}
+                                        />
+                                    </div>
                                 </div>
                             )}
                         </AutoSizer>
