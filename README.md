@@ -15,7 +15,7 @@ To view currently available React components, clone this repository and run the 
 
 > npm run dev
 
-This will run webpack dev server on [http://localhost:8080](http://localhost:8080). There you can see the showcase page and all currently available React components.
+This will run webpack dev server on [http://localhost:3000](http://localhost:3000). There you can see the showcase page and all currently available React components.
 
 ## Note
 The quick-react-ts is in alpha stage, meaning some of the components are still work in progress.
