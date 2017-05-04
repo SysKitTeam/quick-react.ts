@@ -7,7 +7,9 @@ import { CommonComponent } from '../Common/Common';
 import { KeyCodes } from '../../utilities/KeyCodes';
 import { Icon } from '../../components/Icon/Icon';
 import { getDocument } from '../../utilities/getDocument';
+import { getWindow } from '../../utilities/getDocument';
 import { elementContains } from '../../utilities/elementContains';
+import * as _ from 'lodash';
 import './Search.scss';
 
 export interface ISearchState {
@@ -18,11 +20,13 @@ export interface ISearchState {
 
 export class Search extends CommonComponent<ISearchProps, ISearchState> {
     public static defaultProps: ISearchProps = {
-        labelText: 'Search'
+        labelText: 'Search',
+        debounceWaitMs: 200
     };
 
     private _rootElement: HTMLElement;
     private _inputElement: HTMLInputElement;
+    private _targetWindow: Window;
 
     public constructor(props: ISearchProps) {
         super(props);
@@ -31,6 +35,8 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
         if (this.props.onChanged) {
             this.props.onChange = this.props.onChanged;
         }
+
+        this._callOnChange = _.debounce(this._callOnChange, props.debounceWaitMs);
 
         this.state = {
             value: props.value || '',
@@ -44,6 +50,35 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
             this.setState({
                 value: newProps.value
             });
+        }
+    }
+
+    public componentDidMount() {
+        this._setTargetWindowAndElement(this._rootElement);
+        this._events.on(this._targetWindow, 'click', this._removeFocus);
+    }
+
+    @autobind
+    private _removeFocus(ev: Event) {
+        const target = ev.target as HTMLElement;
+
+        if (ev.target !== this._targetWindow && (!this._inputElement || !elementContains(this._inputElement as HTMLElement, target, false))) {
+            this.setState({
+                hasFocus: false
+            });
+        }
+    }
+
+    public componentWillUnmount() {
+        this._events.dispose();
+    }
+
+    private _setTargetWindowAndElement(target: HTMLElement): void {
+        if (target) {
+            let targetElement: HTMLElement = target as HTMLElement;
+            this._targetWindow = getWindow(targetElement);
+        } else {
+            this._targetWindow = getWindow();
         }
     }
 
@@ -61,24 +96,24 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
         );
 
         return (
-            <div 
-                ref={ this._resolveRef('_rootElement') }
-                className={ searchClassName }
+            <div
+                ref={this._resolveRef('_rootElement')}
+                className={searchClassName}
                 { ...{ onFocusCapture: this._onFocusCapture } }>
                 <Icon className={'search-icon'} iconName={'icon-search'}></Icon>
                 <input
-                    id={ id }
+                    id={id}
                     className={'search-field'}
-                    placeholder={ labelText }
-                    onChange={ this._onInputChange }
-                    onKeyDown={ this._onKeyDown }
-                    value={ value }
-                    ref={ this._resolveRef('_inputElement') }/>
-                    <div
-                        className={'search-clearButton'}
-                        onClick={ this._onClearClick }>
-                        <Icon iconName={'icon-delete'}></Icon>
-                    </div>
+                    value={value}
+                    placeholder={labelText}
+                    onChange={this._onInputChange}
+                    onKeyDown={this._onKeyDown}
+                    ref={this._resolveRef('_inputElement')} />
+                <div
+                    className={'search-clearButton'}
+                    onClick={this._onClearClick}>
+                    <Icon iconName={'icon-delete'}></Icon>
+                </div>
             </div>
         );
     }
@@ -109,18 +144,18 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
     private _onKeyDown(ev: React.KeyboardEvent<HTMLElement>) {
         switch (ev.which) {
 
-        case KeyCodes.escape:
-            this._onClearClick(ev);
-            break;
+            case KeyCodes.escape:
+                this._onClearClick(ev);
+                break;
 
-        case KeyCodes.enter:
-            if (this.props.onSearch && this.state.value.length > 0) {
-                this.props.onSearch(this.state.value);
-            }
-            break;
+            case KeyCodes.enter:
+                if (this.props.onSearch && this.state.value.length > 0) {
+                    this.props.onSearch(this.state.value);
+                }
+                break;
 
-        default:
-            return;
+            default:
+                return;
         }
 
         // We only get here if the keypress has been handled.
@@ -133,7 +168,6 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
         this.setState({
             value: this._inputElement.value
         });
-
         this._callOnChange(this._inputElement.value);
     }
 

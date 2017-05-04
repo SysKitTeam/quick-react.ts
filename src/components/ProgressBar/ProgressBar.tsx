@@ -59,7 +59,7 @@ export class ProgressBar extends React.Component<IProgressBarProps, any> {
                             />
                         </g>
                         { this.props.info && 
-                            <Tooltip id={'progress-bar-tooltip'} x={this.state.tipX} y={this.state.tipY} text={this.state.tipText} visible={this.state.isTipVisible} />
+                            <Tooltip id={'progress-bar-tooltip'} x={this.state.tipX} y={this.state.tipY} text={this.state.tipText} visible={this.state.isTipVisible} tipBorderColor={this.props.progressColor} />
                         }
                     </svg>
                 }

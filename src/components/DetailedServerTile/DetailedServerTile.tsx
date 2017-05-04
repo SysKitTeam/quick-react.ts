@@ -13,6 +13,7 @@ import { PartitionTile } from '../PartitionTile';
 import * as classNames from 'classnames';
 import { ServerHeader } from '../ServerHeader/ServerHeader';
 import { toPrettyString } from '../../utilities/valueFormatter';
+import * as moment from 'moment';
 
 import './DetailedServerTile.scss';
 
@@ -88,7 +89,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
     private transformCPUdata(cpuData: Array<IProcessorUsageData>): Array<ISeriesData> {
         return [{
             name: 'CPU',
-            data: cpuData.map((point) => { return { argument: new Date(point.time), value: point.usage }; }),
+            data: cpuData.map((point) => { return { argument: moment.utc(point.time).local().toDate(), value: point.usage }; }),
             id: 'CPU'
         }];
     }

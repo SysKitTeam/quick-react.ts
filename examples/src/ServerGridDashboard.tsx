@@ -16,13 +16,13 @@ export class Index extends React.Component<any, any> {
     public constructor() {
         super();
         this.state = {
-            farms: createFarms().map(convertFarm)
+            farms: createFarms(10, 20, 50).map(convertFarm)
         };
         setTimeout(this.refreshFarms.bind(this), 3000);
     }
 
     refreshFarms() {
-        this.setState({ farms: createFarms().map(convertFarm) });
+        this.setState({ farms: createFarms(10, 20, 50).map(convertFarm) });
         setTimeout(this.refreshFarms.bind(this), 3000);
     }
 

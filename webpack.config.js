@@ -44,7 +44,8 @@ module.exports = {
         DetailedServerGroup: "./examples/src/DetailedServerGroup.tsx",
         DetailedServerTile: "./examples/src/DetailedServerTile.tsx",  
         NavigationGroup: "./examples/src/NavigationGroup.tsx",
-        ServerGridDashboard: "./examples/src/ServerGridDashboard.tsx"   
+        ServerGridDashboard: "./examples/src/ServerGridDashboard.tsx",
+	DateTimePicker: "./examples/src/DatetimePicker.tsx"   
     },
     output: {
         path: path.join(__dirname, '/dist'),
@@ -52,7 +53,10 @@ module.exports = {
         publicPath: '/',
         sourceMapFilename: '[name].[hash].js.map'
     },
-
+    devServer: {
+        inline: true,
+        port: 3000
+    },
     devtool: 'source-map',
     resolve: {
         extensions: [

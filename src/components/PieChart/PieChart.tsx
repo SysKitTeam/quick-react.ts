@@ -46,7 +46,8 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
                 data: this.transformData(),
                 id: this.state.chartId,
                 colors: this.props.colors,
-                tipText: this.props.tipText
+                tipText: this.props.tipText,
+                tooltipBoderColor: this.props.tooltipBorderColor
             }
         );
 

@@ -4,4 +4,5 @@ export interface ITooltipProps {
     x: number;
     y: number;
     visible: boolean;
-}
+    tipBorderColor?: string;
+}

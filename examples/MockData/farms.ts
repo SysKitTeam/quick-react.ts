@@ -11,12 +11,14 @@ export const classListExample = {
     offline: 'offline'
 };
 
-const numOfServersOnFarm = [10, 15, 6, 8, 11, 30, 15, 61, 45, 7, 11, 50];
 let roleListFarms = [{ display: 'WPF', iconName: 'icon-add' }, { display: 'WPF1111111', iconName: 'icon-add' }, { display: 'Not another', iconName: 'icon-add' }, { display: 'Search', iconName: 'icon-alert' }];
-export function createFarms() {
-    let farms = [];
-    for (let farmIndex = 0; farmIndex <= numOfServersOnFarm.length; farmIndex++) {
-        let numOfServers = numOfServersOnFarm[farmIndex];
+
+export const farms: Array<IFarm> = createFarms(10, 20, 50);
+
+export function createFarms(numOfFarms: number, minServerCount: number, maxServerCount: number) {
+    let _farms = Array(0);    
+    for (let farmIndex = 0; farmIndex <= numOfFarms; farmIndex++) {
+        let numOfServers = Math.floor(Math.random() * (maxServerCount - minServerCount + 1)) + minServerCount;
         let servers = [];
         for (let i = 0; i <= numOfServers; i++) {
             servers.push({
@@ -28,7 +30,7 @@ export function createFarms() {
                 status: Math.random() >= 0.5 ? 1 : 2
             });
         }
-        farms.push({
+        _farms.push({
             id: { sqlInstance: 'instance' + farmIndex, configDataBaseIcon: 'icon-sql_log', configDataBaseName: 'db' + farmIndex },
             name: 'Demo Farm ' + farmIndex,
             isCustom: Math.random() >= 0.5,
@@ -39,10 +41,8 @@ export function createFarms() {
             servers: servers
         });
     }
-    return farms;
+    return _farms;
 }
-export const farms: Array<IFarm> = createFarms();
-
 
 const memoryUsage: IMemoryUsage = { usageUnit: 'MB', capacity: 1024, used: 300, status: 1 };
 
