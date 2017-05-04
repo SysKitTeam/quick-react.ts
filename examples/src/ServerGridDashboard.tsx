@@ -5,22 +5,33 @@ import 'ts-helpers';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { ServerGridDashboard } from './../../src/components/ServerGridDashboard/ServerGridDashboard';
-import { IServerGridDashboardProps } from './../../src/components/ServerGridDashboard/ServerGridDashboard.Props';
-import { dummyDashboard } from '../MockData/DashboardDummy';
+import { ServerGridDashboard } from '../../src/components/ServerGridDashboard/ServerGridDashboard';
+import { IServerGridDashboardProps } from '../../src/components/ServerGridDashboard/ServerGridDashboard.Props';
+import { createFarms } from '../MockData/farms';
+import { convertFarm } from '../MockData/DashboardDummy';
+
+import '../../src/components/Dashboard/Dashboard.scss';
 
 export class Index extends React.Component<any, any> {
     public constructor() {
         super();
         this.state = {
-            farms: dummyDashboard.farms
+            farms: createFarms().map(convertFarm)
         };
+        setTimeout(this.refreshFarms.bind(this), 3000);
+    }
+
+    refreshFarms() {
+        this.setState({ farms: createFarms().map(convertFarm) });
+        setTimeout(this.refreshFarms.bind(this), 3000);
     }
 
     public render() {
         return (
             <div>
-                <ServerGridDashboard farms={this.state.farms} />
+                <ServerGridDashboard
+                    className={'viewport-height'}
+                    farms={this.state.farms} />
             </div>
         );
     }

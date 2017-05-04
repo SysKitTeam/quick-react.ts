@@ -13,7 +13,7 @@ export const classListExample = {
 
 const numOfServersOnFarm = [10, 15, 6, 8, 11, 30, 15, 61, 45, 7, 11, 50];
 let roleListFarms = [{ display: 'WPF', iconName: 'icon-add' }, { display: 'WPF1111111', iconName: 'icon-add' }, { display: 'Not another', iconName: 'icon-add' }, { display: 'Search', iconName: 'icon-alert' }];
-function createFarms() {
+export function createFarms() {
     let farms = [];
     for (let farmIndex = 0; farmIndex <= numOfServersOnFarm.length; farmIndex++) {
         let numOfServers = numOfServersOnFarm[farmIndex];

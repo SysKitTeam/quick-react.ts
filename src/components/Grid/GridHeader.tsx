@@ -29,11 +29,13 @@ export interface IGridHeaderState {
 
 export class GridHeader extends React.Component<IGridHeaderProps, IGridHeaderState> {
     private _headerGrid: any;
+    private columnMinWidths: Array<number>;
     constructor(props) {
         super(props);
         this.state = {
             columnWidths: props.columnWidths
         };
+        this.columnMinWidths = props.columns.map((col) => { return col.minWidth || 0; });
     }
     componentWillReceiveProps(nextProps) {
         this.setState({ ...this.state, columnWidths: nextProps.columnWidths });
@@ -66,7 +68,7 @@ export class GridHeader extends React.Component<IGridHeaderProps, IGridHeaderSta
 
     @autobind
     private _headerCellRender({ columnIndex, key, rowIndex, style }) {
-        const notLastIndex = columnIndex < (this.state.columnWidths.length - 2);
+        const notLastIndex = columnIndex < (this.state.columnWidths.length - 1);
         const column = this.props.columns[columnIndex];
 
         return (
@@ -91,25 +93,28 @@ export class GridHeader extends React.Component<IGridHeaderProps, IGridHeaderSta
 
     @autobind
     private _onDragHeaderColumn(e, data, columnIndex) {
-        const columnDefinition = this.props.columns;
-        let columnWidth = this.state.columnWidths[columnIndex];
-        const columnMinWidth = this.props.columns[columnIndex].minWidth || 0;
-        let nextColumnWidth = this.state.columnWidths[columnIndex + 1];
-        const nextColumnMinWidth = this.props.columns[columnIndex + 1].minWidth || 0;
-        columnWidth = columnWidth + data.deltaX;
-        nextColumnWidth = nextColumnWidth - data.deltaX;
-        if (columnWidth < columnMinWidth) {
-            columnWidth = columnMinWidth;
-            nextColumnWidth = this.state.columnWidths[columnIndex + 1];
-        }
-        if (nextColumnWidth < nextColumnMinWidth) {
-            nextColumnWidth = nextColumnMinWidth;
-            columnWidth = this.state.columnWidths[columnIndex];
-        }
-        let newColumnWidths = [...this.state.columnWidths];
-        newColumnWidths[columnIndex] = columnWidth;
-        newColumnWidths[columnIndex + 1] = nextColumnWidth;
-        this.setState((oldState) => { return { ...oldState, columnWidths: newColumnWidths }; });
+        this.setState((oldState) => {
+            const columnWidth = oldState.columnWidths[columnIndex];
+            const nextColumnWidth = oldState.columnWidths[columnIndex + 1];
+
+            let newColumnWidth = columnWidth + data.deltaX;
+            let newNextColumnWidth = nextColumnWidth - data.deltaX;
+
+            if (newColumnWidth <= this.columnMinWidths[columnIndex]) {
+                newColumnWidth = this.columnMinWidths[columnIndex];
+                newNextColumnWidth = (columnWidth + nextColumnWidth) - newColumnWidth;
+            }
+            if (newNextColumnWidth <= this.columnMinWidths[columnIndex + 1]) {
+                newNextColumnWidth = this.columnMinWidths[columnIndex + 1];
+                newColumnWidth = (columnWidth + nextColumnWidth) - newNextColumnWidth;
+            }
+
+            let newColumnWidths = [...oldState.columnWidths];
+            newColumnWidths[columnIndex] = newColumnWidth;
+            newColumnWidths[columnIndex + 1] = newNextColumnWidth;
+
+            return { ...oldState, columnWidths: newColumnWidths };
+        });
         this._headerGrid.recomputeGridSize({ columnIndex: columnIndex, rowIndex: 0 });
 
     }

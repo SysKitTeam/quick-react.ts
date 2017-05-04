@@ -1,14 +1,14 @@
 const createSelector = require('reselect').createSelector;
-import { IGridState } from './Grid.Props';
+import { IGridState, IGridProps } from './Grid.Props';
 import { groupRows } from './rowGrouper';
 const objectAssign = require('object-assign');
 
-const getInputRows = (state: IGridState) => state.rows;
-const getGroupBy = (state: IGridState) => state.groupBy;
-const getExpandedRows = (state: IGridState) => state.expandedRows;
-const getSortColumn = (state: IGridState) => state.sortColumn;
-const getSortDirection = (state: IGridState) => state.sortDirection;
-const getColumns = (state: IGridState) => state.columns;
+const getInputRows = (state: IGridState, props) => props.rows;
+const getGroupBy = (state: IGridState, props)  => props.groupBy;
+const getExpandedRows = (state: IGridState, props) => state.expandedRows;
+const getSortColumn = (state: IGridState, props) => state.sortColumn;
+const getSortDirection = (state: IGridState, props) => state.sortDirection;
+const getColumns = (state: IGridState, props) => props.columns;
 
 const comparer = (a, b) => {
   if (a > b) {

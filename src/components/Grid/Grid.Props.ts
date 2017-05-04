@@ -13,17 +13,13 @@ export interface IGridProps<T> {
     overscanRowCount?: number;
     onSelectedRowChanged?: (selectedRowIndex: number) => void;
     onRowDoubleClicked?: (selectedRowIndex: number) => void;
-
 }
 
 export interface IGridState {
-    rows: Array<any>;
-    groupBy: Array<string>;
+    sortColumn?: string;
+    sortDirection?: 'ASC' | 'DESC';
     expandedRows: any;
     columnWidths: Array<number>;
-    sortColumn: string;
-    sortDirection: 'ASC' | 'DESC';
-    columns: Array<GridColumn>;
     selectedRowIndex?: number;
     hoverRowIndex?: number;
 }

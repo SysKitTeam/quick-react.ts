@@ -11,7 +11,7 @@ import { GetClassForStatus } from '../../utilities/server';
 
 const objectAssign = require('object-assign');
 
-import { sortServersByStatusAndName, filterServerByName, convertNetwork, convertDisk } from '../../utilities/server';
+import { sortServersByStatusAndName, filterServerByName, convertNetwork, convertDisk, convertRam } from '../../utilities/server';
 import { IMeasure, MeasureType, IFarm, Partition, DiskMeasure, CpuMeasure, RamMeasure, NetworkMeasure, ServerStatus } from '../../models';
 
 import './ServerGridDashboard.scss';
@@ -52,11 +52,11 @@ const gridColumns: Array<GridColumn> = [{
     cellClassName: 'border-column-cell'
 }, {
     valueMember: 'Memory',
-    HeaderText: 'Memory (MB)',
+    HeaderText: 'Memory',
     width: 20,
     minWidth: 200,
     dataMember: 'MemoryData',
-    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'}> {cellData.used}</div>; },
+    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'}> {cellData.hoverText}</div>; },
     cellClassName: 'border-column-cell'
 },
 {
@@ -97,6 +97,12 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+          this.setState((oldState) => {          
+            return { ...oldState, rows: this.transformFarmToRows(nextProps.farms) };
+        });
+    }
+
     private transformFarmToRows(farms: Array<ITiledDashboardFarm>): Array<ServerGridRow> {
         let rows = [];
         farms.forEach(farm => {
@@ -113,7 +119,7 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
                     CPU: cpu.usage,
                     CPUData: cpu,
                     Memory: mem.used,
-                    MemoryData: mem,
+                    MemoryData: convertRam(mem),
                     DiskActivity: disk.totalDiskIo,
                     DiskActivityData: convertDisk(disk),
                     Network: net.kbTotal,

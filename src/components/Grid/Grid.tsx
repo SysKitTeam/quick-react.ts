@@ -3,7 +3,6 @@ import * as ReactDOM from 'react-dom';
 import * as classNames from 'classnames';
 import { AutoSizer, Table, Column, ColumnProps, ScrollSync, Grid } from 'react-virtualized';
 import { IGridProps, IGridState, GridColumn, GroupRow } from './Grid.Props';
-import { customRowRenderer } from './rowRenderer';
 import { autobind } from '../../utilities/autobind';
 const scrollbarSize = require('dom-helpers/util/scrollbarSize');
 import { getColumnsSelector, getRowsSelector } from './DataSelectors';
@@ -11,7 +10,6 @@ import { groupRows } from './rowGrouper';
 import { GridHeader } from './GridHeader';
 import { Icon } from '../Icon/Icon';
 import * as _ from 'lodash';
-
 import './Grid.scss';
 
 export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
@@ -29,15 +27,12 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
             .filter((column) => { return props.groupBy.indexOf(column.valueMember) === -1; })
             .map((col) => { return this.getColumnWidthInPx(this.getGridWidth(), totalWidth, col.width); });
         this.state = {
-            columnWidths: columnWidths,
-            rows: props.rows,
-            groupBy: props.groupBy,
+            columnWidths: columnWidths,     
             expandedRows: {},
-            sortColumn: props.sortColumn,
-            sortDirection: props.sortDirection,
-            columns: props.columns,
             selectedRowIndex: undefined,
-            hoverRowIndex: undefined
+            hoverRowIndex: undefined,
+            sortColumn: props.sortColumn,
+            sortDirection: props.sortDirection
         };
         this.columnsMinTotalWidth = props.columns.map(x => x.minWidth).reduce((a, b) => a + b, 0);
         this._onResize = _.debounce(this._onResize, 100);
@@ -58,7 +53,7 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
 
     @autobind
     getColumnsToDisplay(): Array<GridColumn> {
-        return getColumnsSelector(this.state);
+        return getColumnsSelector(this.state, this.props);
     }
 
     @autobind
@@ -68,7 +63,7 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
     }
 
     private getRows() {
-        return getRowsSelector(this.state);
+        return getRowsSelector(this.state, this.props);
     }
 
     @autobind
@@ -98,39 +93,6 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
         } else {
             return document.getElementById('root').clientWidth;
         }
-    }
-
-    @autobind
-    renderColumns() {
-        return (
-            this.getColumnsToDisplay()
-                .map((column, index) => {
-                    let props: ColumnProps = {
-                        width: this.state.columnWidths[index],
-                        label: column.HeaderText,
-                        dataKey: column.valueMember
-                    };
-                    props.className = classNames('grid-component-cell', column.cellClassName);
-                    if (column.dataMember) {
-                        props.dataKey = column.dataMember;
-                    }
-                    if (column.cellFormatter) {
-                        const cellRenderer = ({ cellData, columnData, dataKey, rowData, rowIndex }) => {
-                            if (cellData === undefined) {
-                                return '';
-                            }
-                            return column.cellFormatter(cellData);
-                        };
-                        props.cellRenderer = cellRenderer;
-                    }
-                    return (
-                        <Column
-                            key={index}
-                            {...props}
-                        />
-                    );
-                })
-        );
     }
 
     @autobind

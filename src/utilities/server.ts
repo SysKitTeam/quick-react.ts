@@ -106,13 +106,13 @@ function getMeasureData(measureValue: number, usageUnits: Array<string>) {
  * decimal points are not displayed. If values has zero behind decimal point
  * ie. 70.0 value is converted to 70
  */
-function convertMeasureValue(measure: number) : string {
+function convertMeasureValue(measure: number): string {
     let value = measure.toFixed(1);
     const stringLength = value.length;
     if (stringLength === 5) {
         return value.substring(0, 3);
     } else if (value.indexOf('.0') > 0) {
-        return  value.substr(0, stringLength - 2);
+        return value.substr(0, stringLength - 2);
     }
     return value;
 }
@@ -121,7 +121,7 @@ function convertMeasureValue(measure: number) : string {
  * If value has zero behind decimal point, ie. 50.0 then .0 is trimmer from
  * number and only 50 is returned.
  */
-function removeZeroAfterDecimalPoint(value: string) : string {
+function removeZeroAfterDecimalPoint(value: string): string {
     if (value.indexOf('.0') > 0) {
         const valueLengthEndPosition = value.length - 2;
         return value.substr(0, valueLengthEndPosition);
@@ -139,7 +139,8 @@ export function convertRam(measure: IMeasure): ITileData {
         used = ram.used.toFixed(1);
         capacity = ram.capacity.toFixed(1);
         usageUnit = 'MB';
-        hoverText = (used) + '/' + capacity + '' + usageUnit;
+        let usedPercentage = '(' + Math.round((ram.used / ram.capacity) * 100) + '%)';
+        hoverText = ram.used.toFixed() + '/' + ram.capacity.toFixed() + ' ' + usageUnit + ' ' + usedPercentage;
         if (ram.used >= 1000 || ram.capacity >= 1000) {
             used = (ram.used / 1024).toFixed(1);
             capacity = (ram.capacity / 1024).toFixed(1);
