@@ -4,18 +4,17 @@
     @include baseFont();
     width: 100%;
     height: 100%;
-    // background-color: $background-color;
-    // border-color: $background-color;
     overflow: hidden;
     color: $basic-text-color;
         
     .farm {
-        // padding-bottom: 25px;
         margin-bottom: 0px;
         margin-top: 60px;
-        // &:first-child{
-        //     margin-top: 50px;
-        // }   
+
+        .compact-server-container:hover {
+            cursor: pointer;
+            background-color: #f9f9f9;
+        }
     }
     .compact-dashboard-server{
             order:1;
