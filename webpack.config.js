@@ -52,7 +52,10 @@ module.exports = {
         publicPath: '/',
         sourceMapFilename: '[name].[hash].js.map'
     },
-
+    devServer: {
+        inline: true,
+        port: 3000
+    },
     devtool: 'source-map',
     resolve: {
         extensions: [
