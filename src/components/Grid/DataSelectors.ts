@@ -20,7 +20,7 @@ const comparer = (a, b) => {
 };
 
 const sortRows = (rows, sortColumn, sortDirection) => {
-    const sortFactor = sortDirection === 'DESC' ? 1 : -1;
+    const sortFactor = sortDirection === 'DESC' ? -1 : 1;
     let sorted = rows.slice(0); 
     sorted.sort((a, b) => {
         const firstValue = a[sortColumn];

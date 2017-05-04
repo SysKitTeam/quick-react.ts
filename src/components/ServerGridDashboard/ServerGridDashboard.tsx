@@ -23,12 +23,12 @@ const getMeasure = (measures, measureType) => {
 
 const gridColumns: Array<GridColumn> = [{
     valueMember: 'FarmName',
-    HeaderText: 'Farm',
+    headerText: 'Farm',
     width: 20,
     minWidth: 50
 }, {
     valueMember: 'ServerName',
-    HeaderText: 'Server',
+    headerText: 'Server',
     dataMember: 'ServerData',
     width: 20,
     minWidth: 200,
@@ -40,19 +40,21 @@ const gridColumns: Array<GridColumn> = [{
             </div>
         );
     },
-    cellClassName: 'border-column-cell'
+    cellClassName: 'border-column-cell',
+    isSortable: true
 },
 {
     valueMember: 'CPU',
-    HeaderText: 'CPU (%)',
+    headerText: 'CPU (%)',
     dataMember: 'CPUData',
     width: 20,
     minWidth: 200,
     cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'} > {cellData.usage}</div>; },
-    cellClassName: 'border-column-cell'
+    cellClassName: 'border-column-cell',
+    isSortable: true
 }, {
     valueMember: 'Memory',
-    HeaderText: 'Memory',
+    headerText: 'Memory',
     width: 20,
     minWidth: 200,
     dataMember: 'MemoryData',
@@ -61,7 +63,7 @@ const gridColumns: Array<GridColumn> = [{
 },
 {
     valueMember: 'DiskActivity',
-    HeaderText: 'Disk Activity',
+    headerText: 'Disk Activity',
     dataMember: 'DiskActivityData',
     width: 20,
     minWidth: 200,
@@ -69,7 +71,7 @@ const gridColumns: Array<GridColumn> = [{
     cellClassName: 'border-column-cell'
 }, {
     valueMember: 'Network',
-    HeaderText: 'Network',
+    headerText: 'Network',
     dataMember: 'NetworkData',
     width: 20,
     minWidth: 200,
@@ -98,7 +100,7 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
     }
 
     componentWillReceiveProps(nextProps) {
-          this.setState((oldState) => {          
+        this.setState((oldState) => {
             return { ...oldState, rows: this.transformFarmToRows(nextProps.farms) };
         });
     }

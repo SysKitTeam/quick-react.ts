@@ -34,14 +34,14 @@ export interface GroupRow {
 }
 
 export interface GridColumn {
-    HeaderText: string;
+    headerText: string;
     valueMember: string; // for sort & grouping
+    isSortable?: boolean;
     width: number;
     minWidth?: number;
     dataMember?: string;
     cellFormatter?: (cellData) => any;
     cellClassName?: string;
-    disableSort?: boolean;
     headerClassName?: string;
 }
 

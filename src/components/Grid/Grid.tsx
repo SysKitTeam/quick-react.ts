@@ -135,7 +135,7 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
             const columnsTotalWidth = this.state.columnWidths.reduce((a, b) => a + b, 0);
             const customStyle = { ...style, width: columnsTotalWidth, zIndex: 1 };
             const iconName = rowData.isExpanded ? 'icon-arrow_down_right' : 'icon-arrow_right';
-            const columnName = this.props.columns.filter((column) => { return column.valueMember === rowData.columnGroupName; })[0].HeaderText;
+            const columnName = this.props.columns.filter((column) => { return column.valueMember === rowData.columnGroupName; })[0].headerText;
             const paragraphStyle: React.CSSProperties = { paddingLeft: 30 * rowData.depth, paddingRight: 10, display: 'inline' };
             const toggleRow = () => {
                 this.onRowExpandToggle(rowData.columnGroupName, rowData.groupKey, !rowData.isExpanded);
@@ -165,7 +165,7 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
         const rowData = this.getRow({ index: rowIndex });
 
         const width = this.state.columnWidths[columnIndex];
-        const label = column.HeaderText;
+        const label = column.headerText;
         const dataKey = column.dataMember || column.valueMember;
         const cellData = rowData[dataKey];
         const className = classNames(

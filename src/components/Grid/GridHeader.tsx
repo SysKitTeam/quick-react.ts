@@ -125,10 +125,10 @@ export class GridHeader extends React.Component<IGridHeaderProps, IGridHeaderSta
     }
 
     _createHeaderColumn(column: GridColumn, index: number) {
-        const { HeaderText, disableSort, headerClassName, valueMember } = column;
-        const columnClassName = classNames('header-column-content', headerClassName, { 'sortable': !disableSort });
+        const { headerText, isSortable, headerClassName, valueMember } = column;
+        const columnClassName = classNames('header-column-content', headerClassName, { 'sortable': isSortable });
         let divProps: HeaderColumnProps = {};
-        if (!disableSort) {
+        if (isSortable) {
             const newSortDirection = this.props.sortColumn !== valueMember || this.props.sortDirection === 'DESC' ? 'ASC' : 'DESC';
             const onClick = (event) => {
                 this.props.onSort(valueMember, newSortDirection);
@@ -152,9 +152,9 @@ export class GridHeader extends React.Component<IGridHeaderProps, IGridHeaderSta
             >
                 <span
                     key="label"
-                    title={HeaderText}
+                    title={headerText}
                 >
-                    {HeaderText}
+                    {headerText}
                 </span>
                 {showSortIndicator &&
                     <SortIndicator
