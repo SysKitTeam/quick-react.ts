@@ -31,10 +31,7 @@ export function customRowRenderer(gridColumns: Array<GridColumn>, onRowExpandTog
         onRowDoubleClick ||
         onRowMouseOver ||
         onRowMouseOut
-    ) {
-        rowProperties['aria-label'] = 'row';
-        rowProperties.tabIndex = 0;
-
+    ) {        
         if (onRowClick) {
             rowProperties.onClick = (event) => onRowClick({ event, index, rowData });
         }

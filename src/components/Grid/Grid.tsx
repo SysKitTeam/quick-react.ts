@@ -9,6 +9,7 @@ const scrollbarSize = require('dom-helpers/util/scrollbarSize');
 import { getColumnsSelector, getRowsSelector } from './DataSelectors';
 import { groupRows } from './rowGrouper';
 import { GridHeader } from './GridHeader';
+import { Icon } from '../Icon/Icon';
 
 import './Grid.scss';
 
@@ -159,10 +160,31 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
     }
 
     _renderGroupCell(columnIndex: number, key, rowIndexNumber: number, style) {
-        if (columnIndex === 0) {
-            return (<div key={key} style={style}> expandable </div>); // TODO: add expandable  - from rowRenderer
+        if (columnIndex === 0) {          
+            const rowData = this.getRow({ index: rowIndexNumber });
+            const customStyle = {...style, width: this._getGridWidth() };
+            const iconName = rowData.isExpanded ? 'icon-arrow_down_right' : 'icon-arrow_right';
+            const columnName = this.props.columns.filter((column) => { return column.valueMember === rowData.columnGroupName; })[0].HeaderText;
+            const paragraphStyle: React.CSSProperties = { paddingLeft: 30 * rowData.depth, paddingRight: 10, display: 'inline' }; // TODO: add to css 
+            const toggleRow = () => {
+                this.onRowExpandToggle(rowData.columnGroupName, rowData.groupKey, !rowData.isExpanded);
+            };
+            return (
+                <div
+                    className={'grid-group-row'}
+                    key={key}
+                    style={customStyle}
+                    >
+                    <Icon 
+                        iconName={iconName} 
+                        onClick={toggleRow} />
+                    <p style={paragraphStyle}>
+                        {columnName}: {rowData.name}
+                    </p>
+                </div>
+            );
         } else {
-            return (<div key={key} style={style}></div>);
+            return (<div key={key}/>);
         }
     }
 
