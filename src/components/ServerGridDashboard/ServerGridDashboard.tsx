@@ -32,15 +32,15 @@ const gridColumns: Array<GridColumn> = [{
     dataMember: 'ServerData',
     width: 20,
     minWidth: 200,
-
     cellFormatter: (cellData) => {
         return (
-            <div>
+            <div className="server-column-cell">
                 <div className={GetClassForStatus('server-status', cellData.status)}>&nbsp;</div>
                 <span>{cellData.name}</span>
             </div>
         );
-    }
+    },
+    cellClassName: 'border-column-cell'
 },
 {
     valueMember: 'CPU',
@@ -48,14 +48,16 @@ const gridColumns: Array<GridColumn> = [{
     dataMember: 'CPUData',
     width: 20,
     minWidth: 200,
-    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status)} > {cellData.usage}</div>; }
+    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'} > {cellData.usage}</div>; },
+    cellClassName: 'border-column-cell'
 }, {
     valueMember: 'Memory',
-    HeaderText: 'Memory',
+    HeaderText: 'Memory (MB)',
     width: 20,
     minWidth: 200,
     dataMember: 'MemoryData',
-    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status)}> {cellData.used}</div>; }
+    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'}> {cellData.used}</div>; },
+    cellClassName: 'border-column-cell'
 },
 {
     valueMember: 'DiskActivity',
@@ -63,15 +65,15 @@ const gridColumns: Array<GridColumn> = [{
     dataMember: 'DiskActivityData',
     width: 20,
     minWidth: 200,
-    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status)}> {cellData.currentUsage}</div>; }
-
+    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'}> {cellData.currentUsage + ' ' + cellData.usageUnit}</div>; },
+    cellClassName: 'border-column-cell'
 }, {
     valueMember: 'Network',
     HeaderText: 'Network',
     dataMember: 'NetworkData',
     width: 20,
     minWidth: 200,
-    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status)}> {cellData.currentUsage}</div>; }
+    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'}> {cellData.currentUsage + ' ' + cellData.usageUnit}</div>; }
 }];
 
 export interface IServerGridDashboardState {

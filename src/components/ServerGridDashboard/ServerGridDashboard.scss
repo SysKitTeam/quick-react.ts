@@ -117,6 +117,21 @@ $background-color: $background-color;
   margin-bottom: 3px;
 }
 
+.border-column-cell {
+    border-right: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+.server-column-cell {
+    padding-left: 20px;
+    font-size: 14px;
+}
+
+.server-dashboard-grid-cell-content {
+    padding-left: 5px;
+    font-size: 14px;
+}
+
 .server-grid-dashboard-container {
     overflow: hidden;   
     height: 100vh;
@@ -212,7 +227,8 @@ $background-color: $background-color;
     .grid-component-container {
         margin: 30px 10px 20px 20px;
         box-sizing: border-box;
-        height: calc(100% - 50px);
+        height: calc(100% - 60px);
+        width: calc(100% - 20px);
     }
 
     .grid-component-cell {
