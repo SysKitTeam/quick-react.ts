@@ -6,8 +6,6 @@ import { IBreadcrumbChild } from './BreadcrumbItem.Props';
 import { BreadcrumbItem } from './BreadcrumbItem';
 import { Icon } from '../Icon/Icon';
 
-const objectAssign = require('object-assign');
-
 export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
     public static defaultProps = {
         iconNameCollapsed: 'icon-arrow_right',
@@ -96,7 +94,7 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
             if (!target) { break; }
 
             path += '/' + targetPath;
-            elements.push(objectAssign({}, target, { children: children }));
+            elements.push({ ...target, children: children });
             currentLevel = currentLevel[targetIndex].children;
         }
 

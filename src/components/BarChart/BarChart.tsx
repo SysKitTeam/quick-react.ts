@@ -2,8 +2,6 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import { IBarChartProps, IBarChartData } from './BarChart.props';
 import { BarChartContent } from './BarChartContent';
-
-const objectAssign = require('object-assign');
 const ResizeSensor = require('css-element-queries/src/ResizeSensor');
 
 export class BarChart extends React.PureComponent<IBarChartProps, any> {
@@ -32,7 +30,7 @@ export class BarChart extends React.PureComponent<IBarChartProps, any> {
 
     public render() {
         const mainContainerClass = classNames('bar-chart-component', this.props.id);
-        const props = objectAssign({}, this.props, {width: this.state.fullWidth, height: this.state.fullHeight});
+        const props = {...this.props, width: this.state.fullWidth, height: this.state.fullHeight};
 
         return (
             <div className={mainContainerClass}
