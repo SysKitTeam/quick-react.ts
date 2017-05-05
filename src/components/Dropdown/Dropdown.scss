@@ -1,7 +1,7 @@
  @import '../../index.scss';
 
 $Dropdown-selectedItem: $secondary-color;
-$Dropdown-selectedItem-hover: $secondary-hover-color;
+$Dropdown-selectedItem-hover: $primary-hover-color;
 $DropDown-transition-duration: 300ms;
 $DropDown-transition-timing: cubic-bezier(0, 1, 0.5, 1);
 $DropDown-height: 32px;
@@ -92,6 +92,11 @@ $DropDown-item-height: 36px;
         border: 1px solid transparent;
         word-wrap: break-word;
         cursor: pointer;
+
+        &:hover {
+            background-color: $Dropdown-selectedItem-hover;
+        }
+
         span {
             color: $font-primary-color;
         }
