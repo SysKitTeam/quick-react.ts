@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { autobind } from '../../utilities/autobind';
-import { DateTimeDropdownPicker } from '../dateTimeDropdownPicker/dateTimeDropdownPicker';
+import { DateTimeDropdownPicker } from '../DateTimeDropdownPicker/DateTimeDropdownPicker';
 import './DateTimePickerbar.scss';
 
 export interface IDateTimePickerBarProperties {

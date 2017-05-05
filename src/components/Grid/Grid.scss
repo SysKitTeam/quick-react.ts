@@ -13,6 +13,7 @@ $icon-color: $gray-color;
         overflow: hidden;
         text-overflow: ellipsis;
         cursor: default;
+        padding-top: 5px;
     }
 
     &.is-hover {
@@ -38,7 +39,6 @@ $icon-color: $gray-color;
     text-overflow: ellipsis;
     border-right: 1px solid $gray-light-color;
 
-    
     &.is-hover {
         background-color: $gray-lightest-color;
     }
@@ -123,4 +123,19 @@ $icon-color: $gray-color;
     background-color: $hr-background-color;
     font-weight: 600;
     font-size: 14px;
+
+    .icon {
+        font-size: 10px;
+        color: $emphasized-text-color;
+        margin: 0 6px 0 0;
+        vertical-align: middle;
+    }
+    
+    p {
+        font-size: 14px;
+        color: $emphasized-text-color;
+        margin: 0;
+        font-weight: 500;
+        vertical-align: middle;
+    }
 }

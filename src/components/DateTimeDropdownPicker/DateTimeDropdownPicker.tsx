@@ -4,7 +4,7 @@ import { Dropdown } from '../Dropdown/Dropdown';
 import { DropdownType } from '../Dropdown/Dropdown.Props';
 import { Button } from '../Button/Button';
 import { ButtonType } from '../Button/Button.Props';
-import { DateTimePicker } from '../dateTimePicker/dateTimePicker';
+import { DateTimePicker } from '../DateTimePicker/DateTimePicker';
 import { autobind } from '../../utilities/autobind';
 import * as moment from 'moment';
 

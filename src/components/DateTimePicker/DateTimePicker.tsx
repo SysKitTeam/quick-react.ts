@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import DateTime = require('react-datetime');
-import { TimePicker } from './timePicker';
+import { TimePicker } from './TimePicker';
 import './Vendor.scss';
 import './DateTimePicker.scss';
 import { autobind } from '../../utilities/autobind';

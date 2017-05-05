@@ -35,19 +35,6 @@ $background-color: $background-color;
      -moz-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-
-    .icon {
-        font-size: 10px;
-        color: $emphasized-text-color;
-        margin: 0 6px 0 0;
-    }
-
-    p {
-        font-size: 14px;
-        color: $emphasized-text-color;
-        margin: 0;
-        font-weight: 500;
-    }
 }
 
 .ReactVirtualized__Table__headerTruncatedText {
@@ -85,11 +72,6 @@ $background-color: $background-color;
         color: $emphasized-text-color;
     }
   }
-
-  span {
-      font-size: 13px;
-      color: $emphasized-text-color;
-  }
 }
 
 .ReactVirtualized__Table__sortableHeaderColumn {
@@ -123,13 +105,13 @@ $background-color: $background-color;
 }
 
 .server-column-cell {
-    padding-left: 20px;
-    font-size: 14px;
+    padding-left: 25px;
+    font-size: 13px;
 }
 
 .server-dashboard-grid-cell-content {
     padding-left: 5px;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .server-grid-dashboard-container {
@@ -222,6 +204,7 @@ $background-color: $background-color;
         width: 10px;    
         float: left;
         margin-right: 5px;
+        height: 19px;
     }
 
     .grid-component-container {
