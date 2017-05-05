@@ -112,6 +112,8 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
                 const disk = getMeasure(server.measures, MeasureType.Disk);
                 const net = getMeasure(server.measures, MeasureType.Network);
                 rows.push({
+                    GroupId: farm.id,
+                    ServerId: server.id,
                     FarmName: farm.name,
                     UserCount: server.numberOfUsers,
                     ServerName: server.name,
@@ -130,7 +132,7 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
         return rows;
     }
 
-    render() {
+    public render(): JSX.Element {
         const className = classNames({ [this.props.className]: this.props.className !== undefined }, 'server-grid-dashboard-container');
         return (
             <div className={className}>
@@ -141,9 +143,19 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
                     rowHeight={28}
                     headerHeight={28}
                     overscanRowCount={30}
+                    onRowDoubleClicked={this.onRowDoubleClick}
                 />
             </div>
         );
+    }
+
+    @autobind
+    private onRowDoubleClick(row: ServerGridRow) {
+        const { serverOnClick } = this.props;
+
+        if (serverOnClick) {
+            serverOnClick(row.GroupId, row.ServerId);
+        }
     }
 }
 
