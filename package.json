@@ -1,6 +1,6 @@
 {
   "name": "quick-react-ts",
-  "version": "0.8.10",
+  "version": "0.8.11",
   "description": "Reusable components for React, written in TypeScript",
   "main": "./lib/index.js",
   "typings": "./lib/index",
@@ -25,14 +25,14 @@
     "guid": "0.0.12",
     "lodash": "4.17.4",
     "node-sass": "3.13.0",
-    "object-assign": "4.1.1",
     "react": "15.4.2",
-    "react-datetime": "^2.8.9",
+    "react-datetime": "2.8.9",
     "react-dom": "15.4.2",
-    "react-redux": "5.0.2",
+    "react-draggable": "2.2.3",
     "react-virtualized": "9.7.3",
-    "redux": "3.6.0",
-    "run-sequence": "1.2.2"
+    "reselect": "2.5.4",
+    "run-sequence": "1.2.2",
+    "dom-helpers": "3.2.1"
   },
   "devDependencies": {
     "@types/classnames": "0.0.32",
@@ -41,9 +41,7 @@
     "@types/node": "7.0.5",
     "@types/react": "15.0.1",
     "@types/react-dom": "0.14.20",
-    "@types/reselect": "2.0.27",
     "@types/react-virtualized": "9.5.0",
-    "@types/object-assign": "4.0.30",
     "awesome-typescript-loader": "3.1.2",
     "babel-core": "6.18.2",
     "babel-polyfill": "6.16.0",

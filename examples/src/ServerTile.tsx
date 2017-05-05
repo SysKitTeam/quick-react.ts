@@ -7,8 +7,10 @@ import * as ReactDOM from 'react-dom';
 
 import { ServerTile } from './../../src/components/ServerTile/ServerTile';
 import {IFarm , ISharePointServer, ServerStatus} from './../../src/models';
+import { dummyDashboard } from '../MockData/DashboardDummy';
 
 export class Index extends React.Component<any, any> {
+  
     public render() {
         return (
             <div>

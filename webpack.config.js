@@ -44,7 +44,8 @@ module.exports = {
         DetailedServerGroup: "./examples/src/DetailedServerGroup.tsx",
         DetailedServerTile: "./examples/src/DetailedServerTile.tsx",  
         NavigationGroup: "./examples/src/NavigationGroup.tsx",
-        DateTimePicker: "./examples/src/DatetimePicker.tsx"
+        ServerGridDashboard: "./examples/src/ServerGridDashboard.tsx",
+	    DateTimePicker: "./examples/src/DateTimePicker.tsx"   
     },
     output: {
         path: path.join(__dirname, '/dist'),

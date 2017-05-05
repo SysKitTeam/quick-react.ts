@@ -14,8 +14,6 @@ import { filterFarms } from '../Dashboard/Dashboard';
 
 import './CompactDashboard.scss';
 
-const objectAssign = require('object-assign');
-
 const GUTTER_SIZE = 3;
 const CELL_WIDTH = 330;
 

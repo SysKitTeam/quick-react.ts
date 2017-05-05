@@ -1,0 +1,141 @@
+ @import '../../index.scss';
+
+$gray-color: #6b6b6b;
+$gray-light-color: #dddddd;
+$gray-lighter-color: #efefef;
+$gray-lightest-color: #f9f9f9;
+$icon-color: $gray-color;
+
+
+.grid-component-cell {
+    > div {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: default;
+        padding-top: 5px;
+    }
+
+    &.is-hover {
+        background-color: $gray-lightest-color;
+    }
+    &.is-selected {
+        background-color: $gray-lighter-color;
+    }
+
+    .icon {
+        color: $icon-color;
+    }
+}
+
+.grid-component-cell-expanded {
+    @extend .grid-component-cell;
+    height: 30px !important;
+}
+
+.grid-component-cell-main-expanded {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-right: 1px solid $gray-light-color;
+
+    &.is-hover {
+        background-color: $gray-lightest-color;
+    }
+    &.is-selected {
+        background-color: $gray-lighter-color;
+    }
+}
+
+.grid-right-border {    
+    border-right: 1px solid $gray-light-color;    
+}
+
+.grid-header-right-border {
+    border-right: 1px solid $gray-light-color;
+}
+
+.grid-header-cell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;    
+    border-bottom: 2px solid $gray-light-color;
+}
+
+.grid-header-cell:first-child > div:first-child {
+    padding-left: 20px !important;
+}
+
+.grid-column-draggable {
+    width: 4px;    
+    cursor: col-resize;
+    height: 20px;
+    float: right;
+}
+
+.grid-component-container {
+    height: 98%;
+}
+
+.grid-component-header {
+    overflow: hidden !important;
+}
+
+.grid-component,
+.grid-component-header {
+    outline: none;
+}
+
+
+.expanded-cell {
+    padding: 20px 30px;
+    border-top: 1px solid $gray-light-color;
+    border-bottom: 1px solid $gray-light-color;
+    background-color: $gray-lightest-color;
+    height: calc(100% - 40px);
+    overflow-y:  auto;
+}
+
+.grid-component-no-data {
+    padding-top: 15px;
+    text-align: center;
+    color: #a09f9f;
+}
+
+.grid-header{
+    outline: none;
+    height: 26px;
+}
+
+.grid-header-column{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;    
+    border-bottom: 2px solid $gray-light-color;
+    display: inline-block;
+}
+
+.header-column-content{
+    display: inline;
+}
+
+.grid-group-row {
+    background-color: $hr-background-color;
+    font-weight: 600;
+    font-size: 14px;
+
+    .icon {
+        font-size: 10px;
+        color: $emphasized-text-color;
+        margin: 0 6px 0 0;
+        vertical-align: middle;
+    }
+    
+    p {
+        font-size: 14px;
+        color: $emphasized-text-color;
+        margin: 0;
+        font-weight: 500;
+        vertical-align: middle;
+    }
+}

@@ -4,13 +4,13 @@ import { IDashboardProps } from './Dashboard.Props';
 import { DashboardHeader } from '../DashboardHeader/DashboardHeader';
 import { CompactDashboard } from '../CompactDashboard/CompactDashboard';
 import { TileDashboard } from '../TileDashboard/TileDashboard';
+import { ServerGridDashboard } from '../ServerGridDashboard/ServerGridDashboard';
 import { ICompactDashboardProps } from '../CompactDashboard/CompactDashboard.Props';
 import { ActiveDashboard } from '../DashboardHeader/DashboardHeader.Props';
 import { PivotItem } from '../Pivot/PivotItem';
 import { ITiledDashboardFarm, ITiledDashboardServer } from '../TileDashboard/Tiledashboard.props';
 import { filterServerByName, filterServerByStatus } from '../../utilities/server';
 import './Dashboard.scss';
-const objectAssign = require('object-assign');
 
 function sortFarms(ob1: { farmName: string }, ob2: { farmName: string }) {
     if (ob1.farmName < ob2.farmName) {
@@ -29,14 +29,14 @@ export function filterFarms(farms: Array<ITiledDashboardFarm>, filter: string) :
         farms.forEach(farm => {
             const servers = farm.servers.filter((server) => filterServerByStatus(filter, server.status));
             if (servers.length !== 0) {
-                filteredFarms.push(objectAssign({}, farm, { servers: servers }));
+                filteredFarms.push({...farm, servers: servers });
             }
         });
     } else {
         farms.forEach(farm => {
             const servers = farm.servers.filter((server) => filterServerByName(filter, server.name));
             if (servers.length !== 0) {
-                filteredFarms.push(objectAssign({}, farm, { servers: servers }));
+                filteredFarms.push({ ...farm,  servers: servers });
             }
         });
     }
@@ -104,6 +104,13 @@ export class Dashboard extends React.PureComponent<IDashboardProps, any> {
                         serverRoleEdit={this.props.serverRoleEdit}
                         serverClose={this.props.serverClose}
                         serverOnClick={this.props.serverOnClick}
+                        />
+                }
+                {
+                    (activeView === ActiveDashboard.Grid) &&
+                    <ServerGridDashboard
+                        className={'viewport-height'}
+                        farms={this.props.farms}
                         />
                 }
             </div>
