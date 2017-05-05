@@ -1,7 +1,6 @@
 const createSelector = require('reselect').createSelector;
 import { IGridState, IGridProps } from './Grid.Props';
 import { groupRows } from './rowGrouper';
-const objectAssign = require('object-assign');
 
 const getInputRows = (state: IGridState, props) => props.rows;
 const getGroupBy = (state: IGridState, props)  => props.groupBy;

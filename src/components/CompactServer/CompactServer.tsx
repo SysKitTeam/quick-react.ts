@@ -11,7 +11,7 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, any>
     constructor(props?: ICompactServerProps) {
         super(props);
     }
-    
+
     render() {
         let { status } = this.props;
         let className = classNames({ 'compact-server-container': true },
@@ -21,20 +21,19 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, any>
 
         return (
             <div
-            className={className}
-            onMouseEnter={this.props.onMouseEnter}
-            onMouseLeave={this.props.onMouseLeave} 
-            onClick={this.onclick}
+                className={className}
+                onMouseEnter={this.props.onMouseEnter}
+                onMouseLeave={this.props.onMouseLeave}
+                onClick={this.onclick}
             >
                 <span className={'server-title'}>
-                    <span>{this.props.name}</span>                    
+                    <span>{this.props.name}</span>
                 </span>
                 {
                     this.props.roles.length > 0 &&
                     <div>
-                        <hr />
-                        <TagContainer title={''} tags={this.props.roles}>
-                        </TagContainer>
+                        <hr/>
+                        <TagContainer title={''} tags={this.props.roles}/>
                     </div>
                 }
             </div>
@@ -43,7 +42,7 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, any>
 
     @autobind
     private onclick() {
-        const {serverOnClick, id} = this.props;
+        const { serverOnClick, id } = this.props;
         if (serverOnClick) {
             serverOnClick(id);
         }
@@ -51,13 +50,13 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, any>
 
     @autobind
     private editRoles(event) {
-        const {onRoleEdit} = this.props;
+        const { onRoleEdit } = this.props;
         onRoleEdit(this.props.id);
     }
 
     @autobind
     private closeServer(event) {
-        const {onClose} = this.props;
+        const { onClose } = this.props;
         onClose(this.props.id);
     }
 }

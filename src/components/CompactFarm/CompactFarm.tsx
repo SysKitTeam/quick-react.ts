@@ -12,28 +12,34 @@ import { CommonComponent } from '../Common/Common';
 import { Callout } from '../Callout/Callout';
 
 import './CompactFarm.scss';
-const HOVER_TIME = 500; // ms 
+const HOVER_TIME = 250; // ms 
 
 export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
     private _enterTimerId: number;
+    private _serverId = null;
+    private _hoverTargetElement = null;
+
     constructor(props?: ICompactFarmProps) {
         super(props);
-        this.state = {
-            hoverServerId: null,
-            hoverTargetElement: null
-        };
         this._enterTimerId = 0;
     }
 
     private _onItemMouseEnter(serverId, ev: React.MouseEvent<HTMLElement>) {
         let targetElement = ev.currentTarget as HTMLElement;
-        if (serverId !== this.state.hoverServerId) {
+        if (serverId !== this._serverId) {
             this._enterTimerId = this._async.setTimeout(() => this._displayServerTile(serverId, targetElement), HOVER_TIME);
         }
     }
 
-    private componentWillReceiveProps(nextProps) {
-        this._onMouseLeave();
+    private componentWillReceiveProps(nextProps: ICompactFarmProps) {
+        this._async.clearTimeout(this._enterTimerId);
+        let server = null;
+        if (this._serverId !== null) {
+            server = nextProps.farm.servers.filter((s) => s.id.FQDN === this._serverId.FQDN);
+        }
+        if (!server || server.length === 0) {
+            this._hideServerTile();
+        }
     }
 
     @autobind
@@ -43,23 +49,21 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
     }
 
     private _displayServerTile(serverId, target: HTMLElement) {
-        if (this.state.hoverServerId !== serverId) {
-            if (this.state.hoverServerId) {
+        if (this._serverId !== serverId) {
+            if (this._serverId) {
                 this._hideServerTile();
             }
-            this.setState({
-                hoverServerId: serverId,
-                hoverTargetElement: target
-            });
+            this._serverId = serverId;
+            this._hoverTargetElement = target;
+            this.forceUpdate();
         }
     }
 
     @autobind
     private _hideServerTile() {
-        this.setState({
-            hoverServerId: null,
-            hoverTargetElement: null
-        });
+        this._serverId = null;
+        this._hoverTargetElement = null;
+        this.forceUpdate();
     }
 
     @autobind
@@ -119,13 +123,13 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
                         ))
                     }
                     {
-                        this.state.hoverServerId &&
+                        this._serverId &&
                         <Callout
-                            targetElement={this.state.hoverTargetElement}
+                            targetElement={this._hoverTargetElement}
                             hideBorder
                             isBeakVisible={false}
                             gapSpace={5}>
-                            {this._renderServerTile(this.state.hoverServerId)}
+                            {this._renderServerTile(this._serverId)}
                         </Callout>
                     }
                 </Group>

@@ -5,7 +5,6 @@ import { IPieChartProps, IPieChartData } from './PieChart.props';
 import { PieChartContent } from './PieChartContent';
 import './PieChart.scss';
 
-const objectAssign = require('object-assign');
 const resizeSensor = require('css-element-queries/src/ResizeSensor');
 const guid = require('guid');
 
@@ -39,17 +38,15 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
     public render() {
         const pieComponentClass = classNames('pie-chart-component', this.state.chartId);
 
-        const props = objectAssign({},
-            {
-                width: this.state.chartWidth,
-                height: this.state.chartHeight,
-                data: this.transformData(),
-                id: this.state.chartId,
-                colors: this.props.colors,
-                tipText: this.props.tipText,
-                tooltipBoderColor: this.props.tooltipBorderColor
-            }
-        );
+        const props = {
+            width: this.state.chartWidth,
+            height: this.state.chartHeight,
+            data: this.transformData(),
+            id: this.state.chartId,
+            colors: this.props.colors,
+            tipText: this.props.tipText,
+            tooltipBoderColor: this.props.tooltipBorderColor
+        };
 
         return (
             <div className={pieComponentClass}

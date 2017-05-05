@@ -1,4 +1,4 @@
-const groupBy = require('lodash.groupby');
+import * as _ from 'lodash';
 import { GroupRow } from './Grid.Props';
 
 class RowGrouper {
@@ -21,7 +21,7 @@ class RowGrouper {
     groupRowsByColumn(rows, columnIndex = 0, parentGroupKey = '') {
         let nextColumnIndex = columnIndex;
         let columnName = this.columns[columnIndex];
-        let groupedRows = groupBy(rows, columnName);
+        let groupedRows = _.groupBy(rows, columnName);
         let groupKeys = Object.keys(groupedRows);
         let dataViewRows = []; 
         for (let i = 0; i < groupKeys.length; i++) {

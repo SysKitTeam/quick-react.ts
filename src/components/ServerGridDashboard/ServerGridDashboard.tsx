@@ -9,8 +9,6 @@ import { QuickGrid } from '../Grid/Grid';
 import { IGridProps, GridColumn } from '../Grid/Grid.Props';
 import { GetClassForStatus } from '../../utilities/server';
 
-const objectAssign = require('object-assign');
-
 import { sortServersByStatusAndName, filterServerByName, convertNetwork, convertDisk, convertRam } from '../../utilities/server';
 import { IMeasure, MeasureType, IFarm, Partition, DiskMeasure, CpuMeasure, RamMeasure, NetworkMeasure, ServerStatus } from '../../models';
 

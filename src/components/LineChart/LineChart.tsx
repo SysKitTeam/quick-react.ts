@@ -7,7 +7,6 @@ import { LineChartContent } from './LineChartContent';
 import './LineChart.scss';
 
 const ResizeSensor = require('css-element-queries/src/ResizeSensor');
-const objectAssign = require('object-assign');
 const Guid = require('guid');
 
 export class LineChart extends React.PureComponent<ILineChartProps, any> {
@@ -38,7 +37,7 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
     }
 
     public render() {
-        const props = objectAssign({}, this.props, { width: this.state.width, height: this.state.height, id: this.state.chartId });
+        const props = { ...this.props,  width: this.state.width, height: this.state.height, id: this.state.chartId };
         const componentClass = classNames('line-chart-component', this.state.chartId, this.props.className);
         const titleClass = classNames('line-chart-title', this.state.chartId, this.props.className);
         return (
