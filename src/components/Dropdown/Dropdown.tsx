@@ -132,6 +132,7 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
                   {options && options.map((option, index) => (
                     <li id={id + '-list' + index.toString()}
                       ref={Dropdown.Option + index.toString()}
+                      title={option.text}
                       key={option.key}
                       data-index={index}
                       data-is-focusable={true}

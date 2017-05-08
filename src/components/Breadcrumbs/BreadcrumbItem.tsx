@@ -66,7 +66,7 @@ export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
 
     private mapChildrenToMenu(children: Array<IBreadcrumbChild>) {
         return children.map((child, index) => {
-            return <li key={index} title={child.displayName} onClick={() => this.handleChildClick(child)}>{child.displayName}</li>;
+            return <li key={index} onClick={() => this.handleChildClick(child)}>{child.displayName}</li>;
         });
     }
 
