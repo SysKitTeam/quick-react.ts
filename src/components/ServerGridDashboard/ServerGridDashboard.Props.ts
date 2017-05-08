@@ -5,10 +5,13 @@ import { ITiledDashboardFarm } from '../TileDashboard/TileDashboard.Props';
 export interface IServerGridDashboardProps {
     farms: Array<ITiledDashboardFarm>;
     className?: string;
+    serverOnClick?: (groupId: any, serverId: any) => void;
     filter: string;
 }
 export interface ServerGridRow {
     type: 'DataRow';
+    GroupId: any;
+    ServerId: any;
     FarmName: string;
     UserCount: string;
     CPU: number;
