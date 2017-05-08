@@ -111,6 +111,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, any> {
                     <ServerGridDashboard
                         className={'viewport-height'}
                         farms={this.props.farms}
+                        filter={filter}
                         />
                 }
             </div>

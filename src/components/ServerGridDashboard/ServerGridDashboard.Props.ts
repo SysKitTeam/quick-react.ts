@@ -5,6 +5,7 @@ import { ITiledDashboardFarm } from '../TileDashboard/TileDashboard.Props';
 export interface IServerGridDashboardProps {
     farms: Array<ITiledDashboardFarm>;
     className?: string;
+    filter: string;
 }
 export interface ServerGridRow {
     type: 'DataRow';
@@ -16,4 +17,12 @@ export interface ServerGridRow {
     DiskActivity: number;
     Network: number;
     LastUpdated: number;
+}
+
+export interface IServerGridDashboardState {
+    rows: Array<ServerGridRow>;
+    groupBy: Array<string>;
+    expandedRows: any;
+    sortColumn: string;
+    sortDirection: any;
 }
