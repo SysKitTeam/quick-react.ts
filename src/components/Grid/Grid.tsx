@@ -120,15 +120,6 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
         }
     }
 
-    @autobind
-    _noContentRenderer() {
-        return (
-            <div className="grid-component-no-data">
-                No items to show...
-            </div>
-        );
-    }
-
     _renderGroupCell(columnIndex: number, key, rowIndexNumber: number, style) {
         if (columnIndex === 0) {
             const rowData = this.getRow({ index: rowIndexNumber });
@@ -276,7 +267,6 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
                                             ref={(r) => { this._grid = r; }}
                                             height={height}
                                             width={width}
-                                            noContentRenderer={this._noContentRenderer}
                                             onScroll={onScroll}
                                             scrollLeft={scrollLeft}
                                             cellRenderer={this._cellRenderer}
@@ -286,6 +276,7 @@ export class QuickGrid<T> extends React.Component<IGridProps<T>, IGridState> {
                                             className="grid-component"
                                             rowCount={this.getRowCount()}
                                             columnCount={this.getColumnsCount()}
+                                            {...this.state}
                                         />
                                     </div>
                                 </div>

@@ -37,6 +37,7 @@ export interface GridColumn {
     headerText: string;
     valueMember: string; // for sort & grouping
     isSortable?: boolean;
+    sortByValueGetter?: (cellData, sortDirection) => any;
     width: number;
     minWidth?: number;
     dataMember?: string;
