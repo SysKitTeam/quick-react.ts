@@ -38,15 +38,34 @@ const gridColumns: Array<GridColumn> = [{
         );
     },
     cellClassName: 'border-column-cell',
-    isSortable: true
+    isSortable: true,
+    sortByValueGetter: (row, sortDirection) => {
+        let modifier = 'a';
+        let status: ServerStatus = row.ServerData.status;
+        switch (status) {
+            case ServerStatus.OK:
+                modifier = sortDirection === 'ASC' ? '2' : 'b';
+                break;
+            case ServerStatus.Warning:
+                modifier = sortDirection === 'ASC' ? '1' : 'c';
+                break;
+            case ServerStatus.Critical:
+                modifier = sortDirection === 'ASC' ? '0' : 'd';
+                break;
+            case ServerStatus.Offline:
+                modifier = sortDirection === 'ASC' ? '3' : 'a';
+                break;
+        }
+        return modifier + row.ServerName;
+    }
 },
 {
     valueMember: 'CPU',
-    headerText: 'CPU (%)',
+    headerText: 'CPU',
     dataMember: 'CPUData',
     width: 20,
     minWidth: 200,
-    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'} > {cellData.usage}</div>; },
+    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'} > {cellData.usage}%</div>; },
     cellClassName: 'border-column-cell',
     isSortable: true
 }, {
@@ -55,8 +74,17 @@ const gridColumns: Array<GridColumn> = [{
     width: 20,
     minWidth: 200,
     dataMember: 'MemoryData',
-    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'}> {cellData.hoverText}</div>; },
-    cellClassName: 'border-column-cell'
+    cellFormatter: (cellData) => {
+        const memory = convertRam(cellData);
+        return <div className={GetClassForStatus('', memory.status) + ' server-dashboard-grid-cell-content'}> {memory.hoverText}</div>;
+    },
+    cellClassName: 'border-column-cell',
+    isSortable: true,
+    sortByValueGetter: (row, sortDirection) => {
+        let key = 'MemoryData';
+        let memoryData = row[key];
+        return memoryData.used / memoryData.capacity;
+    }
 },
 {
     valueMember: 'DiskActivity',
@@ -64,15 +92,23 @@ const gridColumns: Array<GridColumn> = [{
     dataMember: 'DiskActivityData',
     width: 20,
     minWidth: 200,
-    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'}> {cellData.currentUsage + ' ' + cellData.usageUnit}</div>; },
-    cellClassName: 'border-column-cell'
+    cellFormatter: (cellData) => {
+        const disk = convertDisk(cellData);
+        return <div className={GetClassForStatus('', disk.status) + ' server-dashboard-grid-cell-content'}> {disk.currentUsage + ' ' + disk.usageUnit}</div>;
+    },
+    cellClassName: 'border-column-cell',
+    isSortable: true
 }, {
     valueMember: 'Network',
     headerText: 'Network',
     dataMember: 'NetworkData',
     width: 20,
     minWidth: 200,
-    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'}> {cellData.currentUsage + ' ' + cellData.usageUnit}</div>; }
+    cellFormatter: (cellData) => {
+        const network = convertNetwork(cellData);
+        return <div className={GetClassForStatus('', network.status) + ' server-dashboard-grid-cell-content'}> {network.currentUsage + ' ' + network.usageUnit}</div>;
+    },
+    isSortable: true
 }];
 
 export class ServerGridDashboard extends React.Component<IServerGridDashboardProps, IServerGridDashboardState> {
@@ -93,7 +129,7 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
             return { ...oldState, rows: this.transformFarmToRows(nextProps.farms, nextProps.filter) };
         });
     }
-    
+
     private transformFarmToRows(farms: Array<ITiledDashboardFarm>, filter: string): Array<ServerGridRow> {
         const filteredFarms = filterFarms(farms, filter);
         let rows = [];
@@ -116,11 +152,11 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
                     CPU: cpu.usage,
                     CPUData: cpu,
                     Memory: mem.used,
-                    MemoryData: convertRam(mem),
+                    MemoryData: mem,
                     DiskActivity: disk.totalDiskIo,
-                    DiskActivityData: convertDisk(disk),
+                    DiskActivityData: disk,
                     Network: net.kbTotal,
-                    NetworkData: convertNetwork(net)
+                    NetworkData: net
                 });
             });
         });
@@ -139,6 +175,8 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
                     headerHeight={28}
                     overscanRowCount={30}
                     onRowDoubleClicked={this.onRowDoubleClick}
+                    sortColumn="ServerName"
+                    sortDirection="ASC"
                 />
             </div>
         );

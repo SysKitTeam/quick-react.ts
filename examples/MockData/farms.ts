@@ -13,7 +13,7 @@ export const classListExample = {
 
 let roleListFarms = [{ display: 'WPF', iconName: 'icon-add' }, { display: 'WPF1111111', iconName: 'icon-add' }, { display: 'Not another', iconName: 'icon-add' }, { display: 'Search', iconName: 'icon-alert' }];
 
-export const farms: Array<IFarm> = createFarms(10, 20, 50);
+export const farms: Array<IFarm> = createFarms(50, 10, 10);
 
 export function createFarms(numOfFarms: number, minServerCount: number, maxServerCount: number) {
     let _farms = Array(0);

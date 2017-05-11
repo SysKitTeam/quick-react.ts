@@ -45,7 +45,7 @@ export class GridHeader extends React.Component<IGridHeaderProps, IGridHeaderSta
         const { columns, width, scrollLeft } = this.props;
         return (
             <div style={{ width }}>
-                <Grid
+                <Grid                    
                     ref={(g) => { this._headerGrid = g; }}
                     cellRenderer={this._headerCellRender}
                     className="grid-component-header"
@@ -56,6 +56,7 @@ export class GridHeader extends React.Component<IGridHeaderProps, IGridHeaderSta
                     rowCount={1}
                     width={width}
                     scrollLeft={scrollLeft}
+                    {...this.props}
                 />
             </div>
         );
@@ -126,7 +127,7 @@ export class GridHeader extends React.Component<IGridHeaderProps, IGridHeaderSta
 
     _createHeaderColumn(column: GridColumn, index: number) {
         const { headerText, isSortable, headerClassName, valueMember } = column;
-        const columnClassName = classNames('header-column-content', headerClassName, { 'sortable': isSortable });
+        const columnClassName = classNames('header-column-content', headerClassName, { 'header-column-sortable': isSortable });
         let divProps: HeaderColumnProps = {};
         if (isSortable) {
             const newSortDirection = this.props.sortColumn !== valueMember || this.props.sortDirection === 'DESC' ? 'ASC' : 'DESC';
