@@ -118,9 +118,7 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
         this.state = {
             rows: this.transformFarmToRows(props.farms, props.filter),
             expandedRows: {},
-            groupBy: ['FarmName'],
-            sortColumn: 'ServerName',
-            sortDirection: 'DESC'
+            groupBy: ['FarmName']
         };
     }
 

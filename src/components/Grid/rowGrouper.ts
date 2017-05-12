@@ -1,11 +1,10 @@
 import * as _ from 'lodash';
 import { GroupRow } from './Grid.Props';
-
 class RowGrouper {
-    columns: any;
+    groupByColumns: any;
     expandedRows: any;
-    constructor(columns, expandedRows) {
-        this.columns = columns.slice(0); 
+    constructor(groupByColumns, expandedRows) {
+        this.groupByColumns = groupByColumns.slice(0);
         this.expandedRows = expandedRows;
     }
 
@@ -17,35 +16,37 @@ class RowGrouper {
         }
         return isExpanded;
     }
-    
-    groupRowsByColumn(rows, columnIndex = 0, parentGroupKey = '') {
-        let nextColumnIndex = columnIndex;
-        let columnName = this.columns[columnIndex];
+
+    groupRowsByColumn(rows, groupByColumnIndex = 0, parentGroupKey = '') {
+        let nextColumnIndex = groupByColumnIndex;
+        let columnName = this.groupByColumns[groupByColumnIndex];
         let groupedRows = _.groupBy(rows, columnName);
         let groupKeys = Object.keys(groupedRows);
-        let dataViewRows = []; 
+        let dataViewRows = [];
         for (let i = 0; i < groupKeys.length; i++) {
             let groupKeyValue = groupKeys[i];
-            const groupKey = parentGroupKey + '||' + groupKeyValue;            
+            const groupKey = parentGroupKey + '||' + groupKeyValue;
             let isExpanded = this.isRowExpanded(columnName, groupKey);
-            const rowGroupHeader : GroupRow = { type: 'GroupRow', columnGroupName: columnName, name: groupKeyValue, groupKey: groupKey, depth: columnIndex, isExpanded: isExpanded };
+            const rowGroupHeader: GroupRow = { type: 'GroupRow', columnGroupName: columnName, name: groupKeyValue, groupKey: groupKey, depth: groupByColumnIndex, isExpanded: isExpanded };
             dataViewRows.push(rowGroupHeader);
-
             if (isExpanded) {
-                nextColumnIndex = columnIndex + 1;
-                if (this.columns.length > nextColumnIndex) {
+                nextColumnIndex = groupByColumnIndex + 1;
+                if (this.groupByColumns.length > nextColumnIndex) {
                     dataViewRows = dataViewRows.concat(this.groupRowsByColumn(groupedRows[groupKeyValue], nextColumnIndex, groupKey));
-                    nextColumnIndex = columnIndex - 1;
+                    nextColumnIndex = groupByColumnIndex - 1;
                 } else {
                     dataViewRows = dataViewRows.concat(groupedRows[groupKeyValue]);
                 }
             }
         }
         return dataViewRows;
-    }   
+    }
 }
 
 export const groupRows = (rows, groupedColumns, expandedRows) => {
+    if (groupedColumns.length === 0) {
+        return rows;
+    }
     let rowGrouper = new RowGrouper(groupedColumns, expandedRows);
     return rowGrouper.groupRowsByColumn(rows, 0);
 };
