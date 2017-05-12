@@ -25,7 +25,8 @@ export function GetClassForStatus(defaultClass: string, status: ServerStatus): s
         defaultClass,
         { 'status-warning': status === ServerStatus.Warning },
         { 'status-ok': status === ServerStatus.OK },
-        { 'status-critical': status === ServerStatus.Critical });
+        { 'status-critical': status === ServerStatus.Critical },
+        { 'status-offline': status === ServerStatus.Offline });
 }
 
 export function filterServerByName(filter: string, serverName: string): boolean {
@@ -42,7 +43,7 @@ export function filterServerByStatus(status: string, serverStatus: ServerStatus)
         case 'warning':
             stringToStatus = ServerStatus.Warning;
             break;
-        case 'ok': 
+        case 'ok':
             stringToStatus = ServerStatus.OK;
             break;
         default:
@@ -152,7 +153,7 @@ export function convertRam(measure: IMeasure): ITileData {
     let ram = measure as RamMeasure;
     let used = noMeasureString;
     let capacity = '';
-    let hoverText = '';
+    let hoverText;
     let usageUnit = '';
     if (ram.used) {
         used = ram.used.toFixed(1);

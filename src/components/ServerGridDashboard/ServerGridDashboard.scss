@@ -59,9 +59,10 @@ $background-color: $background-color;
   height: 100%;
   padding-left: 10px;
   box-sizing: border-box;
-  padding-top: 6px;
+  padding-top: 6px;  
+}
 
-  &.grid-component-cell {
+.grid-component-cell {
     .status-critical {
         color: $red-color;
     }
@@ -72,7 +73,6 @@ $background-color: $background-color;
         color: $emphasized-text-color;
     }
   }
-}
 
 .ReactVirtualized__Table__sortableHeaderColumn {
   cursor: pointer;
@@ -224,6 +224,9 @@ $background-color: $background-color;
             }
             .status-ok {
                 background-color: $green-color;
+            }
+            .status-offline {
+                background-color: $default-offline-color;
             }
         }
     }    

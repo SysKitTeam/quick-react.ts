@@ -5,6 +5,7 @@ import { IServerTileProps, ITileData } from './ServerTile.Props';
 import { DisksInformation } from './DisksInformation/DisksInformation';
 import { Icon } from '../Icon/Icon';
 import { ServerStatus } from '../../models';
+import { GetClassForStatus } from '../../utilities/server';
 import './ServerTile.scss';
 import { autobind } from '../../utilities/autobind';
 
@@ -15,13 +16,8 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
     }
 
     public render() {
-        let isCritical = this.props.status === ServerStatus.Critical;
-        let isWarning = this.props.status === ServerStatus.Warning;
-        let isOK = this.props.status === ServerStatus.OK;
-        let className = classNames('server-details',
-            { 'status-warning': isWarning },
-            { 'status-ok': isOK },
-            { 'status-critical': isCritical });
+        let className = GetClassForStatus('server-details', this.props.status);
+
         return (
             <div className={className} onClick={this.serverOnClick}>
                 <div className={'server-details-header'}>
@@ -30,7 +26,7 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
                         <DisksInformation
                             className="disk-information-container"
                             diskInformation={this.props.diskInformation}
-                            />
+                        />
                     }
                     {this.props.numberOfUsers &&
                         <Icon data-users={this.props.numberOfUsers}
@@ -55,7 +51,7 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
 
     @autobind
     private serverOnClick() {
-        const {id, serverOnClick} = this.props;
+        const { id, serverOnClick } = this.props;
         if (serverOnClick) {
             serverOnClick(id);
         }

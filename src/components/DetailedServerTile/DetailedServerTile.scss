@@ -44,6 +44,10 @@ $server-status-color: $basic-text-color;
     &.status-ok {
         border-left-color: $green-color;
     }
+    &.status-offline {
+        border-left-color: $default-offline-color;
+        padding-top: 3px;
+    }
 
     .icon {
         color: $basic-text-color;

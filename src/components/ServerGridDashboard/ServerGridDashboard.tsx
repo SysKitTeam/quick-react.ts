@@ -65,7 +65,7 @@ const gridColumns: Array<GridColumn> = [{
     dataMember: 'CPUData',
     width: 20,
     minWidth: 200,
-    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'} > {cellData.usage}%</div>; },
+    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'} > {cellData.usage ? cellData.usage + '%' : '--'}</div>; },
     cellClassName: 'border-column-cell',
     isSortable: true
 }, {
@@ -76,7 +76,7 @@ const gridColumns: Array<GridColumn> = [{
     dataMember: 'MemoryData',
     cellFormatter: (cellData) => {
         const memory = convertRam(cellData);
-        return <div className={GetClassForStatus('', memory.status) + ' server-dashboard-grid-cell-content'}> {memory.hoverText}</div>;
+        return <div className={GetClassForStatus('', memory.status) + ' server-dashboard-grid-cell-content'}> {memory.hoverText ? memory.hoverText : '--'}</div>;
     },
     cellClassName: 'border-column-cell',
     isSortable: true,

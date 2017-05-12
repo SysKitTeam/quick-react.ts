@@ -24,8 +24,7 @@ $server-status-color: $basic-text-color;
     border-left: 10px solid $server-status-color;
     border-top: 1px solid $background-color;
     border-right: 1px solid $background-color;
-    border-bottom: 1px solid $background-color;
-    // background-color: $server-background-color;
+    border-bottom: 1px solid $background-color;    
     .icon {
         color: $basic-text-color;
     }
@@ -168,4 +167,4 @@ $server-status-color: $basic-text-color;
 }
 .status-critical{
     border-left-color: $red-color;
-}    
+}
