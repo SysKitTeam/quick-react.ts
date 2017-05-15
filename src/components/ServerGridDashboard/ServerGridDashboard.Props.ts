@@ -25,7 +25,5 @@ export interface ServerGridRow {
 export interface IServerGridDashboardState {
     rows: Array<ServerGridRow>;
     groupBy: Array<string>;
-    expandedRows: any;
-    sortColumn: string;
-    sortDirection: any;
+    expandedRows: any;   
 }

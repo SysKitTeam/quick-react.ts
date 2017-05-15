@@ -1,11 +1,11 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { IGridProps, IGridState, GridColumn } from './Grid.Props';
+import { IQuickGridProps, IQuickGridState, GridColumn } from './QuickGrid.Props';
 import { autobind } from '../../utilities/autobind';
 import { Grid, SortIndicator } from 'react-virtualized';
 const DraggableCore = require('react-draggable').DraggableCore;
 
-import './Grid.scss';
+import './QuickGrid.scss';
 export interface IGridHeaderProps {
     columns: Array<GridColumn>;
     columnWidths: Array<number>;
