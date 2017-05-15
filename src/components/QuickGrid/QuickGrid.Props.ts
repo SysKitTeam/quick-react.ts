@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-export interface IGridProps<T> {
-    rows: Array<T | GroupRow>;
+export interface IQuickGridProps {
+    rows: Array<any>;
     columns: Array<GridColumn>;
     groupBy: Array<string>;
     gridClassName?: string;
@@ -11,11 +11,12 @@ export interface IGridProps<T> {
     rowHeight: number | ((info: { index: number }) => number); // Number or a function that returns the height of a row given its index
     headerHeight: number;
     overscanRowCount?: number;
+    highlightHoverRow?: boolean;
     onSelectedRowChanged?: (selectedRowIndex: number) => void;
-    onRowDoubleClicked?: (row: T) => void;
+    onRowDoubleClicked?: (row: any) => void;
 }
 
-export interface IGridState {
+export interface IQuickGridState {
     sortColumn?: string;
     sortDirection?: 'ASC' | 'DESC';
     expandedRows: any;

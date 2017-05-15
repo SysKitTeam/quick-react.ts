@@ -5,8 +5,8 @@ import * as classNames from 'classnames';
 import { Icon } from '../Icon/Icon';
 import { autobind } from '../../utilities/autobind';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
-import { QuickGrid } from '../Grid/Grid';
-import { IGridProps, GridColumn } from '../Grid/Grid.Props';
+import { QuickGrid } from '../QuickGrid/QuickGrid';
+import { IQuickGridProps, GridColumn } from '../QuickGrid/QuickGrid.Props';
 import { GetClassForStatus } from '../../utilities/server';
 import { filterFarms } from '../Dashboard/Dashboard';
 
@@ -14,9 +14,6 @@ import { sortServersByStatusAndName, filterServerByName, convertNetwork, convert
 import { IMeasure, MeasureType, IFarm, Partition, DiskMeasure, CpuMeasure, RamMeasure, NetworkMeasure, ServerStatus } from '../../models';
 
 import './ServerGridDashboard.scss';
-class ServerGrid extends QuickGrid<ServerGridRow> { }
-
-
 
 const gridColumns: Array<GridColumn> = [{
     valueMember: 'FarmName',
@@ -165,7 +162,7 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
         const className = classNames({ [this.props.className]: this.props.className !== undefined }, 'server-grid-dashboard-container');
         return (
             <div className={className}>
-                <ServerGrid
+                <QuickGrid
                     rows={this.state.rows}
                     columns={gridColumns}
                     groupBy={this.state.groupBy}
@@ -175,6 +172,7 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
                     onRowDoubleClicked={this.onRowDoubleClick}
                     sortColumn="ServerName"
                     sortDirection="ASC"
+                    highlightHoverRow={true}
                 />
             </div>
         );

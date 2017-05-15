@@ -1,14 +1,14 @@
 const createSelector = require('reselect').createSelector;
-import { IGridState, IGridProps, GridColumn } from './Grid.Props';
+import { IQuickGridState, IQuickGridProps, GridColumn } from './QuickGrid.Props';
 import { groupRows } from './rowGrouper';
 import * as _ from 'lodash';
 
-const getInputRows = (state: IGridState, props) => props.rows;
-const getGroupBy = (state: IGridState, props) => props.groupBy;
-const getExpandedRows = (state: IGridState, props) => state.expandedRows;
-const getSortColumn = (state: IGridState, props) => state.sortColumn;
-const getSortDirection = (state: IGridState, props) => state.sortDirection;
-const getColumns = (state: IGridState, props) => props.columns;
+const getInputRows = (state: IQuickGridState, props: IQuickGridProps) => props.rows;
+const getGroupBy = (state: IQuickGridState, props: IQuickGridProps) => props.groupBy;
+const getExpandedRows = (state: IQuickGridState, props: IQuickGridProps) => state.expandedRows;
+const getSortColumn = (state: IQuickGridState, props: IQuickGridProps) => state.sortColumn;
+const getSortDirection = (state: IQuickGridState, props: IQuickGridProps) => state.sortDirection;
+const getColumns = (state: IQuickGridState, props: IQuickGridProps) => props.columns;
 
 const sortRows = (rows: Array<any>, sortColumn: string, sortDirection: string, groupedColumn: Array<string>, columns: Array<GridColumn>) => {
     let column = columns.filter(x => x.valueMember === sortColumn)[0];

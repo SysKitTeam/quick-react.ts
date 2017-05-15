@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { GroupRow } from './Grid.Props';
+import { GroupRow } from './QuickGrid.Props';
 class RowGrouper {
     groupByColumns: any;
     expandedRows: any;

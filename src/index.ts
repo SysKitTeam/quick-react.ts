@@ -49,7 +49,7 @@ export * from './components/DetailedServerGroup';
 export * from './components/DateTimePicker';
 export * from './components/DateTimeDropdownPicker';
 export * from './components/DateTimePickerBar';
-export * from './components/Grid';
+export * from './components/QuickGrid';
 export * from './components/ServerGridDashboard';
 
 export * from './utilities/autobind';
