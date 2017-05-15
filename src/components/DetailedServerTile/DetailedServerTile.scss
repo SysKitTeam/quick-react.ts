@@ -9,8 +9,9 @@ $counters-title-font-size: 12px;
 $counters-title-font-color: $basic-text-color;
 $server-status-color: $basic-text-color;
 
-.server-details {
+.detailed-server-details {
     @include disableUserSelection();
+    min-height: 458px;
     margin: 10px;
     padding: 0px 10px 0px 10px;
     font-family: $font-family-base;
@@ -44,6 +45,9 @@ $server-status-color: $basic-text-color;
     &.status-ok {
         border-left-color: $green-color;
     }
+    &.status-offline {
+        border-left-color: $default-offline-color;        
+    }
 
     .icon {
         color: $basic-text-color;
@@ -54,7 +58,6 @@ $server-status-color: $basic-text-color;
         width: 100%;
         display: block;
         padding: 0;
-        border-bottom: 1px solid $background-color;
 
         .server-name {
             display: inline-block;

@@ -27,7 +27,7 @@ $background-color: $background-color;
         margin: 10px;
         position: relative;
         padding: 0;
-        border-left: 10px solid $server-status-color;
+        border-left: 10px solid $default-offline-color;
         border-top: 1px solid $background-color;
         border-right: 1px solid $background-color;
         border-bottom: 1px solid $background-color;
@@ -88,7 +88,7 @@ $background-color: $background-color;
     }    
 
     .offline{
-        border-left-color: $basic-text-color;
+        border-left-color: $default-offline-color;
     }
 }
 

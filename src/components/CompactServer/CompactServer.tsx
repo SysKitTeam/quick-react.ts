@@ -5,6 +5,7 @@ import { Icon } from '../Icon/Icon';
 import * as classNames from 'classnames';
 import { autobind } from '../../utilities/autobind';
 import { ServerStatus } from '../../models';
+import { GetClassForStatus } from '../../utilities/server';
 import './CompactServer.scss';
 
 export class CompactServer extends React.PureComponent<ICompactServerProps, any> {
@@ -14,11 +15,7 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, any>
 
     render() {
         let { status } = this.props;
-        let className = classNames({ 'compact-server-container': true },
-            { 'status-warning': status === ServerStatus.Warning },
-            { 'status-ok': status === ServerStatus.OK },
-            { 'status-critical': status === ServerStatus.Critical });
-
+        let className = GetClassForStatus('compact-server-container', status);
         return (
             <div
                 className={className}
@@ -32,8 +29,8 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, any>
                 {
                     this.props.roles.length > 0 &&
                     <div>
-                        <hr/>
-                        <TagContainer title={''} tags={this.props.roles}/>
+                        <hr />
+                        <TagContainer title={''} tags={this.props.roles} />
                     </div>
                 }
             </div>
