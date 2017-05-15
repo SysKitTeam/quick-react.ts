@@ -153,7 +153,7 @@ export function convertRam(measure: IMeasure): ITileData {
     let ram = measure as RamMeasure;
     let used = noMeasureString;
     let capacity = '';
-    let hoverText;
+    let hoverText = '';
     let usageUnit = '';
     if (ram.used) {
         used = ram.used.toFixed(1);

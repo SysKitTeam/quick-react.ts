@@ -25,7 +25,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
     };
 
     public render() {
-        const className = GetClassForStatus('server-details', this.props.status);
+        const className = GetClassForStatus('detailed-server-details', this.props.status);
         const partitionTileClass = this.props.partitionUsages.length === 1 ? 'partition-tile' : 'partition-col';
         const cpuDataProp = this.transformCPUdata(this.props.processorUsage.data);
         const cpuData = cpuDataProp[0].data;

@@ -76,7 +76,7 @@ const gridColumns: Array<GridColumn> = [{
     dataMember: 'MemoryData',
     cellFormatter: (cellData) => {
         const memory = convertRam(cellData);
-        return <div className={GetClassForStatus('', memory.status) + ' server-dashboard-grid-cell-content'}> {memory.hoverText ? memory.hoverText : '--'}</div>;
+        return <div className={GetClassForStatus('', memory.status) + ' server-dashboard-grid-cell-content'}> {memory.usageUnit ? memory.hoverText : '--'}</div>;
     },
     cellClassName: 'border-column-cell',
     isSortable: true,
