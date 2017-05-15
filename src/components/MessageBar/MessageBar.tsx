@@ -114,7 +114,7 @@ export class MessageBar extends React.Component<IMessageBarProps, IMessageBarSta
         
         if (this.props.hasDontShowAgain != null && this.props.hasDontShowAgain) {
             return (
-                <div className="messageBar-checkBox-container"><Checkbox className={'messageBar-checkbox'} checked={ this.props.dontShowAgainChecked } label={'Dont show this message again'} onChange={ this.props.dontShowAgainClicked }></Checkbox></div>
+                <div className="messageBar-checkBox-container"><Checkbox className={'messageBar-checkbox'} checked={ this.props.dontShowAgainChecked } label={'Don\'t show this message again'} onChange={ this.props.dontShowAgainClicked }></Checkbox></div>
             );
         }
         
