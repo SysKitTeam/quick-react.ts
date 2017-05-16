@@ -15,6 +15,8 @@ import { IMeasure, MeasureType, IFarm, Partition, DiskMeasure, CpuMeasure, RamMe
 
 import './ServerGridDashboard.scss';
 
+const GRID_CELL_MIN_WIDTH = 180;
+
 const gridColumns: Array<GridColumn> = [{
     valueMember: 'FarmName',
     headerText: 'Farm',
@@ -61,7 +63,7 @@ const gridColumns: Array<GridColumn> = [{
     headerText: 'CPU',
     dataMember: 'CPUData',
     width: 20,
-    minWidth: 200,
+    minWidth: GRID_CELL_MIN_WIDTH,
     cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'} > {cellData.usage ? cellData.usage + '%' : '--'}</div>; },
     cellClassName: 'border-column-cell',
     isSortable: true
@@ -69,7 +71,7 @@ const gridColumns: Array<GridColumn> = [{
     valueMember: 'Memory',
     headerText: 'Memory',
     width: 20,
-    minWidth: 200,
+    minWidth: GRID_CELL_MIN_WIDTH,
     dataMember: 'MemoryData',
     cellFormatter: (cellData) => {
         const memory = convertRam(cellData);
@@ -88,7 +90,7 @@ const gridColumns: Array<GridColumn> = [{
     headerText: 'Disk Activity',
     dataMember: 'DiskActivityData',
     width: 20,
-    minWidth: 200,
+    minWidth: GRID_CELL_MIN_WIDTH,
     cellFormatter: (cellData) => {
         const disk = convertDisk(cellData);
         return <div className={GetClassForStatus('', disk.status) + ' server-dashboard-grid-cell-content'}> {disk.currentUsage + ' ' + disk.usageUnit}</div>;
@@ -100,7 +102,7 @@ const gridColumns: Array<GridColumn> = [{
     headerText: 'Network',
     dataMember: 'NetworkData',
     width: 20,
-    minWidth: 200,
+    minWidth: GRID_CELL_MIN_WIDTH,
     cellFormatter: (cellData) => {
         const network = convertNetwork(cellData);
         return <div className={GetClassForStatus('', network.status) + ' server-dashboard-grid-cell-content'}> {network.currentUsage + ' ' + network.usageUnit}</div>;
