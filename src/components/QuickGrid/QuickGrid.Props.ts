@@ -14,6 +14,8 @@ export interface IQuickGridProps {
     highlightHoverRow?: boolean;
     onSelectedRowChanged?: (selectedRowIndex: number) => void;
     onRowDoubleClicked?: (row: any) => void;
+    displayGroupContainer?: boolean;
+    onGroupByChanged?: (groupBy: Array<string>) => void;
 }
 
 export interface IQuickGridState {
@@ -38,6 +40,7 @@ export interface GridColumn {
     headerText: string;
     valueMember: string; // for sort & grouping
     isSortable?: boolean;
+    isGroupable?: boolean;
     sortByValueGetter?: (cellData, sortDirection) => any;
     width: number;
     minWidth?: number;

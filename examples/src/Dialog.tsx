@@ -15,7 +15,7 @@ export class Index extends React.Component<any, any> {
         super();
         this.state = { showDialog: false };
     }
-    
+
     public render() {
         return (
             <div>

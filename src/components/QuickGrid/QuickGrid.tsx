@@ -18,7 +18,7 @@ export class QuickGrid extends React.Component<IQuickGridProps, IQuickGridState>
     };
 
     private _grid: any;
-    private headerGrid: any;
+    private _headerGrid: any;
     private parentElement: HTMLElement;
     private columnsMinTotalWidth = 0;
 
@@ -203,7 +203,7 @@ export class QuickGrid extends React.Component<IQuickGridProps, IQuickGridState>
     _onResize = () => {
         this.refreshColumnWidthsInState();
         this._grid.recomputeGridSize();
-        this.headerGrid._headerGrid.recomputeGridSize();
+        this._headerGrid.child._headerGrid.recomputeGridSize();
     }
 
     private refreshColumnWidthsInState() {
@@ -242,8 +242,9 @@ export class QuickGrid extends React.Component<IQuickGridProps, IQuickGridState>
                             {({ height, width }) => (
                                 <div style={{ width, height }} >
                                     <GridHeader
-                                        ref={(g) => { this.headerGrid = g; }}
-                                        columns={this.getColumnsToDisplay()}
+                                        ref={(g) => { this._headerGrid = g; }}
+                                        allColumns={this.props.columns}
+                                        headerColumns={this.getColumnsToDisplay()}
                                         columnWidths={this.state.columnWidths}
                                         onResize={this.onGridResize}
                                         sortColumn={this.state.sortColumn}
@@ -252,6 +253,9 @@ export class QuickGrid extends React.Component<IQuickGridProps, IQuickGridState>
                                         width={width - scrollbarSize()}
                                         scrollLeft={scrollLeft}
                                         className={headerClass}
+                                        groupBy={this.props.groupBy}
+                                        onGroupByChanged={this.props.onGroupByChanged}
+                                        displayGroupContainer={this.props.displayGroupContainer}
                                     />
                                     <div style={{ width }} onMouseLeave={this.onMouseLeaveGrid} >
                                         <Grid

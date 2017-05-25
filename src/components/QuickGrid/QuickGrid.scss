@@ -47,8 +47,8 @@ $icon-color: $gray-color;
     }
 }
 
-.grid-right-border {    
-    border-right: 1px solid $gray-light-color;    
+.grid-right-border {
+    border-right: 1px solid $gray-light-color;
 }
 
 .grid-header-right-border {
@@ -58,7 +58,7 @@ $icon-color: $gray-color;
 .grid-header-cell {
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;    
+    text-overflow: ellipsis;
     border-bottom: 2px solid $gray-light-color;
 }
 
@@ -67,7 +67,7 @@ $icon-color: $gray-color;
 }
 
 .grid-column-draggable {
-    width: 4px;    
+    width: 4px;
     cursor: col-resize;
     height: 20px;
     float: right;
@@ -110,7 +110,7 @@ $icon-color: $gray-color;
 .grid-header-column{
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;    
+    text-overflow: ellipsis;
     border-bottom: 2px solid $gray-light-color;
     display: inline-block;
 }
@@ -130,7 +130,7 @@ $icon-color: $gray-color;
         margin: 0 6px 0 0;
         vertical-align: middle;
     }
-    
+
     p {
         font-size: 14px;
         color: $emphasized-text-color;
@@ -142,4 +142,54 @@ $icon-color: $gray-color;
 
 .header-column-sortable {
     cursor: pointer;
+}
+
+//DropToolbar
+.group-drop-toolbar{
+    width: calc(100% - 15px);
+    height: 38px;
+    padding: 5px 2px 2px;
+    margin-bottom: 15px;
+    float: left;
+    border: 1px solid #c8c8c8;
+    .group-drop-empty{
+        margin: 7px auto;
+        width: 200px;
+        display: block;
+        color: #4b4949;
+    }
+}
+
+//GroupColumn
+$GroupBy-height: 32px;
+.group-column-box {
+    width: 150px;
+    display: inline-block;
+    padding-left: 5px;
+
+    .group-text-boarder{
+        background: $color-white;
+        cursor: pointer;
+        height: $GroupBy-height;
+        line-height: $GroupBy-height - 2px; // height minus the border
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        color: #4b4949;
+        @include padding(0, $GroupBy-height, 0, 12px);
+        display: block;
+        border: 1px solid #c8c8c8;
+    }
+
+    .iconArrowWithBorder {
+        font-size: $font-size-s;
+        margin: 0;
+        position: absolute;
+        top: 0;
+        // pointer-events: none;
+        line-height: 32px;
+        right: 10px;
+    }
 }

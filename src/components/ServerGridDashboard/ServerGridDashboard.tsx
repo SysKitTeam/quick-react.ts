@@ -3,7 +3,6 @@ import { IServerGridDashboardProps, ServerGridRow, IServerGridDashboardState } f
 import { ITiledDashboardFarm } from '../TileDashboard/TileDashboard.Props';
 import * as classNames from 'classnames';
 import { Icon } from '../Icon/Icon';
-import { autobind } from '../../utilities/autobind';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
 import { QuickGrid } from '../QuickGrid/QuickGrid';
 import { IQuickGridProps, GridColumn } from '../QuickGrid/QuickGrid.Props';
@@ -21,11 +20,13 @@ const gridColumns: Array<GridColumn> = [{
     valueMember: 'FarmName',
     headerText: 'Farm',
     width: 20,
-    minWidth: 50
+    minWidth: 50,
+    isGroupable: true
 }, {
     valueMember: 'ServerName',
     headerText: 'Server',
     dataMember: 'ServerData',
+    isGroupable: true,
     width: 20,
     minWidth: 200,
     cellFormatter: (cellData) => {
@@ -175,15 +176,21 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
                     sortColumn="ServerName"
                     sortDirection="ASC"
                     highlightHoverRow={true}
+                    displayGroupContainer={true}
+                    onGroupByChanged={this.groupByChanged}
                 />
             </div>
         );
     }
 
-    @autobind
-    private onRowDoubleClick(row: ServerGridRow) {
-        const { serverOnClick } = this.props;
+    groupByChanged = (groupBy: Array<string>) => {
+          this.setState((oldState) => {
+            return { ...oldState, groupBy: groupBy };
+        });
+    }
 
+    onRowDoubleClick = (row: ServerGridRow) => {
+        const { serverOnClick } = this.props;
         if (serverOnClick) {
             serverOnClick(row.GroupId, row.ServerId);
         }
