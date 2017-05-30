@@ -1,21 +1,18 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { IGridHeaderState, IHeaderColumnProps, IGridHeaderProps } from './QuickGridHeader.Props';
-import {  GridColumn } from './QuickGrid.Props';
+import { IGridHeaderState, IGridHeaderProps } from './QuickGridHeader.Props';
+import { GridColumn } from './QuickGrid.Props';
+import { GroupByToolbar } from './GroupByToolbar';
+import { HeaderColumn } from './HeaderColumn';
 
 import { Grid, SortIndicator } from 'react-virtualized';
 const DraggableCore = require('react-draggable').DraggableCore;
 import * as _ from 'lodash';
 
-import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContextProvider, DragDropContext } from 'react-dnd';
-import { DragSource } from 'react-dnd';
-import { DropTarget } from 'react-dnd';
-import { Icon } from '../Icon/Icon';
 
 import './QuickGrid.scss';
 
-export class GridHeaderInner extends React.Component<IGridHeaderProps, IGridHeaderState> {
+export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeaderState> {
     private _headerGrid: any;
     private columnMinWidths: Array<number>;
     constructor(props: IGridHeaderProps) {
@@ -35,6 +32,12 @@ export class GridHeaderInner extends React.Component<IGridHeaderProps, IGridHead
         this.columnMinWidths = this.getColumnMinWidths(nextProps.headerColumns);
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        this._headerGrid.recomputeGridSize();
+    }
+
+    setGridReference = (ref) => { this._headerGrid = ref; };
+
     render() {
         const headerClass = classNames('grid-header', this.props.className);
         const { allColumns, headerColumns, width, scrollLeft } = this.props;
@@ -47,10 +50,13 @@ export class GridHeaderInner extends React.Component<IGridHeaderProps, IGridHead
                         groupBy={this.props.groupBy}
                         onGroupByChanged={this.props.onGroupByChanged}
                         onGroupByRemoved={this.onGroupByRemoved}
+                        onSort={this.props.onGroupBySort}
+                        sortColumn={this.props.groupBySortColumn}
+                        sortDirection={this.props.groupBySortDirection}
                     />
                 }
                 <Grid
-                    ref={(g) => { this._headerGrid = g; }}
+                    ref={this.setGridReference}
                     cellRenderer={this._headerCellRender}
                     className="grid-component-header"
                     columnWidth={this._getHeaderColumnWidth}
@@ -60,7 +66,7 @@ export class GridHeaderInner extends React.Component<IGridHeaderProps, IGridHead
                     rowCount={1}
                     width={width}
                     scrollLeft={scrollLeft}
-                    {...this.props}
+                    {...this.props} // force update on any prop change
                 />
             </div>
         );
@@ -84,7 +90,7 @@ export class GridHeaderInner extends React.Component<IGridHeaderProps, IGridHead
                 className={'grid-header-column'}
                 key={key}
                 style={style}>
-                {this._createHeaderColumn(column, columnIndex)}
+                {this._createHeaderColumn(column)}
                 {notLastIndex &&
                     <DraggableCore
                         zIndex={100}
@@ -130,7 +136,7 @@ export class GridHeaderInner extends React.Component<IGridHeaderProps, IGridHead
         this.props.onResize(this.state.columnWidths);
     }
 
-    _createHeaderColumn(column: GridColumn, index: number) {
+    _createHeaderColumn(column: GridColumn) {
         const { headerText, isSortable, headerClassName, valueMember } = column;
         const columnClassName = classNames('header-column-content', headerClassName, { 'header-column-sortable': isSortable });
         const showSortIndicator = this.props.sortColumn === valueMember;
@@ -146,7 +152,7 @@ export class GridHeaderInner extends React.Component<IGridHeaderProps, IGridHead
             }
         };
         return (
-            <DraggableHeaderColumn
+            <HeaderColumn
                 valueMember={column.valueMember}
                 text={headerText}
                 showSortIndicator={showSortIndicator}
@@ -160,139 +166,4 @@ export class GridHeaderInner extends React.Component<IGridHeaderProps, IGridHead
     }
 }
 
-export const GridHeader: React.ComponentClass<IGridHeaderProps> = DragDropContext(HTML5Backend)(GridHeaderInner);
-
-class HeaderColumn extends React.Component<IHeaderColumnProps, void> {
-    render() {
-        const { className, text, showSortIndicator, sortDirection, onClick, onKeyDown } = this.props;
-        return (
-            this.props.connectDragSource(
-                <div
-                    onClick={onClick}
-                    onKeyDown={onKeyDown}
-                    key={`Header-Col${text}`}
-                    className={className}
-                >
-                    <span
-                        key="label"
-                        title={text}
-                    >
-                        {text}
-                    </span>
-                    {showSortIndicator &&
-                        <SortIndicator
-                            key="SortIndicator"
-                            sortDirection={sortDirection}
-                        />
-                    }
-                </div>
-            )
-        );
-    }
-}
-
-const headerCellSource = {
-    beginDrag(props: IHeaderColumnProps) {
-        return {
-            name: props.valueMember
-        };
-    },
-    canDrag(props: IHeaderColumnProps, monitor) {
-        return props.isGroupable === true;
-    }
-};
-
-function collect(connect, monitor) {
-    return {
-        connectDragSource: connect.dragSource()
-    };
-}
-
-const DraggableHeaderColumn: React.ComponentClass<IHeaderColumnProps> = DragSource('Column', headerCellSource, collect)(HeaderColumn);
-
-// TARGET
-const boxTarget = {
-    drop(props, monitor, component) {
-        const item = monitor.getItem();
-        const groupBy = [...props.groupBy, item.name];
-        props.onGroupByChanged(groupBy);
-    }
-};
-
-function targetConnector(connect, monitor) {
-    return {
-        connectDropTarget: connect.dropTarget(),
-        isOver: monitor.isOver(),
-        canDrop: monitor.canDrop()
-    };
-}
-
-interface IGroupByProps {
-    groupBy: Array<string>;
-    columns: Array<GridColumn>;
-    onGroupByRemoved: (groupName: string) => void;
-    onGroupByChanged: (newGroupBy: Array<string>) => void;
-
-    // Drag&Drop props
-    canDrop?: any;
-    isOver?: any;
-    connectDropTarget?: any;
-}
-
-class GroupByToolbarInner extends React.Component<IGroupByProps, void> {
-    render() {
-        const { canDrop, isOver, connectDropTarget, groupBy, columns, onGroupByRemoved } = this.props;
-        const isEmpty = _.isEmpty(groupBy);
-        const groupedColumns: Array<GridColumn> = _.filter(columns, (col: GridColumn) => {
-            return _.some(groupBy, (grouped) => { return grouped === col.valueMember; });
-        });
-
-        return connectDropTarget(
-            <div className="group-drop-toolbar">
-                {
-                    isEmpty && <span className="group-drop-empty" >Drag column to group</span>
-                }
-                {
-                    groupedColumns.map((col: GridColumn) => (
-                        <GroupColumn
-                            key={col.valueMember}
-                            value={col.valueMember}
-                            text={col.headerText}
-                            onGroupByRemoved={this.props.onGroupByRemoved}
-                        />
-                    ))
-                }
-            </div>
-        );
-    }
-}
-
-const GroupByToolbar: React.ComponentClass<IGroupByProps> = DropTarget('Column', boxTarget, targetConnector)(GroupByToolbarInner);
-
-
-interface IGroupColumnProps {
-    value: string;
-    text: string;
-    onGroupByRemoved: (groupName: string) => void;
-}
-
-class GroupColumn extends React.Component<IGroupColumnProps, any> {
-    // TODO: D&D
-
-    removeGroup = () => {
-        this.props.onGroupByRemoved(this.props.value);
-    }
-
-    render() {
-        return (
-            <div className="group-column-box">
-                <span className="group-text-boarder">
-                    <span  >
-                        {this.props.text}
-                    </span>
-                    <Icon iconName="icon-delete" className="iconArrowWithBorder" onClick={this.removeGroup} />
-                </span>
-            </div>
-        );
-    }
-}
+// export const GridHeader: React.ComponentClass<IGridHeaderProps> = DragDropContext(HTML5Backend)(GridHeaderInner);

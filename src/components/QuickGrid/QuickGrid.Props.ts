@@ -6,25 +6,31 @@ export interface IQuickGridProps {
     groupBy: Array<string>;
     gridClassName?: string;
     headerClassName?: string;
-    sortColumn?: string;
-    sortDirection?: 'ASC' | 'DESC';
     rowHeight: number | ((info: { index: number }) => number); // Number or a function that returns the height of a row given its index
     headerHeight: number;
     overscanRowCount?: number;
-    highlightHoverRow?: boolean;
     onSelectedRowChanged?: (selectedRowIndex: number) => void;
     onRowDoubleClicked?: (row: any) => void;
     displayGroupContainer?: boolean;
+
+    sortColumn?: string;
+    sortDirection?: 'ASC' | 'DESC';
     onGroupByChanged?: (groupBy: Array<string>) => void;
+
+    groupBySortColumn?: string;
+    groupBySortDirection?: 'ASC' | 'DESC';
+    onGroupBySort?: (sortBy: string, sortDirection: string) => void;
 }
 
 export interface IQuickGridState {
     sortColumn?: string;
     sortDirection?: 'ASC' | 'DESC';
+    groupBySortColumn?: string;
+    groupBySortDirection?: 'ASC' | 'DESC';
     expandedRows: any;
     columnWidths: Array<number>;
     selectedRowIndex?: number;
-    hoverRowIndex?: number;
+    columnsToDisplay: Array<GridColumn>;
 }
 
 export interface GroupRow {

@@ -21,6 +21,7 @@ const gridColumns: Array<GridColumn> = [{
     headerText: 'Farm',
     width: 20,
     minWidth: 50,
+    isSortable: true,
     isGroupable: true
 }, {
     valueMember: 'ServerName',
@@ -175,7 +176,6 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
                     onRowDoubleClicked={this.onRowDoubleClick}
                     sortColumn="ServerName"
                     sortDirection="ASC"
-                    highlightHoverRow={true}
                     displayGroupContainer={true}
                     onGroupByChanged={this.groupByChanged}
                 />
@@ -184,7 +184,7 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
     }
 
     groupByChanged = (groupBy: Array<string>) => {
-          this.setState((oldState) => {
+        this.setState((oldState) => {
             return { ...oldState, groupBy: groupBy };
         });
     }

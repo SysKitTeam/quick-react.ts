@@ -6,7 +6,6 @@ $gray-lighter-color: #efefef;
 $gray-lightest-color: #f9f9f9;
 $icon-color: $gray-color;
 
-
 .grid-component-cell {
     > div {
         white-space: nowrap;
@@ -15,14 +14,12 @@ $icon-color: $gray-color;
         cursor: default;
         padding-top: 5px;
     }
-
     &.is-hover {
         background-color: $gray-lightest-color;
     }
     &.is-selected {
         background-color: $gray-lighter-color;
     }
-
     .icon {
         color: $icon-color;
     }
@@ -66,8 +63,10 @@ $icon-color: $gray-color;
     padding-left: 20px !important;
 }
 
+$drag-handle-width: 4px;
+
 .grid-column-draggable {
-    width: 4px;
+    width: $drag-handle-width;
     cursor: col-resize;
     height: 20px;
     float: right;
@@ -115,8 +114,10 @@ $icon-color: $gray-color;
     display: inline-block;
 }
 
+
 .header-column-content{
-    display: inline;
+    display: inline-block;
+    width: calc(100% - #{$drag-handle-width});
 }
 
 .grid-group-row {
@@ -181,6 +182,13 @@ $GroupBy-height: 32px;
         @include padding(0, $GroupBy-height, 0, 12px);
         display: block;
         border: 1px solid #c8c8c8;
+        .header-column-content{
+            .ReactVirtualized__Table__sortableHeaderIcon{
+                width: 16px;
+                height: 16px;
+                margin-bottom: -5px;
+            }
+        }
     }
 
     .iconArrowWithBorder {
@@ -188,7 +196,6 @@ $GroupBy-height: 32px;
         margin: 0;
         position: absolute;
         top: 0;
-        // pointer-events: none;
         line-height: 32px;
         right: 10px;
     }

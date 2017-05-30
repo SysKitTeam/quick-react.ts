@@ -8,9 +8,11 @@ const getGroupBy = (state: IQuickGridState, props: IQuickGridProps) => props.gro
 const getExpandedRows = (state: IQuickGridState, props: IQuickGridProps) => state.expandedRows;
 const getSortColumn = (state: IQuickGridState, props: IQuickGridProps) => state.sortColumn;
 const getSortDirection = (state: IQuickGridState, props: IQuickGridProps) => state.sortDirection;
+const getGroupBySortColumn = (state: IQuickGridState, props: IQuickGridProps) => state.groupBySortColumn;
+const getGroupBySortDirection = (state: IQuickGridState, props: IQuickGridProps) => state.groupBySortDirection;
 const getColumns = (state: IQuickGridState, props: IQuickGridProps) => props.columns;
 
-const sortRows = (rows: Array<any>, sortColumn: string, sortDirection: string, groupedColumn: Array<string>, columns: Array<GridColumn>) => {
+const sortRows = (rows: Array<any>, sortColumn: string, sortDirection: string, groupedColumn: Array<string>, columns: Array<GridColumn>, groupBySortColumn: string, groupBySortDirection: string) => {
     let column = columns.filter(x => x.valueMember === sortColumn)[0];
     let sortedChain = _(rows).chain();
 
@@ -25,17 +27,24 @@ const sortRows = (rows: Array<any>, sortColumn: string, sortDirection: string, g
         }
     }
 
-    return sortedChain.sortBy((row) => row[groupedColumn[0]]).value();
+    if (groupedColumn.length > 0) {
+        if (groupBySortColumn !== undefined && groupBySortColumn !== '') {
+            sortedChain.sortBy((row) => row[groupBySortColumn]);
+        } else {
+            sortedChain.sortBy((row) => row[groupedColumn[0]]);
+        }
+        if (groupBySortDirection === 'DESC') { // TODO: test
+            sortedChain = sortedChain.reverse();
+        }
+    }
+    return sortedChain.value();
 };
 
-const getSortedRows = createSelector(getInputRows, getSortColumn, getSortDirection, getGroupBy, getColumns, (rows, sortColumn, sortDirection, groupBy, columns) => {
-    return sortRows(rows, sortColumn, sortDirection, groupBy, columns);
-});
+const getSortedRows = createSelector(getInputRows, getSortColumn, getSortDirection, getGroupBy, getColumns, getGroupBySortColumn, getGroupBySortDirection,
+    (rows, sortColumn, sortDirection, groupBy, columns, groupBySortColumn, groupBySortDirection) => {
+        return sortRows(rows, sortColumn, sortDirection, groupBy, columns, groupBySortColumn, groupBySortDirection);
+    });
 
 export const getRowsSelector = createSelector(getSortedRows, getGroupBy, getExpandedRows, (rows, groupedColumns, expandedRows = {}) => {
     return groupRows(rows, groupedColumns, expandedRows);
-});
-
-export const getColumnsSelector = createSelector(getColumns, getGroupBy, (columns, groupBy) => {
-    return columns.filter((column) => { return groupBy.indexOf(column.valueMember) === -1; });
 });
