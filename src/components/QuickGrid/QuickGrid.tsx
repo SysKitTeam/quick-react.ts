@@ -9,13 +9,13 @@ import { groupRows } from './rowGrouper';
 import { GridHeader } from './QuickGridHeader';
 import { Icon } from '../Icon/Icon';
 import * as _ from 'lodash';
-import './QuickGrid.scss';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContextProvider, DragDropContext } from 'react-dnd';
 
-import * as Perf from 'react-addons-perf';
+import './QuickGrid.scss';
 
 const defaultMinWidth = 50;
+const emptyCellWidth = 5;
 export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridState> {
     public static defaultProps = {
         overscanRowCount: 20
@@ -39,11 +39,21 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         };
         this.columnsMinTotalWidth = columnsToDisplay.map(x => x.minWidth || defaultMinWidth).reduce((a, b) => a + b, 0);
         this._onResize = _.debounce(this._onResize, 100);
-
     }
 
     getColumnsToDisplay(columns, groupBy) {
-        return columns.filter((column) => { return groupBy.indexOf(column.valueMember) === -1; });
+        let displayColumns = columns.filter((column) => { return groupBy.indexOf(column.valueMember) === -1; });
+        let emptyArray = new Array();
+        for (let index = 0; index < groupBy.length; index++) {
+            emptyArray.push({
+                isSortable: false,
+                isGroupable: false,
+                width: emptyCellWidth,
+                minWidth: emptyCellWidth
+            });
+        }
+        displayColumns = emptyArray.concat(displayColumns);
+        return displayColumns;
     }
 
     componentWillReceiveProps(nextProps: IQuickGridProps) {
@@ -59,17 +69,6 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         if (prevProps.columns !== this.props.columns || prevProps.groupBy !== this.props.groupBy) {
             this._grid.recomputeGridSize();
         }
-    }
-
-    componentDidMount() {
-        setTimeout(() => {
-            Perf.start();
-            setTimeout(() => {
-                Perf.stop();
-                const measurements = Perf.getLastMeasurements();
-                Perf.printWasted(measurements);
-            }, 15000);
-        }, 2000);
     }
 
     getGridWidth() {
@@ -132,8 +131,40 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         if (rowData.type === 'GroupRow') {
             return this._renderGroupCell(columnIndex, key, rowIndex, rowData, style);
         } else {
+            if (columnIndex < this.props.groupBy.length) {
+                return this._renderEmptyCell(key, rowData, rowIndex, style);
+            }
             return this._renderBodyCell(columnIndex, key, rowIndex, rowData, style);
         }
+    }
+
+    _renderEmptyCell(key, rowData, rowIndex, style) {
+        const rowClass = 'grid-row-' + rowIndex;
+        const onMouseEnter = () => { this.onMouseEnterCell(rowClass); };
+        const onMouseLeave = () => { this.onMouseLeaveCell(rowClass); };
+        const onClick = () => { this._setSelectedRowIndex(rowIndex); };
+
+        const onDoubleClick = () => {
+            if (this.props.onRowDoubleClicked) {
+                this.props.onRowDoubleClicked(rowData);
+            }
+        };
+        const className = classNames(
+            'grid-component-cell',
+            'grid-empty-cell',
+            rowClass,
+            { 'is-selected': rowIndex === this.state.selectedRowIndex });
+        return (
+            <div
+                style={style}
+                key={key}
+                className={className}
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
+                onClick={onClick}
+                onDoubleClick={onDoubleClick}
+            />
+        );
     }
 
     _renderGroupCell(columnIndex: number, key, rowIndex: number, rowData, style) {
@@ -266,6 +297,10 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         return this.state.columnWidths[index];
     }
 
+    groupByToolboxHeight = () => {
+        return this.props.displayGroupContainer ? 0 : 47;
+    }
+
     setHeaderGridReference = (ref) => { this._headerGrid = ref; };
     setGridReference = (ref) => { this._grid = ref; };
 
@@ -301,7 +336,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                                     <div style={{ width }} >
                                         <Grid
                                             ref={this.setGridReference}
-                                            height={height}
+                                            height={height - this.groupByToolboxHeight()}
                                             width={width}
                                             onScroll={onScroll}
                                             scrollLeft={scrollLeft}
@@ -310,7 +345,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                                             columnWidth={this._getColumnWidth}
                                             rowHeight={this.props.rowHeight}
                                             className="grid-component"
-                                            rowCount={this.getRowCount()} // potential problem? - no different row count
+                                            rowCount={this.getRowCount()} // potential problem on different row count?
                                             columnCount={this.state.columnsToDisplay.length}
                                             {...this.state} // force update on any state change
                                         />

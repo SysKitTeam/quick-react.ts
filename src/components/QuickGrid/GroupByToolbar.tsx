@@ -1,14 +1,10 @@
-
 import * as React from 'react';
 import { GridColumn } from './QuickGrid.Props';
 import { Icon } from '../Icon/Icon';
 import * as _ from 'lodash';
 import { DropTarget } from 'react-dnd';
 import * as classNames from 'classnames';
-
 import { HeaderColumn, IHeaderColumnProps } from './HeaderColumn';
-
-
 import './QuickGrid.scss';
 
 export interface IGroupByProps {
@@ -25,9 +21,22 @@ export interface IGroupByProps {
     isOver?: any;
     connectDropTarget?: any;
 }
+export interface IGroupByState {
+    groupBy: Array<string>;
+}
 
-class GroupByToolbarInner extends React.Component<IGroupByProps, void> {
-    createHeaderColumn(column: GridColumn) {
+class GroupByToolbarInner extends React.PureComponent<IGroupByProps, IGroupByState> {
+    constructor(props: IGroupByProps) {
+        super(props);
+        this.state = {
+            groupBy: props.groupBy
+        };
+    }
+    componentWillReceiveProps(nextProps) {
+        this.setState({ ...this.state, groupBy: nextProps.groupBy });
+    }
+
+    createHeaderColumn(column: GridColumn, index: number) {
         const { headerText, isSortable, headerClassName, valueMember } = column;
         const columnClassName = classNames('header-column-content', 'group-by-column', headerClassName, { 'header-column-sortable': isSortable });
         const showSortIndicator = this.props.sortColumn === valueMember;
@@ -58,6 +67,8 @@ class GroupByToolbarInner extends React.Component<IGroupByProps, void> {
                             isGroupable={column.isGroupable}
                             onClick={onClick}
                             onKeyDown={onKeyDown}
+                            moveGroupByColumn={this.groupOrderChange}
+                            itemArrayIndex={index}
                         />
                     </span>
                     <Icon iconName="icon-delete" className="iconArrowWithBorder" onClick={removeGroup} />
@@ -66,22 +77,37 @@ class GroupByToolbarInner extends React.Component<IGroupByProps, void> {
 
         );
     }
+    groupOrderChange = (draggedColumnIndex, hoverColumnIndex) => {
+        this.setState((prevState) => {
+            let groupBy = [...prevState.groupBy];
+            let temp = groupBy[draggedColumnIndex];
+            groupBy[draggedColumnIndex] = groupBy[hoverColumnIndex];
+            groupBy[hoverColumnIndex] = temp;
+            return { ...prevState, groupBy: groupBy };
+        });
+    }
+
+    getGroupedColumns(allColumns, groupBy) {
+        let columns = [];
+        groupBy.forEach(groupValue => {
+            const groupColumn = _.find(allColumns, (col: GridColumn) => { return col.valueMember === groupValue; });
+            columns.push(groupColumn);
+        });
+        return columns;
+    }
 
     render() {
-        const { canDrop, isOver, connectDropTarget, groupBy, columns, onGroupByRemoved } = this.props;
-        const isEmpty = _.isEmpty(groupBy);
-        const groupedColumns: Array<GridColumn> = _.filter(columns, (col: GridColumn) => {
-            return _.some(groupBy, (grouped) => { return grouped === col.valueMember; });
-        });
-
+        const { canDrop, isOver, connectDropTarget, columns, onGroupByRemoved } = this.props;
+        const isEmpty = _.isEmpty(this.state.groupBy);
+        const groupedColumns: Array<GridColumn> = this.getGroupedColumns(columns, this.state.groupBy);
         return connectDropTarget(
             <div className="group-drop-toolbar">
                 {
                     isEmpty && <span className="group-drop-empty">Drag column to group</span>
                 }
                 {
-                    groupedColumns.map((col: GridColumn) => {
-                        return this.createHeaderColumn(col);
+                    groupedColumns.map((col: GridColumn, index) => {
+                        return this.createHeaderColumn(col, index);
                     })
                 }
             </div>
@@ -91,14 +117,24 @@ class GroupByToolbarInner extends React.Component<IGroupByProps, void> {
 
 const boxTarget = {
     drop(props: IGroupByProps, monitor, component) {
-        // TODO: check drop position?
-        // check if item is already in groupBy
         const item = monitor.getItem();
-        const groupBy = [...props.groupBy, item.name];
-        props.onGroupByChanged(groupBy);
-    },
-    hover(props, monitor, component) {
-
+        const alreadyGrouped = _.find(props.groupBy, (groupByColumn) => { return groupByColumn === item.name; });
+        if (!alreadyGrouped) {
+            const groupBy = [...props.groupBy, item.name];
+            props.onGroupByChanged(groupBy);
+        } else {
+            const droppedItem = monitor.getItem();
+            const droppedItemNewIndex = droppedItem.index;
+            let newGroupBy = [...props.groupBy];
+            const itemOldIndex = _.findIndex(newGroupBy, (groupName) => { return groupName === droppedItem.name; });
+            if (itemOldIndex === droppedItemNewIndex) {
+                return;
+            }
+            let temp = newGroupBy[itemOldIndex];
+            newGroupBy[itemOldIndex] = newGroupBy[droppedItemNewIndex];
+            newGroupBy[droppedItemNewIndex] = temp;
+            props.onGroupByChanged(newGroupBy);
+        }
     }
 };
 

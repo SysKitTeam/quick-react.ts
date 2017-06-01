@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { DragSource } from 'react-dnd';
+import { findDOMNode } from 'react-dom';
+import { DragSource, DropTarget } from 'react-dnd';
 import { SortIndicator } from 'react-virtualized';
 import { GridColumn } from './QuickGrid.Props';
 import * as classNames from 'classnames';
@@ -15,9 +16,12 @@ export interface IHeaderColumnProps {
     onClick?: any;
     onKeyDown?: any;
     isGroupable?: boolean;
-
+    moveGroupByColumn?: (draggedColumn, hoverColumn) => void;
+    itemArrayIndex?: number;
+    // Drag&Drop props
     connectDragSource?: any;
     connectDragPreview?: any;
+    connectDropTarget?: any;
 }
 
 class HeaderColumnInner extends React.Component<IHeaderColumnProps, void> {
@@ -28,7 +32,7 @@ class HeaderColumnInner extends React.Component<IHeaderColumnProps, void> {
     render() {
         const { className, text, showSortIndicator, sortDirection, onClick, onKeyDown } = this.props;
         return (
-            this.props.connectDragSource(
+            this.props.connectDragSource(this.props.connectDropTarget(
                 <div
                     onClick={onClick}
                     onKeyDown={onKeyDown}
@@ -47,18 +51,17 @@ class HeaderColumnInner extends React.Component<IHeaderColumnProps, void> {
                             sortDirection={sortDirection}
                         />
                     }
-                    {/*{this.props.connectDragPreview(this.DragElement)}*/}
                 </div>
             )
-
-        );
+            ));
     }
 }
 
 const headerCellSource = {
     beginDrag(props: IHeaderColumnProps) {
         return {
-            name: props.valueMember
+            name: props.valueMember,
+            index: props.itemArrayIndex
         };
     },
     canDrag(props: IHeaderColumnProps, monitor) {
@@ -66,12 +69,43 @@ const headerCellSource = {
     }
 };
 
-function collect(connect, monitor) {
+function collectDragSource(connect, monitor) {
     return {
         connectDragSource: connect.dragSource(),
         connectDragPreview: connect.dragPreview()
     };
 }
 
-export const HeaderColumn: React.ComponentClass<IHeaderColumnProps> = DragSource('Column', headerCellSource, collect)(HeaderColumnInner);
+const headerCellDropTarget = {
+    hover(props: IHeaderColumnProps, monitor, component) {
+        const draggedItemIndex = monitor.getItem().index;
+        const hoverItemIndex = props.itemArrayIndex;
+        if (draggedItemIndex === undefined || hoverItemIndex === undefined) {
+            return;
+        }
+        if (draggedItemIndex === hoverItemIndex) {
+            return;
+        }
+        const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
+        const clientOffset = monitor.getClientOffset();
+        if (draggedItemIndex < hoverItemIndex && clientOffset.x < hoverBoundingRect.left) {
+            return;
+        }
+        if (draggedItemIndex > hoverItemIndex && clientOffset.x > hoverBoundingRect.right) {
+            return;
+        } 
+        props.moveGroupByColumn(draggedItemIndex, hoverItemIndex);
+        monitor.getItem().index = hoverItemIndex;
+    }
+};
 
+function collectDropTarget(connect) {
+    return {
+        connectDropTarget: connect.dropTarget()
+    };
+}
+
+export const HeaderColumn: React.ComponentClass<IHeaderColumnProps> =
+    DropTarget('Column', headerCellDropTarget, collectDropTarget)(
+        DragSource('Column', headerCellSource, collectDragSource)
+            (HeaderColumnInner));

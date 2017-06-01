@@ -4,12 +4,9 @@ import { IGridHeaderState, IGridHeaderProps } from './QuickGridHeader.Props';
 import { GridColumn } from './QuickGrid.Props';
 import { GroupByToolbar } from './GroupByToolbar';
 import { HeaderColumn } from './HeaderColumn';
-
 import { Grid, SortIndicator } from 'react-virtualized';
 const DraggableCore = require('react-draggable').DraggableCore;
 import * as _ from 'lodash';
-
-
 import './QuickGrid.scss';
 
 export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeaderState> {
@@ -83,15 +80,17 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
 
     _headerCellRender = ({ columnIndex, key, rowIndex, style }) => {
         const notLastIndex = columnIndex < (this.state.columnWidths.length - 1);
+        const notEmptyColumns = columnIndex >= this.props.groupBy.length;
+        const displayResizeHandle = notLastIndex && notEmptyColumns;
         const column = this.props.headerColumns[columnIndex];
 
         return (
             <div
-                className={'grid-header-column'}
+                className={classNames({'empty-header-column': !displayResizeHandle }, 'grid-header-column')}
                 key={key}
                 style={style}>
                 {this._createHeaderColumn(column)}
-                {notLastIndex &&
+                {displayResizeHandle &&
                     <DraggableCore
                         zIndex={100}
                         axis="x"
@@ -165,5 +164,3 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
         );
     }
 }
-
-// export const GridHeader: React.ComponentClass<IGridHeaderProps> = DragDropContext(HTML5Backend)(GridHeaderInner);

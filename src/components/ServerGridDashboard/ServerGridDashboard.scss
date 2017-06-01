@@ -59,7 +59,7 @@ $background-color: $background-color;
   height: 100%;
   padding-left: 10px;
   box-sizing: border-box;
-  padding-top: 6px;  
+  padding-top: 6px;
 }
 
 .grid-component-cell {
@@ -105,7 +105,7 @@ $background-color: $background-color;
 }
 
 .server-column-cell {
-    padding-left: 25px;
+    padding-left: 5px;
     font-size: 13px;
 }
 
@@ -115,15 +115,15 @@ $background-color: $background-color;
 }
 
 .server-grid-dashboard-container {
-    overflow: hidden;   
+    overflow: hidden;
     height: 100vh;
     @include baseFont();
-    width: 100%;  
+    width: 100%;
     overflow-y: auto;
 
     .farm {
         margin-top: 60px;
-        margin-bottom: 0px;   
+        margin-bottom: 0px;
     }
     .Table {
         width: 100%;
@@ -133,7 +133,7 @@ $background-color: $background-color;
     .headerRow,
     .evenRow,
     .oddRow {
-        border-bottom: 1px solid #e0e0e0;        
+        border-bottom: 1px solid #e0e0e0;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -143,15 +143,15 @@ $background-color: $background-color;
     }
 
     .headerColumn {
-        text-transform: none;       
-        font-weight: 700; 
-            
+        text-transform: none;
+        font-weight: 700;
+
     }
     .exampleColumn {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        // flex: 0 1 60px;  
+        // flex: 0 1 60px;
     }
 
     .checkboxLabel {
@@ -177,13 +177,16 @@ $background-color: $background-color;
     .grid-header-column {
         border-right: 1px solid $search-border-color;
         box-sizing: border-box;
-
         span {
             color: $emphasized-text-color;
             font-size: 14px;
             padding-left: 4px;
             vertical-align: super;
         }
+    }
+
+    .empty-header-column {
+        border-right: 0px;
     }
 
     .grid-header-column:first-child {
@@ -199,7 +202,7 @@ $background-color: $background-color;
     }
 
     .server-status {
-        width: 10px;    
+        width: 10px;
         float: left;
         margin-right: 5px;
         height: 19px;
@@ -227,5 +230,5 @@ $background-color: $background-color;
                 background-color: $default-offline-color;
             }
         }
-    }    
+    }
 }

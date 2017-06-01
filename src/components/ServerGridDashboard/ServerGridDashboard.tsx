@@ -19,7 +19,7 @@ const GRID_CELL_MIN_WIDTH = 180;
 const gridColumns: Array<GridColumn> = [{
     valueMember: 'FarmName',
     headerText: 'Farm',
-    width: 20,
+    width: 100,
     minWidth: 50,
     isSortable: true,
     isGroupable: true
@@ -28,8 +28,8 @@ const gridColumns: Array<GridColumn> = [{
     headerText: 'Server',
     dataMember: 'ServerData',
     isGroupable: true,
-    width: 20,
-    minWidth: 200,
+    width: 100,
+    minWidth: GRID_CELL_MIN_WIDTH,
     cellFormatter: (cellData) => {
         return (
             <div className="server-column-cell">
@@ -64,15 +64,16 @@ const gridColumns: Array<GridColumn> = [{
     valueMember: 'CPU',
     headerText: 'CPU',
     dataMember: 'CPUData',
-    width: 20,
+    width: 100,
     minWidth: GRID_CELL_MIN_WIDTH,
     cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'} > {cellData.usage ? cellData.usage + '%' : '--'}</div>; },
     cellClassName: 'border-column-cell',
-    isSortable: true
+    isSortable: true,
+    isGroupable: true
 }, {
     valueMember: 'Memory',
     headerText: 'Memory',
-    width: 20,
+    width: 100,
     minWidth: GRID_CELL_MIN_WIDTH,
     dataMember: 'MemoryData',
     cellFormatter: (cellData) => {
@@ -91,7 +92,7 @@ const gridColumns: Array<GridColumn> = [{
     valueMember: 'DiskActivity',
     headerText: 'Disk Activity',
     dataMember: 'DiskActivityData',
-    width: 20,
+    width: 100,
     minWidth: GRID_CELL_MIN_WIDTH,
     cellFormatter: (cellData) => {
         const disk = convertDisk(cellData);
@@ -103,7 +104,7 @@ const gridColumns: Array<GridColumn> = [{
     valueMember: 'Network',
     headerText: 'Network',
     dataMember: 'NetworkData',
-    width: 20,
+    width: 100,
     minWidth: GRID_CELL_MIN_WIDTH,
     cellFormatter: (cellData) => {
         const network = convertNetwork(cellData);
@@ -176,7 +177,9 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
                     onRowDoubleClicked={this.onRowDoubleClick}
                     sortColumn="ServerName"
                     sortDirection="ASC"
-                    displayGroupContainer={true}
+                    groupBySortColumn="FarmName"
+                    groupBySortDirection="ASC"
+                    // displayGroupContainer={true}
                     onGroupByChanged={this.groupByChanged}
                 />
             </div>
