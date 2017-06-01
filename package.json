@@ -74,7 +74,6 @@
     "webpack": "1.13.3",
     "webpack-dev-server": "1.16.2",
     "webpack-hot-middleware": "2.13.2",
-    "webpack-split-by-path": "0.0.10",
-    "react-addons-perf": "15.4.2"
+    "webpack-split-by-path": "0.0.10"
   }
 }
