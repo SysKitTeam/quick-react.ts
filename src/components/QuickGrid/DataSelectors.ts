@@ -13,21 +13,19 @@ const getGroupBySortDirection = (state: IQuickGridState, props: IQuickGridProps)
 const getColumns = (state: IQuickGridState, props: IQuickGridProps) => props.columns;
 
 const sortRows = (rows: Array<any>, sortColumn: string, sortDirection: string, groupedColumn: Array<string>, columns: Array<GridColumn>, groupBySortColumn: string, groupBySortDirection: string) => {
-    let sortedChain = _(rows).chain();
+    const columnSortDir: string = sortDirection === 'DESC' ? 'desc' : 'asc';
     if (groupedColumn.length > 0) {
         const groupSortDir: string = groupBySortDirection === 'DESC' ? 'desc' : 'asc';
         const groupSortBy = (groupBySortColumn !== undefined && groupBySortColumn !== '') ? groupBySortColumn : groupedColumn[0];
         if (sortColumn) {
-            const columnSortDir: string = sortDirection === 'DESC' ? 'desc' : 'asc';
-            sortedChain = sortedChain.orderBy<any>([groupSortBy, sortColumn], [groupSortDir, columnSortDir]);
+            return _.orderBy(rows, [groupSortBy, sortColumn], [groupSortDir, columnSortDir]);
         } else {
-            sortedChain = sortedChain.orderBy(groupSortBy, groupSortDir);
+            return _.orderBy(rows, groupSortBy, groupSortDir);
         }
     } else if (sortColumn) {
-        const sortDir = sortDirection === 'DESC' ? 'desc' : 'asc';
-        sortedChain = sortedChain.orderBy(sortColumn, sortDir);
+        return _.orderBy(rows, sortColumn, columnSortDir);
     }
-    return sortedChain.value();
+    return rows;
 };
 
 const getSortedRows = createSelector(getInputRows, getSortColumn, getSortDirection, getGroupBy, getColumns, getGroupBySortColumn, getGroupBySortDirection,

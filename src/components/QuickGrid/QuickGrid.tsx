@@ -345,7 +345,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                                             columnWidth={this._getColumnWidth}
                                             rowHeight={this.props.rowHeight}
                                             className="grid-component"
-                                            rowCount={this.getRowCount()} // potential problem on different row count?
+                                            rowCount={this.getRowCount()}
                                             columnCount={this.state.columnsToDisplay.length}
                                             {...this.state} // force update on any state change
                                         />
