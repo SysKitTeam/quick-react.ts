@@ -5,6 +5,7 @@ import { GridColumn, SortDirection } from './QuickGrid.Props';
 import { GroupByToolbar } from './GroupByToolbar';
 import { HeaderColumn } from './HeaderColumn';
 import { Grid, SortIndicator } from 'react-virtualized';
+import { shallowCompareArrayEqual } from '../../utilities/array';
 const DraggableCore = require('react-draggable').DraggableCore;
 import * as _ from 'lodash';
 import './QuickGrid.scss';
@@ -25,7 +26,7 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!_.isEqual(nextProps.columnWidths, this.props.columnWidths)) {
+        if (!shallowCompareArrayEqual(nextProps.columnWidths, this.props.columnWidths)) {
             this.setState((prevState) => { return { ...prevState, columnWidths: nextProps.columnWidths }; });
             this.columnMinWidths = this.getColumnMinWidths(nextProps.headerColumns);
         }

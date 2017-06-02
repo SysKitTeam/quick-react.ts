@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import { DropTarget } from 'react-dnd';
 import * as classNames from 'classnames';
 import { HeaderColumn, IHeaderColumnProps } from './HeaderColumn';
+import { shallowCompareArrayEqual } from '../../utilities/array';
 import './QuickGrid.scss';
 
 export interface IGroupByProps {
@@ -34,7 +35,7 @@ class GroupByToolbarInner extends React.PureComponent<IGroupByProps, IGroupBySta
     }
 
     componentWillReceiveProps(nextProps) {
-        if (!_.isEqual(nextProps.groupBy, this.props.groupBy)) {
+        if (!shallowCompareArrayEqual(nextProps.groupBy, this.props.groupBy)) {
             this.setState((prevState) => { return { ...prevState, groupBy: nextProps.groupBy }; });
         }
     }
