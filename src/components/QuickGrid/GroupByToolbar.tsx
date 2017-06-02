@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { GridColumn } from './QuickGrid.Props';
+import { GridColumn, SortDirection } from './QuickGrid.Props';
 import { Icon } from '../Icon/Icon';
 import * as _ from 'lodash';
 import { DropTarget } from 'react-dnd';
@@ -13,8 +13,8 @@ export interface IGroupByProps {
     onGroupByRemoved: (groupName: string) => void;
     onGroupByChanged: (newGroupBy: Array<string>) => void;
     sortColumn?: string;
-    sortDirection?: 'ASC' | 'DESC';
-    onSort: (sortBy: string, sortDirection: string) => void;
+    sortDirection?: SortDirection;
+    onSort: (sortBy: string, sortDirection: SortDirection) => void;
 
     // Drag&Drop props
     canDrop?: any;
@@ -32,15 +32,18 @@ class GroupByToolbarInner extends React.PureComponent<IGroupByProps, IGroupBySta
             groupBy: props.groupBy
         };
     }
+
     componentWillReceiveProps(nextProps) {
-        this.setState({ ...this.state, groupBy: nextProps.groupBy });
+        if (!_.isEqual(nextProps.groupBy, this.props.groupBy)) {
+            this.setState((prevState) => { return { ...prevState, groupBy: nextProps.groupBy }; });
+        }
     }
 
     createHeaderColumn(column: GridColumn, index: number) {
         const { headerText, isSortable, headerClassName, valueMember } = column;
         const columnClassName = classNames('header-column-content', 'group-by-column', headerClassName, { 'header-column-sortable': isSortable });
         const showSortIndicator = this.props.sortColumn === valueMember;
-        const newSortDirection = this.props.sortColumn !== valueMember || this.props.sortDirection === 'DESC' ? 'ASC' : 'DESC';
+        const newSortDirection = this.props.sortColumn !== valueMember || this.props.sortDirection === SortDirection.Descending ? SortDirection.Ascending : SortDirection.Descending;
         const onClick = (event) => {
             if (isSortable) {
                 this.props.onSort(valueMember, newSortDirection);
@@ -77,6 +80,7 @@ class GroupByToolbarInner extends React.PureComponent<IGroupByProps, IGroupBySta
 
         );
     }
+
     groupOrderChange = (draggedColumnIndex, hoverColumnIndex) => {
         this.setState((prevState) => {
             let groupBy = [...prevState.groupBy];

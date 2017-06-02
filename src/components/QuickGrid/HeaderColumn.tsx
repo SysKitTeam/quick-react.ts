@@ -2,7 +2,7 @@ import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
 import { SortIndicator } from 'react-virtualized';
-import { GridColumn } from './QuickGrid.Props';
+import { GridColumn, SortDirection } from './QuickGrid.Props';
 import * as classNames from 'classnames';
 
 import './QuickGrid.scss';
@@ -12,7 +12,7 @@ export interface IHeaderColumnProps {
     className: string;
     text: string;
     showSortIndicator: boolean;
-    sortDirection?: 'ASC' | 'DESC';
+    sortDirection?: SortDirection;
     onClick?: any;
     onKeyDown?: any;
     isGroupable?: boolean;
@@ -31,6 +31,7 @@ class HeaderColumnInner extends React.Component<IHeaderColumnProps, void> {
     DragElement = <div style={{ height: 50, width: 30 }} > <span> Drag </span> </div>;
     render() {
         const { className, text, showSortIndicator, sortDirection, onClick, onKeyDown } = this.props;
+        const sortString = sortDirection === SortDirection.Ascending ? 'ASC' : 'DESC';
         return (
             this.props.connectDragSource(this.props.connectDropTarget(
                 <div
@@ -48,7 +49,7 @@ class HeaderColumnInner extends React.Component<IHeaderColumnProps, void> {
                     {showSortIndicator &&
                         <SortIndicator
                             key="SortIndicator"
-                            sortDirection={sortDirection}
+                            sortDirection={sortString}
                         />
                     }
                 </div>
@@ -93,7 +94,7 @@ const headerCellDropTarget = {
         }
         if (draggedItemIndex > hoverItemIndex && clientOffset.x > hoverBoundingRect.right) {
             return;
-        } 
+        }
         props.moveGroupByColumn(draggedItemIndex, hoverItemIndex);
         monitor.getItem().index = hoverItemIndex;
     }

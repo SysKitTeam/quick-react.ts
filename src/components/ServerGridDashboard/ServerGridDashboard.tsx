@@ -5,7 +5,7 @@ import * as classNames from 'classnames';
 import { Icon } from '../Icon/Icon';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
 import { QuickGrid } from '../QuickGrid/QuickGrid';
-import { IQuickGridProps, GridColumn } from '../QuickGrid/QuickGrid.Props';
+import { IQuickGridProps, SortDirection, GridColumn } from '../QuickGrid/QuickGrid.Props';
 import { GetClassForStatus } from '../../utilities/server';
 import { filterFarms } from '../Dashboard/Dashboard';
 
@@ -45,16 +45,16 @@ const gridColumns: Array<GridColumn> = [{
         let status: ServerStatus = row.ServerData.status;
         switch (status) {
             case ServerStatus.OK:
-                modifier = sortDirection === 'ASC' ? '2' : 'b';
+                modifier = sortDirection === SortDirection.Ascending ? '2' : 'b';
                 break;
             case ServerStatus.Warning:
-                modifier = sortDirection === 'ASC' ? '1' : 'c';
+                modifier = sortDirection === SortDirection.Ascending ? '1' : 'c';
                 break;
             case ServerStatus.Critical:
-                modifier = sortDirection === 'ASC' ? '0' : 'd';
+                modifier = sortDirection === SortDirection.Ascending ? '0' : 'd';
                 break;
             case ServerStatus.Offline:
-                modifier = sortDirection === 'ASC' ? '3' : 'a';
+                modifier = sortDirection === SortDirection.Ascending ? '3' : 'a';
                 break;
         }
         return modifier + row.ServerName;
@@ -176,9 +176,9 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
                     overscanRowCount={30}
                     onRowDoubleClicked={this.onRowDoubleClick}
                     sortColumn="ServerName"
-                    sortDirection="ASC"
+                    sortDirection={ SortDirection.Ascending}
                     groupBySortColumn="FarmName"
-                    groupBySortDirection="ASC"
+                    groupBySortDirection={SortDirection.Ascending}
                     // displayGroupContainer={true}
                     onGroupByChanged={this.groupByChanged}
                 />

@@ -1,4 +1,4 @@
-import { GridColumn } from './QuickGrid.Props';
+import { GridColumn, SortDirection } from './QuickGrid.Props';
 
 export interface IGridHeaderProps {
     allColumns: Array<GridColumn>;
@@ -8,21 +8,19 @@ export interface IGridHeaderProps {
     onResize: (newColumnWidths) => void;
 
     sortColumn?: string;
-    sortDirection?: 'ASC' | 'DESC';
-    onSort: (sortBy: string, sortDirection: string) => void;
+    sortDirection?: SortDirection;
+    onSort: (sortBy: string, sortDirection: SortDirection) => void;
 
     groupBySortColumn?: string;
-    groupBySortDirection?: 'ASC' | 'DESC';
-    onGroupBySort?: (sortBy: string, sortDirection: string) => void;
-    
+    groupBySortDirection?: SortDirection;
+    onGroupBySort?: (sortBy: string, sortDirection: SortDirection) => void;
+
     className?: string;
     width: number;
     scrollLeft: any;
     displayGroupContainer: boolean;
     onGroupByChanged?: (groupBy: Array<string>) => void;
 }
-
-
 
 export interface IGridHeaderState {
     columnWidths: Array<number>;

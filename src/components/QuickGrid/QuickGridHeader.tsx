@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { IGridHeaderState, IGridHeaderProps } from './QuickGridHeader.Props';
-import { GridColumn } from './QuickGrid.Props';
+import { GridColumn, SortDirection } from './QuickGrid.Props';
 import { GroupByToolbar } from './GroupByToolbar';
 import { HeaderColumn } from './HeaderColumn';
 import { Grid, SortIndicator } from 'react-virtualized';
@@ -25,8 +25,10 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({ ...this.state, columnWidths: nextProps.columnWidths });
-        this.columnMinWidths = this.getColumnMinWidths(nextProps.headerColumns);
+        if (!_.isEqual(nextProps.columnWidths, this.props.columnWidths)) {
+            this.setState((prevState) => { return { ...prevState, columnWidths: nextProps.columnWidths }; });
+            this.columnMinWidths = this.getColumnMinWidths(nextProps.headerColumns);
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -54,9 +56,9 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
                 }
                 <Grid
                     ref={this.setGridReference}
-                    cellRenderer={this._headerCellRender}
+                    cellRenderer={this.headerCellRender}
                     className="grid-component-header"
-                    columnWidth={this._getHeaderColumnWidth}
+                    columnWidth={this.getHeaderColumnWidth}
                     columnCount={headerColumns.length}
                     height={30}
                     rowHeight={28}
@@ -74,11 +76,11 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
         this.props.onGroupByChanged(newGroupBy);
     }
 
-    _getHeaderColumnWidth = ({ index }) => {
+    getHeaderColumnWidth = ({ index }) => {
         return this.state.columnWidths[index];
     }
 
-    _headerCellRender = ({ columnIndex, key, rowIndex, style }) => {
+    headerCellRender = ({ columnIndex, key, rowIndex, style }) => {
         const notLastIndex = columnIndex < (this.state.columnWidths.length - 1);
         const notEmptyColumns = columnIndex >= this.props.groupBy.length;
         const displayResizeHandle = notLastIndex && notEmptyColumns;
@@ -86,16 +88,16 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
 
         return (
             <div
-                className={classNames({'empty-header-column': !displayResizeHandle }, 'grid-header-column')}
+                className={classNames({ 'empty-header-column': !displayResizeHandle }, 'grid-header-column')}
                 key={key}
                 style={style}>
-                {this._createHeaderColumn(column)}
+                {this.createHeaderColumn(column)}
                 {displayResizeHandle &&
                     <DraggableCore
                         zIndex={100}
                         axis="x"
                         onStop={(e, data) => this.onDragHeaderStop(e, data, columnIndex)}
-                        onDrag={(e, data) => this._onDragHeaderColumn(e, data, columnIndex)}
+                        onDrag={(e, data) => this.onDragHeaderColumn(e, data, columnIndex)}
                         position={{ x: 0, y: 0 }}>
                         <div className="grid-column-draggable">&nbsp;</div>
                     </DraggableCore>
@@ -104,7 +106,7 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
         );
     }
 
-    _onDragHeaderColumn = (e, data, columnIndex) => {
+    onDragHeaderColumn = (e, data, columnIndex) => {
         this.setState((oldState) => {
             const columnWidth = oldState.columnWidths[columnIndex];
             const nextColumnWidth = oldState.columnWidths[columnIndex + 1];
@@ -135,11 +137,11 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
         this.props.onResize(this.state.columnWidths);
     }
 
-    _createHeaderColumn(column: GridColumn) {
+    createHeaderColumn(column: GridColumn) {
         const { headerText, isSortable, headerClassName, valueMember } = column;
         const columnClassName = classNames('header-column-content', headerClassName, { 'header-column-sortable': isSortable });
         const showSortIndicator = this.props.sortColumn === valueMember;
-        const newSortDirection = this.props.sortColumn !== valueMember || this.props.sortDirection === 'DESC' ? 'ASC' : 'DESC';
+        const newSortDirection = this.props.sortColumn !== valueMember || this.props.sortDirection === SortDirection.Descending ? SortDirection.Ascending : SortDirection.Descending;
         const onClick = (event) => {
             if (isSortable) {
                 this.props.onSort(valueMember, newSortDirection);

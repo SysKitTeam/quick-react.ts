@@ -1,5 +1,9 @@
 import * as React from 'react';
 
+export enum SortDirection {
+    Ascending,
+    Descending
+}
 export interface IQuickGridProps {
     rows: Array<any>;
     columns: Array<GridColumn>;
@@ -14,19 +18,19 @@ export interface IQuickGridProps {
     displayGroupContainer?: boolean;
 
     sortColumn?: string;
-    sortDirection?: 'ASC' | 'DESC';
+    sortDirection?: SortDirection;
     onGroupByChanged?: (groupBy: Array<string>) => void;
 
     groupBySortColumn?: string;
-    groupBySortDirection?: 'ASC' | 'DESC';
-    onGroupBySort?: (sortBy: string, sortDirection: string) => void;
+    groupBySortDirection?: SortDirection;
+    onGroupBySort?: (sortBy: string, sortDirection: SortDirection) => void;
 }
 
 export interface IQuickGridState {
     sortColumn?: string;
-    sortDirection?: 'ASC' | 'DESC';
+    sortDirection?: SortDirection;
     groupBySortColumn?: string;
-    groupBySortDirection?: 'ASC' | 'DESC';
+    groupBySortDirection?: SortDirection;
     expandedRows: any;
     columnWidths: Array<number>;
     selectedRowIndex?: number;
@@ -47,7 +51,7 @@ export interface GridColumn {
     valueMember: string; // for sort & grouping
     isSortable?: boolean;
     isGroupable?: boolean;
-    sortByValueGetter?: (cellData, sortDirection) => any;
+    sortByValueGetter?: (cellData, sortDirection: SortDirection) => any;
     width: number;
     minWidth?: number;
     dataMember?: string;
@@ -55,4 +59,3 @@ export interface GridColumn {
     cellClassName?: string;
     headerClassName?: string;
 }
-
