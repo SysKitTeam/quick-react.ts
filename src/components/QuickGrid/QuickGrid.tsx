@@ -4,56 +4,81 @@ import * as classNames from 'classnames';
 import { AutoSizer, Table, Column, ColumnProps, ScrollSync, Grid } from 'react-virtualized';
 import { IQuickGridProps, IQuickGridState, GridColumn, GroupRow } from './QuickGrid.Props';
 const scrollbarSize = require('dom-helpers/util/scrollbarSize');
-import { getColumnsSelector, getRowsSelector } from './DataSelectors';
+import { getRowsSelector } from './DataSelectors';
 import { groupRows } from './rowGrouper';
 import { GridHeader } from './QuickGridHeader';
 import { Icon } from '../Icon/Icon';
 import * as _ from 'lodash';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContextProvider, DragDropContext } from 'react-dnd';
+
 import './QuickGrid.scss';
 
 const defaultMinWidth = 50;
-export class QuickGrid extends React.Component<IQuickGridProps, IQuickGridState> {
+const emptyCellWidth = 5;
+export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridState> {
     public static defaultProps = {
         overscanRowCount: 20
     };
-
     private _grid: any;
-    private headerGrid: any;
+    private _headerGrid: any;
     private parentElement: HTMLElement;
     private columnsMinTotalWidth = 0;
-
     constructor(props: IQuickGridProps) {
         super(props);
-        const totalWidth = props.columns.map(x => x.width).reduce((a, b) => a + b, 0);
-        const columnWidths = this.props.columns
-            .filter((column) => { return props.groupBy.indexOf(column.valueMember) === -1; })
-            .map((col) => { return this.getColumnWidthInPx(this.getGridWidth(), totalWidth, col.width); });
-        this.columnsMinTotalWidth = props.columns.map(x => x.minWidth || defaultMinWidth).reduce((a, b) => a + b, 0);
+        let columnsToDisplay = this.getColumnsToDisplay(props.columns, props.groupBy);
         this.state = {
-            columnWidths: columnWidths,
+            columnWidths: this.getColumnWidths(columnsToDisplay),
+            columnsToDisplay: columnsToDisplay,
             expandedRows: {},
             selectedRowIndex: undefined,
-            hoverRowIndex: undefined,
             sortColumn: props.sortColumn,
-            sortDirection: props.sortDirection
+            sortDirection: props.sortDirection,
+            groupBySortColumn: props.groupBySortColumn,
+            groupBySortDirection: props.groupBySortDirection
         };
-        this._onResize = _.debounce(this._onResize, 100);
+        this.columnsMinTotalWidth = columnsToDisplay.map(x => x.minWidth || defaultMinWidth).reduce((a, b) => a + b, 0);
+        this.onResize = _.debounce(this.onResize, 100);
     }
 
-    getColumnWidthInPx(available: number, totalWidth: number, currentWidth: number) {
-        return Math.floor((available / totalWidth) * currentWidth);
+    getColumnsToDisplay(columns, groupBy) {
+        let displayColumns = columns.filter((column) => { return groupBy.indexOf(column.valueMember) === -1; });
+        let emptyArray = new Array();
+        for (let index = 0; index < groupBy.length; index++) {
+            emptyArray.push({
+                isSortable: false,
+                isGroupable: false,
+                width: emptyCellWidth,
+                minWidth: emptyCellWidth
+            });
+        }
+        displayColumns = emptyArray.concat(displayColumns);
+        return displayColumns;
+    }
+
+    componentWillReceiveProps(nextProps: IQuickGridProps) {
+        if (nextProps.columns !== this.props.columns || nextProps.groupBy !== this.props.groupBy) {
+            const columnsToDisplay = this.getColumnsToDisplay(nextProps.columns, nextProps.groupBy);
+            const columnWidths = this.getColumnWidths(columnsToDisplay);
+            this.setState((prevState) => { return { ...prevState, columnsToDisplay: columnsToDisplay, columnWidths: columnWidths }; });
+            this.columnsMinTotalWidth = columnsToDisplay.map(x => x.minWidth || defaultMinWidth).reduce((a, b) => a + b, 0);
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.columns !== this.props.columns || prevProps.groupBy !== this.props.groupBy) {
+            this._grid.recomputeGridSize();
+        }
     }
 
     getGridWidth() {
-        return this._getGridWidth() - 40;
-    }
-
-    getColumnsCount = () => {
-        return this.getColumnsToDisplay().length;
-    }
-
-    getColumnsToDisplay = (): Array<GridColumn> => {
-        return getColumnsSelector(this.state, this.props);
+        let width = 0;
+        if (document.getElementsByClassName('viewport-height')[0] !== undefined) {
+            width = document.getElementsByClassName('viewport-height')[0].clientWidth;
+        } else {
+            width = document.getElementById('root').clientWidth;
+        }
+        return width - 40;
     }
 
     getRow = ({ index }) => {
@@ -78,20 +103,6 @@ export class QuickGrid extends React.Component<IQuickGridProps, IQuickGridState>
         });
     }
 
-    sort = ({ sortBy, sortDirection }) => {
-        this.setState((oldState) => {
-            return { ...oldState, sortColumn: sortBy, sortDirection: sortDirection };
-        });
-    }
-
-    _getGridWidth() {
-        if (document.getElementsByClassName('viewport-height')[0] !== undefined) {
-            return document.getElementsByClassName('viewport-height')[0].clientWidth;
-        } else {
-            return document.getElementById('root').clientWidth;
-        }
-    }
-
     onGridResize = (newColumnWidths: Array<number>) => {
         this.setState((oldState) => {
             return { ...oldState, columnWidths: newColumnWidths };
@@ -99,28 +110,68 @@ export class QuickGrid extends React.Component<IQuickGridProps, IQuickGridState>
         this._grid.recomputeGridSize({});
     }
 
-    sortColumns = (sortBy: string, sortDirection: string) => {
-        this.sort({ sortBy, sortDirection });
+    onSortColumn = (sortBy, sortDirection) => {
+        this.setState((oldState) => {
+            return { ...oldState, sortColumn: sortBy, sortDirection: sortDirection };
+        });
     }
 
-    _cellRenderer = ({ columnIndex, key, rowIndex, style }) => {
+    onGroupBySort = (groupBySortColumn, groupBySortDirection) => {
+        this.setState((oldState) => {
+            return { ...oldState, groupBySortColumn: groupBySortColumn, groupBySortDirection: groupBySortDirection };
+        });
+    }
+
+    cellRenderer = ({ columnIndex, key, rowIndex, style }) => {
         const rowData = this.getRow({ index: rowIndex });
-        const columns = this.getColumnsToDisplay();
+        const columns = this.state.columnsToDisplay;
         const column = columns[columnIndex];
         if (rowData.type === 'GroupRow') {
-            return this._renderGroupCell(columnIndex, key, rowIndex, rowData, style);
+            return this.renderGroupCell(columnIndex, key, rowIndex, rowData, style);
         } else {
-            return this._renderBodyCell(columnIndex, key, rowIndex, rowData, style);
+            if (columnIndex < this.props.groupBy.length) {
+                return this.renderEmptyCell(key, rowData, rowIndex, style);
+            }
+            return this.renderBodyCell(columnIndex, key, rowIndex, rowData, style);
         }
     }
 
-    _renderGroupCell(columnIndex: number, key, rowIndex: number, rowData, style) {
+    renderEmptyCell(key, rowData, rowIndex, style) {
+        const rowClass = 'grid-row-' + rowIndex;
+        const onMouseEnter = () => { this.onMouseEnterCell(rowClass); };
+        const onMouseLeave = () => { this.onMouseLeaveCell(rowClass); };
+        const onClick = () => { this.setSelectedRowIndex(rowIndex); };
+
+        const onDoubleClick = () => {
+            if (this.props.onRowDoubleClicked) {
+                this.props.onRowDoubleClicked(rowData);
+            }
+        };
+        const className = classNames(
+            'grid-component-cell',
+            'grid-empty-cell',
+            rowClass,
+            { 'is-selected': rowIndex === this.state.selectedRowIndex });
+        return (
+            <div
+                style={style}
+                key={key}
+                className={className}
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
+                onClick={onClick}
+                onDoubleClick={onDoubleClick}
+            />
+        );
+    }
+
+    renderGroupCell(columnIndex: number, key, rowIndex: number, rowData, style) {
         if (columnIndex === 0) {
             const columnsTotalWidth = this.state.columnWidths.reduce((a, b) => a + b, 0);
             const customStyle = { ...style, width: columnsTotalWidth, zIndex: 1 };
             const iconName = rowData.isExpanded ? 'icon-arrow_down_right' : 'icon-arrow_right';
             const columnName = this.props.columns.filter((column) => { return column.valueMember === rowData.columnGroupName; })[0].headerText;
-            const paragraphStyle: React.CSSProperties = { paddingLeft: 30 * rowData.depth, paddingRight: 10, display: 'inline' };
+            const spanStyle: React.CSSProperties = { paddingLeft: 30 * rowData.depth, paddingRight: 10, display: 'inline' };
             const toggleRow = () => {
                 this.onRowExpandToggle(rowData.columnGroupName, rowData.groupKey, !rowData.isExpanded);
             };
@@ -130,12 +181,14 @@ export class QuickGrid extends React.Component<IQuickGridProps, IQuickGridState>
                     key={key}
                     style={customStyle}
                 >
-                    <Icon
-                        iconName={iconName}
-                        onClick={toggleRow} />
-                    <p style={paragraphStyle}>
-                        {columnName}: {rowData.name}
-                    </p>
+                    <span style={spanStyle}>
+                        <Icon
+                            iconName={iconName}
+                            onClick={toggleRow} />
+                        <p style={{ display: 'inline' }}>
+                            {columnName}: {rowData.name}
+                        </p>
+                    </span>
                 </div>
             );
         } else {
@@ -143,25 +196,41 @@ export class QuickGrid extends React.Component<IQuickGridProps, IQuickGridState>
         }
     }
 
-    _renderBodyCell(columnIndex: number, key, rowIndex: number, rowData, style) {
-        const columns = this.getColumnsToDisplay();
+    onMouseEnterCell = (rowClass) => {
+        const rowElements = document.getElementsByClassName(rowClass);
+        for (let i = 0; i < rowElements.length; i++) {
+            rowElements[i].classList.add('is-hover');
+        }
+    }
+
+    onMouseLeaveCell = (rowClass) => {
+        const rowElements = document.getElementsByClassName(rowClass);
+        for (let i = 0; i < rowElements.length; i++) {
+            const classList = rowElements[i].classList;
+            if (classList.contains('is-hover')) {
+                classList.remove('is-hover');
+            }
+        }
+    }
+
+    renderBodyCell(columnIndex: number, key, rowIndex: number, rowData, style) {
+        const columns = this.state.columnsToDisplay;
         const column = columns[columnIndex];
         const width = this.state.columnWidths[columnIndex];
         const label = column.headerText;
         const dataKey = column.dataMember || column.valueMember;
         const cellData = rowData[dataKey];
+        const rowClass = 'grid-row-' + rowIndex;
         const className = classNames(
             'grid-component-cell',
+            rowClass,
             column.cellClassName,
-            { 'is-selected': rowIndex === this.state.selectedRowIndex },
-            { 'is-hover': rowIndex === this.state.hoverRowIndex });
+            { 'is-selected': rowIndex === this.state.selectedRowIndex });
 
-        const onMouseOver = () => {
-            if (this.props.highlightHoverRow) {
-                this.setState((prevState) => { return { ...prevState, hoverRowIndex: rowIndex }; });
-            }
-        };
-        const onClick = () => { this._setSelectedRowIndex(rowIndex); };
+        const onMouseEnter = () => { this.onMouseEnterCell(rowClass); };
+        const onMouseLeave = () => { this.onMouseLeaveCell(rowClass); };
+        const onClick = () => { this.setSelectedRowIndex(rowIndex); };
+
         const onDoubleClick = () => {
             if (this.props.onRowDoubleClicked) {
                 this.props.onRowDoubleClicked(rowData);
@@ -184,7 +253,8 @@ export class QuickGrid extends React.Component<IQuickGridProps, IQuickGridState>
                 key={key}
                 style={style}
                 className={className}
-                onMouseOver={onMouseOver}
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
                 onClick={onClick}
                 onDoubleClick={onDoubleClick}
             >
@@ -193,43 +263,44 @@ export class QuickGrid extends React.Component<IQuickGridProps, IQuickGridState>
         );
     }
 
-    _setSelectedRowIndex = (rowIndex: number) => {
+    setSelectedRowIndex = (rowIndex: number) => {
         this.setState((prevState) => { return { ...prevState, selectedRowIndex: rowIndex }; });
         if (this.props.onSelectedRowChanged) {
             this.props.onSelectedRowChanged(rowIndex);
         }
     }
 
-    _onResize = () => {
-        this.refreshColumnWidthsInState();
-        this._grid.recomputeGridSize();
-        this.headerGrid._headerGrid.recomputeGridSize();
-    }
-
-    private refreshColumnWidthsInState() {
-        let columnWidths = this.getColumnsWidth();
+    onResize = () => {
+        let columnWidths = this.getColumnWidths(this.state.columnsToDisplay);
         this.setState((prevState) => { return { ...prevState, columnWidths }; });
+        this._grid.recomputeGridSize();
+        this._headerGrid._headerGrid.recomputeGridSize();
     }
 
-    private getColumnsWidth() {
+    getColumnWidths(columnsToDisplay) {
         const available = this.getGridWidth();
-        const columns = this.getColumnsToDisplay();
         if (available > this.columnsMinTotalWidth) {
-            const totalWidth = columns.map(x => x.width).reduce((a, b) => a + b, 0);
-            return columns.map(x => this.getColumnWidthInPx(available, totalWidth, x.width));
+            const totalWidth = columnsToDisplay.map(x => x.width).reduce((a, b) => a + b, 0);
+            return columnsToDisplay.map((col) => this.getColumnWidthInPx(this.getGridWidth(), totalWidth, col.width));
         } else {
-            return columns.map(x => x.minWidth || defaultMinWidth);
+            return columnsToDisplay.map(x => x.minWidth || defaultMinWidth);
         }
     }
 
-    _getColumnWidth = ({ index }) => {
-        const columns = this.getColumnsToDisplay();
+    getColumnWidthInPx(available: number, totalWidth: number, currentWidth: number) {
+        return Math.floor((available / totalWidth) * currentWidth);
+    }
+
+    getColumnWidth = ({ index }) => {
         return this.state.columnWidths[index];
     }
 
-    onMouseLeaveGrid = () => {
-        this.setState((prevState) => { return { ...prevState, hoverRowIndex: -1 }; });
+    groupByToolboxHeight = () => {
+        return this.props.displayGroupContainer ? 0 : 47;
     }
+
+    setHeaderGridReference = (ref) => { this._headerGrid = ref; };
+    setGridReference = (ref) => { this._grid = ref; };
 
     render() {
         let mainClass = classNames('grid-component-container', this.props.gridClassName);
@@ -238,36 +309,43 @@ export class QuickGrid extends React.Component<IQuickGridProps, IQuickGridState>
             <div className={mainClass}>
                 <ScrollSync>
                     {({ onScroll, scrollLeft }) => (
-                        <AutoSizer onResize={this._onResize}>
+                        <AutoSizer onResize={this.onResize}>
                             {({ height, width }) => (
                                 <div style={{ width, height }} >
                                     <GridHeader
-                                        ref={(g) => { this.headerGrid = g; }}
-                                        columns={this.getColumnsToDisplay()}
+                                        ref={this.setHeaderGridReference}
+                                        allColumns={this.props.columns}
+                                        headerColumns={this.state.columnsToDisplay}
                                         columnWidths={this.state.columnWidths}
                                         onResize={this.onGridResize}
                                         sortColumn={this.state.sortColumn}
                                         sortDirection={this.state.sortDirection}
-                                        onSort={this.sortColumns}
+                                        onSort={this.onSortColumn}
                                         width={width - scrollbarSize()}
                                         scrollLeft={scrollLeft}
                                         className={headerClass}
+                                        groupBy={this.props.groupBy}
+                                        onGroupByChanged={this.props.onGroupByChanged}
+                                        displayGroupContainer={this.props.displayGroupContainer}
+                                        groupBySortColumn={this.state.groupBySortColumn}
+                                        groupBySortDirection={this.state.groupBySortDirection}
+                                        onGroupBySort={this.onGroupBySort}
                                     />
-                                    <div style={{ width }} onMouseLeave={this.onMouseLeaveGrid} >
+                                    <div style={{ width }} >
                                         <Grid
-                                            ref={(r) => { this._grid = r; }}
-                                            height={height}
+                                            ref={this.setGridReference}
+                                            height={height - this.groupByToolboxHeight()}
                                             width={width}
                                             onScroll={onScroll}
                                             scrollLeft={scrollLeft}
-                                            cellRenderer={this._cellRenderer}
+                                            cellRenderer={this.cellRenderer}
                                             overscanRowCount={this.props.overscanRowCount}
-                                            columnWidth={this._getColumnWidth}
+                                            columnWidth={this.getColumnWidth}
                                             rowHeight={this.props.rowHeight}
                                             className="grid-component"
                                             rowCount={this.getRowCount()}
-                                            columnCount={this.getColumnsCount()}
-                                            {...this.state}
+                                            columnCount={this.state.columnsToDisplay.length}
+                                            {...this.state} // force update on any state change
                                         />
                                     </div>
                                 </div>
@@ -279,3 +357,5 @@ export class QuickGrid extends React.Component<IQuickGridProps, IQuickGridState>
         );
     }
 }
+
+export const QuickGrid: React.ComponentClass<IQuickGridProps> = DragDropContext(HTML5Backend)(QuickGridInner);

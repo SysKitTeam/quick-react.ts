@@ -3,10 +3,9 @@ import { IServerGridDashboardProps, ServerGridRow, IServerGridDashboardState } f
 import { ITiledDashboardFarm } from '../TileDashboard/TileDashboard.Props';
 import * as classNames from 'classnames';
 import { Icon } from '../Icon/Icon';
-import { autobind } from '../../utilities/autobind';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
 import { QuickGrid } from '../QuickGrid/QuickGrid';
-import { IQuickGridProps, GridColumn } from '../QuickGrid/QuickGrid.Props';
+import { IQuickGridProps, SortDirection, GridColumn } from '../QuickGrid/QuickGrid.Props';
 import { GetClassForStatus } from '../../utilities/server';
 import { filterFarms } from '../Dashboard/Dashboard';
 
@@ -20,14 +19,17 @@ const GRID_CELL_MIN_WIDTH = 180;
 const gridColumns: Array<GridColumn> = [{
     valueMember: 'FarmName',
     headerText: 'Farm',
-    width: 20,
-    minWidth: 50
+    width: 100,
+    minWidth: 50,
+    isSortable: true,
+    isGroupable: true
 }, {
     valueMember: 'ServerName',
     headerText: 'Server',
     dataMember: 'ServerData',
-    width: 20,
-    minWidth: 200,
+    isGroupable: true,
+    width: 100,
+    minWidth: GRID_CELL_MIN_WIDTH,
     cellFormatter: (cellData) => {
         return (
             <div className="server-column-cell">
@@ -43,16 +45,16 @@ const gridColumns: Array<GridColumn> = [{
         let status: ServerStatus = row.ServerData.status;
         switch (status) {
             case ServerStatus.OK:
-                modifier = sortDirection === 'ASC' ? '2' : 'b';
+                modifier = sortDirection === SortDirection.Ascending ? '2' : 'b';
                 break;
             case ServerStatus.Warning:
-                modifier = sortDirection === 'ASC' ? '1' : 'c';
+                modifier = sortDirection === SortDirection.Ascending ? '1' : 'c';
                 break;
             case ServerStatus.Critical:
-                modifier = sortDirection === 'ASC' ? '0' : 'd';
+                modifier = sortDirection === SortDirection.Ascending ? '0' : 'd';
                 break;
             case ServerStatus.Offline:
-                modifier = sortDirection === 'ASC' ? '3' : 'a';
+                modifier = sortDirection === SortDirection.Ascending ? '3' : 'a';
                 break;
         }
         return modifier + row.ServerName;
@@ -62,15 +64,16 @@ const gridColumns: Array<GridColumn> = [{
     valueMember: 'CPU',
     headerText: 'CPU',
     dataMember: 'CPUData',
-    width: 20,
+    width: 100,
     minWidth: GRID_CELL_MIN_WIDTH,
     cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'} > {cellData.usage ? cellData.usage + '%' : '--'}</div>; },
     cellClassName: 'border-column-cell',
-    isSortable: true
+    isSortable: true,
+    isGroupable: true
 }, {
     valueMember: 'Memory',
     headerText: 'Memory',
-    width: 20,
+    width: 100,
     minWidth: GRID_CELL_MIN_WIDTH,
     dataMember: 'MemoryData',
     cellFormatter: (cellData) => {
@@ -89,7 +92,7 @@ const gridColumns: Array<GridColumn> = [{
     valueMember: 'DiskActivity',
     headerText: 'Disk Activity',
     dataMember: 'DiskActivityData',
-    width: 20,
+    width: 100,
     minWidth: GRID_CELL_MIN_WIDTH,
     cellFormatter: (cellData) => {
         const disk = convertDisk(cellData);
@@ -101,7 +104,7 @@ const gridColumns: Array<GridColumn> = [{
     valueMember: 'Network',
     headerText: 'Network',
     dataMember: 'NetworkData',
-    width: 20,
+    width: 100,
     minWidth: GRID_CELL_MIN_WIDTH,
     cellFormatter: (cellData) => {
         const network = convertNetwork(cellData);
@@ -173,17 +176,24 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
                     overscanRowCount={30}
                     onRowDoubleClicked={this.onRowDoubleClick}
                     sortColumn="ServerName"
-                    sortDirection="ASC"
-                    highlightHoverRow={true}
+                    sortDirection={ SortDirection.Ascending}
+                    groupBySortColumn="FarmName"
+                    groupBySortDirection={SortDirection.Ascending}
+                    // displayGroupContainer={true}
+                    onGroupByChanged={this.groupByChanged}
                 />
             </div>
         );
     }
 
-    @autobind
-    private onRowDoubleClick(row: ServerGridRow) {
-        const { serverOnClick } = this.props;
+    groupByChanged = (groupBy: Array<string>) => {
+        this.setState((oldState) => {
+            return { ...oldState, groupBy: groupBy };
+        });
+    }
 
+    onRowDoubleClick = (row: ServerGridRow) => {
+        const { serverOnClick } = this.props;
         if (serverOnClick) {
             serverOnClick(row.GroupId, row.ServerId);
         }

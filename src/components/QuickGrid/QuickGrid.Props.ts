@@ -1,28 +1,40 @@
 import * as React from 'react';
 
+export enum SortDirection {
+    Ascending,
+    Descending
+}
 export interface IQuickGridProps {
     rows: Array<any>;
     columns: Array<GridColumn>;
     groupBy: Array<string>;
     gridClassName?: string;
     headerClassName?: string;
-    sortColumn?: string;
-    sortDirection?: 'ASC' | 'DESC';
     rowHeight: number | ((info: { index: number }) => number); // Number or a function that returns the height of a row given its index
     headerHeight: number;
     overscanRowCount?: number;
-    highlightHoverRow?: boolean;
     onSelectedRowChanged?: (selectedRowIndex: number) => void;
     onRowDoubleClicked?: (row: any) => void;
+    displayGroupContainer?: boolean;
+
+    sortColumn?: string;
+    sortDirection?: SortDirection;
+    onGroupByChanged?: (groupBy: Array<string>) => void;
+
+    groupBySortColumn?: string;
+    groupBySortDirection?: SortDirection;
+    onGroupBySort?: (sortBy: string, sortDirection: SortDirection) => void;
 }
 
 export interface IQuickGridState {
     sortColumn?: string;
-    sortDirection?: 'ASC' | 'DESC';
+    sortDirection?: SortDirection;
+    groupBySortColumn?: string;
+    groupBySortDirection?: SortDirection;
     expandedRows: any;
     columnWidths: Array<number>;
     selectedRowIndex?: number;
-    hoverRowIndex?: number;
+    columnsToDisplay: Array<GridColumn>;
 }
 
 export interface GroupRow {
@@ -38,7 +50,8 @@ export interface GridColumn {
     headerText: string;
     valueMember: string; // for sort & grouping
     isSortable?: boolean;
-    sortByValueGetter?: (cellData, sortDirection) => any;
+    isGroupable?: boolean;
+    sortByValueGetter?: (cellData, sortDirection: SortDirection) => any;
     width: number;
     minWidth?: number;
     dataMember?: string;
@@ -46,4 +59,3 @@ export interface GridColumn {
     cellClassName?: string;
     headerClassName?: string;
 }
-
