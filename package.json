@@ -7,6 +7,7 @@
   "scripts": {
     "build": "tsc -p . && gulp build",
     "lib": "cross-env NODE_ENV=production webpack",
+    "lint": "tslint -p tsconfig.json",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --no-info --content-base examples/pages",
     "prepublish": "npm run build"
   },
@@ -32,6 +33,7 @@
     "react-dnd-html5-backend": "2.4.1",
     "react-dom": "15.4.2",
     "react-draggable": "2.2.3",
+    "react-resizable": "1.7.1",
     "react-virtualized": "9.7.3",
     "reselect": "2.5.4",
     "run-sequence": "1.2.2"
@@ -70,7 +72,7 @@
     "ts-helpers": "1.1.2",
     "tslint": "5.1.0",
     "tslint-loader": "3.5.2",
-    "typescript": "2.2.2",
+    "typescript": "2.3.4",
     "webpack": "1.13.3",
     "webpack-dev-server": "1.16.2",
     "webpack-hot-middleware": "2.13.2",

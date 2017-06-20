@@ -1,0 +1,106 @@
+@import '../../index.scss';
+
+ul {
+    margin: 0;
+    list-style: none;
+}
+
+.item {
+    height: 20px;
+    display: inline-block;
+    flex-direction: column;
+    justify-content: center;
+    white-space: pre;
+    user-select: none;
+}
+
+.item-leaf{
+    height: 20px;
+    span{
+        padding-left: 20px;
+    }
+}
+
+.tree-expand-icon{
+    vertical-align: middle;
+}
+
+.tree-filter-input{
+    width: calc(100% - 5px);
+}
+
+.tree-filter-container {
+    width: 200px;
+    height: 20px;
+    padding: 2px 1px 2px 1px;
+    border-bottom: 1px solid $secondary-color;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.tree-single-select-item{
+    display: inline-block;
+    color: $font-primary-color;
+    font-family: $font-family-base;
+    font-size: $font-size-m;
+}
+
+// checkbox
+$Checkbox-label-size: 20px;
+$Checkbox-transition-duration: 200ms;
+$Checkbox-transition-timing: cubic-bezier(.4, 0, .23, 1);
+
+.checkbox {
+    display: inline-block;
+    box-sizing: border-box;
+    color: $font-primary-color;
+    font-family: $font-family-base;
+    font-size: $font-size-m;
+    position: relative;
+
+    .checkbox-input {
+        position: absolute;
+        opacity: 0;
+    }
+
+    .checkbox-label::before {
+        content: '';
+        display: inline-block;
+        border: 2px solid $font-primary-color;
+        width: $Checkbox-label-size;
+        height: $Checkbox-label-size;
+        font-weight: normal;
+        position: absolute;
+        box-sizing: border-box;
+        transition-property: background, border, border-color;
+        transition-duration: $Checkbox-transition-duration;
+        transition-timing-function: $Checkbox-transition-timing;
+    }
+
+    .checkbox-label {
+        display: inline-block;
+        cursor: pointer;
+        margin-top: 0px;
+        position: relative;
+        vertical-align: top;
+        user-select: none;
+        min-width: $Checkbox-label-size;
+        min-height: $Checkbox-label-size;
+        line-height: $Checkbox-label-size;
+    }
+
+    .label {
+        font-size: $font-size-m;
+        padding: 0 0 0 26px;
+        display: inline-block;
+    }
+
+    .custom-checkbox-checkmark {
+        color: $font-primary-color;
+        position: absolute;
+        margin-top: 4px;
+        margin-left: 2px;
+    }
+}
