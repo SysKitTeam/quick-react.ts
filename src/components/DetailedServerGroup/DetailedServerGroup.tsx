@@ -13,7 +13,7 @@ export class DetailedServerGroup extends React.PureComponent<IDetailedServerGrou
 
     @autobind
     private onServerClick(serverId: any) {
-        const {serverOnClick, id} = this.props;
+        const { serverOnClick, id } = this.props;
         if (serverOnClick) {
             serverOnClick(id, serverId);
         }
@@ -24,7 +24,14 @@ export class DetailedServerGroup extends React.PureComponent<IDetailedServerGrou
         const servers = serverGroup.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).sort(sortServersByStatusAndName);
         return (
             <div className={'detailed-server-group'}>
-                <Group serverChildrenCount={servers.length} filter={this.props.filter} className={'farm-name-inside'} id={serverGroup.id} name={serverGroup.name} key={serverGroup.id.configDataBaseName + '-' + serverGroup.id.sqlInstance}>
+                <Group
+                    serverChildrenCount={servers.length}
+                    filter={this.props.filter}
+                    className={'farm-name-inside'}
+                    id={serverGroup.id}
+                    name={serverGroup.name}
+                    key={serverGroup.id.configDataBaseName + '-' + serverGroup.id.sqlInstance}
+                    serversGroup={serverGroup.serversGroup}>
                     {
                         servers.map((server) => (
                             <DetailedServerTile
@@ -39,7 +46,7 @@ export class DetailedServerGroup extends React.PureComponent<IDetailedServerGrou
                                 processorUsage={server.processorUsage}
                                 partitionUsages={server.partitionUsages}
                                 serverOnClick={this.onServerClick}
-                                />
+                            />
                         ))
                     }
                 </Group>

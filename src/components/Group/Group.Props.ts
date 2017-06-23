@@ -1,9 +1,11 @@
 import * as React from 'react';
 import {IGroupID} from '../../models';
+import { IServerGroup } from '../../models/IServerGroup';
 
 export interface IGroupProps  {
     id: IGroupID;
     name: string;
+    serversGroup: IServerGroup;
     className?: string;
     filter?: string;
     

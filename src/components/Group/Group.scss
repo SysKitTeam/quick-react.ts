@@ -55,12 +55,18 @@
         }
 
         .icon{
-                padding: 2px;
-                padding-top:5px;
-                 position: relative;
-                float: right;
-                font-size: 14px;
-                color: $emphasized-text-color;
+            padding: 2px;
+            padding-top:5px;
+            position: relative;
+            float: right;
+            font-size: 14px;
+            color: $emphasized-text-color;
+
+            &.group-icon {
+                float: left;
+                top: 2px;
+                font-size: 16px;
+            }
         }
         .icon:hover{
             cursor: pointer;

@@ -105,6 +105,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
                     id={farm.id} name={farm.name}
                     key={farm.id.configDataBaseName + '-' + farm.id.sqlInstance}
                     onClick={this.props.groupOnClick}
+                    serversGroup={farm.serversGroup}
                     >
                     {
                         servers.map((server) => (

@@ -45,7 +45,8 @@ export class Index extends React.Component<any, any> {
                     isCustom: farm.isCustom,
                     version: farm.version,
                     name: farm.name,
-                    servers: servers
+                    servers: servers,
+                    serversGroup: farm.serversGroup
                 };
             });
             this.setState({ farms: newFarms });

@@ -33,9 +33,9 @@ export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
                 className={'farm-name-inside'}
                 id={farm.id}
                 name={farm.name}
+                serversGroup={farm.serversGroup}
                 key={farm.id.configDataBaseName + '-' + farm.id.sqlInstance}
-                onClick={this.props.groupOnClick}
-                >
+                onClick={this.props.groupOnClick}>
                 {
                     servers.map((server, serverIndex) => (
                         <ServerTile

@@ -36,7 +36,11 @@ export function createFarms(numOfFarms: number, minServerCount: number, maxServe
                 version: '14',
                 icon: 'icon-SharePoint'
             },
-            servers: servers
+            servers: servers,
+            serversGroup: {
+                icon: farmIndex % 2 === 0 ? 'icon-SharePoint' : 'icon-database',
+                name: farmIndex % 2 === 0 ? 'SharePoint' : 'SQL Server'
+            }
         });
     }
     return _farms;
@@ -75,6 +79,10 @@ export const DemoServerGroup: IDetailedServerGroup = {
     version: {
         version: '14',
         icon: 'icon-SharePoint'
+    },
+    serversGroup: {
+        icon: 'icon-SharePoint',
+        name: 'SharePoint'
     },
     servers: [
         {
