@@ -180,9 +180,14 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
                     groupBySortDirection={SortDirection.Ascending}
                     // displayGroupContainer={true}
                     onGroupByChanged={this.groupByChanged}
+                    groupRowFormat={this.groupRowFormat}
                 />
             </div>
         );
+    }
+
+    groupRowFormat = (rowData: any): string => {
+        return rowData.name;
     }
 
     groupByChanged = (groupBy: Array<string>) => {
