@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ITileDashboardProps, ITiledDashboardFarm, ITiledDashboardServer } from './TileDashboard.Props';
+import { ITileDashboardProps } from './TileDashboard.Props';
 import { ServerTile } from '../ServerTile/ServerTile';
 import { ITileData } from '../ServerTile/ServerTile.Props';
 const AutoSizer = require('react-virtualized').AutoSizer;
@@ -13,6 +13,7 @@ import { autobind } from '../../utilities/autobind';
 import { getServerMeasures, sortServersByStatusAndName, filterServerByName, filterServerByStatus } from '../../utilities/server';
 import { TileGroup } from '../TileGroup';
 import { filterFarms } from '../Dashboard/Dashboard';
+import { IGroup } from '../../models';
 
 import './TileDashboard.scss';
 
@@ -62,14 +63,14 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
                                     height={height}
                                     ref={(reference) => {
                                         this.list = reference;
-                                    } }
+                                    }}
                                     rowCount={farms.length}
                                     rowHeight={function (index) {
                                         return this.calculateRowHeight(width, index);
                                     }.bind(this)}
                                     rowRenderer={this._renderRow}
                                     width={width}
-                                    />
+                                />
                             )}
                         </AutoSizer>
                     }
@@ -98,7 +99,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
     }
 
     @autobind
-    private getRow(index: number): ITiledDashboardFarm {
+    private getRow(index: number): IGroup {
         return this.state.farms[index];
     }
 
@@ -108,14 +109,14 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
         if (farm.servers.length === 0) {
             return;
         }
-        
+
         return (
             <div style={style} key={index}>
                 <TileGroup
                     farm={farm}
                     serverOnClick={this.props.serverOnClick}
                     groupOnClick={this.props.groupOnClick}
-                    />
+                />
             </div>
         );
     }

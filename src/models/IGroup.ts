@@ -1,9 +1,16 @@
 import {IServer} from './IServer';
 
-export interface IGroupID {}
+export enum GroupTypeEnum {
+    SharePoint = 1,
+    Sql = 2,
+    SqlAlwaysOn = 3,
+    Custom = 10
+}
+
 
 export interface IGroup {
-    id: IGroupID;
+    id: string;
     name: string;
     servers: Array<IServer>;
+    type: GroupTypeEnum;
 }

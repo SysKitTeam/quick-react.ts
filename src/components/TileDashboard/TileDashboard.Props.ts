@@ -1,19 +1,9 @@
 import * as React from 'react';
-import { ISharePointServer, IHazMeasures, IFarm } from '../../models';
-
-export interface ITiledDashboardServer extends ISharePointServer, IHazMeasures {
-    numberOfUsers?: string;
-    hasCloseButton?: boolean;
-}
-
-export interface ITiledDashboardFarm extends IFarm {
-    servers: Array<ITiledDashboardServer>;
-}
-
+import { IGroup } from '../../models';
 
 export interface ITileDashboardProps {
     className: string;
-    farms: Array<ITiledDashboardFarm>;
+    farms: Array<IGroup>;
     filter: string;
     /**
     * Action that is called on clicking the add icon on the bar of a certain group. The function is supplied with a group id.

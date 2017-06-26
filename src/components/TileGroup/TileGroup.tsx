@@ -33,7 +33,7 @@ export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
                 className={'farm-name-inside'}
                 id={farm.id}
                 name={farm.name}
-                key={farm.id.configDataBaseName + '-' + farm.id.sqlInstance}
+                key={farm.id}
                 onClick={this.props.groupOnClick}
                 >
                 {

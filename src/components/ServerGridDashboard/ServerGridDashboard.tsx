@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { IServerGridDashboardProps, ServerGridRow, IServerGridDashboardState } from './ServerGridDashboard.Props';
-import { ITiledDashboardFarm } from '../TileDashboard/TileDashboard.Props';
 import * as classNames from 'classnames';
 import { Icon } from '../Icon/Icon';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
@@ -10,7 +9,7 @@ import { GetClassForStatus } from '../../utilities/server';
 import { filterFarms } from '../Dashboard/Dashboard';
 
 import { sortServersByStatusAndName, filterServerByName, convertNetwork, convertDisk, convertRam } from '../../utilities/server';
-import { IMeasure, MeasureType, IFarm, Partition, DiskMeasure, CpuMeasure, RamMeasure, NetworkMeasure, ServerStatus } from '../../models';
+import { IMeasure, MeasureType, IGroup, Partition, DiskMeasure, CpuMeasure, RamMeasure, NetworkMeasure, ServerStatus } from '../../models';
 
 import './ServerGridDashboard.scss';
 
@@ -130,7 +129,7 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
         });
     }
 
-    private transformFarmToRows(farms: Array<ITiledDashboardFarm>, filter: string): Array<ServerGridRow> {
+    private transformFarmToRows(farms: Array<IGroup>, filter: string): Array<ServerGridRow> {
         const filteredFarms = filterFarms(farms, filter);
         let rows = [];
         const getMeasure = (measures, measureType) => {

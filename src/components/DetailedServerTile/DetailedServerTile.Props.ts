@@ -1,7 +1,14 @@
 import * as React from 'react';
-import {ISharePointServer, ServerStatus } from '../../models';
+import {IServer, ServerStatus, IRole } from '../../models';
 
-export interface IDetailedServerProps extends ISharePointServer {
+export interface IDetailedServerProps {
+    id: string;
+    name: string;
+    status: ServerStatus;
+    roles: Array<IRole>;
+    filter?: string; 
+    onRoleEdit?: (serverId: string) => void;
+    onClose?: (serverId: string) => void;
     numberOfUsers?: string;
     memoryUsage?: IMemoryUsage;
     partitionUsages?: Array<IPartitionUsage>;

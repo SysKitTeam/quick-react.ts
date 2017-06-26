@@ -1,17 +1,10 @@
 import * as React from 'react';
-import {ICompactServerProps} from '../CompactServer/CompactServer.Props';
-import {ISharePointServer, IHazMeasures, IFarm} from '../../models';
-
-export interface ICompactDashboardServer extends ISharePointServer, IHazMeasures {
-}
-
-export interface ICompactDashboardFarm extends IFarm {
-    servers: Array<ICompactDashboardServer>;
-}
+import { ICompactServerProps } from '../CompactServer/CompactServer.Props';
+import { IGroup } from '../../models';
 
 export interface ICompactDashboardProps {
   title: string;
-  farms: Array<ICompactDashboardFarm>;
+  farms: Array<IGroup>;
   className?: string;
   filter?: string;
   isVertical?: boolean;
@@ -20,7 +13,7 @@ export interface ICompactDashboardProps {
   * Action that is called on clicking the add icon on the bar of a certain group. The function is supplied with a group id.
   */
   groupAddFunc?: (groupId: any) => void;
-  
+
   /**
   * Action that is called on clicking the edit icon on the bar of a certain group. The function is supplied with a group id.
   */

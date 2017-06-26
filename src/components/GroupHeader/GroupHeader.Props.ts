@@ -1,10 +1,7 @@
 import * as React from 'react';
-import { ISharePointVersion, IFarmID } from '../../models';
-
+import { GroupTypeEnum } from '../../models';
 
 export interface IGroupHeaderProps {
-    version: ISharePointVersion;
-    farmId: IFarmID;
+    type: GroupTypeEnum;
     className?: string;
-    isCustomFarm: boolean;
 }

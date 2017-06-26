@@ -1,15 +1,14 @@
 import * as React from 'react';
 import { ICompactDashboardProps } from './CompactDashboard.Props';
 import { CompactFarm } from '../CompactFarm/CompactFarm';
-import { ICompactFarmProps, ICompactDashboardFarm } from '../CompactFarm/CompactFarm.Props';
+import { ICompactFarmProps } from '../CompactFarm/CompactFarm.Props';
 const List = require('react-virtualized').List;
 const AutoSizer = require('react-virtualized').AutoSizer;
 const Collection = require('react-virtualized').Collection;
 import * as classNames from 'classnames';
-import { IFarm, Partition } from '../../models';
+import { IGroup, IServer, Partition } from '../../models';
 import { autobind } from '../../utilities/autobind';
 import { sortServersByStatusAndName, filterServerByName, filterServerByStatus } from '../../utilities/server';
-import { ITiledDashboardFarm, ITiledDashboardServer } from '../TileDashboard/Tiledashboard.props';
 import { filterFarms } from '../Dashboard/Dashboard';
 
 import './CompactDashboard.scss';
@@ -143,9 +142,6 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
         let columnPosition = obj.index % (columnCount || 1);
         let height = 120 + row.servers.length * 70;
         let serverRoleDiff = row.servers.length * 27;
-        if (row.isCustom) {
-            serverRoleDiff += 21;
-        }
         height += serverRoleDiff;
 
         const cellWidth = CELL_WIDTH;
@@ -163,7 +159,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
     }
 
     @autobind
-    private getRow(index: number): IFarm {
+    private getRow(index: number): IGroup {
         return this.state.farms[index];
     }
 
@@ -177,7 +173,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
         return (
             <div style={style} key={index}>
                 <CompactFarm
-                    farm={farm as ICompactDashboardFarm}
+                    farm={farm}
                     filter={this.props.filter}
                     serverOnClick={this.props.serverOnClick}
                     groupOnClick={this.props.groupOnClick}

@@ -1,8 +1,7 @@
 import * as React from 'react';
-import {IGroupID} from '../../models';
 
 export interface IGroupProps  {
-    id: IGroupID;
+    id: string;
     name: string;
     className?: string;
     filter?: string;
@@ -21,9 +20,9 @@ export interface IGroupProps  {
     /**
      * Header icon action methods.
      */
-    addFunc?: (farmId: any) => void;
-    editFunc?: (farmId: any) => void;
-    deleteFunc?: (farmId: any) => void;
+    addFunc?: (groupId: string) => void;
+    editFunc?: (groupId: string) => void;
+    deleteFunc?: (groupId: string) => void;
     /**
      * Action that is called on clicking the title of the group. The function is supplied with a group id.
      */

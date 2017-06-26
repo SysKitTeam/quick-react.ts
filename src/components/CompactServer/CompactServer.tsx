@@ -8,7 +8,7 @@ import { ServerStatus } from '../../models';
 import { GetClassForStatus } from '../../utilities/server';
 import './CompactServer.scss';
 
-export class CompactServer extends React.PureComponent<ICompactServerProps, any> {
+export class CompactServer extends React.PureComponent<ICompactServerProps, void> {
     constructor(props?: ICompactServerProps) {
         super(props);
     }
@@ -21,7 +21,7 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, any>
                 className={className}
                 onMouseEnter={this.props.onMouseEnter}
                 onMouseLeave={this.props.onMouseLeave}
-                onClick={this.onclick}
+                onClick={this.onclick}                
             >
                 <span className={'server-title'}>
                     <span>{this.props.name}</span>

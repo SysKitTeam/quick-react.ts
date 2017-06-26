@@ -13,10 +13,6 @@ export interface IMeasure {
     status?: ServerStatus;
 }
 
-export interface IHazMeasures {
-    measures: Array<IMeasure>;
-}
-
 export interface Partition {
     name: string;
     used: number;

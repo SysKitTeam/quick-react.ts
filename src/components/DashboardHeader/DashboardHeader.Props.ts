@@ -20,4 +20,6 @@ export interface IDashboardHeaderProps {
     onAddFarmClick?: () => void;
     pivotItems?: { [id: number]: IPivotItemProps };
     selectedDashboardKey: any;
+    selectedGrouping: number;
+    onGroupingChange: (groupingKey: number) => void;
 }
