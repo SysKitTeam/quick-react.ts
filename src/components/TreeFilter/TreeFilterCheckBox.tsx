@@ -7,22 +7,22 @@ export interface ITreeFilterCheckBoxProps {
     text: string;
     onChange: () => void;
 }
-export class TreeFilterCheckBox extends React.PureComponent<ITreeFilterCheckBoxProps, void> {
+export class TreeFilterCheckBox extends React.PureComponent<ITreeFilterCheckBoxProps, any> {
     render() {
         const { itemId, checked, onChange, text } = this.props;
         const isChecked = checked === CheckStatus.Checked;
         const iconName = isChecked ? 'icon-checkmark' : 'icon-folder';
         return (
-            <div className="checkbox" onClick={onChange} >
+            <div className="TreeFilter-checkbox" onClick={onChange} >
                 <input
                     {...isChecked}
                     className={'checkbox-input'}
                     type="checkbox"
                 />
                 {checked !== CheckStatus.NotChecked &&
-                    <Icon className={'custom-checkbox-checkmark'} iconName={iconName} />
+                    <Icon className={'TreeFilter-checkbox-checkmark'} iconName={iconName} />
                 }
-                <label className={'checkbox-label'}>
+                <label className={'TreeFilter-checkbox-label'}>
                     <span className={'label'}>{text}</span>
                 </label>
             </div>

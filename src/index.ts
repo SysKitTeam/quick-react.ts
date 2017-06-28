@@ -51,6 +51,7 @@ export * from './components/DateTimeDropdownPicker';
 export * from './components/DateTimePickerBar';
 export * from './components/QuickGrid';
 export * from './components/ServerGridDashboard';
+export * from './components/TreeFilter';
 
 export * from './utilities/autobind';
 export * from './utilities/KeyCodes';

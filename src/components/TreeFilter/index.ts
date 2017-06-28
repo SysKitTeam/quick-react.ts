@@ -1,2 +1,2 @@
-export * from './TreeFilter';
 export * from './TreeFilter.Props';
+export * from './TreeFilter';

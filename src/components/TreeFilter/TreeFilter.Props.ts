@@ -7,7 +7,7 @@ export enum FilterSelectionEnum {
 
 export interface IFilterSelection {
   type: FilterSelectionEnum;
-  selectedIDs?: Array<string>;
+  selectedIDs: Array<string>;
 }
 
 export enum CheckStatus {
@@ -34,10 +34,12 @@ export interface ITreeFilterProps {
 
 export interface ITreeFilterState {
     isOpen: boolean;
-    allSelected: CheckStatus;
+    
+    // allSelected: CheckStatus;
     filteredItems: Array<TreeItem>;
     searchText: string;
-    checkedItemIds: Array<string>;
+
+    // checkedItemIds: Array<string>;
     partiallyCheckedItemIds: Array<string>;   // items with selected children - different name?
 }
 
