@@ -2,12 +2,18 @@ import * as React from 'react';
 import { ICompactServerProps } from '../CompactServer/CompactServer.Props';
 import { IGroup } from '../../models';
 
+export interface ICompactDashboardState {
+  list: any;
+  collection: any;
+  groups: Array<IGroup>;
+}
+
 export interface ICompactDashboardProps {
   title: string;
   farms: Array<IGroup>;
   className?: string;
   filter?: string;
-  isVertical?: boolean;
+  singleGroupView?: boolean;
 
   /**
   * Action that is called on clicking the add icon on the bar of a certain group. The function is supplied with a group id.

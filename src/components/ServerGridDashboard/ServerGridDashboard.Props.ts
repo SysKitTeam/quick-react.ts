@@ -6,6 +6,7 @@ export interface IServerGridDashboardProps {
     className?: string;
     serverOnClick?: (groupId: any, serverId: any) => void;
     filter: string;
+    singleGroupView?: boolean;
 }
 export interface ServerGridRow {
     type: 'DataRow';
@@ -25,4 +26,5 @@ export interface IServerGridDashboardState {
     rows: Array<ServerGridRow>;
     groupBy: Array<string>;
     expandedRows: any;
+    groupBySortColumn: string;
 }

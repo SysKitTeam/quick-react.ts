@@ -26,6 +26,10 @@ export class DashboardHeader extends React.PureComponent<IDashboardHeaderProps, 
         {
             key: '2',
             text: 'Status'
+        },
+        {
+            key: '3',
+            text: 'None'
         }
     ];
 

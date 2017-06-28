@@ -11,7 +11,7 @@ export const dummyCompact: ICompactDashboardProps = {
     farms: farms.map(convertFarm),
     className: '',
     filter: '',
-    isVertical: false
+    singleGroupView: false
 
 };
 
@@ -65,7 +65,6 @@ export function convertFarm(farm: IGroup): IGroup {
         };
     });
     let ssd = Math.floor(Math.random() * 100) % 4;
-    console.log(ssd);
     return {
         servers: servers,
         name: farm.name,

@@ -126,7 +126,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         const rowData = this.getRow({ index: rowIndex });
         const columns = this.state.columnsToDisplay;
         const column = columns[columnIndex];
-        if (rowData.type === 'GroupRow') {
+        if (rowData.type === 'GroupRow' && this.props.groupBy.length > 0) {
             return this.renderGroupCell(columnIndex, key, rowIndex, rowData, style);
         } else {
             if (columnIndex < this.props.groupBy.length) {

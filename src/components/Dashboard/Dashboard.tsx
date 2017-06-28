@@ -9,7 +9,7 @@ import { ICompactDashboardProps } from '../CompactDashboard/CompactDashboard.Pro
 import { ActiveDashboard } from '../DashboardHeader/DashboardHeader.Props';
 import { PivotItem } from '../Pivot/PivotItem';
 import { IGroup, IServer, GroupTypeEnum, ServerStatus } from '../../models';
-import { filterServerByName, filterServerByStatus } from '../../utilities/server';
+import { filterServerByName, filterServerByStatus, sortServersByStatusAndName } from '../../utilities/server';
 import './Dashboard.scss';
 
 function sortFarms(ob1: { farmName: string }, ob2: { farmName: string }) {
@@ -69,7 +69,28 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
             return this.groupStatus(props.farms);
         } else if (grouping === DashboardGroupingEnum.Type) {
             return this.groupType(props.farms);
+        } else if (grouping === DashboardGroupingEnum.Disabled) {
+            return this.groupNone(props.farms);
         }
+    }
+
+    groupNone(groups: Array<IGroup>): Array<IGroup> {
+        let allServers: IGroup = {
+            id: 'all-servers-group',
+            name: 'All Servers',
+            type: GroupTypeEnum.Custom,
+            servers: new Array<IServer>()
+        };
+
+        for (let i = 0; i < groups.length; i++) {
+            let group = groups[i];
+            for (let j = 0; j < group.servers.length; j++) {
+                let server = group.servers[j];
+                allServers.servers.push(server);
+            }
+        }
+        allServers.servers = allServers.servers.sort(sortServersByStatusAndName);
+        return [allServers];
     }
 
     groupType(groups: Array<IGroup>): Array<IGroup> {
@@ -209,7 +230,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         className={'viewport-height'}
                         title={this.props.title}
                         farms={groups}
-                        isVertical={activeView === ActiveDashboard.CompactVertical}
+                        singleGroupView={this.state.grouping === DashboardGroupingEnum.Disabled}
                         groupEditFunc={this.props.groupEditFunc}
                         groupAddFunc={this.props.groupEditFunc}
                         groupDeleteFunc={this.props.groupDeleteFunc}
@@ -225,6 +246,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         className={'viewport-height'}
                         farms={groups}
                         filter={filter}
+                        singleGroupView={this.state.grouping === DashboardGroupingEnum.Disabled}
                         groupEditFunc={this.props.groupEditFunc}
                         groupAddFunc={this.props.groupEditFunc}
                         groupDeleteFunc={this.props.groupDeleteFunc}
@@ -241,6 +263,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         farms={groups}
                         serverOnClick={this.props.serverOnClick}
                         filter={filter}
+                        singleGroupView={this.state.grouping === DashboardGroupingEnum.Disabled}
                     />
                 }
             </div>

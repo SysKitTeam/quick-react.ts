@@ -15,14 +15,17 @@ import './ServerGridDashboard.scss';
 
 const GRID_CELL_MIN_WIDTH = 180;
 
-const gridColumns: Array<GridColumn> = [{
+const groupByColumn: GridColumn = {
     valueMember: 'FarmName',
     headerText: 'Farm',
     width: 100,
     minWidth: 50,
     isSortable: true,
     isGroupable: true
-}, {
+
+};
+
+const gridColumns: Array<GridColumn> = [{
     valueMember: 'ServerName',
     headerText: 'Server',
     dataMember: 'ServerData',
@@ -112,20 +115,26 @@ const gridColumns: Array<GridColumn> = [{
     isSortable: true
 }];
 
-export class ServerGridDashboard extends React.Component<IServerGridDashboardProps, IServerGridDashboardState> {
+export class ServerGridDashboard extends React.PureComponent<IServerGridDashboardProps, IServerGridDashboardState> {
     private grid;
     constructor(props: IServerGridDashboardProps) {
         super(props);
         this.state = {
             rows: this.transformFarmToRows(props.farms, props.filter),
             expandedRows: {},
-            groupBy: ['FarmName']
+            groupBy: ['FarmName'],
+            groupBySortColumn: 'FarmName'
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps: IServerGridDashboardProps) {
         this.setState((oldState) => {
-            return { ...oldState, rows: this.transformFarmToRows(nextProps.farms, nextProps.filter) };
+            return { 
+                ...oldState,
+                 rows: this.transformFarmToRows(nextProps.farms, nextProps.filter),
+                 groupBy: nextProps.singleGroupView ? [] : ['FarmName'],
+                 groupBySortColumn: nextProps.singleGroupView ? '' : 'FarmName'
+             };
         });
     }
 
@@ -164,18 +173,23 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
 
     public render(): JSX.Element {
         const className = classNames({ [this.props.className]: this.props.className !== undefined }, 'server-grid-dashboard-container');
+        let columns = [...gridColumns];
+        if (!this.props.singleGroupView) {
+            columns.push(groupByColumn);
+        }
+
         return (
             <div className={className}>
                 <QuickGrid
                     rows={this.state.rows}
-                    columns={gridColumns}
+                    columns={columns}
                     groupBy={this.state.groupBy}
                     rowHeight={28}
                     headerHeight={28}
                     overscanRowCount={30}
                     onRowDoubleClicked={this.onRowDoubleClick}
                     sortColumn="ServerName"
-                    sortDirection={ SortDirection.Ascending}
+                    sortDirection={SortDirection.Ascending}
                     groupBySortColumn="FarmName"
                     groupBySortDirection={SortDirection.Ascending}
                     // displayGroupContainer={true}
