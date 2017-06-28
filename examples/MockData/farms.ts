@@ -12,6 +12,7 @@ export const classListExample = {
 let roleListFarms = [{ display: 'WPF', iconName: 'icon-add' }, { display: 'WPF1111111', iconName: 'icon-add' }, { display: 'Not another', iconName: 'icon-add' }, { display: 'Search', iconName: 'icon-alert' }];
 
 export const farms: Array<IGroup> = createFarms(10, 10, 10);
+let serverIndexer = 0;
 
 export function createFarms(numOfFarms: number, minServerCount: number, maxServerCount: number): Array<IGroup> {
     let _farms = new Array<IGroup>();
@@ -20,11 +21,12 @@ export function createFarms(numOfFarms: number, minServerCount: number, maxServe
         let servers = [];
         for (let i = 0; i <= numOfServers; i++) {
             servers.push({
-                id: 'server' + i,
-                name: 'server ' + i,
+                id: 'server' + farmIndex + '' + i,
+                name: 'server ' + farmIndex + '' + i,
                 roles: roleListFarms,
                 status: Math.random() >= 0.5 ? 1 : 2
             });
+            serverIndexer++;
         }
         _farms.push({
             id: 'Demo Farm' + farmIndex,

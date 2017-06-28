@@ -8,12 +8,15 @@ const Collection = require('react-virtualized').Collection;
 import * as classNames from 'classnames';
 import { IGroup, IServer, Partition } from '../../models';
 import { autobind } from '../../utilities/autobind';
-import { sortServersByStatusAndName, filterServerByName, filterServerByStatus } from '../../utilities/server';
+import { sortServersByStatusAndName, filterServerByName, filterServerByStatus, getServerMeasures } from '../../utilities/server';
 import { filterFarms } from '../Dashboard/Dashboard';
 
 import './CompactDashboard.scss';
 import { CompactServer } from '../CompactServer/';
 import { SingleGroupCollection } from '../SingleGroupCollection';
+import { Callout } from '../Callout';
+import { CommonComponent } from '../Common';
+import { HoverableCompactServer } from '../HoverableCompactServer/HoverableCompactServer';
 
 const GUTTER_SIZE = 3;
 const CELL_WIDTH = 244;
@@ -26,9 +29,9 @@ const compactFarmPadding = 5;
 const headerTotalHeight = 65; // Farm DIV size - serverTileHeight  
 const totalPaddingHorizontal = 2 * (compactFarmMargin + compactFarmPadding) + scrollbarWidth;
 
-export class CompactDashboard extends React.PureComponent<ICompactDashboardProps, ICompactDashboardState> {
-    collection: any;
+export class CompactDashboard extends CommonComponent<ICompactDashboardProps, ICompactDashboardState> {
     list: any;
+
     constructor(props?: ICompactDashboardProps) {
         super(props);
         this.state = {
@@ -101,11 +104,7 @@ export class CompactDashboard extends React.PureComponent<ICompactDashboardProps
 
     @autobind
     _onResize(obj: { height: number, width: number }) {
-        if (this.props.singleGroupView) {
-            this.collection.recomputeCellSizesAndPositions();
-        } else {
-            this.list.recomputeRowHeights();
-        }
+        this.list.recomputeRowHeights();
     }
 
     @autobind
@@ -149,17 +148,12 @@ export class CompactDashboard extends React.PureComponent<ICompactDashboardProps
     @autobind
     private renderSingleServerCell(server, { index, isScrolling, key, style }): JSX.Element {
         return (
-            <div style={style} key={index} className="compact-farm">
-                <CompactServer
-                    key={server.id + index}
-                    roles={server.roles}
-                    id={server.id}
-                    status={server.status}
-                    onRoleEdit={server.onRoleEdit}
-                    onClose={server.onClose}
-                    name={server.name}
-                />
-            </div>
+            <HoverableCompactServer
+                key={key}
+                server={server}
+                className="compact-farm"
+                style={style}
+            />           
         );
     }
 }

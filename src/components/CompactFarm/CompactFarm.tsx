@@ -109,7 +109,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, void> {
                     {
                         servers.map((server, index) => (
                             <CompactServer
-                                key={server.id + index}
+                                key={server.id}
                                 roles={server.roles}
                                 id={server.id}
                                 status={server.status}
