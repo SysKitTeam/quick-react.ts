@@ -9,12 +9,12 @@ import { DetailedServerTile } from './../../src/components/DetailedServerTile/De
 import { DemoServerGroup } from '../MockData/farms';
 
 const server = DemoServerGroup.servers[0];
-export class Index extends React.Component<any, any> {  
+export class Index extends React.Component<any, any> {
     public render() {
         return (
-              <div>
+            <div>
                 <DetailedServerTile
-                    id={{ FQDN: 'server-123' }}
+                    id={'server-123'}
                     status={0}
                     name={'SP2016-Farm'}
                     numberOfUsers={'3432'}
@@ -23,9 +23,9 @@ export class Index extends React.Component<any, any> {
                     processorUsage={server.processorUsage}
                     partitionUsages={server.partitionUsages}
                     onClose={(id) => console.log('closing with id : ' + id)}
-                    >
+                >
                 </DetailedServerTile>
-             </div>
+            </div>
         );
     }
 }
