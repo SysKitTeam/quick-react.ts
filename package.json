@@ -1,6 +1,6 @@
 {
   "name": "quick-react-ts",
-  "version": "0.8.22",
+  "version": "0.8.24",
   "description": "Reusable components for React, written in TypeScript",
   "main": "./lib/index.js",
   "typings": "./lib/index",
@@ -34,6 +34,7 @@
     "react-dom": "15.4.2",
     "react-draggable": "2.2.3",
     "react-resizable": "1.7.1",
+    "react-numeric-input": "2.0.7",
     "react-virtualized": "9.7.3",
     "reselect": "2.5.4",
     "run-sequence": "1.2.2"
@@ -72,7 +73,7 @@
     "ts-helpers": "1.1.2",
     "tslint": "5.1.0",
     "tslint-loader": "3.5.2",
-    "typescript": "2.3.4",
+    "typescript": "2.2.2",
     "webpack": "1.13.3",
     "webpack-dev-server": "1.16.2",
     "webpack-hot-middleware": "2.13.2",
