@@ -35,17 +35,18 @@ module.exports = {
         Treeview: "./examples/src/Treeview.tsx",
         StatusBar: "./examples/src/StatusBar.tsx",
         Dashboard: "./examples/src/Dashboard.tsx",
-        ServerTile: "./examples/src/ServerTile.tsx",       
-        ProgressBar: "./examples/src/ProgressBar.tsx",   
-        History: "./examples/src/History.tsx",                     
+        ServerTile: "./examples/src/ServerTile.tsx",
+        ProgressBar: "./examples/src/ProgressBar.tsx",
+        History: "./examples/src/History.tsx",
         PieChart: "./examples/src/PieChart.tsx",
         LineChart: "./examples/src/LineChart.tsx",
         CompactFarm: "./examples/src/CompactFarm.tsx",
         DetailedServerGroup: "./examples/src/DetailedServerGroup.tsx",
-        DetailedServerTile: "./examples/src/DetailedServerTile.tsx",  
+        DetailedServerTile: "./examples/src/DetailedServerTile.tsx",
         NavigationGroup: "./examples/src/NavigationGroup.tsx",
         ServerGridDashboard: "./examples/src/ServerGridDashboard.tsx",
-	    DateTimePicker: "./examples/src/DateTimePicker.tsx"   
+        DateTimePicker: "./examples/src/DateTimePicker.tsx",
+        TreeFilter: "./examples/src/TreeFilter.tsx"
     },
     output: {
         path: path.join(__dirname, '/dist'),
@@ -83,7 +84,7 @@ module.exports = {
             loaders.eot,
             loaders.woff,
             loaders.woff2,
-            loaders.ttf,         
+            loaders.ttf,
         ]
     },
 
