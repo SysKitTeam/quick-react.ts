@@ -15,6 +15,10 @@ ul {
     user-select: none;
 }
 
+.item-container{
+    white-space:nowrap;
+}
+
 .tree-expand-icon{
     vertical-align: middle;
 }
@@ -81,12 +85,10 @@ $Checkbox-transition-timing: cubic-bezier(.4, 0, .23, 1);
         min-width: $Checkbox-label-size;
         min-height: $Checkbox-label-size;
         line-height: $Checkbox-label-size;
-    }
 
-    .label {
-        font-size: $font-size-m;
-        padding: 0 0 0 20px;
-        display: inline-block;
+        .label {
+            padding: 0 0 0 20px;          
+        }
     }
 
     .TreeFilter-checkbox-checkmark {

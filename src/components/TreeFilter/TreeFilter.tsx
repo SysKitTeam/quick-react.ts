@@ -60,7 +60,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         if (this.state.filteredItems !== prevState.filteredItems) {
             this._list.recomputeRowHeights();
         } else if (this.props.filterSelection.selectedIDs !== prevProps.filterSelection.selectedIDs) {
-            if (this._list !== undefined) {
+            if (this._list != null) {
                 this._list.forceUpdateGrid();
             }
         }
@@ -114,7 +114,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         if (item.expanded) {
             count += item.children
                 .map(this.getExpandedItemCount)
-                .reduce(function(total, currentCount) { return total + currentCount; }, 0);
+                .reduce(function (total, currentCount) { return total + currentCount; }, 0);
         }
         return count;
     }
@@ -228,14 +228,16 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                 if (this.isItemChecked(checkedItemIds, parent)) {
                     return partiallyCheckedItemIds;
                 } else {
-                    return partiallyCheckedItemIds.concat([parent.id]);
+                    const newPartiallyChecked = partiallyCheckedItemIds.concat([parent.id]);
+                    return this.checkParentPartiallyChecked(newPartiallyChecked, parent, checkedItemIds, wasChecked);
                 }
             }
             let newPartiallyChecked = partiallyCheckedItemIds.filter((itemId) => itemId !== parent.id);
             return this.checkParentPartiallyChecked(newPartiallyChecked, parent, checkedItemIds, wasChecked);
         } else {
             if (this.isItemChecked(checkedItemIds, parent)) {
-                return partiallyCheckedItemIds.filter((itemId) => itemId !== parent.id);
+                const newPartiallyChecked = partiallyCheckedItemIds.filter((itemId) => itemId !== parent.id);
+                return this.checkParentPartiallyChecked(newPartiallyChecked, parent, checkedItemIds, wasChecked);
             }
             if (this.isItemChecked(partiallyCheckedItemIds, parent)) {
                 return partiallyCheckedItemIds;
@@ -318,7 +320,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         if (treeItem.expanded) {
             return (
                 <div key={itemKey} >
-                    <div style={{ height: ROW_HEIGHT }} >
+                    <div className="item-container" style={{ height: ROW_HEIGHT }} >
                         <Icon className="tree-expand-icon" iconName={'icon-arrow_down_right'} onClick={onExpandClick} />
                         <ItemCheckboxElement />
                     </div>
@@ -337,17 +339,15 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
             );
         } else if (treeItem.children != null && treeItem.children.length) { // expandable
             return (
-                <div key={itemKey} style={{ height: ROW_HEIGHT }} >
+                <div className="item-container" key={itemKey} style={{ height: ROW_HEIGHT }} >
                     <Icon className="tree-expand-icon" iconName={'icon-arrow_right'} onClick={onExpandClick} />
                     <ItemCheckboxElement />
                 </div>
             );
         } else { // leaf
+            const marginLeft = this.props.itemsAreFlatList ? 0 : 21;
             return (
-                <div key={itemKey} style={{ height: ROW_HEIGHT }}>
-                    {!this.props.itemsAreFlatList &&
-                        <div style={{ width: 21, display: 'inline-block' }} />
-                    }
+                <div className="item-container" key={itemKey} style={{ height: ROW_HEIGHT, marginLeft: marginLeft }}>
                     <ItemCheckboxElement />
                 </div>
             );
