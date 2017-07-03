@@ -168,12 +168,6 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
     }
 
     @autobind
-    private _onRoleEdit(event: any, id: any) {
-        console.log('compact dashboard : role edit', event, id);
-        this.props.serverRoleEdit(event, id);
-    }
-
-    @autobind
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
         const farm = this.getRow(index);
         if (farm.servers.length === 0) {
@@ -189,7 +183,7 @@ export class CompactDashboard extends React.Component<ICompactDashboardProps, an
                     filter={this.props.filter}
                     serverOnClick={this.props.serverOnClick}
                     groupOnClick={this.props.groupOnClick}
-                    serverRoleEdit={this._onRoleEdit}
+                    serverRoleEdit={this.props.serverRoleEdit}
                 />
             </div>
         );

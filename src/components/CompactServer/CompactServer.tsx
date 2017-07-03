@@ -58,7 +58,6 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, any>
     @autobind
     private editRoles(event) {
         const { roleEdit } = this.props;
-        console.log('compact server role edit : ', event, this.props.id);
         roleEdit(event, this.props.id);
     }
 

@@ -36,7 +36,7 @@ export interface ITileDashboardProps {
     /**
      * Action that is called on role change of a certain server of some farm. The function is supplied with server FQDN.
      */
-    serverRoleEdit?: (serverFQDN: any) => void;
+    serverRoleEdit?: (event: any, serverFQDN: any) => void;
 
     /**
      * Action that is called on closing a certain server of some farm. The function is supplied with server FQDN.

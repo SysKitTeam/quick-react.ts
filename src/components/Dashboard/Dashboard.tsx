@@ -107,7 +107,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, any> {
                         groupAddFunc={this.props.groupEditFunc}
                         groupDeleteFunc={this.props.groupDeleteFunc}
                         groupOnClick={this.props.groupOnClick}
-                        serverRoleEdit={this.props.serverRoleEdit}
+                        serverRoleEdit={this._roleEdit}
                         serverClose={this.props.serverClose}
                         serverOnClick={this.props.serverOnClick}
                         />
@@ -127,13 +127,10 @@ export class Dashboard extends React.PureComponent<IDashboardProps, any> {
 
     @autobind
     private _roleEdit(event: any, id: any) {
-        console.log('dashboard : role edit', event, id);
-
         if (this.props.serverRoleEdit) {
             this.props.serverRoleEdit(id);
         }
         event.stopPropagation();
-        event.preventDefault();
     }
 
     @autobind

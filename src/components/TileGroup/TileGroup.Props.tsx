@@ -6,6 +6,6 @@ export interface ITileGroupProps {
     groupOnClick?: (groupId: any) => void;
     serverOnClick?: (groupId: any, serverId: any) => void;
     editRoles?: boolean;
-    serverRoleEdit?: (id: any) => any;
+    serverRoleEdit?: (event: any, id: any) => any;
     editGroup?: (groupId: any) => void;
 }
