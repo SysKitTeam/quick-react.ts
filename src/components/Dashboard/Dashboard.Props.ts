@@ -11,6 +11,7 @@ export interface IDashboardProps extends React.Props<any> {
     onActiveViewChanged?: (activeView: ActiveDashboard) => void;
     hasAddButton?: boolean;
     headerClass?: string;
+    editRoles?: boolean;
     /**
      * Message to be shown when there is no data present. can also be a JSX element
      */
@@ -67,5 +68,4 @@ export interface IDashboardProps extends React.Props<any> {
     * Action is call when the server is clicked. The server ID is supplied.
     */
     serverOnClick?: (groupId: any, serverId: any) => void;
-
 }

@@ -1,24 +1,20 @@
 @import '../../index.scss';
 
 .farm {
-    
     width: calc(100% - 50px);
     float: left;
     padding: 5px;
     margin: 20px;
     margin-top:50px;
     position: relative;
-    // border: 1px solid $background-color;
     background-color: white;
     font:14px;
 }
+
 .farm-name{
     position: absolute;
     background: inherit;
     top: -22px;
-    // border-top: 1px solid $background-color;
-    // border-left: 1px solid $background-color;
-    // border-right: 1px solid $background-color;
     left: 30px;
     padding: 5px;
     padding-top: 0;
@@ -38,9 +34,14 @@
         top: -35px;
         left: -2px;
         padding-left: 15px;
-        // border: 1px solid $background-color;
-        // border-bottom: white;
         color: $emphasized-text-color;
+
+        &:hover {
+            & > .icon.icon-edit {
+                visibility: visible;
+            }
+        }
+
         span{
             display: inline-block;
             width: calc(100% - 80px);
@@ -66,6 +67,12 @@
                 float: left;
                 top: 2px;
                 font-size: 16px;
+            }
+
+            &.icon-edit {
+                position: absolute;
+                font-size: 16px;
+                visibility: hidden;
             }
         }
         .icon:hover{

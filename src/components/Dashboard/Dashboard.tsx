@@ -44,6 +44,10 @@ export function filterFarms(farms: Array<ITiledDashboardFarm>, filter: string) :
 }
 
 export class Dashboard extends React.PureComponent<IDashboardProps, any> {
+    public static defaultProps = {
+        editRoles: false
+    };
+
     constructor(props?: IDashboardProps) {
         super(props);
         this.state = {
@@ -81,12 +85,13 @@ export class Dashboard extends React.PureComponent<IDashboardProps, any> {
                         className={'viewport-height'}
                         title={this.props.title}
                         farms={this.props.farms}
+                        editRoles={this.props.editRoles}
                         isVertical={activeView === ActiveDashboard.CompactVertical}
                         groupEditFunc={this.props.groupEditFunc}
                         groupAddFunc={this.props.groupEditFunc}
                         groupDeleteFunc={this.props.groupDeleteFunc}
                         groupOnClick={this.props.groupOnClick}
-                        serverRoleEdit={this.props.serverRoleEdit}
+                        serverRoleEdit={this._roleEdit}
                         serverClose={this.props.serverClose}
                         serverOnClick={this.props.serverOnClick}
                         />
@@ -97,6 +102,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, any> {
                         className={'viewport-height'}
                         farms={this.props.farms}
                         filter={filter}
+                        editRoles={this.props.editRoles}
                         groupEditFunc={this.props.groupEditFunc}
                         groupAddFunc={this.props.groupEditFunc}
                         groupDeleteFunc={this.props.groupDeleteFunc}
@@ -117,6 +123,17 @@ export class Dashboard extends React.PureComponent<IDashboardProps, any> {
                 }
             </div>
         );
+    }
+
+    @autobind
+    private _roleEdit(event: any, id: any) {
+        console.log('dashboard : role edit', event, id);
+
+        if (this.props.serverRoleEdit) {
+            this.props.serverRoleEdit(id);
+        }
+        event.stopPropagation();
+        event.preventDefault();
     }
 
     @autobind

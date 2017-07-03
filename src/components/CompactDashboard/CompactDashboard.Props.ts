@@ -15,6 +15,7 @@ export interface ICompactDashboardProps {
   className?: string;
   filter?: string;
   isVertical?: boolean;
+  editRoles?: boolean;
 
   /**
   * Action that is called on clicking the add icon on the bar of a certain group. The function is supplied with a group id.
@@ -35,7 +36,7 @@ export interface ICompactDashboardProps {
   /**
   * Action that is called on role change of a certain server of some farm. The function is supplied with server FQDN.
   */
-  serverRoleEdit?: (serverFQDN: any) => void;
+  serverRoleEdit?: (event: any, serverFQDN: any) => void;
 
   /**
   * Action that is called on closing a certain server of some farm. The function is supplied with server FQDN.

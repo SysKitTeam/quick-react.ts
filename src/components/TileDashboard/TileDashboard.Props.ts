@@ -15,6 +15,8 @@ export interface ITileDashboardProps {
     className: string;
     farms: Array<ITiledDashboardFarm>;
     filter: string;
+    editRoles?: boolean;
+    
     /**
     * Action that is called on clicking the add icon on the bar of a certain group. The function is supplied with a group id.
     */

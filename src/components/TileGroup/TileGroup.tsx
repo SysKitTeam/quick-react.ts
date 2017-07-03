@@ -6,12 +6,12 @@ import * as classNames from 'classnames';
 import { TagContainer } from '../TagContainer/TagContainer';
 import { Icon } from '../Icon/Icon';
 import { autobind } from '../../utilities/autobind';
-import { 
-    getServerMeasures, 
-    sortServersByStatusAndName, 
-    filterServerByName, 
-    getDiskInformationFromMeasurements, 
-    filterServerByStatus 
+import {
+    getServerMeasures,
+    sortServersByStatusAndName,
+    filterServerByName,
+    getDiskInformationFromMeasurements,
+    filterServerByStatus
 } from '../../utilities/server';
 
 import './TileGroup.scss';
@@ -22,12 +22,13 @@ export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
         const { farm } = this.props;
         let servers = farm.servers.sort((server1, server2) => {
             return sortServersByStatusAndName(
-                {status: server1.status, name: server1.name}, 
-                {status: server2.status, name: server2.name}
+                { status: server1.status, name: server1.name },
+                { status: server2.status, name: server2.name }
             );
         });
         return (
             <Group
+                editFunc={this.props.editGroup}
                 serverChildrenCount={farm.servers.length}
                 filter={this.props.filter}
                 className={'farm-name-inside'}
@@ -47,10 +48,16 @@ export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
                             countersData={getServerMeasures(server.measures)}
                             serverOnClick={this.serverOnClick}
                             diskInformation={getDiskInformationFromMeasurements(server.measures)}
-                            >
+                        >
                             {
                                 server.roles.length > 0 &&
-                                <TagContainer title={''} tags={server.roles} />
+                                <TagContainer title={''} tags={server.roles} >
+                                    {this.props.editRoles &&
+                                        <div className="edit-tags tag" title="Edit roles" onClick={(event) => this.editRoles(event, server.id)}>
+                                            <Icon className="icon-edit"></Icon>
+                                        </div>
+                                    }
+                                </TagContainer>
                             }
                         </ServerTile>
                     ))
@@ -60,8 +67,15 @@ export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
     }
 
     @autobind
+    private editRoles(event: any, id: any) {
+        console.log('edit roles...');
+        const { serverRoleEdit } = this.props;
+        serverRoleEdit(id);
+    }
+
+    @autobind
     private serverOnClick(serverId: any) {
-        const {farm, serverOnClick} = this.props;
+        const { farm, serverOnClick } = this.props;
 
         if (serverOnClick) {
             serverOnClick(farm.id, serverId);

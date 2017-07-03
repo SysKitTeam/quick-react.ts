@@ -112,6 +112,9 @@ export class TileDashboard extends React.Component<ITileDashboardProps, any> {
         return (
             <div style={style} key={index}>
                 <TileGroup
+                    editGroup={this.props.groupEditFunc}
+                    editRoles={this.props.editRoles}
+                    serverRoleEdit={this.props.serverRoleEdit}
                     farm={farm}
                     serverOnClick={this.props.serverOnClick}
                     groupOnClick={this.props.groupOnClick}

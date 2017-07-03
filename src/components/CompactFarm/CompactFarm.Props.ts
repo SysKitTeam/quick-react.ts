@@ -14,5 +14,8 @@ export interface ICompactFarmProps {
   filter?: string;
   serverOnClick?: (groupId: any, serverId: any) => void;
   groupOnClick?: (groupId: any) => void;
+  editRoles?: boolean;
+  editGroup?: (groupId: any) => void;
+  serverRoleEdit?: (event: any, serverFQDN: any) => void;
 }
 

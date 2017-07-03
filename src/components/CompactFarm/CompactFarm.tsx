@@ -15,6 +15,10 @@ import './CompactFarm.scss';
 const HOVER_TIME = 250; // ms 
 
 export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
+    public static defaultProps = {
+        editRoles: false
+    };
+
     private _enterTimerId: number;
     private _serverId = null;
     private _hoverTargetElement = null;
@@ -80,7 +84,8 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
         );
     }
 
-    @autobind _onServerClicked(serverId: any) {
+    @autobind 
+    _onServerClicked(serverId: any) {
         const {serverOnClick, farm} = this.props;
 
         if (serverOnClick) {
@@ -100,6 +105,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
         return (
             <div className={'compact-farm'}>
                 <Group
+                    editFunc={this.props.editGroup}
                     serverChildrenCount={servers.length}
                     className={'farm-name-inside'}
                     id={farm.id} name={farm.name}
@@ -114,7 +120,8 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
                                 roles={server.roles}
                                 id={server.id}
                                 status={server.status}
-                                onRoleEdit={server.onRoleEdit}
+                                roleEdit={this._onRoleEdit}
+                                editRoles={this.props.editRoles}
                                 onClose={server.onClose}
                                 name={server.name}
                                 serverOnClick={this._onServerClicked}
@@ -136,5 +143,11 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
                 </Group>
             </div>
         );
+    }
+
+    @autobind
+    private _onRoleEdit(event: any, id: any) {
+        console.log('compact farm : role edit', event, id);
+        this.props.serverRoleEdit(event, id);
     }
 }
