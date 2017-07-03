@@ -4,6 +4,7 @@
     @include baseFont();
     font-size: $font-size-m;
     margin-left: 19px;
+
     .collapsed {
         display: none;
     }
@@ -18,20 +19,26 @@
         display: flex;
         align-items: center;
     }
+
     .treeveiw-content{
         padding: 2px;
     }
-    .treeveiw-content:hover{
-        background-color: #eaeaea;
+
+    .treeveiw-content:hover {
+        background-color: $primary-hover-color;
     }
-    .treeveiw-parent-item{
+    .treeveiw-parent-item {
         margin-left: -19px;
     }
-    .partial-selected{
-        label:before{
+
+    .partial-selected {
+        label:after {
             content: '\025FC';
             color: #b9cb34;
             font-size: 20px;
+            position: absolute;
+            left: 1px;
+            top: -1px;
         }
     }
 }
