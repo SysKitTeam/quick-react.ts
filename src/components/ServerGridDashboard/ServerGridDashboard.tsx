@@ -4,8 +4,7 @@ import { ITiledDashboardFarm } from '../TileDashboard/TileDashboard.Props';
 import * as classNames from 'classnames';
 import { Icon } from '../Icon/Icon';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
-import { QuickGrid } from '../QuickGrid/QuickGrid';
-import { IQuickGridProps, SortDirection, GridColumn } from '../QuickGrid/QuickGrid.Props';
+import { QuickGrid, IQuickGridProps, SortDirection, GridColumn, IGroupBy } from '../QuickGrid';
 import { GetClassForStatus } from '../../utilities/server';
 import { filterFarms } from '../Dashboard/Dashboard';
 
@@ -38,7 +37,6 @@ const gridColumns: Array<GridColumn> = [{
             </div>
         );
     },
-    cellClassName: 'border-column-cell',
     isSortable: true,
     sortByValueGetter: (row, sortDirection) => {
         let modifier = 'a';
@@ -67,7 +65,6 @@ const gridColumns: Array<GridColumn> = [{
     width: 100,
     minWidth: GRID_CELL_MIN_WIDTH,
     cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'} > {cellData.usage ? cellData.usage + '%' : '--'}</div>; },
-    cellClassName: 'border-column-cell',
     isSortable: true,
     isGroupable: true
 }, {
@@ -80,7 +77,6 @@ const gridColumns: Array<GridColumn> = [{
         const memory = convertRam(cellData);
         return <div className={GetClassForStatus('', memory.status) + ' server-dashboard-grid-cell-content'}> {memory.usageUnit ? memory.hoverText : '--'}</div>;
     },
-    cellClassName: 'border-column-cell',
     isSortable: true,
     sortByValueGetter: (row, sortDirection) => {
         let key = 'MemoryData';
@@ -98,7 +94,6 @@ const gridColumns: Array<GridColumn> = [{
         const disk = convertDisk(cellData);
         return <div className={GetClassForStatus('', disk.status) + ' server-dashboard-grid-cell-content'}> {disk.currentUsage + ' ' + disk.usageUnit}</div>;
     },
-    cellClassName: 'border-column-cell',
     isSortable: true
 }, {
     valueMember: 'Network',
@@ -120,7 +115,7 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
         this.state = {
             rows: this.transformFarmToRows(props.farms, props.filter),
             expandedRows: {},
-            groupBy: ['FarmName']
+            groupBy: [{ column: 'FarmName', sortDirection: SortDirection.Ascending }]
         };
     }
 
@@ -166,27 +161,25 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
     public render(): JSX.Element {
         const className = classNames({ [this.props.className]: this.props.className !== undefined }, 'server-grid-dashboard-container');
         return (
-            <div className={className}>
-                <QuickGrid
-                    rows={this.state.rows}
-                    columns={gridColumns}
-                    groupBy={this.state.groupBy}
-                    rowHeight={28}
-                    headerHeight={28}
-                    overscanRowCount={30}
-                    onRowDoubleClicked={this.onRowDoubleClick}
-                    sortColumn="ServerName"
-                    sortDirection={ SortDirection.Ascending}
-                    groupBySortColumn="FarmName"
-                    groupBySortDirection={SortDirection.Ascending}
-                    // displayGroupContainer={true}
-                    onGroupByChanged={this.groupByChanged}
-                />
+            <div className="quick-grid-container">
+                <div className={className}>
+                    <QuickGrid
+                        rows={this.state.rows}
+                        columns={gridColumns}
+                        groupBy={this.state.groupBy}
+                        overscanRowCount={30}
+                        onRowDoubleClicked={this.onRowDoubleClick}
+                        sortColumn="ServerName"
+                        sortDirection={SortDirection.Ascending}        
+                        onGroupByChanged={this.groupByChanged}
+                    />
+                </div>
             </div>
+
         );
     }
 
-    groupByChanged = (groupBy: Array<string>) => {
+    groupByChanged = (groupBy: Array<IGroupBy>) => {
         this.setState((oldState) => {
             return { ...oldState, groupBy: groupBy };
         });

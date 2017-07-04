@@ -4,33 +4,33 @@ export enum SortDirection {
     Ascending,
     Descending
 }
+
+export interface IGroupBy {
+    column: string;
+    sortDirection: SortDirection;
+}
+
 export interface IQuickGridProps {
     rows: Array<any>;
     columns: Array<GridColumn>;
-    groupBy: Array<string>;
+    groupBy?: Array<string | IGroupBy>;
     gridClassName?: string;
     headerClassName?: string;
-    rowHeight: number | ((info: { index: number }) => number); // Number or a function that returns the height of a row given its index
-    headerHeight: number;
+    rowHeight?: number | ((info: { index: number }) => number); // Number or a function that returns the height of a row given its index
     overscanRowCount?: number;
     onSelectedRowChanged?: (selectedRowIndex: number) => void;
     onRowDoubleClicked?: (row: any) => void;
     displayGroupContainer?: boolean;
-
     sortColumn?: string;
     sortDirection?: SortDirection;
-    onGroupByChanged?: (groupBy: Array<string>) => void;
-
-    groupBySortColumn?: string;
-    groupBySortDirection?: SortDirection;
+    onGroupByChanged?: (groupBy: Array<IGroupBy>) => void;
     onGroupBySort?: (sortBy: string, sortDirection: SortDirection) => void;
 }
 
 export interface IQuickGridState {
     sortColumn?: string;
     sortDirection?: SortDirection;
-    groupBySortColumn?: string;
-    groupBySortDirection?: SortDirection;
+    groupBy?: Array<IGroupBy>;    
     expandedRows: any;
     columnWidths: Array<number>;
     selectedRowIndex?: number;
@@ -49,8 +49,8 @@ export interface GroupRow {
 export interface GridColumn {
     headerText: string;
     valueMember: string; // for sort & grouping
-    isSortable?: boolean;
-    isGroupable?: boolean;
+    isSortable?: boolean; // default true
+    isGroupable?: boolean; // default true
     sortByValueGetter?: (cellData, sortDirection: SortDirection) => any;
     width: number;
     minWidth?: number;

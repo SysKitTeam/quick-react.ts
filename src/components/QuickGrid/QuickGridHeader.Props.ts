@@ -1,25 +1,20 @@
-import { GridColumn, SortDirection } from './QuickGrid.Props';
+import { GridColumn, SortDirection, IGroupBy } from './QuickGrid.Props';
 
 export interface IGridHeaderProps {
     allColumns: Array<GridColumn>;
     headerColumns: Array<GridColumn>;
-    groupBy: Array<string>;
+    groupBy: Array<IGroupBy>; 
     columnWidths: Array<number>;
     onResize: (newColumnWidths) => void;
-
     sortColumn?: string;
     sortDirection?: SortDirection;
     onSort: (sortBy: string, sortDirection: SortDirection) => void;
-
-    groupBySortColumn?: string;
-    groupBySortDirection?: SortDirection;
     onGroupBySort?: (sortBy: string, sortDirection: SortDirection) => void;
-
     className?: string;
     width: number;
     scrollLeft: any;
     displayGroupContainer: boolean;
-    onGroupByChanged?: (groupBy: Array<string>) => void;
+    onGroupByChanged?: (groupBy: Array<IGroupBy>) => void;
 }
 
 export interface IGridHeaderState {

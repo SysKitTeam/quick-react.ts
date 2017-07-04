@@ -22,7 +22,7 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
     }
 
     getColumnMinWidths(columns) {
-        return columns.map((col) => { return col.minWidth || 0; });
+        return columns.map((col) => { return col.minWidth || 20; });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -50,9 +50,7 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
                         groupBy={this.props.groupBy}
                         onGroupByChanged={this.props.onGroupByChanged}
                         onGroupByRemoved={this.onGroupByRemoved}
-                        onSort={this.props.onGroupBySort}
-                        sortColumn={this.props.groupBySortColumn}
-                        sortDirection={this.props.groupBySortDirection}
+                        onSort={this.props.onGroupBySort}               
                     />
                 }
                 <Grid
@@ -73,7 +71,7 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
     }
 
     onGroupByRemoved = (groupName) => {
-        let newGroupBy = _.filter(this.props.groupBy, (group) => { return group !== groupName; });
+        let newGroupBy = _.filter(this.props.groupBy, (group) => { return group.column !== groupName; });
         this.props.onGroupByChanged(newGroupBy);
     }
 
@@ -92,7 +90,9 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
                 className={classNames({ 'empty-header-column': !displayResizeHandle }, 'grid-header-column')}
                 key={key}
                 style={style}>
-                {this.createHeaderColumn(column)}
+                { notEmptyColumns &&
+                    this.createHeaderColumn(column)
+                }
                 {displayResizeHandle &&
                     <DraggableCore
                         zIndex={100}
@@ -140,16 +140,16 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
 
     createHeaderColumn(column: GridColumn) {
         const { headerText, isSortable, headerClassName, valueMember } = column;
-        const columnClassName = classNames('header-column-content', headerClassName, { 'header-column-sortable': isSortable });
+        const columnClassName = classNames('header-column-content', headerClassName, { 'header-column-sortable': isSortable !== false });
         const showSortIndicator = this.props.sortColumn === valueMember;
         const newSortDirection = this.props.sortColumn !== valueMember || this.props.sortDirection === SortDirection.Descending ? SortDirection.Ascending : SortDirection.Descending;
         const onClick = (event) => {
-            if (isSortable) {
+            if (isSortable !== false) {
                 this.props.onSort(valueMember, newSortDirection);
             }
         };
         const onKeyDown = (event) => {
-            if (isSortable && (event.key === 'Enter' || event.key === ' ')) {
+            if (isSortable !== false && (event.key === 'Enter' || event.key === ' ')) {
                 onClick(event);
             }
         };

@@ -2,7 +2,8 @@ import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
 import { SortIndicator } from 'react-virtualized';
-import { GridColumn, SortDirection } from './QuickGrid.Props';
+import { Icon } from '../Icon';
+import { GridColumn, SortDirection } from './';
 import * as classNames from 'classnames';
 
 import './QuickGrid.scss';
@@ -18,6 +19,8 @@ export interface IHeaderColumnProps {
     isGroupable?: boolean;
     moveGroupByColumn?: (draggedColumn, hoverColumn) => void;
     itemArrayIndex?: number;
+    removeGroupColumn?: (columnName) => void;
+
     // Drag&Drop props
     connectDragSource?: any;
     connectDragPreview?: any;
@@ -25,13 +28,10 @@ export interface IHeaderColumnProps {
 }
 
 class HeaderColumnInner extends React.Component<IHeaderColumnProps, void> {
-    constructor(props: IHeaderColumnProps) {
-        super(props);
-    }
     DragElement = <div style={{ height: 50, width: 30 }} > <span> Drag </span> </div>;
     render() {
         const { className, text, showSortIndicator, sortDirection, onClick, onKeyDown } = this.props;
-        const sortString = sortDirection === SortDirection.Ascending ? 'ASC' : 'DESC';
+        const sortIcon = sortDirection === SortDirection.Ascending ? 'icon-Arrow_up' : 'icon-arrow_down';
         return (
             this.props.connectDragSource(this.props.connectDropTarget(
                 <div
@@ -40,17 +40,16 @@ class HeaderColumnInner extends React.Component<IHeaderColumnProps, void> {
                     key={`Header-Col${text}`}
                     className={className}
                 >
-                    <span
-                        key="label"
-                        title={text}
-                    >
-                        {text}
-                    </span>
+                    <div className="header-text">
+                        <span
+                            key="label"
+                            title={text}
+                        >
+                            {text}
+                        </span>
+                    </div>
                     {showSortIndicator &&
-                        <SortIndicator
-                            key="SortIndicator"
-                            sortDirection={sortString}
-                        />
+                        <Icon iconName={sortIcon} className="icon-sort" />
                     }
                 </div>
             )
@@ -66,7 +65,15 @@ const headerCellSource = {
         };
     },
     canDrag(props: IHeaderColumnProps, monitor) {
-        return props.isGroupable === true;
+        return props.isGroupable !== false;
+    },
+    endDrag(props, monitor) {
+        const dropRes = monitor.getDropResult();
+        if (dropRes == null || dropRes.handled == null) {
+            if (props.removeGroupColumn) {
+                props.removeGroupColumn(props.valueMember);
+            }
+        }
     }
 };
 

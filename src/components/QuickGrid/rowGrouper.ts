@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
-import { GroupRow } from './QuickGrid.Props';
+import { GroupRow, IGroupBy } from './QuickGrid.Props';
 class RowGrouper {
-    groupByColumns: any;
+    groupByColumns: Array<IGroupBy>;
     expandedRows: any;
     constructor(groupByColumns, expandedRows) {
         this.groupByColumns = groupByColumns.slice(0);
@@ -19,7 +19,7 @@ class RowGrouper {
 
     groupRowsByColumn(rows, groupByColumnIndex = 0, parentGroupKey = '') {
         let nextColumnIndex = groupByColumnIndex;
-        let columnName = this.groupByColumns[groupByColumnIndex];
+        let columnName = this.groupByColumns[groupByColumnIndex].column;
         let groupedRows = _.groupBy(rows, columnName);
         let groupKeys = Object.keys(groupedRows);
         let dataViewRows = [];

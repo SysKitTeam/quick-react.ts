@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ISharePointServer, IHazMeasures, IFarm } from '../../models';
 import { ITiledDashboardFarm } from '../TileDashboard/TileDashboard.Props';
+import { IGroupBy } from '../QuickGrid';
 
 export interface IServerGridDashboardProps {
     farms: Array<ITiledDashboardFarm>;
@@ -24,6 +25,6 @@ export interface ServerGridRow {
 
 export interface IServerGridDashboardState {
     rows: Array<ServerGridRow>;
-    groupBy: Array<string>;
+    groupBy: Array<IGroupBy>;
     expandedRows: any;   
 }
