@@ -69,7 +69,8 @@ export function convertFarm(farm: IFarm): ITiledDashboardFarm {
         name: farm.name,
         id: farm.id,
         isCustom: farm.isCustom,
-        version: farm.version
+        version: farm.version,
+        serversGroup: farm.serversGroup
     };
 }
 

@@ -168,3 +168,6 @@ $server-status-color: $basic-text-color;
 .status-critical{
     border-left-color: $red-color;
 }
+.status-offline{
+    // border-left-color: $default-offline-color;
+}
