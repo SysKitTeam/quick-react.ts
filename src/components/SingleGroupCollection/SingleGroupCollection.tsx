@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ISingleGroupCollectionProps } from './SingleGroupCollection.props';
-import { autobind } from '../../';
+import { autobind } from '../../utilities/autobind';
 import { IServer } from '../../models';
 const AutoSizer = require('react-virtualized').AutoSizer;
 const Collection = require('react-virtualized').Collection;

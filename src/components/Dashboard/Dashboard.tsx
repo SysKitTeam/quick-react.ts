@@ -11,6 +11,7 @@ import { PivotItem } from '../Pivot/PivotItem';
 import { IGroup, IServer, GroupTypeEnum, ServerStatus } from '../../models';
 import { filterServerByName, filterServerByStatus, sortServersByStatusAndName } from '../../utilities/server';
 import './Dashboard.scss';
+import { getGrouped } from '../../utilities/dashboard';
 
 function sortFarms(ob1: { farmName: string }, ob2: { farmName: string }) {
     if (ob1.farmName < ob2.farmName) {
@@ -43,8 +44,6 @@ export function filterFarms(farms: Array<IGroup>, filter: string): Array<IGroup>
     return filteredFarms;
 }
 
-
-
 export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardState> {
     constructor(props?: IDashboardProps) {
         super(props);
@@ -58,145 +57,13 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
 
     componentWillReceiveProps(nextProps: IDashboardProps) {
         if (this.props.farms !== nextProps.farms) {
-            this.setState({ ...this.state, groups: this.getGrouped(nextProps, this.state.grouping) });
+            this.setState({ ...this.state, groups: getGrouped(nextProps.farms, this.state.grouping) });
         }
-    }
-
-    getGrouped(props: IDashboardProps, grouping: DashboardGroupingEnum): Array<IGroup> {
-        if (grouping === DashboardGroupingEnum.Smart) {
-            return props.farms;
-        } else if (grouping === DashboardGroupingEnum.Status) {
-            return this.groupStatus(props.farms);
-        } else if (grouping === DashboardGroupingEnum.Type) {
-            return this.groupType(props.farms);
-        } else if (grouping === DashboardGroupingEnum.Disabled) {
-            return this.groupNone(props.farms);
-        }
-    }
-
-    groupNone(groups: Array<IGroup>): Array<IGroup> {
-        let allServers: IGroup = {
-            id: 'all-servers-group',
-            name: 'All Servers',
-            type: GroupTypeEnum.Custom,
-            servers: new Array<IServer>()
-        };
-
-        for (let i = 0; i < groups.length; i++) {
-            let group = groups[i];
-            for (let j = 0; j < group.servers.length; j++) {
-                let server = group.servers[j];
-                allServers.servers.push(server);
-            }
-        }
-        allServers.servers = allServers.servers.sort(sortServersByStatusAndName);
-        return [allServers];
-    }
-
-    groupType(groups: Array<IGroup>): Array<IGroup> {
-        let spGroup: IGroup = {
-            id: 'sharepoint-group',
-            name: 'SharePoint Servers',
-            type: GroupTypeEnum.SharePoint,
-            servers: new Array<IServer>()
-        };
-        let sqlGroup: IGroup = {
-            id: 'sql-group',
-            name: 'SQL Servers',
-            type: GroupTypeEnum.Sql,
-            servers: new Array<IServer>()
-        };
-        let sqlAoGroup: IGroup = {
-            id: 'sql-ao-group',
-            name: 'SQL AlwaysOn Servers',
-            type: GroupTypeEnum.SqlAlwaysOn,
-            servers: new Array<IServer>()
-        };
-
-        let customGroup: IGroup = {
-            id: 'custom-group',
-            name: 'Other',
-            type: GroupTypeEnum.Custom,
-            servers: new Array<IServer>()
-        };
-
-        for (let i = 0; i < groups.length; i++) {
-            let group = groups[i];
-            for (let j = 0; j < group.servers.length; j++) {
-                let server = group.servers[j];
-                switch (group.type) {
-                    case GroupTypeEnum.SharePoint:
-                        spGroup.servers.push(server);
-                        break;
-                    case GroupTypeEnum.Sql:
-                        sqlGroup.servers.push(server);
-                        break;
-                    case GroupTypeEnum.SqlAlwaysOn:
-                        sqlAoGroup.servers.push(server);
-                        break;
-                    default:
-                        customGroup.servers.push(server);
-                        break;
-                }
-            }
-        }
-
-        return [spGroup, sqlGroup, sqlAoGroup, customGroup];
-    }
-
-    groupStatus(groups: Array<IGroup>): Array<IGroup> {
-        let criticalGroup: IGroup = {
-            id: 'critical-group',
-            name: 'Critical',
-            type: GroupTypeEnum.Custom,
-            servers: new Array<IServer>()
-        };
-        let warningGroup: IGroup = {
-            id: 'warning-group',
-            name: 'Warning',
-            type: GroupTypeEnum.Custom,
-            servers: new Array<IServer>()
-        };
-        let healthyGroup: IGroup = {
-            id: 'healthy-group',
-            name: 'Healthy',
-            type: GroupTypeEnum.Custom,
-            servers: new Array<IServer>()
-        };
-
-        let offlineGroup: IGroup = {
-            id: 'offline-group',
-            name: 'Offline',
-            type: GroupTypeEnum.Custom,
-            servers: new Array<IServer>()
-        };
-
-        for (let i = 0; i < groups.length; i++) {
-            let group = groups[i];
-            for (let j = 0; j < group.servers.length; j++) {
-                let server = group.servers[j];
-                switch (server.status) {
-                    case ServerStatus.Critical:
-                        criticalGroup.servers.push(server);
-                        break;
-                    case ServerStatus.Warning:
-                        warningGroup.servers.push(server);
-                        break;
-                    case ServerStatus.Offline:
-                        offlineGroup.servers.push(server);
-                        break;
-                    case ServerStatus.OK:
-                        healthyGroup.servers.push(server);
-                        break;
-                }
-            }
-        }
-        return [criticalGroup, warningGroup, healthyGroup, offlineGroup];
-    }
-
+    }    
+    
     @autobind
     groupChanged(newGroupKey: number) {
-        this.setState({ ...this.state, grouping: newGroupKey, groups: this.getGrouped(this.props, newGroupKey) });
+        this.setState({ ...this.state, grouping: newGroupKey, groups: getGrouped(this.props.farms, newGroupKey) });
     }
 
     render() {
