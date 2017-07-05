@@ -1,6 +1,6 @@
 {
   "name": "quick-react-ts",
-  "version": "0.8.28",
+  "version": "0.8.29",
   "dependencies": {
     "@gulp-sourcemaps/map-sources": {
       "version": "1.0.0",
