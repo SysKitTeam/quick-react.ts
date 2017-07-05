@@ -5,7 +5,7 @@ import { DialogFooter } from './DialogFooter';
 import { CommonComponent } from '../Common/Common';
 import { getId } from '../../utilities/getId';
 import { Layer } from '../../components/Layers/Layer';
-import { Popup } from '../../components/Popup/Popup';
+import { Popup } from '../Popup';
 import { Overlay } from '../../components/Overlay/Overlay';
 import { Button } from '../../components/Button/Button';
 import { ButtonType } from '../../components/Button/Button.Props';
@@ -22,7 +22,7 @@ export interface IDialogState {
 }
 
 export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
-    public static defaultProps: IDialogProps = { 
+    public static defaultProps: IDialogProps = {
         isOpen: false,
         isDarkOverlay: true,
         isBlocking: true,
@@ -191,7 +191,7 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
                 isOpen: true,
                 isAnimatingOpen: false
             });
-            
+
             if (this._containerRef) {
                 this._containerRef.focus();
             }

@@ -1,4 +1,5 @@
 import {IServer} from './IServer';
+import { IServerGroup } from './IServerGroup';
 
 export enum GroupTypeEnum {
     SharePoint = 1,

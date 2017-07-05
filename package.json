@@ -1,12 +1,13 @@
 {
   "name": "quick-react-ts",
-  "version": "0.8.23",
+  "version": "0.8.27",
   "description": "Reusable components for React, written in TypeScript",
   "main": "./lib/index.js",
   "typings": "./lib/index",
   "scripts": {
     "build": "tsc -p . && gulp build",
     "lib": "cross-env NODE_ENV=production webpack",
+    "lint": "tslint -p tsconfig.json",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --no-info --content-base examples/pages",
     "prepublish": "npm run build"
   },
@@ -32,7 +33,8 @@
     "react-dnd-html5-backend": "2.4.1",
     "react-dom": "15.4.2",
     "react-draggable": "2.2.3",
-    "react-numeric-input": "^2.0.7",
+    "react-resizable": "1.7.1",
+    "react-numeric-input": "2.0.7",
     "react-virtualized": "9.7.3",
     "reselect": "2.5.4",
     "run-sequence": "1.2.2"

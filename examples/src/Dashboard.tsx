@@ -43,7 +43,8 @@ export class Index extends React.Component<any, any> {
                     id: farm.id,
                     type: farm.type,
                     name: farm.name,
-                    servers: servers
+                    servers: servers,
+                    serversGroup: farm.serversGroup
                 };
             });
             this.setState({ farms: newFarms });

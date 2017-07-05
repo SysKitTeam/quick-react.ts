@@ -64,12 +64,12 @@ export function convertFarm(farm: IGroup): IGroup {
             measures: measures
         };
     });
-    let ssd = Math.floor(Math.random() * 100) % 4;
+    
     return {
         servers: servers,
         name: farm.name,
         id: farm.id,
-        type: ssd
+        type: Math.floor(Math.random() * 100) % 4
     };
 }
 
