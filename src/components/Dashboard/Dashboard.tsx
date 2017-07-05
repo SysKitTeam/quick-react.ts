@@ -126,9 +126,9 @@ export class Dashboard extends React.PureComponent<IDashboardProps, any> {
     }
 
     @autobind
-    private _roleEdit(event: any, id: any) {
+    private _roleEdit(event: any, id: any, farmId) {
         if (this.props.serverRoleEdit) {
-            this.props.serverRoleEdit(id);
+            this.props.serverRoleEdit(id, farmId);
         }
         event.stopPropagation();
     }

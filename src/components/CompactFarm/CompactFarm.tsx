@@ -120,7 +120,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
                                 roles={server.roles}
                                 id={server.id}
                                 status={server.status}
-                                roleEdit={this.props.serverRoleEdit}
+                                roleEdit={this._onRoleChange}
                                 editRoles={this.props.editRoles}
                                 onClose={server.onClose}
                                 name={server.name}
@@ -143,5 +143,12 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
                 </Group>
             </div>
         );
+    }
+
+    @autobind
+    private _onRoleChange(event, serverId) {
+        if (this.props.serverRoleEdit) {
+            this.props.serverRoleEdit(event, serverId, this.props.farm.id);
+        }
     }
 }

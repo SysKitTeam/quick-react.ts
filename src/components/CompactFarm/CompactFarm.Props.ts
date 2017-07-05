@@ -16,6 +16,6 @@ export interface ICompactFarmProps {
   groupOnClick?: (groupId: any) => void;
   editRoles?: boolean;
   editGroup?: (groupId: any) => void;
-  serverRoleEdit?: (event: any, serverFQDN: any) => void;
+  serverRoleEdit?: (event: any, serverFQDN: any, farmId: any) => void;
 }
 

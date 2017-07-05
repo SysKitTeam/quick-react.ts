@@ -69,7 +69,7 @@ export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
     @autobind
     private editRoles(event: any, id: any) {
         const { serverRoleEdit } = this.props;
-        serverRoleEdit(event, id);
+        serverRoleEdit(event, id, this.props.farm.id);
     }
 
     @autobind
