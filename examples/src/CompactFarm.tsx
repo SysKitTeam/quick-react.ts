@@ -8,7 +8,6 @@ import * as ReactDOM from 'react-dom';
 import { CompactFarm } from './../../src/components/CompactFarm/CompactFarm';
 import { ICompactFarmProps } from './../../src/components/CompactFarm/CompactFarm.Props';
 import { dummyDashboard, generateMeasures } from './../MockData/DashboardDummy';
-import { IFarm, ISharePointServer, ServerStatus } from './../../src/models';
 
 export class Index extends React.Component<any, any> {
        public constructor() {

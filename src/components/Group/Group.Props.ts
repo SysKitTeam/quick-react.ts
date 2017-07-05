@@ -1,19 +1,18 @@
 import * as React from 'react';
-import {IGroupID} from '../../models';
-import { IServerGroup } from '../../models/IServerGroup';
+import { GroupTypeEnum } from '../../models';
 
-export interface IGroupProps  {
-    id: IGroupID;
+export interface IGroupProps {
+    id: string;
     name: string;
-    serversGroup: IServerGroup;
+    iconName: string;
     className?: string;
     filter?: string;
-    
+
     /**
      * Function intended for checking whether any group children are displayed. 
      * If this property is omitted, the group component checks if the child name satisfies the supplied filter. 
      */
-    checkChildren?: (value : React.ReactChild, index, array ) => boolean;
+    checkChildren?: (value: React.ReactChild, index, array) => boolean;
 
     /**
      * Number of children components. Used so the component knows whether to draw itself.
@@ -23,11 +22,11 @@ export interface IGroupProps  {
     /**
      * Header icon action methods.
      */
-    addFunc?: (farmId: any) => void;
-    editFunc?: (farmId: any) => void;
-    deleteFunc?: (farmId: any) => void;
+    addFunc?: (groupId: string) => void;
+    editFunc?: (groupId: string) => void;
+    deleteFunc?: (groupId: string) => void;
     /**
      * Action that is called on clicking the title of the group. The function is supplied with a group id.
      */
-     onClick?: (groupId: any) => void;
+    onClick?: (groupId: any) => void;
 }

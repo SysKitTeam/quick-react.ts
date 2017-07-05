@@ -93,3 +93,33 @@
         }
     }
 }
+
+.dashboard-grouping-header {
+    width: 100px;
+}
+
+.dashboard-header-pivot {
+    width: 500px;
+    float:left;
+
+}
+
+.grouping-dropdown-container {
+    position: relative;
+    float: right;
+    top: 7px;    
+    padding-right: 10px;
+    div {
+        display: inline-block;
+        position: relative;
+        top: -3px;
+        font-size: 14px;
+    }
+}
+
+.grouping-dropdown-label {    
+    display: inline-block;
+    font-size: 14px;
+    vertical-align: top;    
+    padding-right: 2px;
+}

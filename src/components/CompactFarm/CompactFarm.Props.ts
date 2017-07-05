@@ -1,17 +1,11 @@
 import * as React from 'react';
 import { ICompactServerProps } from '../CompactServer/CompactServer.Props';
-import { ISharePointServer, IHazMeasures, IFarm } from '../../models';
-
-export interface ICompactDashboardServer extends ISharePointServer, IHazMeasures {
-}
-
-export interface ICompactDashboardFarm extends IFarm {
-  servers: Array<ICompactDashboardServer>;
-}
+import { IGroup } from '../../models';
 
 export interface ICompactFarmProps {
-  farm: ICompactDashboardFarm;
+  farm: IGroup;
   filter?: string;
+  iconName?: string;
   serverOnClick?: (groupId: any, serverId: any) => void;
   groupOnClick?: (groupId: any) => void;
 }

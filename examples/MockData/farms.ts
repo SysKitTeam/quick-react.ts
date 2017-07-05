@@ -1,8 +1,6 @@
 import { ICompactDashboardProps } from '../../src/components/CompactDashboard/CompactDashboard.Props';
 import { IDetailedServerProps, IProcessorUsage, IPartitionUsage, IMemoryUsage, IProcessorUsageData } from '../../src/components/DetailedServerTile/DetailedServerTile.Props';
-import { IDetailedServerGroup } from '../../src/components/DetailedServerGroup/DetailedServerGroup.Props';
-
-import { IFarm } from '../../src/models';
+import { IGroup, IServer, GroupTypeEnum } from '../../src/models';
 
 export const classListExample = {
     ok: 'green',
@@ -13,34 +11,28 @@ export const classListExample = {
 
 let roleListFarms = [{ display: 'WPF', iconName: 'icon-add' }, { display: 'WPF1111111', iconName: 'icon-add' }, { display: 'Not another', iconName: 'icon-add' }, { display: 'Search', iconName: 'icon-alert' }];
 
-export const farms: Array<IFarm> = createFarms(50, 10, 10);
+export const farms: Array<IGroup> = createFarms(10, 10, 10);
+let serverIndexer = 0;
 
-export function createFarms(numOfFarms: number, minServerCount: number, maxServerCount: number) {
-    let _farms = Array(0);
+export function createFarms(numOfFarms: number, minServerCount: number, maxServerCount: number): Array<IGroup> {
+    let _farms = new Array<IGroup>();
     for (let farmIndex = 0; farmIndex <= numOfFarms; farmIndex++) {
         let numOfServers = Math.floor(Math.random() * (maxServerCount - minServerCount + 1)) + minServerCount;
         let servers = [];
         for (let i = 0; i <= numOfServers; i++) {
             servers.push({
-                id: 'server' + i,
-                name: 'server ' + i,
+                id: 'server' + farmIndex + '' + i,
+                name: 'server ' + farmIndex + '' + i,
                 roles: roleListFarms,
                 status: Math.random() >= 0.5 ? 1 : 2
             });
+            serverIndexer++;
         }
         _farms.push({
             id: 'Demo Farm' + farmIndex,
             name: 'Demo Farm ' + farmIndex,
-            isCustom: Math.random() >= 0.5,
-            version: {
-                version: '14',
-                icon: 'icon-SharePoint'
-            },
             servers: servers,
-            serversGroup: {
-                icon: farmIndex % 2 === 0 ? 'icon-SharePoint' : 'icon-database',
-                name: farmIndex % 2 === 0 ? 'SharePoint' : 'SQL Server'
-            }
+            type: GroupTypeEnum.SharePoint
         });
     }
     return _farms;
@@ -72,38 +64,32 @@ const partitionUsages: Array<IPartitionUsage> = [
 ];
 const roleList = [{ display: 'Web', iconName: 'icon-site2' }, { display: 'SQL', iconName: 'icon-sql_log' }, { display: 'FireWall', iconName: 'icon-logOut' }];
 
-export const DemoServerGroup: IDetailedServerGroup = {
-    id: { sqlInstance: 'instance', configDataBaseIcon: 'icon-sql_log', configDataBaseName: 'db' },
+export const DemoServerGroup: IGroup = {
+    id: 'instance/configDb',
     name: 'demo server group',
-    isCustom: Math.random() >= 0.5,
-    version: {
-        version: '14',
-        icon: 'icon-SharePoint'
-    },
-    serversGroup: {
-        icon: 'icon-SharePoint',
-        name: 'SharePoint'
-    },
+    type: GroupTypeEnum.SharePoint,
     servers: [
         {
-            id: { FQDN: 'FQDN1' },
+            id: 'FQDN1',
             name: 'server1',
             roles: roleListFarms,
             status: Math.random() >= 0.5 ? 1 : 2,
             numberOfUsers: '50111',
             memoryUsage: memoryUsage,
             partitionUsages: partitionUsages,
-            processorUsage: processorUsage
+            processorUsage: processorUsage,
+            measures: []
         },
         {
-            id: { FQDN: 'FQDN2' },
+            id: 'FQDN2',
             name: 'server2',
             roles: roleListFarms,
             status: Math.random() >= 0.5 ? 1 : 2,
             numberOfUsers: '2351',
             memoryUsage: memoryUsage,
             partitionUsages: partitionUsages,
-            processorUsage: processorUsage
+            processorUsage: processorUsage,
+            measures: []
         }
     ]
 };

@@ -7,7 +7,7 @@ import * as ReactDOM from 'react-dom';
 
 import { Dashboard } from './../../src/components/Dashboard/Dashboard';
 import { dummyDashboard, generateMeasures } from '../MockData/DashboardDummy';
-import { IFarm, ISharePointServer, ServerStatus } from './../../src/models';
+import { IGroup, IServer, ServerStatus } from './../../src/models';
 
 export class Index extends React.Component<any, any> {
     public constructor() {
@@ -16,9 +16,8 @@ export class Index extends React.Component<any, any> {
             farms: dummyDashboard.farms
         };
         setInterval(() => {
-            let newFarms = this.state.farms.map((farm: IFarm) => {
-
-                let servers = farm.servers.map((server: ISharePointServer) => {
+            let newFarms = this.state.farms.map((farm: IGroup) => {
+                let servers = farm.servers.map((server: IServer) => {
                     let measures = generateMeasures();
                     let status = ServerStatus.Offline;
                     if (measures.length > 0) {
@@ -42,11 +41,9 @@ export class Index extends React.Component<any, any> {
                 });
                 return {
                     id: farm.id,
-                    isCustom: farm.isCustom,
-                    version: farm.version,
+                    type: farm.type,
                     name: farm.name,
-                    servers: servers,
-                    serversGroup: farm.serversGroup
+                    servers: servers
                 };
             });
             this.setState({ farms: newFarms });
@@ -71,6 +68,7 @@ export class Index extends React.Component<any, any> {
                     serverClose={dummyDashboard.serverClose}
                     serverRoleEdit={dummyDashboard.serverRoleEdit}
                     serverOnClick={dummyDashboard.serverOnClick}
+                    icons={dummyDashboard.icons}
                 />
             </div>
         );

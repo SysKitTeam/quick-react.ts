@@ -24,13 +24,14 @@ export interface IQuickGridProps {
     sortColumn?: string;
     sortDirection?: SortDirection;
     onGroupByChanged?: (groupBy: Array<IGroupBy>) => void;
+    groupRowFormat?: (rowData: any) => string;
     onGroupBySort?: (sortBy: string, sortDirection: SortDirection) => void;
 }
 
 export interface IQuickGridState {
     sortColumn?: string;
     sortDirection?: SortDirection;
-    groupBy?: Array<IGroupBy>;    
+    groupBy?: Array<IGroupBy>;
     expandedRows: any;
     columnWidths: Array<number>;
     selectedRowIndex?: number;

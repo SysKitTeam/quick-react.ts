@@ -12,6 +12,15 @@ const getColumns = (state: IQuickGridState, props: IQuickGridProps) => props.col
 
 const sortRows = (rows: Array<any>, sortColumn: string, sortDirection: SortDirection, groupedColumn: Array<IGroupBy>, columns: Array<GridColumn>) => {
     const columnSortDir: string = sortDirection === SortDirection.Descending ? 'desc' : 'asc';
+    let sortFunction = (rowData: any, direction: SortDirection) => {
+        return rowData[sortColumn];
+    };
+
+    let column = columns.filter(x => x.valueMember === sortColumn)[0];
+    if (column && column.sortByValueGetter) {
+        sortFunction = column.sortByValueGetter;
+    }
+
     if (groupedColumn.length > 0) {
         let sortColumns = [];
         let sortDirections = [];
@@ -21,12 +30,12 @@ const sortRows = (rows: Array<any>, sortColumn: string, sortDirection: SortDirec
             sortDirections.push(groupSortDirection);
         }
         if (sortColumn) {
-            sortColumns.push(sortColumn);
+            sortColumns.push(function (data) { return sortFunction(data, sortDirection); });
             sortDirections.push(columnSortDir);
         }
         return _.orderBy(rows, sortColumns, sortDirections);
     } else if (sortColumn) {
-        return _.orderBy(rows, sortColumn, columnSortDir);
+        return _.orderBy(rows, function (data) { return sortFunction(data, sortDirection); }, columnSortDir);
     }
     return rows;
 };

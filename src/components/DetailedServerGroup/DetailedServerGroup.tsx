@@ -20,22 +20,22 @@ export class DetailedServerGroup extends React.PureComponent<IDetailedServerGrou
     }
 
     public render() {
-        const serverGroup = this.props.serverGroup;
-        const servers = serverGroup.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).sort(sortServersByStatusAndName);
+        const servers = this.props.servers.filter((server) => { return filterServerByName(this.props.filter, server.name); }).sort(sortServersByStatusAndName);
         return (
             <div className={'detailed-server-group'}>
                 <Group
                     serverChildrenCount={servers.length}
                     filter={this.props.filter}
                     className={'farm-name-inside'}
-                    id={serverGroup.id}
-                    name={serverGroup.name}
-                    key={serverGroup.id.configDataBaseName + '-' + serverGroup.id.sqlInstance}
-                    serversGroup={serverGroup.serversGroup}>
+                    id={this.props.id}
+                    name={this.props.name}
+                    key={this.props.id}
+                    iconName={this.props.iconName}
+                >
                     {
                         servers.map((server) => (
                             <DetailedServerTile
-                                key={server.id.FQDN}
+                                key={server.id}
                                 roles={server.roles}
                                 id={server.id}
                                 status={server.status}

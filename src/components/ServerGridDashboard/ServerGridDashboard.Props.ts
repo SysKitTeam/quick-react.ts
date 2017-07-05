@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { ISharePointServer, IHazMeasures, IFarm } from '../../models';
-import { ITiledDashboardFarm } from '../TileDashboard/TileDashboard.Props';
+import { IGroup } from '../../models';
 import { IGroupBy } from '../QuickGrid';
 
 export interface IServerGridDashboardProps {
-    farms: Array<ITiledDashboardFarm>;
+    farms: Array<IGroup>;
     className?: string;
     serverOnClick?: (groupId: any, serverId: any) => void;
     filter: string;
+    singleGroupView?: boolean;
 }
 export interface ServerGridRow {
     type: 'DataRow';
@@ -26,5 +26,6 @@ export interface ServerGridRow {
 export interface IServerGridDashboardState {
     rows: Array<ServerGridRow>;
     groupBy: Array<IGroupBy>;
-    expandedRows: any;   
+    expandedRows: any;
+
 }

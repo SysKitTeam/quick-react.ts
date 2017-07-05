@@ -6,36 +6,36 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { ServerTile } from './../../src/components/ServerTile/ServerTile';
-import {IFarm , ISharePointServer, ServerStatus} from './../../src/models';
+import { ServerStatus } from './../../src/models';
 import { dummyDashboard } from '../MockData/DashboardDummy';
 
 export class Index extends React.Component<any, any> {
-  
+
     public render() {
         return (
             <div>
                 <ServerTile
-                    id={{ FQDN: 'server-123' }}
+                    id={'server-123'}
                     status={0}
                     name={'SP2016-Martin'}
                     numberOfUsers={'3432'}
                     onClose={(id: string) => console.log('Go away!', id)}
                     diskInformation={[
-                                        {
-                                            name: 'Local Disk (C:)',
-                                            used: 800,
-                                            capacity: 1000,
-                                            usageUnit: 'GB',
-                                            id: 1     
-                                        },
-                                        {
-                                            name: 'Data (E:)',
-                                            used: 560,
-                                            capacity: 789,
-                                            usageUnit: 'GB',
-                                            id: 2    
-                                        }
-                                    ]}
+                        {
+                            name: 'Local Disk (C:)',
+                            used: 800,
+                            capacity: 1000,
+                            usageUnit: 'GB',
+                            id: 1
+                        },
+                        {
+                            name: 'Data (E:)',
+                            used: 560,
+                            capacity: 789,
+                            usageUnit: 'GB',
+                            id: 2
+                        }
+                    ]}
                     roles={[]}
                     countersData={[
                         { title: 'CPU', currentUsage: '43', usageUnit: '%', hoverText: [''], status: ServerStatus.OK },

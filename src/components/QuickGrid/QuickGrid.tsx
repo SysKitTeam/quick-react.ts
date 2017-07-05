@@ -145,7 +145,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         const rowData = this.getRow({ index: rowIndex });
         const columns = this.state.columnsToDisplay;
         const column = columns[columnIndex];
-        if (rowData.type === 'GroupRow') {
+        if (rowData.type === 'GroupRow' && this.props.groupBy.length > 0) {
             return this.renderGroupCell(columnIndex, key, rowIndex, rowData, style);
         } else {
             if (columnIndex < this.props.groupBy.length) {
@@ -194,6 +194,11 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             const toggleRow = () => {
                 this.onRowExpandToggle(rowData.columnGroupName, rowData.groupKey, !rowData.isExpanded);
             };
+            let groupByFormat = `${columnName}: ${rowData.name}`;
+            if (this.props.groupRowFormat) {
+                groupByFormat = this.props.groupRowFormat(rowData);
+            }
+
             return (
                 <div
                     className={'grid-group-row'}
@@ -206,7 +211,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                             onClick={toggleRow} />
                         <div className="group-row-text">
                             <span>
-                                {columnName}: {rowData.name}
+                                {groupByFormat}
                             </span>
                         </div>
                     </div>
