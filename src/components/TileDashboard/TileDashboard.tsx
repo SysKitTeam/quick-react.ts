@@ -17,6 +17,7 @@ import { IGroup, IServer } from '../../models';
 
 import './TileDashboard.scss';
 import { SingleGroupCollection } from '../SingleGroupCollection/index';
+import { getIconNameFromType } from '../../utilities/groupUtils';
 
 const serverTileWidth = 281.0; // LeftMargin 10px + LeftBodrder 10px + Server 250px + LeftBodrder 1px + RightMargin 10px
 const servertileHeight = 236; // Server 52px + 2 * (Margin 8 + Padding 5 + border 1)
@@ -127,6 +128,7 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
                     farm={farm}
                     serverOnClick={this.props.serverOnClick}
                     groupOnClick={this.props.groupOnClick}
+                    iconName={getIconNameFromType(this.props.icons, farm.type)}
                 />
             </div>
         );

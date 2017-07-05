@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ActiveDashboard } from '../DashboardHeader/DashboardHeader.Props';
 import { ICompactDashboardProps } from '../CompactDashboard/CompactDashboard.Props';
-import { IGroup } from '../../models';
+import { IGroup, GroupTypeEnum } from '../../models';
 import { IPivotItemProps } from '../Pivot/PivotItem.Props';
 
 export enum DashboardGroupingEnum {
@@ -18,6 +18,8 @@ export interface IDashboardProps extends React.Props<any> {
     onActiveViewChanged?: (activeView: ActiveDashboard) => void;
     hasAddButton?: boolean;
     headerClass?: string;
+    
+    icons: [{ iconName: string, iconType: GroupTypeEnum }];
     /**
      * Message to be shown when there is no data present. can also be a JSX element
      */

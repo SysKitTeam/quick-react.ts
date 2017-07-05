@@ -105,7 +105,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, void> {
                     id={farm.id} name={farm.name}
                     key={farm.id}
                     onClick={this.props.groupOnClick}
-                    type={this.props.farm.type}
+                    iconName={this.props.iconName}
                 >
                     {
                         servers.map((server, index) => (

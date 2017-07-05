@@ -224,13 +224,14 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                     </div>
                 }
                 {
-                    ((activeView === ActiveDashboard.CompactHorizontal || activeView === ActiveDashboard.CompactVertical)) &&
+                    ((activeView === ActiveDashboard.CompactHorizontal)) &&
                     <CompactDashboard
                         filter={filter}
                         className={'viewport-height'}
                         title={this.props.title}
                         farms={groups}
                         singleGroupView={this.state.grouping === DashboardGroupingEnum.Disabled}
+                        icons={this.props.icons}
                         groupEditFunc={this.props.groupEditFunc}
                         groupAddFunc={this.props.groupEditFunc}
                         groupDeleteFunc={this.props.groupDeleteFunc}
@@ -247,6 +248,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         farms={groups}
                         filter={filter}
                         singleGroupView={this.state.grouping === DashboardGroupingEnum.Disabled}
+                        icons={this.props.icons}
                         groupEditFunc={this.props.groupEditFunc}
                         groupAddFunc={this.props.groupEditFunc}
                         groupDeleteFunc={this.props.groupDeleteFunc}

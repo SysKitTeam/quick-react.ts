@@ -43,8 +43,7 @@ export class Index extends React.Component<any, any> {
                     id: farm.id,
                     type: farm.type,
                     name: farm.name,
-                    servers: servers,
-                    serversGroup: farm.serversGroup
+                    servers: servers
                 };
             });
             this.setState({ farms: newFarms });
@@ -69,6 +68,7 @@ export class Index extends React.Component<any, any> {
                     serverClose={dummyDashboard.serverClose}
                     serverRoleEdit={dummyDashboard.serverRoleEdit}
                     serverOnClick={dummyDashboard.serverOnClick}
+                    icons={dummyDashboard.icons}
                 />
             </div>
         );

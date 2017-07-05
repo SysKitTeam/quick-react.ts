@@ -30,7 +30,7 @@ export class DetailedServerGroup extends React.PureComponent<IDetailedServerGrou
                     id={this.props.id}
                     name={this.props.name}
                     key={this.props.id}
-                    type={this.props.type}
+                    iconName={this.props.iconName}
                 >
                     {
                         servers.map((server) => (

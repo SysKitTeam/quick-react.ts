@@ -17,6 +17,7 @@ import { SingleGroupCollection } from '../SingleGroupCollection';
 import { Callout } from '../Callout';
 import { CommonComponent } from '../Common';
 import { HoverableCompactServer } from '../HoverableCompactServer/HoverableCompactServer';
+import { getIconNameFromType } from '../../utilities/groupUtils';
 
 const GUTTER_SIZE = 3;
 const CELL_WIDTH = 244;
@@ -140,6 +141,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
                     filter={this.props.filter}
                     serverOnClick={this.props.serverOnClick}
                     groupOnClick={this.props.groupOnClick}
+                    iconName={getIconNameFromType(this.props.icons, farm.type)}
                 />
             </div>
         );
@@ -153,7 +155,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
                 server={server}
                 className="compact-farm"
                 style={style}
-            />           
+            />
         );
     }
 }

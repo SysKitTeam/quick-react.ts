@@ -27,7 +27,7 @@ export const dummyDashboard: IDashboardProps = {
     initialActiveView: 0,
     hasAddButton: true,
     headerClass: '',
-    differentDashboards: { 0: { linkText: 'Compact Horizontal' }, 2: { linkText: 'Tiles' }, 1: { linkText: 'Compact Vertical' }, 3: { linkText: 'Grid' } },
+    differentDashboards: { 0: { linkText: 'Compact Horizontal' }, 2: { linkText: 'Tiles' }, 3: { linkText: 'Grid' } },
     farms: farms.map(convertFarm),
     addFarm: () => { console.log('Adding new farm, wop wop'); },
     groupAddFunc: (groupId: any) => { console.log('Clicked add icon of group ' + groupId); },
@@ -36,7 +36,13 @@ export const dummyDashboard: IDashboardProps = {
     serverClose: (serverFQDN: any) => { console.log('Clicked close icon of server ' + serverFQDN); },
     serverRoleEdit: (serverFQDN: any) => { console.log('Clicked edit role icon of server ' + serverFQDN); },
     groupOnClick: (groupId: any) => { console.log('Clicked on group ' + groupId); },
-    serverOnClick: (groupId: any, serverId: any) => { console.log('Clicked on group ' + groupId + ' and server ' + serverId); }
+    serverOnClick: (groupId: any, serverId: any) => { console.log('Clicked on group ' + groupId + ' and server ' + serverId); },
+    icons: [
+        { iconType: GroupTypeEnum.SharePoint, iconName: 'icon-key' },
+        { iconType: GroupTypeEnum.Custom, iconName: 'icon-group' },
+        { iconType: GroupTypeEnum.Sql, iconName: 'icon-link' },
+        { iconType: GroupTypeEnum.SqlAlwaysOn , iconName: 'icon-list'}
+    ]
 };
 
 export function convertFarm(farm: IGroup): IGroup {
@@ -64,12 +70,12 @@ export function convertFarm(farm: IGroup): IGroup {
             measures: measures
         };
     });
-    
+
     return {
         servers: servers,
         name: farm.name,
         id: farm.id,
-        type: Math.floor(Math.random() * 100) % 4
+        type: (Math.floor(Math.random() * 100) % 4) + 1
     };
 }
 

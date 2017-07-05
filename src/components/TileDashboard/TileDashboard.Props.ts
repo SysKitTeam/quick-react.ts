@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IGroup } from '../../models';
+import { IGroup, GroupTypeEnum } from '../../models';
 
 export interface ITileDashboardState {
     groups: Array<IGroup>;
@@ -8,6 +8,7 @@ export interface ITileDashboardState {
 export interface ITileDashboardProps {
     className: string;
     farms: Array<IGroup>;
+    icons?: [{ iconType: GroupTypeEnum, iconName: string }];
     filter: string;
     singleGroupView?: boolean;
     /**

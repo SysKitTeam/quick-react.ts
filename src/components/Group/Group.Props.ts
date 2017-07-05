@@ -4,7 +4,7 @@ import { GroupTypeEnum } from '../../models';
 export interface IGroupProps {
     id: string;
     name: string;
-    type: GroupTypeEnum;
+    iconName: string;
     className?: string;
     filter?: string;
 

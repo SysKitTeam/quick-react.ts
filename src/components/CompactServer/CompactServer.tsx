@@ -17,7 +17,10 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, void
     }
 
 
-
+    @autobind
+    private refCallback(element) {
+        this.ContainerElement = element;
+    }
     render() {
         let { status } = this.props;
         let className = GetClassForStatus('compact-server-container', status);
@@ -27,7 +30,7 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, void
                 onMouseEnter={this.props.onMouseEnter}
                 onMouseLeave={this.props.onMouseLeave}
                 onClick={this.onclick}
-                ref={(element) => this.ContainerElement = element}
+                ref={this.refCallback}
             >
                 <span className={'server-title'}>
                     <span>{this.props.name}</span>

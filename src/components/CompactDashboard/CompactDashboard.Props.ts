@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ICompactServerProps } from '../CompactServer/CompactServer.Props';
-import { IGroup } from '../../models';
+import { IGroup, GroupTypeEnum } from '../../models';
 
 export interface ICompactDashboardState {
   list: any;
@@ -11,6 +11,7 @@ export interface ICompactDashboardState {
 export interface ICompactDashboardProps {
   title: string;
   farms: Array<IGroup>;
+  icons?: [{ iconType: GroupTypeEnum, iconName: string }];
   className?: string;
   filter?: string;
   singleGroupView?: boolean;

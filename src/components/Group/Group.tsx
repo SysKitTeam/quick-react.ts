@@ -16,13 +16,14 @@ export class Group extends React.PureComponent<IGroupProps, void> {
         let hasServersVisible = this.props.serverChildrenCount > 0;
         let classname = classNames({ 'farm': hasServersVisible }, { [this.props.className]: hasServersVisible });
 
+
         return (
             <div className={classname}>
                 {
                     hasServersVisible &&
                     <span className="farm-name">
-                        {this.props.serversGroup.icon &&
-                            <Icon iconName={this.props.serversGroup.icon} title={this.props.serversGroup.name} className={'group-icon'}></Icon>
+                        {this.props.iconName &&
+                            <Icon iconName={this.props.iconName} title={this.props.iconName} className={'group-icon'}></Icon>
                         }
                         <span onClick={() => { this.props.onClick(this.props.id); }} title={this.props.name}>{this.props.name}</span>
                         {this.props.deleteFunc &&

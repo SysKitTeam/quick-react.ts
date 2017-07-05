@@ -4,7 +4,7 @@ import { IPivotItemProps } from '../Pivot/PivotItem.Props';
 
 export enum ActiveDashboard {
     CompactHorizontal = 0,
-    CompactVertical = 1,
+    CompactVertical = 1, // deprecated
     Tiles = 2,
     Grid = 3
 }
