@@ -62,7 +62,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                         />
                         <ProgressBar
                             title={'Memory'}
-                            info={this.props.memoryUsage.used + ' of ' + this.props.memoryUsage.capacity + ' ' + this.props.memoryUsage.usageUnit + ' used'}
+                            info={toPrettyString(this.props.memoryUsage.used) + ' of ' + toPrettyString(this.props.memoryUsage.capacity) + ' ' + this.props.memoryUsage.usageUnit + ' used'}
                             dimensions={{ height: '40px', width: '100%' }}
                             data={{ total: this.props.memoryUsage.capacity, current: this.props.memoryUsage.used }}
                             progressColor={this.getProgressColor()}
