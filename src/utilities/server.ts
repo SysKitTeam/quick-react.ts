@@ -1,4 +1,4 @@
-import { IMeasure, MeasureType, IFarm, Partition, DiskMeasure, CpuMeasure, RamMeasure, NetworkMeasure, ServerStatus } from '../models';
+import { IMeasure, MeasureType, Partition, DiskMeasure, CpuMeasure, RamMeasure, NetworkMeasure, ServerStatus } from '../models';
 import { ITileData } from '../components/ServerTile/ServerTile.Props';
 import * as classNames from 'classnames';
 

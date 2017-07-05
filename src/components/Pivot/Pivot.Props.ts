@@ -7,6 +7,7 @@ export interface IPivotProps extends React.Props<Pivot> {
     selectedKey?: string;
     onLinkClick?: (item?: PivotItem, ev?: React.MouseEvent<any>) => void;
     linkFormat?: PivotLinkFormat;
+    className?: string;
 }
 
 export enum PivotLinkFormat {

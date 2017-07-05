@@ -37,7 +37,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                 {this.props.onClose &&
                     <Icon disabled={false}
                         className={'dialog-button dialog-button-close'}
-                        onClick={this.props.onClose}
+                        onClick={this.serverOnClose}
                         iconName={'icon-delete'} />
                 }
                 <ServerHeader
@@ -76,6 +76,13 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                 }
             </div>
         );
+    }
+
+    @autobind
+    private serverOnClose() {
+        if (this.props.onClose) {
+            this.props.onClose(this.props.id);
+        }
     }
 
     @autobind

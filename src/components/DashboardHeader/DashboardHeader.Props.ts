@@ -4,7 +4,7 @@ import { IPivotItemProps } from '../Pivot/PivotItem.Props';
 
 export enum ActiveDashboard {
     CompactHorizontal = 0,
-    CompactVertical = 1,
+    CompactVertical = 1, // deprecated
     Tiles = 2,
     Grid = 3
 }
@@ -20,4 +20,6 @@ export interface IDashboardHeaderProps {
     onAddFarmClick?: () => void;
     pivotItems?: { [id: number]: IPivotItemProps };
     selectedDashboardKey: any;
+    selectedGrouping: number;
+    onGroupingChange: (groupingKey: number) => void;
 }

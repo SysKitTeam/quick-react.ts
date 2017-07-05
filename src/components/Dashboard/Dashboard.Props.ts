@@ -1,8 +1,15 @@
 import * as React from 'react';
 import { ActiveDashboard } from '../DashboardHeader/DashboardHeader.Props';
 import { ICompactDashboardProps } from '../CompactDashboard/CompactDashboard.Props';
-import { ITiledDashboardFarm } from '../TileDashboard/TileDashboard.Props';
+import { IGroup, GroupTypeEnum } from '../../models';
 import { IPivotItemProps } from '../Pivot/PivotItem.Props';
+
+export enum DashboardGroupingEnum {
+    Smart = 0,
+    Type = 1,
+    Status = 2,
+    Disabled= 3
+}
 
 export interface IDashboardProps extends React.Props<any> {
     title: string;
@@ -11,6 +18,8 @@ export interface IDashboardProps extends React.Props<any> {
     onActiveViewChanged?: (activeView: ActiveDashboard) => void;
     hasAddButton?: boolean;
     headerClass?: string;
+    
+    icons: [{ iconName: string, iconType: GroupTypeEnum }];
     /**
      * Message to be shown when there is no data present. can also be a JSX element
      */
@@ -21,7 +30,7 @@ export interface IDashboardProps extends React.Props<any> {
      */
     differentDashboards?: { [id: number]: IPivotItemProps };
 
-    farms: Array<ITiledDashboardFarm>;
+    farms: Array<IGroup>;
 
     /**
      * Action that is invoked when user clicks on add farm button.
@@ -68,4 +77,11 @@ export interface IDashboardProps extends React.Props<any> {
     */
     serverOnClick?: (groupId: any, serverId: any) => void;
 
+}
+
+export interface IDashboardState {
+    groups: Array<IGroup>;
+    filter: string;
+    activeView: ActiveDashboard;
+    grouping: DashboardGroupingEnum;
 }

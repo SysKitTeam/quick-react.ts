@@ -1,9 +1,9 @@
 /* tslint:disable:no-console */
-import { ICompactDashboardProps, ICompactDashboardServer, ICompactDashboardFarm } from '../../src/components/CompactDashboard';
-import { ITileDashboardProps, ITiledDashboardFarm, ITiledDashboardServer } from '../../src/components/TileDashboard';
+import { ICompactDashboardProps } from '../../src/components/CompactDashboard';
+import { ITileDashboardProps } from '../../src/components/TileDashboard';
 import { IDashboardProps } from '../../src/components/Dashboard';
 import { ActiveDashboard } from '../../src/components/DashboardHeader/DashboardHeader.Props';
-import { IFarm, ServerStatus, IMeasure, MeasureType, CpuMeasure, Partition, DiskMeasure, NetworkMeasure, RamMeasure } from '../../src/models';
+import { IGroup, ServerStatus, IMeasure, MeasureType, CpuMeasure, Partition, DiskMeasure, NetworkMeasure, RamMeasure, GroupTypeEnum } from '../../src/models';
 import { farms } from './farms';
 
 export const dummyCompact: ICompactDashboardProps = {
@@ -11,7 +11,7 @@ export const dummyCompact: ICompactDashboardProps = {
     farms: farms.map(convertFarm),
     className: '',
     filter: '',
-    isVertical: false
+    singleGroupView: false
 
 };
 
@@ -27,7 +27,7 @@ export const dummyDashboard: IDashboardProps = {
     initialActiveView: 0,
     hasAddButton: true,
     headerClass: '',
-    differentDashboards: { 0: { linkText: 'Compact Horizontal' }, 2: { linkText: 'Tiles' }, 1: { linkText: 'Compact Vertical' }, 3: { linkText: 'Grid' } },
+    differentDashboards: { 0: { linkText: 'Compact Horizontal' }, 2: { linkText: 'Tiles' }, 3: { linkText: 'Grid' } },
     farms: farms.map(convertFarm),
     addFarm: () => { console.log('Adding new farm, wop wop'); },
     groupAddFunc: (groupId: any) => { console.log('Clicked add icon of group ' + groupId); },
@@ -36,10 +36,16 @@ export const dummyDashboard: IDashboardProps = {
     serverClose: (serverFQDN: any) => { console.log('Clicked close icon of server ' + serverFQDN); },
     serverRoleEdit: (serverFQDN: any) => { console.log('Clicked edit role icon of server ' + serverFQDN); },
     groupOnClick: (groupId: any) => { console.log('Clicked on group ' + groupId); },
-    serverOnClick: (groupId: any, serverId: any) => {console.log('Clicked on group ' + groupId + ' and server ' + serverId); }    
+    serverOnClick: (groupId: any, serverId: any) => { console.log('Clicked on group ' + groupId + ' and server ' + serverId); },
+    icons: [
+        { iconType: GroupTypeEnum.SharePoint, iconName: 'icon-key' },
+        { iconType: GroupTypeEnum.Custom, iconName: 'icon-group' },
+        { iconType: GroupTypeEnum.Sql, iconName: 'icon-link' },
+        { iconType: GroupTypeEnum.SqlAlwaysOn , iconName: 'icon-list'}
+    ]
 };
 
-export function convertFarm(farm: IFarm): ITiledDashboardFarm {
+export function convertFarm(farm: IGroup): IGroup {
     let servers = farm.servers.map((server) => {
         let measures = generateMeasures();
         let status = ServerStatus.Offline;
@@ -54,7 +60,7 @@ export function convertFarm(farm: IFarm): ITiledDashboardFarm {
         }
         return {
             id: server.id,
-            numberOfUsers:  Math.round(Math.random() * 1000).toString(),
+            numberOfUsers: Math.round(Math.random() * 1000).toString(),
             name: server.name,
             onClose: server.onClose,
             onRoleChange: server.onRoleChange,
@@ -64,17 +70,16 @@ export function convertFarm(farm: IFarm): ITiledDashboardFarm {
             measures: measures
         };
     });
+
     return {
         servers: servers,
         name: farm.name,
         id: farm.id,
-        isCustom: farm.isCustom,
-        version: farm.version,
-        serversGroup: farm.serversGroup
+        type: (Math.floor(Math.random() * 100) % 4) + 1
     };
 }
 
-function convertToCompactFarm(farm: ITiledDashboardFarm): ICompactDashboardFarm {
+function convertToCompactFarm(farm: IGroup): IGroup {
     return farm;
 }
 
@@ -132,14 +137,14 @@ export function generateMeasures(): Array<IMeasure> {
                 used: 800,
                 capacity: 1000,
                 usageUnit: 'GB',
-                id: 1     
+                id: 1
             },
             {
                 name: 'Data (E:)',
                 used: 560,
                 capacity: 789,
                 usageUnit: 'GB',
-                id: 2    
+                id: 2
             }
         ],
         time: new Date(Date.now())

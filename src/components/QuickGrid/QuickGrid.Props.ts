@@ -23,6 +23,7 @@ export interface IQuickGridProps {
 
     groupBySortColumn?: string;
     groupBySortDirection?: SortDirection;
+    groupRowFormat?: (rowData: any) => string;
     onGroupBySort?: (sortBy: string, sortDirection: SortDirection) => void;
 }
 

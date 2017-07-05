@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { IServerGridDashboardProps, ServerGridRow, IServerGridDashboardState } from './ServerGridDashboard.Props';
-import { ITiledDashboardFarm } from '../TileDashboard/TileDashboard.Props';
 import * as classNames from 'classnames';
 import { Icon } from '../Icon/Icon';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
@@ -10,20 +9,23 @@ import { GetClassForStatus } from '../../utilities/server';
 import { filterFarms } from '../Dashboard/Dashboard';
 
 import { sortServersByStatusAndName, filterServerByName, convertNetwork, convertDisk, convertRam } from '../../utilities/server';
-import { IMeasure, MeasureType, IFarm, Partition, DiskMeasure, CpuMeasure, RamMeasure, NetworkMeasure, ServerStatus } from '../../models';
+import { IMeasure, MeasureType, IGroup, Partition, DiskMeasure, CpuMeasure, RamMeasure, NetworkMeasure, ServerStatus } from '../../models';
 
 import './ServerGridDashboard.scss';
 
 const GRID_CELL_MIN_WIDTH = 180;
 
-const gridColumns: Array<GridColumn> = [{
+const groupByColumn: GridColumn = {
     valueMember: 'FarmName',
     headerText: 'Farm',
     width: 100,
     minWidth: 50,
     isSortable: true,
     isGroupable: true
-}, {
+
+};
+
+const gridColumns: Array<GridColumn> = [{
     valueMember: 'ServerName',
     headerText: 'Server',
     dataMember: 'ServerData',
@@ -113,24 +115,30 @@ const gridColumns: Array<GridColumn> = [{
     isSortable: true
 }];
 
-export class ServerGridDashboard extends React.Component<IServerGridDashboardProps, IServerGridDashboardState> {
+export class ServerGridDashboard extends React.PureComponent<IServerGridDashboardProps, IServerGridDashboardState> {
     private grid;
     constructor(props: IServerGridDashboardProps) {
         super(props);
         this.state = {
             rows: this.transformFarmToRows(props.farms, props.filter),
             expandedRows: {},
-            groupBy: ['FarmName']
+            groupBy: ['FarmName'],
+            groupBySortColumn: 'FarmName'
         };
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps: IServerGridDashboardProps) {
         this.setState((oldState) => {
-            return { ...oldState, rows: this.transformFarmToRows(nextProps.farms, nextProps.filter) };
+            return { 
+                ...oldState,
+                 rows: this.transformFarmToRows(nextProps.farms, nextProps.filter),
+                 groupBy: nextProps.singleGroupView ? [] : ['FarmName'],
+                 groupBySortColumn: nextProps.singleGroupView ? '' : 'FarmName'
+             };
         });
     }
 
-    private transformFarmToRows(farms: Array<ITiledDashboardFarm>, filter: string): Array<ServerGridRow> {
+    private transformFarmToRows(farms: Array<IGroup>, filter: string): Array<ServerGridRow> {
         const filteredFarms = filterFarms(farms, filter);
         let rows = [];
         const getMeasure = (measures, measureType) => {
@@ -165,25 +173,35 @@ export class ServerGridDashboard extends React.Component<IServerGridDashboardPro
 
     public render(): JSX.Element {
         const className = classNames({ [this.props.className]: this.props.className !== undefined }, 'server-grid-dashboard-container');
+        let columns = [...gridColumns];
+        if (!this.props.singleGroupView) {
+            columns.push(groupByColumn);
+        }
+
         return (
             <div className={className}>
                 <QuickGrid
                     rows={this.state.rows}
-                    columns={gridColumns}
+                    columns={columns}
                     groupBy={this.state.groupBy}
                     rowHeight={28}
                     headerHeight={28}
                     overscanRowCount={30}
                     onRowDoubleClicked={this.onRowDoubleClick}
                     sortColumn="ServerName"
-                    sortDirection={ SortDirection.Ascending}
+                    sortDirection={SortDirection.Ascending}
                     groupBySortColumn="FarmName"
                     groupBySortDirection={SortDirection.Ascending}
                     // displayGroupContainer={true}
                     onGroupByChanged={this.groupByChanged}
+                    groupRowFormat={this.groupRowFormat}
                 />
             </div>
         );
+    }
+
+    groupRowFormat = (rowData: any): string => {
+        return rowData.name;
     }
 
     groupByChanged = (groupBy: Array<string>) => {

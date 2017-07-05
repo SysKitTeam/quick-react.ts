@@ -14,16 +14,25 @@ const getColumns = (state: IQuickGridState, props: IQuickGridProps) => props.col
 
 const sortRows = (rows: Array<any>, sortColumn: string, sortDirection: SortDirection, groupedColumn: Array<string>, columns: Array<GridColumn>, groupBySortColumn: string, groupBySortDirection: SortDirection) => {
     const columnSortDir: string = sortDirection === SortDirection.Descending ? 'desc' : 'asc';
+    let sortFunction = (rowData: any, direction: SortDirection) => {
+        return rowData[sortColumn];
+    };
+
+    let column = columns.filter(x => x.valueMember === sortColumn)[0];
+    if (column && column.sortByValueGetter) {
+        sortFunction = column.sortByValueGetter;
+    }
+
     if (groupedColumn.length > 0) {
         const groupSortDir: string = groupBySortDirection === SortDirection.Descending ? 'desc' : 'asc';
         const groupSortBy = (groupBySortColumn !== undefined && groupBySortColumn !== '') ? groupBySortColumn : groupedColumn[0];
         if (sortColumn) {
-            return _.orderBy(rows, [groupSortBy, sortColumn], [groupSortDir, columnSortDir]);
+            return _.orderBy(rows, [groupSortBy, function (data) { return sortFunction(data, sortDirection); }], [groupSortDir, columnSortDir]);
         } else {
             return _.orderBy(rows, groupSortBy, groupSortDir);
         }
     } else if (sortColumn) {
-        return _.orderBy(rows, sortColumn, columnSortDir);
+        return _.orderBy(rows, function (data) { return sortFunction(data, sortDirection); }, columnSortDir);
     }
     return rows;
 };

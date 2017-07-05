@@ -14,7 +14,7 @@ import { Callout } from '../Callout/Callout';
 import './CompactFarm.scss';
 const HOVER_TIME = 250; // ms 
 
-export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
+export class CompactFarm extends CommonComponent<ICompactFarmProps, void> {
     private _enterTimerId: number;
     private _serverId = null;
     private _hoverTargetElement = null;
@@ -35,7 +35,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
         this._async.clearTimeout(this._enterTimerId);
         let server = null;
         if (this._serverId !== null) {
-            server = nextProps.farm.servers.filter((s) => s.id.FQDN === this._serverId.FQDN);
+            server = nextProps.farm.servers.filter((s) => s.id === this._serverId);
         }
         if (!server || server.length === 0) {
             this._hideServerTile();
@@ -81,7 +81,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
     }
 
     @autobind _onServerClicked(serverId: any) {
-        const {serverOnClick, farm} = this.props;
+        const { serverOnClick, farm } = this.props;
 
         if (serverOnClick) {
             serverOnClick(farm.id, serverId);
@@ -92,8 +92,8 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
         const farm = this.props.farm;
         let servers = farm.servers.sort((server1, server2) => {
             return sortServersByStatusAndName(
-                {status: server1.status, name: server1.name}, 
-                {status: server2.status, name: server2.name}
+                { status: server1.status, name: server1.name },
+                { status: server2.status, name: server2.name }
             );
         });
 
@@ -103,14 +103,14 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
                     serverChildrenCount={servers.length}
                     className={'farm-name-inside'}
                     id={farm.id} name={farm.name}
-                    key={farm.id.configDataBaseName + '-' + farm.id.sqlInstance}
+                    key={farm.id}
                     onClick={this.props.groupOnClick}
-                    serversGroup={farm.serversGroup}
-                    >
+                    iconName={this.props.iconName}
+                >
                     {
-                        servers.map((server) => (
+                        servers.map((server, index) => (
                             <CompactServer
-                                key={server.id.FQDN}
+                                key={server.id}
                                 roles={server.roles}
                                 id={server.id}
                                 status={server.status}
@@ -120,7 +120,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
                                 serverOnClick={this._onServerClicked}
                                 onMouseEnter={this._onItemMouseEnter.bind(this, server.id)}
                                 onMouseLeave={this._onMouseLeave}
-                                />
+                            />
                         ))
                     }
                     {
