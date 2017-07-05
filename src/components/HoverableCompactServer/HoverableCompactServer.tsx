@@ -3,7 +3,7 @@ import { IHoverableCompactServerProps, IHoverableCompactServerState } from './Ho
 import { CommonComponent } from '../Common/Common';
 import { CompactServer } from '../CompactServer/CompactServer';
 import { Callout } from '../Callout/Callout';
-import { autobind } from '../../';
+import { autobind } from '../../utilities/autobind';
 import { ServerTile } from '../ServerTile/ServerTile';
 import { IServer } from '../../models';
 import { getServerMeasures } from '../../utilities/server';
