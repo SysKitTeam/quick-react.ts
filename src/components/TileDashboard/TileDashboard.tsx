@@ -41,7 +41,7 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
 
     @autobind
     private componentDidUpdate(prevProps: ITileDashboardProps, prevState) {
-        if (this.list && (this.props.filter !== prevProps.filter && this.list) || prevProps.farms !== this.props.farms) {
+        if (this.list && ((this.props.filter !== prevProps.filter && this.list) || prevProps.farms !== this.props.farms)) {
             this.list.recomputeRowHeights();
         }
     }
