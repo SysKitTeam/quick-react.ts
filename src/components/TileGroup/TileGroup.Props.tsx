@@ -1,8 +1,9 @@
-import { ITiledDashboardFarm } from '../TileDashboard/TileDashboard.Props';
+import { IGroup } from '../../models';
 
 export interface ITileGroupProps {
-    farm: ITiledDashboardFarm;
+    farm: IGroup;
     filter?: string;  
+    iconName?: string;
     groupOnClick?: (groupId: any) => void;
     serverOnClick?: (groupId: any, serverId: any) => void;
     editRoles?: boolean;

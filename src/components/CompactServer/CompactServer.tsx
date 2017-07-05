@@ -13,10 +13,18 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, any>
         editRoles: false
     };
 
+    public ContainerElement: HTMLElement;
+
     constructor(props?: ICompactServerProps) {
         super(props);
+        this.ContainerElement = null;
     }
 
+
+    @autobind
+    private refCallback(element) {
+        this.ContainerElement = element;
+    }
     render() {
         let { status } = this.props;
         let className = GetClassForStatus('compact-server-container', status);
@@ -26,6 +34,7 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, any>
                 onMouseEnter={this.props.onMouseEnter}
                 onMouseLeave={this.props.onMouseLeave}
                 onClick={this.onclick}
+                ref={this.refCallback}
             >
                 <span className={'server-title'}>
                     <span>{this.props.name}</span>

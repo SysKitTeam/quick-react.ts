@@ -1,27 +1,27 @@
 import * as React from 'react';
-import {ICompactServerProps} from '../CompactServer/CompactServer.Props';
-import {ISharePointServer, IHazMeasures, IFarm} from '../../models';
+import { ICompactServerProps } from '../CompactServer/CompactServer.Props';
+import { IGroup, GroupTypeEnum } from '../../models';
 
-export interface ICompactDashboardServer extends ISharePointServer, IHazMeasures {
-}
-
-export interface ICompactDashboardFarm extends IFarm {
-    servers: Array<ICompactDashboardServer>;
+export interface ICompactDashboardState {
+  list: any;
+  collection: any;
+  groups: Array<IGroup>;
 }
 
 export interface ICompactDashboardProps {
   title: string;
-  farms: Array<ICompactDashboardFarm>;
+  farms: Array<IGroup>;
+  icons?: [{ iconType: GroupTypeEnum, iconName: string }];
   className?: string;
   filter?: string;
-  isVertical?: boolean;
   editRoles?: boolean;
+  singleGroupView?: boolean;
 
   /**
   * Action that is called on clicking the add icon on the bar of a certain group. The function is supplied with a group id.
   */
   groupAddFunc?: (groupId: any) => void;
-  
+
   /**
   * Action that is called on clicking the edit icon on the bar of a certain group. The function is supplied with a group id.
   */

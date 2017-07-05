@@ -62,7 +62,7 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
 
     public render() {
         return (
-            <div>
+            <div className={this.props.className}>
                 {this._renderPivotLinks()}
                 {this._renderPivotItem()}
             </div>
