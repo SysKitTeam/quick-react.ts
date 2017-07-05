@@ -2,6 +2,7 @@ import * as React from 'react';
 import { IGroupProps } from './Group.Props';
 import { CompactServer } from '../CompactServer/CompactServer';
 import { Icon } from '../Icon/Icon';
+import { autobind } from '../../utilities/autobind';
 import * as classNames from 'classnames';
 import './Group.scss';
 
@@ -25,7 +26,7 @@ export class Group extends React.PureComponent<IGroupProps, void> {
                         {this.props.iconName &&
                             <Icon iconName={this.props.iconName} title={this.props.iconName} className={'group-icon'}></Icon>
                         }
-                        <span onClick={() => { this.props.onClick(this.props.id); }} title={this.props.name}>{this.props.name}</span>
+                        <span onClick={this._onGroupClick} title={this.props.name}>{this.props.name}</span>
                         {this.props.deleteFunc &&
                             <Icon title={'Delete'} iconName={'icon-delete'} onClick={() => { this.props.deleteFunc(this.props.id); }}></Icon>
                         }
@@ -45,4 +46,10 @@ export class Group extends React.PureComponent<IGroupProps, void> {
         );
     }
 
+    @autobind
+    private _onGroupClick() {
+        if (this.props.onClick) {
+            this.props.onClick(this.props.id);
+        }
+    }
 }

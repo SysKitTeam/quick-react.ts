@@ -231,14 +231,14 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         filter={filter}
                         className={'viewport-height'}
                         title={this.props.title}
-                        editRoles={this.props.editRoles}
+                        editRoles={this.state.grouping === DashboardGroupingEnum.Smart ? this.props.editRoles : false}
                         farms={groups}
                         singleGroupView={this.state.grouping === DashboardGroupingEnum.Disabled}
                         icons={this.props.icons}
-                        groupEditFunc={this.props.groupEditFunc}
+                        groupEditFunc={this.state.grouping === DashboardGroupingEnum.Smart ? this.props.groupEditFunc : undefined}
                         groupAddFunc={this.props.groupEditFunc}
                         groupDeleteFunc={this.props.groupDeleteFunc}
-                        groupOnClick={this.props.groupOnClick}
+                        groupOnClick={this.state.grouping === DashboardGroupingEnum.Smart ? this.props.groupOnClick : undefined}
                         serverRoleEdit={this._roleEdit}
                         serverClose={this.props.serverClose}
                         serverOnClick={this.props.serverOnClick}
@@ -250,13 +250,13 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         className={'viewport-height'}
                         farms={groups}
                         filter={filter}
-                        editRoles={this.props.editRoles}
+                        editRoles={this.state.grouping === DashboardGroupingEnum.Smart ? this.props.editRoles : false}
                         singleGroupView={this.state.grouping === DashboardGroupingEnum.Disabled}
                         icons={this.props.icons}
-                        groupEditFunc={this.props.groupEditFunc}
+                        groupEditFunc={this.state.grouping === DashboardGroupingEnum.Smart ? this.props.groupEditFunc : undefined}
                         groupAddFunc={this.props.groupEditFunc}
                         groupDeleteFunc={this.props.groupDeleteFunc}
-                        groupOnClick={this.props.groupOnClick}
+                        groupOnClick={this.state.grouping === DashboardGroupingEnum.Smart ? this.props.groupOnClick : undefined}
                         serverRoleEdit={this._roleEdit}
                         serverClose={this.props.serverClose}
                         serverOnClick={this.props.serverOnClick}
