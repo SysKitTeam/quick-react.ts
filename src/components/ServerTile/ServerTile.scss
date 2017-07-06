@@ -16,6 +16,12 @@ $server-status-color: $basic-text-color;
 }
 
 .server-details {
+    &:hover {
+        & > .server-details-header > .icon-delete {
+            visibility: visible;
+        }
+    }
+
     font-family: $font;
     width: $tile-width;
     display: inline-block;
@@ -49,6 +55,18 @@ $server-status-color: $basic-text-color;
             vertical-align: bottom;            
         }
 
+        .icon-delete {
+            padding: 5px;
+            margin: 0;
+            float: right;
+            visibility: hidden;
+
+            &:hover {
+                color: $red-color;
+                cursor: pointer;
+            }
+        }
+
         .disk-icon {
             padding: 0;
             margin: 5px 10px 5px 16px;
@@ -59,10 +77,8 @@ $server-status-color: $basic-text-color;
             float: left;
             width: 100%;
             margin: 3px 0 10px 0;
-            // background: $server-background-color;
             color: $tag-color;
             .tag{
-                // background: $server-background-color;
                 margin-top: 0;
                 margin-bottom: 0;
                 padding-top: 0;
@@ -150,13 +166,6 @@ $server-status-color: $basic-text-color;
         font-family: $font;
         font-size: $header-font-size;
     }
-
-    .icon-delete{
-        color: $emphasized-text-color;
-        &:hover{
-            color: $red-color;
-        }
-    }  
 }
 
 .status-ok{
