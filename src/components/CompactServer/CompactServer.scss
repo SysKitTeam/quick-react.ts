@@ -8,11 +8,16 @@
     float: left;
     width: 95%;
     padding: 5px;
-    // background: $background-color;
     border-top: 1px solid $background-color;
     border-right: 1px solid $background-color;
     border-bottom: 1px solid $background-color;
     color:  $basic-text-color;
+
+    &:hover {
+        .icon-delete {
+            visibility: visible;
+        }
+    }
 
      hr{
         width: 100%;
@@ -31,7 +36,7 @@
             float: left;
             margin-bottom: 5px;
             margin-left: 5px;
-            width: calc(100% - 10px);
+            width: calc(100% - 36px);
             display: block;
             font-weight: 400;
             font-size: 17px;
@@ -54,8 +59,18 @@
                 display: none;
                 font-weight: 900;
                 cursor: pointer;
+            }
      }
-      
+
+     .icon-delete {
+         padding: 5px;
+         margin: 0;
+         visibility: hidden;
+
+         &:hover {
+             color: $red-color;
+             cursor: pointer;
+         }
      }
     
      .server-title:hover .server-close, .server-close:hover{

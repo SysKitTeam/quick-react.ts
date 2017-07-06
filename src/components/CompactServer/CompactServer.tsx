@@ -36,6 +36,10 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, void
                     <span>{this.props.name}</span>
                 </span>
                 {
+                    this.props.onClose &&
+                    <Icon title={'Delete'} iconName={'icon-delete'} onClick={() => this.props.onClose(this.props.id) }></Icon>
+                }
+                {
                     this.props.roles.length > 0 &&
                     <div>
                         <hr />
