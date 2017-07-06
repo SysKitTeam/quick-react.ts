@@ -21,6 +21,7 @@ ul {
 
 .tree-expand-icon{
     vertical-align: middle;
+    padding-bottom: 6px;
 }
 
 .tree-filter-input{
@@ -45,10 +46,23 @@ ul {
     font-size: $font-size-m;
 }
 
+.icon-partial-selected{
+    label:after {
+        content: '\025FC';
+        color: #b9cb34;
+        font-size: 20px;
+        position: absolute;
+        left: 1.5px;
+        top: -1.5px;
+    }
+}
+
 .tree-filter-title-container{
     height: 50px;
     width: 200px;
-    
+    color: $font-primary-color;
+    font-family: $font-family-base;
+
     .item-selected{
         color: $secondary-color;
     }
@@ -78,7 +92,7 @@ $Checkbox-transition-timing: cubic-bezier(.4, 0, .23, 1);
     box-sizing: border-box;
     color: $font-primary-color;
     font-family: $font-family-base;
-    font-size: $font-size-s;
+    font-size: $font-size-m;
     position: relative;
 
     .checkbox-input {
@@ -90,10 +104,10 @@ $Checkbox-transition-timing: cubic-bezier(.4, 0, .23, 1);
         content: '';
         display: inline-block;
         border: 1.5px solid #6b6b6b;
-        width: 14px;
-        height: 14px;
+        width: 15px;
+        height: 15px;
         border-radius: 3px;
-        top: 3px;
+        top: 1px;
         position: absolute;
         box-sizing: border-box;
     }
@@ -110,15 +124,16 @@ $Checkbox-transition-timing: cubic-bezier(.4, 0, .23, 1);
         line-height: $Checkbox-label-size;
 
         .label {
-            padding: 0 0 0 20px;          
+            padding: 0 0 0 20px;
         }
     }
 
     .TreeFilter-checkbox-checkmark {
         color: $font-primary-color;
         position: absolute;
-        margin-top: 4px;
+        margin-top: 2.5px;
         margin-left: 2px;
+        font-size: 12px;
     }
 }
 

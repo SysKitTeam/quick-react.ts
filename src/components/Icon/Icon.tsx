@@ -6,10 +6,9 @@ import { getNativeAttributes, htmlElementAttributes } from '../../utilities/attr
 import './Icon.scss';
 
 export const Icon: (props: IIconProps) => JSX.Element = (props: IIconProps) => {
-
-    let size = props.size;
-    let customIcon = props.iconName === '';
-    let iconClass = props.iconName;
+    // let size = props.size;
+    const customIcon = props.iconName === '';
+    // let iconClass = props.iconName;
     let iconClassName = classNames(
         ['icon'], {
         [props.iconName]: !customIcon 
