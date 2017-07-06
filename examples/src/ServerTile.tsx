@@ -18,7 +18,6 @@ export class Index extends React.Component<any, any> {
                     id={'server-123'}
                     status={0}
                     name={'SP2016-Martin'}
-                    numberOfUsers={'3432'}
                     onClose={(id: string) => console.log('Go away!', id)}
                     diskInformation={[
                         {

@@ -135,6 +135,7 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
                     groupOnClick={this.props.groupOnClick}
                     iconName={icon.iconName}
                     iconTitle={icon.title}
+                    onServerClose={this.props.onServerClose}
                 />
             </div>
         );

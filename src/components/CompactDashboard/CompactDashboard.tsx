@@ -152,6 +152,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
                     groupOnClick={this.props.groupOnClick}
                     iconName={icon.iconName}
                     iconTitle={icon.title}
+                    onServerClose={this.props.onServerClose !== undefined ? this._onServerClose : undefined}
                 />
             </div>
         );
@@ -167,5 +168,12 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
                 style={style}
             />
         );
+    }
+
+    @autobind
+    private _onServerClose(serverId, groupId, event) {
+        if (this.props.onServerClose) {
+            this.props.onServerClose(serverId, groupId, event);
+        }
     }
 }

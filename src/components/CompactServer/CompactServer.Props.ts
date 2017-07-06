@@ -13,7 +13,7 @@ export interface ICompactServerProps {
     filter?: string;
     serverOnClick?: (serverId: any) => void;    
     onRoleEdit?: (serverId: string) => void;
-    onClose?: (serverId: string) => void;
+    onClose?: (serverId: string, event?: any) => void;
     onMouseEnter?: React.EventHandler<React.MouseEvent<HTMLDivElement>>;
     onMouseLeave?: React.EventHandler<React.MouseEvent<HTMLDivElement>>;
     showEditRoles?: boolean;
