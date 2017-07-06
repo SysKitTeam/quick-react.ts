@@ -45,6 +45,29 @@ ul {
     font-size: $font-size-m;
 }
 
+.tree-filter-title-container{
+    height: 50px;
+    width: 200px;
+    
+    .item-selected{
+        color: $secondary-color;
+    }
+
+    .reset-filter-icon{
+        font-size: $font-size-s;
+        float: right;
+        margin-top: 3px;
+    }
+}
+
+.tree-filter-footer{
+    .tree-filter-footer-count{
+        padding-top: 3px;
+        font-size: $font-size-s;
+        padding-left: 5px;
+    }
+}
+
 // checkbox
 $Checkbox-label-size: 20px;
 $Checkbox-transition-duration: 200ms;

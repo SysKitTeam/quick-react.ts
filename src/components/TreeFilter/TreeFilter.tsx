@@ -29,9 +29,10 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         onValuesSelected: () => { },
         filterSelection: { type: FilterSelectionEnum.None, selectedIDs: [] },
         width: 300,
-        height: 500,
+        height: 350,
         minWidth: 200,
-        minHeight: 300
+        minHeight: 200,
+        defaultSelection: FilterSelectionEnum.None
     };
 
     constructor(props: ITreeFilterProps) {
@@ -180,6 +181,11 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         }
     }
 
+    onFilterReset = () => {
+        const selectAllDefault = this.props.defaultSelection === FilterSelectionEnum.All;
+        this.setNewSelectedState(selectAllDefault, [], []);
+    }
+
     allFilteredChecked = () => {
         return _.every(this.state.filteredItems, (item) => this.isItemChecked(this.props.filterSelection.selectedIDs, item));
     }
@@ -212,9 +218,21 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     }
 
     getNewPartiallyChecked(changedTreeItem: TreeItem, checkedItemIds, wasChecked) {
-        const children = ItemOperator.getAllChildrenIds(changedTreeItem);
-        let newPartiallyCheckedItems = _.without<any>(this.state.partiallyCheckedItemIds, ...children, changedTreeItem.id);
+        let itemsToRemoveFromPartiallyChecked = ItemOperator.getAllChildrenIds(changedTreeItem);
+        if (!wasChecked || !this.isAnySiblingChecked(changedTreeItem, this.state.partiallyCheckedItemIds, checkedItemIds)) {
+            itemsToRemoveFromPartiallyChecked.push(changedTreeItem.id);
+        }
+        let newPartiallyCheckedItems = _.without<any>(this.state.partiallyCheckedItemIds, ...itemsToRemoveFromPartiallyChecked);
         return this.checkParentPartiallyChecked(newPartiallyCheckedItems, changedTreeItem, checkedItemIds, wasChecked);
+    }
+
+    isAnySiblingChecked(changedTreeItem: TreeItem, partiallyCheckedItemIds, checkedItemIds) {
+        const parent = this.parentItems[changedTreeItem.id];
+        const children = parent == null ? this.props.items : parent.children; // if root reached -> children are all elements
+        const someSiblingPartiallyChecked = _.some(children, (child) => this.isItemChecked(partiallyCheckedItemIds, child));
+        if (someSiblingPartiallyChecked) { return true; }
+        const someSiblingChecked = _.some(children, (child) => this.isItemChecked(checkedItemIds, child));
+        return someSiblingChecked;
     }
 
     checkParentPartiallyChecked(partiallyCheckedItemIds, changedTreeItem: TreeItem, checkedItemIds, wasChecked) {
@@ -224,16 +242,13 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         if (wasChecked) {
             const someSiblingChecked = _.some(parent.children, (child) => this.isItemChecked(checkedItemIds, child));
             const someSiblingPartiallyChecked = _.some(parent.children, (child) => this.isItemChecked(partiallyCheckedItemIds, child));
-            if (someSiblingChecked || someSiblingPartiallyChecked) {
-                if (this.isItemChecked(checkedItemIds, parent)) {
-                    return partiallyCheckedItemIds;
-                } else {
-                    const newPartiallyChecked = partiallyCheckedItemIds.concat([parent.id]);
-                    return this.checkParentPartiallyChecked(newPartiallyChecked, parent, checkedItemIds, wasChecked);
-                }
+            if (someSiblingChecked || someSiblingPartiallyChecked) { // add parent to partially checked
+                const newPartiallyChecked = partiallyCheckedItemIds.concat([parent.id]);
+                return this.checkParentPartiallyChecked(newPartiallyChecked, parent, checkedItemIds, wasChecked);
+            } else { // all siblings unchecked -> remove parent to partially checked
+                let newPartiallyChecked = partiallyCheckedItemIds.filter((itemId) => itemId !== parent.id);
+                return this.checkParentPartiallyChecked(newPartiallyChecked, parent, checkedItemIds, wasChecked);
             }
-            let newPartiallyChecked = partiallyCheckedItemIds.filter((itemId) => itemId !== parent.id);
-            return this.checkParentPartiallyChecked(newPartiallyChecked, parent, checkedItemIds, wasChecked);
         } else {
             if (this.isItemChecked(checkedItemIds, parent)) {
                 const newPartiallyChecked = partiallyCheckedItemIds.filter((itemId) => itemId !== parent.id);
@@ -259,11 +274,25 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         this.setState(prevState => ({ ...prevState, partiallyCheckedItemIds: newPartiallyChecked }));
     }
 
-    getListHeight = (height) => {
-        let heightDiff = 5;
-        if (!this.props.isSingleSelect) { heightDiff += 25; }
+    getBoxSupportElementsHeight = () => {
+        let heightDiff = 5; // 5px: paddings
+        if (!this.props.isSingleSelect) { heightDiff += 44; } // 25px: SelectAll +  19px: Footer
         if (this.props.hasSearch) { heightDiff += 25; }
-        return height - heightDiff;
+        return heightDiff;
+    }
+    getBoxHeight = (availableHeight) => {
+        const supportElementsHeight = this.getBoxSupportElementsHeight();
+        const maxListHeight = availableHeight - supportElementsHeight;
+        const numberOfItems = this.allItemIds.length;
+        const itemsListHeight = numberOfItems * ROW_HEIGHT;
+        if (itemsListHeight < maxListHeight) {
+            return itemsListHeight + supportElementsHeight;
+        } else {
+            return availableHeight;
+        }
+    }
+    getListHeight = (totalHeight) => {
+        return totalHeight - this.getBoxSupportElementsHeight();
     }
 
     renderItem(treeItem: TreeItem, itemKey) {
@@ -373,13 +402,24 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     }
 
     render() {
-        const { title, hasSearch, isSingleSelect, minWidth, minHeight } = this.props;
+        const { title, hasSearch, isSingleSelect, minWidth, minHeight, defaultSelection } = this.props;
         const minResizableBoxSize = [minWidth, minHeight];
         const allSelected = this.getAllSelectedCheckMark();
+        const filterSelection = this.props.filterSelection;
+        const checkedItemIds = filterSelection.type === FilterSelectionEnum.All ? this.allItemIds : filterSelection.selectedIDs;
+
+        const numberOfSelectedItems = checkedItemIds.length;
+        const isDefaultSelected =
+            (defaultSelection === FilterSelectionEnum.None && numberOfSelectedItems === 0) ||
+            (defaultSelection === FilterSelectionEnum.All && numberOfSelectedItems === this.allItemIds.length);
+
         return (
             <div>
-                <div style={{ height: 50 }} ref={this.setAnchorRef}>
-                    <span>{title}: </span>
+                <div className="tree-filter-title-container" ref={this.setAnchorRef}>
+                    <span className={classNames({ 'item-selected': !isDefaultSelected })} >{title}: </span>
+                    {!isDefaultSelected &&
+                        <Icon iconName="icon-delete" className="reset-filter-icon" onClick={this.onFilterReset} />
+                    }
                     <div className="tree-filter-container" onClick={this.toggleOpenState}>
                         <span>{this.getSelectedText()}</span>
                     </div>
@@ -394,7 +434,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                         targetElement={this._anchor}
                         onDismiss={this.onDismiss}
                     >
-                        <ResizableBox width={this.props.width} height={this.props.height} minConstraints={minResizableBoxSize} >
+                        <ResizableBox width={this.props.width} height={this.getBoxHeight(this.props.height)} minConstraints={minResizableBoxSize} >
                             <div style={{ height: '100%', width: '100%' }}>
                                 <AutoSizer>
                                     {({ width, height }) => (
@@ -429,6 +469,11 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                                                 rowRenderer={this.rowRenderer}
                                                 rowCount={this.state.filteredItems.length}
                                             />
+                                            {!this.props.isSingleSelect &&
+                                                <div className="tree-filter-footer" style={{ width }}>
+                                                    <div className="tree-filter-footer-count">Selected: {numberOfSelectedItems}/{this.allItemIds.length}</div>
+                                                </div>
+                                            }
                                         </div>
                                     )}
                                 </AutoSizer>

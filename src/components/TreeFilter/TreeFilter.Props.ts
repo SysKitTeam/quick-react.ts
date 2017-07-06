@@ -26,6 +26,7 @@ export interface ITreeFilterProps {
     isGroupSelectableOnSingleSelect?: boolean;
     itemsAreFlatList?: boolean;
     onValuesSelected?: (filterId: string, filterSelection: IFilterSelection) => void;
+    defaultSelection?: FilterSelectionEnum;
     width?: number;
     height?: number;
     minWidth?: number;
@@ -33,13 +34,9 @@ export interface ITreeFilterProps {
 }
 
 export interface ITreeFilterState {
-    isOpen: boolean;
-    
-    // allSelected: CheckStatus;
+    isOpen: boolean;    
     filteredItems: Array<TreeItem>;
     searchText: string;
-
-    // checkedItemIds: Array<string>;
     partiallyCheckedItemIds: Array<string>;   // items with selected children - different name?
 }
 

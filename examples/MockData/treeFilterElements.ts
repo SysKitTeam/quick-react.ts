@@ -1,6 +1,6 @@
 const RANDOM_WORDS = ['abstrusity', 'advertisable', 'bellwood', 'benzole', 'disputative', 'djilas', 'ebracteate', 'zonary'];
 
-function createFlatList(numOfItems) {
+export function createFlatList(numOfItems) {
     let data = [];
     for (let i = 0; i < numOfItems; i++) {
         let name = RANDOM_WORDS[Math.floor(Math.random() * RANDOM_WORDS.length)];
@@ -9,7 +9,7 @@ function createFlatList(numOfItems) {
     return data;
 }
 
-function createRandomizedData(numOfItems) {
+export function createRandomizedData(numOfItems) {
     let data = [];
     for (let i = 0; i < numOfItems; i++) {
         data.push(createRandomizedItem(i, 0));
@@ -35,4 +35,4 @@ function createRandomizedItem(key, depth) {
 }
 
 export const treeData = createRandomizedData(2000);
-export const flatData = createFlatList(2000);
+export const flatData = createFlatList(5);
