@@ -3,7 +3,6 @@ import * as React from 'react';
 /* tslint:enable:no-unused-variable */
 import { ICalloutProps } from './Callout.Props';
 import { DirectionalHint } from '../../utilities/DirectionalHint';
-import { autobind } from '../../utilities/autobind';
 import * as classNames from 'classnames';
 import { elementContains } from '../../utilities/elementContains';
 import { getDocument, getWindow } from '../../utilities/getDocument';
@@ -74,7 +73,7 @@ export class CalloutContent extends CommonComponent<ICalloutProps, ICalloutState
             this._setTargetWindowAndElement(newTarget);
         }
     }
-    
+
     public componentDidMount() {
         this._onComponentDidMount();
     }
@@ -103,7 +102,7 @@ export class CalloutContent extends CommonComponent<ICalloutProps, ICalloutState
         let contentMaxHeight: number = this._getMaxHeight();
         let beakVisible: boolean = isBeakVisible && (!!targetElement || !!target);
         let content = (
-            <div ref={ this._resolveRef('_hostElement') } className={ 'callout-container' }>
+            <div ref={this._resolveRef('_hostElement')} className={'callout-container'}>
                 <div
                     className={
                         classNames(
@@ -111,27 +110,18 @@ export class CalloutContent extends CommonComponent<ICalloutProps, ICalloutState
                             className,
                             { 'callout-no-border': this.props.hideBorder },
                             slideDirectionalClassName ? `${slideDirectionalClassName}` : ''
-                        ) }
-                    style={ positions ? positions.callout : OFF_SCREEN_POSITION }
-                    ref={ this._resolveRef('_calloutElement') }
-                    >
-
-                    { beakVisible ? (
-                        <div
-                            className={ 'callout-beak' }
-                            style={ beakReactStyle }
-                            />) : (null) }
-
-                    { beakVisible ?
-                        (<div className="callout-beak-curtain" />) :
-                        (null) }
-
+                        )}
+                    style={positions ? positions.callout : OFF_SCREEN_POSITION}
+                    ref={this._resolveRef('_calloutElement')}
+                >
+                    {beakVisible && <div className={'callout-beak'} style={beakReactStyle} />}
+                    {beakVisible && <div className="callout-beak-curtain" />}
                     <Popup
                         className="callout-main"
-                        onDismiss={ (ev: any) => this.dismiss() }
-                        shouldRestoreFocus={ true }
-                        style={ { maxHeight: contentMaxHeight } }>
-                        { children }
+                        onDismiss={(ev: any) => this.dismiss()}
+                        shouldRestoreFocus={true}
+                        style={{ maxHeight: contentMaxHeight }}>
+                        {children}
                     </Popup>
                 </div>
             </div>
@@ -159,16 +149,14 @@ export class CalloutContent extends CommonComponent<ICalloutProps, ICalloutState
         }
     }
 
-    @autobind
-    protected _setInitialFocus() {
+    protected _setInitialFocus = () => {
         if (this.props.setInitialFocus && !this._didSetInitialFocus && this.state.positions) {
             this._didSetInitialFocus = true;
             focusFirstChild(this._calloutElement);
         }
     }
 
-    @autobind
-    protected _onComponentDidMount() {
+    protected _onComponentDidMount = () => {
         this._events.on(this._targetWindow, 'scroll', this._dismissOnLostFocus, true);
         this._events.on(this._targetWindow, 'resize', this.dismiss, true);
         this._events.on(this._targetWindow, 'focus', this._dismissOnLostFocus, true);
@@ -177,11 +165,10 @@ export class CalloutContent extends CommonComponent<ICalloutProps, ICalloutState
         if (this.props.onLayerMounted) {
             this.props.onLayerMounted();
         }
-
         this._updatePosition();
     }
 
-    private _updatePosition() {
+    _updatePosition = () => {
         let { positions } = this.state;
         let hostElement: HTMLElement = this._hostElement;
         let calloutElement: HTMLElement = this._calloutElement;

@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { List, AutoSizer } from 'react-virtualized';
-import { Resizable, ResizableBox } from 'react-resizable';
+import Resizable from 'react-resizable-box';
 import * as classNames from 'classnames';
 import * as _ from 'lodash';
 
 import { Callout } from '../Callout';
+import { DirectionalHint } from '../../utilities/DirectionalHint';
 import { Icon } from '../Icon';
 import { ITreeFilterProps, ITreeFilterState, TreeItem, CheckStatus, FilterSelectionEnum, IFilterSelection } from './TreeFilter.Props';
 import { TreeFilterCheckBox } from './TreeFilterCheckBox';
@@ -16,6 +17,7 @@ const ROW_HEIGHT = 20;
 export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilterState> {
     private _list: any;
     private _anchor: any;
+    private _callout: any;
     private parentItems: Readonly<{ [id: string]: TreeItem }>;
     private allItemIds: ReadonlyArray<string>;
 
@@ -26,6 +28,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         isSingleSelect: false,
         itemsAreFlatList: false,
         isGroupSelectableOnSingleSelect: false,
+        directionalHint: DirectionalHint.bottomRightEdge,
         onValuesSelected: () => { },
         filterSelection: { type: FilterSelectionEnum.None, selectedIDs: [] },
         width: 300,
@@ -122,6 +125,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
 
     setListReference = (ref) => { this._list = ref; };
     setAnchorRef = (ref) => { this._anchor = ref; };
+    setCalloutRef = (ref) => { this._callout = ref; };
 
     onSearchTextChange = (event) => {
         const textFilter = event.target.value;
@@ -294,6 +298,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     getListHeight = (totalHeight) => {
         return totalHeight - this.getBoxSupportElementsHeight();
     }
+    onCalloutResize = () => { this._callout.UpdatePosition(); };
 
     renderItem(treeItem: TreeItem, itemKey) {
         const onExpandClick = (event) => {
@@ -400,7 +405,6 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         }
         return allSelected;
     }
-
     render() {
         const { title, hasSearch, isSingleSelect, minWidth, minHeight, defaultSelection } = this.props;
         const minResizableBoxSize = [minWidth, minHeight];
@@ -412,29 +416,36 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         const isDefaultSelected =
             (defaultSelection === FilterSelectionEnum.None && numberOfSelectedItems === 0) ||
             (defaultSelection === FilterSelectionEnum.All && numberOfSelectedItems === this.allItemIds.length);
-
         return (
             <div>
-                <div className="tree-filter-title-container" ref={this.setAnchorRef}>
+                <div className="tree-filter-container" ref={this.setAnchorRef}>
                     <span className={classNames({ 'item-selected': !isDefaultSelected })} >{title}: </span>
                     {!isDefaultSelected &&
                         <Icon iconName="icon-delete" className="reset-filter-icon" onClick={this.onFilterReset} />
                     }
-                    <div className="tree-filter-container" onClick={this.toggleOpenState}>
+                    <div className="tree-filter-title" onClick={this.toggleOpenState}>
                         <span>{this.getSelectedText()}</span>
                     </div>
                 </div>
                 {this.state.isOpen &&
                     <Callout
+                        ref={this.setCalloutRef}
                         isBeakVisible={false}
-                        className="dropdown-callout"
+                        className="tree-filter-callout"
                         gapSpace={0}
                         doNotLayer={false}
-                        directionalHint={4}
+                        directionalHint={this.props.directionalHint}
                         targetElement={this._anchor}
                         onDismiss={this.onDismiss}
                     >
-                        <ResizableBox width={this.props.width} height={this.getBoxHeight(this.props.height)} minConstraints={minResizableBoxSize} >
+                        <Resizable
+                            width={this.props.width}
+                            height={this.getBoxHeight(this.props.height)}
+                            style={{ overflow: 'hidden' }}
+                            minWidth={minWidth}
+                            minHeight={minHeight}
+                            onResize={this.onCalloutResize}
+                        >
                             <div style={{ height: '100%', width: '100%' }}>
                                 <AutoSizer>
                                     {({ width, height }) => (
@@ -478,7 +489,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                                     )}
                                 </AutoSizer>
                             </div>
-                        </ResizableBox>
+                        </Resizable>
                     </Callout>
                 }
             </div>

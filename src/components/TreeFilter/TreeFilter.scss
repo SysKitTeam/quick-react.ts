@@ -1,157 +1,67 @@
 @import '../../index.scss';
-
-ul {
-    margin: 0;
-    list-style: none;
-    padding-left: 20px;
-}
-
-.item {
-    height: 20px;
-    display: inline-block;
-    flex-direction: column;
-    justify-content: center;
-    white-space: pre;
-    user-select: none;
-}
-
-.item-container{
-    white-space:nowrap;
-}
-
-.tree-expand-icon{
-    vertical-align: middle;
-    padding-bottom: 6px;
-}
-
-.tree-filter-input{
-    width: calc(100% - 5px);
-}
-
-.tree-filter-container {
-    width: 200px;
-    height: 20px;
-    padding: 2px 1px 2px 1px;
-    border-bottom: 1px solid $secondary-color;
-    cursor: pointer;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.tree-single-select-item{
-    display: inline-block;
-    color: $font-primary-color;
-    font-family: $font-family-base;
-    font-size: $font-size-m;
-}
-
-.icon-partial-selected{
-    label:after {
-        content: '\025FC';
-        color: #b9cb34;
-        font-size: 20px;
-        position: absolute;
-        left: 1.5px;
-        top: -1.5px;
+.tree-filter-callout {
+    .ReactVirtualized__Grid {
+        outline: none;
+    }
+    ul {
+        margin: 0;
+        list-style: none;
+        padding-left: 20px;
+    }
+    .item {
+        height: 20px;
+        display: inline-block;
+        flex-direction: column;
+        justify-content: center;
+        white-space: pre;
+        user-select: none;
+    }
+    .item-container {
+        white-space: nowrap;
+    }
+    .tree-expand-icon {
+        vertical-align: middle;
+        padding-bottom: 6px;
+    }
+    .tree-filter-input {
+        width: calc(100% - 5px);
+    }
+    .tree-single-select-item {
+        display: inline-block;
+        color: $font-primary-color;
+        font-family: $font-family-base;
+        font-size: $font-size-m;
+    }
+    .tree-filter-footer {
+        .tree-filter-footer-count {
+            padding-top: 3px;
+            font-size: $font-size-s;
+            padding-left: 5px;
+        }
     }
 }
 
-.tree-filter-title-container{
+.tree-filter-container {
     height: 50px;
     width: 200px;
     color: $font-primary-color;
     font-family: $font-family-base;
-
-    .item-selected{
+    .tree-filter-title {
+        width: 200px;
+        height: 20px;
+        padding: 2px 1px 2px 1px;
+        border-bottom: 1px solid $secondary-color;
+        cursor: pointer;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    .item-selected {
         color: $secondary-color;
     }
-
-    .reset-filter-icon{
+    .reset-filter-icon {
         font-size: $font-size-s;
         float: right;
         margin-top: 3px;
     }
-}
-
-.tree-filter-footer{
-    .tree-filter-footer-count{
-        padding-top: 3px;
-        font-size: $font-size-s;
-        padding-left: 5px;
-    }
-}
-
-// checkbox
-$Checkbox-label-size: 20px;
-$Checkbox-transition-duration: 200ms;
-$Checkbox-transition-timing: cubic-bezier(.4, 0, .23, 1);
-
-.TreeFilter-checkbox {
-    display: inline-block;
-    box-sizing: border-box;
-    color: $font-primary-color;
-    font-family: $font-family-base;
-    font-size: $font-size-m;
-    position: relative;
-
-    .checkbox-input {
-        position: absolute;
-        opacity: 0;
-    }
-
-    .TreeFilter-checkbox-label::before {
-        content: '';
-        display: inline-block;
-        border: 1.5px solid #6b6b6b;
-        width: 15px;
-        height: 15px;
-        border-radius: 3px;
-        top: 1px;
-        position: absolute;
-        box-sizing: border-box;
-    }
-
-    .TreeFilter-checkbox-label {
-        display: inline-block;
-        cursor: pointer;
-        margin-top: 0px;
-        position: relative;
-        vertical-align: top;
-        user-select: none;
-        min-width: $Checkbox-label-size;
-        min-height: $Checkbox-label-size;
-        line-height: $Checkbox-label-size;
-
-        .label {
-            padding: 0 0 0 20px;
-        }
-    }
-
-    .TreeFilter-checkbox-checkmark {
-        color: $font-primary-color;
-        position: absolute;
-        margin-top: 2.5px;
-        margin-left: 2px;
-        font-size: 12px;
-    }
-}
-
-.react-resizable {
-  position: relative;
-}
-
-.react-resizable-handle {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  bottom: 0;
-  right: 0;
-  background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pg08IS0tIEdlbmVyYXRvcjogQWRvYmUgRmlyZXdvcmtzIENTNiwgRXhwb3J0IFNWRyBFeHRlbnNpb24gYnkgQWFyb24gQmVhbGwgKGh0dHA6Ly9maXJld29ya3MuYWJlYWxsLmNvbSkgLiBWZXJzaW9uOiAwLjYuMSAgLS0+DTwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DTxzdmcgaWQ9IlVudGl0bGVkLVBhZ2UlMjAxIiB2aWV3Qm94PSIwIDAgNiA2IiBzdHlsZT0iYmFja2dyb3VuZC1jb2xvcjojZmZmZmZmMDAiIHZlcnNpb249IjEuMSINCXhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbDpzcGFjZT0icHJlc2VydmUiDQl4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjZweCIgaGVpZ2h0PSI2cHgiDT4NCTxnIG9wYWNpdHk9IjAuMzAyIj4NCQk8cGF0aCBkPSJNIDYgNiBMIDAgNiBMIDAgNC4yIEwgNCA0LjIgTCA0LjIgNC4yIEwgNC4yIDAgTCA2IDAgTCA2IDYgTCA2IDYgWiIgZmlsbD0iIzAwMDAwMCIvPg0JPC9nPg08L3N2Zz4=');
-  background-position: bottom right;
-  padding: 0 3px 3px 0;
-  background-repeat: no-repeat;
-  background-origin: content-box;
-  box-sizing: border-box;
-  cursor: se-resize;
 }

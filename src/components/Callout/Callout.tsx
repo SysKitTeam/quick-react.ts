@@ -4,18 +4,22 @@ import { ICalloutState, CalloutContent } from './CalloutContent';
 import { Layer } from '../Layers';
 
 export class Callout extends React.Component<ICalloutProps, ICalloutState> {
+  private _callout;
+  setCalloutRef = (ref) => { this._callout = ref; };
 
-  constructor(props: ICalloutProps) {
-    super(props);
+  public UpdatePosition = () => {
+    this._callout._updatePosition();
   }
 
   public render() {
     let content = (
-      <CalloutContent { ...this.props }/>
+      <CalloutContent
+        ref={this.setCalloutRef}
+        { ...this.props } />
     );
     return this.props.doNotLayer ? content : (
-      <Layer className={ this.props.layerClassName }>
-        { content }
+      <Layer className={this.props.layerClassName}>
+        {content}
       </Layer>
     );
   }

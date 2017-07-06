@@ -1,3 +1,4 @@
+import { DirectionalHint } from '../../utilities/DirectionalHint';
 
 export enum FilterSelectionEnum {
   All,
@@ -31,6 +32,7 @@ export interface ITreeFilterProps {
     height?: number;
     minWidth?: number;
     minHeight?: number;
+    directionalHint?: DirectionalHint;
 }
 
 export interface ITreeFilterState {

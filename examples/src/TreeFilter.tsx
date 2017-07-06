@@ -9,7 +9,7 @@ import { createFlatList, createRandomizedData } from '../MockData/treeFilterElem
 interface DemoState {
     filterStates: { [id: string]: IFilterSelection };
 }
-const treeData = createRandomizedData(6000);
+const treeData = createRandomizedData(2000);
 const flatList = createFlatList(4000);
 const shortFlatList = createFlatList(6);
 export class Index extends React.Component<any, DemoState> {
@@ -29,7 +29,7 @@ export class Index extends React.Component<any, DemoState> {
     public render() {
 
         return (
-            <div>
+            <div style={{paddingLeft: 300}}>
                 <TreeFilter
                     title="Some Tree Filter"
                     filterId={'filID'}
