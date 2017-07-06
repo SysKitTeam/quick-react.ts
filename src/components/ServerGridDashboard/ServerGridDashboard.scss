@@ -4,64 +4,6 @@ $tile-dashboard-background: $background-color;
 $server-status-color: $basic-text-color;
 $background-color: $background-color;
 
-.ReactVirtualized__Table__headerRow {
-  font-weight: 700;
-  text-transform: uppercase;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-     -moz-box-orient: horizontal;
-     -moz-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-align-items: center;
-     -moz-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-.ReactVirtualized__Table__row {
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-     -moz-box-orient: horizontal;
-     -moz-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-align-items: center;
-     -moz-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.ReactVirtualized__Table__headerTruncatedText {
-  display: inline-block;
-  max-width: 100%;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.ReactVirtualized__Table__headerColumn,
-.ReactVirtualized__Table__rowColumn {
-  min-width: 0px;
-  font-size: 13px;
-  color: $emphasized-text-color;
-}
-
-.ReactVirtualized__Table__rowColumn {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  border-right: 1px solid $search-border-color;
-  height: 100%;
-  padding-left: 10px;
-  box-sizing: border-box;
-  padding-top: 6px;
-}
-
 .grid-component-cell {
     .status-critical {
         color: $red-color;
@@ -73,36 +15,6 @@ $background-color: $background-color;
         color: $emphasized-text-color;
     }
   }
-
-.ReactVirtualized__Table__sortableHeaderColumn {
-  cursor: pointer;
-}
-
-.ReactVirtualized__Table__sortableHeaderIconContainer {
-  display: -webkit-flex;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-     -moz-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-.ReactVirtualized__Table__sortableHeaderIcon {
-  -webkit-flex: 0 0 24px;
-     -moz-box-flex: 0;
-      -ms-flex: 0 0 24px;
-          flex: 0 0 24px;
-  height: 1em;
-  width: 1em;
-  fill: currentColor;
-  margin-bottom: 3px;
-}
-
-.border-column-cell {
-    border-right: 1px solid #ddd;
-    box-sizing: border-box;
-}
 
 .server-column-cell {
     padding-left: 5px;
@@ -116,10 +28,14 @@ $background-color: $background-color;
 
 .server-grid-dashboard-container {
     overflow: hidden;
-    height: 100vh;
+    height: calc( 100vh -  16px); // browser body margin: 8px
     @include baseFont();
     width: 100%;
     overflow-y: auto;
+
+    .grid-group-row .grid-group-row-inner .icon {
+        margin: 6px 0 0 3px;
+    }
 
     .farm {
         margin-top: 60px;
@@ -151,7 +67,6 @@ $background-color: $background-color;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        // flex: 0 1 60px;
     }
 
     .checkboxLabel {
@@ -172,17 +87,6 @@ $background-color: $background-color;
         justify-content: center;
         font-size: 1em;
         color: #bdbdbd;
-    }
-
-    .grid-header-column {
-        border-right: 1px solid $search-border-color;
-        box-sizing: border-box;
-        span {
-            color: $emphasized-text-color;
-            font-size: 14px;
-            padding-left: 4px;
-            vertical-align: super;
-        }
     }
 
     .empty-header-column {
@@ -208,7 +112,7 @@ $background-color: $background-color;
         height: 19px;
     }
 
-    .grid-component-container {
+    .quick-grid-container {
         margin: 30px 10px 20px 20px;
         box-sizing: border-box;
         height: calc(100% - 60px);

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { GridColumn, SortDirection } from './QuickGrid.Props';
+import { GridColumn, SortDirection, IGroupBy } from './QuickGrid.Props';
 import { Icon } from '../Icon/Icon';
 import * as _ from 'lodash';
 import { DropTarget } from 'react-dnd';
@@ -9,12 +9,10 @@ import { shallowCompareArrayEqual } from '../../utilities/array';
 import './QuickGrid.scss';
 
 export interface IGroupByProps {
-    groupBy: Array<string>;
+    groupBy: Array<IGroupBy>;
     columns: Array<GridColumn>;
     onGroupByRemoved: (groupName: string) => void;
-    onGroupByChanged: (newGroupBy: Array<string>) => void;
-    sortColumn?: string;
-    sortDirection?: SortDirection;
+    onGroupByChanged: (newGroupBy: Array<IGroupBy>) => void;
     onSort: (sortBy: string, sortDirection: SortDirection) => void;
 
     // Drag&Drop props
@@ -23,7 +21,7 @@ export interface IGroupByProps {
     connectDropTarget?: any;
 }
 export interface IGroupByState {
-    groupBy: Array<string>;
+    groupBy: Array<IGroupBy>;
 }
 
 class GroupByToolbarInner extends React.PureComponent<IGroupByProps, IGroupByState> {
@@ -40,21 +38,24 @@ class GroupByToolbarInner extends React.PureComponent<IGroupByProps, IGroupBySta
         }
     }
 
-    createHeaderColumn(column: GridColumn, index: number) {
-        const { headerText, isSortable, headerClassName, valueMember } = column;
+    createHeaderColumn(groupBy: IGroupBy, index: number) {
+        const columnDefinition = _.find(this.props.columns, (col: GridColumn) => { return col.valueMember === groupBy.column; });
+        const { headerText, isSortable, headerClassName, valueMember } = columnDefinition;
         const columnClassName = classNames('header-column-content', 'group-by-column', headerClassName, { 'header-column-sortable': isSortable });
-        const showSortIndicator = this.props.sortColumn === valueMember;
-        const newSortDirection = this.props.sortColumn !== valueMember || this.props.sortDirection === SortDirection.Descending ? SortDirection.Ascending : SortDirection.Descending;
-        const onClick = (event) => {
-            if (isSortable) {
+        const newSortDirection = groupBy.sortDirection === SortDirection.Descending ? SortDirection.Ascending : SortDirection.Descending;
+
+        const onChangeSortDirection = (event) => {
+            if (isSortable !== false) {
                 this.props.onSort(valueMember, newSortDirection);
             }
         };
+
         const onKeyDown = (event) => {
-            if (isSortable && (event.key === 'Enter' || event.key === ' ')) {
-                onClick(event);
+            if (isSortable !== false && (event.key === 'Enter' || event.key === ' ')) {
+                onChangeSortDirection(event);
             }
         };
+
         const removeGroup = () => {
             this.props.onGroupByRemoved(valueMember);
         };
@@ -63,19 +64,20 @@ class GroupByToolbarInner extends React.PureComponent<IGroupByProps, IGroupBySta
                 <span className="group-text-boarder">
                     <span  >
                         <HeaderColumn
-                            valueMember={column.valueMember}
+                            valueMember={columnDefinition.valueMember}
                             text={headerText}
-                            showSortIndicator={showSortIndicator}
-                            sortDirection={this.props.sortDirection}
+                            showSortIndicator={true}
+                            sortDirection={groupBy.sortDirection}
                             className={columnClassName}
-                            isGroupable={column.isGroupable}
-                            onClick={onClick}
+                            isGroupable={columnDefinition.isGroupable}
+                            onClick={onChangeSortDirection}
                             onKeyDown={onKeyDown}
                             moveGroupByColumn={this.groupOrderChange}
                             itemArrayIndex={index}
+                            removeGroupColumn={this.props.onGroupByRemoved}
                         />
                     </span>
-                    <Icon iconName="icon-delete" className="iconArrowWithBorder" onClick={removeGroup} />
+                    <Icon iconName="icon-delete" className="icon-remove-group" onClick={removeGroup} />
                 </span>
             </div>
 
@@ -92,27 +94,17 @@ class GroupByToolbarInner extends React.PureComponent<IGroupByProps, IGroupBySta
         });
     }
 
-    getGroupedColumns(allColumns, groupBy) {
-        let columns = [];
-        groupBy.forEach(groupValue => {
-            const groupColumn = _.find(allColumns, (col: GridColumn) => { return col.valueMember === groupValue; });
-            columns.push(groupColumn);
-        });
-        return columns;
-    }
-
     render() {
-        const { canDrop, isOver, connectDropTarget, columns, onGroupByRemoved } = this.props;
+        const { connectDropTarget, columns, onGroupByRemoved } = this.props;
         const isEmpty = _.isEmpty(this.state.groupBy);
-        const groupedColumns: Array<GridColumn> = this.getGroupedColumns(columns, this.state.groupBy);
         return connectDropTarget(
             <div className="group-drop-toolbar">
                 {
                     isEmpty && <span className="group-drop-empty">Drag column to group</span>
                 }
                 {
-                    groupedColumns.map((col: GridColumn, index) => {
-                        return this.createHeaderColumn(col, index);
+                    this.state.groupBy.map((groupBy, index) => {
+                        return this.createHeaderColumn(groupBy, index);
                     })
                 }
             </div>
@@ -123,23 +115,28 @@ class GroupByToolbarInner extends React.PureComponent<IGroupByProps, IGroupBySta
 const boxTarget = {
     drop(props: IGroupByProps, monitor, component) {
         const item = monitor.getItem();
-        const alreadyGrouped = _.find(props.groupBy, (groupByColumn) => { return groupByColumn === item.name; });
+        const alreadyGrouped = _.find(props.groupBy, groupByColumn => groupByColumn.column === item.name);
         if (!alreadyGrouped) {
-            const groupBy = [...props.groupBy, item.name];
+            let groupBy: Array<IGroupBy> = [...props.groupBy];
+            groupBy.push({
+                column: item.name,
+                sortDirection: SortDirection.Ascending
+            });
             props.onGroupByChanged(groupBy);
         } else {
             const droppedItem = monitor.getItem();
             const droppedItemNewIndex = droppedItem.index;
-            let newGroupBy = [...props.groupBy];
-            const itemOldIndex = _.findIndex(newGroupBy, (groupName) => { return groupName === droppedItem.name; });
+            let newGroupBy: Array<IGroupBy> = [...props.groupBy];
+            const itemOldIndex = _.findIndex(newGroupBy, group => group.column === droppedItem.name);
             if (itemOldIndex === droppedItemNewIndex) {
-                return;
+                return { handled: true };
             }
             let temp = newGroupBy[itemOldIndex];
             newGroupBy[itemOldIndex] = newGroupBy[droppedItemNewIndex];
             newGroupBy[droppedItemNewIndex] = temp;
             props.onGroupByChanged(newGroupBy);
         }
+        return { handled: true };
     }
 };
 

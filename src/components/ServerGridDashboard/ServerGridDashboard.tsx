@@ -3,8 +3,7 @@ import { IServerGridDashboardProps, ServerGridRow, IServerGridDashboardState } f
 import * as classNames from 'classnames';
 import { Icon } from '../Icon/Icon';
 import { ProgressBar } from '../ProgressBar/ProgressBar';
-import { QuickGrid } from '../QuickGrid/QuickGrid';
-import { IQuickGridProps, SortDirection, GridColumn } from '../QuickGrid/QuickGrid.Props';
+import { QuickGrid, IQuickGridProps, SortDirection, GridColumn, IGroupBy } from '../QuickGrid';
 import { GetClassForStatus } from '../../utilities/server';
 import { filterFarms } from '../Dashboard/Dashboard';
 
@@ -40,7 +39,6 @@ const gridColumns: Array<GridColumn> = [{
             </div>
         );
     },
-    cellClassName: 'border-column-cell',
     isSortable: true,
     sortByValueGetter: (row, sortDirection) => {
         let modifier = 'a';
@@ -69,7 +67,6 @@ const gridColumns: Array<GridColumn> = [{
     width: 100,
     minWidth: GRID_CELL_MIN_WIDTH,
     cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'} > {cellData.usage ? cellData.usage + '%' : '--'}</div>; },
-    cellClassName: 'border-column-cell',
     isSortable: true,
     isGroupable: true
 }, {
@@ -82,7 +79,6 @@ const gridColumns: Array<GridColumn> = [{
         const memory = convertRam(cellData);
         return <div className={GetClassForStatus('', memory.status) + ' server-dashboard-grid-cell-content'}> {memory.usageUnit ? memory.hoverText : '--'}</div>;
     },
-    cellClassName: 'border-column-cell',
     isSortable: true,
     sortByValueGetter: (row, sortDirection) => {
         let key = 'MemoryData';
@@ -100,7 +96,6 @@ const gridColumns: Array<GridColumn> = [{
         const disk = convertDisk(cellData);
         return <div className={GetClassForStatus('', disk.status) + ' server-dashboard-grid-cell-content'}> {disk.currentUsage + ' ' + disk.usageUnit}</div>;
     },
-    cellClassName: 'border-column-cell',
     isSortable: true
 }, {
     valueMember: 'Network',
@@ -122,19 +117,17 @@ export class ServerGridDashboard extends React.PureComponent<IServerGridDashboar
         this.state = {
             rows: this.transformFarmToRows(props.farms, props.filter),
             expandedRows: {},
-            groupBy: ['FarmName'],
-            groupBySortColumn: 'FarmName'
+            groupBy: [{ column: 'FarmName', sortDirection: SortDirection.Ascending }]
         };
     }
 
     componentWillReceiveProps(nextProps: IServerGridDashboardProps) {
         this.setState((oldState) => {
-            return { 
+            return {
                 ...oldState,
-                 rows: this.transformFarmToRows(nextProps.farms, nextProps.filter),
-                 groupBy: nextProps.singleGroupView ? [] : ['FarmName'],
-                 groupBySortColumn: nextProps.singleGroupView ? '' : 'FarmName'
-             };
+                rows: this.transformFarmToRows(nextProps.farms, nextProps.filter),
+                groupBy: nextProps.singleGroupView ? [] : [{ column: 'FarmName', sortDirection: SortDirection.Ascending }]
+            };
         });
     }
 
@@ -177,25 +170,21 @@ export class ServerGridDashboard extends React.PureComponent<IServerGridDashboar
         if (!this.props.singleGroupView) {
             columns.push(groupByColumn);
         }
-
         return (
-            <div className={className}>
-                <QuickGrid
-                    rows={this.state.rows}
-                    columns={columns}
-                    groupBy={this.state.groupBy}
-                    rowHeight={28}
-                    headerHeight={28}
-                    overscanRowCount={30}
-                    onRowDoubleClicked={this.onRowDoubleClick}
-                    sortColumn="ServerName"
-                    sortDirection={SortDirection.Ascending}
-                    groupBySortColumn="FarmName"
-                    groupBySortDirection={SortDirection.Ascending}
-                    // displayGroupContainer={true}
-                    onGroupByChanged={this.groupByChanged}
-                    groupRowFormat={this.groupRowFormat}
-                />
+            <div className="quick-grid-container">
+                <div className={className}>
+                    <QuickGrid
+                        rows={this.state.rows}
+                        columns={columns}
+                        groupBy={this.state.groupBy}
+                        overscanRowCount={30}
+                        onRowDoubleClicked={this.onRowDoubleClick}
+                        sortColumn="ServerName"
+                        sortDirection={SortDirection.Ascending}
+                        onGroupByChanged={this.groupByChanged}
+                        groupRowFormat={this.groupRowFormat}
+                    />
+                </div>
             </div>
         );
     }
@@ -204,7 +193,7 @@ export class ServerGridDashboard extends React.PureComponent<IServerGridDashboar
         return rowData.name;
     }
 
-    groupByChanged = (groupBy: Array<string>) => {
+    groupByChanged = (groupBy: Array<IGroupBy>) => {
         this.setState((oldState) => {
             return { ...oldState, groupBy: groupBy };
         });

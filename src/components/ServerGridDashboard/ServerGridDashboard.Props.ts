@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { IGroup } from '../../models';
+import { IGroupBy } from '../QuickGrid';
 
 export interface IServerGridDashboardProps {
     farms: Array<IGroup>;
@@ -24,7 +25,7 @@ export interface ServerGridRow {
 
 export interface IServerGridDashboardState {
     rows: Array<ServerGridRow>;
-    groupBy: Array<string>;
+    groupBy: Array<IGroupBy>;
     expandedRows: any;
-    groupBySortColumn: string;
+
 }
