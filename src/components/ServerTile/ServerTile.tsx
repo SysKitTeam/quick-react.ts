@@ -22,7 +22,10 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
                 <div className={'server-details-header'}>
                     <Label className="server-name" title={this.props.name}>{this.props.name}</Label>
                     {this.props.onClose &&
-                        <Icon title={'Delete'} iconName={'icon-delete'} onClick={() => this.props.onClose(this.props.id)}></Icon>
+                        <Icon title={'Delete'} iconName={'icon-delete'} onClick={(event) => this.props.onClose(this.props.id, event)}></Icon>
+                    }
+                    {!this.props.onClose &&
+                        <div style={{ width: '29px', height: '10px', float: 'right' }} />
                     }
                     {this.props.diskInformation &&
                         <DisksInformation

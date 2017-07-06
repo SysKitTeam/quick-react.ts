@@ -10,7 +10,7 @@ export interface IServerTileProps {
     diskInformation?: Array<Partition>;
     countersData: Array<ITileData>;
     onRoleEdit?: (serverId: string) => void;
-    onClose?: (serverId: string) => void;
+    onClose?: (serverId: string, event?: any) => void;
     serverOnClick?: (serverId: any) => void;
 }
 
