@@ -121,7 +121,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
                                 id={server.id}
                                 status={server.status}
                                 roleEdit={this._onRoleChange}
-                                showEditRoles={this.props.editRoles}
+                                showEditRoles={this.props.showEditRoles}
                                 onClose={server.onClose}
                                 name={server.name}
                                 serverOnClick={this._onServerClicked}
