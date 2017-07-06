@@ -10,7 +10,6 @@ import './ServerTile.scss';
 import { autobind } from '../../utilities/autobind';
 
 export class ServerTile extends React.PureComponent<IServerTileProps, any> {
-
     constructor(props?: IServerTileProps) {
         super(props);
     }
@@ -22,6 +21,12 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
             <div className={className} onClick={this.serverOnClick}>
                 <div className={'server-details-header'}>
                     <Label className="server-name" title={this.props.name}>{this.props.name}</Label>
+                    {this.props.onClose &&
+                        <Icon title={'Delete'} iconName={'icon-delete'} onClick={(event) => this.props.onClose(this.props.id, event)}></Icon>
+                    }
+                    {!this.props.onClose &&
+                        <div style={{ width: '29px', height: '10px', float: 'right' }} />
+                    }
                     {this.props.diskInformation &&
                         <DisksInformation
                             className="disk-information-container"
@@ -32,12 +37,6 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
                         <Icon data-users={this.props.numberOfUsers}
                             iconName={'icon-user'}
                             title={this.props.numberOfUsers + ' number of users online'} />
-                    }
-                    {this.props.onClose &&
-                        <Icon disabled={false}
-                            className={'dialog-button dialog-button-close'}
-                            onClick={this.dismiss.bind(this)}
-                            iconName={'icon-delete'} />
                     }
                     {this.props.children}
 
@@ -57,12 +56,7 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
         }
     }
 
-    private dismiss() {
-        this.props.onClose(this.props.id);
-    }
-
     private createCountersTiles(collection: Array<ITileData>): Array<JSX.Element> {
-
         return collection.map(
             (data: ITileData, index) =>
                 <div key={index} className={'tile'} title={this.createTooltipText(data.hoverText)}>

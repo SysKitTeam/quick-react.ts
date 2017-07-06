@@ -49,6 +49,7 @@ export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
                             countersData={getServerMeasures(server.measures)}
                             serverOnClick={this.serverOnClick}
                             diskInformation={getDiskInformationFromMeasurements(server.measures)}
+                            onClose={this.props.onServerClose !== undefined ? this._onServerClose : undefined}
                         >
                             {
                                 server.roles.length > 0 &&
@@ -65,6 +66,11 @@ export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
                 }
             </Group>
         );
+    }
+
+    @autobind
+    private _onServerClose(serverId: any, event: any) {
+        this.props.onServerClose(serverId, this.props.farm.id, event);
     }
 
     @autobind
