@@ -16,4 +16,10 @@ export interface ICompactServerProps {
     onClose?: (serverId: string) => void;
     onMouseEnter?: React.EventHandler<React.MouseEvent<HTMLDivElement>>;
     onMouseLeave?: React.EventHandler<React.MouseEvent<HTMLDivElement>>;
+    showEditRoles?: boolean;
+
+    /**
+     * On role edit event that is primary used in dashboard implementation.
+     */
+    roleEdit?: (event, id) => any;
 }

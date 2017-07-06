@@ -8,7 +8,11 @@ import { ServerStatus } from '../../models';
 import { GetClassForStatus } from '../../utilities/server';
 import './CompactServer.scss';
 
-export class CompactServer extends React.PureComponent<ICompactServerProps, void> {
+export class CompactServer extends React.PureComponent<ICompactServerProps, any> {
+    public static defaultProps = {
+        editRoles: false
+    };
+
     public ContainerElement: HTMLElement;
 
     constructor(props?: ICompactServerProps) {
@@ -43,7 +47,13 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, void
                     this.props.roles.length > 0 &&
                     <div>
                         <hr />
-                        <TagContainer title={''} tags={this.props.roles} />
+                        <TagContainer title={''} tags={this.props.roles}>
+                            {this.props.showEditRoles &&
+                                <div className="edit-tags tag" title="Edit roles" onClick={this.editRoles}>
+                                    <Icon className="icon-edit"></Icon>
+                                </div>
+                            }
+                        </TagContainer>
                     </div>
                 }
             </div>
@@ -51,7 +61,7 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, void
     }
 
     @autobind
-    private onclick() {
+    private onclick(event) {
         const { serverOnClick, id } = this.props;
         if (serverOnClick) {
             serverOnClick(id);
@@ -60,8 +70,8 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, void
 
     @autobind
     private editRoles(event) {
-        const { onRoleEdit } = this.props;
-        onRoleEdit(this.props.id);
+        const { roleEdit } = this.props;
+        roleEdit(event, this.props.id);
     }
 
     @autobind

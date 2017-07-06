@@ -10,7 +10,9 @@ export interface ITileDashboardProps {
     farms: Array<IGroup>;
     icons?: [{ iconType: GroupTypeEnum, iconName: string }];
     filter: string;
+    editRoles?: boolean;
     singleGroupView?: boolean;
+    
     /**
     * Action that is called on clicking the add icon on the bar of a certain group. The function is supplied with a group id.
     */
@@ -30,7 +32,7 @@ export interface ITileDashboardProps {
     /**
      * Action that is called on role change of a certain server of some farm. The function is supplied with server FQDN.
      */
-    serverRoleEdit?: (serverFQDN: any) => void;
+    serverRoleEdit?: (event: any, serverFQDN: any, farmId: any) => void;
 
     /**
      * Action that is called on closing a certain server of some farm. The function is supplied with server FQDN.

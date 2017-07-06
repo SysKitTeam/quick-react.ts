@@ -14,7 +14,11 @@ import { Callout } from '../Callout/Callout';
 import './CompactFarm.scss';
 const HOVER_TIME = 250; // ms 
 
-export class CompactFarm extends CommonComponent<ICompactFarmProps, void> {
+export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
+    public static defaultProps = {
+        editRoles: false
+    };
+
     private _enterTimerId: number;
     private _serverId = null;
     private _hoverTargetElement = null;
@@ -80,7 +84,8 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, void> {
         );
     }
 
-    @autobind _onServerClicked(serverId: any) {
+    @autobind 
+    private _onServerClicked(serverId: any) {
         const { serverOnClick, farm } = this.props;
 
         if (serverOnClick) {
@@ -100,6 +105,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, void> {
         return (
             <div className={'compact-farm'}>
                 <Group
+                    editFunc={this.props.editGroup}
                     serverChildrenCount={servers.length}
                     className={'farm-name-inside'}
                     id={farm.id} name={farm.name}
@@ -114,7 +120,8 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, void> {
                                 roles={server.roles}
                                 id={server.id}
                                 status={server.status}
-                                onRoleEdit={server.onRoleEdit}
+                                roleEdit={this._onRoleChange}
+                                showEditRoles={this.props.showEditRoles}
                                 onClose={server.onClose}
                                 name={server.name}
                                 serverOnClick={this._onServerClicked}
@@ -136,5 +143,12 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, void> {
                 </Group>
             </div>
         );
+    }
+
+    @autobind
+    private _onRoleChange(event, serverId) {
+        if (this.props.serverRoleEdit) {
+            this.props.serverRoleEdit(event, serverId, this.props.farm.id);
+        }
     }
 }

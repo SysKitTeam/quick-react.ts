@@ -6,11 +6,16 @@
     margin:5px 2.5%;
     height: auto;
 
+    &:hover {
+        & > .edit-tags {
+            visibility: visible;
+        }
+    }
+
     .tag{
         display: inline-block;
         padding: 3px;
         margin: 2px 4px;
-        // background: $server-background-color;
         border-radius: 4px;
         cursor: default;
     }
@@ -19,6 +24,7 @@
         color: $light-text-color;
     }
     .edit-tags{
+        visibility: hidden;
         display: inline-block;
         margin:5px;
         cursor: pointer;
@@ -26,11 +32,8 @@
 
     }
     .edit-tags:hover{
-        background: $green-color;
-        color: white;
         .icon{
-            background: $green-color;
-            color: white;
+            color: $secondary-hover-color;
         }
     } 
     h5{

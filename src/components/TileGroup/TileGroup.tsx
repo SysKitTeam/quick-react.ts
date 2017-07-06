@@ -28,6 +28,7 @@ export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
         });
         return (
             <Group
+                editFunc={this.props.editGroup}
                 serverChildrenCount={farm.servers.length}
                 filter={this.props.filter}
                 className={'farm-name-inside'}
@@ -51,13 +52,25 @@ export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
                         >
                             {
                                 server.roles.length > 0 &&
-                                <TagContainer title={''} tags={server.roles} />
+                                <TagContainer title={''} tags={server.roles} >
+                                    {this.props.editRoles &&
+                                        <div className="edit-tags tag" title="Edit roles" onClick={(event) => this.editRoles(event, server.id)}>
+                                            <Icon className="icon-edit"></Icon>
+                                        </div>
+                                    }
+                                </TagContainer>
                             }
                         </ServerTile>
                     ))
                 }
             </Group>
         );
+    }
+
+    @autobind
+    private editRoles(event: any, id: any) {
+        const { serverRoleEdit } = this.props;
+        serverRoleEdit(event, id, this.props.farm.id);
     }
 
     @autobind
