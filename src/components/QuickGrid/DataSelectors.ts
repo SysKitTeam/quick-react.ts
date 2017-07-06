@@ -10,32 +10,34 @@ const getSortColumn = (state: IQuickGridState, props: IQuickGridProps) => state.
 const getSortDirection = (state: IQuickGridState, props: IQuickGridProps) => state.sortDirection;
 const getColumns = (state: IQuickGridState, props: IQuickGridProps) => props.columns;
 
+
+const getSortFunctionForColumn = (columns: Array<GridColumn>, columnName, sortDirection) => {
+    const sortColumn = _.find(columns, column => column.valueMember === columnName);
+    if (sortColumn && sortColumn.sortByValueGetter) {
+        let sortFunction = sortColumn.sortByValueGetter;
+        return function (data) { return sortFunction(data, sortDirection); };
+    }
+    return columnName;
+};
+
 const sortRows = (rows: Array<any>, sortColumn: string, sortDirection: SortDirection, groupedColumn: Array<IGroupBy>, columns: Array<GridColumn>) => {
     const columnSortDir: string = sortDirection === SortDirection.Descending ? 'desc' : 'asc';
-    let sortFunction = (rowData: any, direction: SortDirection) => {
-        return rowData[sortColumn];
-    };
-
-    let column = columns.filter(x => x.valueMember === sortColumn)[0];
-    if (column && column.sortByValueGetter) {
-        sortFunction = column.sortByValueGetter;
-    }
-
     if (groupedColumn.length > 0) {
         let sortColumns = [];
         let sortDirections = [];
         for (let groupColumn of groupedColumn) {
             const groupSortDirection: string = groupColumn.sortDirection === SortDirection.Descending ? 'desc' : 'asc';
-            sortColumns.push(groupColumn.column);
+            sortColumns.push(getSortFunctionForColumn(columns, groupColumn.column, groupColumn.sortDirection));
             sortDirections.push(groupSortDirection);
         }
+
         if (sortColumn) {
-            sortColumns.push(function (data) { return sortFunction(data, sortDirection); });
+            sortColumns.push(getSortFunctionForColumn(columns, sortColumn, sortDirection));
             sortDirections.push(columnSortDir);
         }
         return _.orderBy(rows, sortColumns, sortDirections);
     } else if (sortColumn) {
-        return _.orderBy(rows, function (data) { return sortFunction(data, sortDirection); }, columnSortDir);
+        return _.orderBy(rows, getSortFunctionForColumn(columns, sortColumn, sortDirection), columnSortDir);
     }
     return rows;
 };
