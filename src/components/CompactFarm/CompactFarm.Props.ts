@@ -11,6 +11,6 @@ export interface ICompactFarmProps {
   showEditRoles?: boolean;
   editGroup?: (groupId: any) => void;
   serverRoleEdit?: (event: any, serverFQDN: any, farmId: any) => void;
-  serverClose?: (serverId: string, groupId: any, event?: any) => void;
+  onServerClose?: (serverId: string, groupId: any, event?: any) => void;
 }
 

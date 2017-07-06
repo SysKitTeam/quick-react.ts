@@ -109,7 +109,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         groupDeleteFunc={this.props.groupDeleteFunc}
                         groupOnClick={this.state.grouping === DashboardGroupingEnum.Smart ? this.props.groupOnClick : undefined}
                         serverRoleEdit={this._roleEdit}
-                        serverClose={this.state.grouping === DashboardGroupingEnum.Smart ? this._serverClose : undefined}
+                        onServerClose={this.state.grouping === DashboardGroupingEnum.Smart && this.props.onServerClose !== undefined ? this._serverClose : undefined}
                         serverOnClick={this.props.serverOnClick}
                     />
                 }
@@ -127,7 +127,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         groupDeleteFunc={this.props.groupDeleteFunc}
                         groupOnClick={this.state.grouping === DashboardGroupingEnum.Smart ? this.props.groupOnClick : undefined}
                         serverRoleEdit={this._roleEdit}
-                        serverClose={this.state.grouping === DashboardGroupingEnum.Smart ? this._serverClose : undefined}
+                        onServerClose={this.state.grouping === DashboardGroupingEnum.Smart && this.props.onServerClose !== undefined ? this._serverClose : undefined}
                         serverOnClick={this.props.serverOnClick}
                     />
                 }
@@ -147,8 +147,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
 
     @autobind
     private _serverClose(serverId: any, groupId: any, event: any) {
-        console.log(serverId, groupId, event);
-        this.props.serverClose(serverId, groupId);
+        this.props.onServerClose(serverId, groupId);
         event.stopPropagation();
     }
 

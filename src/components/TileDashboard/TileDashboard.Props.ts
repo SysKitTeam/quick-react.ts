@@ -37,7 +37,7 @@ export interface ITileDashboardProps {
     /**
      * Action that is called on closing a certain server of some farm. The function is supplied with server FQDN.
      */
-    serverClose?: (serverId: any, groupId: any, event: any) => void;
+    onServerClose?: (serverId: any, groupId: any, event: any) => void;
 
     /**
      * Action that is called on clicking the title of a cetrain group. The function is supplied with a group id.

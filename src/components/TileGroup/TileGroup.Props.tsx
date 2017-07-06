@@ -9,5 +9,5 @@ export interface ITileGroupProps {
     editRoles?: boolean;
     serverRoleEdit?: (event: any, id: any, farmId: any) => any;
     editGroup?: (groupId: any) => void;
-    serverClose?: (serverId: any, groupId: any, event?: any) => void;
+    onServerClose?: (serverId: any, groupId: any, event?: any) => void;
 }
