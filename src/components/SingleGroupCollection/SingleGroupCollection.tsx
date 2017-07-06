@@ -14,19 +14,22 @@ export class SingleGroupCollection extends React.PureComponent<ISingleGroupColle
         return (
             <AutoSizer onResize={this._onResize}>
                 {({ width, height }) => (
-                    <Collection
-                        height={height}
-                        width={width}
-                        ref={(reference) => {
-                            this.collection = reference;
-                        }}
-                        verticalOverscanSize={5}
-                        cellCount={this.props.group.servers.length}
-                        cellRenderer={this.renderSingleServerCell}
-                        cellSizeAndPositionGetter={function (index) {
-                            return this.cellSizeAndPositionGetter(width, index);
-                        }.bind(this)}
-                    />
+                    <div style={{width: width, height: height}}>
+                        <div className="farm farm-name-inside">
+                            <Collection
+                                height={height - 70}
+                                width={width - 25}
+                                ref={(reference) => {
+                                    this.collection = reference;
+                                }}
+                                cellCount={this.props.group.servers.length}
+                                cellRenderer={this.renderSingleServerCell}
+                                cellSizeAndPositionGetter={function (index) {
+                                    return this.cellSizeAndPositionGetter(width, index);
+                                }.bind(this)}
+                            />
+                        </div>
+                    </div>
                 )}
             </AutoSizer>
         );
@@ -53,6 +56,8 @@ export class SingleGroupCollection extends React.PureComponent<ISingleGroupColle
         if (width === 0) {
             return { height: 0, width: 0, x: 0, y: 0 };
         }
+
+        width = width - 50;
         const { gutterSize, tileHeight, tileWidth } = this.props;
         const columnCount = Math.floor((width) / (tileWidth + gutterSize));
         let columnPosition = obj.index % (columnCount);

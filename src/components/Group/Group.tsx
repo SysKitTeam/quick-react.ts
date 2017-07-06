@@ -27,7 +27,7 @@ export class Group extends React.PureComponent<IGroupProps, void> {
                     hasServersVisible &&
                     <span className="farm-name">
                         {this.props.iconName &&
-                            <Icon iconName={this.props.iconName} title={this.props.iconName} className={'group-icon'}></Icon>
+                            <Icon iconName={this.props.iconName} title={this.props.iconTitle} className={'group-icon'}></Icon>
                         }
                         <span className={groupTitleClass} onClick={this._onGroupClick} title={this.props.name}>{this.props.name}</span>
                         {this.props.deleteFunc &&

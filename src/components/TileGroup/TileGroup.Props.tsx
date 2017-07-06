@@ -4,6 +4,7 @@ export interface ITileGroupProps {
     farm: IGroup;
     filter?: string;  
     iconName?: string;
+    iconTitle?: string;
     groupOnClick?: (groupId: any) => void;
     serverOnClick?: (groupId: any, serverId: any) => void;
     editRoles?: boolean;

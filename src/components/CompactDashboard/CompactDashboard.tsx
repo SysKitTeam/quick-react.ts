@@ -138,6 +138,8 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
             return;
         }
 
+        let icon = getIconNameFromType(this.props.icons, farm.type);
+
         return (
             <div style={style} key={index}>
                 <CompactFarm
@@ -148,7 +150,8 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
                     filter={this.props.filter}
                     serverOnClick={this.props.serverOnClick}
                     groupOnClick={this.props.groupOnClick}
-                    iconName={getIconNameFromType(this.props.icons, farm.type)}
+                    iconName={icon.iconName}
+                    iconTitle={icon.title}
                 />
             </div>
         );

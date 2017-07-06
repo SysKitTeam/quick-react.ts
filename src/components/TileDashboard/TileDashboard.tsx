@@ -122,6 +122,8 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
             return;
         }
 
+        let icon = getIconNameFromType(this.props.icons, farm.type);
+
         return (
             <div style={style} key={index}>
                 <TileGroup
@@ -131,7 +133,8 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
                     farm={farm}
                     serverOnClick={this.props.serverOnClick}
                     groupOnClick={this.props.groupOnClick}
-                    iconName={getIconNameFromType(this.props.icons, farm.type)}
+                    iconName={icon.iconName}
+                    iconTitle={icon.title}
                 />
             </div>
         );
