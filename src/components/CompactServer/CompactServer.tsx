@@ -44,7 +44,7 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, any>
                     <div>
                         <hr />
                         <TagContainer title={''} tags={this.props.roles}>
-                            {this.props.editRoles &&
+                            {this.props.showEditRoles &&
                                 <div className="edit-tags tag" title="Edit roles" onClick={this.editRoles}>
                                     <Icon className="icon-edit"></Icon>
                                 </div>

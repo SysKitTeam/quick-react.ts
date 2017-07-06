@@ -18,7 +18,7 @@ export interface IDashboardProps extends React.Props<any> {
     onActiveViewChanged?: (activeView: ActiveDashboard) => void;
     hasAddButton?: boolean;
     headerClass?: string;
-    editRoles?: boolean;
+    showEditRoles?: boolean;
     
     icons: [{ iconName: string, iconType: GroupTypeEnum }];
     /**

@@ -70,7 +70,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
         this.setState({ ...this.state, grouping: newGroupKey, groups: getGrouped(this.props.farms, newGroupKey) });
     }
 
-    render() {
+    public render() {
         let { headerClass, hasAddButton } = this.props;
         let { filter, activeView, groups } = this.state;
 
@@ -100,7 +100,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         filter={filter}
                         className={'viewport-height'}
                         title={this.props.title}
-                        editRoles={this.state.grouping === DashboardGroupingEnum.Smart ? this.props.editRoles : false}
+                        showEditRoles={this.state.grouping === DashboardGroupingEnum.Smart ? this.props.showEditRoles : false}
                         farms={groups}
                         singleGroupView={this.state.grouping === DashboardGroupingEnum.Disabled}
                         icons={this.props.icons}
@@ -119,7 +119,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         className={'viewport-height'}
                         farms={groups}
                         filter={filter}
-                        editRoles={this.state.grouping === DashboardGroupingEnum.Smart ? this.props.editRoles : false}
+                        editRoles={this.state.grouping === DashboardGroupingEnum.Smart ? this.props.showEditRoles : false}
                         singleGroupView={this.state.grouping === DashboardGroupingEnum.Disabled}
                         icons={this.props.icons}
                         groupEditFunc={this.state.grouping === DashboardGroupingEnum.Smart ? this.props.groupEditFunc : undefined}

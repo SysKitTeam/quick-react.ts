@@ -33,6 +33,10 @@ const totalPaddingHorizontal = 2 * (compactFarmMargin + compactFarmPadding) + sc
 export class CompactDashboard extends CommonComponent<ICompactDashboardProps, ICompactDashboardState> {
     list: any;
 
+    public static defaultProps = {
+        showEditRoles: false
+    };
+
     constructor(props?: ICompactDashboardProps) {
         super(props);
         this.state = {
@@ -138,7 +142,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
             <div style={style} key={index}>
                 <CompactFarm
                     editGroup={this.props.groupEditFunc}
-                    editRoles={this.props.editRoles}
+                    editRoles={this.props.showEditRoles}
                     serverRoleEdit={this.props.serverRoleEdit}
                     farm={farm}
                     filter={this.props.filter}

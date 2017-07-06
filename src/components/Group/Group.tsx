@@ -17,6 +17,9 @@ export class Group extends React.PureComponent<IGroupProps, void> {
         let hasServersVisible = this.props.serverChildrenCount > 0;
         let classname = classNames({ 'farm': hasServersVisible }, { [this.props.className]: hasServersVisible });
 
+        let groupTitleClass = classNames({
+            'group-title-clickable': this.props.onClick !== undefined
+        });
 
         return (
             <div className={classname}>
@@ -26,7 +29,7 @@ export class Group extends React.PureComponent<IGroupProps, void> {
                         {this.props.iconName &&
                             <Icon iconName={this.props.iconName} title={this.props.iconName} className={'group-icon'}></Icon>
                         }
-                        <span onClick={this._onGroupClick} title={this.props.name}>{this.props.name}</span>
+                        <span className={groupTitleClass} onClick={this._onGroupClick} title={this.props.name}>{this.props.name}</span>
                         {this.props.deleteFunc &&
                             <Icon title={'Delete'} iconName={'icon-delete'} onClick={() => { this.props.deleteFunc(this.props.id); }}></Icon>
                         }

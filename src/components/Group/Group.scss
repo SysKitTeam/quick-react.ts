@@ -46,12 +46,13 @@
             display: inline-block;
             white-space: nowrap;
             overflow: hidden;
-            cursor:pointer;
             text-overflow: ellipsis;
             position: relative;
         }
-        span:hover{
+
+        .group-title-clickable:hover{
             color: $green-color;
+            cursor:pointer;
         }
 
         .icon{
@@ -66,6 +67,10 @@
                 float: left;
                 top: 2px;
                 font-size: 16px;
+
+                &:hover {
+                    cursor: default;
+                }
             }
 
             &.icon-edit {
