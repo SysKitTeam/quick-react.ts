@@ -61,6 +61,7 @@ export class Index extends React.Component<any, any> {
                     title={dummyDashboard.title}
                     initialActiveView={0}
                     hasAddButton
+                    showEditRoles={true}
                     addFarm={dummyDashboard.addFarm}
                     groupAddFunc={dummyDashboard.groupAddFunc}
                     groupDeleteFunc={dummyDashboard.groupDeleteFunc}

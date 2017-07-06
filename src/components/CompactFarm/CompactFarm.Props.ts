@@ -8,5 +8,8 @@ export interface ICompactFarmProps {
   iconName?: string;
   serverOnClick?: (groupId: any, serverId: any) => void;
   groupOnClick?: (groupId: any) => void;
+  showEditRoles?: boolean;
+  editGroup?: (groupId: any) => void;
+  serverRoleEdit?: (event: any, serverFQDN: any, farmId: any) => void;
 }
 

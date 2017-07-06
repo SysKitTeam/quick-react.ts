@@ -14,6 +14,7 @@ export interface ICompactDashboardProps {
   icons?: [{ iconType: GroupTypeEnum, iconName: string }];
   className?: string;
   filter?: string;
+  showEditRoles?: boolean;
   singleGroupView?: boolean;
 
   /**
@@ -35,7 +36,7 @@ export interface ICompactDashboardProps {
   /**
   * Action that is called on role change of a certain server of some farm. The function is supplied with server FQDN.
   */
-  serverRoleEdit?: (serverFQDN: any) => void;
+  serverRoleEdit?: (event: any, serverId: any, farmId: any) => void;
 
   /**
   * Action that is called on closing a certain server of some farm. The function is supplied with server FQDN.

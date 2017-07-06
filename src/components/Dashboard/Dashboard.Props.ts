@@ -18,6 +18,7 @@ export interface IDashboardProps extends React.Props<any> {
     onActiveViewChanged?: (activeView: ActiveDashboard) => void;
     hasAddButton?: boolean;
     headerClass?: string;
+    showEditRoles?: boolean;
     
     icons: [{ iconName: string, iconType: GroupTypeEnum }];
     /**
@@ -66,7 +67,7 @@ export interface IDashboardProps extends React.Props<any> {
     /**
     * Action that is called on role change of a certain server of some farm. The function is supplied with server FQDN.
     */
-    serverRoleEdit?: (serverFQDN: any) => void;
+    serverRoleEdit?: (serverFQDN: any, farmId: any) => void;
 
     /**
     * Action that is called on closing a certain server of some farm. The function is supplied with server FQDN.
@@ -76,7 +77,6 @@ export interface IDashboardProps extends React.Props<any> {
     * Action is call when the server is clicked. The server ID is supplied.
     */
     serverOnClick?: (groupId: any, serverId: any) => void;
-
 }
 
 export interface IDashboardState {

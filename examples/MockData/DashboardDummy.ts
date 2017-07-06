@@ -34,7 +34,7 @@ export const dummyDashboard: IDashboardProps = {
     groupDeleteFunc: (groupId: any) => { console.log('Clicked delete icon of group ' + groupId); },
     groupEditFunc: (groupId: any) => { console.log('Clicked edit icon of group ' + groupId); },
     serverClose: (serverFQDN: any) => { console.log('Clicked close icon of server ' + serverFQDN); },
-    serverRoleEdit: (serverFQDN: any) => { console.log('Clicked edit role icon of server ' + serverFQDN); },
+    serverRoleEdit: (serverFQDN: any, farmId: any) => { console.log('Clicked edit role icon of server ', serverFQDN, farmId); },
     groupOnClick: (groupId: any) => { console.log('Clicked on group ' + groupId); },
     serverOnClick: (groupId: any, serverId: any) => { console.log('Clicked on group ' + groupId + ' and server ' + serverId); },
     icons: [
