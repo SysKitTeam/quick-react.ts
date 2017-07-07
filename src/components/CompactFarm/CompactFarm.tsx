@@ -122,7 +122,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
                                 status={server.status}
                                 roleEdit={this._onRoleChange}
                                 showEditRoles={this.props.showEditRoles}
-                                onClose={server.onClose}
+                                onClose={this.props.onServerClose !== undefined ? this._onServerClose : undefined}
                                 name={server.name}
                                 serverOnClick={this._onServerClicked}
                                 onMouseEnter={this._onItemMouseEnter.bind(this, server.id)}
@@ -143,6 +143,11 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
                 </Group>
             </div>
         );
+    }
+
+    @autobind
+    private _onServerClose(serverId, event) {
+        this.props.onServerClose(serverId, this.props.farm.id, event);
     }
 
     @autobind

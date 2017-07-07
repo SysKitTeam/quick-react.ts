@@ -66,7 +66,6 @@ export class Index extends React.Component<any, any> {
                     groupAddFunc={dummyDashboard.groupAddFunc}
                     groupDeleteFunc={dummyDashboard.groupDeleteFunc}
                     groupEditFunc={dummyDashboard.groupEditFunc}
-                    serverClose={dummyDashboard.serverClose}
                     serverRoleEdit={dummyDashboard.serverRoleEdit}
                     serverOnClick={dummyDashboard.serverOnClick}
                     icons={dummyDashboard.icons}
