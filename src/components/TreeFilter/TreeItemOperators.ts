@@ -18,14 +18,18 @@ export class ItemOperator {
         return Object.freeze(parentItems);
     }
 
-    static getAllItemIds = (items: Array<TreeItem>) => {
-        let itemIds = [];
-        if (items == null || items.length === 0) { return itemIds; }
-        for (let item of items) {
-            itemIds.push(item.id);
-            itemIds = itemIds.concat(ItemOperator.getAllItemIds(item.children));
-        }
-        return Object.freeze(itemIds);
+    static getAllItemIds = (entryItems: Array<TreeItem>) => {
+        const getItemIdsRecursive = (items) => {
+            let itemIds = [];
+            if (items == null || items.length === 0) { return itemIds; }
+            for (let item of items) {
+                itemIds.push(item.id);
+                itemIds = itemIds.concat(getItemIdsRecursive(item.children));
+            }
+            return itemIds;
+        };
+        let allItems = getItemIdsRecursive(entryItems);
+        return Object.freeze(allItems);
     }
 
     static getAllChildrenIds = (currentItem: TreeItem): Array<string> => {
@@ -57,8 +61,8 @@ export class ItemOperator {
         return filteredItems;
     }
 
-     static findItemInTree = (items: Array<TreeItem>, currentItemId: string): TreeItem => {
-        // tslint:disable-next-line:triple-equals
+    static findItemInTree = (items: Array<TreeItem>, currentItemId: string): TreeItem => {
+        // tslint:disable-next-line:triple-equals -> match string with int item.id
         const currentItem = _.find(items, (item: TreeItem) => { return item.id == currentItemId; });
         if (currentItem != null) {
             return currentItem;
