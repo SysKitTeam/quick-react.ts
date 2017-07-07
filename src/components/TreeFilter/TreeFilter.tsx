@@ -9,7 +9,7 @@ import { DirectionalHint } from '../../utilities/DirectionalHint';
 import { Icon } from '../Icon';
 import { ITreeFilterProps, ITreeFilterState, TreeItem, CheckStatus, FilterSelectionEnum, IFilterSelection } from './TreeFilter.Props';
 import { TreeFilterCheckBox } from './TreeFilterCheckBox';
-import { ItemOperator } from './TreeItemOperators';
+import { ItemOperator, LeafsAndBranches, TreeBranch, CheckResult, itemHasChildren } from './TreeItemOperators';
 
 import './TreeFilter.scss';
 
@@ -18,7 +18,8 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     private _list: any;
     private _anchor: any;
     private _callout: any;
-    private parentItems: Readonly<{ [id: string]: TreeItem }>;
+    private parentLookup: Readonly<{ [id: string]: TreeItem }>;
+    private itemLookup: Readonly<{ [id: string]: TreeItem }>;
     private allItemIds: ReadonlyArray<string>;
 
     static defaultProps: Partial<ITreeFilterProps> = {
@@ -46,7 +47,9 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
             searchText: '',
             filteredItems: ItemOperator.filterItems(props.items, '')
         };
-        this.parentItems = ItemOperator.getParentStructure(props.items);
+        let lookups = ItemOperator.getLookupTableAndParentLookup(props.items);
+        this.parentLookup = lookups.parentLookup;
+        this.itemLookup = lookups.itemLookup;
         this.allItemIds = ItemOperator.getAllItemIds(props.items);
         this.searchItems = _.debounce(this.searchItems, 100);
 
@@ -54,7 +57,9 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     componentWillReceiveProps(nextProps: ITreeFilterProps) {
         if (nextProps.items !== this.props.items) {
             const filteredItems = ItemOperator.filterItems(nextProps.items, this.state.searchText);
-            this.parentItems = ItemOperator.getParentStructure(nextProps.items);
+            let lookups = ItemOperator.getLookupTableAndParentLookup(nextProps.items);
+            this.parentLookup = lookups.parentLookup;
+            this.itemLookup = lookups.itemLookup;
             this.allItemIds = ItemOperator.getAllItemIds(nextProps.items);
             this.setState(prevState => ({ ...prevState, filteredItems: filteredItems }));
         }
@@ -70,49 +75,12 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         }
     }
 
-    isItemChecked(checkedItemIds, treeItem: TreeItem) {
-        return checkedItemIds.indexOf(treeItem.id) !== -1;
+    isItemInList(list, treeItem: TreeItem): boolean {
+        return list.indexOf(treeItem.id) !== -1;
     }
-
-    checkParentIfAllSiblingsChecked(treeItem: TreeItem, checkedItemIds) {
-        const parent = this.parentItems[treeItem.id];
-        if (parent == null) { return checkedItemIds; } // root reached
-        const allSiblingsChecked = _.every(parent.children, (child) => (this.isItemChecked(checkedItemIds, child)));
-        if (allSiblingsChecked) {
-            let newChecked = checkedItemIds.concat(parent.id);
-            return this.checkParentIfAllSiblingsChecked(parent, newChecked);
-        }
-        return checkedItemIds;
-    }
-
-    unCheckParents(treeItem: TreeItem, checkedItemIds) {
-        const parent = this.parentItems[treeItem.id];
-        if (parent == null) { return checkedItemIds; } // root reached
-        const checkedIndex = checkedItemIds.indexOf(parent.id);
-        if (checkedIndex !== -1) {
-            let newChecked = checkedItemIds.slice(0);
-            newChecked.splice(checkedIndex, 1);
-            return this.unCheckParents(parent, newChecked);
-        }
-        return checkedItemIds;
-    }
-
-    areAllChildrenChecked(treeItem: TreeItem, checkedItemIds) {
-        const parent = this.parentItems[treeItem.id];
-        let itemInOriginalTree = undefined;
-        if (parent == null) {
-            itemInOriginalTree = _.find(this.props.items, item => (item.id === treeItem.id));
-        } else {
-            itemInOriginalTree = _.find(parent.children, item => (item.id === treeItem.id));
-        }
-        const allChildrenChecked = _.every(itemInOriginalTree.children, (child: TreeItem) => this.isItemChecked(checkedItemIds, child));
-        return allChildrenChecked;
-    }
-
     rowHeight = ({ index }) => {
         return this.getExpandedItemCount(this.state.filteredItems[index]) * ROW_HEIGHT;
     }
-
     getExpandedItemCount = (item) => {
         let count = 1;
         if (item.expanded) {
@@ -156,10 +124,10 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
             return 'Please select...';
         } else if (checkedItemIds.length === 1) {
             const itemId = checkedItemIds[0];
-            return ItemOperator.findItemInTree(this.props.items, itemId).value;
+            return this.itemLookup[itemId].value;  // ItemOperator.findItemInTree(this.props.items, itemId).value;
         } else {
             const someIds = checkedItemIds.slice(0, 3);
-            const names = someIds.map((itemID) => { return ItemOperator.findItemInTree(this.props.items, itemID).value; });
+            const names = someIds.map((itemID) => { return this.itemLookup[itemID].value; }); //  ItemOperator.findItemInTree(this.props.items, itemID).value; });
             return names.join(', ') + '...';
         }
     }
@@ -176,11 +144,38 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                 newCheckedItems = _.uniq(newCheckedItems);
                 this.setNewSelectedState(false, newCheckedItems, []);
             }
-        } else {
-            if (allSelected) {
-                this.setNewSelectedState(false, [], []);
-            } else {
-                this.setNewSelectedState(true, [], []);
+        } else { // tree structure
+            if (this.state.searchText === '') {
+                if (allSelected) {
+                    this.setNewSelectedState(false, [], []);
+                } else {
+                    this.setNewSelectedState(true, [], []);
+                }
+            } else { // filtered
+                const filteredItems = this.state.filteredItems;
+                const allFilteredChecked =
+                    _.every(filteredItems,
+                        (filteredItem) =>
+                            this.isItemInList(checkedItemIds, filteredItem) ||
+                            this.isItemInList(this.state.partiallyCheckedItemIds, filteredItem));
+
+                let itemsToChange = [];
+                let branchesToCheck = [];
+                for (let item of filteredItems) {
+                    const leafsAndBranches = ItemOperator.getAllLeafsAndBranches(item);
+                    itemsToChange = itemsToChange.concat(leafsAndBranches.Leafs);
+                    branchesToCheck = branchesToCheck.concat(leafsAndBranches.Branches);
+                }
+
+                let newCheckedItems: Array<string> = [];
+                if (allFilteredChecked) {
+                    newCheckedItems = _.without<any>(checkedItemIds, ...itemsToChange);
+                } else {
+                    newCheckedItems = checkedItemIds.slice(0).concat(itemsToChange);
+                    newCheckedItems = _.uniq(newCheckedItems);
+                }
+                const newCheckedAndPartial = this.checkBranches(branchesToCheck, newCheckedItems, this.state.partiallyCheckedItemIds);
+                this.setNewSelectedState(false, newCheckedAndPartial.checked, newCheckedAndPartial.partially);
             }
         }
     }
@@ -191,11 +186,11 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     }
 
     allFilteredChecked = () => {
-        return _.every(this.state.filteredItems, (item) => this.isItemChecked(this.props.filterSelection.selectedIDs, item));
+        return _.every(this.state.filteredItems, (item) => this.isItemInList(this.props.filterSelection.selectedIDs, item));
     }
 
     areAllItemsSelected = (checkedItemIds): CheckStatus => {
-        if (_.every(this.props.items, (item) => this.isItemChecked(checkedItemIds, item))) {
+        if (_.every(this.props.items, (item) => this.isItemInList(checkedItemIds, item))) {
             return CheckStatus.Checked;
         }
         if (checkedItemIds.length > 0) {
@@ -204,74 +199,98 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         return CheckStatus.NotChecked;
     }
 
-    // todo: check
-    getNewCheckedItems(changedTreeItem, checkedItemIds, wasChecked) {
-        const children = ItemOperator.getAllChildrenIds(changedTreeItem);
+    getNewCheckedItems(changedTreeItem: TreeItem, checkedItemIds, wasChecked): CheckResult {
+        let itemsToChange = [];
+        let branchesToCheck = [];
+        if (this.state.searchText === '') {
+            itemsToChange = ItemOperator.getAllChildrenIds(changedTreeItem);
+            if (itemHasChildren(changedTreeItem)) {
+                branchesToCheck.push({ id: changedTreeItem.id, depth: 0 });
+            } else {
+                itemsToChange.push(changedTreeItem.id);
+                const parent = this.parentLookup[changedTreeItem.id];
+                if (parent !== undefined) {
+                    branchesToCheck.push({ id: parent.id, depth: 0 });
+                }
+            }
+        } else {
+            let leafsAndBranches = ItemOperator.getAllLeafsAndBranches(changedTreeItem);
+            itemsToChange = leafsAndBranches.Leafs;
+            branchesToCheck = leafsAndBranches.Branches;
+            const parent = this.parentLookup[changedTreeItem.id];
+            if (branchesToCheck.length === 0 && parent !== undefined) {
+                branchesToCheck.push({ id: parent.id, depth: 0 });
+            }
+        }
+
         let newCheckedItems: Array<string> = [];
         if (wasChecked) {
-            newCheckedItems = _.without<any>(checkedItemIds, ...children, changedTreeItem.id);
-            newCheckedItems = this.unCheckParents(changedTreeItem, newCheckedItems);
+            newCheckedItems = _.without<any>(checkedItemIds, ...itemsToChange);
         } else {
-            newCheckedItems = checkedItemIds.slice(0).concat(children);
-            if (this.areAllChildrenChecked(changedTreeItem, newCheckedItems)) {
-                newCheckedItems.push(changedTreeItem.id);
-            }
-            newCheckedItems = this.checkParentIfAllSiblingsChecked(changedTreeItem, newCheckedItems);
+            newCheckedItems = checkedItemIds.slice(0).concat(itemsToChange);
             newCheckedItems = _.uniq(newCheckedItems);
         }
-        return newCheckedItems;
+        const branchCheckRes = this.checkBranches(branchesToCheck, newCheckedItems, this.state.partiallyCheckedItemIds);
+        return branchCheckRes;
     }
 
-    // todo: check
-    getNewPartiallyChecked(changedTreeItem: TreeItem, checkedItemIds, wasChecked) {
-        let itemsToRemoveFromPartiallyChecked = ItemOperator.getAllChildrenIds(changedTreeItem);
-        if (!wasChecked || !this.isAnySiblingChecked(changedTreeItem, this.state.partiallyCheckedItemIds, checkedItemIds)) {
-            itemsToRemoveFromPartiallyChecked.push(changedTreeItem.id);
+    checkBranches(branches: Array<TreeBranch>, checked: Array<string>, partiallyChecked: Array<string>): CheckResult {
+        let newChecked = [...checked];
+        let newPartiallyChecked = [...partiallyChecked];
+
+        while (branches.length > 0) {
+            const checkItem = this.popMaxDepthBranch(branches);
+            let item = this.itemLookup[checkItem.id];
+            let isChecked = true;
+            let isPartiallyChecked = false;
+            for (let child of item.children) {
+                let childChecked = this.isItemInList(newChecked, child);
+                let childPartial = isPartiallyChecked || this.isItemInList(newPartiallyChecked, child);
+                if (!childChecked) {
+                    isChecked = false;
+                }
+                if (childChecked || childPartial) {
+                    isPartiallyChecked = true;
+                }
+                if (!isChecked && isPartiallyChecked) { // no need to check others
+                    break;
+                }
+            }
+            isPartiallyChecked = !isChecked && isPartiallyChecked; // item cannot be checked and partial
+
+            // Add/Remove from lists
+            this.modifyListForItem(newChecked, item.id, isChecked);
+            this.modifyListForItem(newPartiallyChecked, item.id, isPartiallyChecked);
+
+            const parent = this.parentLookup[checkItem.id];
+            if (parent !== undefined) {
+                branches.push({ id: parent.id, depth: 0 });
+            }
         }
-        const itemChecked = this.isItemChecked(checkedItemIds, changedTreeItem);
-        let newPartiallyCheckedItems = _.without<any>(this.state.partiallyCheckedItemIds, ...itemsToRemoveFromPartiallyChecked);
-        if (!itemChecked && !wasChecked) { // filtered item clicked
-            newPartiallyCheckedItems.push(changedTreeItem.id);
-        }
-        return this.checkParentPartiallyChecked(newPartiallyCheckedItems, changedTreeItem, checkedItemIds, wasChecked);
+        return { checked: newChecked, partially: newPartiallyChecked };
     }
 
-    isAnySiblingChecked(changedTreeItem: TreeItem, partiallyCheckedItemIds, checkedItemIds) {
-        const parent = this.parentItems[changedTreeItem.id];
-        const children = parent == null ? this.props.items : parent.children; // if root reached -> children are all elements
-        const someSiblingPartiallyChecked = _.some(children, (child) => this.isItemChecked(partiallyCheckedItemIds, child));
-        if (someSiblingPartiallyChecked) { return true; }
-        const someSiblingChecked = _.some(children, (child) => this.isItemChecked(checkedItemIds, child));
-        return someSiblingChecked;
-    }
-
-    checkParentPartiallyChecked(partiallyCheckedItemIds, changedTreeItem: TreeItem, checkedItemIds, wasChecked) {
-        const parent = this.parentItems[changedTreeItem.id];
-        if (parent == null) { return partiallyCheckedItemIds; } // root reached
-
-        if (wasChecked) {
-            const someSiblingChecked = _.some(parent.children, (child) => this.isItemChecked(checkedItemIds, child));
-            const someSiblingPartiallyChecked = _.some(parent.children, (child) => this.isItemChecked(partiallyCheckedItemIds, child));
-            if (someSiblingChecked || someSiblingPartiallyChecked) { // add parent to partially checked
-                const newPartiallyChecked = partiallyCheckedItemIds.concat([parent.id]);
-                return this.checkParentPartiallyChecked(newPartiallyChecked, parent, checkedItemIds, wasChecked);
-            } else { // all siblings unchecked -> remove parent to partially checked
-                let newPartiallyChecked = partiallyCheckedItemIds.filter((itemId) => itemId !== parent.id);
-                return this.checkParentPartiallyChecked(newPartiallyChecked, parent, checkedItemIds, wasChecked);
-            }
-        } else {
-            if (this.isItemChecked(checkedItemIds, parent)) {
-                const newPartiallyChecked = partiallyCheckedItemIds.filter((itemId) => itemId !== parent.id);
-                return this.checkParentPartiallyChecked(newPartiallyChecked, parent, checkedItemIds, wasChecked);
-            }
-            if (this.isItemChecked(partiallyCheckedItemIds, parent)) {
-                return partiallyCheckedItemIds;
-            }
-            let newPartiallyChecked = partiallyCheckedItemIds.concat([parent.id]);
-            return this.checkParentPartiallyChecked(newPartiallyChecked, parent, checkedItemIds, wasChecked);
+    modifyListForItem(list: Array<string>, itemId: string, addItem: boolean) {
+        const itemIndex = list.indexOf(itemId);
+        if (addItem && itemIndex === -1) {
+            list.push(itemId);
+        } else if (!addItem && itemIndex !== -1) {
+            list.splice(itemIndex, 1);
         }
     }
-
+    popMaxDepthBranch(branches: Array<TreeBranch>) {
+        let maxDepth = -1;
+        let maxItemIndex = -1;
+        for (let index = 0; index < branches.length; index++) {
+            let element = branches[index];
+            if (element.depth > maxDepth) {
+                maxDepth = element.depth;
+                maxItemIndex = index;
+            }
+        }
+        let maxBranch = branches.splice(maxItemIndex, 1)[0];
+        return maxBranch;
+    }
     setNewSelectedState(allChecked: boolean, newChecked, newPartiallyChecked) {
         const allSelected = allChecked || this.areAllItemsSelected(newChecked) === CheckStatus.Checked;
         if (allSelected) {
@@ -306,12 +325,11 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     }
     onCalloutResize = () => { this._callout.UpdatePosition(); };
 
-
     allFilteredChildrenChecked = (treeItem: TreeItem, checkedItemIds) => {
         if (this.props.itemsAreFlatList) { return false; }
-        return treeItem.children != null &&
-            treeItem.children.length > 0 &&
-            _.every(treeItem.children, (child) => this.isItemChecked(checkedItemIds, child));
+        return itemHasChildren(treeItem) &&
+            _.every(treeItem.children,
+                (child) => this.isItemInList(checkedItemIds, child) || this.isItemInList(this.state.partiallyCheckedItemIds, child));
     }
 
     renderItem(treeItem: TreeItem, itemKey) {
@@ -322,17 +340,16 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         };
         const filterSelection = this.props.filterSelection;
         const checkedItemIds = filterSelection.type === FilterSelectionEnum.All ? this.allItemIds : filterSelection.selectedIDs;
-        const itemChecked = this.isItemChecked(checkedItemIds, treeItem);
-        const itemCheckedOrAllFilteredChecked = itemChecked || this.allFilteredChildrenChecked(treeItem, checkedItemIds);
+        const itemChecked = this.isItemInList(checkedItemIds, treeItem);
+        const itemCheckedOrAllFilteredChecked = itemChecked || (this.state.searchText !== '' && this.allFilteredChildrenChecked(treeItem, checkedItemIds));
 
         const onItemCheckedChange = () => {
-            const newChecked = this.getNewCheckedItems(treeItem, checkedItemIds, itemCheckedOrAllFilteredChecked);
-            const partiallyCheckedItemIds = this.getNewPartiallyChecked(treeItem, newChecked, itemChecked);
-            this.setNewSelectedState(false, newChecked, partiallyCheckedItemIds);
+            const newCheckedAndPartial = this.getNewCheckedItems(treeItem, checkedItemIds, itemCheckedOrAllFilteredChecked);
+            this.setNewSelectedState(false, newCheckedAndPartial.checked, newCheckedAndPartial.partially);
         };
 
         const onSingleSelectItemClick = () => {
-            if (this.props.isGroupSelectableOnSingleSelect === false && treeItem.children != null && treeItem.children.length > 0) {
+            if (this.props.isGroupSelectableOnSingleSelect === false && itemHasChildren(treeItem)) {
                 return;
             }
             this.props.onValuesSelected(this.props.filterId, { type: FilterSelectionEnum.Selected, selectedIDs: [treeItem.id] });
@@ -347,7 +364,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                 );
             } else {
                 let checked = itemChecked ? CheckStatus.Checked : CheckStatus.NotChecked;
-                if (this.isItemChecked(this.state.partiallyCheckedItemIds, treeItem)) {
+                if (this.isItemInList(this.state.partiallyCheckedItemIds, treeItem)) {
                     checked = CheckStatus.ChildChecked;
                 }
                 return (
@@ -368,7 +385,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                         <Icon className="tree-expand-icon" iconName={'icon-arrow_down_right'} onClick={onExpandClick} />
                         <ItemCheckboxElement />
                     </div>
-                    {treeItem.children != null && treeItem.children.length &&
+                    {itemHasChildren(treeItem) &&
                         <ul>
                             <li>
                                 {
@@ -381,7 +398,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                     }
                 </div>
             );
-        } else if (treeItem.children != null && treeItem.children.length) { // expandable
+        } else if (itemHasChildren(treeItem)) { // expandable
             return (
                 <div className="item-container" key={itemKey} style={{ height: ROW_HEIGHT }} >
                     <Icon className="tree-expand-icon" iconName={'icon-arrow_right'} onClick={onExpandClick} />
@@ -471,14 +488,12 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                                             }
                                             {!isSingleSelect &&
                                                 <div style={{ width, height: 25 }}>
-                                                    {(this.props.itemsAreFlatList || this.state.searchText === '') && // filtered select all works only on flat list
-                                                        <TreeFilterCheckBox
-                                                            text="Select All"
-                                                            itemId="ALL"
-                                                            checked={allSelected}
-                                                            onChange={this.onSelectAllChange}
-                                                        />
-                                                    }
+                                                    <TreeFilterCheckBox
+                                                        text="Select All"
+                                                        itemId="ALL"
+                                                        checked={allSelected}
+                                                        onChange={this.onSelectAllChange}
+                                                    />
                                                 </div>
                                             }
                                             <List

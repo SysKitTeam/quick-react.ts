@@ -9,7 +9,8 @@ import { createFlatList, createRandomizedData } from '../MockData/treeFilterElem
 interface DemoState {
     filterStates: { [id: string]: IFilterSelection };
 }
-const treeData = createRandomizedData(2000);
+const treeData = createRandomizedData(2000, 2);
+const deeperTreeData = createRandomizedData(50, 4);
 const flatList = createFlatList(4000);
 const shortFlatList = createFlatList(6);
 export class Index extends React.Component<any, DemoState> {
@@ -29,45 +30,54 @@ export class Index extends React.Component<any, DemoState> {
     public render() {
 
         return (
-            <div style={{paddingLeft: 300}}>
+            <div style={{ paddingLeft: 300 }}>
                 <TreeFilter
-                    title="Some Tree Filter"
-                    filterId={'filID'}
+                    title="Tree Filter"
+                    filterId={'f1'}
                     items={treeData}
                     onValuesSelected={this.onValuesSelected}
                     // tslint:disable-next-line:no-string-literal
-                    filterSelection={this.state.filterStates['filID']}
+                    filterSelection={this.state.filterStates['f1']}
+                    defaultSelection={FilterSelectionEnum.All}
+                />
+                 <TreeFilter
+                    title="Tree Filter - depth 4"
+                    filterId={'f2'}
+                    items={deeperTreeData}
+                    onValuesSelected={this.onValuesSelected}
+                    // tslint:disable-next-line:no-string-literal
+                    filterSelection={this.state.filterStates['f2']}
                     defaultSelection={FilterSelectionEnum.All}
                 />
                 <TreeFilter
                     title="Single Select"
-                    filterId={'filID3'}
+                    filterId={'f3'}
                     items={treeData}
                     onValuesSelected={this.onValuesSelected}
                     isSingleSelect={true}
                     isGroupSelectableOnSingleSelect={true}
-                      // tslint:disable-next-line:no-string-literal
-                    filterSelection={this.state.filterStates['filID3']}
+                    // tslint:disable-next-line:no-string-literal
+                    filterSelection={this.state.filterStates['f3']}
                     defaultSelection={FilterSelectionEnum.All}
                 />
                 <TreeFilter
                     title="Flat list"
-                    filterId={'fil2'}
+                    filterId={'f4'}
                     items={flatList}
                     onValuesSelected={this.onValuesSelected}
                     itemsAreFlatList={true}
-                      // tslint:disable-next-line:no-string-literal
-                    filterSelection={this.state.filterStates['fil2']}
+                    // tslint:disable-next-line:no-string-literal
+                    filterSelection={this.state.filterStates['f4']}
                 />
-                 <TreeFilter
+                <TreeFilter
                     title="Flat list - few elements"
-                    filterId={'fil4'}
+                    filterId={'f5'}
                     items={shortFlatList}
                     onValuesSelected={this.onValuesSelected}
                     itemsAreFlatList={true}
                     defaultSelection={FilterSelectionEnum.All}
-                      // tslint:disable-next-line:no-string-literal
-                    filterSelection={this.state.filterStates['fil4']}
+                    // tslint:disable-next-line:no-string-literal
+                    filterSelection={this.state.filterStates['f5']}
                 />
             </div>
         );
