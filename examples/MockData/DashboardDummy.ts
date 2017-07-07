@@ -38,10 +38,10 @@ export const dummyDashboard: IDashboardProps = {
     groupOnClick: (groupId: any) => { console.log('Clicked on group ' + groupId); },
     serverOnClick: (groupId: any, serverId: any) => { console.log('Clicked on group ' + groupId + ' and server ' + serverId); },
     icons: [
-        { iconType: GroupTypeEnum.SharePoint, iconName: 'icon-key', title: 'SharePoint' },
-        { iconType: GroupTypeEnum.Custom, iconName: 'icon-group', title: 'Custom' },
-        { iconType: GroupTypeEnum.Sql, iconName: 'icon-link', title: 'Sql Server' },
-        { iconType: GroupTypeEnum.SqlAlwaysOn , iconName: 'icon-list', title: 'Sql Always On' }
+        { iconType: GroupTypeEnum.SharePoint, iconName: 'icon-key', iconTitle: 'SharePoint' },
+        { iconType: GroupTypeEnum.Custom, iconName: 'icon-group', iconTitle: 'Custom' },
+        { iconType: GroupTypeEnum.Sql, iconName: 'icon-link', iconTitle: 'Sql Server' },
+        { iconType: GroupTypeEnum.SqlAlwaysOn , iconName: 'icon-list', iconTitle: 'Sql Always On' }
     ]
 };
 

@@ -151,7 +151,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
                     serverOnClick={this.props.serverOnClick}
                     groupOnClick={this.props.groupOnClick}
                     iconName={icon.iconName}
-                    iconTitle={icon.title}
+                    iconTitle={icon.iconTitle}
                     onServerClose={this.props.onServerClose !== undefined ? this._onServerClose : undefined}
                 />
             </div>

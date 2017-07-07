@@ -15,9 +15,9 @@ export class SingleGroupCollection extends React.PureComponent<ISingleGroupColle
             <AutoSizer onResize={this._onResize}>
                 {({ width, height }) => (
                     <div style={{width: width, height: height}}>
-                        <div className="farm farm-name-inside">
+                        <div className="farm farm-name-inside group-by-none-farm">
                             <Collection
-                                height={height - 70}
+                                height={height - 40}
                                 width={width - 25}
                                 ref={(reference) => {
                                     this.collection = reference;
