@@ -36,8 +36,21 @@
         padding-left: 15px;
         color: $emphasized-text-color;
 
+        .group-actions {
+            position: relative;
+            display: inline-block;
+            padding: 0px 0px 5px 5px;
+
+            .icon {
+                visibility: hidden;
+                position: relative;
+                padding: 0px 5px 0px 5px;
+                font-size: 16px;
+            }
+        }
+
         &:hover {
-            & > .icon.icon-edit {
+            .group-actions > .icon {
                 visibility: visible;
             }
         }
@@ -72,23 +85,20 @@
                     cursor: default;
                 }
             }
-
-            &.icon-edit {
-                position: absolute;
-                font-size: 16px;
-                visibility: hidden;
-                padding-left: 10px;
-            }
         }
+
         .icon:hover{
             cursor: pointer;
         }
+
         .icon.icon-delete:hover{
             color: $red-color;
         }
+
         .icon.icon-edit:hover{
             color: $yellow-color;
         }
+
         .icon.icon-add:hover{
             color: $green-color;
         }

@@ -141,9 +141,10 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
         return (
             <div style={style} key={index}>
                 <CompactFarm
-                    editGroup={this.props.groupEditFunc}
-                    showEditRoles={this.props.showEditRoles}
-                    serverRoleEdit={this.props.serverRoleEdit}
+                    onGroupEdit={this.props.onGroupEdit}
+                    onGroupDelete={this.props.onGroupDelete}
+                    onAddToGroup={this.props.onAddToGroup}
+                    onServerRoleEdit={this.props.onServerRoleEdit}
                     farm={farm}
                     filter={this.props.filter}
                     serverOnClick={this.props.serverOnClick}
