@@ -145,6 +145,10 @@ $server-status-color: $basic-text-color;
         .partition-container {
             display: block;
 
+            label {
+                font-weight: 500;
+            }
+
             div {
                 margin-top: 10px;
                 text-align: center;

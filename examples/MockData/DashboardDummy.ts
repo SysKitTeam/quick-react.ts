@@ -137,14 +137,16 @@ export function generateMeasures(): Array<IMeasure> {
                 used: 800,
                 capacity: 1000,
                 usageUnit: 'GB',
-                id: 1
+                id: 1,
+                status: 2
             },
             {
                 name: 'Data (E:)',
                 used: 560,
                 capacity: 789,
                 usageUnit: 'GB',
-                id: 2
+                id: 2,
+                status: 2
             }
         ],
         time: new Date(Date.now())
