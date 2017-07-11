@@ -48,8 +48,8 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, any>
                     <div>
                         <hr />
                         <TagContainer title={''} tags={this.props.roles}>
-                            {this.props.showEditRoles &&
-                                <div className="edit-tags tag" title="Edit roles" onClick={this.editRoles}>
+                            {this.props.onRoleEdit &&
+                                <div className="edit-tags tag" title="Edit roles" onClick={(event => this.props.onRoleEdit(this.props.id, event))}>
                                     <Icon className="icon-edit"></Icon>
                                 </div>
                             }
@@ -66,12 +66,6 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, any>
         if (serverOnClick) {
             serverOnClick(id);
         }
-    }
-
-    @autobind
-    private editRoles(event) {
-        const { roleEdit } = this.props;
-        roleEdit(event, this.props.id);
     }
 
     @autobind

@@ -29,7 +29,7 @@ export class HoverableCompactServer extends CommonComponent<IHoverableCompactSer
         const { server } = this.props;
         return (
             <div className={this.props.className} style={this.props.style} ref={this._refCallback}>
-                <CompactServer                    
+                <CompactServer
                     key={server.id}
                     roles={server.roles}
                     id={server.id}

@@ -105,13 +105,16 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
         return (
             <div className={'compact-farm'}>
                 <Group
-                    editFunc={this.props.editGroup}
+                    editFunc={this.props.onGroupEdit}
+                    deleteFunc={this.props.onGroupDelete}
+                    addFunc={this.props.onAddToGroup}
                     serverChildrenCount={servers.length}
                     className={'farm-name-inside'}
                     id={farm.id} name={farm.name}
                     key={farm.id}
                     onClick={this.props.groupOnClick}
                     iconName={this.props.iconName}
+                    iconTitle={this.props.iconTitle}
                 >
                     {
                         servers.map((server, index) => (
@@ -120,8 +123,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
                                 roles={server.roles}
                                 id={server.id}
                                 status={server.status}
-                                roleEdit={this._onRoleChange}
-                                showEditRoles={this.props.showEditRoles}
+                                onRoleEdit={this.props.onServerRoleEdit !== undefined ? this._onRoleChange : undefined}
                                 onClose={this.props.onServerClose !== undefined ? this._onServerClose : undefined}
                                 name={server.name}
                                 serverOnClick={this._onServerClicked}
@@ -151,9 +153,9 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
     }
 
     @autobind
-    private _onRoleChange(event, serverId) {
-        if (this.props.serverRoleEdit) {
-            this.props.serverRoleEdit(event, serverId, this.props.farm.id);
+    private _onRoleChange(serverId, event) {
+        if (this.props.onServerRoleEdit) {
+            this.props.onServerRoleEdit(serverId, this.props.farm.id, event);
         }
     }
 }

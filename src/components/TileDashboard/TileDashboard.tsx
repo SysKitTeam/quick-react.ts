@@ -122,16 +122,20 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
             return;
         }
 
+        let icon = getIconNameFromType(this.props.icons, farm.type);
+
         return (
             <div style={style} key={index}>
                 <TileGroup
-                    editGroup={this.props.groupEditFunc}
-                    editRoles={this.props.editRoles}
-                    serverRoleEdit={this.props.serverRoleEdit}
+                    onGroupEdit={this.props.onGroupEdit}
+                    onGroupDelete={this.props.onGroupDelete}
+                    onAddToGroup={this.props.onAddToGroup}
+                    onServerRoleEdit={this.props.onServerRoleEdit}
                     farm={farm}
                     serverOnClick={this.props.serverOnClick}
                     groupOnClick={this.props.groupOnClick}
-                    iconName={getIconNameFromType(this.props.icons, farm.type)}
+                    iconName={icon.iconName}
+                    iconTitle={icon.iconTitle}
                     onServerClose={this.props.onServerClose}
                 />
             </div>

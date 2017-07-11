@@ -1,0 +1,57 @@
+@import '../../index.scss';
+$Checkbox-label-size: 20px;
+.TreeFilter-checkbox {
+    display: inline-block;
+    box-sizing: border-box;
+    color: $font-primary-color;
+    font-family: $font-family-base;
+    font-size: $font-size-m;
+    position: relative;
+    .checkbox-input {
+        position: absolute;
+        opacity: 0;
+    }
+    .TreeFilter-checkbox-label::before {
+        content: '';
+        display: inline-block;
+        border: 1.5px solid #6b6b6b;
+        width: 15px;
+        height: 15px;
+        border-radius: 2px;
+        top: 1px;
+        position: absolute;
+        box-sizing: border-box;
+    }
+    .TreeFilter-checkbox-label {
+        display: inline-block;
+        cursor: pointer;
+        margin-top: 0px;
+        position: relative;
+        vertical-align: top;
+        user-select: none;
+        min-width: $Checkbox-label-size;
+        min-height: $Checkbox-label-size;
+        line-height: $Checkbox-label-size;
+        .label {
+            padding: 0 0 0 20px;
+        }
+    }
+    .TreeFilter-checkbox-checkmark {
+        color: $font-primary-color;
+        position: absolute;
+        margin-top: 2.5px;
+        margin-left: 2px;
+        font-size: 12px;
+    }
+}
+
+.icon-partial-selected {
+    label:after {
+        content: '\025FC';
+        color: #333333;
+        font-size: 14px;
+        position: absolute;
+        left: 1.5px;
+        top: -1.6px;
+    }
+}

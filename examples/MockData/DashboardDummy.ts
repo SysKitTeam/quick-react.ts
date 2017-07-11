@@ -30,18 +30,18 @@ export const dummyDashboard: IDashboardProps = {
     differentDashboards: { 0: { linkText: 'Compact Horizontal' }, 2: { linkText: 'Tiles' }, 3: { linkText: 'Grid' } },
     farms: farms.map(convertFarm),
     addFarm: () => { console.log('Adding new farm, wop wop'); },
-    groupAddFunc: (groupId: any) => { console.log('Clicked add icon of group ' + groupId); },
-    groupDeleteFunc: (groupId: any) => { console.log('Clicked delete icon of group ' + groupId); },
-    groupEditFunc: (groupId: any) => { console.log('Clicked edit icon of group ' + groupId); },
+    onAddToGroup: (groupId: any) => { console.log('Clicked add icon of group ' + groupId); },
+    onGroupDelete: (groupId: any) => { console.log('Clicked delete icon of group ' + groupId); },
+    onGroupEdit: (groupId: any) => { console.log('Clicked edit icon of group ' + groupId); },
     onServerClose: (serverFQDN: any) => { console.log('Clicked close icon of server ' + serverFQDN); },
-    serverRoleEdit: (serverFQDN: any, farmId: any) => { console.log('Clicked edit role icon of server ', serverFQDN, farmId); },
+    onServerRoleEdit: (serverFQDN: any, farmId: any) => { console.log('Clicked edit role icon of server ', serverFQDN, farmId); },
     groupOnClick: (groupId: any) => { console.log('Clicked on group ' + groupId); },
     serverOnClick: (groupId: any, serverId: any) => { console.log('Clicked on group ' + groupId + ' and server ' + serverId); },
     icons: [
-        { iconType: GroupTypeEnum.SharePoint, iconName: 'icon-key' },
-        { iconType: GroupTypeEnum.Custom, iconName: 'icon-group' },
-        { iconType: GroupTypeEnum.Sql, iconName: 'icon-link' },
-        { iconType: GroupTypeEnum.SqlAlwaysOn , iconName: 'icon-list'}
+        { iconType: GroupTypeEnum.SharePoint, iconName: 'icon-key', iconTitle: 'SharePoint' },
+        { iconType: GroupTypeEnum.Custom, iconName: 'icon-group', iconTitle: 'Custom' },
+        { iconType: GroupTypeEnum.Sql, iconName: 'icon-link', iconTitle: 'Sql Server' },
+        { iconType: GroupTypeEnum.SqlAlwaysOn , iconName: 'icon-list', iconTitle: 'Sql Always On' }
     ]
 };
 
@@ -137,14 +137,16 @@ export function generateMeasures(): Array<IMeasure> {
                 used: 800,
                 capacity: 1000,
                 usageUnit: 'GB',
-                id: 1
+                id: 1,
+                status: 2
             },
             {
                 name: 'Data (E:)',
                 used: 560,
                 capacity: 789,
                 usageUnit: 'GB',
-                id: 2
+                id: 2,
+                status: 2
             }
         ],
         time: new Date(Date.now())

@@ -1,6 +1,6 @@
 {
   "name": "quick-react-ts",
-  "version": "0.8.30",
+  "version": "0.8.31",
   "dependencies": {
     "@gulp-sourcemaps/map-sources": {
       "version": "1.0.0",
@@ -2462,6 +2462,9 @@
     "lodash.isarray": {
       "version": "3.0.4"
     },
+    "lodash.isequal": {
+      "version": "4.5.0"
+    },
     "lodash.isobject": {
       "version": "2.4.1",
       "dev": true
@@ -3262,13 +3265,8 @@
     "react-onclickoutside": {
       "version": "5.11.1"
     },
-    "react-resizable": {
-      "version": "1.7.1",
-      "dependencies": {
-        "react-draggable": {
-          "version": "2.2.6"
-        }
-      }
+    "react-resizable-box": {
+      "version": "2.0.4"
     },
     "react-tools": {
       "version": "0.13.3",

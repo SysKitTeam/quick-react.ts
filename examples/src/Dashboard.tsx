@@ -61,14 +61,14 @@ export class Index extends React.Component<any, any> {
                     title={dummyDashboard.title}
                     initialActiveView={0}
                     hasAddButton
-                    showEditRoles={true}
                     addFarm={dummyDashboard.addFarm}
-                    groupAddFunc={dummyDashboard.groupAddFunc}
-                    groupDeleteFunc={dummyDashboard.groupDeleteFunc}
-                    groupEditFunc={dummyDashboard.groupEditFunc}
-                    serverRoleEdit={dummyDashboard.serverRoleEdit}
+                    onAddToGroup={dummyDashboard.onAddToGroup}
+                    onGroupDelete={dummyDashboard.onGroupDelete}
+                    onGroupEdit={dummyDashboard.onGroupEdit}
+                    onServerRoleEdit={dummyDashboard.onServerRoleEdit}
                     serverOnClick={dummyDashboard.serverOnClick}
                     icons={dummyDashboard.icons}
+                    onServerClose={dummyDashboard.onServerClose}
                 />
             </div>
         );

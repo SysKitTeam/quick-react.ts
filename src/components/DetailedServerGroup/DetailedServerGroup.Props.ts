@@ -8,5 +8,6 @@ export interface IDetailedServerGroupProps {
   servers: Array<IServer>;
   filter: string;
   iconName: string;
+  iconTitle: string;
   serverOnClick?: (groupId: any, serverId: any) => void;
 }
