@@ -6,8 +6,9 @@ export interface ITileGroupProps {
     iconName?: string;
     groupOnClick?: (groupId: any) => void;
     serverOnClick?: (groupId: any, serverId: any) => void;
-    editRoles?: boolean;
-    serverRoleEdit?: (event: any, id: any, farmId: any) => any;
-    editGroup?: (groupId: any) => void;
+    onServerRoleEdit?: (id: any, farmId: any, event?: any) => any;
+    onGroupEdit?: (groupId: any) => void;
+    onGroupDelete?: (groupId: any) => void;
+    onAddToGroup?: (groupId: any) => void;
     onServerClose?: (serverId: any, groupId: any, event?: any) => void;
 }

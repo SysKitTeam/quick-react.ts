@@ -30,15 +30,17 @@ export class Group extends React.PureComponent<IGroupProps, void> {
                             <Icon iconName={this.props.iconName} title={this.props.iconName} className={'group-icon'}></Icon>
                         }
                         <span className={groupTitleClass} onClick={this._onGroupClick} title={this.props.name}>{this.props.name}</span>
-                        {this.props.deleteFunc &&
-                            <Icon title={'Delete'} iconName={'icon-delete'} onClick={() => { this.props.deleteFunc(this.props.id); }}></Icon>
-                        }
-                        {this.props.editFunc &&
-                            <Icon title={'Edit'} iconName={'icon-edit'} onClick={() => { this.props.editFunc(this.props.id); }}></Icon>
-                        }
-                        {this.props.addFunc &&
-                            <Icon title={'Add'} iconName={'icon-add'} onClick={() => { this.props.addFunc(this.props.id); }}></Icon>
-                        }
+                        <div className={'group-actions'}>
+                            {this.props.deleteFunc &&
+                                <Icon title={'Delete'} iconName={'icon-delete'} onClick={() => { this.props.deleteFunc(this.props.id); }}></Icon>
+                            }
+                            {this.props.editFunc &&
+                                <Icon title={'Edit'} iconName={'icon-edit'} onClick={() => { this.props.editFunc(this.props.id); }}></Icon>
+                            }
+                            {this.props.addFunc &&
+                                <Icon title={'Add'} iconName={'icon-add'} onClick={() => { this.props.addFunc(this.props.id); }}></Icon>
+                            }
+                        </div>
                     </span>
                 }
                 {

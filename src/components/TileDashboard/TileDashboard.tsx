@@ -125,9 +125,10 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
         return (
             <div style={style} key={index}>
                 <TileGroup
-                    editGroup={this.props.groupEditFunc}
-                    editRoles={this.props.editRoles}
-                    serverRoleEdit={this.props.serverRoleEdit}
+                    onGroupEdit={this.props.onGroupEdit}
+                    onGroupDelete={this.props.onGroupDelete}
+                    onAddToGroup={this.props.onAddToGroup}
+                    onServerRoleEdit={this.props.onServerRoleEdit}
                     farm={farm}
                     serverOnClick={this.props.serverOnClick}
                     groupOnClick={this.props.groupOnClick}
