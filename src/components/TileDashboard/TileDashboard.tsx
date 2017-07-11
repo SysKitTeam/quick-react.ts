@@ -35,7 +35,7 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
         super(props);
 
         this.state = {
-            groups: filterFarms(props.farms, props.filter)
+            groups: filterFarms(props.farms, props.filter, props.filteringOptions)
         };
     }
 
@@ -48,7 +48,7 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
 
     public componentWillReceiveProps(nextProps: ITileDashboardProps, nextState: any) {
         if ((nextProps.filter !== this.props.filter) || (this.props.farms !== nextProps.farms)) {
-            const filteredFarms = filterFarms(nextProps.farms, nextProps.filter);
+            const filteredFarms = filterFarms(nextProps.farms, nextProps.filter, nextProps.filteringOptions);
             this.setState({ groups: filteredFarms });
         }
     }
@@ -122,6 +122,8 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
             return;
         }
 
+        let icon = getIconNameFromType(this.props.icons, farm.type);
+
         return (
             <div style={style} key={index}>
                 <TileGroup
@@ -132,7 +134,8 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
                     farm={farm}
                     serverOnClick={this.props.serverOnClick}
                     groupOnClick={this.props.groupOnClick}
-                    iconName={getIconNameFromType(this.props.icons, farm.type)}
+                    iconName={icon.iconName}
+                    iconTitle={icon.iconTitle}
                     onServerClose={this.props.onServerClose}
                 />
             </div>

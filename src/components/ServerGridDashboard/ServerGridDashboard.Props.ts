@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { IGroup } from '../../models';
 import { IGroupBy } from '../QuickGrid';
+import { IFilteringOption } from '../FilteringBar/FilteringBar.Props';
 
 export interface IServerGridDashboardProps {
     farms: Array<IGroup>;
@@ -8,6 +9,7 @@ export interface IServerGridDashboardProps {
     serverOnClick?: (groupId: any, serverId: any) => void;
     filter: string;
     singleGroupView?: boolean;
+    filteringOptions?: Array<IFilteringOption>;
 }
 export interface ServerGridRow {
     type: 'DataRow';

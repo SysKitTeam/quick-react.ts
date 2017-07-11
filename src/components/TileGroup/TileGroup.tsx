@@ -38,6 +38,7 @@ export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
                 key={farm.id}
                 onClick={this.props.groupOnClick}
                 iconName={this.props.iconName}
+                iconTitle={this.props.iconTitle}
             >
                 {
                     servers.map((server, serverIndex) => (
