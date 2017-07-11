@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ICompactServerProps } from '../CompactServer/CompactServer.Props';
 import { IGroup, GroupTypeEnum } from '../../models';
+import { IFilteringOption } from '../FilteringBar/FilteringBar.Props';
 
 export interface ICompactDashboardState {
   list: any;
@@ -16,6 +17,7 @@ export interface ICompactDashboardProps {
   filter?: string;
   showEditRoles?: boolean;
   singleGroupView?: boolean;
+  filteringOptions?: Array<IFilteringOption>;
 
   /**
   * Action that is called on clicking the add icon on the bar of a certain group. The function is supplied with a group id.

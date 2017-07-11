@@ -8,6 +8,7 @@ import { ServerGridDashboard } from '../ServerGridDashboard/ServerGridDashboard'
 import { ICompactDashboardProps } from '../CompactDashboard/CompactDashboard.Props';
 import { ActiveDashboard } from '../DashboardHeader/DashboardHeader.Props';
 import { PivotItem } from '../Pivot/PivotItem';
+import { IFilteringOption } from '../FilteringBar/FilteringBar.Props';
 import { IGroup, IServer, GroupTypeEnum, ServerStatus } from '../../models';
 import { filterServerByName, filterServerByStatus, sortServersByStatusAndName } from '../../utilities/server';
 import './Dashboard.scss';
@@ -23,12 +24,15 @@ function sortFarms(ob1: { farmName: string }, ob2: { farmName: string }) {
     return 0;
 }
 
-export function filterFarms(farms: Array<IGroup>, filter: string): Array<IGroup> {
+export function filterFarms(farms: Array<IGroup>, filter: string, filteringOptions: Array<IFilteringOption>): Array<IGroup> {
+    if (!filter && filteringOptions.length === 0) {
+        return farms;
+    }
     let filteredFarms = Array<IGroup>(0);
     filter = filter.toLowerCase();
-    if (filter.indexOf('status:') !== -1) {
+    if (filteringOptions.length > 0) {
         farms.forEach(farm => {
-            const servers = farm.servers.filter((server) => filterServerByStatus(filter, server.status));
+            const servers = farm.servers.filter((server) => filterServerByStatus(filteringOptions, server.status) && filterServerByName(filter, server.name));
             if (servers.length !== 0) {
                 filteredFarms.push({ ...farm, servers: servers });
             }
@@ -41,6 +45,7 @@ export function filterFarms(farms: Array<IGroup>, filter: string): Array<IGroup>
             }
         });
     }
+
     return filteredFarms;
 }
 
@@ -48,14 +53,15 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
     public static defaultProps = {
         editRoles: false
     };
-    
+
     constructor(props?: IDashboardProps) {
         super(props);
         this.state = {
             activeView: props.initialActiveView,
             filter: props.filter,
             groups: props.farms,
-            grouping: DashboardGroupingEnum.Smart
+            grouping: DashboardGroupingEnum.Smart,
+            filteringOptions: []
         };
     }
 
@@ -63,11 +69,16 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
         if (this.props.farms !== nextProps.farms) {
             this.setState({ ...this.state, groups: getGrouped(nextProps.farms, this.state.grouping) });
         }
-    }    
-    
+    }
+
     @autobind
     groupChanged(newGroupKey: number) {
         this.setState({ ...this.state, grouping: newGroupKey, groups: getGrouped(this.props.farms, newGroupKey) });
+    }
+
+    @autobind
+    onStatusFilteringChange(selectedFilteringOptions) {
+        this.setState({ ...this.state, filteringOptions: selectedFilteringOptions });
     }
 
     public render() {
@@ -88,6 +99,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                     selectedDashboardKey={activeView}
                     selectedGrouping={this.state.grouping}
                     onGroupingChange={this.groupChanged}
+                    onFilteringOptionsChange={this.onStatusFilteringChange}
                 />
                 {
                     groups && groups.length === 0 && this.props.emptyDashboardMessage && <div className="empty-dasboard-message-container">
@@ -111,6 +123,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         serverRoleEdit={this._roleEdit}
                         onServerClose={this.state.grouping === DashboardGroupingEnum.Smart && this.props.onServerClose !== undefined ? this._serverClose : undefined}
                         serverOnClick={this.props.serverOnClick}
+                        filteringOptions={this.state.filteringOptions}
                     />
                 }
                 {
@@ -129,6 +142,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         serverRoleEdit={this._roleEdit}
                         onServerClose={this.state.grouping === DashboardGroupingEnum.Smart && this.props.onServerClose !== undefined ? this._serverClose : undefined}
                         serverOnClick={this.props.serverOnClick}
+                        filteringOptions={this.state.filteringOptions}
                     />
                 }
                 {
@@ -139,6 +153,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         serverOnClick={this.props.serverOnClick}
                         filter={filter}
                         singleGroupView={this.state.grouping === DashboardGroupingEnum.Disabled}
+                        filteringOptions={this.state.filteringOptions}
                     />
                 }
             </div>

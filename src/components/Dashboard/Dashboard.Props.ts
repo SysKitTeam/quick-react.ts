@@ -3,12 +3,13 @@ import { ActiveDashboard } from '../DashboardHeader/DashboardHeader.Props';
 import { ICompactDashboardProps } from '../CompactDashboard/CompactDashboard.Props';
 import { IGroup, GroupTypeEnum } from '../../models';
 import { IPivotItemProps } from '../Pivot/PivotItem.Props';
+import { IFilteringOption } from '../FilteringBar/FilteringBar.Props';
 
 export enum DashboardGroupingEnum {
     Smart = 0,
     Type = 1,
     Status = 2,
-    Disabled= 3
+    Disabled = 3
 }
 
 export interface IDashboardProps extends React.Props<any> {
@@ -19,13 +20,13 @@ export interface IDashboardProps extends React.Props<any> {
     hasAddButton?: boolean;
     headerClass?: string;
     showEditRoles?: boolean;
-    
+
     icons: [{ iconName: string, iconType: GroupTypeEnum }];
     /**
      * Message to be shown when there is no data present. can also be a JSX element
      */
     emptyDashboardMessage?: any;
-    
+
     /**
      * Item that represents different available dashboards. Based on this the dashboard component will render different tabs.
      */
@@ -84,4 +85,5 @@ export interface IDashboardState {
     filter: string;
     activeView: ActiveDashboard;
     grouping: DashboardGroupingEnum;
+    filteringOptions: Array<IFilteringOption>;
 }
