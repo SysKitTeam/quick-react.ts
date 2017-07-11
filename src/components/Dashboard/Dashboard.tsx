@@ -106,7 +106,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         singleGroupView={this.state.grouping === DashboardGroupingEnum.Disabled}
                         icons={this.props.icons}
                         onGroupEdit={isSmartGrouping ? this.props.onGroupEdit : undefined}
-                        onAddToGroup={this.props.onAddToGroup}
+                        onAddToGroup={isSmartGrouping ? this.props.onAddToGroup : undefined}
                         onGroupDelete={isSmartGrouping ? this.props.onGroupDelete : undefined}
                         groupOnClick={isSmartGrouping ? this.props.groupOnClick : undefined}
                         onServerRoleEdit={isSmartGrouping && this.props.onServerRoleEdit !== undefined ? this._roleEdit : undefined}
@@ -123,7 +123,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         singleGroupView={this.state.grouping === DashboardGroupingEnum.Disabled}
                         icons={this.props.icons}
                         onGroupEdit={isSmartGrouping ? this.props.onGroupEdit : undefined}
-                        onAddToGroup={this.props.onAddToGroup}
+                        onAddToGroup={isSmartGrouping ? this.props.onAddToGroup : undefined}
                         onGroupDelete={isSmartGrouping ? this.props.onGroupDelete : undefined}
                         groupOnClick={isSmartGrouping ? this.props.groupOnClick : undefined}
                         onServerRoleEdit={isSmartGrouping && this.props.onServerRoleEdit !== undefined ? this._roleEdit : undefined}
