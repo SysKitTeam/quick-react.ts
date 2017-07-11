@@ -11,6 +11,7 @@ import { sortServersByStatusAndName, filterServerByName, convertNetwork, convert
 import { IMeasure, MeasureType, IGroup, Partition, DiskMeasure, CpuMeasure, RamMeasure, NetworkMeasure, ServerStatus } from '../../models';
 
 import './ServerGridDashboard.scss';
+import { IFilteringOption } from '../FilteringBar/FilteringBar.Props';
 
 const GRID_CELL_MIN_WIDTH = 180;
 
@@ -115,7 +116,7 @@ export class ServerGridDashboard extends React.PureComponent<IServerGridDashboar
     constructor(props: IServerGridDashboardProps) {
         super(props);
         this.state = {
-            rows: this.transformFarmToRows(props.farms, props.filter),
+            rows: this.transformFarmToRows(props.farms, props.filter, props.filteringOptions),
             expandedRows: {},
             groupBy: [{ column: 'FarmName', sortDirection: SortDirection.Ascending }]
         };
@@ -125,14 +126,14 @@ export class ServerGridDashboard extends React.PureComponent<IServerGridDashboar
         this.setState((oldState) => {
             return {
                 ...oldState,
-                rows: this.transformFarmToRows(nextProps.farms, nextProps.filter),
+                rows: this.transformFarmToRows(nextProps.farms, nextProps.filter, nextProps.filteringOptions),
                 groupBy: nextProps.singleGroupView ? [] : [{ column: 'FarmName', sortDirection: SortDirection.Ascending }]
             };
         });
     }
 
-    private transformFarmToRows(farms: Array<IGroup>, filter: string): Array<ServerGridRow> {
-        const filteredFarms = filterFarms(farms, filter);
+    private transformFarmToRows(farms: Array<IGroup>, filter: string, filteringOptions: Array<IFilteringOption>): Array<ServerGridRow> {
+        const filteredFarms = filterFarms(farms, filter, filteringOptions);
         let rows = [];
         const getMeasure = (measures, measureType) => {
             return measures.filter((mes) => { return mes.type === measureType; })[0];

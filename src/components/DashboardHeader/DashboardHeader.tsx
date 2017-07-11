@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IDashboardHeaderProps } from './DashboardHeader.Props';
+import { IDashboardHeaderProps, IDashboardHeaderState, groupingOptions } from './DashboardHeader.Props';
 import { Search } from '../Search/Search';
 import { Pivot } from '../Pivot/Pivot';
 import { PivotItem } from '../Pivot/PivotItem';
@@ -8,34 +8,32 @@ import { Label } from '../Label/Label';
 import { Icon } from '../Icon/Icon';
 import { Dropdown } from '../Dropdown/Dropdown';
 import { DropdownType, IDropdownOption } from '../Dropdown/Dropdown.Props';
+import { FilteringBar } from '../FilteringBar/FilteringBar';
 import * as classNames from 'classnames';
 import * as _ from 'lodash';
 import './DashboardHeader.scss';
 
-export class DashboardHeader extends React.PureComponent<IDashboardHeaderProps, any> {
+export class DashboardHeader extends React.PureComponent<IDashboardHeaderProps, IDashboardHeaderState> {
 
-    private groupingOptions: Array<IDropdownOption> = [
-        {
-            key: '0',
-            text: 'Smart'
-        },
-        {
-            key: '1',
-            text: 'Type'
-        },
-        {
-            key: '2',
-            text: 'Status'
-        },
-        {
-            key: '3',
-            text: 'None'
-        }
-    ];
+    constructor(props) {
+        super(props);
+        this.state = {
+            filterMenuOpen: false,
+            selectedFilterOptions: []
+        };
+    }
 
     @autobind
     private handleGroupingChange(option: IDropdownOption) {
         this.props.onGroupingChange(Number(option.key));
+    }
+
+    @autobind
+    onFilteringChange() {
+        this.setState({ ...this.state, filterMenuOpen: !this.state.filterMenuOpen });
+        if (this.state.filterMenuOpen) {
+            this.props.onFilteringOptionsChange([]);
+        }
     }
 
     public render() {
@@ -59,7 +57,7 @@ export class DashboardHeader extends React.PureComponent<IDashboardHeaderProps, 
                     </Pivot>
                 }
 
-
+                <Icon iconName="icon-filter" className="icon-filter-dashboard-header" onClick={this.onFilteringChange} />
                 <Search onSearch={this.props.onSearch} onChange={this.props.onChanged} />
                 <div className="grouping-dropdown-container">
                     <span className="grouping-dropdown-label">Group by</span>
@@ -67,12 +65,18 @@ export class DashboardHeader extends React.PureComponent<IDashboardHeaderProps, 
                         className="dashboard-grouping-header"
                         dropdownType={DropdownType.selectionDropdown}
                         selectedKey={this.props.selectedGrouping.toString()}
-                        options={this.groupingOptions}
+                        options={groupingOptions}
                         hasTitleBorder={true}
                         onClick={this.handleGroupingChange}>
                     </Dropdown>
                 </div>
                 <div style={{ display: 'inline-block' }}>&nbsp;</div>
+                {this.state.filterMenuOpen &&
+                    <FilteringBar
+                        className="filtering-menu-container"
+                        onFilteringOptionsChanged={this.props.onFilteringOptionsChange}
+                    />
+                }
             </div>
         );
     }

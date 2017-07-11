@@ -42,7 +42,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
         this.state = {
             collection: undefined,
             list: undefined,
-            groups: filterFarms(props.farms, props.filter)
+            groups: filterFarms(props.farms, props.filter, props.filteringOptions)
         };
     }
 
@@ -56,7 +56,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
     }
 
     public componentWillReceiveProps(nextProps: ICompactDashboardProps, nextState) {
-        const filteredFarms = filterFarms(nextProps.farms, nextProps.filter);
+        const filteredFarms = filterFarms(nextProps.farms, nextProps.filter, nextProps.filteringOptions);
         this.setState({ ...this.state, groups: filteredFarms });
     }
 

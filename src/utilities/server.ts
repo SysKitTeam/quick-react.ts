@@ -1,5 +1,6 @@
 import { IMeasure, MeasureType, Partition, DiskMeasure, CpuMeasure, RamMeasure, NetworkMeasure, ServerStatus } from '../models';
 import { ITileData } from '../components/ServerTile/ServerTile.Props';
+import { IFilteringOption } from '../components/FilteringBar/FilteringBar.Props';
 import * as classNames from 'classnames';
 
 const noMeasureString = '--';
@@ -33,23 +34,28 @@ export function filterServerByName(filter: string, serverName: string): boolean 
     return serverName.toLowerCase().trim().indexOf(filter.toLowerCase().trim()) !== -1;
 }
 
-export function filterServerByStatus(status: string, serverStatus: ServerStatus) {
-    let stringToStatus: ServerStatus;
-    status = status.replace('status:', '').toLowerCase().trim();
-    switch (status) {
-        case 'critical':
-            stringToStatus = ServerStatus.Critical;
-            break;
-        case 'warning':
-            stringToStatus = ServerStatus.Warning;
-            break;
-        case 'ok':
-            stringToStatus = ServerStatus.OK;
-            break;
-        default:
-            break;
+export function filterServerByStatus(filteringOptions: Array<IFilteringOption>, serverStatus: ServerStatus): boolean {
+    let serverMatched: boolean;
+    let statusOptions = filteringOptions.filter(x => x.type === 'Status');
+    for (let i = 0; i < statusOptions.length; i++) {
+        let value = statusOptions[i].key.toLowerCase().trim();
+        switch (value) {
+            case 'critical':
+                serverMatched = serverMatched || serverStatus === ServerStatus.Critical;
+                break;
+            case 'warning':
+                serverMatched = serverMatched || serverStatus === ServerStatus.Warning;
+                break;
+            case 'healthy':
+                serverMatched = serverMatched || serverStatus === ServerStatus.OK;
+                break;
+            case 'offline':
+                serverMatched = serverMatched || serverStatus === ServerStatus.Offline;
+                break;
+        }
     }
-    return serverStatus === stringToStatus;
+    
+    return serverMatched;
 }
 
 export function getDiskInformationFromMeasurements(serverMeasurements: Array<IMeasure>): Array<Partition> {

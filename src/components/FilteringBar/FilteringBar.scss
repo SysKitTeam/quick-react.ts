@@ -1,0 +1,15 @@
+ @import '../../index.scss';
+
+.filtering-bar-item {
+    float:right;
+    margin-left: 6px;
+    margin-right: 6px;
+    padding-left: 2px;
+    padding-right: 2px;
+    cursor: pointer;
+}
+
+.filtering-bar-item-selected {
+    background-color: $secondary-color;
+    color:white;
+}
