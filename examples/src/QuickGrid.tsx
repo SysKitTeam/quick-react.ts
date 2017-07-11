@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import 'ts-helpers';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Resizable, ResizableBox } from 'react-resizable';
+import Resizable from 'react-resizable-box';
 import { Dropdown, DropdownType } from '../../src/components/Dropdown';
 import { Button } from '../../src/components/Button';
 import { QuickGrid, IQuickGridProps, SortDirection, GridColumn } from '../../src/components/QuickGrid';
@@ -37,7 +37,7 @@ export class Index extends React.Component<any, any> {
                 </div>
                 <Button onClick={this.refreshData}>Refresh data</Button>
 
-                <ResizableBox width={1000} height={700}  >
+                <Resizable width={1000} height={700} >
                     <div className="viewport-height" style={{ height: '100%', border: '1px solid #6b6b6b' }} >
                         <QuickGrid
                             rows={this.state.data}
@@ -47,7 +47,7 @@ export class Index extends React.Component<any, any> {
                             onGroupByChanged={this.groupByChanged}
                         />
                     </div>
-                </ResizableBox>
+                </Resizable>
             </div >
         );
     }
