@@ -68,6 +68,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                             progressColor={this.getProgressColor()}
                         />
                         <div className={'partition-container'} >
+                            <Label>Disks</Label>
                             {
                                 this.props.partitionUsages.map((data, index) => <PartitionTile key={index} className={partitionTileClass} usage={data} />)
                             }

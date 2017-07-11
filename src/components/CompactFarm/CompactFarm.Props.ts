@@ -6,6 +6,7 @@ export interface ICompactFarmProps {
   farm: IGroup;
   filter?: string;
   iconName?: string;
+  iconTitle?: string;
   serverOnClick?: (groupId: any, serverId: any) => void;
   groupOnClick?: (groupId: any) => void;
   showEditRoles?: boolean;

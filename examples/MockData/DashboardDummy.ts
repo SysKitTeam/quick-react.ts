@@ -38,10 +38,10 @@ export const dummyDashboard: IDashboardProps = {
     groupOnClick: (groupId: any) => { console.log('Clicked on group ' + groupId); },
     serverOnClick: (groupId: any, serverId: any) => { console.log('Clicked on group ' + groupId + ' and server ' + serverId); },
     icons: [
-        { iconType: GroupTypeEnum.SharePoint, iconName: 'icon-key' },
-        { iconType: GroupTypeEnum.Custom, iconName: 'icon-group' },
-        { iconType: GroupTypeEnum.Sql, iconName: 'icon-link' },
-        { iconType: GroupTypeEnum.SqlAlwaysOn , iconName: 'icon-list'}
+        { iconType: GroupTypeEnum.SharePoint, iconName: 'icon-key', iconTitle: 'SharePoint' },
+        { iconType: GroupTypeEnum.Custom, iconName: 'icon-group', iconTitle: 'Custom' },
+        { iconType: GroupTypeEnum.Sql, iconName: 'icon-link', iconTitle: 'Sql Server' },
+        { iconType: GroupTypeEnum.SqlAlwaysOn , iconName: 'icon-list', iconTitle: 'Sql Always On' }
     ]
 };
 
@@ -137,14 +137,16 @@ export function generateMeasures(): Array<IMeasure> {
                 used: 800,
                 capacity: 1000,
                 usageUnit: 'GB',
-                id: 1
+                id: 1,
+                status: 2
             },
             {
                 name: 'Data (E:)',
                 used: 560,
                 capacity: 789,
                 usageUnit: 'GB',
-                id: 2
+                id: 2,
+                status: 2
             }
         ],
         time: new Date(Date.now())

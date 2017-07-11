@@ -1,5 +1,15 @@
  @import '../../../themes/basic-theme.scss';
 
+.disk-information-container {
+     .status-critical {
+        color: $red-color!important;
+    }
+
+    .status-warning {
+        color: $yellow-color!important;
+    }
+}
+
 .disk-information-callout {
     border: 1px solid $light-text-color;
 
@@ -13,6 +23,14 @@
 
         div + div {
             padding-top: 5px;
+        }
+
+        .status-critical {
+            color: $red-color;
+        }
+
+        .status-warning {
+            color: $yellow-color;
         }
     }
 }

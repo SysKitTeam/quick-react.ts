@@ -8,7 +8,11 @@
     // background-color: $background-color;
     border-color: $background-color;
     overflow: hidden; 
-    color: $basic-text-color;  
+    color: $basic-text-color;
+
+    .group-by-none-farm {
+        margin-top: 32px;
+    }
 }
 
 .compact-dashboard-container.vertical{

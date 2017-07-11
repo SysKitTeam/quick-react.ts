@@ -31,6 +31,7 @@ export class DetailedServerGroup extends React.PureComponent<IDetailedServerGrou
                     name={this.props.name}
                     key={this.props.id}
                     iconName={this.props.iconName}
+                    iconTitle={this.props.iconTitle}
                 >
                     {
                         servers.map((server) => (

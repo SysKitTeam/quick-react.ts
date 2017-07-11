@@ -5,6 +5,7 @@ export interface IGroupProps {
     id: string;
     name: string;
     iconName: string;
+    iconTitle: string;
     className?: string;
     filter?: string;
 

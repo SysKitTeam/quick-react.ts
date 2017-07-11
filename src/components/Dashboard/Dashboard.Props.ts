@@ -19,7 +19,7 @@ export interface IDashboardProps extends React.Props<any> {
     hasAddButton?: boolean;
     headerClass?: string;
     
-    icons: [{ iconName: string, iconType: GroupTypeEnum }];
+    icons: [{ iconName: string, iconType: GroupTypeEnum, iconTitle: string }];
     /**
      * Message to be shown when there is no data present. can also be a JSX element
      */
