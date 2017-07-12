@@ -118,7 +118,7 @@ export class ServerGridDashboard extends React.PureComponent<IServerGridDashboar
         this.state = {
             rows: this.transformFarmToRows(props.farms, props.filter, props.filteringOptions),
             expandedRows: {},
-            groupBy: [{ column: 'FarmName', sortDirection: SortDirection.Ascending }]
+            groupBy: props.singleGroupView ? [] : [{ column: 'FarmName', sortDirection: SortDirection.Ascending }]
         };
     }
 

@@ -13,6 +13,7 @@ $server-status-color: $basic-text-color;
 
 .disk-information-container {
     float: right;
+    cursor: default;
 }
 
 .server-details {
@@ -70,7 +71,7 @@ $server-status-color: $basic-text-color;
 
         .disk-icon {
             padding: 0;
-            margin: 5px 10px 5px 16px;
+            margin: 5px 6px 5px 16px;
         }
 
         .tag-container{

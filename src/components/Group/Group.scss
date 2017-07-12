@@ -29,7 +29,7 @@
         font-size: 20px;
         padding: 5px;
         padding-top: 10px;
-        width:100%;
+        width: initial;
         padding-bottom: 0;
         top: -35px;
         left: -2px;
@@ -39,12 +39,12 @@
         .group-actions {
             position: relative;
             display: inline-block;
-            padding: 0px 0px 5px 5px;
+            padding: 0px 0px 5px 20px;
 
             .icon {
                 visibility: hidden;
                 position: relative;
-                padding: 0px 5px 0px 5px;
+                padding: 0px 3px;
                 font-size: 16px;
             }
         }
