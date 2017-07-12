@@ -38,6 +38,14 @@ export class DashboardHeader extends React.PureComponent<IDashboardHeaderProps, 
 
     public render() {
         let { hasAddFarmButton, title, selectedDashboardKey } = this.props;
+
+        const dashboardFilterClassName = classNames(
+            'icon-filter-dashboard-header',
+            {
+                'icon-filter-selected': this.state.filterMenuOpen
+            }
+        );
+
         return (
             <div className="dashboard-header-container">
                 {this.props.pivotItems &&
@@ -57,7 +65,7 @@ export class DashboardHeader extends React.PureComponent<IDashboardHeaderProps, 
                     </Pivot>
                 }
 
-                <Icon iconName="icon-filter" className="icon-filter-dashboard-header" onClick={this.onFilteringChange} />
+                <Icon iconName="icon-filter" className={dashboardFilterClassName} title="Filter" onClick={this.onFilteringChange} />
                 <Search onSearch={this.props.onSearch} onChange={this.props.onChanged} />
                 <div className="grouping-dropdown-container">
                     <span className="grouping-dropdown-label">Group by</span>
