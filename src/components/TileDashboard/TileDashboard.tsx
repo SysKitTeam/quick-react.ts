@@ -47,10 +47,8 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
     }
 
     public componentWillReceiveProps(nextProps: ITileDashboardProps, nextState: any) {
-        if ((nextProps.filter !== this.props.filter) || (this.props.farms !== nextProps.farms)) {
-            const filteredFarms = filterFarms(nextProps.farms, nextProps.filter, nextProps.filteringOptions);
-            this.setState({ groups: filteredFarms });
-        }
+        const filteredFarms = filterFarms(nextProps.farms, nextProps.filter, nextProps.filteringOptions);
+        this.setState({ groups: filteredFarms });
     }
 
     public render() {
