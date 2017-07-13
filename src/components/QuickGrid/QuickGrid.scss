@@ -76,7 +76,10 @@ $drag-handle-width: 5px;
 }
 
 .grid-component-container {
-    height: 100%;
+    height: calc(100% - 25px);
+    width: calc(100% - 25px);
+    margin-top: 25px;
+    margin-left: 25px;
 }
 
 .grid-component-header {
@@ -172,10 +175,6 @@ $drag-handle-total-width: $drag-handle-width + 2; //padding
 
 .empty-header-column {
     border-right: 0px;
-}
-
-.grid-header-column:first-child {
-    padding-left: 12px;
 }
 
 .grid-header-column:last-child, .ReactVirtualized__Table__rowColumn:last-child {

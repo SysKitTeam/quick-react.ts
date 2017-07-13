@@ -68,14 +68,14 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
 
     componentWillReceiveProps(nextProps: IDashboardProps) {
         if (this.props.farms !== nextProps.farms) {
-            this.setState({ ...this.state, groups: getGrouped(nextProps.farms, this.state.grouping) });
+            this.setState({ ...this.state, groups: getGrouped(nextProps.farms, this.state.grouping).filter(group => { return group.servers.length > 0; }) });
         }
     }
 
     @autobind
     groupChanged(newGroupKey: number) {
         const isSmartGrouping = (newGroupKey as DashboardGroupingEnum) === DashboardGroupingEnum.Smart;
-        this.setState({ ...this.state, grouping: newGroupKey, groups: getGrouped(this.props.farms, newGroupKey), isSmartGrouping: isSmartGrouping });
+        this.setState({ ...this.state, grouping: newGroupKey, groups: getGrouped(this.props.farms, newGroupKey).filter(group => { return group.servers.length > 0; }), isSmartGrouping: isSmartGrouping });
     }
 
     @autobind
@@ -86,7 +86,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
     public render() {
         let { headerClass, hasAddButton } = this.props;
         let { filter, activeView, groups, isSmartGrouping } = this.state;
-
+        
         return (
             <div className="dashboard">
                 <DashboardHeader
