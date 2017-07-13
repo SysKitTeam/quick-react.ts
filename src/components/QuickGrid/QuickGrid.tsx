@@ -99,7 +99,8 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         } else {
             width = document.getElementById('root').clientWidth;
         }
-        return width - scrollbarSize();
+        // left margin is 25px
+        return width - 25 - scrollbarSize();
     }
 
     getRow = ({ index }) => {
