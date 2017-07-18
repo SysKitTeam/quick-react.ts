@@ -6,6 +6,7 @@ const RANDOM_Color = ['Black', 'Green', 'White', 'Blue', 'Orange', 'Red', 'Yello
 const RANDOM_Animal = ['Dog', 'Cat', 'Mouse'];
 const RANDOM_City = ['Zagreb', 'Vienna', 'London', 'Amsterdam', 'Barcelona'];
 const RANDOM_CarBrand = ['Audi', 'BMW', 'Mercedes', 'Opel', 'VW', 'Lada', 'Ford', 'Mazda'];
+const RANDOM_Mix = ['1', 2, '3', 4, 'A', 'B', 'C', '10'];
 
 export interface GridData1 {
     Name: string;
@@ -29,12 +30,12 @@ export const gridColumns1: Array<GridColumn> = [
         headerText: 'Animal - with very long header name',
         width: 100
     }, {
-        valueMember: 'City',
-        headerText: 'City to witch to travel',
+        valueMember: 'Mixed',
+        headerText: 'Numbers and strings',
         width: 100
     }, {
-        valueMember: 'CarBrand',
-        headerText: 'Car Brand',
+        valueMember: 'Numbers',
+        headerText: 'Numbers',
         width: 100
     }
 ];
@@ -47,8 +48,8 @@ export function getGridData1(numberOfElements): Array<GridData1> {
                 Name: RANDOM_Names[Math.floor(Math.random() * RANDOM_Names.length)],
                 Color: RANDOM_Color[Math.floor(Math.random() * RANDOM_Color.length)],
                 Animal: RANDOM_Animal[Math.floor(Math.random() * RANDOM_Animal.length)],
-                City: RANDOM_City[Math.floor(Math.random() * RANDOM_City.length)],
-                CarBrand: RANDOM_CarBrand[Math.floor(Math.random() * RANDOM_CarBrand.length)]
+                Mixed: RANDOM_Mix[Math.floor(Math.random() * RANDOM_Mix.length)],
+                Numbers: Math.floor(Math.random() * 30)
             }
         );
     }
@@ -79,7 +80,7 @@ export function getGridData2(numberOfElements): Array<GridData2> {
         data.push(
             {
                 RandomWords: RANDOM_WORDS[Math.floor(Math.random() * RANDOM_WORDS.length)],
-                Color: RANDOM_Color[Math.floor(Math.random() * RANDOM_Color.length)]              
+                Color: RANDOM_Color[Math.floor(Math.random() * RANDOM_Color.length)]
             }
         );
     }

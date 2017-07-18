@@ -31,7 +31,7 @@ const sortRows = (rows: Array<any>, sortColumn: string, sortDirection: SortDirec
             sortDirections.push(groupSortDirection);
         }
 
-        if (sortColumn) {
+        if (sortColumn && !_.some(groupedColumn, groupColumn =>  (groupColumn.column === sortColumn))) {
             sortColumns.push(getSortFunctionForColumn(columns, sortColumn, sortDirection));
             sortDirections.push(columnSortDir);
         }
@@ -47,6 +47,6 @@ const getSortedRows = createSelector(getInputRows, getSortColumn, getSortDirecti
         return sortRows(rows, sortColumn, sortDirection, groupBy, columns);
     });
 
-export const getRowsSelector = createSelector(getSortedRows, getGroupBy, getExpandedRows, (rows, groupedColumns, expandedRows = {}) => {
+export const getRowsSelector = createSelector(getSortedRows, getGroupBy, getExpandedRows, getColumns, (rows, groupedColumns, expandedRows, columns = {}) => {
     return groupRows(rows, groupedColumns, expandedRows);
 });

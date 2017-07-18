@@ -3,7 +3,7 @@ import { GroupRow, IGroupBy } from './QuickGrid.Props';
 class RowGrouper {
     groupByColumns: Array<IGroupBy>;
     expandedRows: any;
-    constructor(groupByColumns, expandedRows) {
+        constructor(groupByColumns, expandedRows) {
         this.groupByColumns = groupByColumns.slice(0);
         this.expandedRows = expandedRows;
     }
@@ -21,7 +21,7 @@ class RowGrouper {
         let nextColumnIndex = groupByColumnIndex;
         let columnName = this.groupByColumns[groupByColumnIndex].column;
         let groupedRows = _.groupBy(rows, columnName);
-        let groupKeys = Object.keys(groupedRows);
+        let groupKeys = _.uniq(_.map<any, string>(rows, columnName));
         let dataViewRows = [];
         for (let i = 0; i < groupKeys.length; i++) {
             let groupKeyValue = groupKeys[i];
