@@ -81,7 +81,7 @@ const gridColumns: Array<GridColumn> = [{
         return <div className={GetClassForStatus('', memory.status) + ' server-dashboard-grid-cell-content'}> {memory.usageUnit ? memory.hoverText : '--'}</div>;
     },
     isSortable: true,
-       sortByValueGetter: (row, sortDirection) => {
+    sortByValueGetter: (row, sortDirection) => {
         let key = 'MemoryData';
         let memoryData = row[key];
         return memoryData.used / memoryData.capacity;
