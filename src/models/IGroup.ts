@@ -5,7 +5,11 @@ export enum GroupTypeEnum {
     SharePoint = 1,
     Sql = 2,
     SqlAlwaysOn = 3,
-    Custom = 4
+    Custom = 4,
+    Critical = 5,
+    Warning = 6,
+    Healthy = 7,
+    Offline = 8
 }
 
 
