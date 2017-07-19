@@ -31,7 +31,7 @@ const sortRows = (rows: Array<any>, sortColumn: string, sortDirection: SortDirec
             sortDirections.push(groupSortDirection);
         }
 
-        if (sortColumn) {
+        if (sortColumn && !_.some(groupedColumn, groupColumn =>  (groupColumn.column === sortColumn))) {
             sortColumns.push(getSortFunctionForColumn(columns, sortColumn, sortDirection));
             sortDirections.push(columnSortDir);
         }

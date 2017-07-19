@@ -113,6 +113,10 @@ const gridColumns: Array<GridColumn> = [{
 
 export class ServerGridDashboard extends React.PureComponent<IServerGridDashboardProps, IServerGridDashboardState> {
     private grid;
+    public static defaultProps = {
+        filteringOptions: []
+    };
+
     constructor(props: IServerGridDashboardProps) {
         super(props);
         this.state = {
