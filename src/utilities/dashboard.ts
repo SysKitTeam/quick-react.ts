@@ -100,28 +100,28 @@ function groupStatus(groups: Array<IGroup>): Array<IGroup> {
     let criticalGroup: IGroup = {
         id: 'critical-group',
         name: 'Critical',
-        type: GroupTypeEnum.Custom,
+        type: GroupTypeEnum.Critical,
         servers: new Array<IServer>()
     };
     let warningGroupCheck: { [id: string]: IServer; } = {};
     let warningGroup: IGroup = {
         id: 'warning-group',
         name: 'Warning',
-        type: GroupTypeEnum.Custom,
+        type: GroupTypeEnum.Warning,
         servers: new Array<IServer>()
     };
     let healthyGroupCheck: { [id: string]: IServer; } = {};
     let healthyGroup: IGroup = {
         id: 'healthy-group',
         name: 'Healthy',
-        type: GroupTypeEnum.Custom,
+        type: GroupTypeEnum.Healthy,
         servers: new Array<IServer>()
     };
     let offlineGroupCheck: { [id: string]: IServer; } = {};
     let offlineGroup: IGroup = {
         id: 'offline-group',
         name: 'Offline',
-        type: GroupTypeEnum.Custom,
+        type: GroupTypeEnum.Offline,
         servers: new Array<IServer>()
     };
 
