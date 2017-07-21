@@ -33,7 +33,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
         const endXTick = cpuData[cpuData.length - 1] ? cpuData[cpuData.length - 1].argument : new Date(Date.now() - 15 * 60000);
 
         return (
-            <div className={classNames(className)} onClick={this.serverOnClick}>
+            <div className={classNames(className)} onClick={this.serverOnClick} style={this.props.style}>
                 {this.props.onClose &&
                     <Icon disabled={false}
                         className={'dialog-button dialog-button-close'}
