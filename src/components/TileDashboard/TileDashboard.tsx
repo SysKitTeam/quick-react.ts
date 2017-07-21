@@ -141,6 +141,13 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
     }
 
     @autobind
+    private onRoleEdit(serverId: string) {
+        if (this.props.onServerRoleEdit) {
+            this.props.onServerRoleEdit(serverId, '');
+        }
+    }
+
+    @autobind
     private renderSingleServerCell(server: IServer, { index, isScrolling, key, style }): JSX.Element {
         return (
             <div style={style} key={index} className="farm-name-inside">
@@ -155,7 +162,14 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
                 >
                     {
                         server.roles.length > 0 &&
-                        <TagContainer title={''} tags={server.roles} />
+                        <TagContainer title={''} tags={server.roles} >
+                            {
+                                this.props.onServerRoleEdit &&
+                                <div className="edit-tags tag" title="Edit roles" onClick={(event) => this.onRoleEdit(server.id)}>
+                                    <Icon className="icon-edit"></Icon>
+                                </div>
+                            }
+                        </TagContainer>
                     }
                 </ServerTile>
             </div>

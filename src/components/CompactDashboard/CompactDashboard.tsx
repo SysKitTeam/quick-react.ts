@@ -167,6 +167,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
                 server={server}
                 className="compact-farm"
                 style={style}
+                onRoleEdit={this.props.onServerRoleEdit}
             />
         );
     }
