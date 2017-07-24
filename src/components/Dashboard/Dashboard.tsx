@@ -75,7 +75,13 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
     @autobind
     groupChanged(newGroupKey: number) {
         const isSmartGrouping = (newGroupKey as DashboardGroupingEnum) === DashboardGroupingEnum.Smart;
-        this.setState({ ...this.state, grouping: newGroupKey, groups: getGrouped(this.props.farms, newGroupKey).filter(group => { return group.servers.length > 0; }), isSmartGrouping: isSmartGrouping });
+        this.setState(
+            {
+                ...this.state,
+                grouping: newGroupKey,
+                groups: getGrouped(this.props.farms, newGroupKey).filter(group => { return group.servers.length > 0; }),
+                isSmartGrouping: isSmartGrouping
+            });
     }
 
     @autobind
@@ -86,7 +92,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
     public render() {
         let { headerClass, hasAddButton } = this.props;
         let { filter, activeView, groups, isSmartGrouping } = this.state;
-        
+
         return (
             <div className="dashboard">
                 <DashboardHeader
@@ -121,7 +127,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         onAddToGroup={isSmartGrouping ? this.props.onAddToGroup : undefined}
                         onGroupDelete={isSmartGrouping ? this.props.onGroupDelete : undefined}
                         groupOnClick={isSmartGrouping ? this.props.groupOnClick : undefined}
-                        onServerRoleEdit={isSmartGrouping && this.props.onServerRoleEdit !== undefined ? this._roleEdit : undefined}
+                        onServerRoleEdit={this.props.onServerRoleEdit !== undefined ? this._roleEdit : undefined}
                         onServerClose={isSmartGrouping && this.props.onServerClose !== undefined ? this._serverClose : undefined}
                         serverOnClick={this.props.serverOnClick}
                         filteringOptions={this.state.filteringOptions}
@@ -139,7 +145,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         onAddToGroup={isSmartGrouping ? this.props.onAddToGroup : undefined}
                         onGroupDelete={isSmartGrouping ? this.props.onGroupDelete : undefined}
                         groupOnClick={isSmartGrouping ? this.props.groupOnClick : undefined}
-                        onServerRoleEdit={isSmartGrouping && this.props.onServerRoleEdit !== undefined ? this._roleEdit : undefined}
+                        onServerRoleEdit={this.props.onServerRoleEdit !== undefined ? this._roleEdit : undefined}
                         onServerClose={isSmartGrouping && this.props.onServerClose !== undefined ? this._serverClose : undefined}
                         serverOnClick={this.props.serverOnClick}
                         filteringOptions={this.state.filteringOptions}

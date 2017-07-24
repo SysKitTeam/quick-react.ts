@@ -4,6 +4,7 @@ export interface IHoverableCompactServerProps {
     server: IServer;
     className?: string;
     style: any;
+    onRoleEdit?: (serverId: string, farmId: any) => void;
 }
 
 export interface IHoverableCompactServerState {
