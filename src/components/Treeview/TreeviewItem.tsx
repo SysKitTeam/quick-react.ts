@@ -15,17 +15,9 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
 
     constructor(props) {
         super(props);
-        this.state = { isOpen: props.isOpen, iconArrow: 'icon-arrow_right' };
+        this.state = { isOpen: props.isOpen, iconArrow: 'icon-arrow_right', hover: false };
     }
 
-    public shouldComponentUpdate(nextProps, nextState) {
-        return !(this.props.item === nextProps.item
-            && this.state.isOpen === nextState.isOpen
-            && this.state.iconArrow === nextState.iconArrow
-            && this.state.selected === nextState.selected
-            && this.props.children === nextProps.children
-        );
-    }
 
     public render(): JSX.Element {
         let { item, onChange, showCheckbox, children, recursive } = this.props;
@@ -50,22 +42,34 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
 
         const selectedClassName = classNames(
             {
-                'partial-selected' : recursive && checkedStatus.hasCheckedChild && !checked
+                'partial-selected': recursive && checkedStatus.hasCheckedChild && !checked
             }
         );
 
         return (
-            <div className={parentItemClassName}>
+            <div onMouseEnter={this._onItemHover} onMouseLeave={this._onItemLeaveHover} className={parentItemClassName}>
                 <div className={'treeview-item'}>
                     {item.children.length > 0 &&
                         <Icon iconName={this.state.iconArrow} onClick={this._onItemClick.bind(this)}></Icon>
                     }
                     <div className={treeveiwItemClassName} >
                         {showCheckbox &&
-                            <Checkbox label={item.text} onChange={this._onItemSelect.bind(this, item, checked)} checked={checked} className={selectedClassName}/>
+                            <Checkbox label={item.text} onChange={this._onItemSelect.bind(this, item, checked)} checked={checked} className={selectedClassName} />
                         }
                         {!showCheckbox &&
                             <span onClick={this._onItemSelect.bind(this, item, true)}>{item.text}</span>
+                        }
+                        {this.state.hover && this.props.item.hoverOverBtn &&
+                            <div className="treeview-item__icons-container">
+                                {
+                                    this.props.item.hoverOverBtn.map((btn, key) => (
+                                        <div key={key} className="treeview-item__icon">
+                                            <Icon iconName={btn.iconName} onClick={btn.callback.bind(this.props.item.id)}></Icon>
+                                        </div>
+                                        )
+                                    )
+                                }
+                            </div>
                         }
                     </div>
                 </div>
@@ -78,6 +82,20 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
                 </div>
             </div>
         );
+    }
+
+    @autobind
+    private _onItemHover() {
+        this.setState({
+            hover: true
+        });
+    }
+
+    @autobind
+    private _onItemLeaveHover() {
+        this.setState({
+            hover: false
+        });
     }
 
     @autobind
@@ -121,7 +139,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
 
     @autobind
     private _getChildrenChecked(item: ITreeviewItem, checked: boolean, recursive: boolean) {
-        let result = {isChecked: true, hasCheckedChild: false};
+        let result = { isChecked: true, hasCheckedChild: false };
         if (item.children.length === 0 || !recursive) {
             result.isChecked = checked === undefined ? false : checked;
         } else {

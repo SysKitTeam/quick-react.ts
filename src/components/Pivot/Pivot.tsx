@@ -58,6 +58,7 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
             links,
             selectedKey
         } as IPivotState);
+        console.log(selectedKey);
     }
 
     public render() {
@@ -80,7 +81,7 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
         return (
             <ul className={className}
                 role="tablist">
-                {this.state.links.map(this._renderLink)}
+                {this.state.links.map((link) => this._renderLink(link))}
             </ul>
         );
     }
@@ -135,6 +136,8 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
         const links: IPivotItemProps[] = [];
         this._keyToIndexMapping = {};
 
+        // Mapping each PivotItem object into links variable
+        // React.Children(children, function)
         React.Children.map(props.children, (child: any, index: number) => {
             if (typeof child === 'object' && child.type === PivotItem) {
                 const pivotItem = child as PivotItem;
