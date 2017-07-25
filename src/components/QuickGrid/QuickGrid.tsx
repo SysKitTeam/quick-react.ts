@@ -271,7 +271,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                 return column.cellFormatter(cellData);
             } else {
                 return (
-                    <div style={{ padding: '5px 5px 0 10px', fontSize: '14px' }} >
+                    <div style={{ padding: '5px 5px 0 5px', fontSize: '14px' }} >
                         {cellData}
                     </div>
                 );

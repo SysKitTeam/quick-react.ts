@@ -33,10 +33,6 @@ $background-color: $background-color;
     width: 100%;
     overflow-y: auto;
 
-    .grid-group-row .grid-group-row-inner .icon {
-        margin: 6px 0 0 3px;
-    }
-
     .farm {
         margin-top: 60px;
         margin-bottom: 0px;
@@ -93,8 +89,10 @@ $background-color: $background-color;
         border-right: 0px;
     }
 
-    .grid-header-column:first-child {
-        padding-left: 12px;
+    .grid-header-column:nth-child(2) {
+        .grid-header-column span {
+            padding-left: 1px;
+        }
     }
 
     .grid-header-column:last-child, .ReactVirtualized__Table__rowColumn:last-child {
