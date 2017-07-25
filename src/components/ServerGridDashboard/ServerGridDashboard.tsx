@@ -175,6 +175,7 @@ export class ServerGridDashboard extends React.PureComponent<IServerGridDashboar
         if (!this.props.singleGroupView) {
             columns.push(groupByColumn);
         }
+        
         return (
             <div className="quick-grid-container">
                 <div className={className}>

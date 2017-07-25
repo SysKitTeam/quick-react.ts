@@ -74,7 +74,7 @@ export class DetailedServerGroup extends React.PureComponent<IDetailedServerGrou
             return { height: 0, width: 0, x: 0, y: 0 };
         }
 
-        width = width - 50; //width - 50px margin
+        width = width - 50; // width - 50px margin
 
         let gutterSize = GUTTER_SIZE;
         let serverHeight = this._getServerHeight(obj.index);

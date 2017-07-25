@@ -25,7 +25,7 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
                         <Icon title={'Delete'} iconName={'icon-delete'} onClick={(event) => this.props.onClose(this.props.id, event)}></Icon>
                     }
                     {!this.props.onClose &&
-                        <div style={{ width: '29px', height: '10px', float: 'right' }} />
+                        <div style={{ width: '24px', height: '24px', float: 'right', cursor: 'default' }} />
                     }
                     {this.props.diskInformation &&
                         <DisksInformation
