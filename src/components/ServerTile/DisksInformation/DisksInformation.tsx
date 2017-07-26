@@ -36,19 +36,24 @@ export class DisksInformation extends React.PureComponent<IDisksInformationProps
             );
         });
 
+        const diskClasses = classNames({
+            'cursor-pointer': sortedDiskInfo.length !== 0,
+            'cursor-default': sortedDiskInfo.length === 0
+        });
+
         return (
             <div
                 className={this.props.className}
             >
                 <div ref={(ref) => this._dropdown = ref}>
                     <Icon
-                        className={classNames('disk-icon', diskIconColorClass)}
+                        className={classNames('disk-icon', diskIconColorClass, diskClasses)}
                         iconName={'icon-disk'}
                         onMouseEnter={this.onMouseEnter}
                         onMouseLeave={this.onMouseLeave}
                     />
                 </div>
-                {this.state.tooltipShow &&
+                {sortedDiskInfo.length !== 0 && this.state.tooltipShow &&
                     <Callout
                         targetElement={this._dropdown}
                         isBeakVisible={false}

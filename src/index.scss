@@ -125,15 +125,15 @@ $font-family-base: "Segoe UI WestEuropean","Segoe UI",-apple-system,BlinkMacSyst
 
 ::-webkit-scrollbar {
        width: 13px;
-       margin-top:10px;
+       margin-top: 10px;
        border-radius: 15px;
-       margin-right:3px;
+       margin-right: 3px;
        background: transparent;
 }
             
 ::-webkit-scrollbar-track {
         border-radius: 15px;
-        margin-top:7px;
+        margin-top: 7px;
         
        background:#EEEFF4;
         margin-bottom: 7px;
@@ -141,9 +141,15 @@ $font-family-base: "Segoe UI WestEuropean","Segoe UI",-apple-system,BlinkMacSyst
             
  ::-webkit-scrollbar-thumb {
      border-radius: 10px;
-     margin-top:10px;
+     margin-top: 10px;
      background: #D2D3D9;               
 }
 ::-webkit-scrollbar-thumb:window-inactive {
      background: #D2D3D9; 
+}
+
+.ReactVirtualized__Grid, .ReactVirtualized__Collection {
+    &:focus {
+        outline: none !important;
+    }
 }

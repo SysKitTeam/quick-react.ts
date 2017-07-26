@@ -66,22 +66,28 @@
         position: relative;
         top: 3px;
         border-color: $search-border-color;
+
         .icon {
             color: $light-text-color;
         }
+
         &.is-active {
             border-color: $light-text-color;
+    
+            .search-field {
+                padding: 5px 26px 5px 8px;
+            }
         }
 
-        .search-field {
-                
-                height: 28px;
-                line-height: 28px;
-                padding: 5px 26px 8px 27px;
+        .search-field {  
+            height: 28px;
+            line-height: 28px;
+            padding: 5px 30px;
         }
+
         .icon-search, .search-clearButton {
-                height: 29px;
-                line-height: 29px;
+            height: 29px;
+            line-height: 29px;
         }
     }
 }

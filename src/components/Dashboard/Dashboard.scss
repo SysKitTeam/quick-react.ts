@@ -2,6 +2,10 @@
 .viewport-height{
     height: 90vh;
     width: 100%;
+
+    &:focus {
+        outline: none !important;
+    }
 }
 
 .quick-grid-container{
