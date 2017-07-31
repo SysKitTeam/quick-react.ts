@@ -102,7 +102,7 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
           onKeyDown={this._onDropdownKeyDown}
           onClick={this._onDropdownClick}
           role="combobox"
-          >
+        >
           <span className={dropdownTitleClassName}>
             {icon && (
               <Icon iconName={icon}></Icon>
@@ -120,7 +120,7 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
             targetElement={this._dropDown}
             directionalHint={DirectionalHint.bottomLeftEdge}
             onDismiss={this._onDismiss}
-            >
+          >
             {dropdownType === DropdownType.customDropdown ? (
               <ul ref={(c: HTMLElement) => this._optionList = c}
                 id={id + '-list'}
@@ -199,6 +199,9 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
     this.setState({
       isOpen: false
     });
+    if (this.props.onMenuToggle) {
+      this.props.onMenuToggle(false);  // return next state of opened
+    }
   }
 
   @autobind
@@ -206,6 +209,9 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
     this.setState({ isOpen: false });
     if (this.props.onClosed) {
       this.props.onClosed();
+    }
+    if (this.props.onMenuToggle) {
+      this.props.onMenuToggle(false);  // return next state of opened
     }
   }
 
@@ -220,12 +226,18 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
         this.setState({
           isOpen: !this.state.isOpen
         });
+        if (this.props.onMenuToggle) {
+          this.props.onMenuToggle(false);  // return next state of opened
+        }
         break;
 
       case KeyCodes.escape:
         this.setState({
           isOpen: false
         });
+        if (this.props.onMenuToggle) {
+          this.props.onMenuToggle(false);  // return next state of opened
+        }
         break;
 
       case KeyCodes.up:
