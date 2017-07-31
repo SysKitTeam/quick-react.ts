@@ -42,14 +42,19 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
 
     this.state = {
       id: getId('Dropdown'),
-      isOpen: false,
+      isOpen: props.isOpen !== undefined ? props.isOpen : false,
       selectedIndex: this._getSelectedIndex(props.options, props.selectedKey)
     };
   }
 
   public componentWillReceiveProps(newProps: IDropdownProps) {
+    let isOpen = this.state.isOpen;
+    if (newProps.isOpen !== undefined) {
+      isOpen = newProps.isOpen;
+    }
     this.setState({
-      selectedIndex: this._getSelectedIndex(newProps.options, newProps.selectedKey)
+      selectedIndex: this._getSelectedIndex(newProps.options, newProps.selectedKey),
+      isOpen: isOpen
     });
   }
 
