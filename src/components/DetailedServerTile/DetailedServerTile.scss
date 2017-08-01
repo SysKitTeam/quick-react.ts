@@ -176,5 +176,17 @@ $server-status-color: $basic-text-color;
                 }
             }
         }
+        
+        .offline-server-message {
+            text-align: center;
+            margin: 50% 0;
+
+            .icon {
+                color: $font-info-color!important;
+                font-size: 18px;
+                top: 2px;
+                position: relative;
+            }
+        }
     }
 } 

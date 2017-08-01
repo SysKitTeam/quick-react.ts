@@ -93,7 +93,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
                     <g className={xAxisClass} transform={translateXAxis} ref={(element: SVGAElement) => this.renderXAxis(element)} />
                     <g className={yAxisClass} ref={(element: SVGAElement) => this.renderYAxis(element)} />
                     {this.drawSeries()}
-                    <Tooltip id={this.props.id} text={this.state.tipText} x={this.state.tipX} y={this.state.tipY} visible={this.state.isTipVisible} tipBorderColor={this.state.tooltipBorderColor}/>
+                    <Tooltip id={this.props.id} text={this.state.tipText} x={this.state.tipX} y={this.state.tipY} visible={this.state.isTipVisible} tipBorderColor={this.state.tooltipBorderColor} />
                 </g>
             </svg>
         );
@@ -118,23 +118,26 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
 
         let lines = Array(0), circles = Array(0), index = 0, circleData = Array(0);
 
-        for (let i = 0; i < values.length; i++) {
-            lines.push(<path key={index++} className={values[i].id}
-                d={this.renderLine(values[i].data)}
-                style={{ stroke: color(values[i].name) }}></path>);
-            for (let j = 0; j < values[i].data.length; j++) {
-                circles.push(
-                    <circle 
-                        key={index++} className={values[i].id} r={6}
-                        fill={color(values[i].name)}
-                        cx={x(values[i].data[j].argument)} cy={y(values[i].data[j].value)}
-                        style={{ fill: 'transparent' }}
-                       />
-                );
-                circleData.push(values[i].data[j]);
+        if (values.length > 0) {
+            for (let i = 0; i < values.length; i++) {
+                lines.push(<path key={index++} className={values[i].id}
+                    d={this.renderLine(values[i].data)}
+                    style={{ stroke: color(values[i].name) }}></path>);
+                for (let j = 0; j < values[i].data.length; j++) {
+                    circles.push(
+                        <circle
+                            key={index++} className={values[i].id} r={6}
+                            fill={color(values[i].name)}
+                            cx={x(values[i].data[j].argument)} cy={y(values[i].data[j].value)}
+                            style={{ fill: 'transparent' }}
+                        />
+                    );
+                    circleData.push(values[i].data[j]);
+                }
             }
+            this.circleData = circleData;
         }
-        this.circleData = circleData;
+
         return [...lines, ...circles];
     }
 
@@ -166,21 +169,24 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
                 }
                 previous = series.data[i].value;
             }
-            if (series.data[i].value === null && previous !== null) {
-                data.push({
-                    name: series.name,
-                    id: series.id,
-                    data: series.data.slice().slice(start, i)
-                });
-            } else if (series.data[i].value !== null) {
-                data.push({
-                    name: series.name,
-                    id: series.id,
-                    data: series.data.slice().slice(start, i + 1)
-                });
+
+            if (series.data[i] !== undefined) {
+                if (series.data[i].value === null && previous !== null) {
+                    data.push({
+                        name: series.name,
+                        id: series.id,
+                        data: series.data.slice().slice(start, i)
+                    });
+                } else if (series.data[i].value !== null) {
+                    data.push({
+                        name: series.name,
+                        id: series.id,
+                        data: series.data.slice().slice(start, i + 1)
+                    });
+                }
             }
         }
-        
+
         return data;
     }
 
@@ -214,7 +220,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
             .tickPadding(20)
             .tickFormat(this.formatAxisLabels());
 
-        xAxis =  this.props.tickValues ? xAxis.tickValues(this.props.tickValues) : xAxis.ticks(this.props.xAxisTicks);
+        xAxis = this.props.tickValues ? xAxis.tickValues(this.props.tickValues) : xAxis.ticks(this.props.xAxisTicks);
 
         d3.select(element).call(xAxis);
     }
@@ -247,7 +253,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         return scale.domain(minMax).range([0, this.state.containerWidth]);
     }
 
-    private getMinMaxFromSeries() : [number | Date, number | Date] {
+    private getMinMaxFromSeries(): [number | Date, number | Date] {
         const first = this.props.series[0].data;
         let max = d3.max(first, (d) => d.argument);
         let min = d3.min(first, (d) => d.argument);
