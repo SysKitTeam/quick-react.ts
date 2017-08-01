@@ -32,13 +32,15 @@ export class Index extends React.Component<any, DemoState> {
         return (
             <div style={{ paddingLeft: 300 }}>
                 <TreeFilter
-                    title="Tree Filter"
+                    title="Tree Filter (max size)"
                     filterId={'f1'}
                     items={treeData}
                     onValuesSelected={this.onValuesSelected}
                     // tslint:disable-next-line:no-string-literal
                     filterSelection={this.state.filterStates['f1']}
                     defaultSelection={FilterSelectionEnum.All}
+                    maxWidth={700}
+                    maxHeight={500}
                 />
                  <TreeFilter
                     title="Tree Filter - depth 4"

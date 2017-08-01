@@ -94,16 +94,19 @@ export class ItemOperator {
     static filterItems = (items: Array<TreeItem>, lowerCaseSearchText: string): Array<TreeItem> => {
         let filteredItems: Array<TreeItem> = [];
         if (items == null || items.length === 0) { return filteredItems; }
+
         for (let item of items) {
-            if (lowerCaseSearchText === '' || item.value.toLowerCase().search(lowerCaseSearchText) !== -1) {
+            if (lowerCaseSearchText === '') {
                 filteredItems.push(item);
-            } else if (itemHasChildren(item)) { // item does not match search -> check children
+            } else if (itemHasChildren(item)) {
                 const filteredChildren = ItemOperator.filterItems(item.children, lowerCaseSearchText);
                 if (filteredChildren.length > 0) {
-                    let newItem: TreeItem = { ...item, children: filteredChildren };
+                    let newItem: TreeItem = { ...item, children: filteredChildren, expanded: true };
                     filteredItems.push(newItem);
                 }
-            }
+            } else if (item.value.toLowerCase().search(lowerCaseSearchText) !== -1) {
+                filteredItems.push(item);
+            }         
         }
         return filteredItems;
     }
