@@ -75,6 +75,15 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                         </div>
                     </div>
                 }
+
+                {this.props.status === ServerStatus.Offline &&
+                    <div className={'counters-container'}>
+                        <div className="offline-server-message">
+                            <Icon iconName={'icon-details'}></Icon>
+                            The server is offline!
+                        </div>
+                    </div>
+                }
             </div>
         );
     }
