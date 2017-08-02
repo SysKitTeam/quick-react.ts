@@ -227,7 +227,7 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
           isOpen: !this.state.isOpen
         });
         if (this.props.onMenuToggle) {
-          this.props.onMenuToggle(false);  // return next state of opened
+          this.props.onMenuToggle(!this.state.isOpen);  // return next state of opened
         }
         break;
 
