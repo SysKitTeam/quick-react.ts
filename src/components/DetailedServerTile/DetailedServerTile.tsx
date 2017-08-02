@@ -62,7 +62,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                         />
                         <ProgressBar
                             title={'Memory'}
-                            info={toPrettyString(this.props.memoryUsage.used) + ' of ' + toPrettyString(this.props.memoryUsage.capacity) + ' ' + this.props.memoryUsage.usageUnit + ' used'}
+                            info={this.getProgressInfo(this.props.memoryUsage)}
                             dimensions={{ height: '40px', width: '100%' }}
                             data={{ total: this.props.memoryUsage.capacity, current: this.props.memoryUsage.used }}
                             progressColor={this.getProgressColor()}
@@ -126,5 +126,24 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
             return this.props.okColor;
         }
         return undefined;
+    }
+
+    private getProgressInfo(memoryUsage: IMemoryUsage) {
+        let used = '';
+        let capacity = '';
+        let usageUnit = '';
+
+        if (memoryUsage.used >= 1000 || memoryUsage.capacity >= 1000) {
+            used = toPrettyString(memoryUsage.used / 1024);
+            capacity = toPrettyString(memoryUsage.capacity / 1024);
+            usageUnit = 'GB';
+
+        } else {
+            used = toPrettyString(memoryUsage.used);
+            capacity = toPrettyString(memoryUsage.capacity);
+            usageUnit = 'MB';
+        }
+
+        return used + ' of ' + capacity + ' ' + usageUnit + ' used';
     }
 }
