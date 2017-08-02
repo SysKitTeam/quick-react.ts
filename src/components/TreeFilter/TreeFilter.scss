@@ -18,6 +18,11 @@
     }
     .item-container {
         white-space: nowrap;
+        cursor: pointer;
+        user-select: none;
+    }
+    .item-container:hover {
+        background-color: $font-info-colorBackground
     }
     .tree-expand-icon {
         vertical-align: middle;
@@ -39,6 +44,23 @@
             padding-left: 5px;
         }
     }
+    .filter-search {
+        height: 30px;
+        line-height: 30px;
+        margin: 0;
+        width: 100%;
+        .search-icon {
+            line-height: 30px;
+        }
+        .search-field {
+            height: 30px;
+            line-height: 30px;
+        }
+        .search-clearButton {
+            line-height: 28px;
+            font-size: 14px;
+        }
+    }
 }
 
 .tree-filter-container {
@@ -55,13 +77,19 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+        .dropdown-icon {
+            float: right;
+            padding-top: 6px;
+            padding-right: 1px;
+            font-size: 11px;
+        }
     }
     .item-selected {
         color: $secondary-color;
     }
     .reset-filter-icon {
-        font-size: $font-size-s;
+        font-size: 11px;
         float: right;
-        margin-top: 3px;
+        margin-top: 6px;
     }
 }

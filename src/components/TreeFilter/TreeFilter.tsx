@@ -5,9 +5,10 @@ import * as classNames from 'classnames';
 import * as _ from 'lodash';
 
 import { Callout } from '../Callout';
+import { Search } from '../Search';
 import { DirectionalHint } from '../../utilities/DirectionalHint';
 import { Icon } from '../Icon';
-import { ITreeFilterProps, ITreeFilterState, TreeItem, CheckStatus, FilterSelectionEnum, IFilterSelection } from './TreeFilter.Props';
+import { ITreeFilterProps, ITreeFilterState, TreeItem, CheckStatus, FilterSelectionEnum, IFilterSelection, defaultTreeFilterProps } from './TreeFilter.Props';
 import { TreeFilterCheckBox } from './TreeFilterCheckBox';
 import { ItemOperator, LeafsAndBranches, TreeBranch, CheckResult, itemHasChildren } from './TreeItemOperators';
 
@@ -21,24 +22,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     private parentLookup: Readonly<{ [id: string]: TreeItem }>;
     private itemLookup: Readonly<{ [id: string]: TreeItem }>;
     private allItemIds: ReadonlyArray<string>;
-
-    static defaultProps: Partial<ITreeFilterProps> = {
-        title: 'Title',
-        filterId: 'treeFilter',
-        hasSearch: true,
-        isSingleSelect: false,
-        itemsAreFlatList: false,
-        isGroupSelectableOnSingleSelect: false,
-        directionalHint: DirectionalHint.bottomRightEdge,
-        onValuesSelected: () => { },
-        filterSelection: { type: FilterSelectionEnum.None, selectedIDs: [] },
-        width: 300,
-        height: 350,
-        minWidth: 200,
-        minHeight: 200,
-        defaultSelection: FilterSelectionEnum.None
-    };
-
+    static defaultProps = defaultTreeFilterProps;
     constructor(props: ITreeFilterProps) {
         super(props);
         this.state = {
@@ -67,7 +51,9 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
 
     componentDidUpdate(prevProps: ITreeFilterProps, prevState: ITreeFilterState) {
         if (this.state.filteredItems !== prevState.filteredItems) {
-            this._list.recomputeRowHeights();
+            if (this._list != null) {
+                this._list.recomputeRowHeights();
+            }
         } else if (this.props.filterSelection.selectedIDs !== prevProps.filterSelection.selectedIDs) {
             if (this._list != null) {
                 this._list.forceUpdateGrid();
@@ -94,12 +80,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     setListReference = (ref) => { this._list = ref; };
     setAnchorRef = (ref) => { this._anchor = ref; };
     setCalloutRef = (ref) => { this._callout = ref; };
-
-    onSearchTextChange = (event) => {
-        const textFilter = event.target.value;
-        const filteredItems = this.searchItems(textFilter);
-    }
-    searchItems(searchText?: string) {
+    searchItems = (searchText?: string) => {
         const lowerCaseSearchText = searchText == null ? '' : searchText.toLowerCase();
         let newItems = ItemOperator.filterItems(this.props.items, searchText);
         this.setState(prevState => ({
@@ -110,9 +91,15 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     }
     toggleOpenState = () => {
         this.setState(prevState => ({ ...prevState, isOpen: !prevState.isOpen }));
+        if (this.state.isOpen && this.props.clearSearchOnClose) {
+            this.searchItems('');
+        }
     }
     onDismiss = () => {
         this.setState(prevState => ({ ...prevState, isOpen: false }));
+        if (this.props.clearSearchOnClose) {
+            this.searchItems('');
+        }
     }
     getSelectedText = () => {
         if (this.props.filterSelection.type === FilterSelectionEnum.All) {
@@ -183,6 +170,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     onFilterReset = () => {
         const selectAllDefault = this.props.defaultSelection === FilterSelectionEnum.All;
         this.setNewSelectedState(selectAllDefault, [], []);
+        this.searchItems('');
     }
 
     allFilteredChecked = () => {
@@ -306,7 +294,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     getBoxSupportElementsHeight = () => {
         let heightDiff = 5; // 5px: paddings
         if (!this.props.isSingleSelect) { heightDiff += 44; } // 25px: SelectAll +  19px: Footer
-        if (this.props.hasSearch) { heightDiff += 25; }
+        if (this.props.hasSearch) { heightDiff += 30; }
         return heightDiff;
     }
     getBoxHeight = (availableHeight) => {
@@ -433,8 +421,8 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         return allSelected;
     }
     render() {
-        const { title, hasSearch, isSingleSelect, minWidth, minHeight, defaultSelection } = this.props;
-        const minResizableBoxSize = [minWidth, minHeight];
+        const { title, hasSearch, isSingleSelect, minWidth, minHeight, maxWidth, maxHeight, defaultSelection } = this.props;
+        const { isOpen, searchText } = this.state;
         const allSelected = this.getAllSelectedCheckMark();
         const filterSelection = this.props.filterSelection;
         const checkedItemIds = filterSelection.type === FilterSelectionEnum.All ? this.allItemIds : filterSelection.selectedIDs;
@@ -452,6 +440,12 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                     }
                     <div className="tree-filter-title" onClick={this.toggleOpenState}>
                         <span>{this.getSelectedText()}</span>
+                        {isOpen &&
+                            <Icon className="dropdown-icon" iconName={'icon-Arrow_up'} />
+                        }
+                        {!isOpen &&
+                            <Icon className="dropdown-icon" iconName={'icon-arrow_down'} />
+                        }
                     </div>
                 </div>
                 {this.state.isOpen &&
@@ -471,6 +465,8 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                             style={{ overflow: 'hidden' }}
                             minWidth={minWidth}
                             minHeight={minHeight}
+                            maxWidth={maxWidth}
+                            maxHeight={maxHeight}
                             onResize={this.onCalloutResize}
                         >
                             <div style={{ height: '100%', width: '100%' }}>
@@ -478,12 +474,14 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                                     {({ width, height }) => (
                                         <div>
                                             {hasSearch &&
-                                                <div style={{ width: width, height: 25 }}>
+                                                <div style={{ width: width, height: 30 }}>
+                                            <Search labelText={searchText} onChange={this.searchItems} className="filter-search" />
+                                                    {/*
                                                     <input
                                                         className="tree-filter-input"
                                                         onChange={this.onSearchTextChange}
                                                         value={this.state.searchText}
-                                                    />
+                                                    /> */}
                                                 </div>
                                             }
                                             {!isSingleSelect &&
