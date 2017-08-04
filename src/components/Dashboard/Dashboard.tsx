@@ -90,7 +90,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
     }
 
     public render() {
-        let { headerClass, hasAddButton } = this.props;
+        let { headerClass, hasAddButton, selectedFilteringOptions } = this.props;
         let { filter, activeView, groups, isSmartGrouping } = this.state;
 
         return (
@@ -108,6 +108,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                     selectedGrouping={this.state.grouping}
                     onGroupingChange={this.groupChanged}
                     onFilteringOptionsChange={this.onStatusFilteringChange}
+                    selectedFilteringOptions={selectedFilteringOptions}
                 />
                 {
                     groups && groups.length === 0 && this.props.emptyDashboardMessage && <div className="empty-dasboard-message-container">

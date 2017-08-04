@@ -1,6 +1,7 @@
 export interface IFilteringBarProps {
     onFilteringOptionsChanged(selectedFilteringOptions: Array<IFilteringOption>);
     className?: string;
+    selectedFilteringOptions: Array<string>;
 }
 
 export interface IFilteringBarState {

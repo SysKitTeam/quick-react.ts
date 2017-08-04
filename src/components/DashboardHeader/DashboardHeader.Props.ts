@@ -23,6 +23,7 @@ export interface IDashboardHeaderProps {
     pivotItems?: { [id: number]: IPivotItemProps };
     selectedDashboardKey: any;
     selectedGrouping: number;
+    selectedFilteringOptions: Array<string>;
     onGroupingChange: (groupingKey: number) => void;
     onFilteringOptionsChange: (selectedFilteringOptions: Array<IFilteringOption>) => void;
 }

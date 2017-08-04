@@ -18,8 +18,8 @@ export class DashboardHeader extends React.PureComponent<IDashboardHeaderProps, 
     constructor(props) {
         super(props);
         this.state = {
-            filterMenuOpen: false,
-            selectedFilterOptions: []
+            filterMenuOpen: props.selectedFilteringOptions.length > 0,
+            selectedFilterOptions: props.selectedFilteringOptions
         };
     }
 
@@ -30,7 +30,7 @@ export class DashboardHeader extends React.PureComponent<IDashboardHeaderProps, 
 
     @autobind
     onFilteringChange() {
-        this.setState({ ...this.state, filterMenuOpen: !this.state.filterMenuOpen });
+        this.setState({ selectedFilterOptions: [], filterMenuOpen: !this.state.filterMenuOpen });
         if (this.state.filterMenuOpen) {
             this.props.onFilteringOptionsChange([]);
         }
@@ -83,6 +83,7 @@ export class DashboardHeader extends React.PureComponent<IDashboardHeaderProps, 
                     <FilteringBar
                         className="filtering-menu-container"
                         onFilteringOptionsChanged={this.props.onFilteringOptionsChange}
+                        selectedFilteringOptions={this.state.selectedFilterOptions}
                     />
                 }
             </div>

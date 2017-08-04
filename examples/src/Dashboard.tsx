@@ -69,6 +69,7 @@ export class Index extends React.Component<any, any> {
                     serverOnClick={dummyDashboard.serverOnClick}
                     icons={dummyDashboard.icons}
                     onServerClose={dummyDashboard.onServerClose}
+                    selectedFilteringOptions={dummyDashboard.selectedFilteringOptions}
                 />
             </div>
         );

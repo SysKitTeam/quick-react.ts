@@ -2,9 +2,7 @@ import * as React from 'react';
 import { IFilteringBarProps, IFilteringBarState, IFilteringOption } from './FilteringBar.Props';
 import { FilteringBarItem } from './FilteringBarItem';
 import { findIndex } from '../../utilities/array';
-
 import { autobind } from '../../utilities/autobind';
-
 
 export class FilteringBar extends React.PureComponent<IFilteringBarProps, IFilteringBarState> {
 
@@ -15,26 +13,34 @@ export class FilteringBar extends React.PureComponent<IFilteringBarProps, IFilte
             filteringOptions: [
                 {
                     key: 'Critical',
-                    selected: false,
+                    selected: props.selectedFilteringOptions.filter(x => x === 'Critical').length > 0,
                     type: 'Status'
                 },
                 {
                     key: 'Warning',
-                    selected: false,
+                    selected: props.selectedFilteringOptions.filter(x => x === 'Warning').length > 0,
                     type: 'Status'
                 },
                 {
                     key: 'Healthy',
-                    selected: false,
+                    selected: props.selectedFilteringOptions.filter(x => x === 'Healthy').length > 0,
                     type: 'Status'
                 },
                 {
                     key: 'Offline',
-                    selected: false,
+                    selected: props.selectedFilteringOptions.filter(x => x === 'Offline').length > 0,
                     type: 'Status'
                 }
             ]
         };
+    }
+
+    public componentDidMount() {
+        if (this.props.selectedFilteringOptions.length > 0) {
+            let items: Array<IFilteringOption> = [...this.state.filteringOptions];
+            let selectedItems = items.filter(x => x.selected);
+            this.props.onFilteringOptionsChanged(selectedItems);
+        }
     }
 
     public render(): JSX.Element {
