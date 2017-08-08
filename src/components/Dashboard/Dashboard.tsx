@@ -60,10 +60,14 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
             activeView: props.initialActiveView,
             filter: props.filter,
             groups: props.farms,
-            grouping: DashboardGroupingEnum.Smart,
+            grouping: props.initialActiveGrouping,
             filteringOptions: [],
             isSmartGrouping: true
         };
+    }
+
+    public componentDidMount() {
+        this.setState({ ...this.state, groups: getGrouped(this.props.farms, this.state.grouping).filter(group => { return group.servers.length > 0; }) });
     }
 
     componentWillReceiveProps(nextProps: IDashboardProps) {
@@ -74,6 +78,10 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
 
     @autobind
     groupChanged(newGroupKey: number) {
+        if (this.props.onGroupViewChanged) {
+            this.props.onGroupViewChanged(newGroupKey);
+        }
+
         const isSmartGrouping = (newGroupKey as DashboardGroupingEnum) === DashboardGroupingEnum.Smart;
         this.setState(
             {

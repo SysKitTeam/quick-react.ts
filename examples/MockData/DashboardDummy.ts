@@ -25,6 +25,7 @@ export const dummyDashboard: IDashboardProps = {
     title: 'Dummy dashboard',
     filter: '',
     initialActiveView: 0,
+    initialActiveGrouping: 0,
     hasAddButton: true,
     headerClass: '',
     differentDashboards: { 0: { linkText: 'Compact Horizontal' }, 2: { linkText: 'Tiles' }, 3: { linkText: 'Grid' } },

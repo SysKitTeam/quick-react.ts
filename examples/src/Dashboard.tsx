@@ -60,6 +60,7 @@ export class Index extends React.Component<any, any> {
                     filter={''}
                     title={dummyDashboard.title}
                     initialActiveView={0}
+                    initialActiveGrouping={0}
                     hasAddButton
                     addFarm={dummyDashboard.addFarm}
                     onAddToGroup={dummyDashboard.onAddToGroup}
