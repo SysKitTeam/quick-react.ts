@@ -20,7 +20,7 @@ export interface IDashboardProps extends React.Props<any> {
     onGroupViewChanged?: (activeGroupView: DashboardGroupingEnum) => void;
     hasAddButton?: boolean;
     headerClass?: string;
-    selectedFilteringOptions: Array<string>;
+    activeFilters: Array<string>;
     initialActiveGrouping: DashboardGroupingEnum;
     
     icons: [{ iconName: string, iconType: GroupTypeEnum, iconTitle: string }];

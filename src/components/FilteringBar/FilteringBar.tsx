@@ -13,22 +13,22 @@ export class FilteringBar extends React.PureComponent<IFilteringBarProps, IFilte
             filteringOptions: [
                 {
                     key: 'Critical',
-                    selected: props.selectedFilteringOptions.filter(x => x === 'Critical').length > 0,
+                    selected: props.activeFilters.filter(x => x === 'Critical').length > 0,
                     type: 'Status'
                 },
                 {
                     key: 'Warning',
-                    selected: props.selectedFilteringOptions.filter(x => x === 'Warning').length > 0,
+                    selected: props.activeFilters.filter(x => x === 'Warning').length > 0,
                     type: 'Status'
                 },
                 {
                     key: 'Healthy',
-                    selected: props.selectedFilteringOptions.filter(x => x === 'Healthy').length > 0,
+                    selected: props.activeFilters.filter(x => x === 'Healthy').length > 0,
                     type: 'Status'
                 },
                 {
                     key: 'Offline',
-                    selected: props.selectedFilteringOptions.filter(x => x === 'Offline').length > 0,
+                    selected: props.activeFilters.filter(x => x === 'Offline').length > 0,
                     type: 'Status'
                 }
             ]
@@ -36,7 +36,7 @@ export class FilteringBar extends React.PureComponent<IFilteringBarProps, IFilte
     }
 
     public componentDidMount() {
-        if (this.props.selectedFilteringOptions.length > 0) {
+        if (this.props.activeFilters.length > 0) {
             let items: Array<IFilteringOption> = [...this.state.filteringOptions];
             let selectedItems = items.filter(x => x.selected);
             this.props.onFilteringOptionsChanged(selectedItems);
