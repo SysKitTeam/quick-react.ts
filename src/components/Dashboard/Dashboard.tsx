@@ -59,15 +59,11 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
         this.state = {
             activeView: props.initialActiveView,
             filter: props.filter,
-            groups: props.farms,
+            groups: getGrouped(props.farms, props.initialActiveGrouping).filter(group => { return group.servers.length > 0; }),
             grouping: props.initialActiveGrouping,
             filteringOptions: [],
             isSmartGrouping: true
         };
-    }
-
-    public componentDidMount() {
-        this.setState({ ...this.state, groups: getGrouped(this.props.farms, this.state.grouping).filter(group => { return group.servers.length > 0; }) });
     }
 
     componentWillReceiveProps(nextProps: IDashboardProps) {
