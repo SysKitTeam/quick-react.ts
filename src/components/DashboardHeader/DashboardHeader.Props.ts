@@ -23,9 +23,9 @@ export interface IDashboardHeaderProps {
     pivotItems?: { [id: number]: IPivotItemProps };
     selectedDashboardKey: any;
     selectedGrouping: number;
-    selectedFilteringOptions: Array<string>;
+    activeFilters: Array<string>;
     onGroupingChange: (groupingKey: number) => void;
-    onFilteringOptionsChange: (selectedFilteringOptions: Array<IFilteringOption>) => void;
+    onFilteringOptionsChange: (activeFilters: Array<IFilteringOption>) => void;
 }
 
 export interface IDashboardHeaderState {
