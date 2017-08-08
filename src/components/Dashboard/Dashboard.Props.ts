@@ -17,9 +17,11 @@ export interface IDashboardProps extends React.Props<any> {
     filter: string;
     initialActiveView: ActiveDashboard;
     onActiveViewChanged?: (activeView: ActiveDashboard) => void;
+    onGroupViewChanged?: (activeGroupView: DashboardGroupingEnum) => void;
     hasAddButton?: boolean;
     headerClass?: string;
     activeFilters: Array<string>;
+    initialActiveGrouping: DashboardGroupingEnum;
     
     icons: [{ iconName: string, iconType: GroupTypeEnum, iconTitle: string }];
     /**
