@@ -9,5 +9,6 @@ export interface IDetailedServerGroupProps {
   filter: string;
   iconName: string;
   iconTitle: string;
+  hoverMessageForCriticalOrWarningServer?: string;
   serverOnClick?: (groupId: any, serverId: any) => void;
 }
