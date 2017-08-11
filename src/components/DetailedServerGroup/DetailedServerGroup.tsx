@@ -117,6 +117,7 @@ export class DetailedServerGroup extends React.PureComponent<IDetailedServerGrou
                 partitionUsages={server.partitionUsages}
                 serverOnClick={this.onServerClick}
                 style={style}
+                hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}
             />
         );
     }

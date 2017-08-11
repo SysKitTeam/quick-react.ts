@@ -32,8 +32,10 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
         const startXTick = cpuData[0] ? cpuData[0].argument : Date.now();
         const endXTick = cpuData[cpuData.length - 1] ? cpuData[cpuData.length - 1].argument : new Date(Date.now() - 15 * 60000);
 
+        let serverHoverMessage = this.props.hoverMessageForCriticalOrWarningServer && (this.props.status === ServerStatus.Critical || this.props.status === ServerStatus.Warning) ? this.props.hoverMessageForCriticalOrWarningServer : '';
+
         return (
-            <div className={classNames(className)} onClick={this.serverOnClick} style={this.props.style}>
+            <div className={classNames(className)} onClick={this.serverOnClick} style={this.props.style} title={serverHoverMessage}>
                 {this.props.onClose &&
                     <Icon disabled={false}
                         className={'dialog-button dialog-button-close'}

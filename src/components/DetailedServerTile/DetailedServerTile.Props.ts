@@ -18,6 +18,7 @@ export interface IDetailedServerProps {
     warningColor?: string;
     okColor?: string;
     style?: any;
+    hoverMessageForCriticalOrWarningServer?: string;
 }
 
 export interface IProcessorUsage {
