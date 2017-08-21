@@ -129,6 +129,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
                                 serverOnClick={this._onServerClicked}
                                 onMouseEnter={this._onItemMouseEnter.bind(this, server.id)}
                                 onMouseLeave={this._onMouseLeave}
+                                hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}
                             />
                         ))
                     }

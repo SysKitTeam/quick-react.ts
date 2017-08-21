@@ -4,6 +4,7 @@ export interface IHoverableCompactServerProps {
     server: IServer;
     className?: string;
     style: any;
+    hoverMessageForCriticalOrWarningServer?: string;
     onRoleEdit?: (serverId: string, farmId: any) => void;
 }
 

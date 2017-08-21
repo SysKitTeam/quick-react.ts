@@ -94,7 +94,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
     }
 
     public render() {
-        let { headerClass, hasAddButton, activeFilters } = this.props;
+        let { headerClass, hasAddButton, activeFilters, hoverMessageForCriticalOrWarningServer } = this.props;
         let { filter, activeView, groups, isSmartGrouping } = this.state;
 
         return (
@@ -136,6 +136,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         onServerClose={isSmartGrouping && this.props.onServerClose !== undefined ? this._serverClose : undefined}
                         serverOnClick={this.props.serverOnClick}
                         filteringOptions={this.state.filteringOptions}
+                        hoverMessageForCriticalOrWarningServer={hoverMessageForCriticalOrWarningServer}
                     />
                 }
                 {
@@ -154,6 +155,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         onServerClose={isSmartGrouping && this.props.onServerClose !== undefined ? this._serverClose : undefined}
                         serverOnClick={this.props.serverOnClick}
                         filteringOptions={this.state.filteringOptions}
+                        hoverMessageForCriticalOrWarningServer={hoverMessageForCriticalOrWarningServer}
                     />
                 }
                 {

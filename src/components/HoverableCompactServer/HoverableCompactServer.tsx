@@ -33,7 +33,7 @@ export class HoverableCompactServer extends CommonComponent<IHoverableCompactSer
     }
 
     public render(): JSX.Element {
-        const { server } = this.props;
+        const { server, hoverMessageForCriticalOrWarningServer } = this.props;
         return (
             <div className={this.props.className} style={this.props.style} ref={this._refCallback}>
                 <CompactServer
@@ -45,6 +45,7 @@ export class HoverableCompactServer extends CommonComponent<IHoverableCompactSer
                     name={server.name}
                     onMouseEnter={this._onItemMouseEnter}
                     onMouseLeave={this._onMouseLeave}
+                    hoverMessageForCriticalOrWarningServer={hoverMessageForCriticalOrWarningServer}
                 />
                 {
                     this.state.showTooltip &&
