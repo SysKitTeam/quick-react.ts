@@ -12,4 +12,5 @@ export interface ITileGroupProps {
     onGroupDelete?: (groupId: any) => void;
     onAddToGroup?: (groupId: any) => void;
     onServerClose?: (serverId: any, groupId: any, event?: any) => void;
+    hoverMessageForCriticalOrWarningServer?: string;
 }

@@ -22,6 +22,7 @@ export interface IDashboardProps extends React.Props<any> {
     headerClass?: string;
     activeFilters: Array<string>;
     initialActiveGrouping: DashboardGroupingEnum;
+    hoverMessageForCriticalOrWarningServer?: string;
     
     icons: [{ iconName: string, iconType: GroupTypeEnum, iconTitle: string }];
     /**

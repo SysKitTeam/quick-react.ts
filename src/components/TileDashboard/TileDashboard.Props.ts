@@ -13,6 +13,7 @@ export interface ITileDashboardProps {
     filter: string;
     singleGroupView?: boolean;
     filteringOptions?: Array<IFilteringOption>;
+    hoverMessageForCriticalOrWarningServer?: string;
 
     /**
     * Action that is called on clicking the add icon on the bar of a certain group. The function is supplied with a group id.

@@ -15,4 +15,5 @@ export interface ICompactServerProps {
     onClose?: (serverId: string, event?: any) => void;
     onMouseEnter?: React.EventHandler<React.MouseEvent<HTMLDivElement>>;
     onMouseLeave?: React.EventHandler<React.MouseEvent<HTMLDivElement>>;
+    hoverMessageForCriticalOrWarningServer?: string;
 }
