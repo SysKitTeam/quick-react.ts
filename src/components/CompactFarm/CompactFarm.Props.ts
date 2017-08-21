@@ -15,5 +15,6 @@ export interface ICompactFarmProps {
   onAddToGroup?: (groupId: any) => void;
   onServerRoleEdit?: (serverId: any, farmId: any, event?: any) => void;
   onServerClose?: (serverId: string, groupId: any, event?: any) => void;
+  hoverMessageForCriticalOrWarningServer?: string;
 }
 

@@ -26,8 +26,11 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, any>
         this.ContainerElement = element;
     }
     render() {
-        let { status } = this.props;
+        let { status, hoverMessageForCriticalOrWarningServer } = this.props;
         let className = GetClassForStatus('compact-server-container', status);
+
+        let serverHoverMessage = hoverMessageForCriticalOrWarningServer && (status === ServerStatus.Critical || status === ServerStatus.Warning) ? hoverMessageForCriticalOrWarningServer : '';
+
         return (
             <div
                 className={className}
@@ -35,6 +38,7 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, any>
                 onMouseLeave={this.props.onMouseLeave}
                 onClick={this.onclick}
                 ref={this.refCallback}
+                title={serverHoverMessage}
             >
                 <span className={'server-title'}>
                     <span>{this.props.name}</span>

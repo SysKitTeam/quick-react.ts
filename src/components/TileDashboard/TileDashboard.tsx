@@ -135,6 +135,7 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
                     iconName={icon.iconName}
                     iconTitle={icon.iconTitle}
                     onServerClose={this.props.onServerClose}
+                    hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}
                 />
             </div>
         );
@@ -159,6 +160,7 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
                     status={server.status}
                     countersData={getServerMeasures(server.measures)}
                     diskInformation={getDiskInformationFromMeasurements(server.measures)}
+                    hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}
                 >
                     {
                         server.roles.length > 0 &&

@@ -12,6 +12,7 @@ export interface IServerTileProps {
     onRoleEdit?: (serverId: string) => void;
     onClose?: (serverId: string, event?: any) => void;
     serverOnClick?: (serverId: any) => void;
+    hoverMessageForCriticalOrWarningServer?: string;
 }
 
 export interface ITileData {

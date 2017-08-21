@@ -52,6 +52,7 @@ export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
                             serverOnClick={this.serverOnClick}
                             diskInformation={getDiskInformationFromMeasurements(server.measures)}
                             onClose={this.props.onServerClose !== undefined ? this._onServerClose : undefined}
+                            hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}
                         >
                             {
                                 server.roles.length > 0 &&
