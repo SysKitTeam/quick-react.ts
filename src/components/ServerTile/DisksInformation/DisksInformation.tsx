@@ -51,6 +51,7 @@ export class DisksInformation extends React.PureComponent<IDisksInformationProps
                         iconName={'icon-disk'}
                         onMouseEnter={this.onMouseEnter}
                         onMouseLeave={this.onMouseLeave}
+                        title=''
                     />
                 </div>
                 {sortedDiskInfo.length !== 0 && this.state.tooltipShow &&
@@ -66,7 +67,7 @@ export class DisksInformation extends React.PureComponent<IDisksInformationProps
                             <div key={index} className={classNames(
                                 { 'status-warning': data.status === ServerStatus.Warning },
                                 { 'status-critical': data.status === ServerStatus.Critical }
-                            )}>{data.name}: {data.used}/{data.capacity} {data.usageUnit}</div>
+                            )}>{data.fullName}: {data.used}/{data.capacity} {data.usageUnit}</div>
                         ))}
                     </Callout>
 
