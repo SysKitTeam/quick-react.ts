@@ -22,6 +22,27 @@
 
     .treeveiw-content{
         padding: 2px;
+        display: flex;
+        align-items: center;
+
+        .checkbox {
+            .checkbox-label {
+                margin: 0px;
+            }
+        }
+    }
+
+    .treeview-item__icons-container {
+        display: flex;
+        align-items: center;
+        margin-left: 20px;
+
+        .treeview-item__icon {
+            
+            &:first-of-type {
+                margin-right: 10px;
+            }
+        }
     }
 
     .treeveiw-content:hover {

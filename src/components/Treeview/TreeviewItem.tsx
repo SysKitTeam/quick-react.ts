@@ -59,7 +59,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
                         {!showCheckbox &&
                             <span onClick={this._onItemSelect.bind(this, item, true)}>{item.text}</span>
                         }
-                        {this.state.hover && this.props.item.hoverOverBtn &&
+                        {this.props.item.hoverOverBtn && this.state.hover &&
                             <div className="treeview-item__icons-container">
                                 {
                                     this.props.item.hoverOverBtn.map((btn, key) => (
