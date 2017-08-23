@@ -67,7 +67,7 @@ export class DisksInformation extends React.PureComponent<IDisksInformationProps
                             <div key={index} className={classNames(
                                 { 'status-warning': data.status === ServerStatus.Warning },
                                 { 'status-critical': data.status === ServerStatus.Critical }
-                            )}>{data.fullName === undefined || data.fullName === null ? data.name : data.fullName}: {data.used}/{data.capacity} {data.usageUnit}</div>
+                            )}>{data.fullName || data.name}: {data.used}/{data.capacity} {data.usageUnit}</div>
                         ))}
                     </Callout>
 
