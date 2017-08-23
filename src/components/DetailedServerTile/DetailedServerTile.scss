@@ -121,7 +121,7 @@ $server-status-color: $basic-text-color;
     .counters-container {
         display: block;
         width: 100%;
-        height: 75%;
+        height: calc(100% - 77px);
         margin: 10px 0px 10px 0px;
         padding: 0;
 
@@ -174,6 +174,18 @@ $server-status-color: $basic-text-color;
                     width: 50%;
                     display: inline-block;
                 }
+            }
+        }
+        
+        .offline-server-message {
+            text-align: center;
+            margin: 50% 0;
+
+            .icon {
+                color: $font-info-color!important;
+                font-size: 18px;
+                top: 2px;
+                position: relative;
             }
         }
     }

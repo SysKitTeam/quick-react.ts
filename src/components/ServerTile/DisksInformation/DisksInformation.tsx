@@ -3,7 +3,7 @@ import * as classNames from 'classnames';
 import { IDisksInformationProps, IDisksInformationState } from './DisksInformation.Props';
 import { Icon } from '../../Icon/Icon';
 import { Callout } from '../../Callout';
-import { ServerStatus } from '../../../models';
+import { ServerStatus, Partition } from '../../../models';
 import { autobind } from '../../../utilities/autobind';
 import { DirectionalHint } from '../../../utilities/DirectionalHint';
 import { sortServersByStatusAndName } from '../../../utilities/server';
@@ -36,19 +36,25 @@ export class DisksInformation extends React.PureComponent<IDisksInformationProps
             );
         });
 
+        const diskClasses = classNames({
+            'cursor-pointer': sortedDiskInfo.length !== 0,
+            'cursor-default': sortedDiskInfo.length === 0
+        });
+
         return (
             <div
                 className={this.props.className}
             >
                 <div ref={(ref) => this._dropdown = ref}>
                     <Icon
-                        className={classNames('disk-icon', diskIconColorClass)}
+                        className={classNames('disk-icon', diskIconColorClass, diskClasses)}
                         iconName={'icon-disk'}
                         onMouseEnter={this.onMouseEnter}
                         onMouseLeave={this.onMouseLeave}
+                        title=''
                     />
                 </div>
-                {this.state.tooltipShow &&
+                {sortedDiskInfo.length !== 0 && this.state.tooltipShow &&
                     <Callout
                         targetElement={this._dropdown}
                         isBeakVisible={false}
@@ -61,7 +67,7 @@ export class DisksInformation extends React.PureComponent<IDisksInformationProps
                             <div key={index} className={classNames(
                                 { 'status-warning': data.status === ServerStatus.Warning },
                                 { 'status-critical': data.status === ServerStatus.Critical }
-                            )}>{data.name}: {data.used}/{data.capacity} {data.usageUnit}</div>
+                            )}>{data.fullName || data.name}: {data.used}/{data.capacity} {data.usageUnit}</div>
                         ))}
                     </Callout>
 

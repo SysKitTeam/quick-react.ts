@@ -59,8 +59,8 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
         this.state = {
             activeView: props.initialActiveView,
             filter: props.filter,
-            groups: props.farms,
-            grouping: DashboardGroupingEnum.Smart,
+            groups: getGrouped(props.farms, props.initialActiveGrouping).filter(group => { return group.servers.length > 0; }),
+            grouping: props.initialActiveGrouping,
             filteringOptions: [],
             isSmartGrouping: true
         };
@@ -74,19 +74,29 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
 
     @autobind
     groupChanged(newGroupKey: number) {
+        if (this.props.onGroupViewChanged) {
+            this.props.onGroupViewChanged(newGroupKey);
+        }
+
         const isSmartGrouping = (newGroupKey as DashboardGroupingEnum) === DashboardGroupingEnum.Smart;
-        this.setState({ ...this.state, grouping: newGroupKey, groups: getGrouped(this.props.farms, newGroupKey).filter(group => { return group.servers.length > 0; }), isSmartGrouping: isSmartGrouping });
+        this.setState(
+            {
+                ...this.state,
+                grouping: newGroupKey,
+                groups: getGrouped(this.props.farms, newGroupKey).filter(group => { return group.servers.length > 0; }),
+                isSmartGrouping: isSmartGrouping
+            });
     }
 
     @autobind
-    onStatusFilteringChange(selectedFilteringOptions) {
-        this.setState({ ...this.state, filteringOptions: selectedFilteringOptions });
+    onStatusFilteringChange(activeFilters) {
+        this.setState({ ...this.state, filteringOptions: activeFilters });
     }
 
     public render() {
-        let { headerClass, hasAddButton } = this.props;
+        let { headerClass, hasAddButton, activeFilters, hoverMessageForCriticalOrWarningServer } = this.props;
         let { filter, activeView, groups, isSmartGrouping } = this.state;
-        
+
         return (
             <div className="dashboard">
                 <DashboardHeader
@@ -102,6 +112,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                     selectedGrouping={this.state.grouping}
                     onGroupingChange={this.groupChanged}
                     onFilteringOptionsChange={this.onStatusFilteringChange}
+                    activeFilters={activeFilters}
                 />
                 {
                     groups && groups.length === 0 && this.props.emptyDashboardMessage && <div className="empty-dasboard-message-container">
@@ -121,10 +132,11 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         onAddToGroup={isSmartGrouping ? this.props.onAddToGroup : undefined}
                         onGroupDelete={isSmartGrouping ? this.props.onGroupDelete : undefined}
                         groupOnClick={isSmartGrouping ? this.props.groupOnClick : undefined}
-                        onServerRoleEdit={isSmartGrouping && this.props.onServerRoleEdit !== undefined ? this._roleEdit : undefined}
+                        onServerRoleEdit={this.props.onServerRoleEdit !== undefined ? this._roleEdit : undefined}
                         onServerClose={isSmartGrouping && this.props.onServerClose !== undefined ? this._serverClose : undefined}
                         serverOnClick={this.props.serverOnClick}
                         filteringOptions={this.state.filteringOptions}
+                        hoverMessageForCriticalOrWarningServer={hoverMessageForCriticalOrWarningServer}
                     />
                 }
                 {
@@ -139,10 +151,11 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         onAddToGroup={isSmartGrouping ? this.props.onAddToGroup : undefined}
                         onGroupDelete={isSmartGrouping ? this.props.onGroupDelete : undefined}
                         groupOnClick={isSmartGrouping ? this.props.groupOnClick : undefined}
-                        onServerRoleEdit={isSmartGrouping && this.props.onServerRoleEdit !== undefined ? this._roleEdit : undefined}
+                        onServerRoleEdit={this.props.onServerRoleEdit !== undefined ? this._roleEdit : undefined}
                         onServerClose={isSmartGrouping && this.props.onServerClose !== undefined ? this._serverClose : undefined}
                         serverOnClick={this.props.serverOnClick}
                         filteringOptions={this.state.filteringOptions}
+                        hoverMessageForCriticalOrWarningServer={hoverMessageForCriticalOrWarningServer}
                     />
                 }
                 {

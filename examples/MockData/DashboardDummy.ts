@@ -25,6 +25,7 @@ export const dummyDashboard: IDashboardProps = {
     title: 'Dummy dashboard',
     filter: '',
     initialActiveView: 0,
+    initialActiveGrouping: 0,
     hasAddButton: true,
     headerClass: '',
     differentDashboards: { 0: { linkText: 'Compact Horizontal' }, 2: { linkText: 'Tiles' }, 3: { linkText: 'Grid' } },
@@ -37,6 +38,7 @@ export const dummyDashboard: IDashboardProps = {
     onServerRoleEdit: (serverFQDN: any, farmId: any) => { console.log('Clicked edit role icon of server ', serverFQDN, farmId); },
     groupOnClick: (groupId: any) => { console.log('Clicked on group ' + groupId); },
     serverOnClick: (groupId: any, serverId: any) => { console.log('Clicked on group ' + groupId + ' and server ' + serverId); },
+    activeFilters: [],
     icons: [
         { iconType: GroupTypeEnum.SharePoint, iconName: 'icon-key', iconTitle: 'SharePoint' },
         { iconType: GroupTypeEnum.Custom, iconName: 'icon-group', iconTitle: 'Custom' },

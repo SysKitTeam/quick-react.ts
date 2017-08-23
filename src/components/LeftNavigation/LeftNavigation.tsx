@@ -117,10 +117,8 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
                 });
 
             return (
-                <div key={option.id} className={linkClasses} title={option.text}>
-                    <a
-                        id={option.id}
-                        onClick={(ev) => this.onLinkClick(index, option, ev)}>
+                <div key={option.id} className={linkClasses} title={option.text} onClick={(ev) => this.onLinkClick(index, option, ev)}>
+                    <a id={option.id}>
                         <Icon iconName={option.icon}></Icon>
                         <span>{option.text}</span>
                     </a>
@@ -136,10 +134,8 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
                 });
 
             return (
-                <div key={option.id} className={linkClasses} title={option.text}>
-                    <a
-                        id={option.id}
-                        onClick={(ev) => this.onOtherLinkClick(index, option, ev)}>
+                <div key={option.id} className={linkClasses} title={option.text}  onClick={(ev) => this.onOtherLinkClick(index, option, ev)}>
+                    <a id={option.id}>
                         <Icon iconName={option.icon}></Icon>
                         <span>{option.text}</span>
                     </a>

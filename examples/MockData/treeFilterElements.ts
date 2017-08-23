@@ -19,11 +19,10 @@ export function createRandomizedData(numOfItems, maxDepth) {
         for (let i = 0; i < numChildren; i++) {
             children.push(createRandomizedItem(key + '-' + i, depth + 1));
         }
-        let expanded = numChildren > 0 && Math.random() < .25;
         return {
             id: key,
             value: key + ' ' + name,
-            expanded: expanded,
+            expanded: false,
             children: children
         };
     };

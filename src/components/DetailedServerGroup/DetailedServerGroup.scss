@@ -1,16 +1,12 @@
 @import '../../index.scss';
 
-.detailed-server-group{
+.detailed-server-group {
     @include baseFont();
+    height: 90vh;
     width: 100%;
-    height: 100%;
-    overflow: auto;
     color: $basic-text-color;
 
     .farm {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: flex-start;
+        display: table;
     }
 }

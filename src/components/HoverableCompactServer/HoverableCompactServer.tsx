@@ -25,8 +25,15 @@ export class HoverableCompactServer extends CommonComponent<IHoverableCompactSer
         this._hoverTargetElement = ref;
     }
 
+    @autobind
+    private onRoleEdit(serverId: string, event: any) {
+        if (this.props.onRoleEdit) {
+            this.props.onRoleEdit(serverId, '');
+        }
+    }
+
     public render(): JSX.Element {
-        const { server } = this.props;
+        const { server, hoverMessageForCriticalOrWarningServer } = this.props;
         return (
             <div className={this.props.className} style={this.props.style} ref={this._refCallback}>
                 <CompactServer
@@ -34,11 +41,11 @@ export class HoverableCompactServer extends CommonComponent<IHoverableCompactSer
                     roles={server.roles}
                     id={server.id}
                     status={server.status}
-                    onRoleEdit={server.onRoleEdit}
-                    onClose={server.onClose}
+                    onRoleEdit={this.props.onRoleEdit ? this.onRoleEdit : undefined}
                     name={server.name}
                     onMouseEnter={this._onItemMouseEnter}
                     onMouseLeave={this._onMouseLeave}
+                    hoverMessageForCriticalOrWarningServer={hoverMessageForCriticalOrWarningServer}
                 />
                 {
                     this.state.showTooltip &&

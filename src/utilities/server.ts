@@ -54,7 +54,7 @@ export function filterServerByStatus(filteringOptions: Array<IFilteringOption>, 
                 break;
         }
     }
-    
+
     return serverMatched;
 }
 
@@ -162,15 +162,18 @@ export function convertRam(measure: IMeasure): ITileData {
     let hoverText = '';
     let usageUnit = '';
     if (ram.used) {
-        used = ram.used.toFixed(1);
-        capacity = ram.capacity.toFixed(1);
-        usageUnit = 'MB';
         let usedPercentage = '(' + Math.round((ram.used / ram.capacity) * 100) + '%)';
-        hoverText = ram.used.toFixed() + '/' + ram.capacity.toFixed() + ' ' + usageUnit + ' ' + usedPercentage;
+
         if (ram.used >= 1000 || ram.capacity >= 1000) {
             used = (ram.used / 1024).toFixed(1);
             capacity = (ram.capacity / 1024).toFixed(1);
             usageUnit = 'GB';
+            hoverText = used + '/' + capacity + ' ' + usageUnit + ' ' + usedPercentage;
+        } else {
+            used = ram.used.toFixed(1);
+            capacity = ram.capacity.toFixed(1);
+            usageUnit = 'MB';
+            hoverText = ram.used.toFixed() + '/' + ram.capacity.toFixed() + ' ' + usageUnit + ' ' + usedPercentage;
         }
     }
 

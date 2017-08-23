@@ -61,7 +61,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
     }
 
     public render() {
-        let { title } = this.props;
+        let { title, hoverMessageForCriticalOrWarningServer } = this.props;
         let { groups } = this.state;
         let classname = classNames({ [this.props.className]: this.props.className !== undefined });
         return (
@@ -154,6 +154,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
                     iconName={icon.iconName}
                     iconTitle={icon.iconTitle}
                     onServerClose={this.props.onServerClose !== undefined ? this._onServerClose : undefined}
+                    hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}
                 />
             </div>
         );
@@ -167,6 +168,8 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
                 server={server}
                 className="compact-farm"
                 style={style}
+                onRoleEdit={this.props.onServerRoleEdit}
+                hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}
             />
         );
     }

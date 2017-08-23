@@ -17,15 +17,17 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
     public render() {
         let className = GetClassForStatus('server-details', this.props.status);
 
+        let serverHoverMessage = this.props.hoverMessageForCriticalOrWarningServer && (this.props.status === ServerStatus.Critical || this.props.status === ServerStatus.Warning) ? this.props.hoverMessageForCriticalOrWarningServer : '';
+
         return (
-            <div className={className} onClick={this.serverOnClick}>
+            <div className={className} onClick={this.serverOnClick} title={serverHoverMessage}>
                 <div className={'server-details-header'}>
                     <Label className="server-name" title={this.props.name}>{this.props.name}</Label>
                     {this.props.onClose &&
                         <Icon title={'Delete'} iconName={'icon-delete'} onClick={(event) => this.props.onClose(this.props.id, event)}></Icon>
                     }
                     {!this.props.onClose &&
-                        <div style={{ width: '29px', height: '10px', float: 'right' }} />
+                        <div style={{ width: '24px', height: '24px', float: 'right', cursor: 'default' }} />
                     }
                     {this.props.diskInformation &&
                         <DisksInformation

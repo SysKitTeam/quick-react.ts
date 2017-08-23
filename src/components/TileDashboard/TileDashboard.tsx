@@ -135,9 +135,17 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
                     iconName={icon.iconName}
                     iconTitle={icon.iconTitle}
                     onServerClose={this.props.onServerClose}
+                    hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}
                 />
             </div>
         );
+    }
+
+    @autobind
+    private onRoleEdit(serverId: string) {
+        if (this.props.onServerRoleEdit) {
+            this.props.onServerRoleEdit(serverId, '');
+        }
     }
 
     @autobind
@@ -152,10 +160,18 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
                     status={server.status}
                     countersData={getServerMeasures(server.measures)}
                     diskInformation={getDiskInformationFromMeasurements(server.measures)}
+                    hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}
                 >
                     {
                         server.roles.length > 0 &&
-                        <TagContainer title={''} tags={server.roles} />
+                        <TagContainer title={''} tags={server.roles} >
+                            {
+                                this.props.onServerRoleEdit &&
+                                <div className="edit-tags tag" title="Edit roles" onClick={(event) => this.onRoleEdit(server.id)}>
+                                    <Icon className="icon-edit"></Icon>
+                                </div>
+                            }
+                        </TagContainer>
                     }
                 </ServerTile>
             </div>
