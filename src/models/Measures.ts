@@ -15,6 +15,7 @@ export interface IMeasure {
 
 export interface Partition {
     name: string;
+    fullName?: string;
     used: number;
     capacity: number;
     usageUnit: string;
