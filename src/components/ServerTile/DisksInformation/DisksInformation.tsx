@@ -3,7 +3,7 @@ import * as classNames from 'classnames';
 import { IDisksInformationProps, IDisksInformationState } from './DisksInformation.Props';
 import { Icon } from '../../Icon/Icon';
 import { Callout } from '../../Callout';
-import { ServerStatus } from '../../../models';
+import { ServerStatus, Partition } from '../../../models';
 import { autobind } from '../../../utilities/autobind';
 import { DirectionalHint } from '../../../utilities/DirectionalHint';
 import { sortServersByStatusAndName } from '../../../utilities/server';
@@ -67,7 +67,7 @@ export class DisksInformation extends React.PureComponent<IDisksInformationProps
                             <div key={index} className={classNames(
                                 { 'status-warning': data.status === ServerStatus.Warning },
                                 { 'status-critical': data.status === ServerStatus.Critical }
-                            )}>{data.fullName}: {data.used}/{data.capacity} {data.usageUnit}</div>
+                            )}>{data.fullName === undefined || data.fullName === null ? data.name : data.fullName}: {data.used}/{data.capacity} {data.usageUnit}</div>
                         ))}
                     </Callout>
 
