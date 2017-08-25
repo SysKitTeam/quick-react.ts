@@ -51,7 +51,7 @@ export class DisksInformation extends React.PureComponent<IDisksInformationProps
                         iconName={'icon-disk'}
                         onMouseEnter={this.onMouseEnter}
                         onMouseLeave={this.onMouseLeave}
-                        title=''
+                        title=""
                     />
                 </div>
                 {sortedDiskInfo.length !== 0 && this.state.tooltipShow &&

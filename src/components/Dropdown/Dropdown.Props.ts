@@ -22,7 +22,6 @@ export interface IDropdownProps {
   onClosed?: () => void;
   onMenuToggle?: (opened: boolean) => void;
   onCustomSelectionText?: () => string;
-  isOpen?: boolean;
 }
 
 export interface IDropdownOption {

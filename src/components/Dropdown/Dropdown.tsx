@@ -42,19 +42,14 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
 
     this.state = {
       id: getId('Dropdown'),
-      isOpen: props.isOpen !== undefined ? props.isOpen : false,
+      isOpen: false,
       selectedIndex: this._getSelectedIndex(props.options, props.selectedKey)
     };
   }
 
   public componentWillReceiveProps(newProps: IDropdownProps) {
-    let isOpen = this.state.isOpen;
-    if (newProps.isOpen !== undefined) {
-      isOpen = newProps.isOpen;
-    }
     this.setState({
-      selectedIndex: this._getSelectedIndex(newProps.options, newProps.selectedKey),
-      isOpen: isOpen
+      selectedIndex: this._getSelectedIndex(newProps.options, newProps.selectedKey)
     });
   }
 
@@ -199,9 +194,6 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
     this.setState({
       isOpen: false
     });
-    if (this.props.onMenuToggle) {
-      this.props.onMenuToggle(false);  // return next state of opened
-    }
   }
 
   @autobind
@@ -209,9 +201,6 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
     this.setState({ isOpen: false });
     if (this.props.onClosed) {
       this.props.onClosed();
-    }
-    if (this.props.onMenuToggle) {
-      this.props.onMenuToggle(false);  // return next state of opened
     }
   }
 
@@ -226,18 +215,12 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
         this.setState({
           isOpen: !this.state.isOpen
         });
-        if (this.props.onMenuToggle) {
-          this.props.onMenuToggle(!this.state.isOpen);  // return next state of opened
-        }
         break;
 
       case KeyCodes.escape:
         this.setState({
           isOpen: false
         });
-        if (this.props.onMenuToggle) {
-          this.props.onMenuToggle(false);  // return next state of opened
-        }
         break;
 
       case KeyCodes.up:
