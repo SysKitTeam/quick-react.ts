@@ -1,5 +1,5 @@
 export const elements = [
-    { id: 'A1', text: 'Option A1' },
+    { id: 'A1', text: 'Option A1', hoverOverBtn: [{iconName: 'icon-edit', callback: (id)=>console.log(id)}, {iconName: 'icon-trash', callback: (id)=>console.log(id)}] },
     { id: 'A2', text: 'Option A2' },
     { id: 'A3', text: 'Option A3' },
     { id: 'A4', text: 'Option A4' },

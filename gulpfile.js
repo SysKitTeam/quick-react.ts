@@ -11,7 +11,7 @@ var runSequence = require('run-sequence');
 
 var tsProject = gulpTypescript.createProject('tsconfig.json', {
     typescript: typescript,
-    noExternalResolve: true
+    noResolve: true
 });
 
 gulp.task('build', function (cb) {

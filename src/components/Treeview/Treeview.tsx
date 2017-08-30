@@ -12,16 +12,9 @@ export class Treeview extends CommonComponent<ITreeviewProps, void> {
     constructor(props) {
         super(props);
     }
-    public shouldComponentUpdate(nextProps, nextState) {
-        return !(this.props.items === nextProps.items
-            && this.props.className === nextProps.className
-            && this.props.label === nextProps.label
-        );
-    }
 
     public render(): JSX.Element {
         let { label, items, onSelect, showCheckbox, recursive } = this.props;
-
         const className = classNames(
             'treeview',
             [this.props.className]);
