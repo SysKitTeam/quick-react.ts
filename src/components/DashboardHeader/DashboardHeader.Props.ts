@@ -26,28 +26,10 @@ export interface IDashboardHeaderProps {
     activeFilters: Array<string>;
     onGroupingChange: (groupingKey: number) => void;
     onFilteringOptionsChange: (activeFilters: Array<IFilteringOption>) => void;
+    groupingOptions: Array<IDropdownOption>;
 }
 
 export interface IDashboardHeaderState {
     filterMenuOpen: boolean;
     selectedFilterOptions: Array<string>;
 }
-
-export const groupingOptions: Array<IDropdownOption> = [
-    {
-        key: '0',
-        text: 'Smart'
-    },
-    {
-        key: '1',
-        text: 'Type'
-    },
-    {
-        key: '2',
-        text: 'Status'
-    },
-    {
-        key: '3',
-        text: 'None'
-    }
-];

@@ -9,7 +9,8 @@ export interface IServerGridDashboardProps {
     serverOnClick?: (groupId: any, serverId: any) => void;
     filter: string;
     singleGroupView?: boolean;
-    filteringOptions?: Array<IFilteringOption>;
+    isGroupByStatus?: boolean;    
+    filteringOptions?: Array<IFilteringOption>;    
 }
 export interface ServerGridRow {
     type: 'DataRow';
@@ -29,5 +30,4 @@ export interface IServerGridDashboardState {
     rows: Array<ServerGridRow>;
     groupBy: Array<IGroupBy>;
     expandedRows: any;
-
 }

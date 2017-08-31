@@ -4,6 +4,7 @@ import { ICompactDashboardProps } from '../CompactDashboard/CompactDashboard.Pro
 import { IGroup, GroupTypeEnum } from '../../models';
 import { IPivotItemProps } from '../Pivot/PivotItem.Props';
 import { IFilteringOption } from '../FilteringBar/FilteringBar.Props';
+import { IDropdownOption } from '../Dropdown/Dropdown.Props';
 
 export enum DashboardGroupingEnum {
     Smart = 0,
@@ -11,6 +12,25 @@ export enum DashboardGroupingEnum {
     Status = 2,
     Disabled = 3
 }
+
+export const defaultGroupingOptions: Array<IDropdownOption> = [
+    {
+        key: '0',
+        text: 'Smart'
+    },
+    {
+        key: '1',
+        text: 'Type'
+    },
+    {
+        key: '2',
+        text: 'Status'
+    },
+    {
+        key: '3',
+        text: 'None'
+    }
+];
 
 export interface IDashboardProps extends React.Props<any> {
     title: string;
@@ -81,6 +101,7 @@ export interface IDashboardProps extends React.Props<any> {
     * Action is call when the server is clicked. The server ID is supplied.
     */
     serverOnClick?: (groupId: any, serverId: any) => void;
+    groupingOptions?: Array<IDropdownOption>;
 }
 
 export interface IDashboardState {
@@ -89,5 +110,4 @@ export interface IDashboardState {
     activeView: ActiveDashboard;
     grouping: DashboardGroupingEnum;
     filteringOptions: Array<IFilteringOption>;
-    isSmartGrouping: boolean;
 }

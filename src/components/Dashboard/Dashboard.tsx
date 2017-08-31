@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { autobind } from '../../utilities/autobind';
-import { IDashboardProps, IDashboardState, DashboardGroupingEnum } from './Dashboard.Props';
+import { IDashboardProps, IDashboardState, DashboardGroupingEnum, defaultGroupingOptions } from './Dashboard.Props';
+import { IDropdownOption } from '../Dropdown/Dropdown.Props';
 import { DashboardHeader } from '../DashboardHeader/DashboardHeader';
 import { CompactDashboard } from '../CompactDashboard/CompactDashboard';
 import { TileDashboard } from '../TileDashboard/TileDashboard';
@@ -13,16 +14,6 @@ import { IGroup, IServer, GroupTypeEnum, ServerStatus } from '../../models';
 import { filterServerByName, filterServerByStatus, sortServersByStatusAndName } from '../../utilities/server';
 import './Dashboard.scss';
 import { getGrouped } from '../../utilities/dashboard';
-
-function sortFarms(ob1: { farmName: string }, ob2: { farmName: string }) {
-    if (ob1.farmName < ob2.farmName) {
-        return -1;
-    }
-    if (ob1.farmName > ob2.farmName) {
-        return 1;
-    }
-    return 0;
-}
 
 export function filterFarms(farms: Array<IGroup>, filter: string, filteringOptions: Array<IFilteringOption>): Array<IGroup> {
     if (!filter && filteringOptions.length === 0) {
@@ -51,7 +42,8 @@ export function filterFarms(farms: Array<IGroup>, filter: string, filteringOptio
 
 export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardState> {
     public static defaultProps = {
-        editRoles: false
+        editRoles: false,
+        groupingOptions: defaultGroupingOptions
     };
 
     constructor(props?: IDashboardProps) {
@@ -61,8 +53,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
             filter: props.filter,
             groups: getGrouped(props.farms, props.initialActiveGrouping).filter(group => { return group.servers.length > 0; }),
             grouping: props.initialActiveGrouping,
-            filteringOptions: [],
-            isSmartGrouping: true
+            filteringOptions: []
         };
     }
 
@@ -78,13 +69,11 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
             this.props.onGroupViewChanged(newGroupKey);
         }
 
-        const isSmartGrouping = (newGroupKey as DashboardGroupingEnum) === DashboardGroupingEnum.Smart;
         this.setState(
             {
                 ...this.state,
                 grouping: newGroupKey,
-                groups: getGrouped(this.props.farms, newGroupKey).filter(group => { return group.servers.length > 0; }),
-                isSmartGrouping: isSmartGrouping
+                groups: getGrouped(this.props.farms, newGroupKey).filter(group => { return group.servers.length > 0; })
             });
     }
 
@@ -95,7 +84,8 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
 
     public render() {
         let { headerClass, hasAddButton, activeFilters, hoverMessageForCriticalOrWarningServer } = this.props;
-        let { filter, activeView, groups, isSmartGrouping } = this.state;
+        let { filter, activeView, groups, grouping } = this.state;
+        const isSmartGrouping = (grouping as DashboardGroupingEnum) === DashboardGroupingEnum.Smart;
 
         return (
             <div className="dashboard">
@@ -113,6 +103,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                     onGroupingChange={this.groupChanged}
                     onFilteringOptionsChange={this.onStatusFilteringChange}
                     activeFilters={activeFilters}
+                    groupingOptions={this.props.groupingOptions}
                 />
                 {
                     groups && groups.length === 0 && this.props.emptyDashboardMessage && <div className="empty-dasboard-message-container">
@@ -167,6 +158,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                         filter={filter}
                         singleGroupView={this.state.grouping === DashboardGroupingEnum.Disabled}
                         filteringOptions={this.state.filteringOptions}
+                        isGroupByStatus={(grouping as DashboardGroupingEnum) === DashboardGroupingEnum.Status}
                     />
                 }
             </div>

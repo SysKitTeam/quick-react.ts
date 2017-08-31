@@ -23,11 +23,13 @@ const GUTTER_SIZE = 3;
 const CELL_WIDTH = 244;
 
 const serverTileWidth = 252.0; // LeftMargin 8px + LeftBoarder 10px + LeftPadding 5px + Server 215px + RightPadding 5px + LeftBoarder 1px + RightMargin 8px
-const serverTileHeight = 80; // Server 52px + 2 * (Margin 8 + Padding 5 + border 1)
+const serverTileHeight = 55;
+const headerRolesHeight = 25;
+
 const scrollbarWidth = 13;
 const compactFarmMargin = 20;
 const compactFarmPadding = 5;
-const headerTotalHeight = 65; // Farm DIV size - serverTileHeight  
+const headerTotalHeight = 65; // Farm DIV size - serverTileHeight
 const totalPaddingHorizontal = 2 * (compactFarmMargin + compactFarmPadding) + scrollbarWidth;
 
 export class CompactDashboard extends CommonComponent<ICompactDashboardProps, ICompactDashboardState> {
@@ -93,9 +95,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
                                         ref={(reference) => {
                                             this.list = reference;
                                         }}
-                                        rowHeight={function (index) {
-                                            return this.getRowHeigth(width, index);
-                                        }.bind(this)}
+                                        rowHeight={(index) => this.getRowHeight(width, index)}
                                         rowRenderer={this._renderRow}
                                     />
                                 )}
@@ -113,15 +113,20 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
     }
 
     @autobind
-    private getRowHeigth(width, obj: { index: number }): number {
+    private getRowHeight(width, obj: { index: number }): number {
         const farm = this.getRow(obj.index);
         if (farm === undefined) {
             return 0;
         }
+        let serverTileTotalHeight = serverTileHeight;
+        const anyRolesOnServers = farm.servers.filter(server => (server.roles && server.roles.length > 0)).length > 0;
+        if (anyRolesOnServers) {
+            serverTileTotalHeight += headerRolesHeight;
+        }
         const serversPerRow = Math.floor((width - totalPaddingHorizontal) / serverTileWidth);
         let farmServerCount = farm.servers.length;
         const rowCount = Math.ceil(farmServerCount / serversPerRow);
-        const serverHeight = rowCount * serverTileHeight;
+        const serverHeight = rowCount * serverTileTotalHeight;
         const totalHeight = serverHeight + headerTotalHeight;
         return totalHeight;
     }
