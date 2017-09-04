@@ -47,7 +47,8 @@ module.exports = {
         ServerGridDashboard: "./examples/src/ServerGridDashboard.tsx",
         DateTimePicker: "./examples/src/DateTimePicker.tsx",
         TreeFilter: "./examples/src/TreeFilter.tsx",
-	    QuickGrid: "./examples/src/QuickGrid.tsx"
+        QuickGrid: "./examples/src/QuickGrid.tsx",
+        Wizard: "./examples/src/Wizard.tsx"
     },
     output: {
         path: path.join(__dirname, '/dist'),
