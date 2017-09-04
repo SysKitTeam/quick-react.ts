@@ -58,7 +58,6 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
             links,
             selectedKey
         } as IPivotState);
-        console.log(selectedKey);
     }
 
     public render() {

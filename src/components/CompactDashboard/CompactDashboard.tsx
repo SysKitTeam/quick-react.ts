@@ -48,8 +48,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
         };
     }
 
-    @autobind
-    private componentDidUpdate(prevProps: ICompactDashboardProps, prevState) {
+    componentDidUpdate(prevProps: ICompactDashboardProps, prevState) {
         if (this.props.filter !== prevProps.filter || (prevProps.farms !== this.props.farms)) {
             if (this.list) {
                 this.list.recomputeRowHeights();
@@ -65,21 +64,18 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
     public render() {
         let { title, hoverMessageForCriticalOrWarningServer } = this.props;
         let { groups } = this.state;
-        let classname = classNames({ [this.props.className]: this.props.className !== undefined });
+        let className = classNames({ [this.props.className]: this.props.className !== undefined });
         return (
-            <div className={classname}>
-                {
-                    this.props.singleGroupView &&
+            <div className={className}>
+                {this.props.singleGroupView &&
                     <div className="compact-dashboard-container">
-                        {
-                            <SingleGroupCollection
-                                group={this.state.groups[0]}
-                                gutterSize={GUTTER_SIZE}
-                                tileHeight={serverTileHeight}
-                                tileWidth={serverTileWidth}
-                                renderSingleTile={this.renderSingleServerCell}
-                            />
-                        }
+                        <SingleGroupCollection
+                            group={this.state.groups[0]}
+                            gutterSize={GUTTER_SIZE}
+                            tileHeight={serverTileHeight}
+                            tileWidth={serverTileWidth}
+                            renderSingleTile={this.renderSingleServerCell}
+                        />
                     </div>
                 }
                 {

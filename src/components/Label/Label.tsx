@@ -4,11 +4,7 @@ import { getNativeAttributes, divAttributes } from '../../utilities/attributes';
 import { ILabelProps } from './Label.Props';
 import './Label.scss';
 
-export class Label extends React.Component<ILabelProps, any> {
-    constructor(props) {
-        super(props);
-    }
-
+export class Label extends React.PureComponent<ILabelProps> {
     render() {
         let { disabled, required, children } = this.props;
 
@@ -23,7 +19,9 @@ export class Label extends React.Component<ILabelProps, any> {
 
         return (
             <label
-                { ...getNativeAttributes(this.props, divAttributes) } className={className}>
+                { ...getNativeAttributes(this.props, divAttributes) }
+                className={className}
+            >
                 {children}
             </label>
         );

@@ -35,7 +35,7 @@ export class FilteringBar extends React.PureComponent<IFilteringBarProps, IFilte
         };
     }
 
-    public componentDidMount() {
+    componentDidMount() {
         if (this.props.activeFilters.length > 0) {
             let items: Array<IFilteringOption> = [...this.state.filteringOptions];
             let selectedItems = items.filter(x => x.selected);

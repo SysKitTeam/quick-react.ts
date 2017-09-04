@@ -12,7 +12,7 @@ import { CommonComponent } from '../Common/Common';
 import { Callout } from '../Callout/Callout';
 
 import './CompactFarm.scss';
-const HOVER_TIME = 250; // ms 
+const HOVER_TIME = 250; // ms
 
 export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
     public static defaultProps = {
@@ -35,7 +35,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
         }
     }
 
-    private componentWillReceiveProps(nextProps: ICompactFarmProps) {
+    componentWillReceiveProps(nextProps: ICompactFarmProps) {
         this._async.clearTimeout(this._enterTimerId);
         let server = null;
         if (this._serverId !== null) {
@@ -46,8 +46,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
         }
     }
 
-    @autobind
-    private _onMouseLeave(ev?: React.MouseEvent<HTMLElement>) {
+    private _onMouseLeave = (ev?: React.MouseEvent<HTMLElement>) => {
         this._async.clearTimeout(this._enterTimerId);
         this._hideServerTile();
     }
@@ -63,15 +62,13 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
         }
     }
 
-    @autobind
-    private _hideServerTile() {
+    private _hideServerTile = () => {
         this._serverId = null;
         this._hoverTargetElement = null;
         this.forceUpdate();
     }
 
-    @autobind
-    private _renderServerTile(serverId): JSX.Element {
+    private _renderServerTile= (serverId): JSX.Element => {
         const server = this.props.farm.servers.filter((currServer) => { return currServer.id === serverId; })[0];
         return (
             <ServerTile
@@ -84,8 +81,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
         );
     }
 
-    @autobind 
-    private _onServerClicked(serverId: any) {
+    private _onServerClicked = (serverId: any) => {
         const { serverOnClick, farm } = this.props;
 
         if (serverOnClick) {
@@ -148,13 +144,11 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
         );
     }
 
-    @autobind
-    private _onServerClose(serverId, event) {
+    private _onServerClose = (serverId, event) => {
         this.props.onServerClose(serverId, this.props.farm.id, event);
     }
 
-    @autobind
-    private _onRoleChange(serverId, event) {
+    private _onRoleChange = (serverId, event) => {
         if (this.props.onServerRoleEdit) {
             this.props.onServerRoleEdit(serverId, this.props.farm.id, event);
         }

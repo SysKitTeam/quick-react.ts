@@ -15,7 +15,11 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
 
     constructor(props) {
         super(props);
-        this.state = { isOpen: props.isOpen, iconArrow: 'icon-arrow_right', hover: false };
+        this.state = {
+            isOpen: props.isOpen,
+            iconArrow: 'icon-arrow_right',
+            hover: false
+        };
     }
 
 

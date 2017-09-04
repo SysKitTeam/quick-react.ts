@@ -25,14 +25,14 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
                             return (
                                 <li className={'breadcrumbs-list-item'} key={index}>
                                     <BreadcrumbItem
-                                        displayName={item.name} 
-                                        text={item.text} 
+                                        displayName={item.name}
+                                        text={item.text}
                                         url={item.url}
                                         iconName={item.iconName}
                                         iconExpanded={this.props.iconNameExpanded}
                                         iconCollapsed={this.props.iconNameCollapsed}
                                         className={index === 0 ? 'breadcrumbs-icon-home' : undefined}
-                                        children={item.children} 
+                                        children={item.children}
                                         onClick={(url) => this.props.onPathClick(url)}
                                     />
                                 </li>
@@ -101,24 +101,22 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
         return elements;
     }
 
-    private getFirstLevelFromProps(props: IBreadcrumbsProps) : ICurrentPathItem {
+    private getFirstLevelFromProps(props: IBreadcrumbsProps): ICurrentPathItem {
         let children = Array<IBreadcrumbChild>(0);
-        for (let i = 0; i < props.items.length; i++) {
-            const item = props.items[i];
+        for (let currentItem of props.items) {
             children.push(
                 {
-                    displayName: item.displayName,
-                    url: '/' + item.key
+                    displayName: currentItem.displayName,
+                    url: '/' + currentItem.key
                 }
             );
         }
-        let item : ICurrentPathItem = {
+        let item: ICurrentPathItem = {
             name: this.props.homeDisplayName,
             iconName: this.props.homeIconName,
             children: children,
             url: this.props.homeUrl
         };
-
         return item;
     }
 }

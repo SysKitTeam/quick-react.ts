@@ -53,15 +53,15 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
         const xAxisClass = classNames('x-axis', this.props.id);
         const yAxisClass = classNames('y-axis', this.props.id);
         const tipClass = classNames('bar-chart-component', 'tip', this.props.id);
-        
+
         const containerTransform = 'translate(' + margin.left + ',' + margin.top + ')';
         const translateXAxis = 'translate(0,' + this.state.containerHeight + ')';
-       
+
         return (
             <svg width={'100%'} height={this.props.dimensions.height}>
                 <g className={containerClass} transform={containerTransform}>
-                    <g className={xAxisClass} transform={translateXAxis} ref={(element: SVGAElement) => this.renderXAxis(element)}></g>
-                    <g className={yAxisClass} ref={(element: SVGAElement) => this.renderYAxis(element)}></g>
+                    <g className={xAxisClass} transform={translateXAxis} ref={(element: SVGRectElement) => this.renderXAxis(element)}></g>
+                    <g className={yAxisClass} ref={(element: SVGRectElement) => this.renderYAxis(element)}></g>
                     { this.renderBars() }
                     <Tooltip id={this.props.id} text={this.state.tipText} x={this.state.tipX} y={this.state.tipY} visible={this.state.isTipVisible}/>
                 </g>
@@ -86,9 +86,9 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
                         y={ y(data.frequency) }
                         width={ x.bandwidth() }
                         height={ this.state.containerHeight - y(data.frequency) }
-                        onMouseOver={(event: React.MouseEvent<SVGAElement>) => this.onMouseOver(event.currentTarget)}
+                        onMouseOver={(event: React.MouseEvent<SVGRectElement>) => this.onMouseOver(event.currentTarget)}
                         onMouseOut={() => this.setState({ isTipVisible: false })}
-                        onClick={(event: React.MouseEvent<SVGAElement>) => this.handleOnClick(event.currentTarget)}/>
+                        onClick={(event: React.MouseEvent<SVGRectElement>) => this.handleOnClick(event.currentTarget)}/>
         );
     }
 
@@ -96,7 +96,7 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
      * When bar is clicked set that bar reference as active and set css class to it
      * so it will be colored into different color.
      */
-    private handleOnClick(element: SVGAElement) {
+    private handleOnClick(element: SVGRectElement) {
         if (this.selected === undefined) {
             const bar = d3.selectAll('.bar-chart-container.' + this.props.id + '> .bar').nodes()[this.props.selectedIndex];
             d3.select(bar).classed('clicked', false);
@@ -112,7 +112,7 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
      * This function is invoked when container element for axis is placed into DOM.
      * It creates x axis based on given axis generator.
      */
-    private renderXAxis(element: SVGAElement) {
+    private renderXAxis(element: SVGRectElement) {
         if (element === null) { return; }
         const xAxis = d3.axisBottom(this.generateX()).tickPadding(10).tickFormat(this.formatAxisLabels());
         d3.select(element).call(xAxis);
@@ -122,7 +122,7 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
      * This function is invoked when container element for axis is placed into DOM.
      * It creates x axis based on given axis generator.
      */
-    private renderYAxis(element: SVGAElement) {
+    private renderYAxis(element: SVGRectElement) {
         if (element === null) { return; }
         const yAxis = d3.axisLeft(this.generateY()).tickSizeInner(-this.state.containerWidth).ticks(5).tickPadding(5);
         d3.select(element).call(yAxis);
@@ -159,7 +159,7 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
      * Dimensions of element are calculated and passed to tooltip component for
      * positioning on top of bar.
      */
-    private onMouseOver(element: SVGAElement) {
+    private onMouseOver(element: SVGRectElement) {
         const dimensions = element.getBBox();
         const data = (d3.select(element).datum() as IBarChartData);
         const tipText = this.props.tipText(data);
@@ -178,9 +178,9 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
 
         let totalTextLength = 0;
         labels.nodes().forEach( (element: any) => totalTextLength += element.getComputedTextLength() );
-        
+
         let totalRectLength = 0;
-        rects.forEach( (element: SVGAElement) => totalRectLength += element.getBBox().width );
+        rects.forEach( (element: SVGRectElement) => totalRectLength += element.getBBox().width );
 
         if (totalTextLength > totalRectLength - spacing ) {
             labels.attr('transform', 'rotate(45)').attr('y', 10)

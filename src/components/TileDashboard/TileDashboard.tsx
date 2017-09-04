@@ -29,9 +29,8 @@ const headerTotalHeight = 65;
 const totalPaddingHorizontal = 2 * (farm_margin + farm_padding) + scrollbarWidth;
 const GUTTER_SIZE = 3;
 
-export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITileDashboardState> {
+export class TileDashboard extends React.Component<ITileDashboardProps, ITileDashboardState> {
     private list: any;
-
     constructor(props?: ITileDashboardProps) {
         super(props);
         this.state = {
@@ -39,13 +38,13 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
         };
     }
 
-    private componentDidUpdate(prevProps: ITileDashboardProps, prevState) {
+    componentDidUpdate(prevProps: ITileDashboardProps, prevState) {
         if (this.list && ((this.props.filter !== prevProps.filter && this.list) || prevProps.farms !== this.props.farms)) {
             this.list.recomputeRowHeights();
         }
     }
 
-    public componentWillReceiveProps(nextProps: ITileDashboardProps, nextState: any) {
+    componentWillReceiveProps(nextProps: ITileDashboardProps, nextState: any) {
         const filteredFarms = filterFarms(nextProps.farms, nextProps.filter, nextProps.filteringOptions);
         this.setState({ groups: filteredFarms });
     }

@@ -10,29 +10,34 @@ export class Index extends React.Component<any, any> {
         super();
 
         this.state = {
-            date: new Date()
+            date: new Date(),
+            date2: new Date()
         };
     }
 
-    private setDate(newDate: Date) {
-        this.setState({ date: newDate });
+    private setDate(newDate: Date, pickerId) {
+        if (pickerId === 1) {
+            this.setState({ date: newDate });
+        } else {
+            this.setState({ date2: newDate });
+        }
     }
 
     public render() {
         return (
             <div>
-                <DateTimePicker 
-                    is24HourFormat={false} 
+                <DateTimePicker
+                    is24HourFormat={false}
                     selectedDateTime={this.state.date}
                     includeTime={true}
-                    onTimeSelectionChanged={(date) => this.setDate(date)}
+                    onTimeSelectionChanged={(date) => this.setDate(date, 1)}
                     useKeyboardForTimeInput={true}
                 />
-                 <DateTimePicker 
-                    is24HourFormat={true} 
-                    selectedDateTime={this.state.date}
+                <DateTimePicker
+                    is24HourFormat={true}
+                    selectedDateTime={this.state.date2}
                     includeTime={true}
-                    onTimeSelectionChanged={(date) => this.setDate(date)}
+                    onTimeSelectionChanged={(date) => this.setDate(date, 2)}
                     useKeyboardForTimeInput={true}
                 />
             </div>
