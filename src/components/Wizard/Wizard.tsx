@@ -3,7 +3,6 @@ import * as classNames from 'classnames';
 import './Wizard.scss';
 import { IPage } from './IPage';
 import { IStepProps } from './IStepProps';
-import { hashHistory } from 'react-router';
 import { Button } from '../../components/Button/Button';
 import {IButtonProps} from '../../components/Button/Button.Props';
 import {autobind } from '../../utilities/autobind';
@@ -15,6 +14,7 @@ export interface IWizardProps {
   onPageEnter?: (currentStepIndex: number, nextStepIndex: number) => void;
   onPageLeave?: (currentStepIndex: number, nextStepIndex: number) => void;
   onFinish?: () => void;
+  onCancel?: () => void;
   currentStep?: number;
   currentPage?: IPage;
   title?: string;
@@ -67,7 +67,7 @@ export default class Wizard extends React.Component<IWizardProps, IWizardState> 
 
   private _cancelCreateScript(e) {
     e.preventDefault();
-    hashHistory.push('/');
+    this.props.onCancel();
   }
 
 
