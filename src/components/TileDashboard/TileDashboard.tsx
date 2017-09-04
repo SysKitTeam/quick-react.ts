@@ -19,8 +19,9 @@ import './TileDashboard.scss';
 import { SingleGroupCollection } from '../SingleGroupCollection/index';
 import { getIconNameFromType } from '../../utilities/groupUtils';
 
-const serverTileWidth = 281.0; // LeftMargin 10px + LeftBodrder 10px + Server 250px + LeftBodrder 1px + RightMargin 10px
-const servertileHeight = 236; // Server 52px + 2 * (Margin 8 + Padding 5 + border 1)
+const serverTileWidth = 281.0; // LeftMargin 10px + LeftBoarder 10px + Server 250px + LeftBoarder 1px + RightMargin 10px
+const serverTileHeight = 213; // Server 52px + 2 * (Margin 8 + Padding 5 + border 1)
+const headerRolesHeight = 23;
 const scrollbarWidth = 13;
 const farm_margin = 20;
 const farm_padding = 5;
@@ -28,34 +29,31 @@ const headerTotalHeight = 65;
 const totalPaddingHorizontal = 2 * (farm_margin + farm_padding) + scrollbarWidth;
 const GUTTER_SIZE = 3;
 
-export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITileDashboardState> {
+export class TileDashboard extends React.Component<ITileDashboardProps, ITileDashboardState> {
     private list: any;
-
     constructor(props?: ITileDashboardProps) {
         super(props);
-
         this.state = {
             groups: filterFarms(props.farms, props.filter, props.filteringOptions)
         };
     }
 
-    @autobind
-    private componentDidUpdate(prevProps: ITileDashboardProps, prevState) {
+    componentDidUpdate(prevProps: ITileDashboardProps, prevState) {
         if (this.list && ((this.props.filter !== prevProps.filter && this.list) || prevProps.farms !== this.props.farms)) {
             this.list.recomputeRowHeights();
         }
     }
 
-    public componentWillReceiveProps(nextProps: ITileDashboardProps, nextState: any) {
+    componentWillReceiveProps(nextProps: ITileDashboardProps, nextState: any) {
         const filteredFarms = filterFarms(nextProps.farms, nextProps.filter, nextProps.filteringOptions);
         this.setState({ groups: filteredFarms });
     }
 
     public render() {
         let { groups } = this.state;
-        let classname = classNames({ [this.props.className]: this.props.className !== undefined });
+        let className = classNames({ [this.props.className]: this.props.className !== undefined });
         return (
-            <div className={classname}>
+            <div className={className}>
                 <div className="tile-dashboard-container">
                     {!this.props.singleGroupView &&
                         <AutoSizer onResize={this._onResize}>
@@ -79,7 +77,7 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
                         <SingleGroupCollection
                             group={this.state.groups[0]}
                             gutterSize={GUTTER_SIZE}
-                            tileHeight={servertileHeight}
+                            tileHeight={serverTileHeight}
                             tileWidth={serverTileWidth}
                             renderSingleTile={this.renderSingleServerCell}
                         />
@@ -100,10 +98,15 @@ export class TileDashboard extends React.PureComponent<ITileDashboardProps, ITil
         if (farm === undefined) {
             return 0;
         }
+        let serverTileTotalHeight = serverTileHeight;
+        const anyRolesOnServers = farm.servers.filter(server => (server.roles && server.roles.length > 0)).length > 0;
+        if (anyRolesOnServers) {
+            serverTileTotalHeight += headerRolesHeight;
+        }
         const serversPerRow = Math.floor((width - totalPaddingHorizontal) / serverTileWidth);
         let farmServerCount = farm.servers.length;
         const rowCount = Math.ceil(farmServerCount / serversPerRow);
-        const serverHeight = rowCount * servertileHeight;
+        const serverHeight = rowCount * serverTileTotalHeight;
         const totalHeight = serverHeight + headerTotalHeight;
         return totalHeight;
     }

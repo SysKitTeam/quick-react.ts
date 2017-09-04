@@ -29,15 +29,8 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
     private _targetWindow: Window;
 
     public constructor(props: ISearchProps) {
-        super(props);
-
-        // Handle deprecated prop
-        if (this.props.onChanged) {
-            this.props.onChange = this.props.onChanged;
-        }
-
+        super(props);     
         this._callOnChange = _.debounce(this._callOnChange, props.debounceWaitMs);
-
         this.state = {
             value: props.value || '',
             hasFocus: false,
@@ -181,8 +174,8 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
     }
 
     private _callOnChange(newValue: string): void {
-        let { onChange } = this.props;
-
+        // Handle deprecated prop        
+        let onChange = (this.props.onChanged) ? this.props.onChanged : this.props.onChange;     
         if (onChange) {
             onChange(newValue);
         }

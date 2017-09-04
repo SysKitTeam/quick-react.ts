@@ -84,8 +84,8 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
                 return <path className={pieArcClass} key={index}
                         d={arc({ startAngle: d.startAngle, endAngle: d.endAngle })}
                         style={{ fill: fill }}
-                        onMouseOver={ (event: React.MouseEvent<SVGAElement>) => this.onMouseOver(event.currentTarget) }
-                        onMouseOut={ (event: React.MouseEvent<SVGAElement>) => this.onMouseOut(event.currentTarget) }/>;
+                        onMouseOver={ (event: React.MouseEvent<SVGPathElement>) => this.onMouseOver(event.currentTarget) }
+                        onMouseOut={ (event: React.MouseEvent<SVGPathElement>) => this.onMouseOut(event.currentTarget) }/>;
             }
         );
     }
@@ -93,7 +93,7 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
     /**
      * When mouse is moved over arc of component show tooltip with appropriate text.
      */
-    private onMouseOver(element: SVGAElement) {
+    private onMouseOver(element: SVGPathElement) {
         const arc = this.createArc();
         const elementData: any = d3.select(element).datum();
         const coordinates = arc.centroid(elementData);
@@ -104,7 +104,7 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
     /**
      * Hide tooltip when mouse is moved out of position.
      */
-    private onMouseOut(element: SVGAElement) {
+    private onMouseOut(element: SVGPathElement) {
         this.setState({ isTipVisible: false });
     }
 

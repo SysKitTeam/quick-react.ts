@@ -1,5 +1,16 @@
 export const elements = [
-    { id: 'A1', text: 'Option A1', hoverOverBtn: [{iconName: 'icon-edit', callback: (id)=>console.log(id)}, {iconName: 'icon-trash', callback: (id)=>console.log(id)}] },
+    {
+        id: 'A1', text: 'Option A1', hoverOverBtn: [{
+            iconName: 'icon-edit',
+            // tslint:disable-next-line:no-console
+            callback: (id) => console.log(id)
+        },
+        {
+            iconName: 'icon-trash',
+            // tslint:disable-next-line:no-console
+            callback: (id) => console.log(id)
+        }]
+    },
     { id: 'A2', text: 'Option A2' },
     { id: 'A3', text: 'Option A3' },
     { id: 'A4', text: 'Option A4' },
@@ -91,5 +102,5 @@ export const elements = [
     { id: 'G51', text: 'Option G5', parentId: 'F2' },
     { id: 'G61', text: 'Option G6', parentId: 'F2' },
     { id: 'G71', text: 'Option G7', parentId: 'F2' }
-    
+
 ];

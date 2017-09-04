@@ -41,11 +41,11 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
         const componentClass = classNames('line-chart-component', this.state.chartId, this.props.className);
         const titleClass = classNames('line-chart-title', this.state.chartId, this.props.className);
         return (
-            <div className={componentClass} 
+            <div className={componentClass}
                 style={{ width: this.props.dimensions.width, height: this.props.dimensions.height }}
                 ref={(element: HTMLDivElement) => this.init(element)}>
-                {  
-                    ( this.props.showLegend || this.props.title ) && 
+                {
+                    ( this.props.showLegend || this.props.title ) &&
                     <div className={classNames('line-chart-header', this.state.chartId)}>
                         { this.props.title && <Label className={titleClass}>{this.props.title}</Label> }
                         { this.props.showLegend && this.renderLegend() }
@@ -64,7 +64,7 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
         if (element === null) { return; }
         this.containerRef = element;
         const sensor = new ResizeSensor(element, () => this.onResize());
-        
+
         const width = element.offsetWidth;
         const height = element.offsetHeight;
 
@@ -125,7 +125,7 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
 
             return (
                 <div key={index} className={'legend-item'} title={data.name}>
-                    <div style={ legendCheckboxStyle } 
+                    <div style={ legendCheckboxStyle }
                         className={ data.id }
                         onClick={(ev: React.MouseEvent<HTMLDivElement>) => this.showHideSeries(ev.currentTarget)}></div>
                     <Label style={{ display: 'inline-block' }}>{ data.name }</Label>
@@ -136,7 +136,7 @@ export class LineChart extends React.PureComponent<ILineChartProps, any> {
     }
 
     /**
-     * When legend item is clicked this function gets called which show or hide 
+     * When legend item is clicked this function gets called which show or hide
      * line series based on class of clicked legend item.
      */
     private showHideSeries(element: HTMLDivElement) {

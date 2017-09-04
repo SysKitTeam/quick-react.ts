@@ -2,16 +2,10 @@ import * as React from 'react';
 import { IGroupProps } from './Group.Props';
 import { CompactServer } from '../CompactServer/CompactServer';
 import { Icon } from '../Icon/Icon';
-import { autobind } from '../../utilities/autobind';
 import * as classNames from 'classnames';
 import './Group.scss';
 
-export class Group extends React.PureComponent<IGroupProps, void> {
-
-    constructor(props?: IGroupProps) {
-        super(props);
-    }
-
+export class Group extends React.PureComponent<IGroupProps> {
     public render() {
         let { id } = this.props;
         let hasServersVisible = this.props.serverChildrenCount > 0;
@@ -51,8 +45,7 @@ export class Group extends React.PureComponent<IGroupProps, void> {
         );
     }
 
-    @autobind
-    private _onGroupClick() {
+    private _onGroupClick = () => {
         if (this.props.onClick) {
             this.props.onClick(this.props.id);
         }

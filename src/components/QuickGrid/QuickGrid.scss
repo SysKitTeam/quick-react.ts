@@ -76,10 +76,11 @@ $drag-handle-width: 5px;
 }
 
 .grid-component-container {
-    height: calc(100% - 25px);
+    height: calc(100% - 30px);
     width: calc(100% - 25px);
     margin-top: 25px;
     margin-left: 25px;
+    margin-bottom: 5px;
 }
 
 .grid-component-header {
@@ -90,7 +91,6 @@ $drag-handle-width: 5px;
 .grid-component-header {
     outline: none;
 }
-
 
 .expanded-cell {
     padding: 20px 30px;
@@ -152,7 +152,7 @@ $drag-handle-total-width: $drag-handle-width + 2; //padding
         .group-row-text{
             display: inline-block;
             padding-left: 18px;
-            span {            
+            span {
                 white-space: nowrap;
             }
         }

@@ -5,7 +5,6 @@ import { Group } from '../Group/Group';
 import * as classNames from 'classnames';
 import { TagContainer } from '../TagContainer/TagContainer';
 import { Icon } from '../Icon/Icon';
-import { autobind } from '../../utilities/autobind';
 import {
     getServerMeasures,
     sortServersByStatusAndName,
@@ -16,7 +15,7 @@ import {
 
 import './TileGroup.scss';
 
-export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
+export class TileGroup extends React.PureComponent<ITileGroupProps> {
     public render(): JSX.Element {
         const { farm } = this.props;
         let servers = farm.servers.sort((server1, server2) => {
@@ -72,18 +71,15 @@ export class TileGroup extends React.PureComponent<ITileGroupProps, void> {
         );
     }
 
-    @autobind
-    private _onServerClose(serverId: any, event: any) {
+    private _onServerClose = (serverId: any, event: any) => {
         this.props.onServerClose(serverId, this.props.farm.id, event);
     }
 
-    @autobind
-    private _editRoles(serverId: any, event: any) {
+    private _editRoles = (serverId: any, event: any) => {
         this.props.onServerRoleEdit(serverId, this.props.farm.id, event);
     }
 
-    @autobind
-    private serverOnClick(serverId: any) {
+    private serverOnClick = (serverId: any) => {
         const { farm, serverOnClick } = this.props;
         if (serverOnClick) {
             serverOnClick(farm.id, serverId);

@@ -45,7 +45,7 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
             id: this.state.chartId,
             colors: this.props.colors,
             tipText: this.props.tipText,
-            tooltipBoderColor: this.props.tooltipBorderColor
+            tooltipBorderColor: this.props.tooltipBorderColor
         };
 
         return (
@@ -91,17 +91,19 @@ export class PieChart extends React.PureComponent<IPieChartProps, any> {
         const legendClass = classNames('pie-chart-legend', this.state.chartId);
         const color = this.createColorPallette();
         const legend = data.map(
-            (d: IPieChartData, index: number) =>
+            (chartData: IPieChartData, index: number) =>
                 <div key={index} className={'legend-item'}>
-                    <div style={{ backgroundColor: color(d.label) }} />
-                    <label style={{ display: 'inline-block' }}>{d.label}({d.value})</label>
+                    <div style={{ backgroundColor: color(chartData.label) }} />
+                    <label style={{ display: 'inline-block' }}>
+                        {chartData.label}({chartData.value})
+                    </label>
                 </div>
         );
         return <div className={legendClass}>{legend}</div>;
     }
 
     /**
-     * If props for number of data is specified this function transforms given data so first n-1 
+     * If props for number of data is specified this function transforms given data so first n-1
      * elements are shown in descending order and all other elements are displayed together
      * as one value.
      */

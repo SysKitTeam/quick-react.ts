@@ -22,7 +22,6 @@ const groupByColumn: GridColumn = {
     minWidth: 50,
     isSortable: true,
     isGroupable: true
-
 };
 
 const gridColumns: Array<GridColumn> = [{
@@ -111,10 +110,24 @@ const gridColumns: Array<GridColumn> = [{
     isSortable: true
 }];
 
+const groupByStatusFarmSorter = (row, sortDirection) => {
+    switch (row.FarmName) {
+        case 'Warning':
+            return sortDirection === SortDirection.Ascending ? 1 : 2;
+        case 'Critical':
+            return sortDirection === SortDirection.Ascending ? 0 : 3;
+        case 'Offline':
+            return sortDirection === SortDirection.Ascending ? 3 : 0;
+        default:
+            return sortDirection === SortDirection.Ascending ? 2 : 1;
+    }
+};
+
 export class ServerGridDashboard extends React.PureComponent<IServerGridDashboardProps, IServerGridDashboardState> {
     private grid;
     public static defaultProps = {
-        filteringOptions: []
+        filteringOptions: [],
+        isSmartGrouping: false
     };
 
     constructor(props: IServerGridDashboardProps) {
@@ -173,9 +186,13 @@ export class ServerGridDashboard extends React.PureComponent<IServerGridDashboar
         const className = classNames({ [this.props.className]: this.props.className !== undefined }, 'server-grid-dashboard-container');
         let columns = [...gridColumns];
         if (!this.props.singleGroupView) {
-            columns.push(groupByColumn);
+            let groupBy = groupByColumn;
+            if (this.props.isGroupByStatus) {
+                groupBy = { ...groupBy, sortByValueGetter: groupByStatusFarmSorter };
+            }
+            columns.push(groupBy);
         }
-        
+
         return (
             <div className="quick-grid-container">
                 <div className={className}>

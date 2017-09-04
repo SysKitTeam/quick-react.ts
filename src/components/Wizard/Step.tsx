@@ -5,7 +5,6 @@ import {IStepProps} from './IStepProps';
 import {IStepState} from './IStepState';
 import PropTypes from 'prop-types';
 import {Icon} from '../../components/Icon/Icon';
-const objectAssign = require('object-assign');
 
 interface ObjectConstructor {
   assign(target: any, ...sources: any[]): any;
@@ -36,9 +35,9 @@ export default class Step extends React.Component<IStepProps, IStepState> {
     circleTop: 24,
     titleTop: 8,
     defaultBarColor: '#E0E0E0',
-    barStyle: 'solid',
+    barStyle: 'solid'
   };
-  
+
 
   getStyles() {
     const {
@@ -56,7 +55,7 @@ export default class Step extends React.Component<IStepProps, IStepState> {
         width: `${width}%`,
         display: 'table-cell',
         position: 'relative',
-        paddingTop: circleTop,
+        paddingTop: circleTop
       },
       circle: {
         width: size,
@@ -80,7 +79,7 @@ export default class Step extends React.Component<IStepProps, IStepState> {
         opacity: activeOpacity,
         borderWidth: (activeBorderColor ? 3 : 0),
         borderColor: activeBorderColor,
-        borderStyle: activeBorderStyle,
+        borderStyle: activeBorderStyle
       },
       completedCircle: {
         backgroundColor: completeColor,
@@ -148,18 +147,18 @@ export default class Step extends React.Component<IStepProps, IStepState> {
     const { title, index, active, completed, first, isLast, href } = this.props;
 
     const styles = this.getStyles();
-    const circleStyle = objectAssign(
-      styles.circle,
-      completed ? styles.completedCircle : {},
-      active ? styles.activeCircle : {}
-    );
-    const titleStyle = objectAssign(
-      styles.title,
-      completed ? styles.completedTitle : {},
-      active ? styles.activeTitle : {}
-    );
-    const leftStyle = objectAssign(styles.leftBar, (active || completed) ? styles.completedBar : {});
-    const rightStyle = objectAssign(styles.rightBar, completed ? styles.completedBar : {});
+    const circleStyle = {
+      ...styles.circle,
+      completedCircle: completed && styles.completedCircle,
+      activeCircle: active && styles.activeCircle
+    };
+    const titleStyle = {
+      ...styles.title,
+      completedTitle: completed && styles.completedTitle,
+      activeTitle: active && styles.activeTitle
+    };
+    const leftStyle = { ...styles.leftBar, completedBar: (active || completed) && styles.completedBar };
+    const rightStyle = { ...styles.rightBar, completedBar: completed && styles.completedBar };
 
     return (
       <div style={ styles.step as any}>
@@ -171,7 +170,7 @@ export default class Step extends React.Component<IStepProps, IStepState> {
           <Icon className="icon-checkmark green-checkmark"></Icon>
           </span>
         )}
-        
+
         </div>
         {active || completed ? (
           <a style={ titleStyle as any}>{ title }</a>

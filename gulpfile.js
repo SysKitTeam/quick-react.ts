@@ -1,21 +1,15 @@
 var gulp = require('gulp');
-var uglify = require('gulp-uglify');
 var gulpTypescript = require('gulp-typescript');
-var typescript = require('typescript');
 var merge = require('merge2');
-var react = require('gulp-react');
 var clean = require('gulp-clean');
-var gulpTsc = require('gulp-tsc');
+var sourcemaps = require('gulp-sourcemaps');
 var sass = require('gulp-sass')
 var runSequence = require('run-sequence');
 
-var tsProject = gulpTypescript.createProject('tsconfig.json', {
-    typescript: typescript,
-    noResolve: true
-});
+var tsProject = gulpTypescript.createProject('tsconfig.json');
 
 gulp.task('build', function (cb) {
-    return runSequence('copySass','font', cb);
+    return runSequence('tsc','copySass','font', cb);
 })
 
 gulp.task('tsc', tscTask);
@@ -30,11 +24,12 @@ function cleanLib() {
 }
 
 function tscTask() {
-    var tsResult = tsProject.src('./src', { base: './src' }).pipe(gulpTypescript(tsProject));
+    var tsResult = tsProject.src().pipe(sourcemaps.init()).pipe(tsProject());
     return merge([
         tsResult.dts
             .pipe(gulp.dest('./lib')),
         tsResult.js
+            .pipe(sourcemaps.write())
             .pipe(gulp.dest('./lib'))
     ])
 }

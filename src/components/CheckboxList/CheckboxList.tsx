@@ -8,10 +8,7 @@ import { autobind } from '../../utilities/autobind';
 import { CommonComponent } from '../Common/Common';
 import './CheckboxList.scss';
 
-export class CheckboxList extends CommonComponent<ICheckboxListProps, void> {
-    constructor(props) {
-        super(props);
-    }
+export class CheckboxList extends CommonComponent<ICheckboxListProps, {}> { 
     public shouldComponentUpdate(nextProps, nextState) {
         return !(this.props.items === nextProps.items
             && this.props.className === nextProps.className
@@ -21,8 +18,7 @@ export class CheckboxList extends CommonComponent<ICheckboxListProps, void> {
 
     public render(): JSX.Element {
         let { label, items, onCheckboxChanged } = this.props;
-
-
+        
         const className = classNames(
             'checkboxlist',
             [this.props.className]);

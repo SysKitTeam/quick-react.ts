@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { IDashboardHeaderProps, IDashboardHeaderState, groupingOptions } from './DashboardHeader.Props';
+import { IDashboardHeaderProps, IDashboardHeaderState } from './DashboardHeader.Props';
 import { Search } from '../Search/Search';
 import { Pivot } from '../Pivot/Pivot';
 import { PivotItem } from '../Pivot/PivotItem';
@@ -14,7 +14,6 @@ import * as _ from 'lodash';
 import './DashboardHeader.scss';
 
 export class DashboardHeader extends React.PureComponent<IDashboardHeaderProps, IDashboardHeaderState> {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -73,7 +72,7 @@ export class DashboardHeader extends React.PureComponent<IDashboardHeaderProps, 
                         className="dashboard-grouping-header"
                         dropdownType={DropdownType.selectionDropdown}
                         selectedKey={this.props.selectedGrouping.toString()}
-                        options={groupingOptions}
+                        options={this.props.groupingOptions}
                         hasTitleBorder={true}
                         onClick={this.handleGroupingChange}>
                     </Dropdown>

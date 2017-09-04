@@ -7,13 +7,8 @@ import { Icon } from '../Icon/Icon';
 import { ServerStatus } from '../../models';
 import { GetClassForStatus } from '../../utilities/server';
 import './ServerTile.scss';
-import { autobind } from '../../utilities/autobind';
 
-export class ServerTile extends React.PureComponent<IServerTileProps, any> {
-    constructor(props?: IServerTileProps) {
-        super(props);
-    }
-
+export class ServerTile extends React.PureComponent<IServerTileProps> {   
     public render() {
         let className = GetClassForStatus('server-details', this.props.status);
 
@@ -50,8 +45,7 @@ export class ServerTile extends React.PureComponent<IServerTileProps, any> {
         );
     }
 
-    @autobind
-    private serverOnClick() {
+    private serverOnClick = () => {
         const { id, serverOnClick } = this.props;
         if (serverOnClick) {
             serverOnClick(id);

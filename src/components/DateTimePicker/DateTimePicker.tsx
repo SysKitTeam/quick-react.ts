@@ -4,8 +4,6 @@ import DateTime = require('react-datetime');
 import { TimePicker } from './TimePicker';
 import './Vendor.scss';
 import './DateTimePicker.scss';
-import { autobind } from '../../utilities/autobind';
-
 import * as moment from 'moment';
 
 export interface IDateTimePickerProps {
@@ -17,7 +15,7 @@ export interface IDateTimePickerProps {
     onTimeSelectionChanged: (selectedDateTime: Date) => void;
 }
 
-export class DateTimePicker extends React.Component<IDateTimePickerProps, void> {
+export class DateTimePicker extends React.PureComponent<IDateTimePickerProps> {
     public static defaultProps = {
         includeTime: false,
         isValidDate: function(){
@@ -26,16 +24,14 @@ export class DateTimePicker extends React.Component<IDateTimePickerProps, void> 
         timePickerKeyboardInput: false
     };
 
-    @autobind
-    onDatePickerChanged(dt) {        
+    onDatePickerChanged = (dt) => {
         let date = moment(dt).toDate();
         date.setSeconds(0);
         date.setMilliseconds(0);
         this.props.onTimeSelectionChanged(date);
     }
 
-    @autobind
-    onTimePickerChanged(hour: number, minute: number) {
+    onTimePickerChanged = (hour: number, minute: number) => {
         let selectedDateTime = new Date(this.props.selectedDateTime.getTime());
         selectedDateTime.setHours(hour);
         selectedDateTime.setMinutes(minute);
