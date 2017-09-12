@@ -90,7 +90,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                     <div className={'counters-container'}>
                         <div className="offline-server-message">
                             <Icon iconName={'icon-details'}></Icon>
-                            The server is monitoring is disabled!
+                            This server has performance counters disabled and is not monitored.
                         </div>
                     </div>
                 }
