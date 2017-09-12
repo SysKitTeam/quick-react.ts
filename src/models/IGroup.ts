@@ -9,7 +9,8 @@ export enum GroupTypeEnum {
     Critical = 5,
     Warning = 6,
     Healthy = 7,
-    Offline = 8
+    Offline = 8,
+    Disabled = 9
 }
 
 
