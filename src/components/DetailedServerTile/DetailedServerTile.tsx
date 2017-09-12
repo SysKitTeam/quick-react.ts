@@ -47,7 +47,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                     numberOfUsers={this.props.numberOfUsers}
                     roles={this.props.roles}
                 />
-                {this.props.status !== ServerStatus.Offline &&
+                {this.props.status !== ServerStatus.Offline && this.props.status !== ServerStatus.Disabled &&
                     <div className={'counters-container'}>
                         <LineChart
                             title={'CPU'}
@@ -78,11 +78,19 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                     </div>
                 }
 
-                {this.props.status === ServerStatus.Offline &&
+                {this.props.status === ServerStatus.Offline  &&
                     <div className={'counters-container'}>
                         <div className="offline-server-message">
                             <Icon iconName={'icon-details'}></Icon>
                             The server is offline!
+                        </div>
+                    </div>
+                }
+                {this.props.status === ServerStatus.Disabled  &&
+                    <div className={'counters-container'}>
+                        <div className="offline-server-message">
+                            <Icon iconName={'icon-details'}></Icon>
+                            The server is monitoring is disabled!
                         </div>
                     </div>
                 }

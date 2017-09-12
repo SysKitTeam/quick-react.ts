@@ -44,17 +44,20 @@ const gridColumns: Array<GridColumn> = [{
         let modifier = 'a';
         let status: ServerStatus = row.ServerData.status;
         switch (status) {
-            case ServerStatus.OK:
-                modifier = sortDirection === SortDirection.Ascending ? '2' : 'b';
+            case ServerStatus.Critical:
+                modifier = sortDirection === SortDirection.Ascending ? '0' : '4';
                 break;
             case ServerStatus.Warning:
-                modifier = sortDirection === SortDirection.Ascending ? '1' : 'c';
+                modifier = sortDirection === SortDirection.Ascending ? '1' : '3';
                 break;
-            case ServerStatus.Critical:
-                modifier = sortDirection === SortDirection.Ascending ? '0' : 'd';
+                case ServerStatus.OK:
+                modifier = sortDirection === SortDirection.Ascending ? '2' : '2';
                 break;
             case ServerStatus.Offline:
-                modifier = sortDirection === SortDirection.Ascending ? '3' : 'a';
+                modifier = sortDirection === SortDirection.Ascending ? '3' : '1';
+                break;
+           case ServerStatus.Disabled:
+                modifier = sortDirection === SortDirection.Ascending ? '4' : '0';
                 break;
         }
         return modifier + row.ServerName;
@@ -113,13 +116,15 @@ const gridColumns: Array<GridColumn> = [{
 const groupByStatusFarmSorter = (row, sortDirection) => {
     switch (row.FarmName) {
         case 'Warning':
-            return sortDirection === SortDirection.Ascending ? 1 : 2;
+            return sortDirection === SortDirection.Ascending ? 1 : 3;
         case 'Critical':
-            return sortDirection === SortDirection.Ascending ? 0 : 3;
+            return sortDirection === SortDirection.Ascending ? 0 : 4;
         case 'Offline':
-            return sortDirection === SortDirection.Ascending ? 3 : 0;
+            return sortDirection === SortDirection.Ascending ? 3 : 1;
+        case 'Disabled':
+            return sortDirection === SortDirection.Ascending ? 4 : 0;
         default:
-            return sortDirection === SortDirection.Ascending ? 2 : 1;
+            return sortDirection === SortDirection.Ascending ? 2 : 2;
     }
 };
 

@@ -27,7 +27,8 @@ export function GetClassForStatus(defaultClass: string, status: ServerStatus): s
         { 'status-warning': status === ServerStatus.Warning },
         { 'status-ok': status === ServerStatus.OK },
         { 'status-critical': status === ServerStatus.Critical },
-        { 'status-offline': status === ServerStatus.Offline });
+        { 'status-offline': status === ServerStatus.Offline },
+        { 'status-offline': status === ServerStatus.Disabled });
 }
 
 export function filterServerByName(filter: string, serverName: string): boolean {
@@ -51,6 +52,9 @@ export function filterServerByStatus(filteringOptions: Array<IFilteringOption>, 
                 break;
             case 'offline':
                 serverMatched = serverMatched || serverStatus === ServerStatus.Offline;
+                break;
+            case 'disabled':
+                serverMatched = serverMatched || serverStatus === ServerStatus.Disabled;
                 break;
         }
     }
