@@ -35,7 +35,17 @@ export interface ITreeFilterProps {
     maxWidth?: number;
     maxHeight?: number;
     directionalHint?: DirectionalHint;
-    clearSearchOnClose?: boolean; 
+    clearSearchOnClose?: boolean;
+    enabledResizeHandles?: { // all enabled if undefined
+        top: boolean,
+        right: boolean,
+        bottom: boolean,
+        left: boolean,
+        topRight: boolean,
+        bottomRight: boolean,
+        bottomLeft: boolean,
+        topLeft: boolean
+    };
 }
 
 export const defaultTreeFilterProps: Partial<ITreeFilterProps> = {
@@ -68,4 +78,5 @@ export interface TreeItem {
     value: string;
     expanded?: boolean;
     children?: Array<TreeItem>;
+    // showChildren?: boolean;
 }

@@ -149,7 +149,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                 let itemsToChange = [];
                 let branchesToCheck = [];
                 for (let item of filteredItems) {
-                    const leafsAndBranches = ItemOperator.getAllLeafsAndBranches(item);
+                    const leafsAndBranches = ItemOperator.getAllLeafsAndBranches(item, this.itemLookup[item.id]);
                     itemsToChange = itemsToChange.concat(leafsAndBranches.Leafs);
                     branchesToCheck = branchesToCheck.concat(leafsAndBranches.Branches);
                 }
@@ -191,6 +191,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         let itemsToChange = [];
         let branchesToCheck = [];
         if (this.state.searchText === '') {
+            let hasChildren = itemHasChildren(changedTreeItem);
             itemsToChange = ItemOperator.getAllChildrenIds(changedTreeItem);
             if (itemHasChildren(changedTreeItem)) {
                 branchesToCheck.push({ id: changedTreeItem.id, depth: 0 });
@@ -202,7 +203,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                 }
             }
         } else {
-            let leafsAndBranches = ItemOperator.getAllLeafsAndBranches(changedTreeItem);
+            let leafsAndBranches = ItemOperator.getAllLeafsAndBranches(changedTreeItem, this.itemLookup[changedTreeItem.id]);
             itemsToChange = leafsAndBranches.Leafs;
             branchesToCheck = leafsAndBranches.Branches;
             const parent = this.parentLookup[changedTreeItem.id];
@@ -468,6 +469,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                             maxWidth={maxWidth}
                             maxHeight={maxHeight}
                             onResize={this.onCalloutResize}
+                            enable={this.props.enabledResizeHandles}
                         >
                             <div style={{ height: '100%', width: '100%' }}>
                                 <AutoSizer>
@@ -475,13 +477,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                                         <div>
                                             {hasSearch &&
                                                 <div style={{ width: width, height: 30 }}>
-                                            <Search labelText={searchText} onChange={this.searchItems} className="filter-search" />
-                                                    {/*
-                                                    <input
-                                                        className="tree-filter-input"
-                                                        onChange={this.onSearchTextChange}
-                                                        value={this.state.searchText}
-                                                    /> */}
+                                                    <Search labelText={searchText} onChange={this.searchItems} className="filter-search" />
                                                 </div>
                                             }
                                             {!isSingleSelect &&

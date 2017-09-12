@@ -61,6 +61,16 @@ export class Index extends React.Component<any, DemoState> {
                     // tslint:disable-next-line:no-string-literal
                     filterSelection={this.state.filterStates['f3']}
                     defaultSelection={FilterSelectionEnum.All}
+                    enabledResizeHandles={{
+                        top: false,
+                        right: false,
+                        bottom: true,
+                        left: true,
+                        topRight: false,
+                        bottomRight: false,
+                        bottomLeft: true,
+                        topLeft: false
+                    }}
                 />
                 <TreeFilter
                     title="Flat list"
