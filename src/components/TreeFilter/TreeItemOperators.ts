@@ -63,7 +63,7 @@ export class ItemOperator {
         return childrenIds;
     }
 
-    static getAllLeafsAndBranches = (currentItem: TreeItem): LeafsAndBranches => {
+    static getAllLeafsAndBranches = (currentItem: TreeItem, originalItem: TreeItem): LeafsAndBranches => {
         let leafs = [];
         let branches: Array<TreeBranch> = [];
 
@@ -83,6 +83,11 @@ export class ItemOperator {
             currentItem.children.forEach(childElement => {
                 checkItemRecursive(childElement, 1);
             });
+        } else if (itemHasChildren(originalItem)) { // when all children are filtered with search
+            branches.push({ id: originalItem.id, depth: 0 });
+            originalItem.children.forEach(childElement => {
+                checkItemRecursive(childElement, 1);
+            });
         } else {
             leafs.push(currentItem.id);
         }
@@ -98,15 +103,16 @@ export class ItemOperator {
         for (let item of items) {
             if (lowerCaseSearchText === '') {
                 filteredItems.push(item);
+            } else if (item.value.toLowerCase().search(lowerCaseSearchText) !== -1) {
+                let newItem: TreeItem = { ...item, children: [], expanded: false };
+                filteredItems.push(newItem);
             } else if (itemHasChildren(item)) {
                 const filteredChildren = ItemOperator.filterItems(item.children, lowerCaseSearchText);
                 if (filteredChildren.length > 0) {
                     let newItem: TreeItem = { ...item, children: filteredChildren, expanded: true };
                     filteredItems.push(newItem);
                 }
-            } else if (item.value.toLowerCase().search(lowerCaseSearchText) !== -1) {
-                filteredItems.push(item);
-            }         
+            }
         }
         return filteredItems;
     }

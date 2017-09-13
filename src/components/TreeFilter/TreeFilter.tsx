@@ -149,7 +149,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                 let itemsToChange = [];
                 let branchesToCheck = [];
                 for (let item of filteredItems) {
-                    const leafsAndBranches = ItemOperator.getAllLeafsAndBranches(item);
+                    const leafsAndBranches = ItemOperator.getAllLeafsAndBranches(item, this.itemLookup[item.id]);
                     itemsToChange = itemsToChange.concat(leafsAndBranches.Leafs);
                     branchesToCheck = branchesToCheck.concat(leafsAndBranches.Branches);
                 }
@@ -202,7 +202,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                 }
             }
         } else {
-            let leafsAndBranches = ItemOperator.getAllLeafsAndBranches(changedTreeItem);
+            let leafsAndBranches = ItemOperator.getAllLeafsAndBranches(changedTreeItem, this.itemLookup[changedTreeItem.id]);
             itemsToChange = leafsAndBranches.Leafs;
             branchesToCheck = leafsAndBranches.Branches;
             const parent = this.parentLookup[changedTreeItem.id];
@@ -369,7 +369,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         if (treeItem.expanded) {
             return (
                 <div key={itemKey} >
-                    <div className="item-container" style={{ height: ROW_HEIGHT }} >
+                    <div className="item-container expandible-item" style={{ height: ROW_HEIGHT }} >
                         <Icon className="tree-expand-icon" iconName={'icon-arrow_down_right'} onClick={onExpandClick} />
                         <ItemCheckboxElement />
                     </div>
@@ -388,7 +388,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
             );
         } else if (itemHasChildren(treeItem)) { // expandable
             return (
-                <div className="item-container" key={itemKey} style={{ height: ROW_HEIGHT }} >
+                <div className="item-container expandible-item" key={itemKey} style={{ height: ROW_HEIGHT }} >
                     <Icon className="tree-expand-icon" iconName={'icon-arrow_right'} onClick={onExpandClick} />
                     <ItemCheckboxElement />
                 </div>
@@ -468,6 +468,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                             maxWidth={maxWidth}
                             maxHeight={maxHeight}
                             onResize={this.onCalloutResize}
+                            enable={this.props.enabledResizeHandles}
                         >
                             <div style={{ height: '100%', width: '100%' }}>
                                 <AutoSizer>
@@ -475,13 +476,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                                         <div>
                                             {hasSearch &&
                                                 <div style={{ width: width, height: 30 }}>
-                                            <Search labelText={searchText} onChange={this.searchItems} className="filter-search" />
-                                                    {/*
-                                                    <input
-                                                        className="tree-filter-input"
-                                                        onChange={this.onSearchTextChange}
-                                                        value={this.state.searchText}
-                                                    /> */}
+                                                    <Search labelText={searchText} onChange={this.searchItems} className="filter-search" />
                                                 </div>
                                             }
                                             {!isSingleSelect &&
