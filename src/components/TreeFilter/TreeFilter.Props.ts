@@ -78,5 +78,4 @@ export interface TreeItem {
     value: string;
     expanded?: boolean;
     children?: Array<TreeItem>;
-    // showChildren?: boolean;
 }
