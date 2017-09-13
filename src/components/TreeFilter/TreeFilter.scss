@@ -21,6 +21,9 @@
         cursor: pointer;
         user-select: none;
     }
+    .expandible-item {
+        width: calc(100% - 22px);
+    }
     .item-container:hover {
         background-color: $font-info-colorBackground
     }

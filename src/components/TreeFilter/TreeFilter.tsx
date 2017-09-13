@@ -191,7 +191,6 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         let itemsToChange = [];
         let branchesToCheck = [];
         if (this.state.searchText === '') {
-            let hasChildren = itemHasChildren(changedTreeItem);
             itemsToChange = ItemOperator.getAllChildrenIds(changedTreeItem);
             if (itemHasChildren(changedTreeItem)) {
                 branchesToCheck.push({ id: changedTreeItem.id, depth: 0 });
@@ -370,7 +369,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         if (treeItem.expanded) {
             return (
                 <div key={itemKey} >
-                    <div className="item-container" style={{ height: ROW_HEIGHT }} >
+                    <div className="item-container expandible-item" style={{ height: ROW_HEIGHT }} >
                         <Icon className="tree-expand-icon" iconName={'icon-arrow_down_right'} onClick={onExpandClick} />
                         <ItemCheckboxElement />
                     </div>
@@ -389,7 +388,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
             );
         } else if (itemHasChildren(treeItem)) { // expandable
             return (
-                <div className="item-container" key={itemKey} style={{ height: ROW_HEIGHT }} >
+                <div className="item-container expandible-item" key={itemKey} style={{ height: ROW_HEIGHT }} >
                     <Icon className="tree-expand-icon" iconName={'icon-arrow_right'} onClick={onExpandClick} />
                     <ItemCheckboxElement />
                 </div>
