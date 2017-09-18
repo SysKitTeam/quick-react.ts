@@ -43,7 +43,7 @@ export const dummyDashboard: IDashboardProps = {
         { iconType: GroupTypeEnum.SharePoint, iconName: 'icon-key', iconTitle: 'SharePoint' },
         { iconType: GroupTypeEnum.Custom, iconName: 'icon-group', iconTitle: 'Custom' },
         { iconType: GroupTypeEnum.Sql, iconName: 'icon-link', iconTitle: 'Sql Server' },
-        { iconType: GroupTypeEnum.SqlAlwaysOn , iconName: 'icon-list', iconTitle: 'Sql Always On' }
+        { iconType: GroupTypeEnum.SqlAlwaysOn, iconName: 'icon-list', iconTitle: 'Sql Always On' }
     ]
 };
 
@@ -60,6 +60,9 @@ export function convertFarm(farm: IGroup): IGroup {
                 status = ServerStatus.Critical;
             }
         }
+        if (Math.random() < 0.05) { status = ServerStatus.Offline; }
+        if (Math.random() < 0.05) { status = ServerStatus.Disabled; }
+
         return {
             id: server.id,
             numberOfUsers: Math.round(Math.random() * 1000).toString(),

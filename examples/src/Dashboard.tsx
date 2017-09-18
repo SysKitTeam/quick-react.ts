@@ -29,6 +29,8 @@ export class Index extends React.Component<any, any> {
                             status = ServerStatus.Critical;
                         }
                     }
+                    if (Math.random() < 0.05) { status = ServerStatus.Offline; }
+                    if (Math.random() < 0.05) { status = ServerStatus.Disabled; }
                     return {
                         id: server.id,
                         status: status,

@@ -21,8 +21,8 @@
         cursor: pointer;
         user-select: none;
     }
-    .item-container:hover {
-        background-color: $font-info-colorBackground
+    .expandible-item {
+        width: calc(100% - 22px);
     }
     .tree-expand-icon {
         vertical-align: middle;
