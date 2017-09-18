@@ -24,7 +24,8 @@ export function createFarms(numOfFarms: number, minServerCount: number, maxServe
                 id: 'server' + farmIndex + '' + i,
                 name: 'server ' + farmIndex + '' + i,
                 roles: roleListFarms,
-                status: Math.random() >= 0.5 ? 1 : 2
+                status: Math.random() >= 0.5 ? 1 : 2,
+                type: Math.random() >= 0.5 ? GroupTypeEnum.SharePoint : GroupTypeEnum.Sql
             });
             serverIndexer++;
         }
@@ -78,7 +79,8 @@ export const DemoServerGroup: IGroup = {
             memoryUsage: memoryUsage,
             partitionUsages: partitionUsages,
             processorUsage: processorUsage,
-            measures: []
+            measures: [],
+            type: Math.random() >= 0.5 ? GroupTypeEnum.SharePoint : GroupTypeEnum.Sql
         },
         {
             id: 'FQDN2',
@@ -89,7 +91,8 @@ export const DemoServerGroup: IGroup = {
             memoryUsage: memoryUsage,
             partitionUsages: partitionUsages,
             processorUsage: processorUsage,
-            measures: []
+            measures: [],
+            type: Math.random() >= 0.5 ? GroupTypeEnum.SharePoint : GroupTypeEnum.SqlAlwaysOn
         }
     ]
 };

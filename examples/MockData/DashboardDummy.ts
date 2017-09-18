@@ -69,7 +69,8 @@ export function convertFarm(farm: IGroup): IGroup {
             onRoleEdit: server.onRoleEdit,
             roles: server.roles,
             status: status,
-            measures: measures
+            measures: measures,
+            type: server.type
         };
     });
 
