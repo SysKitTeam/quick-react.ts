@@ -12,6 +12,8 @@ $Checkbox-label-size: 20px;
     .checkbox-input {
         position: absolute;
         opacity: 0;
+        margin: 0 0 0 0;
+        top: 0;
     }
     .TreeFilter-checkbox-label::before {
         content: '';
@@ -33,9 +35,7 @@ $Checkbox-label-size: 20px;
         position: relative;
         vertical-align: top;
         user-select: none;
-        min-width: $Checkbox-label-size;
-        min-height: $Checkbox-label-size;
-        line-height: $Checkbox-label-size;
+        height: $Checkbox-label-size;
         .label {
             padding: 0 0 0 20px;
             display: inline-block;
