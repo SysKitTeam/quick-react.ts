@@ -4,10 +4,11 @@ class RowGrouper {
     groupByColumns: Array<IGroupBy>;
     columns: Array<GridColumn>;
     expandedRows: any;
-        constructor(groupByColumns, expandedRows, columns) {
-        this.groupByColumns = groupByColumns.slice(0);
+
+    constructor(groupByColumns, expandedRows, columns) {
+        this.groupByColumns = [...groupByColumns];
         this.expandedRows = expandedRows;
-        this.columns = columns.slice(0);
+        this.columns = [...columns];
     }
 
     isRowExpanded(columnName, name) {
