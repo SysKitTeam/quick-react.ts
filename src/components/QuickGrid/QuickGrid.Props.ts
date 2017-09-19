@@ -42,6 +42,7 @@ export interface GroupRow {
     type: 'GroupRow';
     columnGroupName: string;
     name: string;
+    displayName?: string;
     depth: number;
     groupKey: string;
     isExpanded: boolean;
