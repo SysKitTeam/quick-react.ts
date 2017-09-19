@@ -23,20 +23,17 @@ class RowGrouper {
         let nextColumnIndex = groupByColumnIndex;
         let groupByColumn = this.groupByColumns[groupByColumnIndex];
         let columnName = groupByColumn.column;
-        let displayName =  _.find(this.columns, x => x.valueMember === columnName).dataMember;
+        let column =  _.find(this.columns, x => x.valueMember === columnName);
+        let displayName = column.dataMember ?  column.dataMember : column.valueMember;
         let groupedRows = _.groupBy(rows, columnName);
-        let groupKeys = _.uniqWith(rows.map(function(o) {
-            return {
-                 value : o[columnName],
-                 display : o[displayName]
-            };
-        }), _.isEqual);
+        let groupKeys = _.uniq(_.map<any, string>(rows, columnName));
         let dataViewRows = [];
         for (let i = 0; i < groupKeys.length; i++) {
-            let groupKeyValue = groupKeys[i].value;
+            let groupKeyValue = groupKeys[i];
+            let groupItem = groupedRows[groupKeyValue][0];
             const groupKey = parentGroupKey + '||' + groupKeyValue;
             let isExpanded = this.isRowExpanded(columnName, groupKey);
-            const rowGroupHeader: GroupRow = { type: 'GroupRow', columnGroupName: columnName, displayName: groupKeys[i].display, name: groupKeyValue, groupKey: groupKey, depth: groupByColumnIndex, isExpanded: isExpanded };
+            const rowGroupHeader: GroupRow = { type: 'GroupRow', columnGroupName: columnName, groupDisplayName: groupItem[displayName], groupValue: groupKeyValue, groupKey: groupKey, depth: groupByColumnIndex, isExpanded: isExpanded };
             dataViewRows.push(rowGroupHeader);
             if (isExpanded) {
                 nextColumnIndex = groupByColumnIndex + 1;
