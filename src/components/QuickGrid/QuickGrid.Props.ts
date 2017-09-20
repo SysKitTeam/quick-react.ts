@@ -26,6 +26,7 @@ export interface IQuickGridProps {
     onGroupByChanged?: (groupBy: Array<IGroupBy>) => void;
     groupRowFormat?: (rowData: any) => string;
     onGroupBySort?: (sortBy: string, sortDirection: SortDirection) => void;
+    gridActions?: QuickGridActions;
 }
 
 export interface IQuickGridState {
@@ -59,4 +60,18 @@ export interface GridColumn {
     cellFormatter?: (cellData) => any;
     cellClassName?: string;
     headerClassName?: string;
+}
+
+
+export interface QuickGridActions {
+    actionItems: Array<ActionItem>;
+    actionIconName: string;
+    onActionSelected: (commandName: string, parameters, rowData) => void;
+}
+
+export interface ActionItem {
+    name: string;
+    commandName: string;
+    iconName?: string;
+    parameters?: any;
 }

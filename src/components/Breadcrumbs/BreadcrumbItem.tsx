@@ -25,20 +25,20 @@ export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
         return (
             <div className={classNames('breadcrumbs-item', className)}>
                 <div className={'breadcrumbs-item-title'}>
-                { 
-                    iconName && 
-                    <Icon 
+                {
+                    iconName &&
+                    <Icon
                         className={classNames('breadcrumbs-item-icon', className)}
-                        iconName={iconName} 
-                        onClick={() => this.props.onClick(this.props.url)} 
-                    /> 
+                        iconName={iconName}
+                        onClick={() => this.props.onClick(this.props.url)}
+                    />
                 }
-                { 
+                {
                     text &&
-                    <Label 
+                    <Label
                         className={classNames('breadcrumbs-item-label', className)}
                         onClick={() => this.props.onClick(this.props.url)}
-                    >{text}</Label> 
+                    >{text}</Label>
                 }
                 </div>
                 {
