@@ -41,7 +41,8 @@ export interface IQuickGridState {
 export interface GroupRow {
     type: 'GroupRow';
     columnGroupName: string;
-    name: string;
+    groupValue: string;
+    groupDisplayName?: string;
     depth: number;
     groupKey: string;
     isExpanded: boolean;
