@@ -22,6 +22,7 @@ export interface IDropdownProps {
   onClosed?: () => void;
   onMenuToggle?: (opened: boolean) => void;
   onCustomSelectionText?: () => string;
+  displaySelection?: boolean; // default true
 }
 
 export interface IDropdownOption {
@@ -36,5 +37,6 @@ export interface IDropdownOption {
 export enum DropdownType {
   selectionDropdown,
   linkDropdown,
-  customDropdown
+  customDropdown,
+  actionDropdown
 }

@@ -4,23 +4,24 @@ import { DirectionalHint } from '../../utilities/DirectionalHint';
 import { Callout } from '../Callout/Callout';
 import { Icon } from '../Icon/Icon';
 import { KeyCodes } from '../../utilities/KeyCodes';
-import { autobind } from '../../utilities/autobind';
 import * as classNames from 'classnames';
 import { findIndex } from '../../utilities/array';
 import { getId } from '../../utilities/getId';
 import './Dropdown.scss';
 
 export interface IDropdownState {
+  id: string;
   isOpen: boolean;
   selectedIndex: number;
   isDisabled: boolean;
 }
 
-export class Dropdown extends React.Component<IDropdownProps, any> {
-
+export class Dropdown extends React.Component<IDropdownProps, IDropdownState> {
   public static defaultProps = {
     options: [],
     hasTitleBorder: false,
+    displaySelection: true,
+    disabled: false,
     dropdownType: DropdownType.linkDropdown
   };
 
@@ -30,18 +31,14 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
     [key: string]: React.ReactInstance,
     root: HTMLElement
   };
-
-  private _optionList: HTMLElement;
   private _dropDown: HTMLDivElement;
   private _dropdownLabel: HTMLElement;
 
-  constructor(props?: IDropdownProps) {
-    super(props, {
-      'isDisabled': 'disabled'
-    });
-
+  constructor(props: IDropdownProps) {
+    super(props);
     this.state = {
       id: getId('Dropdown'),
+      isDisabled: props.disabled,
       isOpen: false,
       selectedIndex: this._getSelectedIndex(props.options, props.selectedKey)
     };
@@ -49,38 +46,30 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
 
   public componentWillReceiveProps(newProps: IDropdownProps) {
     this.setState({
-      selectedIndex: this._getSelectedIndex(newProps.options, newProps.selectedKey)
+      selectedIndex: this._getSelectedIndex(newProps.options, newProps.selectedKey),
+      isDisabled: newProps.disabled
     });
   }
 
+  getSelectionText = (dropdownType, selectedOption) => {
+    if (!this.props.displaySelection) {
+      return '';
+    }
+    if (this.props.onCustomSelectionText) {
+      return this.props.onCustomSelectionText();
+    } else if (dropdownType === DropdownType.selectionDropdown && selectedOption) {
+      return (<span>{selectedOption.text}</span>);
+    } else {
+      return '';
+    }
+  }
+  setDropDownRef = (ref) => { this._dropDown = ref; };
   public render() {
-    let { label, options, onRenderItem = this._onRenderItem, hasTitleBorder, icon, dropdownType, children, className, calloutClassName, layerClassName, onCustomSelectionText } = this.props;
+    let { label, options, hasTitleBorder, icon, dropdownType, className, calloutClassName, layerClassName } = this.props;
     let { id, isOpen, selectedIndex, isDisabled } = this.state;
     let selectedOption = options[selectedIndex];
-
-    const dropdownTitleClassName = classNames(
-      {
-        'dropdown-title-border': this.props.hasTitleBorder,
-        'dropdown-title': !this.props.hasTitleBorder
-      }
-    );
-
-    const dropdownIconClassName = classNames(
-      {
-        'iconArrowWithBorder': this.props.hasTitleBorder,
-        'iconArrow': !this.props.hasTitleBorder
-      }
-    );
-
-    let selectionText = null;
-    if (onCustomSelectionText) {
-      selectionText = onCustomSelectionText();
-    } else if (dropdownType === DropdownType.selectionDropdown && selectedOption) {
-      selectionText = onRenderItem(selectedOption, this._onRenderItem);
-    } else {
-      selectionText = '';
-    }
-
+    const dropdownTitleClassName = this.props.hasTitleBorder ? 'dropdown-title-border' : 'dropdown-title';
+    const dropdownIconClassName = this.props.hasTitleBorder ? 'iconArrowWithBorder' : 'iconArrow';
     return (
       <div ref="root">
         {label && (
@@ -102,9 +91,11 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
             {icon && (
               <Icon iconName={icon}></Icon>
             )}
-            {selectionText}
+            {this.getSelectionText(dropdownType, selectedOption)}
           </span>
-          <Icon className={dropdownIconClassName} iconName={'icon-arrow_down'}></Icon>
+          {this.props.displaySelection &&
+            <Icon className={dropdownIconClassName} iconName={'icon-arrow_down'}></Icon>
+          }
         </div>
         {isOpen && (
           <Callout
@@ -114,53 +105,97 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
             doNotLayer={false}
             targetElement={this._dropDown}
             directionalHint={DirectionalHint.bottomLeftEdge}
-            onDismiss={this._onDismiss}
+            onDismiss={this.closeDropdown}
           >
-            {dropdownType === DropdownType.customDropdown ? (
-              <ul ref={(c: HTMLElement) => this._optionList = c}
-                id={id + '-list'}
-                className="dropdown-items"
-                role="listbox">
-                {children}
-              </ul>
-            ) : (
-                <ul ref={(c: HTMLElement) => this._optionList = c}
-                  id={id + '-list'}
-                  style={{ width: this._dropDown.clientWidth - 2 }}
-                  className="dropdown-items"
-                  role="listbox">
-                  {options && options.map((option, index) => (
-                    <li id={id + '-list' + index.toString()}
-                      ref={Dropdown.Option + index.toString()}
-                      title={option.text}
-                      key={option.key}
-                      data-index={index}
-                      data-is-focusable={true}
-                      className={classNames('dropdown-item', { 'is-selected': selectedIndex === index })}
-                      onClick={() => this._onItemClick(index)}
-                      onFocus={() => this.setSelectedIndex(index)}
-                      role="option">
-                      {option.icon ? <Icon iconName={option.icon}></Icon>
-                        : null}
-                      {option.text}
-                    </li>
-                  ))}
-                </ul>
-              )}
+            {this.renderItems()}
           </Callout>
         )}
       </div>
     );
   }
-
-  public closeDropdown() {
-    this._onDismiss();
+  renderItems = () => {
+    const { dropdownType, children, className, calloutClassName, layerClassName, onCustomSelectionText } = this.props;
+    if (dropdownType === DropdownType.customDropdown) {
+      return this.renderCustomDropdownItems();
+    }
+    if (dropdownType === DropdownType.actionDropdown) {
+      return this.renderActionDropdownItems();
+    }
+    return this.renderDefaultDropdownItems();
   }
 
-  public focus() {
-    if (this._dropDown && this._dropDown.tabIndex !== -1) {
-      this._dropDown.focus();
+  renderCustomDropdownItems = () => {
+    return (
+      <ul
+        id={this.state.id + '-list'}
+        className="dropdown-items"
+        role="listbox">
+        {this.props.children}
+      </ul>
+    );
+  }
+  renderActionDropdownItems = () => {
+    let { options, icon } = this.props;
+    let { id } = this.state;
+    return (
+      <ul
+        id={id + '-list'}
+        className="dropdown-items"
+        role="listbox"
+      >
+        {options && options.map((option, index) => (
+          <li
+            id={id + '-list' + option.key}
+            title={option.text}
+            key={option.key}
+            data-index={index}
+            className={'dropdown-item'}
+            onClick={() => this.onActionItemClick(option, index)}
+            role="option"
+          >
+            {option.icon ? <Icon iconName={option.icon}></Icon> : null}
+            {option.text}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  onActionItemClick = (option, index) => {
+    const { onClick } = this.props;
+    if (onClick) {
+      onClick(option, index);
     }
+    this.closeDropdown();
+  }
+
+  renderDefaultDropdownItems = () => {
+    let { options, icon } = this.props;
+    let { id, selectedIndex } = this.state;
+    return (
+      <ul
+        id={id + '-list'}
+        style={{ width: this._dropDown.clientWidth - 2 }}
+        className="dropdown-items"
+        role="listbox">
+        {options && options.map((option, index) => (
+          <li id={id + '-list' + index.toString()}
+            ref={Dropdown.Option + index.toString()}
+            title={option.text}
+            key={option.key}
+            data-index={index}
+            data-is-focusable={true}
+            className={classNames('dropdown-item', { 'is-selected': selectedIndex === index })}
+            onClick={() => this._onItemClick(index)}
+            onFocus={() => this.setSelectedIndex(index)}
+            role="option">
+            {option.icon ? <Icon iconName={option.icon}></Icon>
+              : null}
+            {option.text}
+          </li>
+        ))}
+      </ul>
+    );
   }
 
   public setSelectedIndex(index: number) {
@@ -184,11 +219,6 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
 
   }
 
-  @autobind
-  private _onRenderItem(item: IDropdownOption): JSX.Element {
-    return <span>{item.text}</span>;
-  }
-
   private _onItemClick(index) {
     this.setSelectedIndex(index);
     this.setState({
@@ -196,8 +226,7 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
     });
   }
 
-  @autobind
-  private _onDismiss() {
+  closeDropdown = () => {
     this.setState({ isOpen: false });
     if (this.props.onClosed) {
       this.props.onClosed();
@@ -208,8 +237,7 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
     return findIndex(options, (option => (option.isSelected || option.selected || (selectedKey != null) && option.key === selectedKey)));
   }
 
-  @autobind
-  private _onDropdownKeyDown(ev: React.KeyboardEvent<any>) {
+  private _onDropdownKeyDown = (ev: React.KeyboardEvent<any>) => {
     switch (ev.which) {
       case KeyCodes.enter:
         this.setState({
@@ -247,8 +275,7 @@ export class Dropdown extends React.Component<IDropdownProps, any> {
     ev.preventDefault();
   }
 
-  @autobind
-  private _onDropdownClick() {
+  private _onDropdownClick = () => {
     let { isDisabled, isOpen } = this.state;
 
     if (!isDisabled) {

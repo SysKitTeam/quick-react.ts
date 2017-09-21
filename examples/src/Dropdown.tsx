@@ -35,7 +35,9 @@ export class Index extends React.Component<any, any> {
                             { key: 'J', text: 'Option j' }
                         ]
                     }
-                    />
+                />
+                <hr />
+
                 <Dropdown icon={'icon-arrow_down_right'} dropdownType={DropdownType.customDropdown}>
                     <Label>Header</Label>
                     <hr />
@@ -48,7 +50,31 @@ export class Index extends React.Component<any, any> {
                         <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
                     </li>
                 </Dropdown>
+                <hr />
+                <div style={{ 'width': '50px' }}>
+                    <Dropdown
+                        icon={'icon-ghost'}
+                        dropdownType={DropdownType.actionDropdown}
+                        displaySelection={false}
+                        onClick={(option, index) => console.log(option, index)}
+                        options={
+                            [
+                                { key: 'A', text: 'Option a', icon: 'icon-add' },
+                                { key: 'B', text: 'Option b', icon: 'icon-buy' },
+                                { key: 'C', text: 'Option c', icon: 'icon-user' },
+                                { key: 'D', text: 'Option d' },
+                                { key: 'E', text: 'Option e' },
+                                { key: 'F', text: 'Option f' },
+                                { key: 'G', text: 'Option g' },
+                                { key: 'H', text: 'Option h' },
+                                { key: 'I', text: 'Option i' },
+                                { key: 'J', text: 'Option j' }
+                            ]
+                        }
+                    />
+                </div>
             </div>
+
         );
     }
 }
