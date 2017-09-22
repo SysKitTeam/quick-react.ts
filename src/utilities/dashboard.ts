@@ -75,7 +75,7 @@ function groupType(groups: Array<IGroup>): Array<IGroup> {
         let group = groups[i];
         for (let j = 0; j < group.servers.length; j++) {
             let server = group.servers[j];
-            switch (group.type) {
+            switch (server.type) {
                 case GroupTypeEnum.SharePoint:
                     doGroupCheck(spGroup, server, spGroupCheck);
                     break;

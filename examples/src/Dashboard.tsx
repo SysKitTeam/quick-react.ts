@@ -38,7 +38,8 @@ export class Index extends React.Component<any, any> {
                         onRoleEdit: server.onRoleEdit,
                         onClose: server.onClose,
                         name: server.name,
-                        measures: measures
+                        measures: measures,
+                        type: server.type
                     };
                 });
                 return {

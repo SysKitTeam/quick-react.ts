@@ -20,7 +20,7 @@ const gridActions: QuickGridActions = {
         { name: 'Action 4', commandName: 'command4', parameters: { key: 'someParam' } }
     ],
     actionIconName: 'icon-ghost',
-    onActionSelected: function (commandName: string, parameters, rowData) { console.log(commandName, parameters, rowData); }
+    onActionSelected: function (commandName: string, parameters, rowData) { }
 };
 
 export class Index extends React.Component<any, any> {

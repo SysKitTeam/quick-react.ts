@@ -2,11 +2,13 @@ import { ServerStatus } from './ServerStatus';
 import { IRole } from './IRole';
 import { IMeasure } from './Measures';
 import { IMemoryUsage , IPartitionUsage, IProcessorUsage} from '../components/DetailedServerTile/';
+import { GroupTypeEnum } from './IGroup';
 
 export interface IServer {
     id: string;
     name: string;
-    status: ServerStatus;    
+    status: ServerStatus;
+    type: GroupTypeEnum;
     measures: Array<IMeasure>;
     roles?: Array<IRole>;
     numberOfUsers?: string;
