@@ -91,6 +91,7 @@ $DropDown-item-height: 36px;
         position: relative;
         border: 1px solid transparent;
         word-wrap: break-word;
+        user-select: none;
         cursor: pointer;
 
         &:hover {

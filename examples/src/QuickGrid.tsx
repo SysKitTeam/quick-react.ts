@@ -5,11 +5,24 @@ import * as ReactDOM from 'react-dom';
 import Resizable from 'react-resizable-box';
 import { Dropdown, DropdownType } from '../../src/components/Dropdown';
 import { Button } from '../../src/components/Button';
-import { QuickGrid, IQuickGridProps, SortDirection, GridColumn } from '../../src/components/QuickGrid';
+import { QuickGrid, IQuickGridProps, SortDirection, GridColumn, QuickGridActions } from '../../src/components/QuickGrid';
 import { gridColumns1, getGridData1, gridColumns2, getGridData2 } from '../MockData/gridData';
 import '../../src/components/TreeFilter/TreeFilter.scss'; // used for react-resizable style
 
 const numOfRows = 10000;
+
+
+const gridActions: QuickGridActions = {
+    actionItems: [
+        { name: 'Action 1', iconName: 'icon-add', commandName: 'command1' },
+        { name: 'Action 2', iconName: 'icon-user', commandName: 'command2' },
+        { name: 'Action 3', commandName: 'command3' },
+        { name: 'Action 4', commandName: 'command4', parameters: { key: 'someParam' } }
+    ],
+    actionIconName: 'icon-ghost',
+    onActionSelected: function (commandName: string, parameters, rowData) { console.log(commandName, parameters, rowData); }
+};
+
 export class Index extends React.Component<any, any> {
     state = {
         data: getGridData1(numOfRows),
@@ -45,6 +58,7 @@ export class Index extends React.Component<any, any> {
                             groupBy={this.state.groupBy}
                             displayGroupContainer={true}
                             onGroupByChanged={this.groupByChanged}
+                            gridActions={gridActions}
                         />
                     </div>
                 </Resizable>

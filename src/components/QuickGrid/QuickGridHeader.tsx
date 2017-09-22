@@ -50,7 +50,7 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
                         groupBy={this.props.groupBy}
                         onGroupByChanged={this.props.onGroupByChanged}
                         onGroupByRemoved={this.onGroupByRemoved}
-                        onSort={this.props.onGroupBySort}               
+                        onSort={this.props.onGroupBySort}
                     />
                 }
                 <Grid
@@ -81,7 +81,8 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
 
     headerCellRender = ({ columnIndex, key, rowIndex, style }) => {
         const notLastIndex = columnIndex < (this.state.columnWidths.length - 1);
-        const notEmptyColumns = columnIndex >= this.props.groupBy.length;
+        const isAction = this.props.hasActionColumn && columnIndex === 0;
+        const notEmptyColumns = !isAction && columnIndex >= this.props.groupBy.length;
         const displayResizeHandle = notLastIndex && notEmptyColumns;
         const column = this.props.headerColumns[columnIndex];
 

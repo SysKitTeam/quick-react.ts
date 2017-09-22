@@ -16,7 +16,7 @@ export class TreeFilterCheckBox extends React.PureComponent<ITreeFilterCheckBoxP
         const { itemId, checked, onChange, text } = this.props;
         const isChecked = checked === CheckStatus.Checked;
         return (
-            <div className={classNames('TreeFilter-checkbox', { 'icon-partial-selected': checked === CheckStatus.ChildChecked })} onClick={onChange} >
+            <div className={classNames('TreeFilter-checkbox', { 'partial-selected': checked === CheckStatus.ChildChecked })} onClick={onChange} >
                 <input {...isChecked} className={'checkbox-input'} type="checkbox" />
                 {isChecked && <Icon className={'TreeFilter-checkbox-checkmark'} iconName={'icon-checkmark'} />}
                 <label className="TreeFilter-checkbox-label"  >

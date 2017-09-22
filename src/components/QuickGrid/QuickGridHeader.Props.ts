@@ -15,6 +15,7 @@ export interface IGridHeaderProps {
     scrollLeft: any;
     displayGroupContainer: boolean;
     onGroupByChanged?: (groupBy: Array<IGroupBy>) => void;
+    hasActionColumn: boolean;
 }
 
 export interface IGridHeaderState {
