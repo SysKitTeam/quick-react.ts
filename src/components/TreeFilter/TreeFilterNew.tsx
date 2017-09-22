@@ -36,12 +36,30 @@ export interface INewTreeFilterProps {
     directionalHint?: DirectionalHint;
 }
 
+export const defaultNewTreeFilterProps: Partial<ITreeFilterProps> = {
+    filterId: 'treeFilter',
+    hasSearch: true,
+    isSingleSelect: false,
+    itemsAreFlatList: false,
+    isGroupSelectableOnSingleSelect: false,
+    directionalHint: DirectionalHint.bottomRightEdge,
+    onValuesSelected: () => { },
+    filterSelection: { type: FilterSelectionEnum.None, selectedIDs: [] },
+    width: 300,
+    height: 350,
+    minWidth: 200,
+    minHeight: 200,
+    defaultSelection: FilterSelectionEnum.None,
+    clearSearchOnClose: true
+};
+
+
 export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INewTreeFilterState> {
     private _list: any;
     private parentLookup: Readonly<{ [id: string]: TreeItem }>;
     private itemLookup: Readonly<{ [id: string]: TreeItem }>;
     private allItemIds: ReadonlyArray<string>;
-    public static defaultProps = defaultTreeFilterProps;
+    public static defaultProps = defaultNewTreeFilterProps;
 
     constructor(props: ITreeFilterProps) {
         super(props);
@@ -101,10 +119,6 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
                     title && <label className="tree-filter-title">{title}</label>
                 }
                 {
-                    !isDefaultSelected &&
-                    <Icon iconName="icon-delete" className="reset-filter-icon" title="Reset filter" onClick={this.onFilterReset} />
-                }
-                {
                     hasSearch && <Search labelText={this.state.searchText} onChange={this.searchItems} className="filter-search" />
                 }
                 {
@@ -115,6 +129,10 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
                         checked={allSelected}
                         onChange={this.onSelectAllChange}
                     />
+                }
+                {
+                    !isDefaultSelected &&
+                    <Icon iconName="icon-delete" className="reset-filter-icon" title="Reset filter" onClick={this.onFilterReset} />
                 }
                 <AutoSizer disableHeight>
                     {({ width, height }) => (
@@ -457,18 +475,6 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         if (!this.props.isSingleSelect) { heightDiff += 44; } // 25px: SelectAll +  19px: Footer
         if (this.props.hasSearch) { heightDiff += 30; }
         return heightDiff;
-    }
-
-    getBoxHeight = (availableHeight) => {
-        const supportElementsHeight = this.getBoxSupportElementsHeight();
-        const maxListHeight = availableHeight - supportElementsHeight;
-        const numberOfItems = this.allItemIds.length;
-        const itemsListHeight = numberOfItems * ROW_HEIGHT;
-        if (itemsListHeight < maxListHeight) {
-            return itemsListHeight + supportElementsHeight;
-        } else {
-            return availableHeight;
-        }
     }
 
     getListHeight = (totalHeight) => {
