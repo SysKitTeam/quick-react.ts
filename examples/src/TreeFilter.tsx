@@ -3,7 +3,7 @@ import 'ts-helpers';
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { TreeFilter, IFilterSelection, FilterSelectionEnum } from '../../src/components/TreeFilter';
+import { TreeFilter, IFilterSelection, FilterSelectionEnum, TreeFilterNew } from '../../src/components/TreeFilter';
 import { createFlatList, createRandomizedData } from '../MockData/treeFilterElements';
 
 interface DemoState {
@@ -31,7 +31,7 @@ export class Index extends React.Component<any, DemoState> {
 
         return (
             <div style={{ paddingLeft: 300 }}>
-                <TreeFilter
+                {/* <TreeFilter
                     title="Tree Filter (max size)"
                     filterId={'f1'}
                     items={treeData}
@@ -41,8 +41,19 @@ export class Index extends React.Component<any, DemoState> {
                     defaultSelection={FilterSelectionEnum.All}
                     maxWidth={700}
                     maxHeight={500}
-                />
-                 <TreeFilter
+                /> */}
+                <div className="container" style={{ width: '500px', height: '500px' }}>
+                    <TreeFilterNew
+                        title="Tree Filter (max size)"
+                        filterId={'f8'}
+                        items={treeData}
+                        onValuesSelected={this.onValuesSelected}
+                        // tslint:disable-next-line:no-string-literal
+                        filterSelection={this.state.filterStates['f8']}
+                        defaultSelection={FilterSelectionEnum.All}
+                    />
+                </div>
+                {/* <TreeFilter
                     title="Tree Filter - depth 4"
                     filterId={'f2'}
                     items={deeperTreeData}
@@ -90,7 +101,7 @@ export class Index extends React.Component<any, DemoState> {
                     defaultSelection={FilterSelectionEnum.All}
                     // tslint:disable-next-line:no-string-literal
                     filterSelection={this.state.filterStates['f5']}
-                />
+                /> */}
             </div>
         );
     }

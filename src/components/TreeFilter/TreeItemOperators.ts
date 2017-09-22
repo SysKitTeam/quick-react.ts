@@ -95,10 +95,12 @@ export class ItemOperator {
         return { Leafs: leafs, Branches: branches };
     }
 
-
     static filterItems = (items: Array<TreeItem>, lowerCaseSearchText: string): Array<TreeItem> => {
         let filteredItems: Array<TreeItem> = [];
-        if (items == null || items.length === 0) { return filteredItems; }
+
+        if (items == null || items.length === 0) {
+            return filteredItems;
+        }
 
         for (let item of items) {
             if (lowerCaseSearchText === '') {
@@ -114,6 +116,7 @@ export class ItemOperator {
                 }
             }
         }
+
         return filteredItems;
     }
 }

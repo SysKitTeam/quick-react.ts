@@ -403,7 +403,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         }
     }
 
-    rowRenderer = ({ index, key, parent, style }) => {
+    rowRenderer = ({ index, isScrolling, key, parent, style }) => {
         return (
             <div key={key} style={style}>
                 {this.renderItem(this.state.filteredItems[index], index)}
