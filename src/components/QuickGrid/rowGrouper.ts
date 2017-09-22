@@ -34,7 +34,7 @@ class RowGrouper {
             let groupItem = groupedRows[groupKeyValue][0];
             const groupKey = parentGroupKey + '||' + groupKeyValue;
             let isExpanded = this.isRowExpanded(columnName, groupKey);
-            const rowGroupHeader: GroupRow = { type: 'GroupRow', columnGroupName: columnName, groupDisplayName: groupItem[displayName], groupValue: groupKeyValue, groupKey: groupKey, depth: groupByColumnIndex, isExpanded: isExpanded };
+            const rowGroupHeader: GroupRow = { type: 'GroupRow', columnGroupName: columnName, displayName: groupItem[displayName], name: groupKeyValue, groupKey: groupKey, depth: groupByColumnIndex, isExpanded: isExpanded };
             dataViewRows.push(rowGroupHeader);
             if (isExpanded) {
                 nextColumnIndex = groupByColumnIndex + 1;
