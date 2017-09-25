@@ -1,0 +1,37 @@
+@import '../../index.scss';
+
+.tree-filter-container {
+    height: 50px;
+    width: 200px;
+    position: relative;
+    color: $font-primary-color;
+    font-family: $font-family-base;
+
+    .tree-filter-title {
+        width: 200px;
+        height: 20px;
+        padding: 2px 1px 2px 1px;
+        border-bottom: 1px solid $secondary-color;
+        cursor: pointer;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        .dropdown-icon {
+            float: right;
+            padding-top: 6px;
+            padding-right: 1px;
+            font-size: 11px;
+        }
+    }
+
+    .item-selected {
+        color: $secondary-color;
+    }
+
+    .reset-filter-icon {
+        font-size: 11px;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+}

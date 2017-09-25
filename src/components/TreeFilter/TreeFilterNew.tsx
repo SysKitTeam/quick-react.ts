@@ -33,35 +33,39 @@ export interface INewTreeFilterProps {
     itemsAreFlatList?: boolean;
     onValuesSelected?: (filterId: string, filterSelection: IFilterSelection) => void;
     defaultSelection?: FilterSelectionEnum;
-    directionalHint?: DirectionalHint;
+    rowHeight?: number;
+    onCustomSelection?: (customSelection: boolean) => void;
+    selectionText?: (selectionText: string) => void;
 }
 
-export const defaultNewTreeFilterProps: Partial<ITreeFilterProps> = {
+export const defaultNewTreeFilterProps: Partial<INewTreeFilterProps> = {
     filterId: 'treeFilter',
     hasSearch: true,
     isSingleSelect: false,
     itemsAreFlatList: false,
     isGroupSelectableOnSingleSelect: false,
-    directionalHint: DirectionalHint.bottomRightEdge,
     onValuesSelected: () => { },
     filterSelection: { type: FilterSelectionEnum.None, selectedIDs: [] },
-    width: 300,
-    height: 350,
-    minWidth: 200,
-    minHeight: 200,
     defaultSelection: FilterSelectionEnum.None,
-    clearSearchOnClose: true
+    rowHeight: 20,
+    selectionText: () => { }
 };
 
+export interface INewTreeFilterState {
+    filteredItems: Array<TreeItem>;
+    searchText: string;
+    partiallyCheckedItemIds: Array<string>;   // items with selected children - different name?
+}
 
 export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INewTreeFilterState> {
     private _list: any;
     private parentLookup: Readonly<{ [id: string]: TreeItem }>;
     private itemLookup: Readonly<{ [id: string]: TreeItem }>;
     private allItemIds: ReadonlyArray<string>;
+
     public static defaultProps = defaultNewTreeFilterProps;
 
-    constructor(props: ITreeFilterProps) {
+    constructor(props: INewTreeFilterProps) {
         super(props);
 
         this.state = {
@@ -77,18 +81,27 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         this.searchItems = _.debounce(this.searchItems, 100);
     }
 
-    public componentWillReceiveProps(nextProps: ITreeFilterProps) {
-        if (nextProps.items !== this.props.items) {
-            const filteredItems = ItemOperator.filterItems(nextProps.items, this.state.searchText);
-            let lookups = ItemOperator.getLookupTableAndParentLookup(nextProps.items);
-            this.parentLookup = lookups.parentLookup;
-            this.itemLookup = lookups.itemLookup;
-            this.allItemIds = ItemOperator.getAllItemIds(nextProps.items);
-            this.setState(prevState => ({ ...prevState, filteredItems: filteredItems }));
-        }
+    private updateFilterItems(items: Array<TreeItem>) {
+        this.setState(prevState => ({
+            ...prevState,
+            filteredItems: items
+        }));
     }
 
-    public componentDidUpdate(prevProps: ITreeFilterProps, prevState: ITreeFilterState) {
+    public componentWillReceiveProps(nextProps: INewTreeFilterProps) {
+        if (nextProps.items === this.props.items) {
+            return;
+        }
+
+        const filteredItems = ItemOperator.filterItems(nextProps.items, this.state.searchText);
+        let lookups = ItemOperator.getLookupTableAndParentLookup(nextProps.items);
+        this.parentLookup = lookups.parentLookup;
+        this.itemLookup = lookups.itemLookup;
+        this.allItemIds = ItemOperator.getAllItemIds(nextProps.items);
+        this.setState(prevState => ({ ...prevState, filteredItems: filteredItems }));
+    }
+
+    public componentDidUpdate(prevProps: ITreeFilterProps, prevState: INewTreeFilterState) {
         if (this.state.filteredItems !== prevState.filteredItems) {
             if (this._list != null) {
                 this._list.recomputeRowHeights();
@@ -100,7 +113,7 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         }
     }
 
-    public render() {
+    public componentWillMount() {
         const { title, hasSearch, isSingleSelect, defaultSelection } = this.props;
 
         const allSelected = this.getAllSelectedCheckMark();
@@ -112,6 +125,19 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         const isDefaultSelected =
             (defaultSelection === FilterSelectionEnum.None && numberOfSelectedItems === 0) ||
             (defaultSelection === FilterSelectionEnum.All && numberOfSelectedItems === this.allItemIds.length);
+
+        if (this.props.onCustomSelection) {
+            this.props.onCustomSelection(isDefaultSelected);
+        }
+    }
+
+    public render() {
+        const { title, hasSearch, isSingleSelect, defaultSelection } = this.props;
+
+        const allSelected = this.getAllSelectedCheckMark();
+        const filterSelection = this.props.filterSelection;
+        const checkedItemIds = filterSelection.type === FilterSelectionEnum.All ? this.allItemIds : filterSelection.selectedIDs;
+        const numberOfSelectedItems = checkedItemIds.length;
 
         return (
             <div className="tree-filter-container" style={{ height: '100%', width: '100%' }}>
@@ -129,10 +155,6 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
                         checked={allSelected}
                         onChange={this.onSelectAllChange}
                     />
-                }
-                {
-                    !isDefaultSelected &&
-                    <Icon iconName="icon-delete" className="reset-filter-icon" title="Reset filter" onClick={this.onFilterReset} />
                 }
                 <AutoSizer disableHeight>
                     {({ width, height }) => (
@@ -157,6 +179,24 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         );
     }
 
+    private getSelectedText = () => {
+        if (this.props.filterSelection.type === FilterSelectionEnum.All) {
+            return '[All]';
+        }
+        const checkedItemIds = this.props.filterSelection.selectedIDs;
+
+        if (checkedItemIds.length === 0) {
+            return 'Please select...';
+        } else if (checkedItemIds.length === 1) {
+            const itemId = checkedItemIds[0];
+            return this.itemLookup[itemId].value;  // ItemOperator.findItemInTree(this.props.items, itemId).value;
+        } else {
+            const someIds = checkedItemIds.slice(0, 3);
+            const names = someIds.map((itemID) => { return this.itemLookup[itemID].value; }); //  ItemOperator.findItemInTree(this.props.items, itemID).value; });
+            return names.join(', ') + '...';
+        }
+    }
+
     private rowRenderer = ({ index, key, parent, style }) => {
         return (
             <div key={key} style={style}>
@@ -171,6 +211,7 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
             treeItem.expanded = !treeItem.expanded;
             this._list.recomputeRowHeights();
         };
+
         const filterSelection = this.props.filterSelection;
         const checkedItemIds = filterSelection.type === FilterSelectionEnum.All ? this.allItemIds : filterSelection.selectedIDs;
         const itemChecked = this.isItemInList(checkedItemIds, treeItem);
@@ -179,6 +220,7 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         const onItemCheckedChange = () => {
             const newCheckedAndPartial = this.getNewCheckedItems(treeItem, checkedItemIds, itemCheckedOrAllFilteredChecked);
             this.setNewSelectedState(false, newCheckedAndPartial.checked, newCheckedAndPartial.partially);
+            this.props.selectionText(this.getSelectedText());
         };
 
         const onSingleSelectItemClick = () => {
@@ -186,7 +228,6 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
                 return;
             }
             this.props.onValuesSelected(this.props.filterId, { type: FilterSelectionEnum.Selected, selectedIDs: [treeItem.id] });
-            this.setState(prevState => ({ ...prevState, isOpen: false }));
         };
 
         // tslint:disable-next-line:variable-name
@@ -214,7 +255,7 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         if (treeItem.expanded) {
             return (
                 <div key={itemKey} >
-                    <div className="item-container expandible-item" style={{ height: ROW_HEIGHT }} >
+                    <div className="item-container expandible-item" style={{ height: this.props.rowHeight }} >
                         <Icon className="tree-expand-icon" iconName={'icon-arrow_down_right'} onClick={onExpandClick} />
                         <ItemCheckboxElement />
                     </div>
@@ -233,7 +274,7 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
             );
         } else if (itemHasChildren(treeItem)) { // expandable
             return (
-                <div className="item-container expandible-item" key={itemKey} style={{ height: ROW_HEIGHT }} >
+                <div className="item-container expandible-item" key={itemKey} style={{ height: this.props.rowHeight }} >
                     <Icon className="tree-expand-icon" iconName={'icon-arrow_right'} onClick={onExpandClick} />
                     <ItemCheckboxElement />
                 </div>
@@ -241,22 +282,22 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         } else { // leaf
             const marginLeft = this.props.itemsAreFlatList ? 0 : 21;
             return (
-                <div className="item-container" key={itemKey} style={{ height: ROW_HEIGHT, marginLeft: marginLeft }}>
+                <div className="item-container" key={itemKey} style={{ height: this.props.rowHeight, marginLeft: marginLeft }}>
                     <ItemCheckboxElement />
                 </div>
             );
         }
     }
 
-    isItemInList(list, treeItem: TreeItem): boolean {
+    private isItemInList(list, treeItem: TreeItem): boolean {
         return list.indexOf(treeItem.id) !== -1;
     }
 
-    rowHeight = ({ index }) => {
-        return this.getExpandedItemCount(this.state.filteredItems[index]) * ROW_HEIGHT;
+    private rowHeight = ({ index }) => {
+        return this.getExpandedItemCount(this.state.filteredItems[index]) * this.props.rowHeight;
     }
 
-    getExpandedItemCount = (item) => {
+    private getExpandedItemCount = (item) => {
         let count = 1;
         if (item.expanded) {
             count += item.children
@@ -266,9 +307,11 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         return count;
     }
 
-    setListReference = (ref) => { this._list = ref; };
+    private setListReference = (ref) => {
+        this._list = ref;
+    }
 
-    searchItems = (searchText?: string) => {
+    private searchItems = (searchText?: string) => {
         const lowerCaseSearchText = searchText == null ? '' : searchText.toLowerCase();
         let newItems = ItemOperator.filterItems(this.props.items, searchText);
         this.setState(prevState => ({
@@ -278,25 +321,7 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         }));
     }
 
-    getSelectedText = () => {
-        if (this.props.filterSelection.type === FilterSelectionEnum.All) {
-            return '[All]';
-        }
-        const checkedItemIds = this.props.filterSelection.selectedIDs;
-
-        if (checkedItemIds.length === 0) {
-            return 'Please select...';
-        } else if (checkedItemIds.length === 1) {
-            const itemId = checkedItemIds[0];
-            return this.itemLookup[itemId].value;  // ItemOperator.findItemInTree(this.props.items, itemId).value;
-        } else {
-            const someIds = checkedItemIds.slice(0, 3);
-            const names = someIds.map((itemID) => { return this.itemLookup[itemID].value; }); //  ItemOperator.findItemInTree(this.props.items, itemID).value; });
-            return names.join(', ') + '...';
-        }
-    }
-
-    onSelectAllChange = () => {
+    private onSelectAllChange = () => {
         const checkedItemIds = this.props.filterSelection.selectedIDs;
         const allSelected = this.props.filterSelection.type === FilterSelectionEnum.All;
         if (this.props.itemsAreFlatList) {
@@ -342,6 +367,10 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
                 this.setNewSelectedState(false, newCheckedAndPartial.checked, newCheckedAndPartial.partially);
             }
         }
+
+        console.log('selected text: ', this.getSelectedText());
+
+        this.props.selectionText(this.getSelectedText());
     }
 
     private onFilterReset = () => {
@@ -350,11 +379,11 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         this.searchItems('');
     }
 
-    allFilteredChecked = () => {
+    private allFilteredChecked = () => {
         return _.every(this.state.filteredItems, (item) => this.isItemInList(this.props.filterSelection.selectedIDs, item));
     }
 
-    areAllItemsSelected = (checkedItemIds): CheckStatus => {
+    private areAllItemsSelected = (checkedItemIds): CheckStatus => {
         if (_.every(this.props.items, (item) => this.isItemInList(checkedItemIds, item))) {
             return CheckStatus.Checked;
         }
@@ -364,7 +393,7 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         return CheckStatus.NotChecked;
     }
 
-    getNewCheckedItems(changedTreeItem: TreeItem, checkedItemIds, wasChecked): CheckResult {
+    private getNewCheckedItems(changedTreeItem: TreeItem, checkedItemIds, wasChecked): CheckResult {
         let itemsToChange = [];
         let branchesToCheck = [];
         if (this.state.searchText === '') {
@@ -399,7 +428,7 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         return branchCheckRes;
     }
 
-    checkBranches(branches: Array<TreeBranch>, checked: Array<string>, partiallyChecked: Array<string>): CheckResult {
+    private checkBranches(branches: Array<TreeBranch>, checked: Array<string>, partiallyChecked: Array<string>): CheckResult {
         let newChecked = [...checked];
         let newPartiallyChecked = [...partiallyChecked];
 
@@ -435,7 +464,7 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         return { checked: newChecked, partially: newPartiallyChecked };
     }
 
-    modifyListForItem(list: Array<string>, itemId: string, addItem: boolean) {
+    private modifyListForItem(list: Array<string>, itemId: string, addItem: boolean) {
         const itemIndex = list.indexOf(itemId);
         if (addItem && itemIndex === -1) {
             list.push(itemId);
@@ -444,7 +473,7 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         }
     }
 
-    popMaxDepthBranch(branches: Array<TreeBranch>) {
+    private popMaxDepthBranch(branches: Array<TreeBranch>) {
         let maxDepth = -1;
         let maxItemIndex = -1;
         for (let index = 0; index < branches.length; index++) {
@@ -458,7 +487,7 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         return maxBranch;
     }
 
-    setNewSelectedState(allChecked: boolean, newChecked, newPartiallyChecked) {
+    private setNewSelectedState(allChecked: boolean, newChecked, newPartiallyChecked) {
         const allSelected = allChecked || this.areAllItemsSelected(newChecked) === CheckStatus.Checked;
         if (allSelected) {
             this.props.onValuesSelected(this.props.filterId, { type: FilterSelectionEnum.All, selectedIDs: [] });
@@ -470,25 +499,25 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         this.setState(prevState => ({ ...prevState, partiallyCheckedItemIds: newPartiallyChecked }));
     }
 
-    getBoxSupportElementsHeight = () => {
+    private getBoxSupportElementsHeight = () => {
         let heightDiff = 5; // 5px: paddings
         if (!this.props.isSingleSelect) { heightDiff += 44; } // 25px: SelectAll +  19px: Footer
         if (this.props.hasSearch) { heightDiff += 30; }
         return heightDiff;
     }
 
-    getListHeight = (totalHeight) => {
+    private getListHeight = (totalHeight) => {
         return totalHeight - this.getBoxSupportElementsHeight();
     }
 
-    allFilteredChildrenChecked = (treeItem: TreeItem, checkedItemIds) => {
+    private allFilteredChildrenChecked = (treeItem: TreeItem, checkedItemIds) => {
         if (this.props.itemsAreFlatList) { return false; }
         return itemHasChildren(treeItem) &&
             _.every(treeItem.children,
                 (child) => this.isItemInList(checkedItemIds, child) || this.isItemInList(this.state.partiallyCheckedItemIds, child));
     }
 
-    getAllSelectedCheckMark = () => {
+    private getAllSelectedCheckMark = () => {
         let allSelected = CheckStatus.NotChecked;
         if (this.props.filterSelection.type === FilterSelectionEnum.All) {
             allSelected = CheckStatus.Checked;

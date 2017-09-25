@@ -28,6 +28,7 @@ export interface ITreeFilterProps {
     itemsAreFlatList?: boolean;
     onValuesSelected?: (filterId: string, filterSelection: IFilterSelection) => void;
     defaultSelection?: FilterSelectionEnum;
+    /* Callout specific */
     width?: number;
     height?: number;
     minWidth?: number;
@@ -78,4 +79,5 @@ export interface TreeItem {
     value: string;
     expanded?: boolean;
     children?: Array<TreeItem>;
+    className?: string;
 }
