@@ -34,10 +34,10 @@ export interface INewTreeFilterProps {
     onValuesSelected?: (filterId: string, filterSelection: IFilterSelection) => void;
     defaultSelection?: FilterSelectionEnum;
     rowHeight?: number;
-    onCustomSelection?: (customSelection: boolean) => void;
     selectionText?: (selectionText: string) => void;
     onItemsSearch?: (query: string) => void;
     searchQuery?: string;
+    allItemIds?: ReadonlyArray<string>;
 }
 
 export const defaultNewTreeFilterProps: Partial<INewTreeFilterProps> = {
@@ -50,7 +50,6 @@ export const defaultNewTreeFilterProps: Partial<INewTreeFilterProps> = {
     filterSelection: { type: FilterSelectionEnum.None, selectedIDs: [] },
     defaultSelection: FilterSelectionEnum.None,
     rowHeight: 20,
-    onCustomSelection: nullFunc,
     onItemsSearch: nullFunc,
     searchQuery: ''
 };
@@ -69,7 +68,7 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
 
     public static defaultProps = defaultNewTreeFilterProps;
 
-    constructor(props: INewTreeFilterProps) {
+    public constructor(props: INewTreeFilterProps) {
         super(props);
 
         this.state = {
@@ -81,7 +80,12 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         let lookups = ItemOperator.getLookupTableAndParentLookup(props.items);
         this.parentLookup = lookups.parentLookup;
         this.itemLookup = lookups.itemLookup;
-        this.allItemIds = ItemOperator.getAllItemIds(props.items);
+
+        this.allItemIds = props.allItemIds;
+        if (this.allItemIds === undefined) {
+            this.allItemIds = ItemOperator.getAllItemIds(props.items);
+        }
+
         this.searchItems = _.debounce(this.searchItems, 100);
     }
 
@@ -94,7 +98,11 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         let lookups = ItemOperator.getLookupTableAndParentLookup(nextProps.items);
         this.parentLookup = lookups.parentLookup;
         this.itemLookup = lookups.itemLookup;
-        this.allItemIds = ItemOperator.getAllItemIds(nextProps.items);
+
+        this.allItemIds = nextProps.allItemIds;
+        if (this.allItemIds === undefined) {
+            this.allItemIds = ItemOperator.getAllItemIds(nextProps.items);
+        }
 
         this.setState(
             prevState => ({
@@ -116,23 +124,6 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
             }
         }
         this.props.selectionText(this.getSelectedText());
-        this.props.onCustomSelection(this.checkSelection());
-    }
-
-    private checkSelection(): boolean {
-        const { defaultSelection } = this.props;
-        const checkedItemIds =
-            this.props.filterSelection.type === FilterSelectionEnum.All ?
-                this.allItemIds :
-                this.props.filterSelection.selectedIDs;
-
-        const numberOfSelectedItems = checkedItemIds.length;
-
-        const isDefaultSelected =
-            (defaultSelection === FilterSelectionEnum.None && numberOfSelectedItems === 0) ||
-            (defaultSelection === FilterSelectionEnum.All && numberOfSelectedItems === this.allItemIds.length);
-
-        return isDefaultSelected;
     }
 
     public render() {
@@ -146,7 +137,7 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
                 this.props.filterSelection.selectedIDs;
 
         return (
-            <div className="tree-filter-container" style={{ height: '100%', width: '100%' }}>
+            <div className="tree-filter-container" style={{ width: '100%', height: '100%' }}>
                 {
                     title && <label className="tree-filter-title">{title}</label>
                 }

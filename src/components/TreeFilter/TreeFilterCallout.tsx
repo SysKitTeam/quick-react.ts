@@ -6,7 +6,13 @@ import * as _ from 'lodash';
 import { Callout } from '../Callout';
 import { DirectionalHint } from '../../utilities/DirectionalHint';
 import { Icon } from '../Icon';
-import { ITreeFilterProps, ITreeFilterState, TreeItem, CheckStatus, FilterSelectionEnum, IFilterSelection, defaultTreeFilterProps } from './TreeFilter.Props';
+import {
+    ITreeFilterProps,
+    ITreeFilterState,
+    FilterSelectionEnum,
+    IFilterSelection,
+    defaultTreeFilterProps
+} from './TreeFilter.Props';
 import { ItemOperator } from './TreeItemOperators';
 import { TreeFilterNew } from './TreeFilterNew';
 
@@ -31,14 +37,28 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, ITr
 
     constructor(props: ITreeFilterProps) {
         super(props);
+
+        this.allItemIds = ItemOperator.getAllItemIds(props.items);
+
         this.state = {
             isOpen: false,
             filterSelection: props.filterSelection,
-            isDefaultSelected: false,
+            isDefaultSelected: this.checkIfDefaultSelection(props.filterSelection.type, props.filterSelection.selectedIDs),
             selectionText: 'Please select...',
             query: ''
         };
-        this.allItemIds = ItemOperator.getAllItemIds(props.items);
+    }
+
+    private checkIfDefaultSelection(filterSelectionType: FilterSelectionEnum, selectedIds: Array<string>): boolean {
+        const { defaultSelection } = this.props;
+        const checkedItemIds = filterSelectionType === FilterSelectionEnum.All ? this.allItemIds : selectedIds;
+        const numberOfSelectedItems = checkedItemIds.length;
+
+        const isDefaultSelected =
+            (defaultSelection === FilterSelectionEnum.None && numberOfSelectedItems === 0) ||
+            (defaultSelection === FilterSelectionEnum.All && numberOfSelectedItems === this.allItemIds.length);
+
+        return isDefaultSelected;
     }
 
     public componentWillReceiveProps(nextProps: ITreeFilterProps) {
@@ -47,7 +67,8 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, ITr
         }
 
         const filteredItems = ItemOperator.filterItems(nextProps.items, '');
-        this.setState(prevState => ({ ...prevState, filteredItems: filteredItems }));
+        this.allItemIds = ItemOperator.getAllItemIds(nextProps.items);
+        this.setState(prevState => ({ ...prevState, filteredItems: filteredItems, filterSelection: nextProps.filterSelection }));
     }
 
     private setAnchorRef = (ref) => {
@@ -90,14 +111,10 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, ITr
     }
 
     @autobind
-    private onValuesSelected(filterId: string, filterSelection) {
-        this.setState({ ...this.state, filterSelection });
+    private onValuesSelected(filterId: string, filterSelection: IFilterSelection) {
+        const isDefault = this.checkIfDefaultSelection(filterSelection.type, filterSelection.selectedIDs);
+        this.setState({ ...this.state, filterSelection, isDefaultSelected: isDefault });
         this.props.onValuesSelected(filterId, filterSelection);
-    }
-
-    @autobind
-    private onCustomSelection(isDefaultSelected: boolean) {
-        this.setState({ isDefaultSelected });
     }
 
     @autobind
@@ -105,11 +122,16 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, ITr
         this.setState({
             ...this.state,
             filterSelection: {
-                type: FilterSelectionEnum.All,
-                selectedIDs: this.allItemIds as Array<string>
+                type: this.props.defaultSelection,
+                selectedIDs: []
             },
             isDefaultSelected: true,
-            selectionText: '[All]'
+            selectionText: this.props.defaultSelection === FilterSelectionEnum.All ? '[All]' : 'Please select...'
+        });
+
+        this.props.onValuesSelected(this.props.filterId, {
+            type: this.props.defaultSelection,
+            selectedIDs: []
         });
     }
 
@@ -132,7 +154,7 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, ITr
         const treeFilterProps = {
             ...this.props,
             title: undefined,
-            onCustomSelection: this.onCustomSelection,
+            allItemIds: this.allItemIds,
             onValuesSelected: this.onValuesSelected,
             filterSelection: this.state.filterSelection,
             selectionText: this.onTextSelectionChange,
@@ -141,24 +163,22 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, ITr
         };
 
         return (
-            <div>
-                <div className="tree-filter-container" ref={this.setAnchorRef}>
-                    <span className={classNames({ 'item-selected': !isDefaultSelected })} >{this.props.title}: </span>
+            <div className="tree-filter-container" ref={this.setAnchorRef}>
+                <span className={classNames({ 'item-selected': !isDefaultSelected })} >{this.props.title}: </span>
+                {
+                    !isDefaultSelected &&
+                    <Icon iconName="icon-delete" title="Reset selection" className="reset-filter-icon" onClick={this.onFilterReset} />
+                }
+                <div className="tree-filter-title" onClick={this.toggleOpenState}>
+                    <span>{this.state.selectionText}</span>
                     {
-                        !isDefaultSelected &&
-                        <Icon iconName="icon-delete" title="Reset selection" className="reset-filter-icon" onClick={this.onFilterReset} />
+                        isOpen &&
+                        <Icon className="dropdown-icon" iconName={'icon-Arrow_up'} />
                     }
-                    <div className="tree-filter-title" onClick={this.toggleOpenState}>
-                        <span>{this.state.selectionText}</span>
-                        {
-                            isOpen &&
-                            <Icon className="dropdown-icon" iconName={'icon-Arrow_up'} />
-                        }
-                        {
-                            !isOpen &&
-                            <Icon className="dropdown-icon" iconName={'icon-arrow_down'} />
-                        }
-                    </div>
+                    {
+                        !isOpen &&
+                        <Icon className="dropdown-icon" iconName={'icon-arrow_down'} />
+                    }
                 </div>
                 {
                     this.state.isOpen &&

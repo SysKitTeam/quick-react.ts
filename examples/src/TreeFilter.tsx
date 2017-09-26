@@ -65,8 +65,6 @@ export class Index extends React.Component<any, DemoState> {
                         // tslint:disable-next-line:no-string-literal
                         filterSelection={this.state.filterStates['f8']}
                         defaultSelection={FilterSelectionEnum.All}
-                        onCustomSelection={(isDefault) => console.log('custom selection!', isDefault)}
-
                     />
                 </div>
 
