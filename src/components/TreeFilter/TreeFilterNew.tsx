@@ -162,7 +162,7 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
                         onChange={this.onSelectAllChange}
                     />
                 }
-                <AutoSizer disableHeight>
+                <AutoSizer>
                     {({ width, height }) => (
                         <List
                             height={this.getListHeight(height)}

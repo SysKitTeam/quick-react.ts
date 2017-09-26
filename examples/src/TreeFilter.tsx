@@ -43,7 +43,7 @@ export class Index extends React.Component<any, DemoState> {
                     maxHeight={500}
                     clearSearchOnClose={true}
                 />
-                {/* <TreeFilter
+                <TreeFilter
                     title="Tree Filter (max size)"
                     filterId={'f10'}
                     items={treeData}
@@ -53,7 +53,7 @@ export class Index extends React.Component<any, DemoState> {
                     defaultSelection={FilterSelectionEnum.All}
                     maxWidth={700}
                     maxHeight={500}
-                /> */}
+                />
                 <div className="container" style={{ width: '500px', height: '500px' }}>
                     <TreeFilterNew
                         selectionText={(text) => console.log('new selection text : ', text)}
