@@ -14,8 +14,6 @@ import { autobind } from '../../utilities/autobind';
 
 import './TreeFilterCallout.scss';
 
-const ROW_HEIGHT = 20;
-
 export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, any> {
     private _anchor: any;
     private _callout: any;
@@ -33,7 +31,7 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, any
         super(props);
         this.state = {
             isOpen: false,
-            filteredSelection: this.props.filterSelection,
+            filteredSelection: props.filterSelection,
             isDefaultSelected: false,
             selectionText: 'Please select...'
         };
@@ -94,7 +92,7 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, any
         const supportElementsHeight = this.getBoxSupportElementsHeight();
         const maxListHeight = availableHeight - supportElementsHeight;
         const numberOfItems = this.allItemIds.length;
-        const itemsListHeight = numberOfItems * ROW_HEIGHT;
+        const itemsListHeight = numberOfItems * this.props.rowHeight;
         if (itemsListHeight < maxListHeight) {
             return itemsListHeight + supportElementsHeight;
         } else {
@@ -129,23 +127,18 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, any
                 type: FilterSelectionEnum.All,
                 selectedIDs: this.allItemIds
             },
-            isDefaultSelected: true
+            isDefaultSelected: true,
+            selectionText: '[All]'
         });
     }
 
     @autobind
-    private onSelectionTextChange(text: string) {
-        this.setState({ selectionText: text });
+    private onTextSelectionChange(selectionText: string) {
+        this.setState({ selectionText: selectionText });
     }
 
     public render() {
-        const { title, hasSearch, isSingleSelect, minWidth, minHeight, maxWidth, maxHeight, defaultSelection } = this.props;
         const { isOpen, isDefaultSelected } = this.state;
-
-        const restOfProps = {
-            onCustomSelection: (isDefault) => this.onCustomSelection(isDefault),
-            onValuesSelected: this.onValuesSelected
-        };
 
         const treeFilterProps = {
             ...this.props,
@@ -153,23 +146,25 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, any
             onCustomSelection: this.onCustomSelection,
             onValuesSelected: this.onValuesSelected,
             filterSelection: this.state.filterSelection,
-            selectionText: this.onSelectionTextChange
+            selectionText: this.onTextSelectionChange
         };
 
         return (
             <div>
                 <div className="tree-filter-container" ref={this.setAnchorRef}>
-                    <span className={classNames({ 'item-selected': !isDefaultSelected })} >{title}: </span>
+                    <span className={classNames({ 'item-selected': !isDefaultSelected })} >{this.props.title}: </span>
                     {
                         !isDefaultSelected &&
                         <Icon iconName="icon-delete" className="reset-filter-icon" onClick={this.onFilterReset} />
                     }
                     <div className="tree-filter-title" onClick={this.toggleOpenState}>
                         <span>{this.state.selectionText}</span>
-                        {isOpen &&
+                        {
+                            isOpen &&
                             <Icon className="dropdown-icon" iconName={'icon-Arrow_up'} />
                         }
-                        {!isOpen &&
+                        {
+                            !isOpen &&
                             <Icon className="dropdown-icon" iconName={'icon-arrow_down'} />
                         }
                     </div>
@@ -189,10 +184,10 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, any
                             width={this.props.width}
                             height={this.getBoxHeight(this.props.height)}
                             style={{ overflow: 'hidden' }}
-                            minWidth={minWidth}
-                            minHeight={minHeight}
-                            maxWidth={maxWidth}
-                            maxHeight={maxHeight}
+                            minWidth={this.props.minWidth}
+                            minHeight={this.props.minHeight}
+                            maxWidth={this.props.maxWidth}
+                            maxHeight={this.props.maxHeight}
                             onResize={this.onCalloutResize}
                             enable={this.props.enabledResizeHandles}
                         >

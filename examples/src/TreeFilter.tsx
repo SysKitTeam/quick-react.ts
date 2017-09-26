@@ -42,7 +42,7 @@ export class Index extends React.Component<any, DemoState> {
                     maxWidth={700}
                     maxHeight={500}
                 />
-                <TreeFilter
+                {/* <TreeFilter
                     title="Tree Filter (max size)"
                     filterId={'f10'}
                     items={treeData}
@@ -52,21 +52,24 @@ export class Index extends React.Component<any, DemoState> {
                     defaultSelection={FilterSelectionEnum.All}
                     maxWidth={700}
                     maxHeight={500}
-                />
+                /> */}
                 <div className="container" style={{ width: '500px', height: '500px' }}>
                     <TreeFilterNew
-
+                        selectionText={(text) => console.log('new selection text : ', text)}
                         filterId={'f8'}
+                        hasSearch={false}
+                        rowHeight={25}
                         items={treeData}
                         onValuesSelected={this.onValuesSelected}
                         // tslint:disable-next-line:no-string-literal
                         filterSelection={this.state.filterStates['f8']}
                         defaultSelection={FilterSelectionEnum.All}
                         onCustomSelection={(isDefault) => console.log('custom selection!', isDefault)}
+
                     />
                 </div>
 
-                <TreeFilter
+                {/* <TreeFilter
                     title="Single Select"
                     filterId={'f3'}
                     items={treeData}
@@ -86,35 +89,6 @@ export class Index extends React.Component<any, DemoState> {
                         bottomLeft: true,
                         topLeft: false
                     }}
-                />
-                {/* <TreeFilter
-                    title="Tree Filter - depth 4"
-                    filterId={'f2'}
-                    items={deeperTreeData}
-                    onValuesSelected={this.onValuesSelected}
-                    // tslint:disable-next-line:no-string-literal
-                    filterSelection={this.state.filterStates['f2']}
-                    defaultSelection={FilterSelectionEnum.All}
-                /> *}
-                {*
-                <TreeFilter
-                    title="Flat list"
-                    filterId={'f4'}
-                    items={flatList}
-                    onValuesSelected={this.onValuesSelected}
-                    itemsAreFlatList={true}
-                    // tslint:disable-next-line:no-string-literal
-                    filterSelection={this.state.filterStates['f4']}
-                />
-                <TreeFilter
-                    title="Flat list - few elements"
-                    filterId={'f5'}
-                    items={shortFlatList}
-                    onValuesSelected={this.onValuesSelected}
-                    itemsAreFlatList={true}
-                    defaultSelection={FilterSelectionEnum.All}
-                    // tslint:disable-next-line:no-string-literal
-                    filterSelection={this.state.filterStates['f5']}
                 /> */}
             </div>
         );
