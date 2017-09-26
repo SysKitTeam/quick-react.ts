@@ -41,6 +41,7 @@ export class Index extends React.Component<any, DemoState> {
                     defaultSelection={FilterSelectionEnum.All}
                     maxWidth={700}
                     maxHeight={500}
+                    clearSearchOnClose={true}
                 />
                 {/* <TreeFilter
                     title="Tree Filter (max size)"

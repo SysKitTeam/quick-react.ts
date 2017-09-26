@@ -19,6 +19,7 @@ export interface ITreeFilterCalloutState {
     filterSelection: IFilterSelection;
     isDefaultSelected: boolean;
     selectionText: string;
+    query: string;
 }
 
 export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, ITreeFilterCalloutState> {
@@ -34,7 +35,8 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, ITr
             isOpen: false,
             filterSelection: props.filterSelection,
             isDefaultSelected: false,
-            selectionText: 'Please select...'
+            selectionText: 'Please select...',
+            query: ''
         };
         this.allItemIds = ItemOperator.getAllItemIds(props.items);
     }
@@ -56,28 +58,12 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, ITr
         this._callout = ref;
     }
 
-    // private searchItems = (searchText?: string) => {
-    //     const lowerCaseSearchText = searchText == null ? '' : searchText.toLowerCase();
-    //     let newItems = ItemOperator.filterItems(this.props.items, searchText);
-    //     this.setState(prevState => ({
-    //         ...prevState,
-    //         searchText: searchText,
-    //         filteredItems: newItems
-    //     }));
-    // }
-
     private toggleOpenState = () => {
         this.setState(prevState => ({ ...prevState, isOpen: !prevState.isOpen }));
-        // if (this.state.isOpen && this.props.clearSearchOnClose) {
-        //     this.searchItems('');
-        // }
     }
 
     private onDismiss = () => {
         this.setState(prevState => ({ ...prevState, isOpen: false }));
-        // if (this.props.clearSearchOnClose) {
-        //     this.searchItems('');
-        // }
     }
 
     private getBoxSupportElementsHeight = () => {
@@ -132,6 +118,14 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, ITr
         this.setState({ selectionText: selectionText });
     }
 
+    @autobind
+    private onItemsSearch(query: string) {
+        if (this.props.clearSearchOnClose) {
+            return;
+        }
+        this.setState({ ...this.state, query });
+    }
+
     public render() {
         const { isOpen, isDefaultSelected } = this.state;
 
@@ -141,7 +135,9 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, ITr
             onCustomSelection: this.onCustomSelection,
             onValuesSelected: this.onValuesSelected,
             filterSelection: this.state.filterSelection,
-            selectionText: this.onTextSelectionChange
+            selectionText: this.onTextSelectionChange,
+            onItemsSearch: this.onItemsSearch,
+            searchQuery: this.state.query
         };
 
         return (

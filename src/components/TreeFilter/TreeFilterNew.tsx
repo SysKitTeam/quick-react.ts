@@ -20,6 +20,8 @@ export interface INewTreeFilterState {
     partiallyCheckedItemIds: Array<string>;
 }
 
+const nullFunc = () => { };
+
 export interface INewTreeFilterProps {
     title?: string;
     hasSearch?: boolean;
@@ -33,7 +35,9 @@ export interface INewTreeFilterProps {
     defaultSelection?: FilterSelectionEnum;
     rowHeight?: number;
     onCustomSelection?: (customSelection: boolean) => void;
-    selectionText?: (selectionText) => void;
+    selectionText?: (selectionText: string) => void;
+    onItemsSearch?: (query: string) => void;
+    searchQuery?: string;
 }
 
 export const defaultNewTreeFilterProps: Partial<INewTreeFilterProps> = {
@@ -46,7 +50,9 @@ export const defaultNewTreeFilterProps: Partial<INewTreeFilterProps> = {
     filterSelection: { type: FilterSelectionEnum.None, selectedIDs: [] },
     defaultSelection: FilterSelectionEnum.None,
     rowHeight: 20,
-    onCustomSelection: () => { }
+    onCustomSelection: nullFunc,
+    onItemsSearch: nullFunc,
+    searchQuery: ''
 };
 
 export interface INewTreeFilterState {
@@ -68,8 +74,8 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
 
         this.state = {
             partiallyCheckedItemIds: [],
-            searchText: '',
-            filteredItems: ItemOperator.filterItems(props.items, '')
+            searchText: props.searchQuery,
+            filteredItems: ItemOperator.filterItems(props.items, props.searchQuery)
         };
 
         let lookups = ItemOperator.getLookupTableAndParentLookup(props.items);
@@ -89,7 +95,14 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         this.parentLookup = lookups.parentLookup;
         this.itemLookup = lookups.itemLookup;
         this.allItemIds = ItemOperator.getAllItemIds(nextProps.items);
-        this.setState(prevState => ({ ...prevState, filteredItems: filteredItems }));
+
+        this.setState(
+            prevState => ({
+                ...prevState,
+                filteredItems: filteredItems,
+                searchText: nextProps.searchQuery
+            })
+        );
     }
 
     public componentDidUpdate(prevProps: ITreeFilterProps, prevState: INewTreeFilterState) {
@@ -304,14 +317,14 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         this._list = ref;
     }
 
-    private searchItems = (searchText?: string) => {
-        const lowerCaseSearchText = searchText == null ? '' : searchText.toLowerCase();
-        let newItems = ItemOperator.filterItems(this.props.items, searchText);
+    private searchItems = (searchText: string) => {
+        const newItems = ItemOperator.filterItems(this.props.items, searchText);
         this.setState(prevState => ({
             ...prevState,
             searchText: searchText,
             filteredItems: newItems
         }));
+        this.props.onItemsSearch(searchText);
     }
 
     private onSelectAllChange = () => {
@@ -360,12 +373,6 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
                 this.setNewSelectedState(false, newCheckedAndPartial.checked, newCheckedAndPartial.partially);
             }
         }
-    }
-
-    private onFilterReset = () => {
-        const selectAllDefault = this.props.defaultSelection === FilterSelectionEnum.All;
-        this.setNewSelectedState(selectAllDefault, [], []);
-        this.searchItems('');
     }
 
     private allFilteredChecked = () => {
