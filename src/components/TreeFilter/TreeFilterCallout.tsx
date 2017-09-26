@@ -14,15 +14,16 @@ import { autobind } from '../../utilities/autobind';
 
 import './TreeFilterCallout.scss';
 
-export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, any> {
+export interface ITreeFilterCalloutState {
+    isOpen: boolean;
+    filterSelection: IFilterSelection;
+    isDefaultSelected: boolean;
+    selectionText: string;
+}
+
+export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, ITreeFilterCalloutState> {
     private _anchor: any;
     private _callout: any;
-
-    private lookups: {
-        parentLookup: Readonly<{ [id: string]: TreeItem }>,
-        itemLookup: Readonly<{ [id: string]: TreeItem }>
-    };
-
     private allItemIds: ReadonlyArray<string>;
 
     static defaultProps = defaultTreeFilterProps;
@@ -31,11 +32,10 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, any
         super(props);
         this.state = {
             isOpen: false,
-            filteredSelection: props.filterSelection,
+            filterSelection: props.filterSelection,
             isDefaultSelected: false,
             selectionText: 'Please select...'
         };
-        this.lookups = ItemOperator.getLookupTableAndParentLookup(props.items);
         this.allItemIds = ItemOperator.getAllItemIds(props.items);
     }
 
@@ -44,8 +44,7 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, any
             return;
         }
 
-        const filteredItems = ItemOperator.filterItems(nextProps.items, this.state.searchText);
-        this.lookups = ItemOperator.getLookupTableAndParentLookup(nextProps.items);
+        const filteredItems = ItemOperator.filterItems(nextProps.items, '');
         this.setState(prevState => ({ ...prevState, filteredItems: filteredItems }));
     }
 
@@ -57,21 +56,21 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, any
         this._callout = ref;
     }
 
-    private searchItems = (searchText?: string) => {
-        const lowerCaseSearchText = searchText == null ? '' : searchText.toLowerCase();
-        let newItems = ItemOperator.filterItems(this.props.items, searchText);
-        this.setState(prevState => ({
-            ...prevState,
-            searchText: searchText,
-            filteredItems: newItems
-        }));
-    }
+    // private searchItems = (searchText?: string) => {
+    //     const lowerCaseSearchText = searchText == null ? '' : searchText.toLowerCase();
+    //     let newItems = ItemOperator.filterItems(this.props.items, searchText);
+    //     this.setState(prevState => ({
+    //         ...prevState,
+    //         searchText: searchText,
+    //         filteredItems: newItems
+    //     }));
+    // }
 
     private toggleOpenState = () => {
         this.setState(prevState => ({ ...prevState, isOpen: !prevState.isOpen }));
-        if (this.state.isOpen && this.props.clearSearchOnClose) {
-            this.searchItems('');
-        }
+        // if (this.state.isOpen && this.props.clearSearchOnClose) {
+        //     this.searchItems('');
+        // }
     }
 
     private onDismiss = () => {
@@ -100,18 +99,13 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, any
         }
     }
 
-    private onCalloutResize = () => { this._callout.UpdatePosition(); };
-
-    @autobind
-    private onFilterItemsChange(items: Array<TreeItem>) {
-        this.setState(prevState => (
-            { ...prevState, filteredItems: items }
-        ));
+    private onCalloutResize = () => {
+        this._callout.UpdatePosition();
     }
 
     @autobind
     private onValuesSelected(filterId: string, filterSelection) {
-        this.setState({ filterSelection });
+        this.setState({ ...this.state, filterSelection });
         this.props.onValuesSelected(filterId, filterSelection);
     }
 
@@ -123,9 +117,10 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, any
     @autobind
     private onFilterReset() {
         this.setState({
+            ...this.state,
             filterSelection: {
                 type: FilterSelectionEnum.All,
-                selectedIDs: this.allItemIds
+                selectedIDs: this.allItemIds as Array<string>
             },
             isDefaultSelected: true,
             selectionText: '[All]'
@@ -155,7 +150,7 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, any
                     <span className={classNames({ 'item-selected': !isDefaultSelected })} >{this.props.title}: </span>
                     {
                         !isDefaultSelected &&
-                        <Icon iconName="icon-delete" className="reset-filter-icon" onClick={this.onFilterReset} />
+                        <Icon iconName="icon-delete" title="Reset selection" className="reset-filter-icon" onClick={this.onFilterReset} />
                     }
                     <div className="tree-filter-title" onClick={this.toggleOpenState}>
                         <span>{this.state.selectionText}</span>
@@ -169,7 +164,8 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, any
                         }
                     </div>
                 </div>
-                {this.state.isOpen &&
+                {
+                    this.state.isOpen &&
                     <Callout
                         ref={this.setCalloutRef}
                         isBeakVisible={false}
