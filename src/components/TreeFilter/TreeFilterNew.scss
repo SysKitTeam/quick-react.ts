@@ -2,14 +2,19 @@
 
 .tree-filter-container {
     position: relative;
-    
+
     .tree-filter-title {
         width: 200px;
         height: 20px;
         padding: 2px 1px 2px 1px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
+
+        span {
+            width: calc(100% - 17px);
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     }
 
     .item-selected {
