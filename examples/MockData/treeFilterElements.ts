@@ -9,6 +9,14 @@ export function createFlatList(numOfItems) {
     return data;
 }
 
+export function getSelectedIds(numOfItems) {
+    let ids = [];
+    for (let i = 0; i < numOfItems; i++) {
+        ids.push(i.toString());
+    }
+    return ids;
+}
+
 export function createRandomizedData(numOfItems, maxDepth) {
 
     const createRandomizedItem = (key, depth) => {

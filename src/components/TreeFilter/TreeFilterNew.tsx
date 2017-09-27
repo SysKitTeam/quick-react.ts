@@ -4,9 +4,7 @@ import Resizable from 'react-resizable-box';
 import * as classNames from 'classnames';
 import * as _ from 'lodash';
 
-import { Callout } from '../Callout';
 import { Search } from '../Search';
-import { DirectionalHint } from '../../utilities/DirectionalHint';
 import { Icon } from '../Icon';
 import { ITreeFilterProps, ITreeFilterState, TreeItem, CheckStatus, FilterSelectionEnum, IFilterSelection, defaultTreeFilterProps } from './TreeFilter.Props';
 import { TreeFilterCheckBox } from './TreeFilterCheckBox';
@@ -37,7 +35,9 @@ export interface INewTreeFilterProps {
     selectionText?: (selectionText: string) => void;
     onItemsSearch?: (query: string) => void;
     searchQuery?: string;
-    allItemIds?: ReadonlyArray<string>;
+    // allItemIds?: ReadonlyArray<string>;
+    allItemIdsGetter?: (items: Array<TreeItem>) => ReadonlyArray<string>;
+    lookupTableGetter?: (items: Array<TreeItem>) => any;
 }
 
 export const defaultNewTreeFilterProps: Partial<INewTreeFilterProps> = {
@@ -51,7 +51,9 @@ export const defaultNewTreeFilterProps: Partial<INewTreeFilterProps> = {
     defaultSelection: FilterSelectionEnum.None,
     rowHeight: 20,
     onItemsSearch: nullFunc,
-    searchQuery: ''
+    searchQuery: '',
+    allItemIdsGetter: (items: Array<TreeItem>) => ItemOperator.getAllItemIds(items),
+    lookupTableGetter: (items: Array<TreeItem>) => ItemOperator.getLookupTableAndParentLookup(items)
 };
 
 export interface INewTreeFilterState {
@@ -77,14 +79,16 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
             filteredItems: ItemOperator.filterItems(props.items, props.searchQuery)
         };
 
-        let lookups = ItemOperator.getLookupTableAndParentLookup(props.items);
+        const lookups = this.props.lookupTableGetter(props.items); // ItemOperator.getLookupTableAndParentLookup(props.items);
         this.parentLookup = lookups.parentLookup;
         this.itemLookup = lookups.itemLookup;
 
-        this.allItemIds = props.allItemIds;
-        if (this.allItemIds === undefined) {
-            this.allItemIds = ItemOperator.getAllItemIds(props.items);
-        }
+        // this.allItemIds = props.allItemIds;
+        // if (this.allItemIds === undefined) {
+        //     this.allItemIds = ItemOperator.getAllItemIds(props.items);
+        // }
+
+        this.allItemIds = this.props.allItemIdsGetter(props.items);
 
         this.searchItems = _.debounce(this.searchItems, 100);
     }
@@ -95,14 +99,18 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         }
 
         const filteredItems = ItemOperator.filterItems(nextProps.items, this.state.searchText);
-        let lookups = ItemOperator.getLookupTableAndParentLookup(nextProps.items);
+
+        const lookups = nextProps.lookupTableGetter(nextProps.items); // ItemOperator.getLookupTableAndParentLookup(nextProps.items);
+
         this.parentLookup = lookups.parentLookup;
         this.itemLookup = lookups.itemLookup;
 
-        this.allItemIds = nextProps.allItemIds;
-        if (this.allItemIds === undefined) {
-            this.allItemIds = ItemOperator.getAllItemIds(nextProps.items);
-        }
+        // this.allItemIds = nextProps.allItemIds;
+        // if (this.allItemIds === undefined) {
+        //     this.allItemIds = ItemOperator.getAllItemIds(nextProps.items);
+        // }
+
+        this.allItemIds = nextProps.allItemIdsGetter(nextProps.items);
 
         this.setState(
             prevState => ({
@@ -111,6 +119,10 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
                 searchText: nextProps.searchQuery
             })
         );
+    }
+
+    public componentWillMount() {
+        this.props.selectionText(this.getSelectedText());
     }
 
     public componentDidUpdate(prevProps: ITreeFilterProps, prevState: INewTreeFilterState) {

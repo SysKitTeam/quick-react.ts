@@ -4,7 +4,7 @@ import 'ts-helpers';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { TreeFilter, IFilterSelection, FilterSelectionEnum, TreeFilterNew, TreeFilterCallout } from '../../src/components/TreeFilter';
-import { createFlatList, createRandomizedData } from '../MockData/treeFilterElements';
+import { createFlatList, createRandomizedData, getSelectedIds } from '../MockData/treeFilterElements';
 
 interface DemoState {
     filterStates: { [id: string]: IFilterSelection };
@@ -12,6 +12,7 @@ interface DemoState {
 const treeData = createRandomizedData(2000, 2);
 const deeperTreeData = createRandomizedData(50, 4);
 const flatList = createFlatList(4000);
+const selected = getSelectedIds(4000);
 const shortFlatList = createFlatList(6);
 export class Index extends React.Component<any, DemoState> {
     constructor(props) {
@@ -34,14 +35,17 @@ export class Index extends React.Component<any, DemoState> {
                 <TreeFilterCallout
                     title="Tree Filter (max size)"
                     filterId={'f1'}
-                    items={treeData}
+                    items={flatList}
                     onValuesSelected={this.onValuesSelected}
                     // tslint:disable-next-line:no-string-literal
-                    filterSelection={this.state.filterStates['f1']}
+                    filterSelection={{
+                        type: FilterSelectionEnum.All,
+                        selectedIDs: []
+                    }}
                     defaultSelection={FilterSelectionEnum.All}
                     maxWidth={700}
                     maxHeight={500}
-                    clearSearchOnClose={true}
+                    clearSearchOnClose={false}
                 />
                 <TreeFilter
                     title="Tree Filter (max size)"
@@ -53,6 +57,7 @@ export class Index extends React.Component<any, DemoState> {
                     defaultSelection={FilterSelectionEnum.All}
                     maxWidth={700}
                     maxHeight={500}
+                    clearSearchOnClose={false}
                 />
                 <div className="container" style={{ width: '500px', height: '500px' }}>
                     <TreeFilterNew

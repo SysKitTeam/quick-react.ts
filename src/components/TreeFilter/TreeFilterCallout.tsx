@@ -11,10 +11,11 @@ import {
     ITreeFilterState,
     FilterSelectionEnum,
     IFilterSelection,
-    defaultTreeFilterProps
+    defaultTreeFilterProps,
+    TreeItem
 } from './TreeFilter.Props';
 import { ItemOperator } from './TreeItemOperators';
-import { TreeFilterNew } from './TreeFilterNew';
+import { TreeFilterNew, INewTreeFilterProps } from './TreeFilterNew';
 
 import { autobind } from '../../utilities/autobind';
 
@@ -32,21 +33,42 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, ITr
     private _anchor: any;
     private _callout: any;
     private allItemIds: ReadonlyArray<string>;
+    private lookups: any;
 
     static defaultProps = defaultTreeFilterProps;
 
-    constructor(props: ITreeFilterProps) {
+    public constructor(props: ITreeFilterProps) {
         super(props);
 
         this.allItemIds = ItemOperator.getAllItemIds(props.items);
+        this.lookups = ItemOperator.getLookupTableAndParentLookup(props.items);
 
         this.state = {
             isOpen: false,
             filterSelection: props.filterSelection,
             isDefaultSelected: this.checkIfDefaultSelection(props.filterSelection.type, props.filterSelection.selectedIDs),
-            selectionText: 'Please select...',
+            selectionText: this.getSelectedText(props),
             query: ''
         };
+    }
+
+    private getSelectedText(props: ITreeFilterProps): string {
+        if (this.props.filterSelection.type === FilterSelectionEnum.All) {
+            return '[All]';
+        }
+
+        const checkedItemIds = this.props.filterSelection.selectedIDs;
+
+        if (checkedItemIds.length === 0) {
+            return 'Please select...';
+        } else if (checkedItemIds.length === 1) {
+            const itemId = checkedItemIds[0];
+            return this.lookups.itemLookup[itemId].value;
+        } else {
+            const someIds = checkedItemIds.slice(0, 3);
+            const names = someIds.map(itemID => this.lookups.itemLookup[itemID].value);
+            return names.join(', ') + '...';
+        }
     }
 
     private checkIfDefaultSelection(filterSelectionType: FilterSelectionEnum, selectedIds: Array<string>): boolean {
@@ -65,7 +87,7 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, ITr
         if (nextProps.items === this.props.items) {
             return;
         }
-
+        this.lookups = ItemOperator.getLookupTableAndParentLookup(nextProps.items);
         const filteredItems = ItemOperator.filterItems(nextProps.items, '');
         this.allItemIds = ItemOperator.getAllItemIds(nextProps.items);
         this.setState(prevState => ({ ...prevState, filteredItems: filteredItems, filterSelection: nextProps.filterSelection }));
@@ -154,7 +176,8 @@ export class TreeFilterCallout extends React.PureComponent<ITreeFilterProps, ITr
         const treeFilterProps = {
             ...this.props,
             title: undefined,
-            allItemIds: this.allItemIds,
+            allItemIdsGetter: (items: Array<TreeItem>) => this.allItemIds,
+            lookupTableGetter: (items: Array<TreeItem>) => this.lookups,
             onValuesSelected: this.onValuesSelected,
             filterSelection: this.state.filterSelection,
             selectionText: this.onTextSelectionChange,
