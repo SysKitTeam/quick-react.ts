@@ -1,73 +1,12 @@
 @import '../../index.scss';
-.tree-filter-callout {
-    .ReactVirtualized__Grid {
-        outline: none;
-    }
-    ul {
-        margin: 0;
-        list-style: none;
-        padding-left: 20px;
-    }
-    .item {
-        height: 20px;
-        display: inline-block;
-        flex-direction: column;
-        justify-content: center;
-        white-space: pre;
-        user-select: none;
-    }
-    .item-container {
-        white-space: nowrap;
-        cursor: pointer;
-        user-select: none;
-    }
-    .expandible-item {
-        width: calc(100% - 22px);
-    }
-    .tree-expand-icon {
-        vertical-align: middle;
-        padding-bottom: 6px;
-    }
-    .tree-filter-input {
-        width: calc(100% - 5px);
-    }
-    .tree-single-select-item {
-        display: inline-block;
-        color: $font-primary-color;
-        font-family: $font-family-base;
-        font-size: $font-size-m;
-    }
-    .tree-filter-footer {
-        .tree-filter-footer-count {
-            padding-top: 3px;
-            font-size: $font-size-s;
-            padding-left: 5px;
-        }
-    }
-    .filter-search {
-        height: 30px;
-        line-height: 30px;
-        margin: 0;
-        width: 100%;
-        .search-icon {
-            line-height: 30px;
-        }
-        .search-field {
-            height: 30px;
-            line-height: 30px;
-        }
-        .search-clearButton {
-            line-height: 28px;
-            font-size: 14px;
-        }
-    }
-}
 
 .tree-filter-container {
     height: 50px;
     width: 200px;
+    position: relative;
     color: $font-primary-color;
     font-family: $font-family-base;
+
     .tree-filter-title {
         width: 200px;
         height: 20px;
@@ -84,12 +23,15 @@
             font-size: 11px;
         }
     }
+
     .item-selected {
         color: $secondary-color;
     }
+
     .reset-filter-icon {
         font-size: 11px;
-        float: right;
-        margin-top: 6px;
+        position: absolute;
+        top: 0;
+        right: 0;
     }
 }

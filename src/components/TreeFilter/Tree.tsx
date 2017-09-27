@@ -9,68 +9,19 @@ import { Icon } from '../Icon';
 import { ITreeFilterProps, ITreeFilterState, TreeItem, CheckStatus, FilterSelectionEnum, IFilterSelection, defaultTreeFilterProps } from './TreeFilter.Props';
 import { TreeFilterCheckBox } from './TreeFilterCheckBox';
 import { ItemOperator, LeafsAndBranches, TreeBranch, CheckResult, itemHasChildren } from './TreeItemOperators';
+import { ITreeProps, ITreeState, defaultTreeProps } from './Tree.Props';
 
-import './TreeFilterNew.scss';
+import './Tree.scss';
 
-export interface INewTreeFilterState {
-    filteredItems: Array<TreeItem>;
-    searchText: string;
-    partiallyCheckedItemIds: Array<string>;
-}
-
-const nullFunc = () => { };
-
-export interface INewTreeFilterProps {
-    title?: string;
-    hasSearch?: boolean;
-    filterId: string;
-    items: Array<TreeItem>;
-    filterSelection?: IFilterSelection;
-    isSingleSelect?: boolean;
-    isGroupSelectableOnSingleSelect?: boolean;
-    itemsAreFlatList?: boolean;
-    onValuesSelected?: (filterId: string, filterSelection: IFilterSelection) => void;
-    defaultSelection?: FilterSelectionEnum;
-    rowHeight?: number;
-    selectionText?: (selectionText: string) => void;
-    onItemsSearch?: (query: string) => void;
-    searchQuery?: string;
-    // allItemIds?: ReadonlyArray<string>;
-    allItemIdsGetter?: (items: Array<TreeItem>) => ReadonlyArray<string>;
-    lookupTableGetter?: (items: Array<TreeItem>) => any;
-}
-
-export const defaultNewTreeFilterProps: Partial<INewTreeFilterProps> = {
-    filterId: 'treeFilter',
-    hasSearch: true,
-    isSingleSelect: false,
-    itemsAreFlatList: false,
-    isGroupSelectableOnSingleSelect: false,
-    onValuesSelected: () => { },
-    filterSelection: { type: FilterSelectionEnum.None, selectedIDs: [] },
-    defaultSelection: FilterSelectionEnum.None,
-    rowHeight: 20,
-    onItemsSearch: nullFunc,
-    searchQuery: '',
-    allItemIdsGetter: (items: Array<TreeItem>) => ItemOperator.getAllItemIds(items),
-    lookupTableGetter: (items: Array<TreeItem>) => ItemOperator.getLookupTableAndParentLookup(items)
-};
-
-export interface INewTreeFilterState {
-    filteredItems: Array<TreeItem>;
-    searchText: string;
-    partiallyCheckedItemIds: Array<string>;
-}
-
-export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INewTreeFilterState> {
+export class Tree extends React.PureComponent<ITreeProps, ITreeState> {
     private _list: any;
     private parentLookup: Readonly<{ [id: string]: TreeItem }>;
     private itemLookup: Readonly<{ [id: string]: TreeItem }>;
     private allItemIds: ReadonlyArray<string>;
 
-    public static defaultProps = defaultNewTreeFilterProps;
+    public static defaultProps = defaultTreeProps;
 
-    public constructor(props: INewTreeFilterProps) {
+    public constructor(props: ITreeProps) {
         super(props);
 
         this.state = {
@@ -83,17 +34,12 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         this.parentLookup = lookups.parentLookup;
         this.itemLookup = lookups.itemLookup;
 
-        // this.allItemIds = props.allItemIds;
-        // if (this.allItemIds === undefined) {
-        //     this.allItemIds = ItemOperator.getAllItemIds(props.items);
-        // }
-
         this.allItemIds = this.props.allItemIdsGetter(props.items);
 
         this.searchItems = _.debounce(this.searchItems, 100);
     }
 
-    public componentWillReceiveProps(nextProps: INewTreeFilterProps) {
+    public componentWillReceiveProps(nextProps: ITreeProps) {
         if (nextProps.items === this.props.items) {
             return;
         }
@@ -104,11 +50,6 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
 
         this.parentLookup = lookups.parentLookup;
         this.itemLookup = lookups.itemLookup;
-
-        // this.allItemIds = nextProps.allItemIds;
-        // if (this.allItemIds === undefined) {
-        //     this.allItemIds = ItemOperator.getAllItemIds(nextProps.items);
-        // }
 
         this.allItemIds = nextProps.allItemIdsGetter(nextProps.items);
 
@@ -125,7 +66,7 @@ export class TreeFilterNew extends React.PureComponent<INewTreeFilterProps, INew
         this.props.selectionText(this.getSelectedText());
     }
 
-    public componentDidUpdate(prevProps: ITreeFilterProps, prevState: INewTreeFilterState) {
+    public componentDidUpdate(prevProps: ITreeFilterProps, prevState: ITreeState) {
         if (this.state.filteredItems !== prevState.filteredItems) {
             if (this._list != null) {
                 this._list.recomputeRowHeights();

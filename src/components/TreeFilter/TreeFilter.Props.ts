@@ -71,9 +71,10 @@ export const defaultTreeFilterProps: Partial<ITreeFilterProps> = {
 
 export interface ITreeFilterState {
     isOpen: boolean;
-    filteredItems: Array<TreeItem>;
-    searchText: string;
-    partiallyCheckedItemIds: Array<string>;   // items with selected children - different name?
+    filterSelection: IFilterSelection;
+    isDefaultSelected: boolean;
+    selectionText: string;
+    query: string;
 }
 
 export interface TreeItem {
