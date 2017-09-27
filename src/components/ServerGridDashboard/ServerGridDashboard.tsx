@@ -69,7 +69,7 @@ const gridColumns: Array<GridColumn> = [{
     dataMember: 'CPUData',
     width: 100,
     minWidth: GRID_CELL_MIN_WIDTH,
-    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'} > {cellData.usage ? cellData.usage + '%' : '--'}</div>; },
+    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'} > {cellData.usage != null ? cellData.usage + '%' : '--'}</div>; },
     isSortable: true,
     isGroupable: true
 }, {
@@ -80,7 +80,7 @@ const gridColumns: Array<GridColumn> = [{
     dataMember: 'MemoryData',
     cellFormatter: (cellData) => {
         const memory = convertRam(cellData);
-        return <div className={GetClassForStatus('', memory.status) + ' server-dashboard-grid-cell-content'}> {memory.usageUnit ? memory.hoverText : '--'}</div>;
+        return <div className={GetClassForStatus('', memory.status) + ' server-dashboard-grid-cell-content'}> {memory.usageUnit != null ? memory.hoverText : '--'}</div>;
     },
     isSortable: true,
     sortByValueGetter: (row, sortDirection) => {

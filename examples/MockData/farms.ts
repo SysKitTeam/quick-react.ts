@@ -11,10 +11,10 @@ export const classListExample = {
 
 let roleListFarms = [{ display: 'WPF', iconName: 'icon-add' }, { display: 'WPF1111111', iconName: 'icon-add' }, { display: 'Not another', iconName: 'icon-add' }, { display: 'Search', iconName: 'icon-alert' }];
 
-export const farms: Array<IGroup> = createFarms(10, 10, 10);
+export const farms: Array<IGroup> = createFarms(10, 10, 10, true);
 let serverIndexer = 0;
 
-export function createFarms(numOfFarms: number, minServerCount: number, maxServerCount: number): Array<IGroup> {
+export function createFarms(numOfFarms: number, minServerCount: number, maxServerCount: number, hasRoles: boolean): Array<IGroup> {
     let _farms = new Array<IGroup>();
     for (let farmIndex = 0; farmIndex <= numOfFarms; farmIndex++) {
         let numOfServers = Math.floor(Math.random() * (maxServerCount - minServerCount + 1)) + minServerCount;
@@ -23,7 +23,7 @@ export function createFarms(numOfFarms: number, minServerCount: number, maxServe
             servers.push({
                 id: 'server' + farmIndex + '' + i,
                 name: 'server ' + farmIndex + '' + i,
-                roles: roleListFarms,
+                roles: hasRoles ? roleListFarms : [],                
                 status: Math.random() >= 0.5 ? 1 : 2,
                 type: Math.random() >= 0.5 ? GroupTypeEnum.SharePoint : GroupTypeEnum.Sql
             });

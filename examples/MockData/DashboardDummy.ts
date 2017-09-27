@@ -4,7 +4,7 @@ import { ITileDashboardProps } from '../../src/components/TileDashboard';
 import { IDashboardProps } from '../../src/components/Dashboard';
 import { ActiveDashboard } from '../../src/components/DashboardHeader/DashboardHeader.Props';
 import { IGroup, ServerStatus, IMeasure, MeasureType, CpuMeasure, Partition, DiskMeasure, NetworkMeasure, RamMeasure, GroupTypeEnum } from '../../src/models';
-import { farms } from './farms';
+import { farms, createFarms } from './farms';
 
 export const dummyCompact: ICompactDashboardProps = {
     title: 'My compact dashboard',
@@ -21,31 +21,36 @@ export const dummyTiles: ITileDashboardProps = {
     farms: farms.map(convertFarm)
 };
 
-export const dummyDashboard: IDashboardProps = {
-    title: 'Dummy dashboard',
-    filter: '',
-    initialActiveView: 0,
-    initialActiveGrouping: 0,
-    hasAddButton: true,
-    headerClass: '',
-    differentDashboards: { 0: { linkText: 'Compact Horizontal' }, 2: { linkText: 'Tiles' }, 3: { linkText: 'Grid' } },
-    farms: farms.map(convertFarm),
-    addFarm: () => { console.log('Adding new farm, wop wop'); },
-    onAddToGroup: (groupId: any) => { console.log('Clicked add icon of group ' + groupId); },
-    onGroupDelete: (groupId: any) => { console.log('Clicked delete icon of group ' + groupId); },
-    onGroupEdit: (groupId: any) => { console.log('Clicked edit icon of group ' + groupId); },
-    onServerClose: (serverFQDN: any) => { console.log('Clicked close icon of server ' + serverFQDN); },
-    onServerRoleEdit: (serverFQDN: any, farmId: any) => { console.log('Clicked edit role icon of server ', serverFQDN, farmId); },
-    groupOnClick: (groupId: any) => { console.log('Clicked on group ' + groupId); },
-    serverOnClick: (groupId: any, serverId: any) => { console.log('Clicked on group ' + groupId + ' and server ' + serverId); },
-    activeFilters: [],
-    icons: [
-        { iconType: GroupTypeEnum.SharePoint, iconName: 'icon-key', iconTitle: 'SharePoint' },
-        { iconType: GroupTypeEnum.Custom, iconName: 'icon-group', iconTitle: 'Custom' },
-        { iconType: GroupTypeEnum.Sql, iconName: 'icon-link', iconTitle: 'Sql Server' },
-        { iconType: GroupTypeEnum.SqlAlwaysOn, iconName: 'icon-list', iconTitle: 'Sql Always On' }
-    ]
+
+export const getDummyDashboard = (hasRoles: boolean) => {
+    return {
+        title: 'Dummy dashboard',
+        filter: '',
+        initialActiveView: 0,
+        initialActiveGrouping: 0,
+        hasAddButton: true,
+        headerClass: '',
+        differentDashboards: { 0: { linkText: 'Compact Horizontal' }, 2: { linkText: 'Tiles' }, 3: { linkText: 'Grid' } },
+        farms: createFarms(10, 10, 10, hasRoles).map(convertFarm), 
+        addFarm: () => { console.log('Adding new farm, wop wop'); },
+        onAddToGroup: (groupId: any) => { console.log('Clicked add icon of group ' + groupId); },
+        onGroupDelete: (groupId: any) => { console.log('Clicked delete icon of group ' + groupId); },
+        onGroupEdit: (groupId: any) => { console.log('Clicked edit icon of group ' + groupId); },
+        onServerClose: (serverFQDN: any) => { console.log('Clicked close icon of server ' + serverFQDN); },
+        onServerRoleEdit: (serverFQDN: any, farmId: any) => { console.log('Clicked edit role icon of server ', serverFQDN, farmId); },
+        groupOnClick: (groupId: any) => { console.log('Clicked on group ' + groupId); },
+        serverOnClick: (groupId: any, serverId: any) => { console.log('Clicked on group ' + groupId + ' and server ' + serverId); },
+        activeFilters: [],
+        icons: [
+            { iconType: GroupTypeEnum.SharePoint, iconName: 'icon-key', iconTitle: 'SharePoint' },
+            { iconType: GroupTypeEnum.Custom, iconName: 'icon-group', iconTitle: 'Custom' },
+            { iconType: GroupTypeEnum.Sql, iconName: 'icon-link', iconTitle: 'Sql Server' },
+            { iconType: GroupTypeEnum.SqlAlwaysOn, iconName: 'icon-list', iconTitle: 'Sql Always On' }
+        ]
+    };
 };
+
+export const dummyDashboard: IDashboardProps =  getDummyDashboard(true);
 
 export function convertFarm(farm: IGroup): IGroup {
     let servers = farm.servers.map((server) => {

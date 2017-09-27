@@ -9,7 +9,7 @@ export interface ITileDashboardState {
 export interface ITileDashboardProps {
     className: string;
     farms: Array<IGroup>;
-    icons?: [{ iconType: GroupTypeEnum, iconName: string }];
+    icons?: { iconType: GroupTypeEnum, iconName: string }[];
     filter: string;
     singleGroupView?: boolean;
     filteringOptions?: Array<IFilteringOption>;
