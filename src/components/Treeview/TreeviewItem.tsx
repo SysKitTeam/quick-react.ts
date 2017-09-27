@@ -35,12 +35,8 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
         };
 
         this.getIsOpen = props.onExpand !== undefined ?
-            () => {
-                return this.props.item.isOpen !== undefined ? this.props.item.isOpen : false;
-            } :
-            () => {
-                return this.state.isOpen;
-            };
+            () => this.props.item.isOpen !== undefined ? this.props.item.isOpen : false :
+            () => this.state.isOpen;
     }
 
     public render(): JSX.Element {
