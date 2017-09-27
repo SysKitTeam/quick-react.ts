@@ -1,9 +1,14 @@
 @import '../../index.scss';
 
 .treeview {
+    @include disableUserSelection();
     @include baseFont();
     font-size: $font-size-m;
     margin-left: 19px;
+
+    .selected {
+        color: orange;
+    }
 
     .collapsed {
         display: none;

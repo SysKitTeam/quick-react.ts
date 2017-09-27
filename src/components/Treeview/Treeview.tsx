@@ -1,33 +1,41 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { ITreeviewProps } from './Treeview.Props';
-import { ITreeviewItem, MapChildren } from './TreeviewItem.Props';
+import { ITreeviewProps, defaultTreeviewProps } from './Treeview.Props';
+import { MapChildren } from './TreeviewItem.Props';
 import { TreeviewItem } from './TreeviewItem';
-import { Icon } from '../../components/Icon/Icon';
-import { CommonComponent } from '../Common/Common';
+
 import './Treeview.scss';
 
-export class Treeview extends CommonComponent<ITreeviewProps, {}> {
+export class Treeview extends React.PureComponent<ITreeviewProps, {}> {
+    public static defaultProps = defaultTreeviewProps;
+
     public render(): JSX.Element {
-        let { label, items, onSelect, showCheckbox, recursive } = this.props;
+        let { label, items, onSelect, showCheckbox, recursive, expandParentOnClick, onExpand } = this.props;
+
         const className = classNames(
             'treeview',
-            [this.props.className]);
+            [this.props.className]
+        );
 
-        let parent = items.map((element) => {
+        const parent = items.map((element) => {
             element.children = MapChildren(element, items);
             return element;
         });
+
         return (
             <div >
-                {parent.map((item, index) => ( !item.parentId &&
+                {parent.map((item, index) => (!item.parentId &&
                     <div key={index} className={className}>
-                    <TreeviewItem
-                        item={item}
-                        onChange={onSelect}
-                        showCheckbox={showCheckbox}
-                        children={item.children}
-                        recursive={recursive} />
+                        <TreeviewItem
+                            item={item}
+                            onChange={onSelect}
+                            showCheckbox={showCheckbox}
+                            children={item.children}
+                            recursive={recursive}
+                            className={item.className}
+                            expandParentOnClick={expandParentOnClick}
+                            onExpand={onExpand}
+                        />
                     </div>
                 ))}
             </div>

@@ -9,12 +9,13 @@ export const elements = [
             iconName: 'icon-trash',
             // tslint:disable-next-line:no-console
             callback: (id) => console.log(id)
-        }]
+        }],
+        isOpen: true, checked: true, className: 'selected'
     },
     { id: 'A2', text: 'Option A2' },
     { id: 'A3', text: 'Option A3' },
     { id: 'A4', text: 'Option A4' },
-    { id: 'B1', text: 'Option B1', parentId: 'A1' },
+    { id: 'B1', text: 'Option B1', parentId: 'A1', className: 'selected' },
     { id: 'B2', text: 'Option B2', parentId: 'A1' },
     { id: 'B3', text: 'Option B3', parentId: 'A1', checked: true },
     { id: 'B4', text: 'Option B4', parentId: 'A1' },
@@ -24,7 +25,7 @@ export const elements = [
     { id: 'C4', text: 'Option C4', parentId: 'B1' },
     { id: 'C5', text: 'Option C5', parentId: 'B1' },
     { id: 'C6', text: 'Option C6', parentId: 'B1' },
-    { id: 'D1', text: 'Option D1', parentId: 'C1' },
+    { id: 'D1', text: 'Option D1', parentId: 'C1', isOpen: true, isChecked: true },
     { id: 'D2', text: 'Option D2', parentId: 'C1' },
     { id: 'D3', text: 'Option D3', parentId: 'C1' },
     { id: 'D4', text: 'Option D4', parentId: 'C1' },

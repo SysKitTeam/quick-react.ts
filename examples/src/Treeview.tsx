@@ -12,13 +12,13 @@ export class Index extends React.Component<any, any> {
     constructor() {
         super();
         this.state = {
-            treeviewElements: elements        
+            treeviewElements: elements
         };
     }
     public render() {
         return (
             <div>
-                <Treeview onSelect={this._onCheckboxListChange} showCheckbox={false} items={elements} />
+                <Treeview expandParentOnClick={true} onSelect={this._onCheckboxListChange} showCheckbox={false} items={elements} onExpand={(itemId, expanded) => console.log('expanding item:', itemId, expanded)} />
                 <br />
                 <Treeview onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements} recursive={false} />
                 <br />
