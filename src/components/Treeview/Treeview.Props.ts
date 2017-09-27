@@ -15,6 +15,5 @@ export interface ITreeviewProps {
 }
 
 export const defaultTreeviewProps: ITreeviewProps = {
-    expandParentOnClick: false,
-    onExpand: nullFunc
+    expandParentOnClick: false
 };

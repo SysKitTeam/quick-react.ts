@@ -16,21 +16,40 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
     private readonly expandedIcon: string = 'icon-arrow_down_right';
     private readonly collapsedIcon: string = 'icon-arrow_right';
 
+    private readonly onExpand;
+    private readonly getIsOpen;
+
     public constructor(props: ITreeviewItemProps) {
         super(props);
 
         this.state = {
-            isOpen: props.item.isOpen,
-            iconArrow: this.getArrowIconFromState(props.item.isOpen),
-            hover: false
+            hover: false,
+            isOpen: props.onExpand !== undefined ? undefined : props.item.isOpen
         };
+
+        this.onExpand = props.onExpand !== undefined ? props.onExpand : (itemId: string, expanded: boolean) => {
+            let { isOpen } = this.state;
+            this.setState({
+                isOpen: expanded
+            });
+        };
+
+        this.getIsOpen = props.onExpand !== undefined ?
+            () => {
+                return this.props.item.isOpen !== undefined ? this.props.item.isOpen : false;
+            } :
+            () => {
+                return this.state.isOpen;
+            };
     }
 
     public render(): JSX.Element {
         let { item, onChange, showCheckbox, children, recursive, expandParentOnClick, onExpand } = this.props;
-        let { isOpen } = this.state;
         let checkedStatus = this._getChildrenChecked(item, item.checked, recursive);
         let checked = checkedStatus.isChecked;
+
+        const isOpen = this.getIsOpen();
+        const arrowIcon = this.getArrowIconFromState(isOpen);
 
         const itemClassName = classNames(
             {
@@ -60,7 +79,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
                 <div className={classNames('treeview-item', item.className)}>
                     {
                         item.children.length > 0 &&
-                        <Icon iconName={this.state.iconArrow} onClick={this._onItemClick.bind(this, item)}></Icon>
+                        <Icon iconName={arrowIcon} onClick={(ev) => this._onExpand(ev, item)}></Icon>
                     }
                     <div className={treeveiwItemClassName} >
                         {
@@ -125,9 +144,9 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
     }
 
     @autobind
-    private _onItemSelect(item: ITreeviewItem, checked, ev: React.FormEvent<HTMLElement>): void {
+    private _onItemSelect(item: ITreeviewItem, checked: boolean, ev: React.FormEvent<HTMLElement>): void {
         if (item.children.length > 0 && this.props.expandParentOnClick) {
-            this.changeState(item.id);
+            this.changeState(item);
             return;
         }
 
@@ -155,9 +174,8 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
         return result;
     }
 
-    @autobind
-    private _onItemClick(ev: any, itemId: string) {
-        this.changeState(itemId);
+    private _onExpand(ev: any, item: ITreeviewItem) {
+        this.changeState(item);
         ev.stopPropagation();
         ev.preventDefault();
     }
@@ -184,12 +202,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
 
     private getArrowIconFromState = (isOpen: boolean) => isOpen ? this.expandedIcon : this.collapsedIcon;
 
-    private changeState(itemId: string) {
-        let { isOpen } = this.state;
-        this.setState({
-            isOpen: !isOpen,
-            iconArrow: this.getArrowIconFromState(!isOpen)
-        });
-        this.props.onExpand(itemId, !isOpen);
+    private changeState(item: ITreeviewItem) {
+        this.onExpand(item.id, !item.isOpen);
     }
 }

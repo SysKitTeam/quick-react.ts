@@ -8,7 +8,7 @@ export interface ITreeviewItemProps {
     recursive?: boolean;
     className?: string;
     expandParentOnClick: boolean;
-    onExpand: (itemId: string, expanded: boolean) => void;
+    onExpand?: (itemId: string, expanded: boolean) => void;
 }
 
 export interface IHoverOverBtn {

@@ -1,4 +1,6 @@
-export const elements = [
+import { ITreeviewItem } from '../../src/components/Treeview/TreeviewItem.Props';
+
+export const elements: ITreeviewItem[] = [
     {
         id: 'A1', text: 'Option A1', hoverOverBtn: [{
             iconName: 'icon-edit',
@@ -25,7 +27,7 @@ export const elements = [
     { id: 'C4', text: 'Option C4', parentId: 'B1' },
     { id: 'C5', text: 'Option C5', parentId: 'B1' },
     { id: 'C6', text: 'Option C6', parentId: 'B1' },
-    { id: 'D1', text: 'Option D1', parentId: 'C1', isOpen: true, isChecked: true },
+    { id: 'D1', text: 'Option D1', parentId: 'C1', isOpen: true },
     { id: 'D2', text: 'Option D2', parentId: 'C1' },
     { id: 'D3', text: 'Option D3', parentId: 'C1' },
     { id: 'D4', text: 'Option D4', parentId: 'C1' },
@@ -103,5 +105,4 @@ export const elements = [
     { id: 'G51', text: 'Option G5', parentId: 'F2' },
     { id: 'G61', text: 'Option G6', parentId: 'F2' },
     { id: 'G71', text: 'Option G7', parentId: 'F2' }
-
 ];
