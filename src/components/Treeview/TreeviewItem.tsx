@@ -17,9 +17,8 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
     private readonly collapsedIcon: string = 'icon-arrow_right';
 
     private readonly onExpand: (itemId?: string, expanded?: boolean) => void;
-    private readonly getIsOpen;
-    private _executeSingleClickEvent: boolean = false;
-    private _timer = null;
+    private readonly getIsOpen: () => boolean;
+    private readonly expandOnDblClick: (ev?: any, item?: ITreeviewItem) => void;
 
     public constructor(props: ITreeviewItemProps) {
         super(props);
@@ -39,6 +38,10 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
         this.getIsOpen = props.onExpand !== undefined ?
             () => this.props.item.isOpen !== undefined ? this.props.item.isOpen : false :
             () => this.state.isOpen;
+
+        this.expandOnDblClick = props.expandOnClick ?
+            (ev: any, item: ITreeviewItem) => this._onExpand(ev, item) :
+            () => { };
     }
 
     public render(): JSX.Element {
@@ -87,13 +90,14 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
                                 onChange={(event) => this._onItemSelect(item, checked, event)}
                                 checked={checked}
                                 className={selectedClassName}
+                                onDoubleClick={(ev) => this.expandOnDblClick(ev, item)}
                             />
                         }
                         {
                             !showCheckbox &&
                             <span
                                 onClick={(event) => this._onItemSelect(item, true, event)}
-                                onDoubleClick={(ev) => this._onExpand(ev, item)}
+                                onDoubleClick={(ev) => this.expandOnDblClick(ev, item)}
                             >
                                 {item.text}
                             </span>
@@ -151,39 +155,26 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
         });
     }
 
-    private _timerElapsed(item: ITreeviewItem, checked: boolean, event: React.MouseEvent<HTMLSpanElement>) {
-        this._executeSingleClickEvent = true;
-        this._timer = null;
-        this._onItemSelect(item, checked, event);
-    }
-
     @autobind
     private _onItemSelect(item: ITreeviewItem, checked: boolean, event: any): void {
-        if (this._executeSingleClickEvent) {
-            if (this.props.showCheckbox) {
-                let items = [];
-                items.push(item.id);
-                if (this.props.recursive) {
-                    items = items.concat(this._getChildrenId(this.props.children));
-                }
-                this.props.onChange(event, items, !checked);
-            } else {
-                this.props.onChange(event, [item.id], checked);
-            }
+        if (item.children.length > 0 && this.props.expandOnClick) {
+            return;
         }
 
-        if (this._timer === null && !this._executeSingleClickEvent) {
-            this._timer = setTimeout(() => this._timerElapsed(item, checked, event), 200);
+        if (this.props.showCheckbox) {
+            let items = [];
+            items.push(item.id);
+            if (this.props.recursive) {
+                items = items.concat(this._getChildrenId(this.props.children));
+            }
+            this.props.onChange(event, items, !checked);
+        } else {
+            this.props.onChange(event, [item.id], checked);
         }
     }
 
     private _onExpand(ev: any, item: ITreeviewItem) {
-        if (this._timer !== null) {
-            clearTimeout(this._timer);
-            this._timer = null;
-            this._executeSingleClickEvent = false;
-        }
-
+        console.log('on expand');
         ev.stopPropagation();
         ev.preventDefault();
 

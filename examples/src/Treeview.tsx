@@ -25,10 +25,9 @@ export class Index extends React.Component<any, any> {
                     onSelect={this._onCheckboxListChange}
                     showCheckbox={false}
                     items={this.state.treeviewElements}
-                    onExpand={this._onExpand}
                 />
                 <br />
-                {/* <Treeview onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements} recursive={false} /> */}
+                <Treeview expandOnClick={true} onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements} recursive={false} />
                 <br />
             </div>
         );
@@ -36,10 +35,7 @@ export class Index extends React.Component<any, any> {
 
     @autobind
     private _onExpand(itemId: string, expanded: boolean) {
-        // console.log('on expand: ', itemId, 'expanded: ', expanded);
         let { treeviewElements } = this.state;
-
-        // console.log('treeview elements: ', this.state);
 
         const changedElements = treeviewElements.map((element: ITreeviewItem, index: number) => {
             if (element.id === itemId) {
@@ -50,14 +46,6 @@ export class Index extends React.Component<any, any> {
             }
             return element;
         });
-
-        // console.log(treeviewElements === changedElements);
-
-        // console.log('changed elements: ', changedElements);
-
-        // for (let i = 0; i < treeviewElements.length; i++) {
-        //     console.log(treeviewElements[i] === changedElements[i]);
-        // }
 
         this.setState({
             treeviewElements: changedElements
@@ -82,4 +70,5 @@ export class Index extends React.Component<any, any> {
     }
 
 }
+
 ReactDOM.render(<Index />, document.getElementById('root'));
