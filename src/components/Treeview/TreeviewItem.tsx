@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { ITreeviewItemProps, ITreeviewItem, MapChildren } from './TreeviewItem.Props';
+import { ITreeviewItemProps, ITreeviewItem } from './TreeviewItem.Props';
 import { Icon } from '../../components/Icon/Icon';
 import { Checkbox } from '../../components/Checkbox/Checkbox';
 import { CommonComponent } from '../Common/Common';
@@ -18,7 +18,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
 
     private readonly onExpand: (itemId?: string, expanded?: boolean) => void;
     private readonly getIsOpen: () => boolean;
-    private readonly expandOnDblClick: (ev?: any, item?: ITreeviewItem) => void;
+    private readonly expandOnDblClick: (ev?: any) => void;
 
     public constructor(props: ITreeviewItemProps) {
         super(props);
@@ -90,7 +90,6 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
                                 onChange={(event) => this._onItemSelect(item, checked, event)}
                                 checked={checked}
                                 className={selectedClassName}
-                                onDoubleClick={this.expandOnDblClick}
                             />
                         }
                         {

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { ITreeviewProps, defaultTreeviewProps } from './Treeview.Props';
-import { MapChildren } from './TreeviewItem.Props';
 import { TreeviewItem } from './TreeviewItem';
+import { ITreeviewItem } from './TreeviewItem.Props';
 
 import './Treeview.scss';
 
@@ -18,7 +18,7 @@ export class Treeview extends React.PureComponent<ITreeviewProps, {}> {
         );
 
         const parent = items.map((element) => {
-            element.children = MapChildren(element, items);
+            element.children = this._setElementChildren(element, items);
             return element;
         });
 
@@ -40,5 +40,18 @@ export class Treeview extends React.PureComponent<ITreeviewProps, {}> {
                 ))}
             </div>
         );
+    }
+
+    private _setElementChildren(currentItem: ITreeviewItem, allItems: ITreeviewItem[]): ITreeviewItem[] {
+        const children = allItems.filter((element) => {
+            return (element.parentId === currentItem.id);
+        });
+
+        children.forEach((element) => {
+            let grandChildren = this._setElementChildren(element, allItems);
+            element.children = grandChildren;
+        });
+
+        return children;
     }
 }

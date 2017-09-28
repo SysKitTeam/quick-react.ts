@@ -26,16 +26,3 @@ export interface ITreeviewItem {
     hoverOverBtn?: Array<IHoverOverBtn>;
     className?: string;
 }
-
-export function MapChildren(currentItem: ITreeviewItem, allItems: ITreeviewItem[]): ITreeviewItem[] {
-    const children = allItems.filter((element) => {
-        return (element.parentId === currentItem.id);
-    });
-
-    children.forEach((element) => {
-        let grandChildren = MapChildren(element, allItems);
-        element.children = grandChildren;
-    });
-
-    return children;
-}
