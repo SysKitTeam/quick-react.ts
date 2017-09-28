@@ -11,9 +11,9 @@ export interface ITreeviewProps {
     onExpand?: (itemId: string, expanded: boolean) => void;
     showCheckbox?: boolean;
     recursive?: boolean;
-    expandParentOnClick?: boolean;
+    expandOnClick?: boolean;
 }
 
 export const defaultTreeviewProps: ITreeviewProps = {
-    expandParentOnClick: false
+    expandOnClick: false
 };

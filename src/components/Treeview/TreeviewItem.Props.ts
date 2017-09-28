@@ -7,7 +7,7 @@ export interface ITreeviewItemProps {
     children?: ITreeviewItem[];
     recursive?: boolean;
     className?: string;
-    expandParentOnClick: boolean;
+    expandOnClick: boolean;
     onExpand?: (itemId: string, expanded: boolean) => void;
 }
 
