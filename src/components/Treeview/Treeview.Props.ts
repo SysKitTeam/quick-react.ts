@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { ITreeviewItem } from './TreeviewItem.Props';
 
-const nullFunc = () => { };
-
 export interface ITreeviewProps {
     label?: string;
     className?: string;

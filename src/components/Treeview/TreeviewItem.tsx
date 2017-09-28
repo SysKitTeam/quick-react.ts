@@ -8,13 +8,13 @@ import { autobind } from '../../utilities/autobind';
 import { Treeview } from './Treeview';
 import './Treeview.scss';
 
+const expandedIcon: string = 'icon-arrow_down_right';
+const collapsedIcon: string = 'icon-arrow_right';
+
 export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
     public static defaultProps: ITreeviewItem = {
         isOpen: false
     };
-
-    private readonly expandedIcon: string = 'icon-arrow_down_right';
-    private readonly collapsedIcon: string = 'icon-arrow_right';
 
     private readonly onExpand: (itemId?: string, expanded?: boolean) => void;
     private readonly getIsOpen: () => boolean;
@@ -40,7 +40,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
             () => this.state.isOpen;
 
         this.expandOnDblClick = props.expandOnClick ?
-            (ev: any, item: ITreeviewItem) => this._onExpand(ev, item) :
+            (ev: any) => this._onExpand(ev) :
             () => { };
     }
 
@@ -50,7 +50,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
         let checked = checkedStatus.isChecked;
 
         const isOpen = this.getIsOpen();
-        const arrowIcon = this.getArrowIconFromState(isOpen);
+        const arrowIcon = isOpen ? expandedIcon : collapsedIcon;
 
         const itemClassName = classNames(
             {
@@ -80,7 +80,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
                 <div className={classNames('treeview-item', item.className)}>
                     {
                         item.children.length > 0 &&
-                        <Icon iconName={arrowIcon} onClick={(ev) => this._onExpand(ev, item)}></Icon>
+                        <Icon iconName={arrowIcon} onClick={this._onExpand}></Icon>
                     }
                     <div className={treeveiwItemClassName} >
                         {
@@ -90,14 +90,14 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
                                 onChange={(event) => this._onItemSelect(item, checked, event)}
                                 checked={checked}
                                 className={selectedClassName}
-                                onDoubleClick={(ev) => this.expandOnDblClick(ev, item)}
+                                onDoubleClick={this.expandOnDblClick}
                             />
                         }
                         {
                             !showCheckbox &&
                             <span
                                 onClick={(event) => this._onItemSelect(item, true, event)}
-                                onDoubleClick={(ev) => this.expandOnDblClick(ev, item)}
+                                onDoubleClick={this.expandOnDblClick}
                             >
                                 {item.text}
                             </span>
@@ -173,8 +173,10 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
         }
     }
 
-    private _onExpand(ev: any, item: ITreeviewItem) {
-        console.log('on expand');
+    @autobind
+    private _onExpand(ev: any) {
+        const { item } = this.props;
+
         ev.stopPropagation();
         ev.preventDefault();
 
@@ -212,6 +214,4 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
         }
         return result;
     }
-
-    private getArrowIconFromState = (isOpen: boolean) => isOpen ? this.expandedIcon : this.collapsedIcon;
 }
