@@ -81,7 +81,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
             this.allItemIds = ItemOperator.getAllItemIds(nextProps.items);
         }
 
-        this.setState(prevState => ({ ...prevState, filterSelection: nextProps.filterSelection }));
+        this.setState(prevState => ({ ...prevState, selectionText: this.getSelectedText(nextProps) }));
     }
 
     private setAnchorRef = (ref) => {
@@ -145,7 +145,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     }
 
     @autobind
-    private onTextSelectionChange(selectionText: string) {
+    private setSelectionText(selectionText: string) {
         this.setState({ selectionText: selectionText });
     }
 
@@ -174,7 +174,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
             allItemIdsGetter: this._getAllItemIds,
             lookupTableGetter: this._getLookups,
             onValuesSelected: this.onValuesSelected,
-            selectionText: this.onTextSelectionChange,
+            selectionText: this.setSelectionText,
             onItemsSearch: this.onItemsSearch,
             searchQuery: this.state.query
         };
