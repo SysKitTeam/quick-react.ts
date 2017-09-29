@@ -40,15 +40,13 @@ export class Treeview extends React.PureComponent<ITreeviewProps, {}> {
     }
 
     private _setElementChildren(currentItem: ITreeviewItem, allItems: ITreeviewItem[]): ITreeviewItem[] {
-        const children = allItems.filter((element) => {
-            return (element.parentId === currentItem.id);
-        });
+        const children = allItems.filter((element) => (element.parentId === currentItem.id));
 
         children.forEach((element) => {
-            let grandChildren = this._setElementChildren(element, allItems);
+            const grandChildren = this._setElementChildren(element, allItems);
             element.children = grandChildren;
         });
-
+        
         return children;
     }
 }

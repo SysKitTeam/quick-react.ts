@@ -41,34 +41,13 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
         let { item, onChange, showCheckbox, children, recursive, onExpand } = this.props;
         let checkedStatus = this._getChildrenChecked(item, item.checked, recursive);
         let checked = checkedStatus.isChecked;
-
         this.onExpand = onExpand !== undefined ? onExpand : this._changeInternalIsOpenState;
-
         const isOpen = this._getIsOpen();
         const arrowIcon = isOpen ? expandedIcon : collapsedIcon;
-
-        const itemClassName = classNames(
-            {
-                'expanded': isOpen,
-                'collapsed': !isOpen
-            }
-        );
-
-        const parentItemClassName = classNames(
-            {
-                'treeveiw-parent-item': item.children.length > 0
-            }
-        );
-
-        const treeveiwItemClassName = classNames(
-            'treeveiw-content'
-        );
-
-        const selectedClassName = classNames(
-            {
-                'partial-selected': recursive && checkedStatus.hasCheckedChild && !checked
-            }
-        );
+        const itemClassName = isOpen ? 'expanded' : 'collapsed';
+        const parentItemClassName = item.children.length > 0 ? 'treeveiw-parent-item' : '';
+        const treeveiwItemClassName = 'treeveiw-content';
+        const selectedClassName = (recursive && checkedStatus.hasCheckedChild && !checked) ? 'partial-selected' : '';
 
         return (
             <div onMouseEnter={this._onItemHover} onMouseLeave={this._onItemLeaveHover} className={parentItemClassName}>
@@ -82,7 +61,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
                             showCheckbox &&
                             <Checkbox
                                 label={item.text}
-                                onChange={(event) => this._onItemSelect(item, checked, event)}
+                                onChange={this._onItemSelect}
                                 checked={checked}
                                 className={selectedClassName}
                             />
@@ -90,7 +69,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
                         {
                             !showCheckbox &&
                             <span
-                                onClick={(event) => this._onItemSelect(item, true, event)}
+                                onClick={this.onItemClick}
                             >
                                 {item.text}
                             </span>
@@ -162,8 +141,14 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
         });
     }
 
+    onItemClick = (event: any) => {
+        this._onItemSelect(event, '', true);
+    }
+
     @autobind
-    private _onItemSelect(item: ITreeviewItem, checked: boolean, event: any): void {
+
+    private _onItemSelect(event: any, itemId: string, checked: boolean): void {
+         const { item } = this.props;
         if (this.props.showCheckbox) {
             let items = [];
             items.push(item.id);
