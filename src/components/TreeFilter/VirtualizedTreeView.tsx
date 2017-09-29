@@ -6,17 +6,41 @@ import * as _ from 'lodash';
 
 import { Search } from '../Search';
 import { Icon } from '../Icon';
-import { ITreeFilterProps, ITreeFilterState, TreeItem, CheckStatus, FilterSelectionEnum, IFilterSelection, defaultTreeFilterProps } from './TreeFilter.Props';
+import {
+    ITreeFilterProps,
+    ITreeFilterState,
+    TreeItem,
+    CheckStatus,
+    FilterSelectionEnum,
+    IFilterSelection,
+    defaultTreeFilterProps
+} from './TreeFilter.Props';
+
 import { TreeFilterCheckBox } from './TreeFilterCheckBox';
-import { ItemOperator, LeafsAndBranches, TreeBranch, CheckResult, itemHasChildren } from './TreeItemOperators';
-import { IVirtualizedTreeViewProps, IVirtualizedTreeViewState, defaultTreeProps } from './VirtualizedTreeView.Props';
+
+import {
+    ItemOperator,
+    LeafsAndBranches,
+    TreeBranch,
+    CheckResult,
+    itemHasChildren,
+    ILookupTable
+} from './TreeItemOperators';
+
+import {
+    IVirtualizedTreeViewProps,
+    IVirtualizedTreeViewState,
+    defaultTreeProps
+} from './VirtualizedTreeView.Props';
 
 import './VirtualizedTreeView.scss';
 
 export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeViewProps, IVirtualizedTreeViewState> {
+
     private _list: any;
-    private parentLookup: Readonly<{ [id: string]: TreeItem }>;
-    private itemLookup: Readonly<{ [id: string]: TreeItem }>;
+
+    private parentLookup: Readonly<ILookupTable>;
+    private itemLookup: Readonly<ILookupTable>;
     private allItemIds: ReadonlyArray<string>;
 
     public static defaultProps = defaultTreeProps;

@@ -1,11 +1,11 @@
 import { ITreeFilterProps, ITreeFilterState, TreeItem } from './treeFilter.Props';
 import * as _ from 'lodash';
 
-
 export interface TreeBranch {
     id: string;
     depth: number;
 }
+
 export interface LeafsAndBranches {
     Leafs: Array<string>;
     Branches: Array<TreeBranch>;
@@ -14,6 +14,10 @@ export interface LeafsAndBranches {
 export interface CheckResult {
     checked: Array<string>;
     partially: Array<string>;
+}
+
+export interface ILookupTable {
+    [id: string]: TreeItem;
 }
 
 /**
@@ -27,11 +31,14 @@ export const itemHasChildren = (item: TreeItem) => {
 
 export class ItemOperator {
     static getLookupTableAndParentLookup = (items: Array<TreeItem>) => {
-        let parentItems: { [id: string]: TreeItem } = {};
-        let lookup: { [id: string]: TreeItem } = {};
+        let parentItems: ILookupTable = {};
+        let lookup: ILookupTable = {};
 
         if (items == null || items.length === 0) {
-            return { parentLookup: parentItems, itemLookup: lookup };
+            return {
+                parentLookup: parentItems,
+                itemLookup: lookup
+            };
         }
 
         const setParentAndLookup = (parent, children: Array<TreeItem>) => {

@@ -71,7 +71,7 @@ export const defaultTreeFilterProps: Partial<ITreeFilterProps> = {
 
 export interface ITreeFilterState {
     isOpen: boolean;
-    filterSelection: IFilterSelection;
+    // filterSelection: IFilterSelection;
     isDefaultSelected: boolean;
     selectionText: string;
     query: string;
