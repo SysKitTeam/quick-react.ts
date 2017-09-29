@@ -146,7 +146,6 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
     }
 
     @autobind
-
     private _onItemSelect(event: any, itemId: string, checked: boolean): void {
         const { item } = this.props;
         if (this.props.showCheckbox) {
@@ -155,7 +154,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
             if (this.props.recursive) {
                 items = items.concat(this._getChildrenId(this.props.children));
             }
-            this.props.onChange(event, items, !checked);
+            this.props.onChange(event, items, checked);
         } else {
             this.props.onChange(event, [item.id], checked);
         }
