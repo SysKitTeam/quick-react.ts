@@ -38,7 +38,6 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
 
         this.state = {
             isOpen: false,
-            // filterSelection: props.filterSelection,
             isDefaultSelected: this.checkIfDefaultSelection(props.filterSelection.type, props.filterSelection.selectedIDs),
             selectionText: this.getSelectedText(props),
             query: ''
@@ -77,10 +76,6 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     }
 
     public componentWillReceiveProps(nextProps: ITreeFilterProps) {
-        // if (nextProps.items === this.props.items) {
-        //     return;
-        // }
-
         if (nextProps.items !== this.props.items) {
             this.lookups = ItemOperator.getLookupTableAndParentLookup(nextProps.items);
             const filteredItems = ItemOperator.filterItems(nextProps.items, this.state.query);
@@ -140,15 +135,10 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     private onFilterReset() {
         this.setState({
             ...this.state,
-            // filterSelection: {
-            //     type: this.props.defaultSelection,
-            //     selectedIDs: []
-            // },
             isDefaultSelected: true,
             selectionText: this.props.defaultSelection === FilterSelectionEnum.All ? '[All]' : 'Please select...'
         });
 
-        // posalji van da se filter selection promjenio
         this.props.onValuesSelected(this.props.filterId, {
             type: this.props.defaultSelection,
             selectedIDs: []
@@ -182,7 +172,6 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
             allItemIdsGetter: (items: Array<TreeItem>) => this.allItemIds,
             lookupTableGetter: (items: Array<TreeItem>) => this.lookups,
             onValuesSelected: this.onValuesSelected,
-            // filterSelection: this.state.filterSelection,
             selectionText: this.onTextSelectionChange,
             onItemsSearch: this.onItemsSearch,
             searchQuery: this.state.query
