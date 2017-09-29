@@ -22,13 +22,12 @@ export class Index extends React.Component<any, any> {
         return (
             <div>
                 <Treeview
-                    expandOnClick={true}
                     onSelect={this._onCheckboxListChange}
                     showCheckbox={false}
                     items={this.state.treeviewElements}
                 />
                 <br />
-                <Treeview expandOnClick={true} onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements} recursive={false} />
+                <Treeview onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements} recursive={false} />
                 <br />
             </div>
         );

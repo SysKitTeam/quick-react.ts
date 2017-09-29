@@ -18,7 +18,6 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
 
     private readonly onExpand: (itemId?: string, expanded?: boolean) => void;
     private readonly getIsOpen: () => boolean;
-    private readonly expandOnDblClick: (ev?: any) => void;
 
     public constructor(props: ITreeviewItemProps) {
         super(props);
@@ -38,12 +37,10 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
         this.getIsOpen = props.onExpand !== undefined ?
             () => this.props.item.isOpen !== undefined ? this.props.item.isOpen : false :
             () => this.state.isOpen;
-
-        this.expandOnDblClick = props.expandOnClick ? this._onExpand : undefined;
     }
 
     public render(): JSX.Element {
-        let { item, onChange, showCheckbox, children, recursive, expandOnClick, onExpand } = this.props;
+        let { item, onChange, showCheckbox, children, recursive, onExpand } = this.props;
         let checkedStatus = this._getChildrenChecked(item, item.checked, recursive);
         let checked = checkedStatus.isChecked;
 
@@ -94,7 +91,6 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
                             !showCheckbox &&
                             <span
                                 onClick={(event) => this._onItemSelect(item, true, event)}
-                                onDoubleClick={this.expandOnDblClick}
                             >
                                 {item.text}
                             </span>
@@ -127,7 +123,6 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
                                     children={child.children}
                                     recursive={recursive}
                                     className={child.className}
-                                    expandOnClick={expandOnClick}
                                     onExpand={onExpand}
                                 />
                             )
@@ -154,10 +149,6 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
 
     @autobind
     private _onItemSelect(item: ITreeviewItem, checked: boolean, event: any): void {
-        if (item.children.length > 0 && this.props.expandOnClick) {
-            return;
-        }
-
         if (this.props.showCheckbox) {
             let items = [];
             items.push(item.id);

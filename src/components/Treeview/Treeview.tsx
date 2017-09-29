@@ -1,16 +1,14 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { ITreeviewProps, defaultTreeviewProps } from './Treeview.Props';
+import { ITreeviewProps } from './Treeview.Props';
 import { TreeviewItem } from './TreeviewItem';
 import { ITreeviewItem } from './TreeviewItem.Props';
 
 import './Treeview.scss';
 
 export class Treeview extends React.PureComponent<ITreeviewProps, {}> {
-    public static defaultProps = defaultTreeviewProps;
-
     public render(): JSX.Element {
-        let { label, items, onSelect, showCheckbox, recursive, expandOnClick, onExpand } = this.props;
+        let { label, items, onSelect, showCheckbox, recursive, onExpand } = this.props;
 
         const className = classNames(
             'treeview',
@@ -33,7 +31,6 @@ export class Treeview extends React.PureComponent<ITreeviewProps, {}> {
                             children={item.children}
                             recursive={recursive}
                             className={item.className}
-                            expandOnClick={expandOnClick}
                             onExpand={onExpand}
                         />
                     </div>
