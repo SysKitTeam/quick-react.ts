@@ -16,27 +16,25 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
         isOpen: false
     };
 
-    private readonly onExpand: (itemId?: string, expanded?: boolean) => void;
-    private readonly getIsOpen: () => boolean;
+    private onExpand: (itemId?: string, expanded?: boolean) => void;
+    private getIsOpen: () => boolean;
 
     public constructor(props: ITreeviewItemProps) {
         super(props);
 
+        const isItemOpened = props.item.isOpen;
+        let isOpenInitially;
+
+        if (props.onExpand === undefined) {
+            isOpenInitially = isItemOpened !== undefined ? isItemOpened : false;
+        } else {
+            isOpenInitially = undefined;
+        }
+
         this.state = {
             hover: false,
-            isOpen: props.onExpand !== undefined ? undefined : props.item.isOpen
+            isOpen: isOpenInitially
         };
-
-        this.onExpand = props.onExpand !== undefined ? props.onExpand : () => {
-            let { isOpen } = this.state;
-            this.setState({
-                isOpen: !isOpen
-            });
-        };
-
-        this.getIsOpen = props.onExpand !== undefined ?
-            () => this.props.item.isOpen !== undefined ? this.props.item.isOpen : false :
-            () => this.state.isOpen;
     }
 
     public render(): JSX.Element {
@@ -44,7 +42,9 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
         let checkedStatus = this._getChildrenChecked(item, item.checked, recursive);
         let checked = checkedStatus.isChecked;
 
-        const isOpen = this.getIsOpen();
+        this.onExpand = onExpand !== undefined ? onExpand : this._changeInternalIsOpenState;
+
+        const isOpen = this._getIsOpen();
         const arrowIcon = isOpen ? expandedIcon : collapsedIcon;
 
         const itemClassName = classNames(
@@ -131,6 +131,21 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
                 }
             </div>
         );
+    }
+
+    private _changeInternalIsOpenState() {
+        let { isOpen } = this.state;
+        this.setState({
+            isOpen: !isOpen
+        });
+    }
+
+    private _getIsOpen() {
+        if (this.props.onExpand === undefined) {
+            return this.state.isOpen;
+        } else {
+            return this.props.item.isOpen !== undefined ? this.props.item.isOpen : false;
+        }
     }
 
     @autobind
