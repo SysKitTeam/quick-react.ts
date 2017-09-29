@@ -50,13 +50,13 @@ const gridColumns: Array<GridColumn> = [{
             case ServerStatus.Warning:
                 modifier = sortDirection === SortDirection.Ascending ? '1' : '3';
                 break;
-                case ServerStatus.OK:
+            case ServerStatus.OK:
                 modifier = sortDirection === SortDirection.Ascending ? '2' : '2';
                 break;
             case ServerStatus.Offline:
                 modifier = sortDirection === SortDirection.Ascending ? '3' : '1';
                 break;
-           case ServerStatus.Disabled:
+            case ServerStatus.Disabled:
                 modifier = sortDirection === SortDirection.Ascending ? '4' : '0';
                 break;
         }
@@ -69,7 +69,7 @@ const gridColumns: Array<GridColumn> = [{
     dataMember: 'CPUData',
     width: 100,
     minWidth: GRID_CELL_MIN_WIDTH,
-    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'} > {cellData.usage != null ? cellData.usage + '%' : '--'}</div>; },
+    cellFormatter: (cellData) => { return <div className={GetClassForStatus('', cellData.status) + ' server-dashboard-grid-cell-content'} > {isEmpty(cellData.usage) ? '--' : cellData.usage + '%'}</div>; },
     isSortable: true,
     isGroupable: true
 }, {
@@ -80,7 +80,7 @@ const gridColumns: Array<GridColumn> = [{
     dataMember: 'MemoryData',
     cellFormatter: (cellData) => {
         const memory = convertRam(cellData);
-        return <div className={GetClassForStatus('', memory.status) + ' server-dashboard-grid-cell-content'}> {memory.usageUnit != null ? memory.hoverText : '--'}</div>;
+        return <div className={GetClassForStatus('', memory.status) + ' server-dashboard-grid-cell-content'}> {isEmpty(memory.usageUnit) ? '--' : memory.hoverText}</div>;
     },
     isSortable: true,
     sortByValueGetter: (row, sortDirection) => {
@@ -234,4 +234,15 @@ export class ServerGridDashboard extends React.PureComponent<IServerGridDashboar
         }
     }
 }
+
+const isEmpty = (obj) => {
+    if (obj == null) {
+        return true;
+    }
+    if (typeof obj === 'string') {
+        return obj.length === 0;
+    }
+    return false;
+};
+
 
