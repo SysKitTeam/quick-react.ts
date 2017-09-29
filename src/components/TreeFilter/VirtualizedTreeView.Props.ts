@@ -18,8 +18,8 @@ export interface IVirtualizedTreeViewProps {
     selectionText?: (selectionText: string) => void;
     onItemsSearch?: (query: string) => void;
     searchQuery?: string;
-    allItemIdsGetter?: (items: Array<TreeItem>) => ReadonlyArray<string>;
-    lookupTableGetter?: (items: Array<TreeItem>) => any;
+    allItemIdsGetter?: (items?: Array<TreeItem>) => ReadonlyArray<string>;
+    lookupTableGetter?: (items?: Array<TreeItem>) => any;
 }
 
 export const defaultTreeProps: Partial<IVirtualizedTreeViewProps> = {

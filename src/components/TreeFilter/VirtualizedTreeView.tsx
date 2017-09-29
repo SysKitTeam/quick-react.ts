@@ -54,7 +54,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
             filteredItems: ItemOperator.filterItems(props.items, props.searchQuery)
         };
 
-        const lookups = this.props.lookupTableGetter(props.items); // ItemOperator.getLookupTableAndParentLookup(props.items);
+        const lookups = this.props.lookupTableGetter(props.items);
         this.parentLookup = lookups.parentLookup;
         this.itemLookup = lookups.itemLookup;
 
@@ -64,26 +64,23 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
     }
 
     public componentWillReceiveProps(nextProps: IVirtualizedTreeViewProps) {
-        if (nextProps.items === this.props.items) {
-            return;
+        if (nextProps.items !== this.props.items) {
+            const filteredItems = ItemOperator.filterItems(nextProps.items, this.state.searchText);
+
+            this.setState(
+                prevState => ({
+                    ...prevState,
+                    filteredItems: filteredItems,
+                    searchText: nextProps.searchQuery
+                })
+            );
         }
 
-        const filteredItems = ItemOperator.filterItems(nextProps.items, this.state.searchText);
-
-        const lookups = nextProps.lookupTableGetter(nextProps.items); // ItemOperator.getLookupTableAndParentLookup(nextProps.items);
-
+        const lookups = nextProps.lookupTableGetter(nextProps.items);
         this.parentLookup = lookups.parentLookup;
         this.itemLookup = lookups.itemLookup;
 
         this.allItemIds = nextProps.allItemIdsGetter(nextProps.items);
-
-        this.setState(
-            prevState => ({
-                ...prevState,
-                filteredItems: filteredItems,
-                searchText: nextProps.searchQuery
-            })
-        );
     }
 
     public componentWillMount() {

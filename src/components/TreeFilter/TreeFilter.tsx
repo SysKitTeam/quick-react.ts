@@ -78,7 +78,6 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     public componentWillReceiveProps(nextProps: ITreeFilterProps) {
         if (nextProps.items !== this.props.items) {
             this.lookups = ItemOperator.getLookupTableAndParentLookup(nextProps.items);
-            const filteredItems = ItemOperator.filterItems(nextProps.items, this.state.query);
             this.allItemIds = ItemOperator.getAllItemIds(nextProps.items);
         }
 
@@ -163,14 +162,17 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         this.setState({ ...this.state, query });
     }
 
+    private _getAllItemIds = () => this.allItemIds;
+    private _getLookups = () => this.lookups;
+
     public render() {
         const { isOpen, isDefaultSelected } = this.state;
 
         const treeFilterProps = {
             ...this.props,
             title: undefined,
-            allItemIdsGetter: (items: Array<TreeItem>) => this.allItemIds,
-            lookupTableGetter: (items: Array<TreeItem>) => this.lookups,
+            allItemIdsGetter: this._getAllItemIds,
+            lookupTableGetter: this._getLookups,
             onValuesSelected: this.onValuesSelected,
             selectionText: this.onTextSelectionChange,
             onItemsSearch: this.onItemsSearch,
