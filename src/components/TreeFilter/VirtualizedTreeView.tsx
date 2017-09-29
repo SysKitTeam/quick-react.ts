@@ -9,11 +9,11 @@ import { Icon } from '../Icon';
 import { ITreeFilterProps, ITreeFilterState, TreeItem, CheckStatus, FilterSelectionEnum, IFilterSelection, defaultTreeFilterProps } from './TreeFilter.Props';
 import { TreeFilterCheckBox } from './TreeFilterCheckBox';
 import { ItemOperator, LeafsAndBranches, TreeBranch, CheckResult, itemHasChildren } from './TreeItemOperators';
-import { ITreeProps, ITreeState, defaultTreeProps } from './Tree.Props';
+import { IVirtualizedTreeViewProps, IVirtualizedTreeViewState, defaultTreeProps } from './VirtualizedTreeView.Props';
 
-import './Tree.scss';
+import './VirtualizedTreeView.scss';
 
-export class Tree extends React.PureComponent<ITreeProps, ITreeState> {
+export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeViewProps, IVirtualizedTreeViewState> {
     private _list: any;
     private parentLookup: Readonly<{ [id: string]: TreeItem }>;
     private itemLookup: Readonly<{ [id: string]: TreeItem }>;
@@ -21,7 +21,7 @@ export class Tree extends React.PureComponent<ITreeProps, ITreeState> {
 
     public static defaultProps = defaultTreeProps;
 
-    public constructor(props: ITreeProps) {
+    public constructor(props: IVirtualizedTreeViewProps) {
         super(props);
 
         this.state = {
@@ -39,7 +39,7 @@ export class Tree extends React.PureComponent<ITreeProps, ITreeState> {
         this.searchItems = _.debounce(this.searchItems, 100);
     }
 
-    public componentWillReceiveProps(nextProps: ITreeProps) {
+    public componentWillReceiveProps(nextProps: IVirtualizedTreeViewProps) {
         if (nextProps.items === this.props.items) {
             return;
         }
@@ -66,7 +66,7 @@ export class Tree extends React.PureComponent<ITreeProps, ITreeState> {
         this.props.selectionText(this.getSelectedText());
     }
 
-    public componentDidUpdate(prevProps: ITreeFilterProps, prevState: ITreeState) {
+    public componentDidUpdate(prevProps: ITreeFilterProps, prevState: IVirtualizedTreeViewState) {
         if (this.state.filteredItems !== prevState.filteredItems) {
             if (this._list != null) {
                 this._list.recomputeRowHeights();

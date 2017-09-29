@@ -15,8 +15,8 @@ import {
     TreeItem
 } from './TreeFilter.Props';
 import { ItemOperator } from './TreeItemOperators';
-import { Tree } from './Tree';
-import { ITreeProps } from './Tree.Props';
+import { VirtualizedTreeView } from './VirtualizedTreeView';
+import { IVirtualizedTreeViewProps } from './VirtualizedTreeView.Props';
 
 import { autobind } from '../../utilities/autobind';
 
@@ -220,7 +220,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                             enable={this.props.enabledResizeHandles}
                         >
                             <div style={{ height: '100%', width: '100%' }}>
-                                <Tree
+                                <VirtualizedTreeView
                                     {...treeFilterProps}
                                 />
                             </div>

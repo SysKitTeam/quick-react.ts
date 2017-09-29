@@ -3,7 +3,7 @@ import 'ts-helpers';
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { TreeFilter, IFilterSelection, FilterSelectionEnum, Tree } from '../../src/components/TreeFilter';
+import { TreeFilter, IFilterSelection, FilterSelectionEnum, VirtualizedTreeView } from '../../src/components/TreeFilter';
 import { createFlatList, createRandomizedData, getSelectedIds } from '../MockData/treeFilterElements';
 
 interface DemoState {

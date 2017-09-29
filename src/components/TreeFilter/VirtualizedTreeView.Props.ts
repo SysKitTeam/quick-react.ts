@@ -3,7 +3,7 @@ import { ItemOperator } from './TreeItemOperators';
 
 const nullFunc = () => { };
 
-export interface ITreeProps {
+export interface IVirtualizedTreeViewProps {
     title?: string;
     hasSearch?: boolean;
     filterId: string;
@@ -22,7 +22,7 @@ export interface ITreeProps {
     lookupTableGetter?: (items: Array<TreeItem>) => any;
 }
 
-export const defaultTreeProps: Partial<ITreeProps> = {
+export const defaultTreeProps: Partial<IVirtualizedTreeViewProps> = {
     filterId: 'treeFilter',
     hasSearch: true,
     isSingleSelect: false,
@@ -38,7 +38,7 @@ export const defaultTreeProps: Partial<ITreeProps> = {
     lookupTableGetter: (items: Array<TreeItem>) => ItemOperator.getLookupTableAndParentLookup(items)
 };
 
-export interface ITreeState {
+export interface IVirtualizedTreeViewState {
     filteredItems: Array<TreeItem>;
     searchText: string;
     partiallyCheckedItemIds: Array<string>;
