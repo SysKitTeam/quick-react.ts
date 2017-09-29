@@ -16,7 +16,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
         isOpen: false
     };
 
-    private onExpand: (itemId?: string, expanded?: boolean) => void;
+    private onExpandCore: (itemId?: string, expanded?: boolean) => void;
     private getIsOpen: () => boolean;
 
     public constructor(props: ITreeviewItemProps) {
@@ -41,7 +41,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
         let { item, onChange, showCheckbox, children, recursive, onExpand } = this.props;
         let checkedStatus = this._getChildrenChecked(item, item.checked, recursive);
         let checked = checkedStatus.isChecked;
-        this.onExpand = onExpand !== undefined ? onExpand : this._changeInternalIsOpenState;
+        this.onExpandCore = onExpand !== undefined ? onExpand : this._changeInternalIsOpenState;
         const isOpen = this._getIsOpen();
         const arrowIcon = isOpen ? expandedIcon : collapsedIcon;
         const itemClassName = isOpen ? 'expanded' : 'collapsed';
@@ -148,7 +148,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
     @autobind
 
     private _onItemSelect(event: any, itemId: string, checked: boolean): void {
-         const { item } = this.props;
+        const { item } = this.props;
         if (this.props.showCheckbox) {
             let items = [];
             items.push(item.id);
@@ -168,7 +168,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
         ev.stopPropagation();
         ev.preventDefault();
 
-        this.onExpand(item.id, !item.isOpen);
+        this.onExpandCore(item.id, !item.isOpen);
     }
 
     @autobind
