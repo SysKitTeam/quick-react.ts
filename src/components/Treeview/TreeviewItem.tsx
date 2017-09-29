@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { ITreeviewItemProps, ITreeviewItem, MapChildren } from './TreeviewItem.Props';
+import { ITreeviewItemProps, ITreeviewItem } from './TreeviewItem.Props';
 import { Icon } from '../../components/Icon/Icon';
 import { Checkbox } from '../../components/Checkbox/Checkbox';
 import { CommonComponent } from '../Common/Common';
@@ -8,84 +8,123 @@ import { autobind } from '../../utilities/autobind';
 import { Treeview } from './Treeview';
 import './Treeview.scss';
 
+const expandedIcon: string = 'icon-arrow_down_right';
+const collapsedIcon: string = 'icon-arrow_right';
+
 export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
     public static defaultProps: ITreeviewItem = {
         isOpen: false
     };
 
-    constructor(props) {
+    private onExpandCore: (itemId?: string, expanded?: boolean) => void;
+    private getIsOpen: () => boolean;
+
+    public constructor(props: ITreeviewItemProps) {
         super(props);
+
+        const isItemOpened = props.item.isOpen;
+        let isOpenInitially;
+
+        if (props.onExpand === undefined) {
+            isOpenInitially = isItemOpened !== undefined ? isItemOpened : false;
+        } else {
+            isOpenInitially = undefined;
+        }
+
         this.state = {
-            isOpen: props.isOpen,
-            iconArrow: 'icon-arrow_right',
-            hover: false
+            hover: false,
+            isOpen: isOpenInitially
         };
     }
 
-
     public render(): JSX.Element {
-        let { item, onChange, showCheckbox, children, recursive } = this.props;
-        let { isOpen } = this.state;
+        let { item, onChange, showCheckbox, children, recursive, onExpand } = this.props;
         let checkedStatus = this._getChildrenChecked(item, item.checked, recursive);
         let checked = checkedStatus.isChecked;
-        const itemClassName = classNames(
-            {
-                'expanded': this.state.isOpen,
-                'collapsed': !this.state.isOpen
-            }
-        );
-        const parentItemClassName = classNames(
-            {
-                'treeveiw-parent-item': item.children.length > 0
-            }
-        );
-
-        const treeveiwItemClassName = classNames(
-            'treeveiw-content'
-        );
-
-        const selectedClassName = classNames(
-            {
-                'partial-selected': recursive && checkedStatus.hasCheckedChild && !checked
-            }
-        );
+        this.onExpandCore = onExpand !== undefined ? onExpand : this._changeInternalIsOpenState;
+        const isOpen = this._getIsOpen();
+        const arrowIcon = isOpen ? expandedIcon : collapsedIcon;
+        const itemClassName = isOpen ? 'expanded' : 'collapsed';
+        const parentItemClassName = item.children.length > 0 ? 'treeveiw-parent-item' : '';
+        const treeveiwItemClassName = 'treeveiw-content';
+        const selectedClassName = (recursive && checkedStatus.hasCheckedChild && !checked) ? 'partial-selected' : '';
 
         return (
             <div onMouseEnter={this._onItemHover} onMouseLeave={this._onItemLeaveHover} className={parentItemClassName}>
-                <div className={'treeview-item'}>
-                    {item.children.length > 0 &&
-                        <Icon iconName={this.state.iconArrow} onClick={this._onItemClick.bind(this)}></Icon>
+                <div className={classNames('treeview-item', item.className)}>
+                    {
+                        item.children.length > 0 &&
+                        <Icon iconName={arrowIcon} onClick={this._onExpand}></Icon>
                     }
                     <div className={treeveiwItemClassName} >
-                        {showCheckbox &&
-                            <Checkbox label={item.text} onChange={this._onItemSelect.bind(this, item, checked)} checked={checked} className={selectedClassName} />
+                        {
+                            showCheckbox &&
+                            <Checkbox
+                                label={item.text}
+                                onChange={this._onItemSelect}
+                                checked={checked}
+                                className={selectedClassName}
+                            />
                         }
-                        {!showCheckbox &&
-                            <span onClick={this._onItemSelect.bind(this, item, true)}>{item.text}</span>
+                        {
+                            !showCheckbox &&
+                            <span
+                                onClick={this.onItemClick}
+                            >
+                                {item.text}
+                            </span>
                         }
-                        {this.props.item.hoverOverBtn && this.state.hover &&
+                        {
+                            this.props.item.hoverOverBtn && this.state.hover &&
                             <div className="treeview-item__icons-container">
                                 {
                                     this.props.item.hoverOverBtn.map((btn, key) => (
                                         <div key={key} className="treeview-item__icon">
                                             <Icon iconName={btn.iconName} onClick={btn.callback.bind(this.props.item.id)}></Icon>
                                         </div>
-                                        )
+                                    )
                                     )
                                 }
                             </div>
                         }
                     </div>
                 </div>
-                <div className={itemClassName}>
-                    {item.children.length > 0 &&
-                        item.children.map((child, index) => (
-                            <TreeviewItem item={child} onChange={onChange} key={index} showCheckbox={showCheckbox} children={child.children} recursive={recursive} />
-                        ))
-                    }
-                </div>
+                {
+                    item.children.length > 0 && isOpen &&
+                    <div className={itemClassName}>
+                        {
+                            item.children.map((child, index) =>
+                                <TreeviewItem
+                                    item={child}
+                                    onChange={onChange}
+                                    key={index}
+                                    showCheckbox={showCheckbox}
+                                    children={child.children}
+                                    recursive={recursive}
+                                    className={child.className}
+                                    onExpand={onExpand}
+                                />
+                            )
+                        }
+                    </div>
+                }
             </div>
         );
+    }
+
+    private _changeInternalIsOpenState() {
+        let { isOpen } = this.state;
+        this.setState({
+            isOpen: !isOpen
+        });
+    }
+
+    private _getIsOpen() {
+        if (this.props.onExpand === undefined) {
+            return this.state.isOpen;
+        } else {
+            return this.props.item.isOpen !== undefined ? this.props.item.isOpen : false;
+        }
     }
 
     @autobind
@@ -102,18 +141,34 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
         });
     }
 
+    onItemClick = (event: any) => {
+        this._onItemSelect(event, '', true);
+    }
+
     @autobind
-    private _onItemSelect(item, checked, ev: React.FormEvent<HTMLElement>): void {
+
+    private _onItemSelect(event: any, itemId: string, checked: boolean): void {
+        const { item } = this.props;
         if (this.props.showCheckbox) {
             let items = [];
             items.push(item.id);
             if (this.props.recursive) {
                 items = items.concat(this._getChildrenId(this.props.children));
             }
-            this.props.onChange(ev, items, !checked);
+            this.props.onChange(event, items, !checked);
         } else {
-            this.props.onChange(ev, [item.id], checked);
+            this.props.onChange(event, [item.id], checked);
         }
+    }
+
+    @autobind
+    private _onExpand(ev: any) {
+        const { item } = this.props;
+
+        ev.stopPropagation();
+        ev.preventDefault();
+
+        this.onExpandCore(item.id, !item.isOpen);
     }
 
     @autobind
@@ -126,19 +181,6 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
             }
         });
         return result;
-    }
-
-    @autobind
-    private _onItemClick(ev: MouseEvent) {
-        let { isOpen } = this.state;
-
-        this.setState({
-            isOpen: !isOpen,
-            iconArrow: isOpen ? 'icon-arrow_right' : 'icon-arrow_down_right'
-        });
-
-        ev.stopPropagation();
-        ev.preventDefault();
     }
 
     @autobind

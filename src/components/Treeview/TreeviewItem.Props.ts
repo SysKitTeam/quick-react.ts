@@ -6,7 +6,8 @@ export interface ITreeviewItemProps {
     showCheckbox?: boolean;
     children?: ITreeviewItem[];
     recursive?: boolean;
-
+    className?: string;
+    onExpand?: (itemId: string, expanded: boolean) => void;
 }
 
 export interface IHoverOverBtn {
@@ -22,17 +23,5 @@ export interface ITreeviewItem {
     checked?: boolean;
     parentId?: string;
     hoverOverBtn?: Array<IHoverOverBtn>;
+    className?: string;
 }
-export function MapChildren(item: ITreeviewItem, items: ITreeviewItem[]): ITreeviewItem[] {
-
-    let children = items.filter((element) => {
-        return (element.parentId === item.id);
-    });
-
-    children.forEach((element) => {
-        let grandChildren = MapChildren(element, items);
-        element.children = grandChildren;
-    });
-    return children;
-}
-
