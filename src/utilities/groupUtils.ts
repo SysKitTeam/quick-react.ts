@@ -1,6 +1,6 @@
 import { GroupTypeEnum } from '../models';
 
-export function getIconNameFromType(icons: [{ iconType: GroupTypeEnum, iconName: string }], type: GroupTypeEnum): any {
+export function getIconNameFromType(icons: { iconType: GroupTypeEnum, iconName: string }[], type: GroupTypeEnum): any {
     if (!icons) {
         return '';
     }

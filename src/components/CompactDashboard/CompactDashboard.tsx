@@ -65,6 +65,13 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
         let { title, hoverMessageForCriticalOrWarningServer } = this.props;
         let { groups } = this.state;
         let className = classNames({ [this.props.className]: this.props.className !== undefined });
+        let serverHeight = serverTileHeight;
+        if (this.props.singleGroupView) {
+            const anyRolesOnServers = this.state.groups[0].servers.filter(server => (server.roles && server.roles.length > 0)).length > 0;
+            if (anyRolesOnServers) {
+                serverHeight += headerRolesHeight;
+            }
+        }
         return (
             <div className={className}>
                 {this.props.singleGroupView &&
@@ -72,7 +79,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
                         <SingleGroupCollection
                             group={this.state.groups[0]}
                             gutterSize={GUTTER_SIZE}
-                            tileHeight={serverTileHeight}
+                            tileHeight={serverHeight}
                             tileWidth={serverTileWidth}
                             renderSingleTile={this.renderSingleServerCell}
                         />

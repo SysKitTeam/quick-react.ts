@@ -4,7 +4,6 @@ import { IFilteringOption } from '../components/FilteringBar/FilteringBar.Props'
 import * as classNames from 'classnames';
 
 const noMeasureString = '--';
-
 export function sortServersByStatusAndName(ob1: { status: number, name: string }, ob2: { status: number, name: string }) {
     if (ob1.status > ob2.status) {
         return 1;
@@ -86,8 +85,6 @@ export function getServerMeasures(serverMeasures: Array<IMeasure>) {
     });
     return counters;
 }
-
-const emptyValueString = '--';
 export function convertDisk(measure: IMeasure): ITileData {
     let disk = measure as DiskMeasure;
     const measureData = getMeasureData(disk.totalDiskIo, ['KB/s', 'MB/s']);
@@ -115,7 +112,7 @@ export function convertNetwork(measure: IMeasure): ITileData {
 function getMeasureData(measureValue: number, usageUnits: Array<string>) {
     let usageUnit = '';
     let value = noMeasureString;
-    if (measureValue) {
+    if (measureValue != null) {
         usageUnit = usageUnits[0];
         if (measureValue >= 1000) {
             value = (measureValue / 1024).toFixed(1);
@@ -165,7 +162,7 @@ export function convertRam(measure: IMeasure): ITileData {
     let capacity = '';
     let hoverText = '';
     let usageUnit = '';
-    if (ram.used) {
+    if (ram.used != null) {
         let usedPercentage = '(' + Math.round((ram.used / ram.capacity) * 100) + '%)';
 
         if (ram.used >= 1000 || ram.capacity >= 1000) {
@@ -194,7 +191,7 @@ export function convertCPU(measure: IMeasure): ITileData {
     let cpu = measure as CpuMeasure;
     let usage = noMeasureString;
     let usageUnit = '';
-    if (cpu.usage) {
+    if (cpu.usage != null) {
         usageUnit = '%';
         usage = cpu.usage.toString();
     }

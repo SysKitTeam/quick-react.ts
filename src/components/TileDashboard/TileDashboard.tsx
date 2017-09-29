@@ -31,6 +31,7 @@ const GUTTER_SIZE = 3;
 
 export class TileDashboard extends React.Component<ITileDashboardProps, ITileDashboardState> {
     private list: any;
+
     constructor(props?: ITileDashboardProps) {
         super(props);
         this.state = {
@@ -49,9 +50,18 @@ export class TileDashboard extends React.Component<ITileDashboardProps, ITileDas
         this.setState({ groups: filteredFarms });
     }
 
+    setReference = (ref) => { this.list = ref; };
+
     public render() {
         let { groups } = this.state;
         let className = classNames({ [this.props.className]: this.props.className !== undefined });
+        let serverHeight = serverTileHeight;
+        if (this.props.singleGroupView) {
+            const anyRolesOnServers = this.state.groups[0].servers.filter(server => (server.roles && server.roles.length > 0)).length > 0;
+            if (anyRolesOnServers) {
+                serverHeight += headerRolesHeight;
+            }
+        }
         return (
             <div className={className}>
                 <div className="tile-dashboard-container">
@@ -60,13 +70,9 @@ export class TileDashboard extends React.Component<ITileDashboardProps, ITileDas
                             {({ width, height }) => (
                                 <List
                                     height={height}
-                                    ref={(reference) => {
-                                        this.list = reference;
-                                    }}
+                                    ref={this.setReference}
                                     rowCount={groups.length}
-                                    rowHeight={function (index) {
-                                        return this.calculateRowHeight(width, index);
-                                    }.bind(this)}
+                                    rowHeight={(index) => this.calculateRowHeight(width, index)}
                                     rowRenderer={this._renderRow}
                                     width={width}
                                 />
@@ -77,7 +83,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, ITileDas
                         <SingleGroupCollection
                             group={this.state.groups[0]}
                             gutterSize={GUTTER_SIZE}
-                            tileHeight={serverTileHeight}
+                            tileHeight={serverHeight}
                             tileWidth={serverTileWidth}
                             renderSingleTile={this.renderSingleServerCell}
                         />
@@ -92,19 +98,18 @@ export class TileDashboard extends React.Component<ITileDashboardProps, ITileDas
         this.list.recomputeRowHeights();
     }
 
-    @autobind
-    private calculateRowHeight(width, obj: { index: number }): number {
-        const farm = this.getRow(obj.index);
-        if (farm === undefined) {
+    private calculateRowHeight = (width, obj: { index: number }): number => {
+        const serverGroup = this.getRow(obj.index);
+        if (serverGroup === undefined) {
             return 0;
         }
         let serverTileTotalHeight = serverTileHeight;
-        const anyRolesOnServers = farm.servers.filter(server => (server.roles && server.roles.length > 0)).length > 0;
+        const anyRolesOnServers = serverGroup.servers.filter(server => (server.roles && server.roles.length > 0)).length > 0;
         if (anyRolesOnServers) {
             serverTileTotalHeight += headerRolesHeight;
         }
         const serversPerRow = Math.floor((width - totalPaddingHorizontal) / serverTileWidth);
-        let farmServerCount = farm.servers.length;
+        let farmServerCount = serverGroup.servers.length;
         const rowCount = Math.ceil(farmServerCount / serversPerRow);
         const serverHeight = rowCount * serverTileTotalHeight;
         const totalHeight = serverHeight + headerTotalHeight;
@@ -122,9 +127,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, ITileDas
         if (farm.servers.length === 0) {
             return;
         }
-
         let icon = getIconNameFromType(this.props.icons, farm.type);
-
         return (
             <div style={style} key={index}>
                 <TileGroup

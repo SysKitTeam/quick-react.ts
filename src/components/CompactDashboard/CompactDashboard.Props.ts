@@ -12,7 +12,7 @@ export interface ICompactDashboardState {
 export interface ICompactDashboardProps {
   title: string;
   farms: Array<IGroup>;
-  icons?: [{ iconType: GroupTypeEnum, iconName: string }];
+  icons?: { iconType: GroupTypeEnum, iconName: string }[];
   className?: string;
   filter?: string;
   singleGroupView?: boolean;

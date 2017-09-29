@@ -6,8 +6,10 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { Dashboard } from './../../src/components/Dashboard/Dashboard';
-import { dummyDashboard, generateMeasures } from '../MockData/DashboardDummy';
+import { getDummyDashboard, generateMeasures } from '../MockData/DashboardDummy';
 import { IGroup, IServer, ServerStatus } from './../../src/models';
+
+const dummyDashboard = getDummyDashboard(false); // change to true/false to show/hide roles on tiles
 
 export class Index extends React.Component<any, any> {
     public constructor() {

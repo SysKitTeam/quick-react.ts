@@ -6,11 +6,9 @@ const AutoSizer = require('react-virtualized').AutoSizer;
 const Collection = require('react-virtualized').Collection;
 
 export class SingleGroupCollection extends React.PureComponent<ISingleGroupCollectionProps> {
-
     private collection: any;
-
+    setCollectionRef = (reference) => { this.collection = reference; };
     public render(): JSX.Element {
-
         return (
             <AutoSizer onResize={this._onResize}>
                 {({ width, height }) => (
@@ -19,14 +17,10 @@ export class SingleGroupCollection extends React.PureComponent<ISingleGroupColle
                             <Collection
                                 height={height - 40}
                                 width={width - 25}
-                                ref={(reference) => {
-                                    this.collection = reference;
-                                }}
+                                ref={this.setCollectionRef}
                                 cellCount={this.props.group.servers.length}
                                 cellRenderer={this.renderSingleServerCell}
-                                cellSizeAndPositionGetter={function (index) {
-                                    return this.cellSizeAndPositionGetter(width, index);
-                                }.bind(this)}
+                                cellSizeAndPositionGetter={(index) => this.cellSizeAndPositionGetter(width, index)}
                             />
                         </div>
                     </div>
