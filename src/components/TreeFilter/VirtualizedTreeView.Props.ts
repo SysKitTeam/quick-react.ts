@@ -35,7 +35,8 @@ export const defaultTreeProps: Partial<IVirtualizedTreeViewProps> = {
     onItemsSearch: nullFunc,
     searchQuery: '',
     allItemIdsGetter: (items: Array<TreeItem>) => ItemOperator.getAllItemIds(items),
-    lookupTableGetter: (items: Array<TreeItem>) => ItemOperator.getLookupTableAndParentLookup(items)
+    lookupTableGetter: (items: Array<TreeItem>) => ItemOperator.getLookupTableAndParentLookup(items),
+    selectionText: () => { }
 };
 
 export interface IVirtualizedTreeViewState {

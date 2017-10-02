@@ -45,11 +45,11 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     }
 
     private getSelectedText(props: ITreeFilterProps): string {
-        if (this.props.filterSelection.type === FilterSelectionEnum.All) {
+        if (props.filterSelection.type === FilterSelectionEnum.All) {
             return '[All]';
         }
 
-        const checkedItemIds = this.props.filterSelection.selectedIDs;
+        const checkedItemIds = props.filterSelection.selectedIDs;
 
         if (checkedItemIds.length === 0) {
             return 'Please select...';
@@ -81,7 +81,12 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
             this.allItemIds = ItemOperator.getAllItemIds(nextProps.items);
         }
 
-        this.setState(prevState => ({ ...prevState, selectionText: this.getSelectedText(nextProps) }));
+        this.setState(
+            prevState => ({
+                ...prevState,
+                selectionText: this.getSelectedText(nextProps),
+                isDefaultSelected: this.checkIfDefaultSelection(nextProps.filterSelection.type, nextProps.filterSelection.selectedIDs)
+            }));
     }
 
     private setAnchorRef = (ref) => {
@@ -132,21 +137,15 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
 
     @autobind
     private onFilterReset() {
-        this.setState({
-            ...this.state,
-            isDefaultSelected: true,
-            selectionText: this.props.defaultSelection === FilterSelectionEnum.All ? '[All]' : 'Please select...'
-        });
+        this.setState(prevState => ({
+            ...prevState,
+            isDefaultSelected: true
+        }));
 
         this.props.onValuesSelected(this.props.filterId, {
             type: this.props.defaultSelection,
             selectedIDs: []
         });
-    }
-
-    @autobind
-    private setSelectionText(selectionText: string) {
-        this.setState({ selectionText: selectionText });
     }
 
     @autobind
@@ -174,7 +173,6 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
             allItemIdsGetter: this._getAllItemIds,
             lookupTableGetter: this._getLookups,
             onValuesSelected: this.onValuesSelected,
-            selectionText: this.setSelectionText,
             onItemsSearch: this.onItemsSearch,
             searchQuery: this.state.query
         };
