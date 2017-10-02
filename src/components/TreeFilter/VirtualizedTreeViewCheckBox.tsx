@@ -3,16 +3,16 @@ import { CheckStatus } from './TreeFilter.Props';
 import { Icon } from '../Icon';
 import * as classNames from 'classnames';
 
-import './TreeFilterCheckBox.scss';
+import './VirtualizedTreeViewCheckBox.scss';
 
-export interface ITreeFilterCheckBoxProps {
+export interface IVirtualizedTreeViewCheckBoxProps {
     itemId: string;
     checked: CheckStatus;
     text: string;
     onChange: () => void;
 }
 
-export class TreeFilterCheckBox extends React.PureComponent<ITreeFilterCheckBoxProps, any> {
+export class VirtualizedTreeViewCheckBox extends React.PureComponent<IVirtualizedTreeViewCheckBoxProps, {}> {
     render() {
         const { itemId, checked, onChange, text } = this.props;
         const isChecked = checked === CheckStatus.Checked;

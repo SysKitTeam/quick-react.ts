@@ -16,7 +16,7 @@ import {
     defaultTreeFilterProps
 } from './TreeFilter.Props';
 
-import { TreeFilterCheckBox } from './TreeFilterCheckBox';
+import { VirtualizedTreeViewCheckBox } from './VirtualizedTreeViewCheckBox';
 
 import {
     ItemOperator,
@@ -120,7 +120,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                 }
                 {
                     !isSingleSelect &&
-                    <TreeFilterCheckBox
+                    <VirtualizedTreeViewCheckBox
                         text="Select All"
                         itemId="ALL"
                         checked={allSelected}
@@ -213,7 +213,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                     checked = CheckStatus.ChildChecked;
                 }
                 return (
-                    <TreeFilterCheckBox
+                    <VirtualizedTreeViewCheckBox
                         itemId={treeItem.id}
                         text={treeItem.value}
                         checked={checked}
