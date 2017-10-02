@@ -28,6 +28,8 @@ export interface ITreeFilterProps {
     itemsAreFlatList?: boolean;
     onValuesSelected?: (filterId: string, filterSelection: IFilterSelection) => void;
     defaultSelection?: FilterSelectionEnum;
+    rowHeight?: number;
+    /* Callout specific */
     width?: number;
     height?: number;
     minWidth?: number;
@@ -63,14 +65,16 @@ export const defaultTreeFilterProps: Partial<ITreeFilterProps> = {
     minWidth: 200,
     minHeight: 200,
     defaultSelection: FilterSelectionEnum.None,
-    clearSearchOnClose: true
+    clearSearchOnClose: true,
+    rowHeight: 20
 };
 
 export interface ITreeFilterState {
     isOpen: boolean;
-    filteredItems: Array<TreeItem>;
-    searchText: string;
-    partiallyCheckedItemIds: Array<string>;   // items with selected children - different name?
+    // filterSelection: IFilterSelection;
+    isDefaultSelected: boolean;
+    selectionText: string;
+    query: string;
 }
 
 export interface TreeItem {
@@ -78,4 +82,5 @@ export interface TreeItem {
     value: string;
     expanded?: boolean;
     children?: Array<TreeItem>;
+    className?: string;
 }

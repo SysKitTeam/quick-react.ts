@@ -3,8 +3,8 @@ import 'ts-helpers';
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { TreeFilter, IFilterSelection, FilterSelectionEnum } from '../../src/components/TreeFilter';
-import { createFlatList, createRandomizedData } from '../MockData/treeFilterElements';
+import { TreeFilter, IFilterSelection, FilterSelectionEnum, VirtualizedTreeView } from '../../src/components/TreeFilter';
+import { createFlatList, createRandomizedData, getSelectedIds } from '../MockData/treeFilterElements';
 
 interface DemoState {
     filterStates: { [id: string]: IFilterSelection };
@@ -12,6 +12,7 @@ interface DemoState {
 const treeData = createRandomizedData(2000, 2);
 const deeperTreeData = createRandomizedData(50, 4);
 const flatList = createFlatList(4000);
+const selected = getSelectedIds(4000);
 const shortFlatList = createFlatList(6);
 export class Index extends React.Component<any, DemoState> {
     constructor(props) {
@@ -42,7 +43,7 @@ export class Index extends React.Component<any, DemoState> {
                     maxWidth={700}
                     maxHeight={500}
                 />
-                 <TreeFilter
+                <TreeFilter
                     title="Tree Filter - depth 4"
                     filterId={'f2'}
                     items={deeperTreeData}
