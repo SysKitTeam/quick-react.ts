@@ -1,10 +1,14 @@
 const createSelector = require('reselect').createSelector;
-import { IQuickGridState, IQuickGridProps, GridColumn, SortDirection, IGroupBy } from './QuickGrid.Props';
+import {
+    IQuickGridState, IQuickGridProps, GridColumn,
+    SortDirection, IGroupBy, sortingColumnsCasePrefix
+} from './QuickGrid.Props';
 import { groupRows } from './rowGrouper';
 import * as _ from 'lodash';
 import { SortProps, sortArray } from '../../utilities/array';
+import { DataTypeEnum } from './QuickGrid.Props';
 
-const getInputRows = (state: IQuickGridState, props: IQuickGridProps) => props.rows;
+const getInputRows = (state: IQuickGridState, props: IQuickGridProps) => state.rows;
 const getGroupBy = (state: IQuickGridState, props: IQuickGridProps) => state.groupBy;
 const getExpandedRows = (state: IQuickGridState, props: IQuickGridProps) => state.expandedRows;
 const getSortColumn = (state: IQuickGridState, props: IQuickGridProps) => state.sortColumn;
@@ -20,6 +24,15 @@ const getSortFunctionForColumn = (columns: Array<GridColumn>, columnName, sortDi
     return null;
 };
 
+const getColumnName = (columns: Array<GridColumn>, columnName) => {
+    const sortColumn = _.find(columns, column => column.valueMember === columnName); // maknuti ovo van      
+    if (sortColumn.dataType === DataTypeEnum.String) {
+        const newColumn = sortingColumnsCasePrefix + sortColumn.valueMember;
+        return newColumn;
+    }
+    return columnName;
+};
+
 const sortRows = (rows: Array<any>, sortColumn: string, sortDirection: SortDirection, groupedColumn: Array<IGroupBy>, columns: Array<GridColumn>) => {
     const sortModifier = sortDirection === SortDirection.Descending ? -1 : 1;
     if (groupedColumn.length > 0) {
@@ -27,15 +40,18 @@ const sortRows = (rows: Array<any>, sortColumn: string, sortDirection: SortDirec
         for (let groupColumn of groupedColumn) {
             const groupSortModifier = groupColumn.sortDirection === SortDirection.Descending ? -1 : 1;
             const sortFunction = getSortFunctionForColumn(columns, groupColumn.column, groupColumn.sortDirection);
-            sortOptions.push({ sortModifier: groupSortModifier, column: groupColumn.column, sortFunction: sortFunction });
+            const columnName = getColumnName(columns, groupColumn.column);
+            sortOptions.push({ sortModifier: groupSortModifier, column: columnName, sortFunction: sortFunction });
         }
         if (sortColumn) {
-            sortOptions.push({ sortModifier: sortModifier, column: sortColumn });
+            const columnName = getColumnName(columns, sortColumn);
+            sortOptions.push({ sortModifier: sortModifier, column: columnName });
         }
         return sortArray(rows, sortOptions);
     } else if (sortColumn) {
         const sortFunction = getSortFunctionForColumn(columns, sortColumn, sortDirection);
-        return sortArray(rows, [{ sortModifier: sortModifier, column: sortColumn, sortFunction: sortFunction }]);
+        const columnName = getColumnName(columns, sortColumn);
+        return sortArray(rows, [{ sortModifier: sortModifier, column: columnName, sortFunction: sortFunction }]);
     }
     return rows;
 };

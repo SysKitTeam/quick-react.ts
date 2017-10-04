@@ -1,4 +1,4 @@
-import { GridColumn } from '../../src/components/QuickGrid/QuickGrid.Props';
+import { GridColumn, DataTypeEnum } from '../../src/components/QuickGrid/QuickGrid.Props';
 
 const RANDOM_WORDS = ['abstrusity', 'advertisable', 'bellwood', 'benzole', 'disputative', 'djilas', 'ebracteate', 'zonary'];
 const RANDOM_Names = ['Ivan', 'Mario', 'Silvio', 'Hrvoje', 'Vinko', 'Marijana', 'Andrea'];
@@ -22,6 +22,7 @@ export const gridColumns1: Array<GridColumn> = [
         headerText: 'Name',
         width: 100
     }, {
+        dataType: DataTypeEnum.String,
         valueMember: 'Color',
         headerText: 'Color',
         width: 100
@@ -43,10 +44,11 @@ export const gridColumns1: Array<GridColumn> = [
 export function getGridData1(numberOfElements): Array<GridData1> {
     let data = [];
     for (let i = 0; i < numberOfElements; i++) {
+        let randomLower = (str : string) => Math.random() > 0.5 ? str : str.toLowerCase();
         data.push(
             {
                 Name: RANDOM_Names[Math.floor(Math.random() * RANDOM_Names.length)],
-                Color: RANDOM_Color[Math.floor(Math.random() * RANDOM_Color.length)],
+                Color:  randomLower(RANDOM_Color[Math.floor(Math.random() * RANDOM_Color.length)]),
                 Animal: RANDOM_Animal[Math.floor(Math.random() * RANDOM_Animal.length)],
                 Mixed: RANDOM_Mix[Math.floor(Math.random() * RANDOM_Mix.length)],
                 Numbers: Math.floor(Math.random() * 30)
