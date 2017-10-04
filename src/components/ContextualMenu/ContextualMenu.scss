@@ -1,6 +1,6 @@
 @import '../../index.scss';
 
-$ContextualMenu-background: $color-white;
+$ContextualMenu-background: $white-color;
 $ContextualMenu-itemHover: $primary-color;
 $ContextualMenu-expandedItemBackground: #dadada;
 $ContextualMenu-itemHeight: 36px;
@@ -64,7 +64,7 @@ $ContextualMenu-iconWidth: 14px;
     &.is-expanded,
     &.is-expanded:hover {
         background: $ContextualMenu-expandedItemBackground;
-        color: $color-black;
+        color: $black-color;
         font-weight: $font-weight-semibold;
     }
 

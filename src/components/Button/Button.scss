@@ -1,179 +1,268 @@
 @import '../../index.scss';
 
-$button-commandButtonHeight: 40px;
+$button-height: 32px;
 
 .hide-button {
     display: none !important;
 }
 
+// Button
 .button {
-    font-size: $font-size-m;
-    background-color: $primary-color;
-    border: 1px solid $primary-color;
-    color: $font-primary-color;
+    height: $button-height;
+    box-sizing: border-box;
+    border-radius: 8px;
+    border: 1px solid;
     cursor: pointer;
-    min-width: 80px;
-    padding: 4px 20px 4px;
-    height: 32px;
-    display: inline-block;
-
-    &:hover {
-        background-color: $primary-hover-color;
-        border-color: $primary-hover-color;
-
-        .button-label {
-            color: $color-black;
-        }
-    }
+    padding: 0 18px;
 
     &:focus {
-        background-color: $primary-hover-color;
-        border-color: $primary-hover-color;
-        outline: 1px solid transparent;
-
-        .button-label {
-            color: $color-black;
-        }
-    }
-
-    &:active {
-        background-color: $secondary-color;
-        border-color: $secondary-color;
-
-        .icon {
-            color: $color-white;
-        }
-
-        .button-label {
-            color: $color-white;
-        }
+        outline: none;
     }
 
     &:disabled {
-        background-color: $primary-hover-color;
-        border-color: $primary-hover-color;
         cursor: default;
+    }
+
+    .button-label {
+        color: $white-color;
+    }
+
+    &.button-primary {
+		background-color: $primary-color;
+        border-color: $primary-color;
+                
+        &:hover,
+        &:focus,
+		&:active {
+			background-color: $primary-hover-color;
+			border-color: $primary-hover-color;
+        }
+
+        &:disabled {
+            background-color: $primary-disabled-color;
+            border-color: $primary-disabled-color;
+        }
+    }
+
+    &.button-primary-gray {
+        background-color: $secondary-color;
+        border-color: $secondary-color;
+			
+        &:hover,
+        &:focus,
+		&:active {
+			background-color: $secondary-hover-color;
+            border-color: $secondary-hover-color;
+        }
+
+        &:disabled {
+            background-color: $secondary-disabled-color;
+            border-color: $secondary-disabled-color;
+        }
+    }
+
+    &.button-secondary {
+        background-color: $white-color;
+        border: 2px solid $primary-color;
+        padding: 0 12px;
+			
+        &:hover,
+        &:focus,
+		&:active {
+            border: 2px solid $primary-hover-color;
+
+            .button-label {
+                color: $primary-hover-color;
+            }
+        }
         
+        .button-label {
+            color: $primary-color;
+        }
+
+        &:disabled {
+            border-color: $primary-disabled-color;
+
+            .button-label {
+                color: $primary-disabled-color;
+            }
+        }
+    }
+
+    &.button-tertiary {
+        background-color: $tertiary-color;
+        border-color: $tertiary-color;
+			
+        &:hover,
+        &:focus,
+		&:active {
+			background-color: $tertiary-hover-color;
+            border-color: $tertiary-hover-color;
+        }
+
+        &:disabled {
+            background-color: $tertiary-disabled-color;
+            border-color: $tertiary-disabled-color;
+        }
+    }
+
+    &.button-textual {
+		background-color: $white-color;
+        border-color: $white-color;
+        padding: 0;
+			
+        &:hover,
+        &:focus,
+		&:active {
+            .button-label {
+                color: $primary-hover-color;
+            }
+        }
+        
+        .button-label {
+            color: $primary-color;
+        }
+
+        &:disabled {
+            .button-label {
+                color: $secondary-disabled-color;
+            }
+        }
+    }
+
+    &.button-icon {
+        background-color: $primary-color;
+        border-color: $primary-color;
+        padding: 7px;
+
         .icon {
-            color: $font-disabled-color;
+            color: $white-color;
+            font-size: 16px;
+            margin-right: 0;
+        }
+
+        &:hover,
+        &:focus,
+		&:active {
+            background-color: $primary-hover-color;
+            border-color: $primary-hover-color;
+        }
+
+        &:disabled {
+            background-color: $primary-disabled-color;
+            border-color: $primary-disabled-color;
+        }
+    }
+
+    &.button-icon-secondary {
+        background-color: $white-color;
+        border: 2px solid $primary-color;
+        padding: 6px;
+
+        .icon {
+            color: $primary-color;
+            font-size: 16px;
+            margin-right: 0;
+        }
+
+        &:hover,
+        &:focus,
+		&:active {
+            background-color: $white-color;
+            border: 2px solid $primary-hover-color;
+
+            .icon {
+                color: $primary-hover-color;
+            }
+        }
+
+        &:disabled {
+            border-color: $primary-disabled-color;
+
+            .icon {
+                color: $primary-disabled-color;
+            }
+        }
+    }
+
+    &.button-icon-text {
+        background-color: $primary-color;
+        border-color: $primary-color;
+        padding: 7px 15px 7px 6px;
+
+        .icon {
+            color: $white-color;
+            font-size: 16px;
+            margin-right: 10px;
         }
 
         .button-label {
-            color: $font-disabled-color;
+            position: relative;
+            top: -2px;
         }
 
-        &:hover, &:focus {
-            outline: 0;
-        }
-    }
-}
-
-.button-label {
-    color: $font-primary-color;
-    font-size: $font-size-m;
-}
-
-.link {
-    background-color: transparent;
-    border: 0;
-    height: auto;
-    text-decoration: none;
-    font-style: italic;
-
-    .icon {
-        color: $secondary-color;
-        display: inline-block;
-        line-height: 1;
-        font-size: $font-size-l;
-    }
-
-    .button-label {
-        color: $secondary-color;
-    }
-
-    &:hover, &:focus {
-        color: $secondary-hover-color;
-        background-color: transparent;
-        text-decoration: underline;
-
-        .icon {
-            color: $secondary-hover-color
+        &:hover {
+            background-color: $primary-hover-color;
+            border-color: $primary-hover-color;
+            
+            .button-label {
+                color: $white-color;
+            }    
         }
 
-        .button-label {
-            color: $secondary-hover-color
+        &:disabled {
+            background-color: $primary-disabled-color;
+            border-color: $primary-disabled-color;
         }
-    }
-
-    &:active {
-
-        .icon {
-            color: $secondary-color;
-        }
-
-        .button-label {
-            color: $secondary-color;
-        }
-    }
-}
-
-.disabled-link { 
-    pointer-events: none;
-    cursor: default;
-
-    .icon {
-        color: $font-disabled-color;
-    }
-
-    .button-label {
-        color: $font-disabled-color;
     }
 }
 
 .button + .button {
-    @include margin-left(6px);
+   margin-left: 15px;
 }
 
-//== Modifier: Primary action button
-//
-.button-primary {
-    background-color: $secondary-color;
-    border-color: $secondary-color;
+
+// Link
+.link {
+    color: $link-color;
 
     .button-label {
-        color: $color-white;
-    }
+        color: $link-color;
 
-    &:hover {
-        background-color: $secondary-hover-color;
-        border-color: $secondary-hover-color;
-
-        .button-label {
-            color: $color-white;
+        &:hover,
+        &:focus,
+        &:active {
+            color: $link-hover-color;
         }
     }
 
-    &:focus {
-        background-color: $secondary-hover-color;
-        border-color: $secondary-color;
-
-        .button-label {
-            color: $color-white;
-        }
-    }
-
+    &:hover,
+    &:focus,
     &:active {
-        background-color: $secondary-color;
-        border-color: $secondary-color;
+        color: $link-hover-color;
     }
 
-    &:disabled,
-    &.is-disabled {
-        background-color: $primary-color;
-        border-color: $primary-color;
+    .icon {
+        color: $link-color;
+
+        &:hover,
+        &:focus,
+        &:active {
+            color: $link-hover-color;
+        }
+    }
+
+    &.disabled-link {
+        color: $secondary-disabled-color;
+        pointer-events: none;
 
         .button-label {
-            color: $font-disabled-color;
+            color: $secondary-disabled-color;
+            cursor: default;
+        }
+
+        .icon {
+            color: $secondary-disabled-color;
         }
     }
 }

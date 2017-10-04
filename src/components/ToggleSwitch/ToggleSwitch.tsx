@@ -21,21 +21,26 @@ export class ToggleSwitch extends React.Component<IToggleSwitchProps, any> {
         let{
             checked,
             onChange,
+            disabled,
             className
         } = this.props;
 
-        const isChecked = checked === undefined ? this.state.isChecked : checked;
+        const isChecked = checked === undefined ? this.state.checked : checked;
 
         const switchClassName = classNames(
             className,
-            'toggle-switch'
+            'toggle-switch',
+            {
+                'checked': isChecked
+            }
         );
+
         const slidersClassName = classNames(
             'toggle-slider'
         );
         return(
             <label className={switchClassName}>
-                <input type="checkbox" onChange={this._onChange} checked={isChecked}/>
+                <input type="checkbox" disabled={disabled} onChange={this._onChange} checked={isChecked}/>
                 <div className={slidersClassName} data-on={this.props.onText} data-off={this.props.offText}></div>
             </label>
         );

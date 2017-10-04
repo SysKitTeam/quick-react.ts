@@ -50,7 +50,7 @@ $Dialog-default-max-width: 340px;
 .dialog-main {
     @include dialogPositioningIE9Fallback();
     box-shadow: 0 0 5px 0 rgba(0,0,0,.4);
-    background-color: $color-white;
+    background-color: $white-color;
     box-sizing: border-box;
     line-height: 1.35;
     margin: auto;

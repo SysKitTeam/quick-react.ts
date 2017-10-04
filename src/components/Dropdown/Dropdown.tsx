@@ -70,6 +70,8 @@ export class Dropdown extends React.Component<IDropdownProps, IDropdownState> {
     let selectedOption = options[selectedIndex];
     const dropdownTitleClassName = this.props.hasTitleBorder ? 'dropdown-title-border' : 'dropdown-title';
     const dropdownIconClassName = this.props.hasTitleBorder ? 'iconArrowWithBorder' : 'iconArrow';
+    const arrowIcon = isOpen ? 'icon-Arrow_up' : 'icon-arrow_down';
+
     return (
       <div ref="root">
         {label && (
@@ -94,7 +96,7 @@ export class Dropdown extends React.Component<IDropdownProps, IDropdownState> {
             {this.getSelectionText(dropdownType, selectedOption)}
           </span>
           {this.props.displaySelection &&
-            <Icon className={dropdownIconClassName} iconName={'icon-arrow_down'}></Icon>
+            <Icon className={dropdownIconClassName} iconName={arrowIcon}></Icon>
           }
         </div>
         {isOpen && (

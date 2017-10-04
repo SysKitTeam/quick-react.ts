@@ -9,7 +9,7 @@ $DropDown-item-height: 36px;
 
 @mixin dropdownTitle {
     @include normalize;
-    background: $color-white;
+    background: $white-color;
     cursor: pointer;
     height: $DropDown-height;
     line-height: $DropDown-height - 2px; // height minus the border
@@ -25,6 +25,8 @@ $DropDown-item-height: 36px;
     position: relative;
     font-size: $font-size-m;
     outline: none;
+    display: inline-block;
+
     div {
         cursor: pointer;
     }
@@ -57,7 +59,7 @@ $DropDown-item-height: 36px;
 }
 
 .dropdown-items {
-    background-color: $color-white;
+    background-color: $white-color;
     width: 100px;
     max-width: 200px;
     height: auto;
@@ -111,7 +113,7 @@ $DropDown-item-height: 36px;
             }
 
             &:hover {
-                color: $color-black;
+                color: $black-color;
             }
         }
 
@@ -119,7 +121,7 @@ $DropDown-item-height: 36px;
             background-color: $Dropdown-selectedItem;
 
             span, .icon {
-                color: $color-white;
+                color: $white-color;
             }
         }
 

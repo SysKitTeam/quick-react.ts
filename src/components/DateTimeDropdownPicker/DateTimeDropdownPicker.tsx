@@ -3,7 +3,6 @@ import * as classNames from 'classnames';
 import { Dropdown } from '../Dropdown/Dropdown';
 import { DropdownType } from '../Dropdown/Dropdown.Props';
 import { Button } from '../Button/Button';
-import { ButtonType } from '../Button/Button.Props';
 import { DateTimePicker } from '../DateTimePicker/DateTimePicker';
 import { autobind } from '../../utilities/autobind';
 import * as moment from 'moment';
@@ -56,7 +55,7 @@ export class DateTimeDropdownPicker extends React.PureComponent<IDateTimeDropdow
                     />
                     <div className="dropdown-buttons-container">
                         <Button onClick={this._cancelClicked}>Close</Button>
-                        <Button buttonType={ButtonType.primary} onClick={this._flushChange}>OK</Button>
+                        <Button className={'button-primary'} onClick={this._flushChange}>OK</Button>
                     </div>
                 </Dropdown>
             </div>

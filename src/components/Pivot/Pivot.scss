@@ -102,18 +102,18 @@
 
         &:hover:not(.is-selected),
         &:focus:not(.is-selected) {
-            color: $color-black;
+            color: $black-color;
         }
 
         &:active {
-            color: $color-white;
+            color: $white-color;
             background-color: $secondary-color;
         }
 
         //== State: Selected
         &.is-selected {
             background-color: $secondary-color;
-            color: $color-white;
+            color: $white-color;
             font-weight: $font-weight-semilight;
 
             &::before {

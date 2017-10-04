@@ -9,7 +9,6 @@ import { DirectionalHint } from './../../src/utilities/DirectionalHint';
 import { ContextualMenu } from './../../src/components/ContextualMenu/ContextualMenu';
 
 import { Button } from './../../src/components/Button/Button';
-import { ButtonType } from './../../src/components/Button/Button.Props';
 
 export class Index extends React.Component<any, any> {    
     public render() {

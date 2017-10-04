@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { IButtonProps, IButton, ButtonType } from './Button.Props';
+import { IButtonProps, IButton } from './Button.Props';
 import {getNativeAttributes, buttonAttributes, anchorAttributes} from '../../utilities/attributes';
 import {assign} from '../../utilities/object';
 import { Icon } from '../Icon/Icon';
@@ -23,8 +23,7 @@ export class Button extends React.Component <IButtonProps, any> implements IButt
             href,
             disabled,
             onClick,
-            isVisible,
-            buttonType
+            isVisible
         } = this.props;
         
         const renderAsAnchor: boolean = !!href;
@@ -39,9 +38,9 @@ export class Button extends React.Component <IButtonProps, any> implements IButt
         const className = classNames({
             'button': !renderAsAnchor,
             'link': renderAsAnchor,
-            'disabled-link': this.props.disabled && renderAsAnchor,
+            'disabled-link': disabled && renderAsAnchor,
             'hide-button': isVisible === false,
-            'button-primary': buttonType === ButtonType.primary
+            'button-primary': this.props.className === undefined && !renderAsAnchor
         }, [this.props.className]);
         
         const iconElement = icon

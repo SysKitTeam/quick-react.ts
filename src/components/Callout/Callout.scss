@@ -5,7 +5,7 @@ $Callout-smallbeak-slant-width: 16px;
 
 @mixin calloutBeak {
     position: absolute;
-    background-color: $color-white;
+    background-color: $white-color;
     box-shadow:  inherit;
     border: inherit;
     box-sizing: border-box;
@@ -17,7 +17,7 @@ $Callout-smallbeak-slant-width: 16px;
 .callout {
     @include baseFont;
     position: absolute;
-    border: 1px solid $color-black;
+    border: 1px solid $black-color;
     box-sizing: border-box;
 }
 
@@ -30,7 +30,7 @@ $Callout-smallbeak-slant-width: 16px;
 }
 
 .callout-main {
-    background-color: $color-white;
+    background-color: $white-color;
     overflow-y: auto;
     overflow-x: hidden;
     position: relative;
@@ -46,5 +46,5 @@ $Callout-smallbeak-slant-width: 16px;
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: $color-white;
+    background-color: $white-color;
 }

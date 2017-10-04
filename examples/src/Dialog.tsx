@@ -6,7 +6,6 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { Button } from './../../src/components/Button/Button';
-import { ButtonType } from './../../src/components/Button/Button.Props';
 import { Dialog } from './../../src/components/Dialog/Dialog';
 import { DialogFooter } from './../../src/components/Dialog/DialogFooter';
 
@@ -27,7 +26,7 @@ export class Index extends React.Component<any, any> {
                     subText={'Your Inbox has changed. No longer does it include favorites, it is a singular destination for your emails.'}
                     containerClassName={'dialogMainOverride'}>
                     <DialogFooter>
-                        <Button buttonType={ButtonType.primary} onClick={this._closeDialog.bind(this)}>Save</Button>
+                        <Button className={'button-primary'} onClick={this._closeDialog.bind(this)}>Save</Button>
                         <Button onClick={this._closeDialog.bind(this)}>Cancel</Button>
                     </DialogFooter>
                 </Dialog>

@@ -8,7 +8,6 @@ import { Layer } from '../../components/Layers/Layer';
 import { Popup } from '../Popup';
 import { Overlay } from '../../components/Overlay/Overlay';
 import { Button } from '../../components/Button/Button';
-import { ButtonType } from '../../components/Button/Button.Props';
 import { Icon } from '../../components/Icon/Icon';
 import './Dialog.scss';
 import { autobind } from '../../utilities/autobind';

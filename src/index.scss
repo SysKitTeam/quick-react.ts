@@ -1,14 +1,24 @@
 // theme to be used for dashboard
 @import '../../themes/basic-theme.scss';
 
-
 //color
-$color-black: #000000;
-$color-white: #ffffff;
-$primary-color: #f4f4f4;
-$primary-hover-color: #eaeaea;
-$secondary-color: #0078d7;  //product color
-$secondary-hover-color: #005a93;
+$black-color: #000000;
+$white-color: #ffffff;
+$primary-color: #F79428;
+$primary-hover-color: #E27600;
+$primary-disabled-color: #FBD3A8;
+$secondary-color: #4D4D4F;
+$secondary-hover-color: #313133;
+$secondary-disabled-color: #C8C8C9;
+$link-color: #2896F7;
+$link-hover-color: #0277BD;
+
+$tertiary-color: #37B2B7;
+$tertiary-hover-color: #009BA1;
+$tertiary-disabled-color: #AEE0E2;
+
+
+
 $disabled-color: rgba(51, 51, 51, 0.4);
 
 $font-disabled-color: #a6a6a6;
@@ -121,6 +131,12 @@ $font-family-base: "Segoe UI WestEuropean","Segoe UI",-apple-system,BlinkMacSyst
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+}
+
+* {
+    font-family: 'Segoe UI';
+    font-size: 14px;
+    color: $secondary-color;
 }
 
 ::-webkit-scrollbar {
