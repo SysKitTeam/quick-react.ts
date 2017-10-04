@@ -9,7 +9,7 @@ import { QuickGrid, IQuickGridProps, SortDirection, GridColumn, QuickGridActions
 import { gridColumns1, getGridData1, gridColumns2, getGridData2 } from '../MockData/gridData';
 import '../../src/components/TreeFilter/TreeFilter.scss'; // used for react-resizable style
 
-const numOfRows = 10000;
+const numOfRows = 100000;
 
 
 const gridActions: QuickGridActions = {
@@ -89,7 +89,8 @@ export class Index extends React.Component<any, any> {
     }
 
     refreshData = () => {
-        this.setState((oldState) => ({ ...oldState, data: oldState.selectedKey === 1 ? getGridData1(numOfRows) : getGridData2(numOfRows) }));
+        const newData = this.state.selectedData === 1 ? getGridData1(numOfRows) : getGridData2(numOfRows);
+        this.setState({ ...this.state, data: newData });
     }
 
     groupByChanged = (groupBy) => {
