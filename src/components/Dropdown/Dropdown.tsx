@@ -58,7 +58,7 @@ export class Dropdown extends React.Component<IDropdownProps, IDropdownState> {
     if (this.props.onCustomSelectionText) {
       return this.props.onCustomSelectionText();
     } else if (dropdownType === DropdownType.selectionDropdown && selectedOption) {
-      return (<span>{selectedOption.text}</span>);
+      return (<span title={selectedOption.text}>{selectedOption.text}</span>);
     } else {
       return '';
     }
@@ -94,10 +94,10 @@ export class Dropdown extends React.Component<IDropdownProps, IDropdownState> {
               <Icon iconName={icon}></Icon>
             )}
             {this.getSelectionText(dropdownType, selectedOption)}
+            {this.props.displaySelection &&
+              <Icon className={dropdownIconClassName} iconName={arrowIcon}></Icon>
+            }
           </span>
-          {this.props.displaySelection &&
-            <Icon className={dropdownIconClassName} iconName={arrowIcon}></Icon>
-          }
         </div>
         {isOpen && (
           <Callout

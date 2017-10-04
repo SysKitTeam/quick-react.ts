@@ -5,11 +5,6 @@ import './ToggleSwitch.scss';
 import { autobind } from '../../utilities/autobind';
 
 export class ToggleSwitch extends React.Component<IToggleSwitchProps, any> {
-    public static defaultProps = {
-        onText: '',
-        offText: ''
-    };
-
     constructor(props) {
         super(props);
         this.state = {
@@ -22,7 +17,8 @@ export class ToggleSwitch extends React.Component<IToggleSwitchProps, any> {
             checked,
             onChange,
             disabled,
-            className
+            className,
+            label
         } = this.props;
 
         const isChecked = checked === undefined ? this.state.checked : checked;
@@ -41,7 +37,10 @@ export class ToggleSwitch extends React.Component<IToggleSwitchProps, any> {
         return(
             <label className={switchClassName}>
                 <input type="checkbox" disabled={disabled} onChange={this._onChange} checked={isChecked}/>
-                <div className={slidersClassName} data-on={this.props.onText} data-off={this.props.offText}></div>
+                <div className={slidersClassName}></div>
+                {label &&
+                    <span className="toggle-label">{label}</span>
+                }
             </label>
         );
     }

@@ -12,9 +12,9 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-                <ToggleSwitch onChange={this._onToggle} /> <br/>
-                <ToggleSwitch offText={'OFF'} onText={'ON'} /> <br/>
-                <ToggleSwitch offText={'O'} onText={'I'} />
+                <ToggleSwitch onChange={this._onToggle} label={'Toggle'}/> <br/>
+                <ToggleSwitch checked={false} disabled={true}/> <br/>
+                <ToggleSwitch checked={true} disabled={true} label={'Disabled Toggle'}/> <br/>
             </div>
         );
     }

@@ -120,7 +120,6 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
                 { label && <Label htmlFor={ this._id }>{ label }</Label> }
                 { iconClass && <i className={ iconClass }></i> }
                 { multiline ? this._renderTextArea() : this._renderInput() }
-                { errorMessage && <div className={'screenReaderOnly'}>{ errorMessage }</div> }
                 { (description || errorMessage) &&
                     <span id={this._descriptionId}>
                         { description && <span className={'textField-description'}>{ description }</span> }
