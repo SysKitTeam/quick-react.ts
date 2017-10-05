@@ -17,7 +17,7 @@ import './QuickGrid.scss';
 
 const getActionItems = (props: IQuickGridProps) => props.gridActions.actionItems;
 const getActionItemOptions = createSelector([getActionItems], (actionItems) => {
-    return actionItems.map(item => ({ key: item.commandName, icon: item.iconName, text: item.name }));
+    return actionItems.map((item, index) => ({ key: index, icon: item.iconName, text: item.name }));
 });
 
 const defaultMinColumnWidth = 50;
@@ -210,8 +210,8 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         const { onActionSelected, actionIconName, actionItems } = this.props.gridActions;
         const onActionItemClick = (option, index) => {
             if (onActionSelected) {
-                const action = _.find(actionItems, (item) => (item.commandName === option.key));
-                onActionSelected(option.key, action.parameters, rowData);
+                const action = actionItems[option.key];
+                onActionSelected(action.commandName, action.parameters, rowData);
             }
         };
 
