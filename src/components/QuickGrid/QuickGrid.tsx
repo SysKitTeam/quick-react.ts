@@ -49,13 +49,13 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             sortColumn: props.sortColumn,
             sortDirection: props.sortDirection,
             groupBy: groupByState,
-            rows: this.modifyInputArray(props.rows, props.columns)
+            rows: this.addLowerCaseMembersToRows(props.rows, props.columns)
         };
         this.columnsMinTotalWidth = columnsToDisplay.map(x => x.minWidth || defaultMinColumnWidth).reduce((a, b) => a + b, 0);
         this.onGridResize = _.debounce(this.onGridResize, 100);
     }
 
-    modifyInputArray = (rows: Array<any>, columns: Array<GridColumn>) => {
+    addLowerCaseMembersToRows = (rows: Array<any>, columns: Array<GridColumn>) => {
         let members = columns.filter(col =>
             (col.dataType === DataTypeEnum.String)).map(col => (col.valueMember));
         const newRows = [...rows].map((row) => {
@@ -121,7 +121,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             this.setState((oldState) => {
                 return {
                     ...oldState,
-                    rows: this.modifyInputArray(this.props.rows, this.props.columns)
+                    rows: this.addLowerCaseMembersToRows(this.props.rows, this.props.columns)
                 };
             });
         }
