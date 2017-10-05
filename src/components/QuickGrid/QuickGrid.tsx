@@ -4,7 +4,7 @@ import * as classNames from 'classnames';
 import { AutoSizer, Table, Column, ColumnProps, ScrollSync, Grid } from 'react-virtualized';
 import {
     IQuickGridProps, IQuickGridState, GridColumn, GroupRow,
-    IGroupBy, SortDirection, DataTypeEnum, sortingColumnsCasePrefix
+    IGroupBy, SortDirection, DataTypeEnum, lowercasedColumnPrefix
 } from './QuickGrid.Props';
 const scrollbarSize = require('dom-helpers/util/scrollbarSize');
 import { getRowsSelector } from './DataSelectors';
@@ -55,14 +55,16 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         this.onGridResize = _.debounce(this.onGridResize, 100);
     }
 
-    modifyInputArray = (rows, columns: Array<GridColumn>) => {
-        let members = columns.filter(col => (col.dataType === DataTypeEnum.String)).map(col => (col.valueMember));
+    modifyInputArray = (rows: Array<any>, columns: Array<GridColumn>) => {
+        let members = columns.filter(col =>
+            (col.dataType === DataTypeEnum.String)).map(col => (col.valueMember));
         const newRows = [...rows].map((row) => {
-            let newObj = { ...row };
+            let modifiedRow = { ...row };
             for (let value of members) {
-                newObj[sortingColumnsCasePrefix + value] = newObj[value].toLowerCase();
+                modifiedRow[lowercasedColumnPrefix + value]
+                    = modifiedRow[value].toLowerCase();
             }
-            return newObj;
+            return modifiedRow;
         });
         return newRows;
     }

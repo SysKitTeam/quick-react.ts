@@ -9,7 +9,7 @@ import { QuickGrid, IQuickGridProps, SortDirection, GridColumn, QuickGridActions
 import { gridColumns1, getGridData1, gridColumns2, getGridData2 } from '../MockData/gridData';
 import '../../src/components/TreeFilter/TreeFilter.scss'; // used for react-resizable style
 
-const numOfRows = 100;
+const numOfRows = 100000;
 
 
 const gridActions: QuickGridActions = {

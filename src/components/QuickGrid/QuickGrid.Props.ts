@@ -71,7 +71,7 @@ export interface GridColumn {
     headerClassName?: string;
 }
 
-export const sortingColumnsCasePrefix = 'lowercase_';
+export const lowercasedColumnPrefix = 'lowercase_';
 
 export interface QuickGridActions {
     actionItems: Array<ActionItem>;
