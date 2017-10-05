@@ -15,7 +15,7 @@ const getSortColumn = (state: IQuickGridState, props: IQuickGridProps) => state.
 const getSortDirection = (state: IQuickGridState, props: IQuickGridProps) => state.sortDirection;
 const getColumns = (state: IQuickGridState, props: IQuickGridProps) => props.columns;
 
-const getSortFunctionForColumn = (columns: Array<GridColumn>, sortColumn: GridColumn, sortDirection: SortDirection) => {
+const getSortFunctionForColumn = (sortColumn: GridColumn, sortDirection: SortDirection) => {
     if (sortColumn && sortColumn.sortByValueGetter) {
         let sortValueGetter = sortColumn.sortByValueGetter;
         return (row) => sortValueGetter(row, sortDirection); // (row) => return compareValue
@@ -23,7 +23,7 @@ const getSortFunctionForColumn = (columns: Array<GridColumn>, sortColumn: GridCo
     return null;
 };
 
-const getColumnName = (columns: Array<GridColumn>, sortColumn: GridColumn): string => {
+const getColumnName = (sortColumn: GridColumn): string => {
     if (sortColumn.dataType === DataTypeEnum.String) {
         const lowercasedSortingColumn = lowercasedColumnPrefix + sortColumn.valueMember;
         return lowercasedSortingColumn;
@@ -33,8 +33,8 @@ const getColumnName = (columns: Array<GridColumn>, sortColumn: GridColumn): stri
 
 const getColumnNameAndSortFuntion = (columns: Array<GridColumn>, sortColumnName: string, sortDirection: SortDirection) => {
     const sortColumn = _.find(columns, column => column.valueMember === sortColumnName);
-    const sortFunction = getSortFunctionForColumn(columns, sortColumn, sortDirection);
-    const columnName = getColumnName(columns, sortColumn);
+    const sortFunction = getSortFunctionForColumn(sortColumn, sortDirection);
+    const columnName = getColumnName(sortColumn);
     return { sortFunction: sortFunction, columnName: columnName };
 };
 
@@ -51,7 +51,7 @@ const sortRows = (rows: Array<any>, sortColumnName: string,
         }
         if (sortColumnName) {
             const sortColumn = _.find(columns, column => column.valueMember === sortColumnName);
-            const columnName = getColumnName(columns, sortColumn);
+            const columnName = getColumnName(sortColumn);
             sortOptions.push({ sortModifier: sortModifier, column: columnName });
         }
         return sortArray(rows, sortOptions);
