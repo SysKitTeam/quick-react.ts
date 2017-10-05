@@ -1,70 +1,25 @@
 @import '../../index.scss';
 
-.breadcrumbs-dropdown-callout {
-    display: inline-block;
-    z-index: 1000;
-
-    .callout-main {
-        @include disableUserSelection();
-        width: 150px !important;
-
-        ul {
-            font-size: 13px;
-            li {
-                text-align: left;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                font-size: 14px;
-                cursor: pointer;
-                padding: 5px 10px;
-
-                &:hover {
-                    background-color: lightblue;
-                }
-            }
-        }
-    }
-}
-
 .breadcrumbs-item {
-    display: block;
-    margin: 0;
-    padding: 0;
-
-    @include disableUserSelection();
-
     .breadcrumbs-item-title {
-
         display: inline-block;
         vertical-align: top;
 
         .breadcrumbs-item-label {
-            display: inline-block;
-            font-weight: 500;
-            color: $font-primary-color;
-            display: inline-block;
             padding: 0px 6px 0px 0px;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
-            vertical-align: middle;
-            margin-top: 5px;
+            vertical-align: bottom;
             cursor: pointer;
 
             &:hover {
-                color: $secondary-color;
+                color: $primary-color;
             }
         }
 
         .breadcrumbs-item-icon {
-            margin-top: 4px;
-            margin-right: 3px;
-            vertical-align: middle;
-
-             &.breadcrumbs-icon-home {
-                margin-right: 8px;
-            }
+            margin-right: 8px;
         }
     }
 
@@ -73,12 +28,11 @@
 
         .breadcrumbs-dropdown {
             margin: 0;
+
             .dropdown-title > i {
-                font-size: 12px;
-                &:hover {
-                    color: $secondary-color;
-                }
+                font-size: 10px;
             }
+
             i:nth-child(2) {
                 display: none;
             }
@@ -86,6 +40,16 @@
     }
 
     .icon:hover {
-        color: $secondary-color;
+        color: $primary-color;
+    }
+}
+
+.breadcrumbs-dropdown-callout {
+    border-radius: 8px;
+    margin-top: 5px;
+    margin-left: 5px;
+
+    .callout-main {
+        width: 150px;
     }
 }

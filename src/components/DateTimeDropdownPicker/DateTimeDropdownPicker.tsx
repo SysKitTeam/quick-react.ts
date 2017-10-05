@@ -6,7 +6,7 @@ import { Button } from '../Button/Button';
 import { DateTimePicker } from '../DateTimePicker/DateTimePicker';
 import { autobind } from '../../utilities/autobind';
 import * as moment from 'moment';
-
+import './DateTimeDropdownPicker.scss';
 
 export interface IDateTimeDropdownPickerProps {
     selectedDate: Date;
@@ -54,7 +54,7 @@ export class DateTimeDropdownPicker extends React.PureComponent<IDateTimeDropdow
                         onTimeSelectionChanged={this._dateTimeChanged}
                     />
                     <div className="dropdown-buttons-container">
-                        <Button onClick={this._cancelClicked}>Close</Button>
+                        <Button className={'button-textual'} onClick={this._cancelClicked}>Close</Button>
                         <Button className={'button-primary'} onClick={this._flushChange}>OK</Button>
                     </div>
                 </Dropdown>
@@ -71,7 +71,9 @@ export class DateTimeDropdownPicker extends React.PureComponent<IDateTimeDropdow
     @autobind
     private _flushChange() {
         const { onTimeSelectionChanged } = this.props;
-        onTimeSelectionChanged(this.state.selectedDateCached);
+        if (onTimeSelectionChanged !== undefined) {
+            onTimeSelectionChanged(this.state.selectedDateCached);
+        }
         this._closeDropDown();
     }
 

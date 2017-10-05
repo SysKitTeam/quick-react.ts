@@ -67,18 +67,22 @@ const items = [
 ];
 
 const children = [
-                    { displayName: 'Server 4', url: '470cd919-5b73-4911-91b9-fb2f3db7645c' },
-                    { displayName: 'Server 5', url: '496efa49-57b3-4d49-b7bd-80806a2f03b5' }
-                ];
+    { displayName: 'Server 4', url: '470cd919-5b73-4911-91b9-fb2f3db7645c' },
+    { displayName: 'Server 5', url: '496efa49-57b3-4d49-b7bd-80806a2f03b5' }
+];
 
 export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-                <Label>Breadcrumbs with default icons</Label>
-                <hr/>
-                <Breadcrumbs homeDisplayName={'Home'} homeUrl={'/'} items={items} url={'/performance/07bf612a-1354-4269-9339-bbca5ecca246/1'} onPathClick={(path) => console.log(path)}/>
-                {/*<BreadcrumbsItem text="Farm 3" url="/performance/2c2e3d11-aaac-40a5-8136-071783ae8c36" displayName="Farm 3" onClick={(url) => console.log(url)} children={children} />*/}
+                <Label>Breadcrumbs with default icons:</Label>
+                <Breadcrumbs homeDisplayName={'Home'} homeUrl={'/'} items={items} url={'/performance/07bf612a-1354-4269-9339-bbca5ecca246/1'} onPathClick={(path) => console.log(path)} />
+                
+                <br/>
+                <br/>
+
+                <Label>Breadcrumbs with custom icons:</Label>
+                <Breadcrumbs homeIconName={'icon-ck_kit'} homeUrl={'/'} items={items} url={'/performance/07bf612a-1354-4269-9339-bbca5ecca246/1'} onPathClick={(path) => console.log(path)} />
             </div>
         );
     }
