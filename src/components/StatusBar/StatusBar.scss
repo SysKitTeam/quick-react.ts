@@ -7,16 +7,17 @@
     width: 100%;
 
     span {
-        @include float(right);
-        font-family: $font-family-base;      
+        float: right;
         color: $white-color;
-        font-size: small;
-        @include padding(2px, 10px, 0, 0);
+        font-size: 13px;
+        padding: 2px 10px 0 0;
     }
+
     .spinner {
         position: relative;
         top: 1px;
     }
+
     .spinner > .spinner-circle.spinner-normal {
         position: absolute;
         width: 10px;

@@ -3,7 +3,6 @@ import * as classNames from 'classnames';
 import { IMessageBarProps, MessageBarType } from './MessageBar.Props';
 import { getId } from '../../utilities/getId';
 import { Icon } from '../../components/Icon/Icon';
-import { Button } from '../../components/Button/Button';
 import { Checkbox } from '../../components/Checkbox/Checkbox';
 import './MessageBar.scss';
 

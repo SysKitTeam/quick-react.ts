@@ -76,7 +76,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
     }
 
     public render() {
-        let { labelText, className } = this.props;
+        let { labelText, disabled, className } = this.props;
         let { value, hasFocus, id } = this.state;
 
         const searchClassName = classNames(
@@ -84,7 +84,8 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
             className,
             {
                 'is-active': hasFocus,
-                'can-clear': value.length > 0
+                'can-clear': value.length > 0,
+                'is-disabled': disabled
             }
         );
 
@@ -101,6 +102,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
                     placeholder={labelText}
                     onChange={this._onInputChange}
                     onKeyDown={this._onKeyDown}
+                    disabled={disabled}
                     ref={this._resolveRef('_inputElement')} />
                 <div
                     className={'search-clearButton'}

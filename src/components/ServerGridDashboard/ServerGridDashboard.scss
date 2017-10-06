@@ -35,7 +35,7 @@ $background-color: $background-color;
 
     .farm {
         margin-top: 60px;
-        margin-bottom: 0px;
+        margin-bottom: 0;
     }
     .Table {
         width: 100%;
@@ -86,7 +86,7 @@ $background-color: $background-color;
     }
 
     .empty-header-column {
-        border-right: 0px;
+        border-right: 0;
     }
 
     .grid-header-column:nth-child(2) {

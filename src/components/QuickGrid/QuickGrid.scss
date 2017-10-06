@@ -79,7 +79,7 @@
      cursor: col-resize;
      height: 100%;
      float: right;
-     padding: 0px 1px;
+     padding: 0 1px;
      border-right: 1px solid $search-border-color;
      box-sizing: border-box;
  }
@@ -179,7 +179,7 @@
  }
 
  .empty-header-column {
-     border-right: 0px;
+     border-right: 0;
  }
 
  .grid-header-column:last-child,
@@ -235,7 +235,7 @@
 
  .ReactVirtualized__Table__headerColumn,
  .ReactVirtualized__Table__rowColumn {
-     min-width: 0px;
+     min-width: 0;
      font-size: 13px;
      color: $emphasized-text-color;
  }

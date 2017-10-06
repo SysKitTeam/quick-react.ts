@@ -69,7 +69,7 @@ $border-color: #e8e9ef;
 
             margin-bottom: 5px;
             display: block;
-            padding: 0px 5px 0px 5px;
+            padding: 0 5px 0 5px;
             box-sizing: border-box;
             white-space: nowrap;
             overflow: hidden;
@@ -91,7 +91,7 @@ $border-color: #e8e9ef;
             label {
                 font-family: $font-family-base;
                 font-size: 12px;
-                padding: 0px 0px 5px 5px
+                padding: 0 0 5px 5px
             }
         }
     }

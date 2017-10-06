@@ -40,7 +40,7 @@ $server-status-color: $basic-text-color;
         width: 100%;
         padding: 0;
         display: block;
-        margin: 5px 0px 10px 0px;
+        margin: 5px 0 10px 0;
 
         .server-name {
             padding: 0 0 0 5px;
@@ -117,7 +117,7 @@ $server-status-color: $basic-text-color;
         display: block;
         width: 100%;
         height: 75%;
-        margin: 10px 0px 10px 0px;
+        margin: 10px 0 10px 0;
 
         .tile {
             width: calc(45% - 12px);
@@ -132,7 +132,7 @@ $server-status-color: $basic-text-color;
                 text-align: center;
                 color: $light-text-color;
                 font-size: $counters-title-font-size;
-                margin: 9px 0px 2px 0px;;
+                margin: 9px 0 2px 0;
             }
 
             &:nth-child(odd) {
@@ -164,7 +164,7 @@ $server-status-color: $basic-text-color;
     .icon-user:after {
         content: attr(data-users);
         padding: 0;
-        margin: 0px 0px 2px 5px;
+        margin: 0 0 2px 5px;
         font-family: $font;
         font-size: $header-font-size;
     }

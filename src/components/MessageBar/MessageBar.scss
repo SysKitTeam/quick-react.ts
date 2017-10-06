@@ -1,178 +1,92 @@
 @import '../../index.scss';
 
 .messageBar {
-    @include baseFont();
-    background-color: $primary-color;
-    color: $font-primary-color;
-    width: 100%;
+    background-color: $secondary-color;
+    color: $white-color;
     box-sizing: border-box;
-    display: flex;
     position: relative;
 
-    .messageBar-icon {
-        @include padding-right(8px);
-        color: #767676;
-    }
-
-    .link {
-        font-size: $font-size-s;
-    }
-}
-
-.messageBar-icon,
-.messageBar-text {
-    display: table-cell;
-    vertical-align: top;
-}
-
-.messageBar-icon {
-    font-size: $font-size-m;
-    min-width: 16px;
-    min-height: 16px;
-    display: flex;
-}
-
-.messageBar-text {
-    @include baseFont();
-    font-size: $font-size-s;
-    font-weight: $font-weight-regular;
-    min-width: 0;
-    display: flex;
-    padding-right: 10px;
-}
-
-//== Modifier: Info message
-//
-.messageBar.messageBar-info {
-    background-color: $font-info-colorBackground;
-    color: $font-info-colorText;
-
-    .messageBar-icon > i {
-        color: $font-info-color;
-    }
-}
-
-//== Modifier: Warning message
-//
-.messageBar.messageBar-warning {
-    background-color: $font-warning-colorBackground;
-    color: $font-warning-colorText;
-
-    .messageBar-icon > i {
-        color: $font-warning-color;
-    }
-}
-
-//== Modifier: Error message
-//
-.messageBar.messageBar-error {
-    background-color: $font-error-colorBackground;
-    color: $font-error-colorText;
-
-    .messageBar-icon > i {
-        color: $font-error-color;
-    }
-}
-
-//== Modifier: Success message
-//
-.messageBar.messageBar-success {
-    background-color: $font-success-colorBackground;
-    color: $font-success-colorText;
-
-    .messageBar-icon > i {
-        color: $font-success-color;
-    }
-}
-
-.messageBar-content {
-    padding: 10px;
-    display: flex;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.messageBar-actionables {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-width: 0;
-    margin-right: 20px;
-}
-
-.messageBar-actionables > .messageBar-dismissal {
-    right: 0;
-    position: absolute !important;
-}
-
-.messageBar-actions, .messageBar-actionsOneline {
-    display: flex;
-    flex: 0 0 auto;
-    flex-direction: row-reverse;
-    align-items: center;
-}
-
-.messageBar-actionsOneline {
-    margin-right: 20px;    
-}
-
-.messageBar-dismissal {
-    min-width: 0;
-    cursor: pointer;
-}
-
-.messageBar-actionsOneline .messageBar-dismissal {
-    @include margin-right(-8px);
-}
-
-.messageBar-checkbox {
-    position: absolute;
-    right: 35px;
-    top: 0px;
-}
-
-// Add space between adjacent MessageBars.
-.messageBar + .messageBar {
-    margin-bottom: 6px;
-}
-
-.messageBar-innerTextPadding {
-
-    span, .messageBar-innerText > span {
-        @include padding-right(4px); // Add padding between text and hyperlink.
-    }
-}
-
-.messageBar-singleline {
     .messageBar-content {
-        .messageBar-icon {
-            align-items: center;
-        }
+        padding: 10px;
+        display: flex;
+    }
 
-        .messageBar-actionables > .messageBar-text {
-            justify-content: center;
-            align-items: center;
+    .messageBar-icon {
+        padding-right: 5px;
+    }
 
-            .messageBar-innerText,
-            .messageBar-innerTextPadding {
-                max-height: 1.3em;
-                line-height: 1.3em;
+    .messageBar-actionables {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        margin-right: 20px;
+
+        .messageBar-text {
+            .messageBar-innerText {
                 overflow-x: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
         }
+
+        .messageBar-actionsOneline {
+            position: absolute;
+            right: 35px;
+            top: 3px; 
+        }
+
+        .messageBar-checkBox-container {
+            flex: 1;
+            min-width: 250px;
+
+            .messageBar-checkbox {
+                position: absolute;
+                right: 35px;
+                top: 3px;
+            }
+        }
+
+        .messageBar-dismissal {
+            right: 5px;
+            position: absolute;
+            top: 12px;
+            cursor: pointer;
+        }
     }
 
-    .messageBar-content > .messageBar-actionables {
-        flex-direction: row;
+    &.messageBar-warning {
+        background-color: #FDEAD4;
+
+        .messageBar-icon > i {
+            color: $font-warning-color;
+        }
+    }
+
+    &.messageBar-error {
+        background-color: #FFD5D2;
+
+        .messageBar-icon > i {
+            color: $error-color;
+        }
+    }
+
+    &.messageBar-success {
+        background-color: #DFEFCD;
+
+        .messageBar-icon > i {
+            color: #5FB005;
+        }
+    }
+
+    &.messageBar-info {
+        background-color: #D4EAFD;
+
+        .messageBar-icon > i {
+            color: $link-color;
+        }
     }
 }
 
-.messageBar-checkBox-container {
-    flex: 1;
-    min-width: 250px;
-    .checkbox-label {        
-        white-space: nowrap;
-    }
+.messageBar + .messageBar {
+    margin-top: 10px;
 }

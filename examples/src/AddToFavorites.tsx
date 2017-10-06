@@ -16,9 +16,10 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-                <AddToFavorites favorited={this.state.favorited} />           
-                <br/>                  
-                <Button onClick={ () => { this.setState({ favorited: !this.state.favorited }); } } >Toggle Favorite</Button>
+                <AddToFavorites favorited={this.state.favorited} />
+                <br />
+                <br />
+                <Button onClick={() => { this.setState({ favorited: !this.state.favorited }); }} >Toggle Favorite</Button>
             </div>
         );
     }

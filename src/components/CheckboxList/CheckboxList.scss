@@ -1,22 +1,23 @@
 @import '../../index.scss';
 
 .checkboxlist {
-    @include baseFont();
-    font-size: $font-size-m;
-
-    .collapsed {
-        display: none;
-    }
-
-    .expanded {
-        display: block;
-    }
-
     .checkboxlist-item {
         cursor: pointer;
+
+        .icon {
+            font-size: 12px;
+        }
     }
 
     .checkboxlist-child {
-        @include margin-left(15px);
+        margin-left: 15px;
+
+        &.collapsed {
+            display: none;
+        }
+    
+        &.expanded {
+            display: block;
+        }
     }
 }

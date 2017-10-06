@@ -6,6 +6,7 @@ export interface ISearchProps extends React.Props<Search> {
     onChange?: (newValue: any) => void;
     onSearch?: (newValue: any) => void;
     onChanged?: (newValue: any) => void;
+    disabled?: boolean;
     value?: string;
     className?: string;
     debounceWaitMs?: number;

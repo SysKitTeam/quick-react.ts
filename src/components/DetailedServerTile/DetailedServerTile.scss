@@ -13,7 +13,7 @@ $server-status-color: $basic-text-color;
     @include disableUserSelection();
     min-height: 458px;
     margin: 10px;
-    padding: 0px 10px 0px 10px;
+    padding: 0 10px 0 10px;
     font-family: $font-family-base;
     width: $tile-width;
     display: inline-block;
@@ -25,7 +25,7 @@ $server-status-color: $basic-text-color;
 
     .dialog-button-close {
         padding: 0;
-        margin: 10px 0px 0px 0px;
+        margin: 10px 0 0 0;
         cursor: pointer;
         position: absolute;
         left: 295px;
@@ -74,12 +74,12 @@ $server-status-color: $basic-text-color;
         .icon-user {
             vertical-align: super;
             padding: 0;
-            margin: 0px 5px 5px 5px;
+            margin: 0 5px 5px 5px;
 
             &:after {
                 content: attr(data-users);
                 padding: 0;
-                margin: 0px 0px 2px 5px;
+                margin: 0 0 2px 5px;
                 font-family: $font-family-base;
                 font-size: $header-font-size;
             }
@@ -94,11 +94,11 @@ $server-status-color: $basic-text-color;
         .tag-container {
             position: relative;
             display: block;
-            margin: 5px 0px 10px 0px;
+            margin: 5px 0 10px 0;
             color: $tag-color;
 
             .tag {
-                padding: 0px 5px 0px 0px;
+                padding: 0 5px 0 0;
                 margin: 0;
                 font-size:12px;
                 font-weight: normal;
@@ -122,7 +122,7 @@ $server-status-color: $basic-text-color;
         display: block;
         width: 100%;
         height: calc(100% - 77px);
-        margin: 10px 0px 10px 0px;
+        margin: 10px 0 10px 0;
         padding: 0;
 
         .line-chart-component {
@@ -136,7 +136,7 @@ $server-status-color: $basic-text-color;
         }
 
         .progress-bar-component {
-            margin: -30px 0px 15px 0px;
+            margin: -30px 0 15px 0;
             label:nth-child(1) {
                 font-weight: 500;
             }
@@ -162,7 +162,7 @@ $server-status-color: $basic-text-color;
                 label:nth-child(2) {
                     font-size: 12px;
                     color: #929292;
-                    padding: 0px 0px 5px 0px;
+                    padding: 0 0 5px 0;
                 }
 
                 &.partition-tile {
