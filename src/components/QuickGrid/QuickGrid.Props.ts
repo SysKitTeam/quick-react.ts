@@ -37,6 +37,7 @@ export interface IQuickGridState {
     columnWidths: Array<number>;
     selectedRowIndex?: number;
     columnsToDisplay: Array<GridColumn>;
+    rows: Array<any>;
 }
 
 export interface GroupRow {
@@ -49,9 +50,16 @@ export interface GroupRow {
     isExpanded: boolean;
 }
 
+export enum DataTypeEnum {
+    Number,
+    String, 
+    Date
+}
+
 export interface GridColumn {
     headerText: string;
     valueMember: string; // for sort & grouping
+    dataType?: DataTypeEnum;
     isSortable?: boolean; // default true
     isGroupable?: boolean; // default true
     sortByValueGetter?: (cellData, sortDirection: SortDirection) => any;
@@ -63,6 +71,7 @@ export interface GridColumn {
     headerClassName?: string;
 }
 
+export const lowercasedColumnPrefix = 'lowercase_';
 
 export interface QuickGridActions {
     actionItems: Array<ActionItem>;

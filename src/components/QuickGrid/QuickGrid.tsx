@@ -2,7 +2,10 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as classNames from 'classnames';
 import { AutoSizer, Table, Column, ColumnProps, ScrollSync, Grid } from 'react-virtualized';
-import { IQuickGridProps, IQuickGridState, GridColumn, GroupRow, IGroupBy, SortDirection } from './QuickGrid.Props';
+import {
+    IQuickGridProps, IQuickGridState, GridColumn, GroupRow,
+    IGroupBy, SortDirection, DataTypeEnum, lowercasedColumnPrefix
+} from './QuickGrid.Props';
 const scrollbarSize = require('dom-helpers/util/scrollbarSize');
 import { getRowsSelector } from './DataSelectors';
 import { groupRows } from './rowGrouper';
@@ -19,6 +22,7 @@ const getActionItems = (props: IQuickGridProps) => props.gridActions.actionItems
 const getActionItemOptions = createSelector([getActionItems], (actionItems) => {
     return actionItems.map((item, index) => ({ key: index, icon: item.iconName, text: item.name }));
 });
+
 
 const defaultMinColumnWidth = 50;
 const emptyCellWidth = 5;
@@ -44,10 +48,25 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             selectedRowIndex: undefined,
             sortColumn: props.sortColumn,
             sortDirection: props.sortDirection,
-            groupBy: groupByState
+            groupBy: groupByState,
+            rows: this.addLowerCaseMembersToRows(props.rows, props.columns)
         };
         this.columnsMinTotalWidth = columnsToDisplay.map(x => x.minWidth || defaultMinColumnWidth).reduce((a, b) => a + b, 0);
         this.onGridResize = _.debounce(this.onGridResize, 100);
+    }
+
+    addLowerCaseMembersToRows = (rows: Array<any>, columns: Array<GridColumn>) => {
+        let members = columns.filter(col =>
+            (col.dataType === DataTypeEnum.String)).map(col => (col.valueMember));
+        const newRows = [...rows].map((row) => {
+            let modifiedRow = { ...row };
+            for (let value of members) {
+                modifiedRow[lowercasedColumnPrefix + value]
+                    = modifiedRow[value].toLowerCase();
+            }
+            return modifiedRow;
+        });
+        return newRows;
     }
 
     getGroupByFromProps(groupBy: Array<string | IGroupBy>) {
@@ -97,6 +116,14 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             const columnWidths = this.getColumnWidths(columnsToDisplay);
             this.setState((prevState) => { return { ...prevState, columnsToDisplay: columnsToDisplay, columnWidths: columnWidths, groupBy: newGroupBy }; });
             this.columnsMinTotalWidth = columnsToDisplay.map(x => x.minWidth || defaultMinColumnWidth).reduce((a, b) => a + b, 0);
+        }
+        if (nextProps.columns !== this.props.columns || nextProps.rows !== this.props.rows) {
+            this.setState((oldState) => {
+                return {
+                    ...oldState,
+                    rows: this.addLowerCaseMembersToRows(this.props.rows, this.props.columns)
+                };
+            });
         }
     }
 
