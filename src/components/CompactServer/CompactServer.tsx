@@ -42,15 +42,13 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, any>
             >
                 <span className={'server-title'}>
                     <span>{this.props.name}</span>
+                    {this.props.onClose &&
+                        <Icon title={'Delete'} iconName={'icon-delete'} onClick={(event) => this.props.onClose(this.props.id, event)}></Icon>
+                    }
                 </span>
-                {
-                    this.props.onClose &&
-                    <Icon title={'Delete'} iconName={'icon-delete'} onClick={(event) => this.props.onClose(this.props.id, event) }></Icon>
-                }
                 {
                     this.props.roles.length > 0 &&
                     <div>
-                        <hr />
                         <TagContainer title={''} tags={this.props.roles}>
                             {this.props.onRoleEdit &&
                                 <div className="edit-tags tag" title="Edit roles" onClick={(event => this.props.onRoleEdit(this.props.id, event))}>

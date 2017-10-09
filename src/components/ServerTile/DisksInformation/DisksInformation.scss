@@ -1,44 +1,32 @@
- @import '../../../themes/basic-theme.scss';
 
 .disk-information-container {
      .status-critical {
-        color: $red-color!important;
+        color: #FF2F20;
     }
 
     .status-warning {
-        color: $yellow-color!important;
+        color: #ffb900;
     }
 }
 
 .disk-information-callout {
-    border: 1px solid $light-text-color;
+    border: 1px solid #DADADB!important;
+    border-radius: 8px;
 
     .callout-main {
         padding: 8px;
-
-        div {
-            font-size: 14px;
-            color: $emphasized-text-color;
-        }
+        border-radius: 8px;
 
         div + div {
             padding-top: 5px;
         }
 
         .status-critical {
-            color: $red-color;
+            color: #FF2F20;
         }
 
         .status-warning {
-            color: $yellow-color;
+            color: #ffb900;
         }
     }
-}
-
-.cursor-pointer {
-    cursor: pointer;
-}
-
-.cursor-default {
-    cursor: default;
 }

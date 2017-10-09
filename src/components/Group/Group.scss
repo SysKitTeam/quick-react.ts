@@ -1,108 +1,112 @@
 @import '../../index.scss';
 
 .farm {
-    width: calc(100% - 50px);
-    float: left;
+    // width: calc(100% - 50px);
+    // float: left;
     padding: 5px;
     margin: 20px;
-    margin-top:50px;
     position: relative;
-    background-color: white;
-    font-size:14px;
-}
 
-.farm-name{
-    position: absolute;
-    background: inherit;
-    top: -22px;
-    left: 30px;
-    padding: 5px;
-    padding-top: 0;
-    padding-bottom: 0;
+    // .farm-name{
+    //     position: absolute;
+    //     background: inherit;
+    //     top: -22px;
+    //     left: 30px;
+    //     padding: 5px;
+    //     padding-top: 0;
+    //     padding-bottom: 0;
+    
+    // }
 
-}
+    &.farm-name-inside {
+        .farm-name {        
+            position: absolute;
+            // background: inherit;
+            // font-size: 20px;
+            padding: 5px 8px;
+            // padding-top: 10px;
+            width: initial;
+            top: -30px;
+            user-select: none;
+            // padding-bottom: 0;
+            // top: -35px;
+            // left: -2px;
+            // padding-left: 15px;
 
-.farm-name-inside{
-    .farm-name{        
-        position: absolute;
-        background: inherit;
-        font-size: 20px;
-        padding: 5px;
-        padding-top: 10px;
-        width: initial;
-        padding-bottom: 0;
-        top: -35px;
-        left: -2px;
-        padding-left: 15px;
-        color: $emphasized-text-color;
-
-        .group-actions {
-            position: relative;
-            display: inline-block;
-            padding: 0 0 5px 20px;
-
-            .icon {
-                visibility: hidden;
-                position: relative;
-                padding: 0 3px;
-                font-size: 16px;
+            span {
+                display: inline-block;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: 18px;
+                color: $primary-color;
             }
-        }
-
-        &:hover {
-            .group-actions > .icon {
-                visibility: visible;
-            }
-        }
-
-        span{
-            display: inline-block;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            position: relative;
-        }
-
-        .group-title-clickable:hover{
-            color: $green-color;
-            cursor:pointer;
-        }
-
-        .icon{
-            padding: 2px;
-            padding-top:5px;
-            position: relative;
-            float: right;
-            font-size: 14px;
-            color: $emphasized-text-color;
-
-            &.group-icon {
-                float: left;
-                top: 2px;
-                font-size: 16px;
-
-                &:hover {
-                    cursor: default;
+    
+            .group-actions {
+                // position: relative;
+                display: inline-block;
+                padding: 0 0 5px 20px;
+    
+                .icon {
+                    visibility: hidden;
+                    // position: relative;
+                    padding: 0 3px;
                 }
             }
-        }
+    
+            &:hover {
+                .group-actions > .icon {
+                    visibility: visible;
+                }
+            }
+    
+            .group-title-clickable:hover {
+                color: $primary-hover-color;
+                cursor: pointer;
+            }
+    
+            .icon {
+                // padding: 2px;
+                padding-top: 5px;
+                position: relative;
+                float: right;
 
-        .icon:hover{
-            cursor: pointer;
-        }
+                &:hover {
+                    cursor: pointer;
+                }
+    
+                &.group-icon {
+                    float: left;
+                    font-size: 16px;
+    
+                    &:hover {
+                        cursor: default;
+                    }
+                }
 
-        .icon.icon-delete:hover{
-            color: $red-color;
-        }
-
-        .icon.icon-edit:hover{
-            color: $yellow-color;
-        }
-
-        .icon.icon-add:hover{
-            color: $green-color;
-        }
+                &.icon-delete:hover {
+                    color: $error-color;
+                }
         
+                &.icon-edit:hover {
+                    color: $link-color;
+                }
+        
+                &.icon-add:hover {
+                    color: #5FB005;
+                } 
+            }
+        }
     }
-}
+    
 
+    // .farm-name {
+    //     position: absolute;
+    //     background: inherit;
+    //     top: -22px;
+    //     left: 30px;
+    //     padding: 5px;
+    //     padding-top: 0;
+    //     padding-bottom: 0;
+    // }
+}

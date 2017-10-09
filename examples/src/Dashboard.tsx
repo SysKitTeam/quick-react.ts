@@ -9,7 +9,7 @@ import { Dashboard } from './../../src/components/Dashboard/Dashboard';
 import { getDummyDashboard, generateMeasures } from '../MockData/DashboardDummy';
 import { IGroup, IServer, ServerStatus } from './../../src/models';
 
-const dummyDashboard = getDummyDashboard(false); // change to true/false to show/hide roles on tiles
+const dummyDashboard = getDummyDashboard(true); // change to true/false to show/hide roles on tiles
 
 export class Index extends React.Component<any, any> {
     public constructor() {
@@ -52,7 +52,7 @@ export class Index extends React.Component<any, any> {
                 };
             });
             this.setState({ farms: newFarms });
-        }, 5000);
+        }, 100000);
     }
 
     public render() {

@@ -51,19 +51,7 @@ export class TileGroup extends React.PureComponent<ITileGroupProps> {
                             serverOnClick={this.serverOnClick}
                             diskInformation={getDiskInformationFromMeasurements(server.measures)}
                             onClose={this.props.onServerClose !== undefined ? this._onServerClose : undefined}
-                            hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}
-                        >
-                            {
-                                server.roles.length > 0 &&
-                                <TagContainer title={''} tags={server.roles} >
-                                    {
-                                        this.props.onServerRoleEdit &&
-                                        <div className="edit-tags tag" title="Edit roles" onClick={(event) => this._editRoles(server.id, event)}>
-                                            <Icon className="icon-edit"></Icon>
-                                        </div>
-                                    }
-                                </TagContainer>
-                            }
+                            hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}>
                         </ServerTile>
                     ))
                 }

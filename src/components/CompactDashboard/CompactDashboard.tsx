@@ -121,11 +121,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
         if (farm === undefined) {
             return 0;
         }
-        let serverTileTotalHeight = serverTileHeight;
-        const anyRolesOnServers = farm.servers.filter(server => (server.roles && server.roles.length > 0)).length > 0;
-        if (anyRolesOnServers) {
-            serverTileTotalHeight += headerRolesHeight;
-        }
+        let serverTileTotalHeight = serverTileHeight + headerRolesHeight;
         const serversPerRow = Math.floor((width - totalPaddingHorizontal) / serverTileWidth);
         let farmServerCount = farm.servers.length;
         const rowCount = Math.ceil(farmServerCount / serversPerRow);
