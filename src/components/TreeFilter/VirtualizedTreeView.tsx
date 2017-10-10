@@ -83,10 +83,6 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
         this.allItemIds = nextProps.allItemIdsGetter(nextProps.items);
     }
 
-    public componentWillMount() {
-        this.props.selectionText(this.getSelectedText());
-    }
-
     public componentDidUpdate(prevProps: ITreeFilterProps, prevState: IVirtualizedTreeViewState) {
         if (this.state.filteredItems !== prevState.filteredItems) {
             if (this._list != null) {
@@ -97,7 +93,6 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                 this._list.forceUpdateGrid();
             }
         }
-        this.props.selectionText(this.getSelectedText());
     }
 
     public render() {
@@ -157,26 +152,6 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
             </div>
         );
     }
-
-    private getSelectedText(): string {
-        if (this.props.filterSelection.type === FilterSelectionEnum.All) {
-            return '[All]';
-        }
-
-        const checkedItemIds = this.props.filterSelection.selectedIDs;
-
-        if (checkedItemIds.length === 0) {
-            return 'Please select...';
-        } else if (checkedItemIds.length === 1) {
-            const itemId = checkedItemIds[0];
-            return this.itemLookup[itemId].value;
-        } else {
-            const someIds = checkedItemIds.slice(0, 3);
-            const names = someIds.map(itemID => this.itemLookup[itemID].value);
-            return names.join(', ') + '...';
-        }
-    }
-
     private renderItem(treeItem: TreeItem, itemKey) {
         const onExpandClick = (event) => {
             event.stopPropagation();
