@@ -1,15 +1,12 @@
+@import '../../index.scss';
 
-.viewport-height{
+.viewport-height {
     height: 90vh;
     width: 100%;
 
     &:focus {
-        outline: none !important;
+        outline: none;
     }
-}
-
-.quick-grid-container{
-    width: 100%;
 }
 
 .empty-dasboard-message-container {

@@ -8,6 +8,7 @@ import { Button } from '../../src/components/Button';
 import { QuickGrid, IQuickGridProps, SortDirection, GridColumn, QuickGridActions } from '../../src/components/QuickGrid';
 import { gridColumns1, getGridData1, gridColumns2, getGridData2 } from '../MockData/gridData';
 import '../../src/components/TreeFilter/TreeFilter.scss'; // used for react-resizable style
+import '../../src/components/Label/Label.scss';
 
 const numOfRows = 10000;
 
@@ -54,7 +55,7 @@ export class Index extends React.Component<any, any> {
                 <Button onClick={this.refreshData}>Refresh data</Button>
 
                 <Resizable width={1000} height={700} >
-                    <div className="viewport-height" style={{ height: '100%', border: '1px solid #6b6b6b' }} >
+                    <div className="viewport-height" style={{ height: '100%' }} >
                         <QuickGrid
                             rows={this.state.data}
                             columns={this.state.columns}

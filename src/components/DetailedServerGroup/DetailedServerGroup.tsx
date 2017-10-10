@@ -11,7 +11,7 @@ import './DetailedServerGroup.scss';
 
 const Collection = require('react-virtualized').Collection;
 const GUTTER_SIZE = 20;
-const serverWidth = 300;
+const serverWidth = 330;
 
 export class DetailedServerGroup extends React.PureComponent<IDetailedServerGroupProps, any> {
     private _collection: any;
@@ -131,8 +131,8 @@ export class DetailedServerGroup extends React.PureComponent<IDetailedServerGrou
     private _getServerHeight(index: number) {
         let server = this.getServer(index);
 
-        // 57px header + 220px line chart + 40px progress bar + 15px margin-top + 29px label "Disks" + (numberOfDisks/2) * 130px height
-        let serverHeight = 57 + 220 + 40 + 15 + 29 + (Math.ceil(server.partitionUsages.length / 2)) * 130;
+        // 61px header + 20px margin + 220px line chart + 40px progress bar + 15px margin-top + 29px label "Disks" + (numberOfDisks/2) * 130px height
+        let serverHeight = 61 + 20 + 220 + 40 + 15 + 29 + (Math.ceil(server.partitionUsages.length / 2)) * 125;
         return serverHeight;
     }
 }

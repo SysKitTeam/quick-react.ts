@@ -5,17 +5,56 @@ $background-color: #e8e9ef;
 $border-color: #e8e9ef;
 
 .line-chart-component {
-    display: inline-block;
-    @include disableUserSelection();
+    user-select: none;
 
-    .line-chart-title {
-        text-align: center;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+    .line-chart-header {
+        .line-chart-title {
+            text-align: center;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            font-weight: 500;
+        }
+    }
+
+
+    .line-chart-legend {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        position: relative;
+        box-sizing: border-box;
+        vertical-align: top;
+        text-align: start;
         overflow: hidden;
-        font-size: 14px;
-        font-weight: 500;
-        display: block;
+
+        .legend-item {
+            margin-bottom: 5px;
+            display: block;
+            padding: 0 5px;
+            box-sizing: border-box;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            div {
+                width: 12px;
+                height: 12px;
+                vertical-align: middle;
+                display: inline-block;
+
+                &:hover {
+                    opacity: 0.7;
+                    cursor: pointer;
+                }
+            }
+
+            label {
+                font-size: 12px;
+                padding: 0 0 5px 5px;
+            }
+        }
     }
 
     svg {
@@ -34,64 +73,16 @@ $border-color: #e8e9ef;
                 }
                 .tick {
                     line {
-                        stroke: $background-color;
+                        stroke: #DADADB;
                     }
                     text {
-                        font-family: $font-family-base;
                         font-size: 12px;
                     }
                 }
             }
+
             circle {
                 cursor: pointer;
-            }
-            .capture-area {
-                fill: none;
-                pointer-events: all;
-            }
-        }
-    }
-
-    .line-chart-legend {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-
-        position: relative;
-        box-sizing: border-box;
-        vertical-align: top;
-        text-align: start;
-
-        overflow: hidden;
-
-        .legend-item {
-
-            margin-bottom: 5px;
-            display: block;
-            padding: 0 5px 0 5px;
-            box-sizing: border-box;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-
-            div {
-                width: 12px;
-                height: 12px;
-                vertical-align: middle;
-                display: inline-block;
-                padding: 0;
-
-                &:hover {
-                    opacity: 0.7;
-                    cursor: pointer;
-                }
-            }
-
-            label {
-                font-family: $font-family-base;
-                font-size: 12px;
-                padding: 0 0 5px 5px
             }
         }
     }

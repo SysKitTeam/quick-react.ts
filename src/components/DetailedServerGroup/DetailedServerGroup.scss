@@ -1,12 +1,12 @@
 @import '../../index.scss';
 
 .detailed-server-group {
-    @include baseFont();
     height: 90vh;
     width: 100%;
-    color: $basic-text-color;
 
     .farm {
+        margin-bottom: 0;
+        margin-top: 60px;
         display: table;
     }
 }

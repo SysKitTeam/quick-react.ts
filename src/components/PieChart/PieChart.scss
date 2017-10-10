@@ -14,14 +14,8 @@
             opacity: 0.75;
             cursor: pointer;
         }
-
-        .pie-chart-legend {
-            display: block;
-            text {
-                font-family: $font-family-base;
-            }
-        }
     }
+
     .pie-chart-legend {
         padding-top: 5px;
         display: flex;
@@ -35,7 +29,7 @@
 
         .legend-item {
             display: inline-block;
-            padding: 0 5px 0 5px;
+            padding: 0 5px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -48,7 +42,6 @@
             }
 
             label {
-                font-family: $font-family-base;
                 font-size: 12px;
                 margin-left: 5px;
                 padding: 0;

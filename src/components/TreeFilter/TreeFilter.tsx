@@ -184,7 +184,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                     !isDefaultSelected &&
                     <Icon iconName="icon-delete" title="Reset selection" className="reset-filter-icon" onClick={this.onFilterReset} />
                 }
-                <div className="tree-filter-title" onClick={this.toggleOpenState}>
+                <div className="tree-filter-title" title={this.state.selectionText} onClick={this.toggleOpenState}>
                     <span>{this.state.selectionText}</span>
                     {
                         isOpen &&

@@ -5,12 +5,16 @@
     margin: 0 3px;
     padding: 2px 6px;
     cursor: pointer;
-    font-size: 14px;
-    background-color: #efefef;
+    font-size: 12px;
+    background-color: #DADADB;
     border-radius: 5px;
 
+    &:hover {
+        color: $primary-color;
+    }
+
     &.filtering-bar-item-selected {
-        background-color: $secondary-color;
+        background-color: $primary-color;
         color:white;
     }
 }

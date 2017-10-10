@@ -18,6 +18,7 @@ $checkbox-transition-timing: cubic-bezier(.4, 0, .23, 1);
         margin-top: 8px;
         line-height: $checkbox-size;
         user-select: none;
+        position: relative;
 
         &::before {
             content: '';

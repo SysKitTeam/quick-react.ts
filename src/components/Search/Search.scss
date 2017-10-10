@@ -1,6 +1,6 @@
 @import '../../index.scss';
 
-$searchBox-height: 32px;
+$searchBox-height: 30px; //30px + 2px border
 
 .search {
     box-sizing: border-box;

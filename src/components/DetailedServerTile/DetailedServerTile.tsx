@@ -19,9 +19,9 @@ import './DetailedServerTile.scss';
 
 export class DetailedServerTile extends React.PureComponent<IDetailedServerProps, any> {
     public static defaultProps = {
-        okColor: '#7DC458',
-        warningColor: '#EAC71A',
-        criticalColor: '#fb6464'
+        okColor: '#5FB005',
+        warningColor: '#FFB900',
+        criticalColor: '#FF2F20'
     };
 
     public render() {
@@ -65,7 +65,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                         <ProgressBar
                             title={'Memory'}
                             info={this.getProgressInfo(this.props.memoryUsage)}
-                            dimensions={{ height: '40px', width: '100%' }}
+                            dimensions={{ height: '45px', width: '100%' }}
                             data={{ total: this.props.memoryUsage.capacity, current: this.props.memoryUsage.used }}
                             progressColor={this.getProgressColor()}
                         />

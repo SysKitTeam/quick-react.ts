@@ -1,39 +1,47 @@
 @import '../../index.scss';
 
 .tree-filter-container {
-    @include disableUserSelection();
-    
+    user-select: none;
     height: 50px;
     width: 200px;
     position: relative;
-    color: $font-primary-color;
-    font-family: $font-family-base;
 
     .tree-filter-title {
         width: 200px;
         height: 20px;
         padding: 2px 1px 2px 1px;
-        border-bottom: 1px solid $secondary-color;
+        border-bottom: 1px solid #DADADB;
         cursor: pointer;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
+
+        span {
+            width: calc(100% - 20px);
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
         .dropdown-icon {
             float: right;
-            padding-top: 6px;
+            padding-top: 5px;
             padding-right: 1px;
             font-size: 11px;
-        }
-    }
 
-    .item-selected {
-        color: $secondary-color;
+            &:hover {
+                color: $primary-color;
+            }
+        }
     }
 
     .reset-filter-icon {
         font-size: 11px;
-        position: absolute;
-        top: 0;
         right: 0;
+        position: absolute;
+        top: 6px;
+        cursor: pointer;
+
+        &:hover {
+            color: $primary-color;
+        }
     }
 }

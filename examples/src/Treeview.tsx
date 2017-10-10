@@ -27,6 +27,8 @@ export class Index extends React.Component<any, any> {
                     items={this.state.treeviewElements}
                 />
                 <br />
+                <br />
+                
                 <Treeview
                     onExpand={this._onExpand}
                     onSelect={this._onCheckboxListChange}
@@ -35,6 +37,8 @@ export class Index extends React.Component<any, any> {
                     recursive={true}
                 />
                 <br />
+                <br />
+
                 <Treeview onSelect={this._onTreeviewItemClick.bind(this)} showCheckbox={true} items={this.state.treeviewElements} recursive={true} />
                 <br />
             </div>

@@ -106,7 +106,8 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
                     groupingOptions={this.props.groupingOptions}
                 />
                 {
-                    groups && groups.length === 0 && this.props.emptyDashboardMessage && <div className="empty-dasboard-message-container">
+                    groups && groups.length === 0 && this.props.emptyDashboardMessage &&
+                    <div className="empty-dasboard-message-container">
                         {this.props.emptyDashboardMessage}
                     </div>
                 }

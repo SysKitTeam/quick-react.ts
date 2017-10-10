@@ -35,14 +35,14 @@
         input.time-picker-hours,
         input.time-picker-minute {
             position: relative;
-            top: -1px;
+            top: 1px;
         }
 
         .time-picker-ampm-designator {
             margin-left: 4px;
             font-size: 12px;
             font-weight: 400;
-            padding-top: 11px;
+            padding-top: 13px;
             cursor: pointer;
             width: 20px;
         
@@ -57,8 +57,14 @@
         max-width: 165px;
 
         .slider-container .slider-slideBox {
-            height: 15px;
-            line-height: 15px;
+            height: 18px;
+
+            .slider-line {
+                .slider-thumb {
+                    width: 14px;
+                    height: 14px
+                }
+            }
         }
     }
 }

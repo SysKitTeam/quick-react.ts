@@ -1,54 +1,54 @@
 @import '../../index.scss';
 
-.tree-filter-container {
-    position: relative;
+.virtualized-tree-filter-container {
+    padding: 5px;
+    box-sizing: border-box;
 
-    .tree-filter-title {
-        width: 200px;
+    .virtualized-tree-filter-title {
         height: 20px;
-        padding: 2px 1px 2px 1px;
-
-        span {
-            width: calc(100% - 17px);
-            display: inline-block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-    }
-
-    .item-selected {
-        color: $secondary-color;
-    }
-
-    .tree-filter-footer-count {
-        font-size: $font-size-s;
-        padding: 0;
-        padding-left: 5px;
-        position: absolute;
-        bottom: 5px;
+        padding: 2px 5px;
+        width: calc(100% - 25px);
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .filter-search {
-        height: 30px;
-        line-height: 30px;
-        margin: 0;
-        width: 100%;
-        .search-icon {
-            line-height: 30px;
+        border-radius: 0;
+        margin-bottom: 0;
+    }
+
+    .item-container {
+        white-space: nowrap;
+        cursor: pointer;
+        user-select: none;
+
+        &.expandible-item {
+            width: calc(100% - 20px);
         }
-        .search-field {
-            height: 30px;
-            line-height: 30px;
+
+        .virtualized-tree-expand-icon {
+            padding-bottom: 4px;
+            font-size: 12px;
         }
-        .search-clearButton {
-            line-height: 28px;
-            font-size: 14px;
+
+        .virtualized-tree-single-select-item {
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 95%;
+            position: relative;
+            top: 4px;
         }
     }
 
-    .ReactVirtualized__Grid {
-        outline: none;
+    .virtualized-tree-filter-footer-count {
+        font-size: 12px;
+        padding-left: 5px;
+        position: absolute;
+        bottom: 5px;
     }
 
     ul {
@@ -57,45 +57,7 @@
         padding-left: 20px;
     }
 
-    .item {
-        height: 20px;
-        display: inline-block;
-        flex-direction: column;
-        justify-content: center;
-        white-space: pre;
-        user-select: none;
-    }
-
-    .item-container {
-        white-space: nowrap;
-        cursor: pointer;
-        user-select: none;
-    }
-
-    .expandible-item {
-        width: calc(100% - 22px);
-    }
-
-    .tree-expand-icon {
-        vertical-align: middle;
-        padding-bottom: 6px;
-    }
-
-    .tree-filter-input {
-        width: calc(100% - 5px);
-    }
-
-    .tree-single-select-item {
-        display: inline-block;
-        color: $font-primary-color;
-        font-family: $font-family-base;
-        font-size: $font-size-m;
-    }
-
-    .reset-filter-icon {
-        font-size: 11px;
-        float: right;
-        margin-top: 6px;
-        cursor: pointer;
+    .ReactVirtualized__List {
+        padding-left: 20px;
     }
 }

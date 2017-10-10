@@ -1,7 +1,6 @@
 @import '../../index.scss';
 
 .progress-bar-component {
-    margin: 5px 5px 5px 5px;
     position: relative;
     display: inline-block;
 
@@ -9,14 +8,10 @@
         overflow: visible;
     }
 
-    .progress-title {
-        padding: 0 0 5px 0;
-    }
-
     .percentage-label {
         display: inline-block;
-        text-align: center;
         padding: 0 0 0 10px;
-        vertical-align: text-top;
+        position: relative;
+        top: -3px;
     }
 }

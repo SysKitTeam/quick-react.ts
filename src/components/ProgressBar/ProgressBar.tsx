@@ -12,7 +12,7 @@ const PERCENTAGE_LABEL_SIZE = 45;
 
 export class ProgressBar extends React.Component<IProgressBarProps, any> {
 
-    public static defaultProps = { progressColor: '#6699CC' };
+    public static defaultProps = { progressColor: '#2896F7' };
 
     private containerRef: HTMLDivElement;
     private labelHeight: number;
@@ -39,12 +39,12 @@ export class ProgressBar extends React.Component<IProgressBarProps, any> {
         return (
             <div style={this.props.dimensions} className={className} ref={(element: HTMLDivElement) => this.init(element)}>
                 <Label className={classNames('progress-title', this.state.chartId)}>{this.props.title}</Label>
-                { this.state.isParentMounted && 
+                {this.state.isParentMounted &&
                     <svg width={this.state.width} height={this.state.height}>
                         <g>
-                            <rect className={'progress-baseline'} height={this.state.height} width={this.state.width} fill={'#ececec'}/>
-                            <rect 
-                                className={'progress-current'} 
+                            <rect className={'progress-baseline'} height={this.state.height} width={this.state.width} fill={'#DADADB'} />
+                            <rect
+                                className={'progress-current'}
                                 height={this.state.height}
                                 fill={this.props.progressColor}
                                 width={bar(this.props.data.current)}
@@ -58,7 +58,7 @@ export class ProgressBar extends React.Component<IProgressBarProps, any> {
                                 cursor={'pointer'}
                             />
                         </g>
-                        { this.props.info && 
+                        {this.props.info &&
                             <Tooltip id={'progress-bar-tooltip'} x={this.state.tipX} y={this.state.tipY} text={this.state.tipText} visible={this.state.isTipVisible} tipBorderColor={this.props.progressColor} />
                         }
                     </svg>
@@ -97,7 +97,7 @@ export class ProgressBar extends React.Component<IProgressBarProps, any> {
 
         this.percentageWidth = element.children[index].getBoundingClientRect().width + 3;
         width = dimensions.width - this.percentageWidth;
-        
+
         if (width !== this.state.width || (height - this.labelHeight) !== this.state.height) {
             this.setState({ width: width, height: height - this.labelHeight, isParentMounted: true });
         }
@@ -116,8 +116,8 @@ export class ProgressBar extends React.Component<IProgressBarProps, any> {
         return d3.scaleLinear().domain([0, this.props.data.total]).range([0, this.state.width]);
     }
 
-    private calculatePercentage() : string {
-        const percentage = Math.floor( (this.props.data.current / this.props.data.total) * 100 );
+    private calculatePercentage(): string {
+        const percentage = Math.floor((this.props.data.current / this.props.data.total) * 100);
         return percentage.toString() + '%';
     }
 }
