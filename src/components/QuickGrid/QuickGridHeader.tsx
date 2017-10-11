@@ -51,6 +51,8 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
                         onGroupByChanged={this.props.onGroupByChanged}
                         onGroupByRemoved={this.onGroupByRemoved}
                         onSort={this.props.onGroupBySort}
+                        onCollapseAll={this.props.onCollapseAll}
+                        onExpandAll={this.props.onExpandAll}
                     />
                 }
                 <Grid
