@@ -52,7 +52,7 @@
   }
 
   input:disabled + .toggle-slider {
-    background-color: #DADADB;
+    background-color: $gray-light-color;
     cursor: default;
 
     &::before {

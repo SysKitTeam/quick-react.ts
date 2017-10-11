@@ -58,7 +58,7 @@
         background-color: #FDEAD4;
 
         .messageBar-icon > i {
-            color: $font-warning-color;
+            color: $warning-color;
         }
     }
 
@@ -74,7 +74,7 @@
         background-color: #DFEFCD;
 
         .messageBar-icon > i {
-            color: #5FB005;
+            color: $success-color;
         }
     }
 

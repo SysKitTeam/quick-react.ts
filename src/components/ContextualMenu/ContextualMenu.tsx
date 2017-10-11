@@ -1,14 +1,14 @@
 import * as React from 'react';
-import {IContextualMenuProps, IContextualMenuItem} from './ContextualMenu.Props';
-import {DirectionalHint} from '../../utilities/DirectionalHint';
-import {anchorAttributes, buttonAttributes, getNativeAttributes} from '../../utilities/attributes';
-import {assign} from '../../utilities/object';
-import {getId} from '../../utilities/getId';
-import {getRTL} from '../../utilities/rtl';
+import { IContextualMenuProps, IContextualMenuItem } from './ContextualMenu.Props';
+import { DirectionalHint } from '../../utilities/DirectionalHint';
+import { anchorAttributes, buttonAttributes, getNativeAttributes } from '../../utilities/attributes';
+import { assign } from '../../utilities/object';
+import { getId } from '../../utilities/getId';
+import { getRTL } from '../../utilities/rtl';
 import * as classNames from 'classnames';
 import { autobind } from '../../utilities/autobind';
 import { KeyCodes } from '../../utilities/KeyCodes';
-import { getDocument, getWindow} from '../../utilities/getDocument';
+import { getDocument, getWindow } from '../../utilities/getDocument';
 import { CommonComponent } from '../Common/Common';
 import { Icon } from '../Icon/Icon';
 import { Callout } from '../Callout/Callout';
@@ -21,18 +21,18 @@ export function hasSubmenuItems(item: IContextualMenuItem) {
 }
 
 export interface IContextualMenuState {
-    expandedMenuItemKey ?: string;
-    dismissedMenuItemKey ?: string;
-    contextualMenuItems ?: IContextualMenuItem[];
-    contextualMenuTarget ?: HTMLElement;
-    submenuProps ?: IContextualMenuProps;
-    positions ?: any;
-    slideDirectionalClassName ?: string;
-    subMenuId ?: string;
-    submenuDirection ?: DirectionalHint;
+    expandedMenuItemKey?: string;
+    dismissedMenuItemKey?: string;
+    contextualMenuItems?: IContextualMenuItem[];
+    contextualMenuTarget?: HTMLElement;
+    submenuProps?: IContextualMenuProps;
+    positions?: any;
+    slideDirectionalClassName?: string;
+    subMenuId?: string;
+    submenuDirection?: DirectionalHint;
 }
 
-export class ContextualMenu extends CommonComponent < IContextualMenuProps, IContextualMenuState > {
+export class ContextualMenu extends CommonComponent<IContextualMenuProps, IContextualMenuState> {
 
     public static defaultProps = {
         items: [],
@@ -50,7 +50,7 @@ export class ContextualMenu extends CommonComponent < IContextualMenuProps, ICon
     private _targetWindow: Window;
     private _target: HTMLElement | MouseEvent;
 
-    constructor (props : IContextualMenuProps) {
+    constructor(props: IContextualMenuProps) {
         super(props);
         this.state = {
             contextualMenuItems: null,
@@ -62,7 +62,7 @@ export class ContextualMenu extends CommonComponent < IContextualMenuProps, ICon
     }
 
 
-     public render() {
+    public render() {
         let { className,
             items,
             isBeakVisible,
@@ -78,65 +78,65 @@ export class ContextualMenu extends CommonComponent < IContextualMenuProps, ICon
             doNotLayer,
             target } = this.props;
 
-        let { submenuProps } = this.state;
+        let { submenuProps, expandedMenuItemKey } = this.state;
 
         let hasIcons = !!(items && items.some(item => !!item.iconProps));
         let hasCheckmarks = !!(items && items.some(item => !!item.canCheck));
-
+        
         return (
-        <Callout
-            target={ target }
-            targetPoint={ targetPoint }
-            useTargetPoint={ useTargetPoint }
-            isBeakVisible={ isBeakVisible }
-            beakWidth={ beakWidth }
-            directionalHint={ directionalHint }
-            gapSpace={ gapSpace }
-            coverTarget={ coverTarget }
-            doNotLayer={ doNotLayer }
-            className={'contextualMenu-Callout'}
-            setInitialFocus={ true }
-            onDismiss={ this.props.onDismiss }>
-            <div ref={ (host: HTMLDivElement) => this._host = host } id={ id } className={ classNames('contextualMenu-container', className) }>
-            { (items && items.length) ? (
-                <div className={'contextualMenu is-open'}>
-                    <ul
-                        className={'contextualMenu-list is-open'}
-                        onKeyDown={ this._onKeyDown }
-                        aria-label={ ariaLabel } >
-                        { items.map((item, index) => (
-                        item.name === '-' ? (
-                            <li
-                            role="separator"
-                            key={ item.key || index }
-                            className={ classNames('contextualMenu-divider', item.className) } />
-                        ) : (
-                            <li
-                                role="menuitem"
-                                title={ item.title }
-                                key={ item.key || index }
-                                className={ classNames('contextualMenu-item', item.className) }>
-                                { this._renderMenuItem(item, index, hasCheckmarks, hasIcons) }
-                            </li>
-                            )
-                        )) }
-                    </ul>
-                </div>       
-            ) : (null) }
-            { submenuProps ? ( // If a submenu properities exists, the submenu will be rendered.
-                <ContextualMenu { ...submenuProps } />
-            ) : (null) }
-            </div>
-        </Callout>
+            <Callout
+                target={target}
+                targetPoint={targetPoint}
+                useTargetPoint={useTargetPoint}
+                isBeakVisible={isBeakVisible}
+                beakWidth={beakWidth}
+                directionalHint={directionalHint}
+                gapSpace={gapSpace}
+                coverTarget={coverTarget}
+                doNotLayer={doNotLayer}
+                className={classNames('contextualMenu-Callout', { 'is-expanded': !(expandedMenuItemKey === null || expandedMenuItemKey === undefined) })}
+                setInitialFocus={true}
+                onDismiss={this.props.onDismiss}>
+                <div ref={(host: HTMLDivElement) => this._host = host} id={id} className={classNames('contextualMenu-container', className)}>
+                    {(items && items.length) ? (
+                        <div className={'contextualMenu is-open'}>
+                            <ul
+                                className={'contextualMenu-list is-open'}
+                                onKeyDown={this._onKeyDown}
+                                aria-label={ariaLabel} >
+                                {items.map((item, index) => (
+                                    item.name === '-' ? (
+                                        <li
+                                            role="separator"
+                                            key={item.key || index}
+                                            className={classNames('contextualMenu-divider', item.className)} />
+                                    ) : (
+                                            <li
+                                                role="menuitem"
+                                                title={item.title}
+                                                key={item.key || index}
+                                                className={classNames('contextualMenu-item', item.className)}>
+                                                {this._renderMenuItem(item, index, hasCheckmarks, hasIcons)}
+                                            </li>
+                                        )
+                                ))}
+                            </ul>
+                        </div>
+                    ) : (null)}
+                    {submenuProps ? ( // If a submenu properities exists, the submenu will be rendered.
+                        <ContextualMenu { ...submenuProps } />
+                    ) : (null)}
+                </div>
+            </Callout>
         );
     }
 
-    @autobind 
-    public dismiss (ev ?: any, dismissAll ?: boolean) {
+    @autobind
+    public dismiss(ev?: any, dismissAll?: boolean) {
         let {
             onDismiss
         } = this.props;
-        if (onDismiss) {onDismiss(ev, dismissAll); }
+        if (onDismiss) { onDismiss(ev, dismissAll); }
     }
 
     @autobind
@@ -144,8 +144,8 @@ export class ContextualMenu extends CommonComponent < IContextualMenuProps, ICon
         let submenuCloseKey = getRTL() ? KeyCodes.right : KeyCodes.left;
 
         if (ev.which === KeyCodes.escape
-        || ev.which === KeyCodes.tab
-        || (ev.which === submenuCloseKey && this.props.isSubMenu)) {
+            || ev.which === KeyCodes.tab
+            || (ev.which === submenuCloseKey && this.props.isSubMenu)) {
             // When a user presses escape, we will try to refocus the previous focused element.
             this._isFocusingPreviousElement = true;
             ev.preventDefault();
@@ -216,14 +216,15 @@ export class ContextualMenu extends CommonComponent < IContextualMenuProps, ICon
             <div>
                 <a
                     { ...getNativeAttributes(item, anchorAttributes) }
-                    href={ item.href }
-                    className={ classNames('contextualMenu-link', item.disabled ? 'is-disabled' : '') }
+                    href={item.href}
+                    className={classNames('contextualMenu-link contextualMenu-anchor-link', item.disabled ? 'is-disabled' : '')}
                     role="menuitem"
-                    onClick={ this._onAnchorClick.bind(this, item) }>
-                    { (hasIcons) ? (
+                    target="_blank"
+                    onClick={this._onAnchorClick.bind(this, item)}>
+                    {(hasIcons) ? (
                         this._renderIcon(item)
-                    ) : (null) }
-                    <span className={'contextualMenu-linkText'}> { item.name } </span>
+                    ) : (null)}
+                    <span className={'contextualMenu-linkText'}> {item.name} </span>
                 </a>
             </div >
         );
@@ -231,10 +232,10 @@ export class ContextualMenu extends CommonComponent < IContextualMenuProps, ICon
 
     private _renderIcon(item: IContextualMenuItem) {
         let iconProps: IIconProps = item.iconProps;
-        let iconColorClassName = iconProps.iconName === '' ? '' : 'contextualMenu-iconColor';
-        let iconClassName = classNames('contextualMenu-icon', iconColorClassName, iconProps.className);
+        let iconColorClassName = iconProps !== undefined && iconProps.iconName === '' ? '' : 'contextualMenu-iconColor';
+        let iconClassName = classNames('contextualMenu-icon', iconColorClassName, iconProps !== undefined && iconProps.className !== undefined ? iconProps.className : '');
 
-        return <Icon { ...iconProps } className={ iconClassName } />;
+        return <Icon { ...iconProps } className={iconClassName} />;
     }
 
     private _onAnchorClick(item: IContextualMenuItem, ev: MouseEvent) {
@@ -255,19 +256,19 @@ export class ContextualMenu extends CommonComponent < IContextualMenuProps, ICon
 
         return (
             <div className="contextualMenu-linkContent">
-                { (hasCheckmarks) ? (
-                <Icon
-                    iconName={ isItemChecked ? 'icon-checkmark' : '' }
-                    className={'contextualMenu-icon'}
-                    onClick={ this._onItemClick.bind(this, item) } />
-                ) : (null) }
-                { (hasIcons) ? (
+                {(hasCheckmarks) ? (
+                    <Icon
+                        iconName={isItemChecked ? 'icon-checkmark' : ''}
+                        className={'contextualMenu-icon'}
+                        onClick={this._onItemClick.bind(this, item)} />
+                ) : (null)}
+                {(hasIcons) ? (
                     this._renderIcon(item)
-                ) : (null) }
-                <span className={'contextualMenu-itemText'}>{ item.name }</span>
-                { (item.items && item.items.length) ? (
-                <Icon className={'contextualMenu-submenu-chevron'} iconName={ getRTL() ? 'icon-arrow_L' : 'icon-arrow_R' } />
-                ) : (null) }
+                ) : (null)}
+                <span className={'contextualMenu-itemText'}>{item.name}</span>
+                {(item.items && item.items.length) ? (
+                    <Icon className={'contextualMenu-submenu-chevron'} iconName={getRTL() ? 'icon-arrow_L' : 'icon-arrow_R'} />
+                ) : (null)}
             </div>
         );
     }
@@ -276,7 +277,7 @@ export class ContextualMenu extends CommonComponent < IContextualMenuProps, ICon
         let targetElement = ev.currentTarget as HTMLElement;
 
         if (item.key !== this.state.expandedMenuItemKey) {
-            if (item.items && item.items.length) {
+            if (item.items && item.items.length && !item.disabled) {
                 this._enterTimerId = this._async.setTimeout(() => this._onItemSubMenuExpand(item, targetElement), 500);
             } else {
                 this._enterTimerId = this._async.setTimeout(() => this._onSubMenuDismiss(ev), 500);
@@ -326,9 +327,9 @@ export class ContextualMenu extends CommonComponent < IContextualMenuProps, ICon
             assign(
                 {},
                 getNativeAttributes(item, buttonAttributes), itemButtonProperties),
-                this._renderMenuItemChildren(item, index, hasCheckmarks, hasIcons)
-            );
-        }
+            this._renderMenuItemChildren(item, index, hasCheckmarks, hasIcons)
+        );
+    }
 
     private _onItemKeyDown(item: any, ev: KeyboardEvent) {
         let openKey = getRTL() ? KeyCodes.left : KeyCodes.right;

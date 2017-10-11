@@ -2,7 +2,6 @@ import * as React from 'react';
 import { IDetailedServerGroupProps } from './DetailedServerGroup.Props';
 import { DetailedServerTile } from '../DetailedServerTile/DetailedServerTile';
 import { Group } from '../Group/Group';
-import { GroupHeader } from '../GroupHeader/GroupHeader';
 import * as classNames from 'classnames';
 import { getServerMeasures, sortServersByStatusAndName, filterServerByName } from '../../utilities/server';
 import { autobind } from '../../utilities/autobind';

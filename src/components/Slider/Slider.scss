@@ -94,7 +94,7 @@
             }
     
             .slider-inactive {
-                background-color: #DADADB;
+                background-color: $gray-light-color;
             }   
         }
     }
@@ -110,7 +110,7 @@
         }
     
         .slider-inactive {
-            background-color: #DADADB;
+            background-color: $gray-light-color;
         }
 
         .slider-value {

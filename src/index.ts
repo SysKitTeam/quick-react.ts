@@ -18,7 +18,6 @@ export * from './components/DashboardHeader';
 export * from './components/Dialog';
 export * from './components/Dropdown';
 export * from './components/Group';
-export * from './components/GroupHeader';
 export * from './components/History';
 export * from './components/Icon';
 export * from './components/Label';

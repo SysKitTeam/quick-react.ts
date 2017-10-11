@@ -4,7 +4,6 @@ import { CompactServer } from '../CompactServer/CompactServer';
 import { ServerTile } from '../ServerTile/ServerTile';
 import { ITileData } from '../ServerTile/ServerTile.Props';
 import { Group } from '../Group/Group';
-import { GroupHeader } from '../GroupHeader/GroupHeader';
 import * as classNames from 'classnames';
 import { autobind } from '../../utilities/autobind';
 import { getServerMeasures, sortServersByStatusAndName, filterServerByName, filterServerByStatus } from '../../utilities/server';
@@ -68,7 +67,7 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
         this.forceUpdate();
     }
 
-    private _renderServerTile= (serverId): JSX.Element => {
+    private _renderServerTile = (serverId): JSX.Element => {
         const server = this.props.farm.servers.filter((currServer) => { return currServer.id === serverId; })[0];
         return (
             <ServerTile

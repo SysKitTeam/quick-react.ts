@@ -9,10 +9,10 @@
     display: inline-block;
     user-select: none;
     position: relative;
-    border-left: 10px solid #DADADB;
-    border-top: 1px solid #DADADB;
-    border-right: 1px solid #DADADB;
-    border-bottom: 1px solid #DADADB;
+    border-left: 10px solid $gray-light-color;
+    border-top: 1px solid $gray-light-color;
+    border-right: 1px solid $gray-light-color;
+    border-bottom: 1px solid $gray-light-color;
 
     .dialog-button-close {
         margin-top: 10px;
@@ -28,10 +28,10 @@
         border-left-color: $error-color;
     }
     &.status-warning {
-        border-left-color: $font-warning-color;
+        border-left-color: $warning-color;
     }
     &.status-ok {
-        border-left-color: #5FB005;
+        border-left-color: $success-color;
     }
     &.status-offline {
         border-left-color: $secondary-disabled-color;        

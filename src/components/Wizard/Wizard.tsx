@@ -4,8 +4,8 @@ import './Wizard.scss';
 import { IPage } from './IPage';
 import { IStepProps } from './IStepProps';
 import { Button } from '../../components/Button/Button';
-import {IButtonProps} from '../../components/Button/Button.Props';
-import {autobind } from '../../utilities/autobind';
+import { IButtonProps } from '../../components/Button/Button.Props';
+import { autobind } from '../../utilities/autobind';
 import Stepper from './Stepper';
 
 export interface IWizardProps {
@@ -86,14 +86,14 @@ export default class Wizard extends React.Component<IWizardProps, IWizardState> 
 
     if (currentStep.optionalButtons) {
       buttons = currentStep.optionalButtons.map((button, index) => {
-        return <Button {...button} key={index}></Button>;
+        return <Button {...button} className="button-tertiary" key={index}></Button>;
       });
     }
 
     if (this.state.currentStep !== (this.props.steps.length - 1)) {
-      buttons.push(<Button disabled={!this.props.nextBtnState} className="wizard-next-btn" onClick={(e) => { this._nextStep(e); }}>NEXT</Button>);
+      buttons.push(<Button disabled={!this.props.nextBtnState} className="button-primary" onClick={(e) => { this._nextStep(e); }}>NEXT</Button>);
     } else {
-      buttons.push(<Button disabled={!this.props.nextBtnState} className="wizard-finish-btn" onClick={(e) => { this._finishCreateScript(e); }}>FINISH</Button>);
+      buttons.push(<Button disabled={!this.props.nextBtnState} className="button-primary" onClick={(e) => { this._finishCreateScript(e); }}>FINISH</Button>);
     }
     return buttons;
   }
@@ -106,22 +106,22 @@ export default class Wizard extends React.Component<IWizardProps, IWizardState> 
   public render(): JSX.Element {
 
     const stepWindowClassName = classNames(
-      'wizard__step-window',
+      'wizard-step-window',
       this.stepClassName
     );
 
     return (
-      <div className="wizard__container">
-        <h1 className="wizard__title">{this.props.title}</h1>
+      <div className="wizard-container">
+        <div className="wizard-title">{this.props.title}</div>
         <Stepper steps={this.props.steps} activeStep={this.state.currentStep} />
         <div className={stepWindowClassName}>
           {this.props.onPageRender(this.state.currentStep)}
-          <div className="wizard__footer-navigation">
-            <div className="wizard__left-navigation-btn-page__container">
-              <Button className="wizard-cancel-btn" onClick={(e) => { this._cancelCreateScript(e); }}>CANCEL</Button>
+          <div className="wizard-footer-navigation">
+            <div className="wizard-left-navigation-btn-page-container">
+              <Button className="button-textual" onClick={(e) => { this._cancelCreateScript(e); }}>CANCEL</Button>
             </div>
-            <div className="wizard__right-navigation-btn-page-container">
-              <Button disabled={this.state.currentStep === 0} className="wizard-back-btn" onClick={(e) => { this._backStep(e); }}>BACK</Button>
+            <div className="wizard-right-navigation-btn-page-container">
+              <Button disabled={this.state.currentStep === 0} className="button-secondary" onClick={(e) => { this._backStep(e); }}>BACK</Button>
               {this._renderButtons()}
             </div>
           </div>

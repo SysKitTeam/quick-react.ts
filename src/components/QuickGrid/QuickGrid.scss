@@ -1,9 +1,4 @@
 @import '../../index.scss';
-$gray-light-color: #dddddd;
-$gray-lighter-color: #efefef;
-$gray-lightest-color: #f9f9f9;
-
-
 
 .grid-component-container {
    height: calc(100% - 40px);
@@ -15,7 +10,7 @@ $gray-lightest-color: #f9f9f9;
        height: 36px;
        padding: 5px 2px 2px;
        margin-bottom: 15px;
-       border: 1px solid #DADADB;
+       border: 1px solid $gray-light-color;
 
        .group-drop-empty {
            margin: 7px auto;
@@ -35,7 +30,7 @@ $gray-lightest-color: #f9f9f9;
                 position: relative;
                 padding: 0 15px 0 12px;
                 display: block;
-                border: 1px solid #DADADB;
+                border: 1px solid $gray-light-color;
 
                 .header-text {
                     span {
@@ -54,7 +49,7 @@ $gray-lightest-color: #f9f9f9;
             }
 
             .icon-remove-group {
-                font-size: $font-size-s;
+                font-size: 12px;
                 margin: 0;
                 position: absolute;
                 top: 0;
@@ -83,7 +78,7 @@ $gray-lightest-color: #f9f9f9;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        border-bottom: 2px solid #DADADB;
+        border-bottom: 2px solid $gray-light-color;
         display: inline-block;
         box-sizing: border-box;
 
@@ -112,7 +107,7 @@ $gray-lightest-color: #f9f9f9;
             height: 100%;
             float: right;
             padding: 0 1px;
-            border-right: 1px solid #DADADB;
+            border-right: 1px solid $gray-light-color;
             box-sizing: border-box;
         }
     }
@@ -128,7 +123,7 @@ $gray-lightest-color: #f9f9f9;
             }
 
             &.is-hover {
-                background-color: #DADADB;
+                background-color: $gray-light-color;
             }
 
             &.is-selected {
@@ -139,10 +134,10 @@ $gray-lightest-color: #f9f9f9;
                 color: $error-color;
             }
             .status-warning {
-                color: $font-warning-color;
+                color: $warning-color;
             }
             .status-ok {
-                color: #5FB005;
+                color: $success-color;
             }
 
             .dropdown {
@@ -154,13 +149,13 @@ $gray-lightest-color: #f9f9f9;
             }
 
             &.border-column-cell {
-                border-right: 1px solid #DADADB;
+                border-right: 1px solid $gray-light-color;
                 box-sizing: border-box;
             }
         }
 
         .grid-group-row {
-            background-color: #DADADB;
+            background-color: $gray-light-color;
             font-weight: 600;
 
             .grid-group-row-inner {

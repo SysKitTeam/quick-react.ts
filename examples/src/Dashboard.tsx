@@ -52,7 +52,7 @@ export class Index extends React.Component<any, any> {
                 };
             });
             this.setState({ farms: newFarms });
-        }, 100000);
+        }, 5000);
     }
 
     public render() {

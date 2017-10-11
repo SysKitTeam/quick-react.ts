@@ -42,7 +42,7 @@ export class ProgressBar extends React.Component<IProgressBarProps, any> {
                 {this.state.isParentMounted &&
                     <svg width={this.state.width} height={this.state.height}>
                         <g>
-                            <rect className={'progress-baseline'} height={this.state.height} width={this.state.width} fill={'#DADADB'} />
+                            <rect className={'progress-baseline'} height={this.state.height} width={this.state.width} fill={'$gray-light-color'} />
                             <rect
                                 className={'progress-current'}
                                 height={this.state.height}

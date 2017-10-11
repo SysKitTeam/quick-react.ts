@@ -2,16 +2,15 @@
 
 .tip-container {
     pointer-events: none;
+
     polygon, rect {
-        fill: #f9f9f9;
+        fill: $gray-light-color;
         pointer-events: inherit;
         opacity: 0.8;
     }
+
     .tip-text {
-        font-family: $font-family-base;
         font-size: 12px;
-        fill: black;
-        font-weight: 400;
-        pointer-events: inherit;
+        fill: $secondary-color;
     }
 }

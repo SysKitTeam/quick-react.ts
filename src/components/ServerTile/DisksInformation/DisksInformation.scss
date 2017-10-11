@@ -1,16 +1,17 @@
+@import '../../../index.scss';
 
 .disk-information-container {
      .status-critical {
-        color: #FF2F20;
+        color: $error-color;
     }
 
     .status-warning {
-        color: #ffb900;
+        color: $warning-color;
     }
 }
 
 .disk-information-callout {
-    border: 1px solid #DADADB!important;
+    border: 1px solid $gray-light-color!important;
     border-radius: 8px;
 
     .callout-main {
@@ -22,11 +23,11 @@
         }
 
         .status-critical {
-            color: #FF2F20;
+            color: $error-color;
         }
 
         .status-warning {
-            color: #ffb900;
+            color: $warning-color;
         }
     }
 }

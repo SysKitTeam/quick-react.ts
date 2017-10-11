@@ -1,17 +1,7 @@
 @import '../../index.scss';
 
 .bar-chart-component {
-    display: inline-block;
-    border: 1px solid lightgrey;
-
-    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;  
-
-    svg { 
-        display: block;
-        overflow: visible;
-    }
 
     .domain {
         display: none;
@@ -19,23 +9,24 @@
     
     .tick {
         line {
-            opacity: 0.7;
-            stroke: #bfbfbf;
+            stroke: $gray-light-color;
         }
+
         text {
-            font-family: $font-family-base;
             font-size: 12px;
-            fill: #9a9a9a;
+            fill: $secondary-color;
         }
     }
 
     .bar {
-        fill: #326FAD;
+        fill: $link-color;
+
         &.clicked {
-            fill: #9CB9D7;
+            fill: #D4EAFD;
         }
+
         &:hover {
-            fill: #9CB9D7;
+            fill: #D4EAFD;
         }
     }
 }

@@ -5,7 +5,6 @@ import { ITileData } from '../ServerTile/ServerTile.Props';
 const AutoSizer = require('react-virtualized').AutoSizer;
 const List = require('react-virtualized').List;
 import { Group } from '../Group/Group';
-import { GroupHeader } from '../GroupHeader/GroupHeader';
 import * as classNames from 'classnames';
 import { TagContainer } from '../TagContainer/TagContainer';
 import { Icon } from '../Icon/Icon';
