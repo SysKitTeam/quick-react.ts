@@ -59,7 +59,7 @@
         }
     
         .slider-active {
-            background-color: #FBD3A8;
+            background-color: $primary-color-40;
         }
     
         .slider-inactive {
@@ -75,11 +75,11 @@
             }
             
             .slider-active {
-                background-color: #FABE7D;
+                background-color: $primary-color-60;
             }
             
             .slider-inactive {
-                background-color: #B7B7B8;
+                background-color: $secondary-color-40;
             }      
         }
         
@@ -90,27 +90,27 @@
             }
     
             .slider-active {
-                background-color: #FCDEBD; 
+                background-color: $primary-color-30; 
             }
     
             .slider-inactive {
-                background-color: $gray-light-color;
+                background-color: $secondary-color-20;
             }   
         }
     }
     
     &.slider-disabled {
         .slider-thumb {
-            border: 2px solid #FAC992;
-            background-color: #FAC992;
+            border: 2px solid $primary-color-50;
+            background-color: $primary-color-50;
         }
     
         .slider-active {
-            background-color: #FCDEBD;
+            background-color: $primary-color-50;
         }
     
         .slider-inactive {
-            background-color: $gray-light-color;
+            background-color: $secondary-color-20;
         }
 
         .slider-value {

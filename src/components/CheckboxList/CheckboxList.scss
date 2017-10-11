@@ -1,6 +1,14 @@
 @import '../../index.scss';
 
 .checkboxlist {
+    .checkbox-list-label {
+        font-size: 16px;
+        color: $primary-color;
+        height: 28px;
+        align-items: center;
+        display: flex;
+    }
+
     .checkboxlist-item {
         cursor: pointer;
 

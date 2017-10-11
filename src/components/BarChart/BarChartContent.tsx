@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import * as d3 from 'd3';
 import { IBarChartProps, IBarChartData } from './BarChart.props';
-import { Tooltip } from '../Tooltip/Tooltip';
+import { ChartTooltip } from '../ChartTooltip/ChartTooltip';
 import './BarChart.scss';
 
 const margin = { top: 20, right: 40, bottom: 70, left: 80 };
@@ -63,7 +63,7 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
                     <g className={xAxisClass} transform={translateXAxis} ref={(element: SVGRectElement) => this.renderXAxis(element)}></g>
                     <g className={yAxisClass} ref={(element: SVGRectElement) => this.renderYAxis(element)}></g>
                     { this.renderBars() }
-                    <Tooltip id={this.props.id} text={this.state.tipText} x={this.state.tipX} y={this.state.tipY} visible={this.state.isTipVisible}/>
+                    <ChartTooltip id={this.props.id} text={this.state.tipText} x={this.state.tipX} y={this.state.tipY} visible={this.state.isTipVisible}/>
                 </g>
             </svg>
         );

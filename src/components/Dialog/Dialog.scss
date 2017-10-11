@@ -62,7 +62,7 @@
                 margin: 0;
                 font-size: 18px;
                 font-weight: 100;
-                padding: 12px 20px;
+                padding: 13px 20px;
                 color: $white-color;
                 user-select: none;
             }
@@ -82,27 +82,33 @@
         }
 
         .dialog-inner {
-            padding: 15px 20px 10px 20px;
+            padding: 20px;
 
             .dialog-content {
                 display: inline-flex;
 
                 .dialog-subText {
                     line-height: 1.5;
-                    padding-top: 6px;
                 }
 
                 .dialog-icon {
                     font-size: 28px;
                     margin-right: 10px;
+                    top: -8px;
+                    position: relative;
                 }
             }
 
             .dialog-actions {
-                margin-top: 25px;
+                margin-top: 30px;
 
                 .dialog-actionsRight {
                     text-align: right;
+
+                    .position-left {
+                        float: left;
+                        margin-left: 10px;
+                    }
 
                     .dialog-action + .dialog-action {
                         margin-left: 15px;

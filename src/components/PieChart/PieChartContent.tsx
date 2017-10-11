@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as d3 from 'd3';
 import * as classNames from 'classnames';
 import { IPieChartContentProps, IPieChartData } from './PieChart.props';
-import { Tooltip } from '../Tooltip/Tooltip';
+import { ChartTooltip } from '../ChartTooltip/ChartTooltip';
 
 export class PieChartContent extends React.PureComponent<IPieChartContentProps, any> {
     constructor(props: IPieChartContentProps) {
@@ -61,7 +61,7 @@ export class PieChartContent extends React.PureComponent<IPieChartContentProps, 
             <svg width={this.props.width} height={this.props.height}>
                 <g className={containerClass} transform={translate} width={this.props.width} height={this.props.height}>
                     { this.renderPaths() }
-                    <Tooltip id={'pie-chart-tooltip'} x={this.state.tipX} y={this.state.tipY} text={this.state.tipText} visible={this.state.isTipVisible} tipBorderColor={this.state.tooltipColor}/>
+                    <ChartTooltip id={'pie-chart-tooltip'} x={this.state.tipX} y={this.state.tipY} text={this.state.tipText} visible={this.state.isTipVisible} tipBorderColor={this.state.tooltipColor}/>
                 </g>
             </svg>
         );

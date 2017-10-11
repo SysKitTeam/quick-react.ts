@@ -6,11 +6,11 @@ $searchBox-height: 30px; //30px + 2px border
     box-sizing: border-box;
     position: relative;
     margin-bottom: 10px;
-    border: 1px solid #D9D9D9;
+    border: 1px solid $black-color-15;
     border-radius: 8px;
 
     &:hover {
-        border-color: #B7B7B8;
+        border-color: $secondary-color-40;
     }
 
     .search-field {
@@ -57,7 +57,7 @@ $searchBox-height: 30px; //30px + 2px border
     }
 
     &.is-disabled {
-        border-color: #E2E2E2;
+        border-color: $black-color-15;
         user-select: none;
 
         .search-icon {
@@ -65,7 +65,7 @@ $searchBox-height: 30px; //30px + 2px border
         }
 
         .search-field {
-            background-color: #F0F0F0;
+            background-color: $black-color-6;
             pointer-events: none;
             cursor: default;
         }

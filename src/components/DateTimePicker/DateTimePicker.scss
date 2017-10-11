@@ -6,12 +6,13 @@
     .time-picker {
         display: flex;
         margin-top: 5px;
+        width: 250px;
     }
 
     .time-picker-time-value {
         display: flex;
         flex: 1; 
-        margin: 0 0 0 14px;
+        margin-left: 12px;
         user-select: none;
 
         .time-picker-hours, .time-picker-minute {
@@ -67,4 +68,8 @@
             }
         }
     }
+}
+
+.date-time-picker + .date-time-picker {
+    margin-left: 18px;
 }

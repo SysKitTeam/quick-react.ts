@@ -117,7 +117,7 @@ $contextualMenu-itemHeight: 28px;
             .contextualMenu-divider {
                 display: block;
                 height: 1px;
-                background-color: $gray-light-color;
+                background-color: $secondary-color-20;
                 position: relative;
                 margin: 4px 0;
             }
@@ -134,6 +134,6 @@ $contextualMenu-itemHeight: 28px;
     }
 
     &.is-expanded {
-        border-color: $gray-light-color;
+        border-color: $secondary-color-20;
     }
 }

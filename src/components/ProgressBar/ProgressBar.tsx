@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import * as classNames from 'classnames';
 import { Label } from '../Label/Label';
 import { IProgressBarProps } from './ProgressBar.props';
-import { Tooltip } from '../Tooltip/Tooltip';
+import { ChartTooltip } from '../ChartTooltip/ChartTooltip';
 import './ProgressBar.scss';
 
 const resizeSensor = require('css-element-queries/src/ResizeSensor');
@@ -12,7 +12,7 @@ const PERCENTAGE_LABEL_SIZE = 45;
 
 export class ProgressBar extends React.Component<IProgressBarProps, any> {
 
-    public static defaultProps = { progressColor: '#2896F7' };
+    public static defaultProps = { progressColor: '#25A7EF' };
 
     private containerRef: HTMLDivElement;
     private labelHeight: number;
@@ -42,7 +42,7 @@ export class ProgressBar extends React.Component<IProgressBarProps, any> {
                 {this.state.isParentMounted &&
                     <svg width={this.state.width} height={this.state.height}>
                         <g>
-                            <rect className={'progress-baseline'} height={this.state.height} width={this.state.width} fill={'$gray-light-color'} />
+                            <rect className={'progress-baseline'} height={this.state.height} width={this.state.width} fill={'#C8C8C9'} />
                             <rect
                                 className={'progress-current'}
                                 height={this.state.height}
@@ -59,7 +59,7 @@ export class ProgressBar extends React.Component<IProgressBarProps, any> {
                             />
                         </g>
                         {this.props.info &&
-                            <Tooltip id={'progress-bar-tooltip'} x={this.state.tipX} y={this.state.tipY} text={this.state.tipText} visible={this.state.isTipVisible} tipBorderColor={this.props.progressColor} />
+                            <ChartTooltip id={'progress-bar-tooltip'} x={this.state.tipX} y={this.state.tipY} text={this.state.tipText} visible={this.state.isTipVisible} tipBorderColor={this.props.progressColor} />
                         }
                     </svg>
                 }

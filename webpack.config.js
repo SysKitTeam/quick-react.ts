@@ -48,6 +48,7 @@ module.exports = {
         DateTimePicker: "./examples/src/DateTimePicker.tsx",
         TreeFilter: "./examples/src/TreeFilter.tsx",
         QuickGrid: "./examples/src/QuickGrid.tsx",
+        Tooltip: "./examples/src/Tooltip.tsx",
         Wizard: "./examples/src/Wizard.tsx"
     },
     output: {

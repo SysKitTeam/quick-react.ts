@@ -11,14 +11,28 @@ $tertiary-color: #37B2B7;
 $tertiary-hover-color: #009BA1;
 $tertiary-disabled-color: #AEE0E2;
 
-$link-color: #2896F7;
-$link-hover-color: #0277BD;
+$link-color: #25A7EF;
+$link-hover-color: #008DDB;
 
 $error-color: #FF2F20;
 $warning-color: #ffb900;
 $success-color: #5FB005;
 
-$gray-light-color: #DADADB;
+//color with opacity
+$primary-color-30: #FCDEBD;
+$primary-color-40: #FBD3A8;
+$primary-color-50: #FAC992;
+$primary-color-60: #FABE7D;
+
+// $secondary-color-30: #A7A7A7; // sta je ovo
+$secondary-color-20: #DADADB;
+$secondary-color-30: #C8C8C9;
+$secondary-color-40: #B7B7B8;
+
+$black-color-6: #EFEFEF;
+$black-color-15: #D8D8D8;
+$black-color-30: #B2B2B2;
+
 
 * {
     font-family: 'Segoe UI';
@@ -37,7 +51,7 @@ $gray-light-color: #DADADB;
 ::-webkit-scrollbar-track {
     border-radius: 15px;
     margin-top: 7px;
-    background:$gray-light-color;
+    background:$secondary-color-20;
     margin-bottom: 7px;
 }
             

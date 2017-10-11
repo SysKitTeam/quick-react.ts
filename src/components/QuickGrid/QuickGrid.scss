@@ -10,7 +10,7 @@
        height: 36px;
        padding: 5px 2px 2px;
        margin-bottom: 15px;
-       border: 1px solid $gray-light-color;
+       border: 1px solid $secondary-color-20;
 
        .group-drop-empty {
            margin: 7px auto;
@@ -30,7 +30,7 @@
                 position: relative;
                 padding: 0 15px 0 12px;
                 display: block;
-                border: 1px solid $gray-light-color;
+                border: 1px solid $secondary-color-20;
 
                 .header-text {
                     span {
@@ -78,7 +78,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        border-bottom: 2px solid $gray-light-color;
+        border-bottom: 2px solid $secondary-color-20;
         display: inline-block;
         box-sizing: border-box;
 
@@ -107,7 +107,7 @@
             height: 100%;
             float: right;
             padding: 0 1px;
-            border-right: 1px solid $gray-light-color;
+            border-right: 1px solid $secondary-color-20;
             box-sizing: border-box;
         }
     }
@@ -123,7 +123,7 @@
             }
 
             &.is-hover {
-                background-color: $gray-light-color;
+                background-color: $secondary-color-20;
             }
 
             &.is-selected {
@@ -149,13 +149,13 @@
             }
 
             &.border-column-cell {
-                border-right: 1px solid $gray-light-color;
+                border-right: 1px solid $secondary-color-20;
                 box-sizing: border-box;
             }
         }
 
         .grid-group-row {
-            background-color: $gray-light-color;
+            background-color: $secondary-color-20;
             font-weight: 600;
 
             .grid-group-row-inner {

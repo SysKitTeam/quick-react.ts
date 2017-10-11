@@ -40,7 +40,7 @@
   }
 
   input:checked + .toggle-slider {
-    background-color: #FCDEBD;
+    background-color: $primary-color-30;
 
     &::before {
         background-color: $primary-color;
@@ -52,7 +52,7 @@
   }
 
   input:disabled + .toggle-slider {
-    background-color: $gray-light-color;
+    background-color: $secondary-color-20;
     cursor: default;
 
     &::before {
@@ -73,11 +73,11 @@
     }
 
     input:disabled + .toggle-slider {
-      background-color: #FCDEBD;
+      background-color: $primary-color-30;
       
       &::before {
-        background-color: #FAC992;
-        border: 2px solid #FAC992;
+        background-color: $primary-color-50;
+        border: 2px solid $primary-color-50;
       }
     }
   }

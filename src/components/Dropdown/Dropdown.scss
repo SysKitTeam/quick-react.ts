@@ -9,7 +9,7 @@
 
     .dropdown-title-border {
         border-radius: 8px;
-        border: 1px solid #D9D9D9;
+        border: 1px solid $black-color-15;
         padding: 0 30px 0 10px;
         box-sizing: border-box;
         cursor: pointer;
@@ -43,7 +43,7 @@
     &:hover {
         .dropdown-title-border {
             &:hover {
-                border-color: #B7B7B8;
+                border-color: $secondary-color-40;
             }
         }
 
@@ -66,12 +66,12 @@
 
     &.is-disabled {
         .dropdown-title-border {
-            background-color: #F0F0F0;
-            border-color: #E2E2E2;
+            background-color: $black-color-6;
+            border-color: $black-color-15;
             cursor: default;
 
             &:hover {
-                border-color: #E2E2E2;
+                border-color: $black-color-15;
             }
 
             span {
@@ -181,8 +181,8 @@
 
         &.is-disabled {
             cursor: default;
-            background-color: #F0F0F0;
-            border-color: #E2E2E2;
+            background-color: $black-color-6;
+            border-color: $black-color-15;
 
             .dropdown-title {
                 .iconArrow {
