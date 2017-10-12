@@ -33,7 +33,7 @@ export class PartitionTile extends React.PureComponent<IPartitionTileProps, any>
 
     private transformPartitionData(partition: IPartitionUsage): Array<IPieChartData> {
         const free = partition.capacity - partition.used;
-        return [{ label: 'Used', value: partition.used, color: this.getColorByStatus(partition.status) }, { label: 'Free', value: free, color: '#C8C8C9' }];
+        return [{ label: 'Used', value: partition.used, color: this.getColorByStatus(partition.status) }, { label: 'Free', value: free, color: '#EFEFEF' }];
     }
 
     private getColorByStatus(status: ServerStatus) : string {

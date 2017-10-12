@@ -20,6 +20,7 @@
 
     .bar {
         fill: $link-color;
+        cursor: pointer;
 
         &.clicked {
             fill: #D4EAFD;

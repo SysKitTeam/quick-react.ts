@@ -63,6 +63,7 @@ export class Dropdown extends React.Component<IDropdownProps, IDropdownState> {
       return '';
     }
   }
+
   setDropDownRef = (ref) => { this._dropDown = ref; };
   public render() {
     let { label, options, hasTitleBorder, icon, dropdownType, className, calloutClassName, layerClassName } = this.props;
@@ -88,6 +89,7 @@ export class Dropdown extends React.Component<IDropdownProps, IDropdownState> {
           onKeyDown={this._onDropdownKeyDown}
           onClick={this._onDropdownClick}
           role="combobox"
+          style={{ width: this.getMaxItemWidth() }}
         >
           <span className={dropdownTitleClassName}>
             {icon && (
@@ -115,6 +117,16 @@ export class Dropdown extends React.Component<IDropdownProps, IDropdownState> {
       </div>
     );
   }
+
+  getMaxItemWidth = () => {
+    if (this.props.options.length > 0) {
+      let longest = this.props.options.reduce((a, b) => { return a.text.length > b.text.length ? a : b; });
+      return longest.text.length * 8 + 40 + 'px';
+    }
+
+    return;
+  }
+
   renderItems = () => {
     const { dropdownType, children, className, calloutClassName, layerClassName, onCustomSelectionText } = this.props;
     if (dropdownType === DropdownType.customDropdown) {

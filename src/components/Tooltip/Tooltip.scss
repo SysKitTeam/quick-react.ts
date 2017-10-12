@@ -7,7 +7,6 @@
 .tooltip-callout {
     user-select: none;
     animation-delay: 300ms;
-    border-radius: 8px;
     max-width: 250px;
 
     &.tooltip-white {
@@ -52,6 +51,5 @@
 
     .callout-main {
         padding: 12px 20px;
-        border-radius: 8px;
     }
 }

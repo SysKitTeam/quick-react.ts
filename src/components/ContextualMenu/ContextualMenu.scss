@@ -126,13 +126,6 @@ $contextualMenu-itemHeight: 28px;
 }
 
 .contextualMenu-Callout {
-    border: 1px solid $primary-color;
-    border-radius: 8px;
-
-    .callout-main {
-        border-radius: 8px;
-    }
-
     &.is-expanded {
         border-color: $secondary-color-20;
     }

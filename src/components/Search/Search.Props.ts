@@ -10,4 +10,5 @@ export interface ISearchProps extends React.Props<Search> {
     value?: string;
     className?: string;
     debounceWaitMs?: number;
+    underlined?: boolean;
 }

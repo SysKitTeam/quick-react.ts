@@ -17,8 +17,16 @@
     }
 }
 
-.callout {
-    .server-details {
-        margin: 0;
+.callout-container {
+    .callout {
+        border-radius: 0;
+    
+        .callout-main {
+            border-radius: 0;
+        }
+    
+        .server-details {
+            margin: 0;
+        }
     }
 }

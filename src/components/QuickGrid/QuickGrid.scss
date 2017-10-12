@@ -123,11 +123,11 @@
             }
 
             &.is-hover {
-                background-color: $secondary-color-20;
+                background-color: $black-color-6;
             }
 
             &.is-selected {
-                background-color: $secondary-disabled-color;
+                background-color: $black-color-15;
             }
 
             .status-critical {
@@ -155,7 +155,7 @@
         }
 
         .grid-group-row {
-            background-color: $secondary-color-20;
+            background-color: $black-color-15;
             font-weight: 600;
 
             .grid-group-row-inner {

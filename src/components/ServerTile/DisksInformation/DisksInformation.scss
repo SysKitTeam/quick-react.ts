@@ -10,24 +10,28 @@
     }
 }
 
-.disk-information-callout {
-    border: 1px solid $secondary-color-20!important;
-    border-radius: 8px;
-
-    .callout-main {
-        padding: 8px;
-        border-radius: 8px;
-
-        div + div {
-            padding-top: 5px;
-        }
-
-        .status-critical {
-            color: $error-color;
-        }
-
-        .status-warning {
-            color: $warning-color;
+.callout-container {
+    .callout {
+        &.disk-information-callout {
+            border: 1px solid $secondary-color-20!important;
+            border-radius: 8px;
+        
+            .callout-main {
+                padding: 8px;
+                border-radius: 8px;
+        
+                div + div {
+                    padding-top: 5px;
+                }
+        
+                .status-critical {
+                    color: $error-color;
+                }
+        
+                .status-warning {
+                    color: $warning-color;
+                }
+            }
         }
     }
 }

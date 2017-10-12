@@ -71,6 +71,32 @@ $searchBox-height: 30px; //30px + 2px border
         }
     }
 
+    &.is-underlined {
+        border: 0;
+        border-bottom: 1px solid $black-color-15;
+        border-radius: 0;
+
+        .search-field {
+            padding-left: 10px;
+        }
+
+        .search-button {
+            position: absolute;
+            right: 0;
+            top: -2px;
+        }
+
+        .search-clearButton {
+            right: 35px;
+        }
+
+        &.is-disabled {
+            .search-field {
+                background-color: $white-color;
+            }
+        }
+    }
+
     .search-clearButton {
         display: none;
         cursor: pointer;

@@ -27,14 +27,17 @@
     &.status-critical {
         border-left-color: $error-color;
     }
+    
     &.status-warning {
         border-left-color: $warning-color;
     }
+
     &.status-ok {
         border-left-color: $success-color;
     }
+
     &.status-offline {
-        border-left-color: $secondary-disabled-color;        
+        border-left-color: $secondary-color-20;        
     }
     
     .server-details-header {
