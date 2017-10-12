@@ -27,7 +27,7 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
 
         if (props.selectedKey) {
             selectedKey = props.selectedKey;
-        } else if (props.selectedIndex) {
+        } else if (props.selectedIndex !== undefined) {
             selectedKey = links[props.selectedIndex].itemKey;
         } else {
             selectedKey = links[0].itemKey;

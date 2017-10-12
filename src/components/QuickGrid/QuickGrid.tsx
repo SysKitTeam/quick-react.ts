@@ -2,7 +2,10 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as classNames from 'classnames';
 import { AutoSizer, Table, Column, ColumnProps, ScrollSync, Grid } from 'react-virtualized';
-import { IQuickGridProps, IQuickGridState, GridColumn, GroupRow, IGroupBy, SortDirection } from './QuickGrid.Props';
+import {
+    IQuickGridProps, IQuickGridState, GridColumn, GroupRow,
+    IGroupBy, SortDirection, DataTypeEnum, lowercasedColumnPrefix
+} from './QuickGrid.Props';
 const scrollbarSize = require('dom-helpers/util/scrollbarSize');
 import { getRowsSelector } from './DataSelectors';
 import { groupRows } from './rowGrouper';
@@ -12,13 +15,15 @@ import { Icon } from '../Icon/Icon';
 import * as _ from 'lodash';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContextProvider, DragDropContext } from 'react-dnd';
+import { groupBy as arrayGroupBy } from '../../utilities/array';
 const createSelector = require('reselect').createSelector;
 import './QuickGrid.scss';
 
 const getActionItems = (props: IQuickGridProps) => props.gridActions.actionItems;
 const getActionItemOptions = createSelector([getActionItems], (actionItems) => {
-    return actionItems.map(item => ({ key: item.commandName, icon: item.iconName, text: item.name }));
+    return actionItems.map((item, index) => ({ key: index, icon: item.iconName, text: item.name }));
 });
+
 
 const defaultMinColumnWidth = 50;
 const emptyCellWidth = 5;
@@ -40,14 +45,66 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         this.state = {
             columnWidths: this.getColumnWidths(columnsToDisplay),
             columnsToDisplay: columnsToDisplay,
-            expandedRows: {},
+            collapsedRows: [],
             selectedRowIndex: undefined,
             sortColumn: props.sortColumn,
             sortDirection: props.sortDirection,
-            groupBy: groupByState
+            groupBy: groupByState,
+            rows: this.addLowerCaseMembersToRows(props.rows, props.columns)
         };
         this.columnsMinTotalWidth = columnsToDisplay.map(x => x.minWidth || defaultMinColumnWidth).reduce((a, b) => a + b, 0);
         this.onGridResize = _.debounce(this.onGridResize, 100);
+    }
+
+    addLowerCaseMembersToRows = (rows: Array<any>, columns: Array<GridColumn>) => {
+        let members = columns.filter(col =>
+            (col.dataType === DataTypeEnum.String)).map(col => (col.valueMember));
+        const newRows = [...rows].map((row) => {
+            let modifiedRow = { ...row };
+            for (let value of members) {
+                modifiedRow[lowercasedColumnPrefix + value]
+                    = modifiedRow[value].toLowerCase();
+            }
+            return modifiedRow;
+        });
+        return newRows;
+    }
+
+    expandAll = (event) => {
+        this.setState((prevState) => {
+            return {
+                ...prevState,
+                collapsedRows: []
+            };
+        });
+    }
+
+    collapseAll = (event) => {
+        let collapsedRows = this.getAllGroupKeys(this.state.rows);
+        this.setState((prevState) => {
+            return {
+                ...prevState,
+                collapsedRows: collapsedRows
+            };
+        });
+    }
+
+    getAllGroupKeys(rows, groupByColumnIndex = 0, parentGroupKey = '') {
+        let groupByColumn = this.state.groupBy[groupByColumnIndex];
+        let columnName = groupByColumn.column;
+        let groupedRows = arrayGroupBy(rows, columnName);
+        let currentGroupKeys = _.uniq(_.map<any, string>(rows, columnName));
+        let groupKeys = new Array<string>();
+        for (let i = 0; i < currentGroupKeys.length; i++) {
+            let groupKeyValue = currentGroupKeys[i];
+            const groupKey = parentGroupKey + '||' + groupKeyValue;
+            groupKeys.push(groupKey);
+            if (this.state.groupBy.length > groupByColumnIndex + 1) {
+                groupKeys = groupKeys.concat(this.getAllGroupKeys(groupedRows[groupKeyValue],
+                    groupByColumnIndex + 1, groupKey));
+            }
+        }
+        return groupKeys;
     }
 
     getGroupByFromProps(groupBy: Array<string | IGroupBy>) {
@@ -98,6 +155,14 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             this.setState((prevState) => { return { ...prevState, columnsToDisplay: columnsToDisplay, columnWidths: columnWidths, groupBy: newGroupBy }; });
             this.columnsMinTotalWidth = columnsToDisplay.map(x => x.minWidth || defaultMinColumnWidth).reduce((a, b) => a + b, 0);
         }
+        if (nextProps.columns !== this.props.columns || nextProps.rows !== this.props.rows) {
+            this.setState((oldState) => {
+                return {
+                    ...oldState,
+                    rows: this.addLowerCaseMembersToRows(this.props.rows, this.props.columns)
+                };
+            });
+        }
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -132,12 +197,18 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         return this.getRows().length;
     }
 
-    onRowExpandToggle(columnGroupName, name, shouldExpand) {
+    onRowExpandToggle(name, shouldExpand) {
         this.setState((oldState) => {
-            let expandedRows = { ...oldState.expandedRows };
-            expandedRows[columnGroupName] = { ...expandedRows[columnGroupName] };
-            expandedRows[columnGroupName][name] = { isExpanded: shouldExpand };
-            return { ...oldState, expandedRows: expandedRows };
+            let collapsedRows = [...oldState.collapsedRows];
+            if (shouldExpand) {
+                let index: number = collapsedRows.indexOf(name, 0);
+                if (index > -1) {
+                    collapsedRows.splice(index, 1);
+                }
+            } else {
+                collapsedRows.push(name);
+            }
+            return { ...oldState, collapsedRows: collapsedRows };
         });
     }
 
@@ -210,8 +281,8 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         const { onActionSelected, actionIconName, actionItems } = this.props.gridActions;
         const onActionItemClick = (option, index) => {
             if (onActionSelected) {
-                const action = _.find(actionItems, (item) => (item.commandName === option.key));
-                onActionSelected(option.key, action.parameters, rowData);
+                const action = actionItems[option.key];
+                onActionSelected(action.commandName, action.parameters, rowData);
             }
         };
 
@@ -242,7 +313,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             const columnName = this.props.columns.filter((column) => { return column.valueMember === rowData.columnGroupName; })[0].headerText;
             const divStyle: React.CSSProperties = { paddingLeft: 30 * rowData.depth };
             const toggleRow = () => {
-                this.onRowExpandToggle(rowData.columnGroupName, rowData.groupKey, !rowData.isExpanded);
+                this.onRowExpandToggle(rowData.groupKey, !rowData.isExpanded);
             };
             let groupByFormat = `${columnName}: ${rowData.displayName}` || `${columnName}: ${rowData.name}`;
             if (this.props.groupRowFormat) {
@@ -381,6 +452,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         let headerClass = classNames('grid-component-header', this.props.headerClassName);
         return (
             <div className={mainClass}>
+
                 <ScrollSync>
                     {({ onScroll, scrollLeft }) => (
                         <AutoSizer onResize={this.onGridResize}>
@@ -403,7 +475,10 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                                         displayGroupContainer={this.props.displayGroupContainer}
                                         onGroupBySort={this.onGroupBySort}
                                         hasActionColumn={this.props.gridActions != null}
+                                        onCollapseAll={this.collapseAll}
+                                        onExpandAll={this.expandAll}
                                     />
+
                                     <Grid
                                         ref={this.setGridReference}
                                         height={height - this.groupByToolboxHeight()}

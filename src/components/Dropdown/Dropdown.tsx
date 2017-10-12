@@ -119,7 +119,7 @@ export class Dropdown extends React.Component<IDropdownProps, IDropdownState> {
   }
 
   getMaxItemWidth = () => {
-    if (this.props.options.length > 0) {
+    if (this.props.dropdownType !== DropdownType.actionDropdown && this.props.options.length > 0) {
       let longest = this.props.options.reduce((a, b) => { return a.text.length > b.text.length ? a : b; });
       return longest.text.length * 8 + 40 + 'px';
     }
