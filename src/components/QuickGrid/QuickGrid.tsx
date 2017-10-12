@@ -238,7 +238,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     }
 
     onActionItemClick = (option, rowIndex) => {
-        const { onActionSelected, actionIconName, actionItems } = this.props.gridActions;
+        const { onActionSelected, actionItems } = this.props.gridActions;
         if (onActionSelected) {
             const action = actionItems[option.key];
             const rowData = this.finalGridRows[rowIndex];
