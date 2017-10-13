@@ -162,9 +162,9 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
   }
 
   onActionItemClick = (option, index) => {
-    const { onClick } = this.props;
+    const { onClick, dropdownKey } = this.props;
     if (onClick) {
-      onClick(option, index);
+      onClick(option, index, dropdownKey);
     }
     this.closeDropdown();
   }

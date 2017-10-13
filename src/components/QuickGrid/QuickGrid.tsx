@@ -237,14 +237,15 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         );
     }
 
-    onActionItemClick = (option, rowIndex) => {
+    onActionItemClick = (option, actionIndex, rowIndex) => {
         const { onActionSelected, actionItems } = this.props.gridActions;
         if (onActionSelected) {
-            const action = actionItems[option.key];
+            const action = actionItems[actionIndex];
             const rowData = this.finalGridRows[rowIndex];
             onActionSelected(action.commandName, action.parameters, rowData);
         }
     }
+
     renderActionCell(key, rowIndex: number, rowData, style) {
         const rowClass = 'grid-row-' + rowIndex;
         const onMouseEnter = () => { this.onMouseEnterCell(rowClass); };
@@ -260,6 +261,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                 onMouseLeave={onMouseLeave}
             >
                 <Dropdown
+                    dropdownKey={rowIndex}
                     icon={actionIconName}
                     dropdownType={DropdownType.actionDropdown}
                     displaySelection={false}
