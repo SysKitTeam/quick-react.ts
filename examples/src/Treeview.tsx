@@ -22,14 +22,6 @@ export class Index extends React.Component<any, any> {
         return (
             <div>
                 <Treeview
-                    onSelect={this._onCheckboxListChange}
-                    showCheckbox={false}
-                    items={this.state.treeviewElements}
-                />
-                <br />
-                <br />
-                
-                <Treeview
                     onExpand={this._onExpand}
                     onSelect={this._onCheckboxListChange}
                     showCheckbox={false}

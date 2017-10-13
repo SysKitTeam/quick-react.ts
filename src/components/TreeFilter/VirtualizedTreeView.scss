@@ -1,8 +1,10 @@
 @import '../../index.scss';
 
 .tree-filter-callout {
+    margin-top: 4px;
+
     .virtualized-tree-filter-container {
-        padding: 5px;
+        padding: 6px;
         box-sizing: border-box;
 
         .virtualized-tree-filter-title {
@@ -13,6 +15,26 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+
+        .virtualized-tree-filter-select-all-search {
+            display: inline-flex;
+            width: 100%;
+
+            .select-all-checkbox {
+                width: 22px;
+                display: inline-flex;
+                align-items: center;
+                height: 32px;
+
+                .virtualized-tree-filter-checkbox-checkmark {
+                    margin-top: -1px;
+                }
+            }
+
+            .filter-search {
+                width: 100%;
+            }
         }
 
         .item-container {
@@ -26,6 +48,7 @@
 
             .virtualized-tree-expand-icon {
                 padding-bottom: 4px;
+                margin-right: 6px;
                 font-size: 12px;
             }
 
@@ -54,7 +77,7 @@
         }
 
         .ReactVirtualized__List {
-            padding-left: 20px;
+            padding-left: 3px;
         }
     }
 }

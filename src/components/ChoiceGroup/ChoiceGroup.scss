@@ -8,7 +8,7 @@ $choiceField-transition-timing: cubic-bezier(.4, 0, .23, 1);
 .choiceField {
   box-sizing: border-box;
   position: relative;
-  line-height: $choiceField-size;
+  line-height: 28px;
 
   .label {
     padding-left: 25px;
@@ -20,11 +20,9 @@ $choiceField-transition-timing: cubic-bezier(.4, 0, .23, 1);
   }
 
   .choiceField-field {
-    display: inline-block;
+    display: flex;
+    align-items: center;
     cursor: pointer;
-    margin-top: 8px;
-    position: relative;
-    vertical-align: top;
     user-select: none;
 
     &::before {
@@ -42,12 +40,11 @@ $choiceField-transition-timing: cubic-bezier(.4, 0, .23, 1);
 
     &::after {
       content: '';
-      width: 0;
-      height: 0;
+      width: $choiceField-size / 2;
+      height: $choiceField-size / 2;
       border-radius: 50%;
       position: absolute;
-      top: $choiceField-size / 2;
-      left: $choiceField-size / 2;
+      left: 4px;
       transition-property: top, left, right, width, height;
       transition-duration: $choiceField-transition-duration-inner;
       transition-timing-function: $choiceField-transition-timing;
@@ -68,10 +65,6 @@ $choiceField-transition-timing: cubic-bezier(.4, 0, .23, 1);
       
       &::after {
         background-color: $primary-color;
-        top: 4px;
-        left: 4px;
-        width: 8px;
-        height: 8px;
       }
       
       &:hover,

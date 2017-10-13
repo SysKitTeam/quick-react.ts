@@ -309,9 +309,9 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         if (columnIndex === 0) {
             const columnsTotalWidth = this.state.columnWidths.reduce((a, b) => a + b, 0);
             const customStyle = { ...style, width: columnsTotalWidth, zIndex: 1 };
-            const iconName = rowData.isExpanded ? 'icon-arrow_down_right' : 'icon-arrow_right';
+            const iconName = rowData.isExpanded ? 'icon-arrow_down' : 'icon-Arrow_up';
             const columnName = this.props.columns.filter((column) => { return column.valueMember === rowData.columnGroupName; })[0].headerText;
-            const divStyle: React.CSSProperties = { paddingLeft: 30 * rowData.depth };
+            const divStyle: React.CSSProperties = { paddingLeft: 25 * rowData.depth };
             const toggleRow = () => {
                 this.onRowExpandToggle(rowData.groupKey, !rowData.isExpanded);
             };
@@ -326,13 +326,12 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                     style={customStyle}
                 >
                     <div className="grid-group-row-inner" style={divStyle}>
-                        <Icon
-                            iconName={iconName}
-                            onClick={toggleRow} />
-                        <div className="group-row-text">
+                        <div className="group-row-text" onClick={toggleRow}>
                             <span>
                                 {groupByFormat}
                             </span>
+                            <Icon
+                                iconName={iconName} />
                         </div>
                     </div>
                 </div>
@@ -390,7 +389,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                 return column.cellFormatter(cellData);
             } else {
                 return (
-                    <div style={{ padding: '5px 5px 0 5px', fontSize: '14px' }} >
+                    <div style={{ padding: '3px 5px 0 5px' }} >
                         {cellData}
                     </div>
                 );

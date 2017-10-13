@@ -5,7 +5,6 @@
     position: relative;
     outline: none;
     max-width: 250px;
-    display: inline-block;
 
     .dropdown-title-border {
         border-radius: 8px;
@@ -88,6 +87,7 @@
         background-color: $primary-color;
         border-radius: 8px;
         cursor: pointer;
+        display: inline-block;
 
         .dropdown-title {
             background-color: $primary-color;

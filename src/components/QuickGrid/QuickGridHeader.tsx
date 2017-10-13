@@ -61,7 +61,7 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
                     className="grid-component-header"
                     columnWidth={this.getHeaderColumnWidth}
                     columnCount={headerColumns.length}
-                    height={30}
+                    height={28}
                     rowHeight={28}
                     rowCount={1}
                     width={width}

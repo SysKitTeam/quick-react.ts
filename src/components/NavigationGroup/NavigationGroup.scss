@@ -1,7 +1,7 @@
 @import '../../index.scss';
 
 .navigation-group-container {
-    margin: 5px 40px 10px 0;
+    margin: 5px 30px 10px 0;
     padding: 10px;
     user-select: none;
     display: inline-block;
@@ -13,6 +13,7 @@
         font-size: 18px;
         text-transform: uppercase;
         cursor: default;
+        border-bottom: 1px solid $primary-color;
     }
 
     .navigation-group-list {
@@ -20,23 +21,19 @@
         margin-top: 10px;
 
         .navigation-group-item {
-            height: 25px;
-            
+            height: 20px;
             &:not(:last-child) {
-                margin-bottom: 15px;
+                margin-bottom: 2px;
             }
-        
+
             .navigation-group-item-text {
                 height: 100%;
                 display: inline-block;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                color: $primary-color;
                 cursor: pointer;
-
-                &:hover {
-                    color: $primary-color;
-                }
             }
 
             &.is-disabled {

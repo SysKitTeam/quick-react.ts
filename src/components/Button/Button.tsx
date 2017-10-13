@@ -37,6 +37,8 @@ export class Button extends React.Component <IButtonProps, any> implements IButt
         
         const className = classNames({
             'button': !renderAsAnchor,
+            'button-icon-text': icon !== undefined && children !== undefined,
+            'button-icon': icon !== undefined && children === undefined,
             'link': renderAsAnchor,
             'disabled-link': disabled && renderAsAnchor,
             'hide-button': isVisible === false,
@@ -59,7 +61,7 @@ export class Button extends React.Component <IButtonProps, any> implements IButt
                 {className}
             ), 
             iconElement, 
-            <span className="button-label">{children}</span>
+            children && <span className="button-label">{children}</span>
         );
     }
     public focus(): void {

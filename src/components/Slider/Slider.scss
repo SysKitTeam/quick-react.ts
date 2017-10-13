@@ -59,7 +59,7 @@
         }
     
         .slider-active {
-            background-color: $primary-color-40;
+            background-color: $primary-color;
         }
     
         .slider-inactive {
@@ -68,34 +68,19 @@
     }
 
     &.slider-enabled {
-        .slider-slideBox:hover {
+        .slider-slideBox:hover, .slider-slideBox:active {
             .slider-thumb {
                 border: 2px solid $primary-hover-color;
                 background-color: $primary-hover-color;
             }
             
             .slider-active {
-                background-color: $primary-color-60;
+                background-color: $primary-hover-color;
             }
             
             .slider-inactive {
-                background-color: $secondary-color-40;
+                background-color: $secondary-disabled-color;
             }      
-        }
-        
-        .slider-slideBox:active {
-            .slider-thumb {
-                border: 2px solid $primary-color;
-                background-color: $primary-color;
-            }
-    
-            .slider-active {
-                background-color: $primary-color-30; 
-            }
-    
-            .slider-inactive {
-                background-color: $secondary-color-20;
-            }   
         }
     }
     
@@ -106,7 +91,7 @@
         }
     
         .slider-active {
-            background-color: $primary-color-50;
+            background-color: $primary-color-30;
         }
     
         .slider-inactive {

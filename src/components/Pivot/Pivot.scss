@@ -10,7 +10,7 @@
 
     .pivot-link {
         display: inline-block;
-        line-height: 30px;
+        line-height: 25px;
         padding: 0 10px;
         position: relative;
         cursor: pointer;
@@ -29,9 +29,9 @@
             content: '';
             bottom: 0;
             height: 2px;
-            left: 8px;
+            left: 7px;
+            right: 7px;
             position: absolute;
-            right: 8px;
             transition: background-color 267ms cubic-bezier(.1,.25,.75,.9);
         }
 
@@ -43,7 +43,7 @@
         }
     
         .pivot-icon {
-            margin-left: 5px;
+            margin: 0;
 
             &::before {
                 position: relative;
@@ -85,9 +85,18 @@
     &.pivot-tabs {
         .pivot-link {
             background-color: $primary-color;
+            line-height: 40px;
+            padding: 0 20px;
 
             .pivot-text {
                 color: $white-color;
+            }
+
+            &::before {
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
             }
     
             &:hover:not(.is-selected),
@@ -96,12 +105,15 @@
             }
 
             &.is-selected {
-                background-color: $primary-hover-color;
+                background-color: $primary-color-60;
                 color: $white-color;
     
                 &::before {
-                    background-color: transparent;
-                    transition: none;
+                    background-color: $white-color;
+                }
+
+                .pivot-text {
+                    font-weight: 600;
                 }
             }
 
@@ -112,6 +124,27 @@
 
                 .pivot-text, .pivot-icon, .pivot-count {
                     color: $white-color;
+                }
+            }
+        }
+
+        &.pivot-tabs-gray {
+            .pivot-link {
+                background-color: $secondary-color-45;
+
+                &:hover:not(.is-selected),
+                &:focus:not(.is-selected) {
+                    background-color: $secondary-hover-color;
+                }
+
+                &.is-selected {
+                    background-color: $secondary-color;
+                    color: $white-color;
+        
+                    &::before {
+                        background-color: transparent;
+                        transition: none;
+                    }
                 }
             }
         }

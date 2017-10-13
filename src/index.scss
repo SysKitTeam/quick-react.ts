@@ -6,7 +6,7 @@ $primary-hover-color: #E27600;
 $primary-disabled-color: #FBD3A8;
 $secondary-color: #4D4D4F;
 $secondary-hover-color: #313133;
-$secondary-disabled-color: #C8C8C9;
+$secondary-disabled-color: #AEAEAF;
 $tertiary-color: #37B2B7;
 $tertiary-hover-color: #009BA1;
 $tertiary-disabled-color: #AEE0E2;
@@ -20,18 +20,21 @@ $success-color: #5FB005;
 
 //color with opacity
 $primary-color-30: #FCDEBD;
-$primary-color-40: #FBD3A8;
+// $primary-color-40: #FBD3A8;
 $primary-color-50: #FAC992;
 $primary-color-60: #FABE7D;
 
-// $secondary-color-30: #A7A7A7; // sta je ovo
 $secondary-color-20: #DADADB;
-$secondary-color-30: #C8C8C9;
+// $secondary-color-30: #C8C8C9;
 $secondary-color-40: #B7B7B8;
+$secondary-color-45: #AEAEAF;
 
+$black-color-4: #F4F4F4;
 $black-color-6: #EFEFEF;
 $black-color-15: #D8D8D8;
 $black-color-30: #B2B2B2;
+
+$white-color-15: #686869;
 
 
 * {
@@ -51,7 +54,7 @@ $black-color-30: #B2B2B2;
 ::-webkit-scrollbar-track {
     border-radius: 15px;
     margin-top: 7px;
-    background: $secondary-color-20;
+    background: $black-color-6;
     margin-bottom: 7px;
 }
             

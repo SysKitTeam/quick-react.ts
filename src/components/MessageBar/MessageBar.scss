@@ -31,7 +31,7 @@
 
         .messageBar-actionsOneline {
             position: absolute;
-            right: 35px;
+            right: 40px;
             top: 3px; 
         }
 
@@ -41,8 +41,12 @@
 
             .messageBar-checkbox {
                 position: absolute;
-                right: 35px;
+                right: 40px;
                 top: 3px;
+
+                .checkbox-label {
+                    margin-top: 8px;
+                }
             }
         }
 

@@ -11,16 +11,44 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-                <Button>Button</Button> <br/> <br/>
-                <Button className={'button-primary'}>Primary Button</Button> <br/> <br/>
-                <Button className={'button-primary-gray'}>Primary Gray Button</Button> <br/> <br/>
-                <Button className={'button-secondary'}>Secondary Button</Button> <br/> <br/>
-                <Button className={'button-tertiary'}>Tertiary Button</Button> <br/> <br/>
-                <Button className={'button-textual'}>Textual Button</Button> <br/> <br/>
-                <Button className={'button-icon'} icon={'icon-add'}></Button> <br/> <br/>
-                <Button className={'button-icon-secondary'} icon={'icon-add'}></Button> <br/> <br/>
-                <Button className={'button-icon-text'} icon={'icon-add'}>Icon+Text Button</Button> <br/> <br/>
-                <Button href={'javascript:void(0)'} target="_blank">Link</Button> <br/> <br/>
+                <Button>Button</Button> <br /> <br />
+
+                <div style={{ display: 'flex', marginBottom: '20px' }}>
+                    <Button className={'button-primary'}>Primary Button</Button>
+                    <Button className={'button-primary'} icon={'icon-add'}>Primary Button</Button>
+                    <Button className={'button-primary'} icon={'icon-add'}></Button>
+                </div>
+
+                <div style={{ display: 'flex', marginBottom: '20px' }}>
+                    <Button className={'button-primary-gray'}>Primary Gray Button</Button>
+                    <Button className={'button-primary-gray'} icon={'icon-add'}>Primary Gray Button</Button>
+                    <Button className={'button-primary-gray'} icon={'icon-add'}></Button>
+                </div>
+
+                <div style={{ display: 'flex', marginBottom: '20px' }}>
+                    <Button className={'button-secondary'}>Secondary Button</Button>
+                    <Button className={'button-secondary'} icon={'icon-add'}>Secondary Button</Button>
+                    <Button className={'button-secondary'} icon={'icon-add'}></Button>
+                </div>
+
+                <div style={{ display: 'flex', marginBottom: '20px' }}>
+                    <Button className={'button-secondary-blue'} >Secondary Blue Button</Button>
+                    <Button className={'button-secondary-blue'} icon={'icon-add'}>Secondary Blue Button</Button>
+                    <Button className={'button-secondary-blue'} icon={'icon-add'}></Button>
+                </div>
+
+                <div style={{ display: 'flex', marginBottom: '20px' }}>
+                    <Button className={'button-tertiary'}>Tertiary Button</Button>
+                    <Button className={'button-tertiary'} icon={'icon-add'}>Tertiary Button</Button>
+                    <Button className={'button-tertiary'} icon={'icon-add'}></Button>
+                </div>
+
+                <div style={{ display: 'flex', marginBottom: '20px' }}>
+                    <Button className={'button-textual'}>Textual Button</Button>
+                    <Button className={'button-textual'} icon={'icon-add'}>Textual Button</Button>
+                </div>
+
+                <Button href={'javascript:void(0)'} target="_blank">Link</Button>
             </div>
         );
     }

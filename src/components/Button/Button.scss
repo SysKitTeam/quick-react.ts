@@ -23,6 +23,28 @@ $button-height: 32px;
         cursor: default;
     }
 
+    &.button-icon-text {
+        padding: 0 15px 0 10px;
+
+        .icon {
+            color: $white-color;
+            font-size: 16px;
+            margin-right: 8px;
+            position: relative;
+            top: 1px;
+        }
+    }
+
+    &.button-icon {
+        padding: 7px;
+
+        .icon {
+            margin-right: 0;
+            color: $white-color;
+            font-size: 16px;
+        }
+    }
+
     .button-label {
         color: $white-color;
         position: relative;
@@ -66,17 +88,31 @@ $button-height: 32px;
         background-color: $white-color;
         border: 2px solid $primary-color;
         padding: 0 12px;
+
+        &.button-icon-text {
+            .icon {
+                color: $primary-color;
+            }
+        }
+
+        &.button-icon {
+            padding: 6px;
+
+            .icon {
+                color: $primary-color;
+            }
+        }
 			
         &:hover,
         &:focus,
 		&:active {
             border: 2px solid $primary-hover-color;
 
-            .button-label {
+            .button-label, .icon {
                 color: $primary-hover-color;
             }
         }
-        
+
         .button-label {
             color: $primary-color;
         }
@@ -84,8 +120,50 @@ $button-height: 32px;
         &:disabled {
             border-color: $primary-disabled-color;
 
-            .button-label {
+            .button-label, .icon {
                 color: $primary-disabled-color;
+            }
+        }
+    }
+
+    &.button-secondary-blue {
+        background-color: $white-color;
+        border: 2px solid $tertiary-color;
+        padding: 0 12px;
+            
+        &.button-icon-text {
+            .icon {
+                color: $tertiary-color;
+            }
+        }
+
+        &.button-icon {
+            padding: 6px;
+
+            .icon {
+                color: $tertiary-color;
+            }
+        }
+
+        &:hover,
+        &:focus,
+		&:active {
+            border: 2px solid $tertiary-hover-color;
+
+            .button-label, .icon {
+                color: $tertiary-hover-color;
+            }
+        }
+        
+        .button-label {
+            color: $tertiary-color;
+        }
+
+        &:disabled {
+            border-color: $tertiary-disabled-color;
+
+            .button-label, .icon {
+                color: $tertiary-disabled-color;
             }
         }
     }
@@ -111,11 +189,17 @@ $button-height: 32px;
 		background-color: $white-color;
         border-color: $white-color;
         padding: 0;
+
+        &.button-icon-text {
+            .icon {
+                color: $primary-color;
+            }
+        }
 			
         &:hover,
         &:focus,
 		&:active {
-            .button-label {
+            .button-label, .icon {
                 color: $primary-hover-color;
             }
         }
@@ -125,95 +209,9 @@ $button-height: 32px;
         }
 
         &:disabled {
-            .button-label {
+            .button-label, .icon {
                 color: $secondary-disabled-color;
             }
-        }
-    }
-
-    &.button-icon {
-        background-color: $primary-color;
-        border-color: $primary-color;
-        padding: 7px;
-
-        .icon {
-            color: $white-color;
-            font-size: 16px;
-            margin-right: 0;
-        }
-
-        &:hover,
-        &:focus,
-		&:active {
-            background-color: $primary-hover-color;
-            border-color: $primary-hover-color;
-        }
-
-        &:disabled {
-            background-color: $primary-disabled-color;
-            border-color: $primary-disabled-color;
-        }
-    }
-
-    &.button-icon-secondary {
-        background-color: $white-color;
-        border: 2px solid $primary-color;
-        padding: 6px;
-
-        .icon {
-            color: $primary-color;
-            font-size: 16px;
-            margin-right: 0;
-        }
-
-        &:hover,
-        &:focus,
-		&:active {
-            background-color: $white-color;
-            border: 2px solid $primary-hover-color;
-
-            .icon {
-                color: $primary-hover-color;
-            }
-        }
-
-        &:disabled {
-            border-color: $primary-disabled-color;
-
-            .icon {
-                color: $primary-disabled-color;
-            }
-        }
-    }
-
-    &.button-icon-text {
-        background-color: $primary-color;
-        border-color: $primary-color;
-        padding: 7px 15px 7px 6px;
-
-        .icon {
-            color: $white-color;
-            font-size: 16px;
-            margin-right: 10px;
-        }
-
-        .button-label {
-            position: relative;
-            top: -2px;
-        }
-
-        &:hover {
-            background-color: $primary-hover-color;
-            border-color: $primary-hover-color;
-            
-            .button-label {
-                color: $white-color;
-            }    
-        }
-
-        &:disabled {
-            background-color: $primary-disabled-color;
-            border-color: $primary-disabled-color;
         }
     }
 }

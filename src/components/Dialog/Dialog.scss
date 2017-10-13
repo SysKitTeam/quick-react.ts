@@ -85,7 +85,8 @@
             padding: 20px;
 
             .dialog-content {
-                display: inline-flex;
+                display: flex;
+                align-items: center;
 
                 .dialog-subText {
                     line-height: 1.5;
@@ -94,8 +95,6 @@
                 .dialog-icon {
                     font-size: 28px;
                     margin-right: 10px;
-                    top: -8px;
-                    position: relative;
                 }
             }
 

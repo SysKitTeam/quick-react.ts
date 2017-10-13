@@ -7,15 +7,18 @@
 
    .group-drop-toolbar {
        width: calc(100% - 5px);
-       height: 36px;
-       padding: 5px 2px 2px;
-       margin-bottom: 15px;
-       border: 1px solid $secondary-color-20;
+       box-sizing: border-box;
+       height: 42px;
+       padding: 2px;
+       border-bottom: 1px solid $secondary-color-20;
+       background-color: $black-color-4;
 
         .group-drop-empty {
-            margin: 7px auto;
-            width: 200px;
             display: block;
+            width: 200px;
+            padding-left: 20px;
+            padding-top: 8px;
+            color: $secondary-disabled-color;
         }
 
         .expand-collapse-buttons {
@@ -33,31 +36,37 @@
         .group-column-box {
             width: 150px;
             padding-left: 5px;
+            padding-top: 3px;
             display: inline-block;
 
             .group-text-boarder {
+                box-sizing: border-box;
+                border: 1px solid $secondary-color-20;
+                border-radius: 8px;
+                background-color: $white-color;
                 cursor: pointer;
                 height: 32px;
                 line-height: 30px; // height minus the border
                 position: relative;
-                padding: 0 15px 0 12px;
+                padding: 0 10px;
                 display: block;
-                border: 1px solid $secondary-color-20;
 
                 .header-text {
                     span {
-                        overflow: hidden;
+                        overflow: hidden; 
                         white-space: nowrap;
                         text-overflow: ellipsis;
-                        width: 85%;
+                        width: 75%;
                         display: inline-block;
+                        color: $primary-color;
+                        font-weight: 500;
                     }
                 }
             }
 
             .icon-sort {
                 top: 1px;
-                right: 20px;
+                right: 30px;
             }
 
             .icon-remove-group {
@@ -65,7 +74,7 @@
                 margin: 0;
                 position: absolute;
                 top: 0;
-                right: 5px;
+                right: 10px;
             }
         }
     }
@@ -74,8 +83,8 @@
         font-size: 8px;
         margin: 0;
         position: absolute;
-        top: 7px;
-        right: 6px;
+        top: 10px;
+        right: 5px;
     }
 
     .icon:hover {
@@ -102,9 +111,11 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 margin-right: 12px;
+                padding-top: 3px;
 
                 span {
                     padding-left: 5px;
+                    font-weight: 500;
                 }
             }
 
@@ -125,6 +136,9 @@
     }
 
     .grid-component {
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+
         .grid-component-cell {
             > div {
                 white-space: nowrap;
@@ -135,11 +149,11 @@
             }
 
             &.is-hover {
-                background-color: $black-color-6;
+                background-color: $black-color-4;
             }
 
             &.is-selected {
-                background-color: $black-color-15;
+                background-color: $black-color-6;
             }
 
             .status-critical {
@@ -167,8 +181,8 @@
         }
 
         .grid-group-row {
-            background-color: $black-color-15;
-            font-weight: 600;
+            background-color: $black-color-4;
+            font-weight: 500;
 
             .grid-group-row-inner {
                 overflow: hidden;
@@ -177,15 +191,20 @@
 
                 .icon {
                     font-size: 10px;
-                    margin: 5px 0 0 3px;
+                    margin: 5px 0 0 0;
                     position: absolute;
+                    padding-left: 10px;
+                    cursor: pointer;
                 }
 
                 .group-row-text {
-                    padding-left: 18px;
+                    padding-left: 7px;
+                    display: inline-block;
+                    cursor: pointer;
 
                     span {
                         white-space: nowrap;
+                        color: $primary-color;
                     }
                 }
             }

@@ -72,6 +72,7 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
     private _renderPivotLinks() {
         const className = classNames(
             'pivot',
+            [this.props.className],
             {
                 'pivot-tabs': this.props.linkFormat === PivotLinkFormat.tabs
             }

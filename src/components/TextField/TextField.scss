@@ -29,7 +29,7 @@
             cursor: default;
         }
 
-        &.textField-field-unresizable{
+        &.textField-field-unresizable {
             resize: none;
         }
     }
@@ -42,6 +42,13 @@
 
     .textField-description {
         font-size: 12px;
+    }
+
+    &.text-field-multiline {
+        .textField-field {
+            min-height: 32px;
+            min-width: 200px;
+        }
     }
 
     &.text-field-underlined {
@@ -81,7 +88,7 @@
         }
     }
 
-    .is-required {
+    &.is-required {
         .label:after {
             content: ' *';
             color: $error-color;
