@@ -16,15 +16,15 @@
                 height: 19px;
 
                 &.status-critical {
-                    background-color: $error-color;
+                    background-color: $error-status-server;
                 }
 
                 &.status-warning {
-                    background-color: $warning-color;
+                    background-color: $warning-status-server;
                 }
 
                 &.status-ok {
-                    background-color: $success-color;
+                    background-color: $ok-status-server;
                 }
 
                 &.status-offline {
@@ -38,15 +38,15 @@
             font-size: 13px;
 
             &.status-critical {
-                color: $error-color;
+                color: $error-status-server;
             }
 
             &.status-warning {
-                color: $warning-color;
+                color: $warning-status-server;
             }
             
             &.status-ok {
-                color: $success-color;
+                color: $ok-status-server;
             }     
         }   
     }

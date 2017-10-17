@@ -14,19 +14,13 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div style={{ display: 'inline-flex' }}>
-                <Tooltip content={'This is tooltip! This is tooltip! This is tooltip!'} className={'tooltip-gray'}>
+                <Tooltip content={'This is tooltip! This is tooltip! This is tooltip!'} >
                     <Button>Hover Over Me</Button>
                 </Tooltip>
 
                 <div style={{ marginLeft: '50px' }}>
                     <Tooltip content={'This is tooltip'} className={'tooltip-white'} directionalHint={DirectionalHint.rightCenter}>
                         <Button>Hover Over Me</Button>
-                    </Tooltip>
-                </div>
-
-                <div style={{ marginLeft: '50px' }}>
-                    <Tooltip content={'This is tooltip'} className={'tooltip-white'} directionalHint={DirectionalHint.topCenter}>
-                        <Icon iconName={'icon-details'}></Icon>
                     </Tooltip>
                 </div>
             </div>

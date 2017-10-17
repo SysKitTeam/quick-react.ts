@@ -104,15 +104,15 @@
     }
 
     &.status-ok {
-        border-left-color: $success-color;
+        border-left-color: $ok-status-server;
     }
 
     &.status-warning {
-        border-left-color: $warning-color;
+        border-left-color: $warning-status-server;
     }
 
     &.status-critical {
-        border-left-color: $error-color;
+        border-left-color: $error-status-server;
     }
 
     &.status-offline {

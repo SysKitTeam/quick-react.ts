@@ -2,7 +2,6 @@
 /**
  * @module quick-react-ts components
  */
-export * from './components/AddToFavorites';
 export * from './components/Breadcrumbs';
 export * from './components/Button';
 export * from './components/Callout';
@@ -18,7 +17,6 @@ export * from './components/DashboardHeader';
 export * from './components/Dialog';
 export * from './components/Dropdown';
 export * from './components/Group';
-export * from './components/History';
 export * from './components/Icon';
 export * from './components/Label';
 export * from './components/Layers';
@@ -28,7 +26,6 @@ export * from './components/MessageBar';
 export * from './components/Overlay';
 export * from './components/Pivot';
 export * from './components/Popup';
-export * from './components/Ribbon';
 export * from './components/Search';
 export * from './components/Slider';
 export * from './components/Spinner';
@@ -44,7 +41,6 @@ export * from './components/ToggleSwitch';
 export * from './components/BarChart';
 export * from './components/ChartTooltip';
 export * from './components/Tooltip';
-export * from './components/NavigationGroup';
 export * from './components/DetailedServerGroup';
 export * from './components/DateTimePicker';
 export * from './components/DateTimeDropdownPicker';

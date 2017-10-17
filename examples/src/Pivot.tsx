@@ -15,7 +15,7 @@ export class Index extends React.Component<any, any> {
         return (
             <div>
                 <Pivot onLinkClick={(item, ev) => console.log(item)}>
-                    <PivotItem linkText={'My Files'} itemCount={ 10 }>
+                    <PivotItem linkText={'My Files'} itemCount={10}>
                         <Label>Pivot #1</Label>
                     </PivotItem>
                     <PivotItem linkText={'Recent'} disabled={true}>
@@ -27,7 +27,7 @@ export class Index extends React.Component<any, any> {
                 </Pivot>
 
                 <br />
-                <Pivot onLinkClick={(item, ev) => console.log(item)} linkFormat={ PivotLinkFormat.tabs }>
+                <Pivot onLinkClick={(item, ev) => console.log(item)} linkFormat={PivotLinkFormat.tabs}>
                     <PivotItem linkText={'My Files'}>
                         <Label>Pivot #1</Label>
                     </PivotItem>
@@ -40,7 +40,7 @@ export class Index extends React.Component<any, any> {
                 </Pivot>
 
                 <br />
-                <Pivot onLinkClick={(item, ev) => console.log(item)} linkFormat={ PivotLinkFormat.tabs } className={'pivot-tabs-gray'}>
+                <Pivot onLinkClick={(item, ev) => console.log(item)} linkFormat={PivotLinkFormat.tabs} className={'pivot-tabs-gray'}>
                     <PivotItem linkText={'My Files'}>
                         <Label>Pivot #1</Label>
                     </PivotItem>

@@ -32,7 +32,7 @@ $contextualMenu-itemHeight: 28px;
                     text-decoration: none;
                 
                     &:hover:not([disabled]) {
-                        background: #FDEAD4;
+                        background: $primary-background-hover-color;
                     }
                 
                     &.is-disabled,

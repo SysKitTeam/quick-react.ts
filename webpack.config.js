@@ -7,13 +7,11 @@ const plugins = require('./webpack/plugins');
 
 module.exports = {
     entry: {
-        Ribbon: "./examples/src/Ribbon.tsx",
         Dropdown: "./examples/src/Dropdown.tsx",
         Button: "./examples/src/Button.tsx",
         CompactServer: "./examples/src/CompactServer.tsx",
         TagContainer: "./examples/src/TagContainer.tsx",
         BarChart: "./examples/src/BarChart.tsx",
-        AddToFavorites: "./examples/src/AddToFavorites.tsx",
         Callout: "./examples/src/Callout.tsx",
         MainNavigation: "./examples/src/MainNavigation.tsx",
         MessageBar: "./examples/src/MessageBar.tsx",
@@ -37,13 +35,11 @@ module.exports = {
         Dashboard: "./examples/src/Dashboard.tsx",
         ServerTile: "./examples/src/ServerTile.tsx",
         ProgressBar: "./examples/src/ProgressBar.tsx",
-        History: "./examples/src/History.tsx",
         PieChart: "./examples/src/PieChart.tsx",
         LineChart: "./examples/src/LineChart.tsx",
         CompactFarm: "./examples/src/CompactFarm.tsx",
         DetailedServerGroup: "./examples/src/DetailedServerGroup.tsx",
         DetailedServerTile: "./examples/src/DetailedServerTile.tsx",
-        NavigationGroup: "./examples/src/NavigationGroup.tsx",
         ServerGridDashboard: "./examples/src/ServerGridDashboard.tsx",
         DateTimePicker: "./examples/src/DateTimePicker.tsx",
         TreeFilter: "./examples/src/TreeFilter.tsx",

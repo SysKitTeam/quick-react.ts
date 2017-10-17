@@ -11,9 +11,9 @@ import { toPrettyString } from '../../utilities/valueFormatter';
 
 export class PartitionTile extends React.PureComponent<IPartitionTileProps, any> {
     public static defaultProps = {
-        okColor: '#5FB005',
-        warningColor: '#FFB900',
-        criticalColor: '#FF2F20'
+        okColor: '#7DC458',
+        warningColor: '#EAC71A',
+        criticalColor: '#FB6464'
     };
 
     public render() {

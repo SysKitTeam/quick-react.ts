@@ -83,4 +83,51 @@ $checkbox-transition-timing: cubic-bezier(.4, 0, .23, 1);
     .label-icon {
         padding-left: 25px;
     }
+
+    &.checkbox-white {
+        .checkbox-label {
+            &:before {
+                border: 2px solid $white-color;
+            }
+
+            .label {
+                color: $white-color;
+            }
+
+            &.is-disabled {
+                &::before {
+                    background-color: $secondary-disabled-color;
+                    border-color: $secondary-disabled-color;
+                }
+    
+                .label {
+                    color: $secondary-disabled-color;
+                }
+            }
+    
+            &.is-checked {
+                &.is-disabled {
+                   &::before {
+                        background-color: $secondary-disabled-color;
+                        border-color: $secondary-disabled-color;
+                   }
+               }
+            }
+        }
+
+        &.checked {
+            .checkbox-label::before {
+                border-color: $white-color;
+                background-color: $white-color;
+            }
+    
+            .checkboxCheckmark {
+                position: absolute;
+                color: $secondary-color;
+                z-index: 100;
+                font-size: 10px;
+                margin-left: 3px;
+            }
+        }
+    }
 }

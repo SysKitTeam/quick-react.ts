@@ -4,6 +4,7 @@ $white-color: #ffffff;
 $primary-color: #F79428;
 $primary-hover-color: #E27600;
 $primary-disabled-color: #FBD3A8;
+$primary-background-hover-color: #FDEAD4;
 $secondary-color: #4D4D4F;
 $secondary-hover-color: #313133;
 $secondary-disabled-color: #AEAEAF;
@@ -14,18 +15,31 @@ $tertiary-disabled-color: #AEE0E2;
 $link-color: #25A7EF;
 $link-hover-color: #008DDB;
 
-$error-color: #FF2F20;
-$warning-color: #ffb900;
-$success-color: #5FB005;
+$error-color: #FB6464;
+$warning-color: #EAC71A;
+$success-color: #7DC458;
+
+// server status
+$error-status-server: #FB6464;
+$warning-status-server: #EAC71A;
+$ok-status-server: #7DC458;
+
+// messageBar
+$error-background-color: #FAE7E7;
+$error-text-color: #FB6464;
+$warning-background-color: #FBF8E5;
+$warning-text-color: #EAC71A;
+$success-background-color: #F1F6D2;
+$success-text-color: #7DC458;
+$info-background-color: #DEECFA;
+$info-text-color: #008DDB;
 
 //color with opacity
 $primary-color-30: #FCDEBD;
-// $primary-color-40: #FBD3A8;
 $primary-color-50: #FAC992;
 $primary-color-60: #FABE7D;
 
 $secondary-color-20: #DADADB;
-// $secondary-color-30: #C8C8C9;
 $secondary-color-40: #B7B7B8;
 $secondary-color-45: #AEAEAF;
 
@@ -35,6 +49,8 @@ $black-color-15: #D8D8D8;
 $black-color-30: #B2B2B2;
 
 $white-color-15: #686869;
+
+$bar-char-fill-color: #D4EAFD;
 
 
 * {

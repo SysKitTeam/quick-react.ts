@@ -27,7 +27,7 @@ export class Index extends React.Component<any, any> {
                     title={'All emails together'}
                     subText={'Your Inbox has changed. No longer does it include favorites, it is a singular destination for your emails.'}>
                     <DialogFooter>
-                        <Button className={'button-textual position-left'} onClick={this._toggleDialog.bind(this)}>Cancel</Button>
+                        <Button className={'button-textual'} onClick={this._toggleDialog.bind(this)}>Cancel</Button>
                         <Button className={'button-primary-gray'} onClick={this._toggleDialog.bind(this)}>Discard</Button>
                         <Button className={'button-primary'} onClick={this._toggleDialog.bind(this)}>Save</Button>
                     </DialogFooter>

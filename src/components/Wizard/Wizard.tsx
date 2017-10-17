@@ -67,7 +67,9 @@ export default class Wizard extends React.Component<IWizardProps, IWizardState> 
 
   private _cancelCreateScript(e) {
     e.preventDefault();
-    this.props.onCancel();
+    if (this.props.onCancel !== undefined) {
+      this.props.onCancel();
+    }
   }
 
 
@@ -86,14 +88,22 @@ export default class Wizard extends React.Component<IWizardProps, IWizardState> 
 
     if (currentStep.optionalButtons) {
       buttons = currentStep.optionalButtons.map((button, index) => {
-        return <Button {...button} className="button-tertiary" key={index}></Button>;
+        const buttonClassName = classNames(
+          'options-button',
+          [button.className],
+          {
+            'button-tertiary': button.className === undefined
+          }
+        );
+
+        return <Button {...button} className={buttonClassName} key={index}></Button>;
       });
     }
 
     if (this.state.currentStep !== (this.props.steps.length - 1)) {
-      buttons.push(<Button disabled={!this.props.nextBtnState} className="button-primary" onClick={(e) => { this._nextStep(e); }}>NEXT</Button>);
+      buttons.push(<Button disabled={!this.props.nextBtnState} className="button-primary" onClick={(e) => { this._nextStep(e); }}>Next</Button>);
     } else {
-      buttons.push(<Button disabled={!this.props.nextBtnState} className="button-primary" onClick={(e) => { this._finishCreateScript(e); }}>FINISH</Button>);
+      buttons.push(<Button disabled={!this.props.nextBtnState} className="button-primary" onClick={(e) => { this._finishCreateScript(e); }}>Finish</Button>);
     }
     return buttons;
   }
@@ -117,11 +127,12 @@ export default class Wizard extends React.Component<IWizardProps, IWizardState> 
         <div className={stepWindowClassName}>
           {this.props.onPageRender(this.state.currentStep)}
           <div className="wizard-footer-navigation">
-            <div className="wizard-left-navigation-btn-page-container">
-              <Button className="button-textual" onClick={(e) => { this._cancelCreateScript(e); }}>CANCEL</Button>
-            </div>
+            <div className="wizard-left-navigation-btn-page-container"></div>
             <div className="wizard-right-navigation-btn-page-container">
-              <Button disabled={this.state.currentStep === 0} className="button-secondary" onClick={(e) => { this._backStep(e); }}>BACK</Button>
+              {this.props.onCancel &&
+                <Button className="button-textual" onClick={(e) => { this._cancelCreateScript(e); }}>Cancel</Button>
+              }
+              <Button disabled={this.state.currentStep === 0} className="button-primary-gray" onClick={(e) => { this._backStep(e); }}>Back</Button>
               {this._renderButtons()}
             </div>
           </div>

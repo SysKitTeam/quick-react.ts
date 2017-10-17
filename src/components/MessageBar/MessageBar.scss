@@ -5,6 +5,7 @@
     color: $white-color;
     box-sizing: border-box;
     position: relative;
+    height: 40px;
 
     .messageBar-content {
         padding: 10px;
@@ -13,6 +14,10 @@
 
     .messageBar-icon {
         padding-right: 5px;
+
+        .icon {
+            font-size: 20px;
+        }
     }
 
     .messageBar-actionables {
@@ -59,34 +64,114 @@
     }
 
     &.messageBar-warning {
-        background-color: #FDEAD4;
+        background-color: $warning-background-color;
 
-        .messageBar-icon > i {
-            color: $warning-color;
+        .messageBar-icon > i,
+        .messageBar-innerText,
+        .checkbox-label > .label,
+        .messageBar-dismissal {
+            color: $warning-text-color;
+        }
+
+        .checkbox {
+            .checkbox-label::before {
+                border: 2px solid $warning-text-color;
+            }
+    
+            &.checked {
+                .checkbox-label::before {
+                    border-color: $warning-text-color;
+                    background-color: transparent;
+                }
+
+                .checkboxCheckmark {
+                    color: $warning-text-color;
+                }
+            }
         }
     }
 
     &.messageBar-error {
-        background-color: #FFD5D2;
+        background-color: $error-background-color;
 
-        .messageBar-icon > i {
-            color: $error-color;
+        .messageBar-icon > i,
+        .messageBar-innerText,
+        .checkbox-label > .label,
+        .messageBar-dismissal {
+            color: $error-text-color;
+        }
+
+        .checkbox {
+            .checkbox-label::before {
+                border: 2px solid $error-text-color;
+            }
+
+            &.checked {
+                .checkbox-label::before {
+                    border-color: $error-text-color;
+                    background-color: transparent;
+                }
+
+                .checkboxCheckmark {
+                    color: $error-text-color;
+                }
+            }
         }
     }
 
     &.messageBar-success {
-        background-color: #DFEFCD;
+        background-color: $success-background-color;
 
-        .messageBar-icon > i {
-            color: $success-color;
+        .messageBar-icon > i,
+        .messageBar-innerText,
+        .checkbox-label > .label,
+        .messageBar-dismissal {
+            color: $success-text-color;
+        }
+
+        .checkbox {
+            .checkbox-label::before {
+                border: 2px solid $success-text-color;
+            }
+
+            &.checked {
+                .checkbox-label::before {
+                    border-color: $success-text-color;
+                    background-color: transparent;
+                }
+
+                .checkboxCheckmark {
+                    color: $success-text-color;
+                }
+            }
         }
     }
 
     &.messageBar-info {
-        background-color: #D4EAFD;
+        background-color: $info-background-color;
 
-        .messageBar-icon > i {
-            color: $link-color;
+        .messageBar-icon > i,
+        .messageBar-innerText,
+        .checkbox-label > .label,
+        .messageBar-dismissal {
+            color: $info-text-color;
+        }
+
+        .checkbox {
+            .checkbox-label::before {
+                border: 2px solid $info-text-color;
+            }
+    
+            &.checked {
+                .checkbox-label::before {
+                    border-color: $info-text-color;
+                    background-color: transparent;
+                }
+
+                .checkboxCheckmark {
+                    color: $info-text-color;
+                }
+            }
         }
     }
 }

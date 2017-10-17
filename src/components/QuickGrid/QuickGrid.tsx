@@ -255,11 +255,13 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                 this.props.onRowDoubleClicked(rowData);
             }
         };
+
         const className = classNames(
             'grid-component-cell',
             'grid-empty-cell',
             rowClass,
             { 'is-selected': rowIndex === this.state.selectedRowIndex });
+
         return (
             <div
                 style={style}
@@ -286,11 +288,16 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             }
         };
 
+        const className = classNames(
+            'grid-component-cell',
+            rowClass,
+            { 'is-selected': rowIndex === this.state.selectedRowIndex });
+
         return (
             <div
                 key={key}
                 style={style}
-                className={'grid-component-cell'}
+                className={className}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
             >
@@ -309,7 +316,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         if (columnIndex === 0) {
             const columnsTotalWidth = this.state.columnWidths.reduce((a, b) => a + b, 0);
             const customStyle = { ...style, width: columnsTotalWidth, zIndex: 1 };
-            const iconName = rowData.isExpanded ? 'icon-arrow_down' : 'icon-Arrow_up';
+            const iconName = rowData.isExpanded ? 'icon-arrow_down_right' : 'icon-arrow_right';
             const columnName = this.props.columns.filter((column) => { return column.valueMember === rowData.columnGroupName; })[0].headerText;
             const divStyle: React.CSSProperties = { paddingLeft: 25 * rowData.depth };
             const toggleRow = () => {
@@ -321,17 +328,17 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             }
             return (
                 <div
-                    className={'grid-group-row'}
+                    className={classNames('grid-group-row is-expanded', { 'is-collapsed': !rowData.isExpanded })}
                     key={key}
                     style={customStyle}
                 >
                     <div className="grid-group-row-inner" style={divStyle}>
                         <div className="group-row-text" onClick={toggleRow}>
+                            <Icon
+                                iconName={iconName} />
                             <span>
                                 {groupByFormat}
                             </span>
-                            <Icon
-                                iconName={iconName} />
                         </div>
                     </div>
                 </div>

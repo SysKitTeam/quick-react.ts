@@ -35,7 +35,7 @@ export class Index extends React.Component<any, any> {
                     dontShowAgainChecked={this.state.dontShowAgainChecked}
                     dontShowAgainClicked={() => this.setState({ dontShowAgainChecked : !this.state.dontShowAgainChecked })}
                     onDismiss={() => { console.log('test'); } }
-                >This is Success messageBar!</MessageBar>
+                >This is success messageBar!</MessageBar>
 
                 <MessageBar 
                     messageBarType={MessageBarType.error} 

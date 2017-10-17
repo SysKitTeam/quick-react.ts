@@ -27,7 +27,10 @@ export class Tooltip extends CommonComponent<ITooltipProps, any> {
 
         const tooltipClassName = classNames(
             'tooltip-callout',
-            [this.props.className]
+            [this.props.className],
+            {
+                'tooltip-gray': this.props.className === undefined
+            }
         );
 
         return (
@@ -46,7 +49,8 @@ export class Tooltip extends CommonComponent<ITooltipProps, any> {
                         target={this._getTargetElement()}
                         directionalHint={directionalHint}
                         className={tooltipClassName}
-                        isBeakVisible={true}>
+                        isBeakVisible={true}
+                        gapSpace={0}>
                         <div className="tooltip-content" role="tooltip">
                             <span>{content}</span>
                         </div>

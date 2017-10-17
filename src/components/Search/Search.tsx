@@ -110,7 +110,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
                     ref={this._resolveRef('_inputElement')} />
                 {underlined &&
                     <div className="search-button">
-                        <Button disabled={disabled} className={'button-icon'} icon={'icon-search'}></Button>
+                        <Button disabled={disabled} className={'button-primary'} icon={'icon-search'}></Button>
                     </div>
                 }
                 <div

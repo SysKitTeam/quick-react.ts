@@ -77,7 +77,7 @@ export class Index extends React.Component<any, any> {
                 <div>
                     <Label>Button + Arrow Dropdown:</Label>
                     <div style={{display: 'inline-flex'}}>
-                        <Button className={'button-icon'} icon={'icon-add'} style={{borderRadius: '8px 0 0 8px'}}></Button>
+                        <Button className={'button-primary'} icon={'icon-add'} style={{borderRadius: '8px 0 0 8px'}}></Button>
                         <Dropdown className={'arrow-dropdown'} dropdownType={DropdownType.customDropdown}>
                             <li className={'dropdown-item'}>Option a</li>
                             <li className={'dropdown-item is-selected'}>Option b</li>

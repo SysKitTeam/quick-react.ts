@@ -19,9 +19,9 @@ import './DetailedServerTile.scss';
 
 export class DetailedServerTile extends React.PureComponent<IDetailedServerProps, any> {
     public static defaultProps = {
-        okColor: '#5FB005',
-        warningColor: '#FFB900',
-        criticalColor: '#FF2F20'
+        okColor: '#7DC458',
+        warningColor: '#EAC71A',
+        criticalColor: '#FB6464'
     };
 
     public render() {
@@ -60,7 +60,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                             xAxisTicks={3}
                             showLegend={false}
                             tooltipText={(d: ILineChartData) => toPrettyString(d.value, 0) + '%'}
-                            colorPallette={['#676767']}
+                            colorPallette={['#686869']}
                         />
                         <ProgressBar
                             title={'Memory'}

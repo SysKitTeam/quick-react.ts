@@ -23,11 +23,11 @@
         cursor: pointer;
 
         &.clicked {
-            fill: #D4EAFD;
+            fill: $bar-char-fill-color;
         }
 
         &:hover {
-            fill: #D4EAFD;
+            fill: $bar-char-fill-color;
         }
     }
 }

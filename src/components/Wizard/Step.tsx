@@ -9,6 +9,12 @@ interface ObjectConstructor {
   assign(target: any, ...sources: any[]): any;
 }
 
+const $primaryColor = '#F79428';
+const $secondaryColor = '#4D4D4F';
+const $whiteColor = '#FFFFFF';
+const $secondaryColor40 = '#B7B7B8';
+const $secondaryColor20 = '#DADADB';
+
 export default class Step extends React.Component<IStepProps, IStepState> {
   constructor(props: IStepProps) {
     super(props);
@@ -16,20 +22,20 @@ export default class Step extends React.Component<IStepProps, IStepState> {
   }
 
   public static defaultProps: IStepProps = {
-    activeColor: '#FFFFFF',
-    activeBorderColor: '#F79428',
-    activeTitleColor: '#4D4D4F',
-    defaultColor: '#FFFFFF',
+    activeColor: $whiteColor,
+    activeBorderColor: $primaryColor,
+    activeTitleColor: $secondaryColor,
+    defaultColor: $whiteColor,
     defaultBorderStyle: 'solid',
-    defaultBorderColor: '#C8C8C9',
-    defaultBarColor: '#B7B7B8',
-    completeColor: '#F79428',
-    completeBarColor: '#F79428',
-    completeBorderColor: '#F79428',
+    defaultBorderColor: $secondaryColor20,
+    defaultBarColor: $secondaryColor40,
+    completeColor: $primaryColor,
+    completeBarColor: $primaryColor,
+    completeBorderColor: $primaryColor,
     completeBorderStyle: 'solid',
-    completeTitleColor: '#4D4D4F',
-    defaultTitleColor: '#4D4D4F',
-    circleFontColor: '#FFFFFF',
+    completeTitleColor: $secondaryColor,
+    defaultTitleColor: $secondaryColor,
+    circleFontColor: $whiteColor,
     size: 24,
     circleFontSize: 16,
     titleFontSize: 16,

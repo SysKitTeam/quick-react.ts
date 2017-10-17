@@ -96,7 +96,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
     }
 
     public render() {
-        const { title, hasSearch, isSingleSelect, defaultSelection } = this.props;
+        const { title, hasSearch, isSingleSelect, defaultSelection, itemsAreFlatList } = this.props;
 
         const allSelected = this.getAllSelectedCheckMark();
 
@@ -105,27 +105,31 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                 this.allItemIds :
                 this.props.filterSelection.selectedIDs;
 
+        const virtualizedTreeClassName = classNames(
+            'virtualized-tree-filter-container',
+            {
+                'is-single-select': isSingleSelect,
+                'is-flat-list': itemsAreFlatList
+            }
+        );
+
         return (
-            <div className="virtualized-tree-filter-container" style={{ width: '100%', height: '100%' }}>
+            <div className={virtualizedTreeClassName} style={{ width: '100%', height: '100%' }}>
                 {
                     title && <label className="virtualized-tree-filter-title" title={title}>{title}</label>
                 }
-                <div className="virtualized-tree-filter-select-all-search">
-                    {
-                        !isSingleSelect &&
-                        <VirtualizedTreeViewCheckBox
-                            text=""
-                            itemId="ALL"
-                            checked={allSelected}
-                            onChange={this.onSelectAllChange}
-                            className="select-all-checkbox"
-                        />
-                    }
-                    {
-                        hasSearch && <Search labelText={this.state.searchText} onChange={this.searchItems} className="filter-search" />
-                    }
-                </div>
-
+                {
+                    hasSearch && <Search labelText={this.state.searchText} onChange={this.searchItems} className="filter-search" />
+                }
+                {
+                    !isSingleSelect &&
+                    <VirtualizedTreeViewCheckBox
+                        text="Select All"
+                        itemId="ALL"
+                        checked={allSelected}
+                        onChange={this.onSelectAllChange}
+                    />
+                }
                 <AutoSizer>
                     {({ width, height }) => (
                         <List
@@ -230,7 +234,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                 </div>
             );
         } else { // leaf
-            const marginLeft = this.props.itemsAreFlatList ? 0 : 20;
+            const marginLeft = this.props.itemsAreFlatList ? 0 : 18;
             return (
                 <div className="item-container" key={itemKey} style={{ height: this.props.rowHeight, marginLeft: marginLeft }}>
                     <ItemCheckboxElement />
@@ -441,8 +445,13 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
 
     private getBoxSupportElementsHeight = () => {
         let heightDiff = 5; // 5px: paddings
-        if (!this.props.isSingleSelect) { heightDiff += 19; } // 19px: Footer
-        if (this.props.hasSearch) { heightDiff += 42; } // 42px: Select All/Search
+        if (!this.props.isSingleSelect) {
+            heightDiff += 44; // 25px: SelectAll +  19px: Footer
+        } else {
+            heightDiff += 10;
+        }
+
+        if (this.props.hasSearch) { heightDiff += 30; }
         return heightDiff;
     }
 

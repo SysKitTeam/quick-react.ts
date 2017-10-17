@@ -83,10 +83,10 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
 
     headerCellRender = ({ columnIndex, key, rowIndex, style }) => {
         const notLastIndex = columnIndex < (this.state.columnWidths.length - 1);
-        const isAction = this.props.hasActionColumn && columnIndex === 0;
+        const column = this.props.headerColumns[columnIndex];
+        const isAction = this.props.hasActionColumn && columnIndex === 0 || (column.valueMember === undefined && column.dataMember === undefined);
         const notEmptyColumns = !isAction && columnIndex >= this.props.groupBy.length;
         const displayResizeHandle = notLastIndex && notEmptyColumns;
-        const column = this.props.headerColumns[columnIndex];
 
         return (
             <div

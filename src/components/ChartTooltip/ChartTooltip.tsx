@@ -13,7 +13,7 @@ const pathLine = d3.line().x((d: any) => d.x).y((d: any) => d.y);
 
 export class ChartTooltip extends React.PureComponent<IChartTooltipProps, any> {
     public static defaultProps = {
-        tipBorderColor: '#05486C'
+        tipBorderColor: '#008DDB'
     };
 
     constructor(props: IChartTooltipProps) {

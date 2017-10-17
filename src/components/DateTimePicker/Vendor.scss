@@ -4,8 +4,6 @@
 
 @import '../../index.scss';
 
-$gray-lighter-color: #efefef;
-
 .rdt {
   position: relative;
   user-select: none;
@@ -178,7 +176,7 @@ $gray-lighter-color: #efefef;
 }
 
 .rdtPicker button:hover {
-  background-color: $gray-lighter-color;
+  background-color: $black-color-6;
 }
 
 .rdtPicker thead button {
@@ -234,7 +232,7 @@ td.rdtYear:hover {
 }
 
 .rdtCounter .rdtBtn:hover {
-  background: $gray-lighter-color;
+  background: $black-color-6;
 }
 
 .rdtCounter .rdtCount {
