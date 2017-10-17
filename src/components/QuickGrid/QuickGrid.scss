@@ -136,10 +136,9 @@
     }
 
     .grid-component {
-        overflow-x: hidden !important;
-        overflow-y: auto !important;
-
         .grid-component-cell {
+            user-select: none;
+
             > div {
                 white-space: nowrap;
                 overflow: hidden;
@@ -180,6 +179,10 @@
                 border-right: 1px solid $secondary-color-20;
                 box-sizing: border-box;
             }
+        }
+
+        &.no-scrollbar {
+            overflow-x: hidden !important;
         }
 
         .grid-group-row {
@@ -223,6 +226,22 @@
                     }
                 }
             }
+        }
+    }
+
+    .grid-column-footer {
+        overflow-y: hidden !important;
+
+        .grid-footer-cell {
+            box-sizing: border-box;
+            border-top: 2px solid $secondary-color-20;
+            padding-top: 5px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-left: 5px;
+            user-select: none;
+            cursor: default;
         }
     }
 }

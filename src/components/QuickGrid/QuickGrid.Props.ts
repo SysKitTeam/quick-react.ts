@@ -27,6 +27,7 @@ export interface IQuickGridProps {
     groupRowFormat?: (rowData: any) => string;
     onGroupBySort?: (sortBy: string, sortDirection: SortDirection) => void;
     gridActions?: QuickGridActions;
+    columnSummaries?: any;
 }
 
 export interface IQuickGridState {
@@ -37,7 +38,6 @@ export interface IQuickGridState {
     columnWidths: Array<number>;
     selectedRowIndex?: number;
     columnsToDisplay: Array<GridColumn>;
-    rows: Array<any>;
 }
 
 export interface GroupRow {

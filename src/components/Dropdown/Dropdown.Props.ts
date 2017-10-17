@@ -6,11 +6,12 @@ export interface IRenderFunction<P> {
 
 export interface IDropdownProps {
   label ?: string;
-  id ?: string;
+  id?: string;
+  dropdownKey?: string | number;
   selectedKey ?: string | number;
   options ?: IDropdownOption[];
   onChanged ?: (option: IDropdownOption, index?: number) => void;
-  onClick ?: (option: IDropdownOption, index?: number) => void;
+  onClick ?: (option: IDropdownOption, index?: number, dropdownKey?: string | number ) => void;
   onRenderItem ?: IRenderFunction<IDropdownOption>;
   disabled ?: boolean;
   hasTitleBorder ?: boolean;

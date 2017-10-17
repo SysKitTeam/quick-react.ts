@@ -60,28 +60,23 @@ $bar-char-fill-color: #D4EAFD;
 }
 
 ::-webkit-scrollbar {
-    width: 13px;
-    margin-top: 10px;
+    width: 10px;
+    height: 10px;
+    background: $black-color-6;
     border-radius: 15px;
-    margin-right: 3px;
-    background: transparent;
 }
             
 ::-webkit-scrollbar-track {
     border-radius: 15px;
-    margin-top: 7px;
-    background: $black-color-6;
-    margin-bottom: 7px;
 }
             
 ::-webkit-scrollbar-thumb {
      border-radius: 10px;
-     margin-top: 10px;
-     background: #F2953C;               
+     background: $primary-color;               
 }
 
 ::-webkit-scrollbar-thumb:window-inactive {
-     background: #F2953C; 
+     background: $primary-color; 
 }
 
 .ReactVirtualized__Grid, .ReactVirtualized__Collection {
