@@ -17,6 +17,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContextProvider, DragDropContext } from 'react-dnd';
 import { groupBy as arrayGroupBy } from '../../utilities/array';
 const createSelector = require('reselect').createSelector;
+import { GridFooter } from './QuickGridFooter';
 import './QuickGrid.scss';
 
 const getActionItems = (props: IQuickGridProps) => props.gridActions.actionItems;
@@ -142,8 +143,12 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             this.columnsMinTotalWidth = columnsToDisplay.map(x => x.minWidth || defaultMinColumnWidth).reduce((a, b) => a + b, 0);
         }
     }
+
+    componentWillUpdate(nextProps, nextState) {
+        this.finalGridRows = getRowsSelector(nextState, nextProps);
+    }
+
     componentDidUpdate(prevProps, prevState) {
-        this.finalGridRows = getRowsSelector(this.state, this.props);
         if (prevProps.columns !== this.props.columns || prevState.groupBy !== this.state.groupBy || prevState.columnWidths !== this.state.columnWidths) {
             this._grid.recomputeGridSize();
         } else if (this.state.sortDirection !== prevState.sortDirection || this.state.sortColumn !== prevState.sortColumn) {
@@ -151,7 +156,8 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         }
     }
 
-    getGridWidth() {
+
+    getViewportWidth() {
         let width = 0;
         if (document.getElementsByClassName('viewport-height')[0] !== undefined) {
             width = document.getElementsByClassName('viewport-height')[0].clientWidth;
@@ -159,8 +165,18 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             width = document.getElementById('root').clientWidth;
         }
         // left margin is 25px
-        return width - 25 - scrollbarSize();
+        return width - 25;
     }
+
+    getGridWidth() {
+        return this.getViewportWidth() - scrollbarSize();
+    }
+
+    getGridHeight = (height: number) => {
+        return height - this.groupByToolboxHeight()
+            - this.gridFooterContainerHeight();
+    }
+
     onRowExpandToggle(name, shouldExpand) {
         this.setState((oldState) => {
             let collapsedRows = [...oldState.collapsedRows];
@@ -409,6 +425,26 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     groupByToolboxHeight = () => {
         return 30 + (this.props.displayGroupContainer ? 62 : 0); // header height + Drag&Drop height+padding
     }
+
+    gridFooterContainerHeight = () => {
+        if (this.props.columnSummaries) {
+            return 40 + (this.horizontalScrollbarExists()
+                ? scrollbarSize()
+                : 0);
+        } else {
+            return 0;
+        }
+    }
+
+    horizontalScrollbarExists() {
+        const columnWidths = this.state.columnWidths;
+        const viewportWidth = this.getViewportWidth();
+        const totalColumnsWidth = columnWidths.reduce((previous, current) => {
+            return previous + current;
+        }, 0);
+        return totalColumnsWidth > viewportWidth;
+    }
+
     setHeaderGridReference = (ref) => { this._headerGrid = ref; };
     setGridReference = (ref) => { this._grid = ref; };
 
@@ -445,7 +481,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
 
                                     <Grid
                                         ref={this.setGridReference}
-                                        height={height - this.groupByToolboxHeight()}
+                                        height={this.getGridHeight(height)}
                                         width={width}
                                         onScroll={onScroll}
                                         scrollLeft={scrollLeft}
@@ -453,18 +489,30 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                                         overscanRowCount={this.props.overscanRowCount}
                                         columnWidth={this.getColumnWidth}
                                         rowHeight={this.props.rowHeight}
-                                        className="grid-component"
+                                        className={classNames('grid-component',
+                                            { 'no-scrollbar': this.props.columnSummaries })}
                                         rowCount={this.finalGridRows.length}
                                         columnCount={this.state.columnsToDisplay.length}
                                         {...this.state} // force update on any state change
                                         {...this.props} // force update on any prop change
                                     />
+                                    {this.props.columnSummaries &&
+                                        <GridFooter
+                                            height={this.gridFooterContainerHeight()}
+                                            columnWidths={this.state.columnWidths}
+                                            rowData={this.props.columnSummaries}
+                                            width={width}
+                                            rowHeight={this.gridFooterContainerHeight() - 2}
+                                            columns={this.state.columnsToDisplay}
+                                            scrollLeft={scrollLeft}
+                                            onScroll={onScroll}
+                                        />
+                                    }
                                 </div>
                             )}
                         </ScrollSync>
                     )}
                 </AutoSizer>
-
             </div>
         );
     }
