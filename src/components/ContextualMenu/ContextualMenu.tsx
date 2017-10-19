@@ -82,7 +82,7 @@ export class ContextualMenu extends CommonComponent<IContextualMenuProps, IConte
 
         let hasIcons = !!(items && items.some(item => !!item.iconProps));
         let hasCheckmarks = !!(items && items.some(item => !!item.canCheck));
-        
+
         return (
             <Callout
                 target={target}

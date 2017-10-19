@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { IPopupProps } from './Popup.Props';
 import { KeyCodes } from '../../utilities/KeyCodes';
-import {EventGroup} from './EventGroup';
-import {IDisposable} from './IDisposable';
+import { EventGroup } from './EventGroup';
+import { IDisposable } from './IDisposable';
 import { getNativeAttributes, divAttributes } from '../../utilities/attributes';
 import { doesElementContainFocus } from '../../utilities/focus';
 import { getDocument } from '../../utilities/getDocument';
@@ -22,7 +22,7 @@ export class Popup extends CommonComponent<IPopupProps, {}> {
 
   private _originalFocusedElement: HTMLElement;
   private _containsFocus: boolean;
-  
+
   public componentWillMount() {
     this._originalFocusedElement = getDocument().activeElement as HTMLElement;
   }
@@ -57,11 +57,11 @@ export class Popup extends CommonComponent<IPopupProps, {}> {
       <div
         ref="root"
         { ...getNativeAttributes(this.props, divAttributes) }
-        className={ className }
-        role={ role }
-        aria-labelledby={ ariaLabelledBy }
-        aria-describedby={ ariaDescribedBy }>
-        { this.props.children }
+        className={className}
+        role={role}
+        aria-labelledby={ariaLabelledBy}
+        aria-describedby={ariaDescribedBy}>
+        {this.props.children}
       </div>
     );
   }

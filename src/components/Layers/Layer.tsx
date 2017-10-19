@@ -18,7 +18,7 @@ export class Layer extends React.Component<ILayerProps, {}> {
   private _projectedLayer: ProjectedLayer;
   private _layerHost: LayerHost;
   private _id: string;
-  private _resolves: { [ name: string ]: (ref: any) => any };
+  private _resolves: { [name: string]: (ref: any) => any };
 
   constructor(props?: ILayerProps) {
     super(props);
@@ -60,12 +60,12 @@ export class Layer extends React.Component<ILayerProps, {}> {
     return (
       <span
         className="layer"
-        ref={ this.resolveRef('_rootElement') }
-        />
+        ref={this.resolveRef('_rootElement')}
+      />
     );
   }
 
-   protected resolveRef(refName: string) {
+  protected resolveRef(refName: string) {
     if (!this._resolves) {
       this._resolves = {};
     }

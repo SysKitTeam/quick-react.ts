@@ -1,4 +1,4 @@
-import {IStepProps} from './IStepProps';
+import { IStepProps } from './IStepProps';
 
 export interface IStepperProps {
   activeStep?: number;

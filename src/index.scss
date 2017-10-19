@@ -12,6 +12,8 @@ $tertiary-color: #37B2B7;
 $tertiary-hover-color: #009BA1;
 $tertiary-disabled-color: #AEE0E2;
 
+$bar-char-fill-color: #D4EAFD;
+
 $link-color: #25A7EF;
 $link-hover-color: #008DDB;
 
@@ -20,19 +22,15 @@ $warning-color: #EAC71A;
 $success-color: #7DC458;
 
 // server status
-$error-status-server: #FB6464;
-$warning-status-server: #EAC71A;
-$ok-status-server: #7DC458;
+$error-status-server: $error-color;
+$warning-status-server: $warning-color;
+$ok-status-server: $success-color;
 
 // messageBar
-$error-background-color: #FAE7E7;
-$error-text-color: #FB6464;
-$warning-background-color: #FBF8E5;
-$warning-text-color: #EAC71A;
-$success-background-color: #F1F6D2;
-$success-text-color: #7DC458;
-$info-background-color: #DEECFA;
-$info-text-color: #008DDB;
+$error-text-color: $error-color;
+$warning-text-color: $warning-color;
+$success-text-color: $success-color;
+$info-text-color: $secondary-color;
 
 //color with opacity
 $primary-color-30: #FCDEBD;
@@ -49,8 +47,6 @@ $black-color-15: #D8D8D8;
 $black-color-30: #B2B2B2;
 
 $white-color-15: #686869;
-
-$bar-char-fill-color: #D4EAFD;
 
 
 * {

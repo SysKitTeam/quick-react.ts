@@ -1,22 +1,45 @@
 @import '../../index.scss';
 
 .messageBar {
-    background-color: $secondary-color;
+    background-color: $white-color;
+    border: 1px solid $secondary-color-20;
+    border-left: 0;
+    border-radius: 0 8px 8px 0;
     color: $white-color;
     box-sizing: border-box;
-    position: relative;
-    height: 40px;
+    position: absolute;
+    user-select: none;
+    height: 32px;
+    width: 60%;
+    margin: 0 20%;
+    bottom: 10px;
 
     .messageBar-content {
-        padding: 10px;
+        padding-right: 10px;
         display: flex;
+        align-items: center;
+        height: 100%;
     }
 
     .messageBar-icon {
-        padding-right: 5px;
+        display: flex;
+        align-items: center;
+        margin-left: -16px;
+
+        &::before {
+            content: '';
+            width: 32px;
+            height: 32px;
+            box-sizing: border-box;
+            border-radius: 50%;
+        }
 
         .icon {
-            font-size: 20px;
+            color: $white-color;
+            position: absolute;
+            font-size: 16px;
+            margin-right: 0;
+            left: -8px;
         }
     }
 
@@ -25,19 +48,25 @@
         flex-direction: row;
         width: 100%;
         margin-right: 20px;
+        min-width: 0;
 
         .messageBar-text {
+            min-width: 0;
+            display: flex;
+            margin-left: 15px;
+
             .messageBar-innerText {
                 overflow-x: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                cursor: default;
             }
         }
 
         .messageBar-actionsOneline {
             position: absolute;
             right: 40px;
-            top: 3px; 
+            top: -1px; 
         }
 
         .messageBar-checkBox-container {
@@ -46,8 +75,8 @@
 
             .messageBar-checkbox {
                 position: absolute;
-                right: 40px;
-                top: 3px;
+                right: 45px;
+                top: -1px;
 
                 .checkbox-label {
                     margin-top: 8px;
@@ -58,119 +87,43 @@
         .messageBar-dismissal {
             right: 5px;
             position: absolute;
-            top: 12px;
+            top: 8px;
             cursor: pointer;
+
+            &:hover {
+                color: $primary-color;
+            }
         }
     }
 
     &.messageBar-warning {
-        background-color: $warning-background-color;
-
-        .messageBar-icon > i,
-        .messageBar-innerText,
-        .checkbox-label > .label,
-        .messageBar-dismissal {
-            color: $warning-text-color;
-        }
-
-        .checkbox {
-            .checkbox-label::before {
-                border: 2px solid $warning-text-color;
-            }
-    
-            &.checked {
-                .checkbox-label::before {
-                    border-color: $warning-text-color;
-                    background-color: transparent;
-                }
-
-                .checkboxCheckmark {
-                    color: $warning-text-color;
-                }
+        .messageBar-icon {
+            &:before {
+                background-color: $warning-text-color;
             }
         }
     }
 
     &.messageBar-error {
-        background-color: $error-background-color;
-
-        .messageBar-icon > i,
-        .messageBar-innerText,
-        .checkbox-label > .label,
-        .messageBar-dismissal {
-            color: $error-text-color;
-        }
-
-        .checkbox {
-            .checkbox-label::before {
-                border: 2px solid $error-text-color;
-            }
-
-            &.checked {
-                .checkbox-label::before {
-                    border-color: $error-text-color;
-                    background-color: transparent;
-                }
-
-                .checkboxCheckmark {
-                    color: $error-text-color;
-                }
+        .messageBar-icon {
+            &:before {
+                background-color: $error-text-color;
             }
         }
     }
 
     &.messageBar-success {
-        background-color: $success-background-color;
-
-        .messageBar-icon > i,
-        .messageBar-innerText,
-        .checkbox-label > .label,
-        .messageBar-dismissal {
-            color: $success-text-color;
-        }
-
-        .checkbox {
-            .checkbox-label::before {
-                border: 2px solid $success-text-color;
-            }
-
-            &.checked {
-                .checkbox-label::before {
-                    border-color: $success-text-color;
-                    background-color: transparent;
-                }
-
-                .checkboxCheckmark {
-                    color: $success-text-color;
-                }
+        .messageBar-icon {
+            &:before {
+                background-color: $success-text-color;
             }
         }
     }
 
     &.messageBar-info {
-        background-color: $info-background-color;
-
-        .messageBar-icon > i,
-        .messageBar-innerText,
-        .checkbox-label > .label,
-        .messageBar-dismissal {
-            color: $info-text-color;
-        }
-
-        .checkbox {
-            .checkbox-label::before {
-                border: 2px solid $info-text-color;
-            }
-    
-            &.checked {
-                .checkbox-label::before {
-                    border-color: $info-text-color;
-                    background-color: transparent;
-                }
-
-                .checkboxCheckmark {
-                    color: $info-text-color;
-                }
+        .messageBar-icon {
+            &:before {
+                background-color: $info-text-color;
             }
         }
     }

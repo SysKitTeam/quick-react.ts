@@ -52,7 +52,7 @@ export interface GroupRow {
 
 export enum DataTypeEnum {
     Number,
-    String, 
+    String,
     Date
 }
 

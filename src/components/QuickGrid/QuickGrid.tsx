@@ -118,7 +118,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                 isSortable: false,
                 isGroupable: false,
                 width: 15,
-                minWidth: 15
+                minWidth: 28
             });
         }
         for (let index = 0; index < groupBy.length; index++) {
@@ -274,7 +274,8 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         const className = classNames(
             'grid-component-cell',
             rowClass,
-            { 'is-selected': rowIndex === this.state.selectedRowIndex });
+            { 'is-selected': rowIndex === this.state.selectedRowIndex }
+        );
 
         return (
             <div

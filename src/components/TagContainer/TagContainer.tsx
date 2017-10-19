@@ -53,7 +53,7 @@ export class TagContainer extends React.Component<ITagContainerProps, any> {
                 {
                     tags.length > 3 && <div className="tag points" title={extraTags}>...</div>
                 }
-                { this.props.children }
+                {this.props.children}
             </div>
         );
     }

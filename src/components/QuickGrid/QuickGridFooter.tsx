@@ -55,20 +55,20 @@ export class GridFooter extends React.PureComponent<IGridFooterProps, IGridFoote
 
     render() {
         return (
-                <Grid
-                    ref={this.setGridReference}
-                    height={this.props.height}
-                    width={this.props.width}
-                    rowHeight={this.props.rowHeight}
-                    rowCount={1}
-                    columnCount={this.props.columns.length}
-                    cellRenderer={this.columnSummaryCellRenderer}
-                    columnWidth={this.getColumnWidth}
-                    className="grid-column-footer"
-                    scrollLeft={this.props.scrollLeft}
-                    onScroll={this.props.onScroll}
-                    {...this.props}
-                />
+            <Grid
+                ref={this.setGridReference}
+                height={this.props.height}
+                width={this.props.width}
+                rowHeight={this.props.rowHeight}
+                rowCount={1}
+                columnCount={this.props.columns.length}
+                cellRenderer={this.columnSummaryCellRenderer}
+                columnWidth={this.getColumnWidth}
+                className="grid-column-footer"
+                scrollLeft={this.props.scrollLeft}
+                onScroll={this.props.onScroll}
+                {...this.props}
+            />
         );
     }
 }

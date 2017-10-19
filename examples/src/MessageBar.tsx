@@ -7,7 +7,6 @@ import * as ReactDOM from 'react-dom';
 
 import { MessageBar } from './../../src/components/MessageBar/MessageBar';
 import { MessageBarType } from './../../src/components/MessageBar/MessageBar.Props';
-import { Button } from './../../src/components/Button/Button';
 
 export class Index extends React.Component<any, any> {
     constructor(props: any) {
@@ -29,7 +28,7 @@ export class Index extends React.Component<any, any> {
                     onDismiss={() => { console.log('test'); } }
                 >This is warning messageBar!</MessageBar>
 
-                <MessageBar 
+                {/* <MessageBar 
                     messageBarType={MessageBarType.success} 
                     hasDontShowAgain={true} 
                     dontShowAgainChecked={this.state.dontShowAgainChecked}
@@ -49,13 +48,7 @@ export class Index extends React.Component<any, any> {
                     messageBarType={MessageBarType.info} 
                     hasDontShowAgain={false}
                     onDismiss={() => { console.log('test'); } }
-                    actions={
-                        <div>
-                        <Button>Yes</Button>
-                        <Button>No</Button>
-                        </div>
-                    }
-                >This is info messageBar!</MessageBar>
+                >This is info messageBar!</MessageBar> */}
              </div>
         );
     }

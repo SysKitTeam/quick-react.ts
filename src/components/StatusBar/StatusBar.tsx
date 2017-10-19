@@ -26,7 +26,7 @@ export class StatusBar extends React.Component<IStatusBarProps, any> {
 
     render() {
         let { text } = this.state;
-        let {children} = this.props;
+        let { children } = this.props;
         let statusBarClassName = classNames(
             'statusBar',
             [this.props.className]

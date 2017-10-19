@@ -48,12 +48,10 @@
                 margin-left: 20px;
         
                 .treeview-item__icon {
+                    margin-right: 5px;
+                    
                     .icon:hover {
                         color: $primary-color;
-                    }
-                    
-                    &:first-of-type {
-                        margin-right: 10px;
                     }
                 }
             }

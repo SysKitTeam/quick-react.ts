@@ -65,7 +65,7 @@ export class DateTimeDropdownPicker extends React.PureComponent<IDateTimeDropdow
     @autobind
     private _cancelClicked() {
         this._closeDropDown();
-         this.setState({ selectedDateCached: this.props.selectedDate });
+        this.setState({ selectedDateCached: this.props.selectedDate });
     }
 
     @autobind

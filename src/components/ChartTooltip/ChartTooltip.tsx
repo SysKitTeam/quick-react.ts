@@ -40,19 +40,19 @@ export class ChartTooltip extends React.PureComponent<IChartTooltipProps, any> {
         const tipClass = classNames('tip', this.props.id);
         const translate = 'translate(' + this.state.translateX + ',' + this.state.translateY + ')';
         const visibility = this.props.visible ? 'block' : 'none';
-        
+
         return (
-            <g className={classNames(tipClass, 'tip-container')} style={{ display: visibility}} transform={translate}>
-                <polygon className={classNames(tipClass, 'tip-pol')} 
-                    points={this.state.arrowPoints}/>
-                <rect className={classNames(tipClass, 'tip-rect')} 
-                    height={this.state.height} 
-                    width={this.state.width}/>
+            <g className={classNames(tipClass, 'tip-container')} style={{ display: visibility }} transform={translate}>
+                <polygon className={classNames(tipClass, 'tip-pol')}
+                    points={this.state.arrowPoints} />
+                <rect className={classNames(tipClass, 'tip-rect')}
+                    height={this.state.height}
+                    width={this.state.width} />
                 <path d={pathLine(this.state.pathPoints)} style={{ fill: 'none', stroke: this.props.tipBorderColor, strokeWidth: 1 }} />
-                <text className={classNames(tipClass, 'tip-text')} 
-                        dx={padding.right} 
-                        dy={this.state.textYPosition} 
-                        ref={(element: SVGTextElement) => this.init(element)}
+                <text className={classNames(tipClass, 'tip-text')}
+                    dx={padding.right}
+                    dy={this.state.textYPosition}
+                    ref={(element: SVGTextElement) => this.init(element)}
                 >{this.props.text}</text>
             </g>
         );
@@ -77,14 +77,14 @@ export class ChartTooltip extends React.PureComponent<IChartTooltipProps, any> {
         const y = this.props.y - height - TIP_ARROW_HEIGHT;
 
         const pathPoints = [
-            {x: 0, y: 0},
-            {x: width, y: 0},
-            {x: width, y: height},
-            {x: xRight, y: height},
-            {x: center, y: arrowHeight},
-            {x: xLeft, y: height},
-            {x: 0, y: height},
-            {x: 0, y: 0}
+            { x: 0, y: 0 },
+            { x: width, y: 0 },
+            { x: width, y: height },
+            { x: xRight, y: height },
+            { x: center, y: arrowHeight },
+            { x: xLeft, y: height },
+            { x: 0, y: height },
+            { x: 0, y: 0 }
         ];
 
         if (width !== this.state.width || height !== this.state.height || x !== this.state.translateX || y !== this.state.translateY) {

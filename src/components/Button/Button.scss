@@ -48,6 +48,7 @@ $button-height: 32px;
     .button-label {
         color: $white-color;
         position: relative;
+        top: -1px;
     }
 
     &.button-primary {

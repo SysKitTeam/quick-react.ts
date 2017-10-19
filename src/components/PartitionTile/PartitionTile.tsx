@@ -36,12 +36,12 @@ export class PartitionTile extends React.PureComponent<IPartitionTileProps, any>
         return [{ label: 'Used', value: partition.used, color: this.getColorByStatus(partition.status) }, { label: 'Free', value: free, color: '#EFEFEF' }];
     }
 
-    private getColorByStatus(status: ServerStatus) : string {
+    private getColorByStatus(status: ServerStatus): string {
         if (status === ServerStatus.Critical) {
             return this.props.criticalColor;
         } else if (status === ServerStatus.Warning) {
             return this.props.warningColor;
-        } 
+        }
         return this.props.okColor;
     }
 }

@@ -20,7 +20,7 @@ export interface IProjectedLayerState {
 export class ProjectedLayer extends React.Component<IProjectedLayerProps, IProjectedLayerState> {
   private _rootElement: HTMLElement;
   private _remoteProps: ILayerProps;
-  private _resolves: { [ name: string ]: (ref: any) => any };
+  private _resolves: { [name: string]: (ref: any) => any };
 
   constructor(props?: IProjectedLayerProps) {
     super(props);
@@ -51,13 +51,13 @@ export class ProjectedLayer extends React.Component<IProjectedLayerProps, IProje
     return (
       <div
         { ...remoteProps }
-        className={ classNames('projected-layer', remoteProps.className) }
-        ref={ this.resolveRef('_rootElement') }
-        />
+        className={classNames('projected-layer', remoteProps.className)}
+        ref={this.resolveRef('_rootElement')}
+      />
     );
   }
 
-   protected resolveRef(refName: string) {
+  protected resolveRef(refName: string) {
     if (!this._resolves) {
       this._resolves = {};
     }

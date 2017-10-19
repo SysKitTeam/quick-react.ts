@@ -93,7 +93,7 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
                 className={classNames({ 'empty-header-column': !displayResizeHandle }, 'grid-header-column')}
                 key={key}
                 style={style}>
-                { notEmptyColumns &&
+                {notEmptyColumns &&
                     this.createHeaderColumn(column)
                 }
                 {displayResizeHandle &&

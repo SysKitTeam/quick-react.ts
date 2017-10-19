@@ -9,7 +9,7 @@ export class Overlay extends React.Component<IOverlayProps, {}> {
         let { isDarkThemed, className } = this.props;
         let divProps = getNativeAttributes(this.props, divAttributes);
 
-        let modifiedClassName = classNames (
+        let modifiedClassName = classNames(
             'overlay',
             className,
             {
@@ -18,7 +18,7 @@ export class Overlay extends React.Component<IOverlayProps, {}> {
         );
 
         return (
-            <div { ...divProps } className={ modifiedClassName } />
+            <div { ...divProps } className={modifiedClassName} />
         );
     }
 }

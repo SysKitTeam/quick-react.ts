@@ -69,18 +69,18 @@ export class LayerHost extends React.Component<ILayerHostProps, {}> {
     let divProps = getNativeAttributes(this.props, divAttributes);
 
     return (
-      <div { ...divProps } className={ classNames('layer-host', [this.props.className]) }>
+      <div { ...divProps } className={classNames('layer-host', [this.props.className])}>
         <Fabric>
-          { this.props.children }
+          {this.props.children}
           <div className="overlay">
-            { this._layers.map(layer => (
+            {this._layers.map(layer => (
               <ProjectedLayer
-                key={layer.id }
-                layerId={ layer.id }
-                parentElement={ layer.parentElement }
-                defaultRemoteProps={ layer.props }
-                ref={ this._resolveLayer }
-                />
+                key={layer.id}
+                layerId={layer.id}
+                parentElement={layer.parentElement}
+                defaultRemoteProps={layer.props}
+                ref={this._resolveLayer}
+              />
             ))}
           </div>
         </Fabric>
