@@ -9,8 +9,8 @@ import { Icon } from '../Icon/Icon';
 import './Checkbox.scss';
 
 export interface ICheckboxState {
-    isFocused ?: boolean;
-    isChecked ?: boolean;
+    isFocused?: boolean;
+    isChecked?: boolean;
 }
 
 export class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
@@ -45,13 +45,14 @@ export class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
         const { isFocused } = this.state;
         const isChecked = checked === undefined ? this.state.isChecked : checked;
 
-         const className = classNames({
-            'checkbox': true
+        const className = classNames({
+            'checkbox': true,
+            'checked': isChecked
         }, [this.props.className]);
-        
+
         const labelClassName = classNames({
             'checkbox-label': true,
-            'is-checked': this.state.isChecked,
+            'is-checked': isChecked,
             'is-disabled': disabled
         });
         const innerLabelClassName = classNames(
@@ -66,22 +67,22 @@ export class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
                     { ...inputProps }
                     { ...(checked !== undefined && { checked }) }
                     { ...(defaultChecked !== undefined && { defaultChecked }) }
-                    disabled={ disabled }
-                    ref={ this._resolveRef('_checkBox') }
+                    disabled={disabled}
+                    ref={this._resolveRef('_checkBox')}
                     className={'checkbox-input'}
-                    id={ this.id }
-                    name={ this.id }
-                    type="checkbox" 
-                    onChange={ this._onChange }
-                    onFocus={ this._onFocus }
-                    onBlur={ this._onBlur }  
+                    id={this.id}
+                    name={this.id}
+                    type="checkbox"
+                    onChange={this._onChange}
+                    onFocus={this._onFocus}
+                    onBlur={this._onBlur}
                 />
-                { isChecked && <Icon htmlFor={ this.id } className={'checkboxCheckmark'} iconName={'icon-checkmark'}></Icon> }
-                
-                <label htmlFor={ this.id }
+
+                <label htmlFor={this.id}
                     className={labelClassName}>
-                    { iconClassName && <Icon htmlFor={ this.id} iconName={iconClassName} className={'label-icon'}/>}
-                    { label && <span className={innerLabelClassName}>{label}</span> }
+                    {isChecked && <Icon htmlFor={this.id} className={'checkboxCheckmark'} iconName={'icon-checkmark'} ></Icon>}
+                    {iconClassName && <Icon htmlFor={this.id} iconName={iconClassName} className={'label-icon'} />}
+                    {label && <span className={innerLabelClassName}>{label}</span>}
                 </label>
             </div>
         );
@@ -123,7 +124,7 @@ export class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
     private _onChange(ev: React.FormEvent<HTMLInputElement>) {
         const { onChange, itemId } = this.props;
         const isChecked = (ev.target as HTMLInputElement).checked;
-        
+
         if (onChange) {
             onChange(ev, itemId, isChecked);
         }

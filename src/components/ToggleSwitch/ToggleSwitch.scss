@@ -1,74 +1,84 @@
+@import '../../index.scss';
+
 .toggle-switch {
-  position: relative;
-  display: inline-block;
-  width: 40px;
+  display: inline-flex;
   height: 20px;
-}
 
-.toggle-switch input {
-    display:none;
-}
+  input {
+    display: none;
+  }
 
-.toggle-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-  border-radius: 34px;
-}
+  .toggle-slider {
+    cursor: pointer;
+    transition: .4s;
+    background-color: $secondary-disabled-color;
+    position: relative;
+    height: 10px;
+    top: 5px;
+    width: 28px;
+    border-radius: 5px;
+    -webkit-transition: .4s;
 
-.toggle-slider:before {
-  position: absolute;
-  content: "";
-  height: calc(100% - 8px);
-  width: calc(50% - 8px);
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-  border-radius: 50%;
-  z-index: 2;
-}
+    &::before {
+      position: absolute;
+      content: "";
+      background-color: $secondary-color;
+      border: 2px solid $secondary-color;
+      transition: .4s;
+      -webkit-transition: .4s;
+      border-radius: 50%;
+      height: 12px;
+      width: 12px;
+      left: 0;
+      bottom: -3px;
+    }
+  }
 
-input:not(:checked) + .toggle-slider:after {
-  content: attr(data-off);
-  left: 19px;
-  top: 4px;
-  font-weight: 600;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 9px;
-  color: darkgrey;
-  position: absolute;
-  z-index: 1;
-}
+  .toggle-label {
+    user-select: none;
+    padding-left: 10px;
+  }
 
-input:checked + .toggle-slider:after {
-  content: attr(data-on);
-  position: absolute;
-  color: white;
-  font-size: 9px;
-  font-weight: 600;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  top: 4px;
-  right: 22px;
-}
+  input:checked + .toggle-slider {
+    background-color: $primary-color-50;
 
-input:checked + .toggle-slider {
-  background-color: #2196F3;
-}
+    &::before {
+        background-color: $primary-color;
+        border-color: $primary-color;
+        -webkit-transform: translateX(100%);
+        -ms-transform: translateX(100%);
+        transform: translateX(100%);
+    }
+  }
 
-input:focus + .toggle-slider {
-  box-shadow: 0 0 1px #2196F3;
-}
+  input:disabled + .toggle-slider {
+    background-color: $secondary-color-20;
+    cursor: default;
 
-input:checked + .toggle-slider:before {
-  -webkit-transform: translateX(100%);
-  -ms-transform: translateX(100%);
-  transform: translateX(calc(100% + 8px));
+    &::before {
+        background-color: $secondary-disabled-color;
+        border: 2px solid $secondary-disabled-color;
+    }
+  }
+
+  input:disabled + .toggle-slider + .toggle-label {
+    color: $secondary-disabled-color;
+  }
+
+  &.checked {
+    .toggle-slider {
+      &::before {
+        left: -4px;
+      }
+    }
+
+    input:disabled + .toggle-slider {
+      background-color: $primary-color-30;
+      
+      &::before {
+        background-color: $primary-color-50;
+        border: 2px solid $primary-color-50;
+      }
+    }
+  }
 }

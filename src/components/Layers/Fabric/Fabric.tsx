@@ -20,12 +20,12 @@ export interface IFabricState {
 }
 let _lastIsFocusVisible: boolean = false;
 
-if (typeof(document) === 'object' && document.documentElement && !document.documentElement.getAttribute('dir')) {
+if (typeof (document) === 'object' && document.documentElement && !document.documentElement.getAttribute('dir')) {
   document.documentElement.setAttribute('dir', 'ltr');
 }
 
 export class Fabric extends React.Component<React.HTMLProps<HTMLDivElement>, IFabricState> {
-  
+
   public refs: {
     [key: string]: React.ReactInstance;
     root: HTMLElement;
@@ -59,7 +59,7 @@ export class Fabric extends React.Component<React.HTMLProps<HTMLDivElement>, IFa
     });
 
     return (
-      <div { ...this.props } className={ rootClass } ref="root" />
+      <div { ...this.props } className={rootClass} ref="root" />
     );
   }
 

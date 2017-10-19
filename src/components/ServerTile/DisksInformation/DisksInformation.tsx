@@ -33,11 +33,6 @@ export class DisksInformation extends React.PureComponent<IDisksInformationProps
             );
         });
 
-        const diskClasses = classNames({
-            'cursor-pointer': sortedDiskInfo.length !== 0,
-            'cursor-default': sortedDiskInfo.length === 0
-        });
-
         return (
             <div className={this.props.className}>
                 <div
@@ -45,7 +40,7 @@ export class DisksInformation extends React.PureComponent<IDisksInformationProps
                     onMouseEnter={this.onMouseEnter}
                     onMouseLeave={this.onMouseLeave}>
                     <Icon
-                        className={classNames('disk-icon', diskIconColorClass, diskClasses)}
+                        className={classNames('disk-icon', diskIconColorClass)}
                         iconName={'icon-disk'}
                         title=""
                     />

@@ -1,101 +1,82 @@
 @import '../../index.scss';
 
-.tree-filter-container {
-    position: relative;
+.tree-filter-callout {
+    margin-top: 4px;
 
-    .tree-filter-title {
-        width: 200px;
-        height: 20px;
-        padding: 2px 1px 2px 1px;
+    .virtualized-tree-filter-container {
+        padding: 6px;
+        box-sizing: border-box;
 
-        span {
-            width: calc(100% - 17px);
+        .virtualized-tree-filter-title {
+            height: 20px;
+            padding: 2px 5px;
+            width: calc(100% - 25px);
             display: inline-block;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-    }
 
-    .item-selected {
-        color: $secondary-color;
-    }
+        .item-container {
+            white-space: nowrap;
+            cursor: pointer;
+            user-select: none;
 
-    .tree-filter-footer-count {
-        font-size: $font-size-s;
-        padding: 0;
-        padding-left: 5px;
-        position: absolute;
-        bottom: 5px;
-    }
+            &.expandible-item {
+                width: calc(100% - 20px);
+            }
 
-    .filter-search {
-        height: 30px;
-        line-height: 30px;
-        margin: 0;
-        width: 100%;
-        .search-icon {
-            line-height: 30px;
+            .virtualized-tree-expand-icon {
+                padding-bottom: 4px;
+                margin-right: 6px;
+                font-size: 12px;
+            }
         }
-        .search-field {
-            height: 30px;
-            line-height: 30px;
+
+        .virtualized-tree-filter-footer-count {
+            font-size: 12px;
+            padding-left: 5px;
+            position: absolute;
+            bottom: 5px;
         }
-        .search-clearButton {
-            line-height: 28px;
-            font-size: 14px;
+
+        ul {
+            margin: 0;
+            list-style: none;
+            padding-left: 20px;
         }
-    }
 
-    .ReactVirtualized__Grid {
-        outline: none;
-    }
+        .ReactVirtualized__List {
+            padding-left: 3px;
+        }
 
-    ul {
-        margin: 0;
-        list-style: none;
-        padding-left: 20px;
-    }
+        &.is-single-select {
+            .item-container {
+                .virtualized-tree-expand-icon {
+                    position: relative;
+                    top: -3px;
+                    margin-right: 2px;
+                }
 
-    .item {
-        height: 20px;
-        display: inline-block;
-        flex-direction: column;
-        justify-content: center;
-        white-space: pre;
-        user-select: none;
-    }
+                .virtualized-tree-single-select-item {
+                    display: inline-block;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    width: 95%;
+                    position: relative;
+                }
+            }
 
-    .item-container {
-        white-space: nowrap;
-        cursor: pointer;
-        user-select: none;
-    }
+            ul {
+                padding-left: 12px;
+            }
+        }
 
-    .expandible-item {
-        width: calc(100% - 22px);
-    }
-
-    .tree-expand-icon {
-        vertical-align: middle;
-        padding-bottom: 6px;
-    }
-
-    .tree-filter-input {
-        width: calc(100% - 5px);
-    }
-
-    .tree-single-select-item {
-        display: inline-block;
-        color: $font-primary-color;
-        font-family: $font-family-base;
-        font-size: $font-size-m;
-    }
-
-    .reset-filter-icon {
-        font-size: 11px;
-        float: right;
-        margin-top: 6px;
-        cursor: pointer;
+        &.is-flat-list {
+            .ReactVirtualized__List {
+                padding-left: 10px;
+            }
+        }
     }
 }

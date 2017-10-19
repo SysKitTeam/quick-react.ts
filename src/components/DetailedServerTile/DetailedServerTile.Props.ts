@@ -1,12 +1,12 @@
 import * as React from 'react';
-import {IServer, ServerStatus, IRole } from '../../models';
+import { IServer, ServerStatus, IRole } from '../../models';
 
 export interface IDetailedServerProps {
     id: string;
     name: string;
     status: ServerStatus;
     roles: Array<IRole>;
-    filter?: string; 
+    filter?: string;
     onRoleEdit?: (serverId: string) => void;
     onClose?: (serverId: string) => void;
     numberOfUsers?: string;
@@ -38,7 +38,7 @@ export interface IPartitionUsage {
     usageUnit: string;
     capacity: number;
     used: number;
-    status: ServerStatus;    
+    status: ServerStatus;
 }
 
 export interface IMemoryUsage {

@@ -1,151 +1,78 @@
-// theme to be used for dashboard
-@import '../../themes/basic-theme.scss';
-
-
 //color
-$color-black: #000000;
-$color-white: #ffffff;
-$primary-color: #f4f4f4;
-$primary-hover-color: #eaeaea;
-$secondary-color: #0078d7;  //product color
-$secondary-hover-color: #005a93;
-$disabled-color: rgba(51, 51, 51, 0.4);
+$black-color: #000000;
+$white-color: #ffffff;
+$primary-color: #F79428;
+$primary-hover-color: #E27600;
+$primary-disabled-color: #FBD3A8;
+$primary-background-hover-color: #FDEAD4;
+$secondary-color: #4D4D4F;
+$secondary-hover-color: #313133;
+$secondary-disabled-color: #AEAEAF;
+$tertiary-color: #37B2B7;
+$tertiary-hover-color: #009BA1;
+$tertiary-disabled-color: #AEE0E2;
 
-$font-disabled-color: #a6a6a6;
-$font-primary-color: #333333;
-$font-selected-color: $secondary-color;
+$bar-char-fill-color: #D4EAFD;
 
-$default-offline-color: rgb(221, 221, 221);
+$link-color: #25A7EF;
+$link-hover-color: #008DDB;
 
-//MessageBar
-$font-error-color: #a80000;
-$font-error-colorText: #333333;
-$font-error-colorBackground: #fde7e9;
-$font-success-color: #107c10;
-$font-success-colorText: #333333;
-$font-success-colorBackground: #dff6dd;
-$font-warning-color: #ffb900;
-$font-warning-colorText: #333333;
-$font-warning-colorBackground: #fff4ce;
-$font-info-color: #0078d7;
-$font-info-colorText: #333333;
-$font-info-colorBackground: #a3cfff;
+$error-color: #FB6464;
+$warning-color: #EAC71A;
+$success-color: #7DC458;
 
-//font-size
-$font-size-xs: 10px;
-$font-size-s: 12px;
-$font-size-s-plus: 13px;
-$font-size-m: 14px;
-$font-size-l: 16px;
-$font-size-xl: 21px;
-$font-size-xxl: 25px;
+// server status
+$error-status-server: $error-color;
+$warning-status-server: $warning-color;
+$ok-status-server: $success-color;
 
-//font-weight
-$font-weight-semilight: 300;
-$font-weight-regular: 400;
-$font-weight-semibold: 600;
+// messageBar
+$error-text-color: $error-color;
+$warning-text-color: $warning-color;
+$success-text-color: $success-color;
+$info-text-color: $secondary-color;
 
-//font-family
-$font-family-base: "Segoe UI WestEuropean","Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+//color with opacity
+$primary-color-30: #FCDEBD;
+$primary-color-50: #FAC992;
+$primary-color-60: #FABE7D;
 
-//mixins
-@mixin baseFont() {
-    font-family: "Segoe UI WestEuropean","Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
-    -webkit-font-smoothing: antialiased;
-}
+$secondary-color-20: #DADADB;
+$secondary-color-40: #B7B7B8;
+$secondary-color-45: #AEAEAF;
 
-@mixin normalize() {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    box-shadow: none;
-}
+$black-color-4: #F4F4F4;
+$black-color-6: #EFEFEF;
+$black-color-15: #D8D8D8;
+$black-color-30: #B2B2B2;
 
-@mixin margin($top, $right, $bottom, $left) {
-    margin: $top $right $bottom $left;
-}
+$white-color-15: #686869;
 
-@mixin margin-left($distance) {
-    margin-left: $distance;
-}
 
-@mixin margin-right($distance) {
-    margin-right: $distance;
-}
-
-@mixin padding($top, $right, $bottom, $left) {
-    padding: $top $right $bottom $left;
-}
-
-@mixin padding-left($distance) {
-    padding-left: $distance;
-}
-
-@mixin padding-right($distance) {
-    padding-right: $distance;
-}
-
-@mixin fadeOut200() {
-    -webkit-animation-duration: 367ms;
-    -webkit-animation-name: fadeOut;
-    -webkit-animation-fill-mode: both;
-    animation-duration: 367ms;
-    animation-name: fadeOut;
-    animation-fill-mode: both;
-    -webkit-animation-duration: 267ms;
-    animation-duration: 267ms;
-}
-
-@mixin fadeIn200() {
-    -webkit-animation-duration: 367ms;
-    -webkit-animation-name: fadeIn;
-    -webkit-animation-fill-mode: both;
-    animation-duration: 367ms;
-    animation-name: fadeIn;
-    animation-fill-mode: both;
-    -webkit-animation-duration: 267ms;
-    animation-duration: 267ms;
-}
-
-@mixin text-align($direction) {
-    text-align: $direction;
-}
-
-@mixin float($direction) {
-    float: $direction;
-}
-
-@mixin disableUserSelection() {
-    user-select: none;
-    cursor: default;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+* {
+    font-family: 'Segoe UI';
+    font-size: 14px;
+    color: $secondary-color;
 }
 
 ::-webkit-scrollbar {
-       width: 13px;
-       margin-top: 10px;
-       border-radius: 15px;
-       margin-right: 3px;
-       background: transparent;
+    width: 10px;
+    height: 10px;
+    background: $black-color-6;
+    border-radius: 15px;
 }
             
 ::-webkit-scrollbar-track {
-        border-radius: 15px;
-        margin-top: 7px;
-        
-       background:#EEEFF4;
-        margin-bottom: 7px;
+    border-radius: 15px;
 }
             
- ::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
      border-radius: 10px;
-     margin-top: 10px;
-     background: #D2D3D9;               
+     background: $primary-color;               
 }
+
 ::-webkit-scrollbar-thumb:window-inactive {
-     background: #D2D3D9; 
+     background: $primary-color; 
 }
 
 .ReactVirtualized__Grid, .ReactVirtualized__Collection {

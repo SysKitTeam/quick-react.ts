@@ -8,7 +8,6 @@ import { Layer } from '../../components/Layers/Layer';
 import { Popup } from '../Popup';
 import { Overlay } from '../../components/Overlay/Overlay';
 import { Button } from '../../components/Button/Button';
-import { ButtonType } from '../../components/Button/Button.Props';
 import { Icon } from '../../components/Icon/Icon';
 import './Dialog.scss';
 import { autobind } from '../../utilities/autobind';
@@ -76,6 +75,7 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
             onLayerDidMount,
             onLayerMounted,
             subText,
+            icon,
             title,
             layerClassName,
             useOpenCloseAnimation
@@ -102,7 +102,7 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
         let groupings = this._groupChildren();
 
         if (subText) {
-            subTextContent = <p className={'dialog-subText'} id={id + '-subText'}>{subText}</p>;
+            subTextContent = <span className={'dialog-subText'} id={id + '-subText'}>{subText}</span>;
         }
 
         return (
@@ -116,7 +116,7 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
                         <Overlay isDarkThemed={isDarkOverlay} onClick={isBlocking ? null : onDismiss} />
                         <div className={classNames('dialog-main', this.props.containerClassName)} ref={this._getContainerRef} tabIndex={0} onKeyUp={this._onContainerKeyUp}>
                             <div className={'dialog-header'}>
-                                <p className={'dialog-title'} id={id + '-title'}>{title}</p>
+                                <div className={'dialog-title'} id={id + '-title'}>{title}</div>
                                 <div className={'dialog-topButton'}>
                                     {hasCloseXButton &&
                                         <Icon
@@ -129,6 +129,9 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
                             </div>
                             <div className={'dialog-inner'}>
                                 <div className={classNames('dialog-content', this.props.contentClassName)}>
+                                    {icon &&
+                                        <Icon className={'dialog-icon'} iconName={icon}></Icon>
+                                    }
                                     {subTextContent}
                                     {groupings.contents}
                                 </div>

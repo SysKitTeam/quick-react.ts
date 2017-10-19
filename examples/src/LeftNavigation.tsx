@@ -10,7 +10,7 @@ import { LeftNavigation } from './../../src/components/LeftNavigation/LeftNaviga
 export class Index extends React.Component<any, any> {
     public render() {
         return (
-            <div>
+            <div style={{height: '500px'}}>
                 <LeftNavigation id={'leftNavigation'} options={[
                     { text: 'Home', id: 'Home', href: 'http://Acceleratio.net', icon: 'icon-help' },
                     { text: 'Activity', id: 'Activity', href: '#1', disabled: true, icon: 'icon-account' },

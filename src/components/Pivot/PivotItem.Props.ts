@@ -5,4 +5,5 @@ export interface IPivotItemProps extends React.HTMLProps<HTMLDivElement> {
     linkIcon?: string;
     itemKey?: string;
     itemCount?: number;
+    disabled?: boolean;
 }

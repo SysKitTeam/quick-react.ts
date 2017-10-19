@@ -6,7 +6,7 @@ import { autobind } from '../../utilities/autobind';
 import './FilteringBar.scss';
 
 export class FilteringBarItem extends React.PureComponent<IFilteringBarItemProps> {
-    
+
     public render(): JSX.Element {
         let itemClassNames = classnames(
             'filtering-bar-item',
@@ -17,7 +17,7 @@ export class FilteringBarItem extends React.PureComponent<IFilteringBarItemProps
 
         return (
             <div key={this.props.itemKey} onClick={this.onClick} className={itemClassNames}>
-            {this.props.caption}
+                {this.props.caption}
             </div>
         );
     }

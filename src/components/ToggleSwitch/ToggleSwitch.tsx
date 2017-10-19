@@ -5,50 +5,54 @@ import './ToggleSwitch.scss';
 import { autobind } from '../../utilities/autobind';
 
 export class ToggleSwitch extends React.Component<IToggleSwitchProps, any> {
-    public static defaultProps = {
-        onText: '',
-        offText: ''
-    };
-
     constructor(props) {
         super(props);
         this.state = {
-            checked : props.checked === undefined ? false : props.checked
+            checked: props.checked === undefined ? false : props.checked
         };
     }
 
-    public render() : JSX.Element {
-        let{
+    public render(): JSX.Element {
+        let {
             checked,
             onChange,
-            className
+            disabled,
+            className,
+            label
         } = this.props;
 
-        const isChecked = checked === undefined ? this.state.isChecked : checked;
+        const isChecked = checked === undefined ? this.state.checked : checked;
 
         const switchClassName = classNames(
             className,
-            'toggle-switch'
+            'toggle-switch',
+            {
+                'checked': isChecked
+            }
         );
+
         const slidersClassName = classNames(
             'toggle-slider'
         );
-        return(
+        return (
             <label className={switchClassName}>
-                <input type="checkbox" onChange={this._onChange} checked={isChecked}/>
-                <div className={slidersClassName} data-on={this.props.onText} data-off={this.props.offText}></div>
+                <input type="checkbox" disabled={disabled} onChange={this._onChange} checked={isChecked} />
+                <div className={slidersClassName}></div>
+                {label &&
+                    <span className="toggle-label">{label}</span>
+                }
             </label>
         );
     }
 
     @autobind
-    private _onChange(ev: React.FormEvent<HTMLInputElement>) : void {
+    private _onChange(ev: React.FormEvent<HTMLInputElement>): void {
         const isChecked = (ev.target as HTMLInputElement).checked;
         if (this.props.onChange) {
             this.props.onChange(isChecked);
         }
         if (this.props.checked === undefined) {
-            this.setState({checked : isChecked});
+            this.setState({ checked: isChecked });
         }
     }
 }

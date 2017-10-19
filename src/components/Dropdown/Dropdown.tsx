@@ -58,11 +58,12 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
     if (this.props.onCustomSelectionText) {
       return this.props.onCustomSelectionText();
     } else if (dropdownType === DropdownType.selectionDropdown && selectedOption) {
-      return (<span>{selectedOption.text}</span>);
+      return (<span title={selectedOption.text}>{selectedOption.text}</span>);
     } else {
       return '';
     }
   }
+
   setDropDownRef = (ref) => { this._dropDown = ref; };
   public render() {
     let { label, options, hasTitleBorder, icon, dropdownType, className, calloutClassName, layerClassName } = this.props;
@@ -70,6 +71,8 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
     let selectedOption = options[selectedIndex];
     const dropdownTitleClassName = this.props.hasTitleBorder ? 'dropdown-title-border' : 'dropdown-title';
     const dropdownIconClassName = this.props.hasTitleBorder ? 'iconArrowWithBorder' : 'iconArrow';
+    const arrowIcon = isOpen ? 'icon-Arrow_up' : 'icon-arrow_down';
+
     return (
       <div ref="root">
         {label && (
@@ -86,16 +89,17 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
           onKeyDown={this._onDropdownKeyDown}
           onClick={this._onDropdownClick}
           role="combobox"
+          style={{ width: this.getMaxItemWidth() }}
         >
           <span className={dropdownTitleClassName}>
             {icon && (
               <Icon iconName={icon}></Icon>
             )}
             {this.getSelectionText(dropdownType, selectedOption)}
+            {this.props.displaySelection &&
+              <Icon className={dropdownIconClassName} iconName={arrowIcon}></Icon>
+            }
           </span>
-          {this.props.displaySelection &&
-            <Icon className={dropdownIconClassName} iconName={'icon-arrow_down'}></Icon>
-          }
         </div>
         {isOpen && (
           <Callout
@@ -113,6 +117,16 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
       </div>
     );
   }
+
+  getMaxItemWidth = () => {
+    if (this.props.dropdownType !== DropdownType.actionDropdown && this.props.options.length > 0) {
+      let longest = this.props.options.reduce((a, b) => { return a.text.length > b.text.length ? a : b; });
+      return longest.text.length * 8 + 40 + 'px';
+    }
+
+    return;
+  }
+
   renderItems = () => {
     const { dropdownType, children, className, calloutClassName, layerClassName, onCustomSelectionText } = this.props;
     if (dropdownType === DropdownType.customDropdown) {

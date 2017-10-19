@@ -1,50 +1,44 @@
 @import '../../index.scss';
 
-$Callout-beak-slant-width: 28px;
-$Callout-smallbeak-slant-width: 16px;
-
-@mixin calloutBeak {
-    position: absolute;
-    background-color: $color-white;
-    box-shadow:  inherit;
-    border: inherit;
-    box-sizing: border-box;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
-
-.callout {
-    @include baseFont;
-    position: absolute;
-    border: 1px solid $color-black;
-    box-sizing: border-box;
-}
-
-.callout-no-border {
-    border: 0px;
-}
-
 .callout-container {
     position: relative;
-}
 
-.callout-main {
-    background-color: $color-white;
-    overflow-y: auto;
-    overflow-x: hidden;
-    position: relative;
-}
+    .callout {
+        position: absolute;
+        border: 1px solid $primary-color;
+        box-sizing: border-box;
+        border-radius: 8px;
 
-.callout-beak {
-    @include calloutBeak;
-}
+        &.callout-no-border {
+            border: 0;
+        }
 
-.callout-beak-curtain {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: $color-white;
+        .callout-main {
+            background-color: $white-color;
+            overflow-y: auto;
+            overflow-x: hidden;
+            position: relative;
+            border-radius: 8px;
+        }
+
+        .callout-beak {
+            position: absolute;
+            background-color: $white-color;
+            box-shadow:  inherit;
+            border: inherit;
+            box-sizing: border-box;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+        
+        .callout-beak-curtain {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: $white-color;
+        }
+    }
 }

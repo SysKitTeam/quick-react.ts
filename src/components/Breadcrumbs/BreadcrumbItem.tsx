@@ -15,31 +15,33 @@ export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
         super(props);
 
         this.state = {
-            isMenuOpen: false
+            isMenuOpen: false,
+            selectedItem: this.props.children.length > 0 ? this.props.children[0].url : ''
         };
     }
 
     public render() {
         let { className, iconName, text, children } = this.props;
         const icon = this.state.isMenuOpen ? this.props.iconExpanded : this.props.iconCollapsed;
+
         return (
             <div className={classNames('breadcrumbs-item', className)}>
                 <div className={'breadcrumbs-item-title'}>
-                {
-                    iconName &&
-                    <Icon
-                        className={classNames('breadcrumbs-item-icon', className)}
-                        iconName={iconName}
-                        onClick={() => this.props.onClick(this.props.url)}
-                    />
-                }
-                {
-                    text &&
-                    <Label
-                        className={classNames('breadcrumbs-item-label', className)}
-                        onClick={() => this.props.onClick(this.props.url)}
-                    >{text}</Label>
-                }
+                    {
+                        iconName &&
+                        <Icon
+                            className={classNames('breadcrumbs-item-icon', className)}
+                            iconName={iconName}
+                            onClick={() => this.props.onClick(this.props.url)}
+                        />
+                    }
+                    {
+                        text &&
+                        <Label
+                            className={classNames('breadcrumbs-item-label', className)}
+                            onClick={() => this.props.onClick(this.props.url)}
+                        >{text}</Label>
+                    }
                 </div>
                 {
                     (children.length !== 0) &&
@@ -48,6 +50,7 @@ export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
                         ref={this.setDropdownReference}
                         calloutClassName={'breadcrumbs-dropdown-callout'}
                         dropdownType={DropdownType.customDropdown}
+                        displaySelection={false}
                         icon={icon}
                         onClosed={this.onClosed}
                         onMenuToggle={(opened) => this.setState({ isMenuOpen: opened })}
@@ -66,14 +69,14 @@ export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
 
     private mapChildrenToMenu(children: Array<IBreadcrumbChild>) {
         return children.map((child, index) => {
-            return <li key={index} onClick={() => this.handleChildClick(child)}>{child.displayName}</li>;
+            return <li key={index} className={classNames('dropdown-item', { 'is-selected': child.url === this.state.selectedItem })} onClick={() => this.handleChildClick(child)}>{child.displayName}</li>;
         });
     }
 
     private handleChildClick(child: IBreadcrumbChild) {
         this.props.onClick(child.url);
         this.closeDropdown();
-        this.setState({ isMenuOpen: false });
+        this.setState({ isMenuOpen: false, selectedItem: child.url });
     }
 
     @autobind

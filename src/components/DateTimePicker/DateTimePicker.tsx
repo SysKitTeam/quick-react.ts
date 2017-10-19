@@ -18,7 +18,7 @@ export interface IDateTimePickerProps {
 export class DateTimePicker extends React.PureComponent<IDateTimePickerProps> {
     public static defaultProps = {
         includeTime: false,
-        isValidDate: function(){
+        isValidDate: function () {
             return true;
         },
         timePickerKeyboardInput: false

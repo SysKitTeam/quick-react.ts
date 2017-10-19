@@ -8,16 +8,12 @@
     right:  0;
     top:    0;
 
-    //== Modifier: Hidden overlay
-    //
     &.overlay-none {
         visibility: hidden;
     }
 
-    //== Modifier: Dark overlay
-    //
     &.overlay-dark {
-        background-color: rgba(0,0,0,.4);
+        background-color: rgba(0,0,0,.2);
         visibility: visible;
     }
 }

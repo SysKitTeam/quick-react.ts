@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import * as d3 from 'd3';
 import { IBarChartProps, IBarChartData } from './BarChart.props';
-import { Tooltip } from '../Tooltip/Tooltip';
+import { ChartTooltip } from '../ChartTooltip/ChartTooltip';
 import './BarChart.scss';
 
 const margin = { top: 20, right: 40, bottom: 70, left: 80 };
@@ -44,7 +44,7 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
     /**
      * Binds appropriate data to every bar element in dom using d3 data function.
      */
-    private bindData() : void {
+    private bindData(): void {
         d3.selectAll('.bar.' + this.props.id).data(this.props.data);
     }
 
@@ -62,8 +62,8 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
                 <g className={containerClass} transform={containerTransform}>
                     <g className={xAxisClass} transform={translateXAxis} ref={(element: SVGRectElement) => this.renderXAxis(element)}></g>
                     <g className={yAxisClass} ref={(element: SVGRectElement) => this.renderYAxis(element)}></g>
-                    { this.renderBars() }
-                    <Tooltip id={this.props.id} text={this.state.tipText} x={this.state.tipX} y={this.state.tipY} visible={this.state.isTipVisible}/>
+                    {this.renderBars()}
+                    <ChartTooltip id={this.props.id} text={this.state.tipText} x={this.state.tipX} y={this.state.tipY} visible={this.state.isTipVisible} />
                 </g>
             </svg>
         );
@@ -73,22 +73,22 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
      * Renders bars with appropriate width and height based on data set. On every bar appropriate event listeners
      * are set.
      */
-    private renderBars() : Array<JSX.Element> {
+    private renderBars(): Array<JSX.Element> {
         const barClassName = classNames('bar-char-component', 'bar', this.props.id);
         const x = this.generateX();
         const y = this.generateY();
 
         return this.props.data.map(
             (data: IBarChartData, index: number) =>
-                    <rect className={ index === this.props.selectedIndex ? classNames(barClassName, 'clicked') : barClassName }
-                        key={index}
-                        x={ x(data.argument) }
-                        y={ y(data.frequency) }
-                        width={ x.bandwidth() }
-                        height={ this.state.containerHeight - y(data.frequency) }
-                        onMouseOver={(event: React.MouseEvent<SVGRectElement>) => this.onMouseOver(event.currentTarget)}
-                        onMouseOut={() => this.setState({ isTipVisible: false })}
-                        onClick={(event: React.MouseEvent<SVGRectElement>) => this.handleOnClick(event.currentTarget)}/>
+                <rect className={index === this.props.selectedIndex ? classNames(barClassName, 'clicked') : barClassName}
+                    key={index}
+                    x={x(data.argument)}
+                    y={y(data.frequency)}
+                    width={x.bandwidth()}
+                    height={this.state.containerHeight - y(data.frequency)}
+                    onMouseOver={(event: React.MouseEvent<SVGRectElement>) => this.onMouseOver(event.currentTarget)}
+                    onMouseOut={() => this.setState({ isTipVisible: false })}
+                    onClick={(event: React.MouseEvent<SVGRectElement>) => this.handleOnClick(event.currentTarget)} />
         );
     }
 
@@ -118,10 +118,10 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
         d3.select(element).call(xAxis);
     }
 
-     /**
-     * This function is invoked when container element for axis is placed into DOM.
-     * It creates x axis based on given axis generator.
-     */
+    /**
+    * This function is invoked when container element for axis is placed into DOM.
+    * It creates x axis based on given axis generator.
+    */
     private renderYAxis(element: SVGRectElement) {
         if (element === null) { return; }
         const yAxis = d3.axisLeft(this.generateY()).tickSizeInner(-this.state.containerWidth).ticks(5).tickPadding(5);
@@ -148,7 +148,7 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
      * If type of data is date object then time format is applied, otherwise regular format
      * function is used.
      */
-    private formatAxisLabels() : any {
+    private formatAxisLabels(): any {
         if (this.props.xAxisFormat() === null) { return null; }
         const formatFunc = typeof this.props.data[0].argument !== 'object' ? d3.format : d3.timeFormat;
         return formatFunc(this.props.xAxisFormat());
@@ -177,12 +177,12 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
         const rects = d3.selectAll('.bar.' + this.props.id).nodes();
 
         let totalTextLength = 0;
-        labels.nodes().forEach( (element: any) => totalTextLength += element.getComputedTextLength() );
+        labels.nodes().forEach((element: any) => totalTextLength += element.getComputedTextLength());
 
         let totalRectLength = 0;
-        rects.forEach( (element: SVGRectElement) => totalRectLength += element.getBBox().width );
+        rects.forEach((element: SVGRectElement) => totalRectLength += element.getBBox().width);
 
-        if (totalTextLength > totalRectLength - spacing ) {
+        if (totalTextLength > totalRectLength - spacing) {
             labels.attr('transform', 'rotate(45)').attr('y', 10)
                 .attr('x', 10).attr('dy', '.35em').style('text-anchor', 'start');
         } else {

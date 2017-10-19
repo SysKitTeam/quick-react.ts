@@ -1,133 +1,229 @@
  @import '../../index.scss';
 
-$Dropdown-selectedItem: $secondary-color;
-$Dropdown-selectedItem-hover: $primary-hover-color;
-$DropDown-transition-duration: 300ms;
-$DropDown-transition-timing: cubic-bezier(0, 1, 0.5, 1);
-$DropDown-height: 32px;
-$DropDown-item-height: 36px;
-
-@mixin dropdownTitle {
-    @include normalize;
-    background: $color-white;
-    cursor: pointer;
-    height: $DropDown-height;
-    line-height: $DropDown-height - 2px; // height minus the border
-    position: relative;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
 .dropdown {
-    @include baseFont();
     margin-bottom: 10px;
     position: relative;
-    font-size: $font-size-m;
     outline: none;
-    div {
-        cursor: pointer;
-    }
+    max-width: 250px;
 
-    .iconArrow {
-        font-size: $font-size-s;
-        margin: 0 5px;
+    .dropdown-title-border {
+        border-radius: 8px;
+        border: 1px solid $black-color-15;
+        padding: 0 30px 0 10px;
+        box-sizing: border-box;
+        cursor: pointer;
+        line-height: 29px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        display: block;
+        height: 32px;
+
+        span {
+            font-weight: 500;
+            user-select: none;
+        }
     }
 
     .iconArrowWithBorder {
-        font-size: $font-size-s;
-        margin: 0 5px;
         position: absolute;
-        top: 0;
-        pointer-events: none;
-        line-height: 32px;
-        right: 12px;
-    }
-}
-
-.dropdown-title {
-    @include dropdownTitle;
-}
-
-.dropdown-title-border {
-    @include dropdownTitle;
-    @include padding(0, $DropDown-height, 0, 12px);
-    display: block; 
-    border: 1px solid #c8c8c8;
-}
-
-.dropdown-items {
-    background-color: $color-white;
-    width: 100px;
-    max-width: 200px;
-    height: auto;
-    box-shadow: 0 6px 10px rgba(0,0,0,.2);
-    padding: 0;
-    margin: 0;
-    width: auto;
-
-    &.collapsed {
-        overflow: hidden;
-        max-height: 0;
-        padding-top: 0;
-        padding-bottom: 0;
-        margin-top: 0;
-        margin-bottom: 0;
-        transition-duration: $DropDown-transition-duration;
-        transition-timing-function: $DropDown-transition-timing;
-    }
-
-    &.expanded {
-        transition-duration: $DropDown-transition-duration;
-        transition-timing-function: ease-in;
-        max-height: 1000px;
-        overflow: hidden;
-    }
-
-    .dropdown-item {
-        box-sizing: border-box;
-        display: block;
-        line-height: 20px;
-        position: relative;
-        border: 1px solid transparent;
-        word-wrap: break-word;
-        user-select: none;
         cursor: pointer;
+        font-size: 10px;
+        line-height: 32px;
+        top: 0;
+        right: 5px;
+    }
+
+    .iconArrow {
+        font-size: 10px;
+        margin: 0 5px;
+    }
+
+    &:hover {
+        .dropdown-title-border {
+            &:hover {
+                border-color: $secondary-color-40;
+            }
+        }
+
+        .iconArrowWithBorder {
+            color: $primary-color;
+        }
+    }
+
+    &.is-open {
+        .dropdown-title-border {
+            border-radius: 8px 8px 0 0;
+            border-color: $primary-color;
+            border-bottom: 0;
+
+            &:hover {
+                border-color: $primary-color;
+            }
+        }
+    }
+
+    &.is-disabled {
+        .dropdown-title-border {
+            background-color: $black-color-6;
+            border-color: $black-color-15;
+            cursor: default;
+
+            &:hover {
+                border-color: $black-color-15;
+            }
+
+            span {
+                color: $secondary-disabled-color;
+            }
+        }
+
+        .iconArrowWithBorder {
+            color: $secondary-disabled-color;
+        }
+    }
+
+    &.icon-dropdown {
+        background-color: $primary-color;
+        border-radius: 8px;
+        cursor: pointer;
+        display: inline-block;
+
+        .dropdown-title {
+            background-color: $primary-color;
+
+            .icon {
+                font-size: 16px;
+                color: $white-color;
+                padding: 7px;
+                margin-right: 0;
+                line-height: 16px;
+            }
+
+            .iconArrow {
+                font-size: 10px;
+                margin: 0 10px 0 2px;
+                position: relative;
+                top: -3px;
+                padding: 0;
+            }
+        }
 
         &:hover {
-            background-color: $Dropdown-selectedItem-hover;
+            background-color: $primary-hover-color;
+            border-color: $primary-hover-color;
+
+            .dropdown-title {
+                background-color: $primary-hover-color;
+            }
         }
 
-        span {
-            color: $font-primary-color;
-        }
+        &.is-open {
+            border-radius: 8px 8px 0 0;
+            border: 1px solid $primary-color;
+            border-bottom: 0;
+            background-color: $white-color;
+            cursor: pointer;
 
-        a {
-            text-decoration: none;
-            padding: 0 7px;
+            .dropdown-title {
+                background-color: $white-color;
+            }
 
-            &:active, &:focus {
-                color: transparent;
+            .icon {
+                color: $primary-color;
             }
 
             &:hover {
-                color: $color-black;
-            }
-        }
-
-        &.is-selected {
-            background-color: $Dropdown-selectedItem;
-
-            span, .icon {
-                color: $color-white;
+                .iconArrow {
+                    color: $primary-hover-color;
+                }
             }
         }
 
         &.is-disabled {
-            pointer-events: none;
+            background-color: $primary-disabled-color;
             cursor: default;
-            span {
-                color: $font-disabled-color
+
+            .dropdown-title {
+                background-color: $primary-disabled-color;
+            }
+        }
+    }
+
+    &.arrow-dropdown {
+        border-radius: 0 8px 8px 0;
+        border: 1px solid $primary-color;
+        height: 30px;
+        cursor: pointer;
+
+        .dropdown-title {
+            .iconArrow {
+                position: relative;
+                top: 4px;
+                padding: 0;
+            }
+        }
+
+        &:hover {
+            border-color: $primary-hover-color;
+            
+            .dropdown-title {
+                .iconArrow {
+                    color: $primary-color;
+                }
+            } 
+        }
+
+        &.is-open {
+            border-radius: 0 8px 0 0;
+            border-bottom: 0;
+        }
+
+        &.is-disabled {
+            cursor: default;
+            background-color: $black-color-6;
+            border-color: $black-color-15;
+
+            .dropdown-title {
+                .iconArrow {
+                    color: $secondary-disabled-color;
+                }
+            }
+        }
+    }
+}
+
+.callout {
+    &.dropdown-callout {
+        border-radius: 0 0 8px 8px;
+        border-color: $primary-color;
+        z-index: 100;
+
+        .callout-main {
+            border-radius: 8px;
+
+            .dropdown-items {
+                padding: 4px 0;
+                margin: 0;
+
+                .dropdown-item {
+                    line-height: 28px;
+                    padding: 0 10px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    user-select: none;
+                    cursor: pointer;
+
+                    &.is-selected {
+                        background-color: $white-color;
+                        color: $primary-color;
+                    }
+        
+                    &:hover {
+                        background-color: $primary-background-hover-color;
+                    }
+                }
             }
         }
     }

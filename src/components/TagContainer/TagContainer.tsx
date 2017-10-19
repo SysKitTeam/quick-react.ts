@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ITagContainerProps } from './TagContainer.Props';
 import { Icon } from '../Icon/Icon';
 import { autobind } from '../../utilities/autobind';
+import { Label } from '../Label/Label';
 import './TagContainer.scss';
 
 export class TagContainer extends React.Component<ITagContainerProps, any> {
@@ -25,7 +26,7 @@ export class TagContainer extends React.Component<ITagContainerProps, any> {
 
             <div className="tag-container">
                 {title &&
-                    <h5>{title}</h5>
+                    <Label>{title}</Label>
                 }
                 {
                     tags.length <= 3 &&
@@ -52,7 +53,7 @@ export class TagContainer extends React.Component<ITagContainerProps, any> {
                 {
                     tags.length > 3 && <div className="tag points" title={extraTags}>...</div>
                 }
-                { this.props.children }
+                {this.props.children}
             </div>
         );
     }

@@ -5,21 +5,21 @@ export interface IRenderFunction<P> {
 }
 
 export interface IDropdownProps {
-  label ?: string;
+  label?: string;
   id?: string;
   dropdownKey?: string | number;
-  selectedKey ?: string | number;
-  options ?: IDropdownOption[];
-  onChanged ?: (option: IDropdownOption, index?: number) => void;
-  onClick ?: (option: IDropdownOption, index?: number, dropdownKey?: string | number ) => void;
-  onRenderItem ?: IRenderFunction<IDropdownOption>;
-  disabled ?: boolean;
-  hasTitleBorder ?: boolean;
-  icon ?: string;
-  dropdownType ?: DropdownType;
-  className ?: string;
-  calloutClassName ?: string;
-  layerClassName ?: string;
+  selectedKey?: string | number;
+  options?: IDropdownOption[];
+  onChanged?: (option: IDropdownOption, index?: number) => void;
+  onClick?: (option: IDropdownOption, index?: number, dropdownKey?: string | number) => void;
+  onRenderItem?: IRenderFunction<IDropdownOption>;
+  disabled?: boolean;
+  hasTitleBorder?: boolean;
+  icon?: string;
+  dropdownType?: DropdownType;
+  className?: string;
+  calloutClassName?: string;
+  layerClassName?: string;
   onClosed?: () => void;
   onMenuToggle?: (opened: boolean) => void;
   onCustomSelectionText?: () => string;
@@ -29,10 +29,10 @@ export interface IDropdownProps {
 export interface IDropdownOption {
   key: string | number;
   text: string;
-  index ?: number;
-  selected ?: boolean;
-  href ?: string;
-  icon ?: string;
+  index?: number;
+  selected?: boolean;
+  href?: string;
+  icon?: string;
 }
 
 export enum DropdownType {

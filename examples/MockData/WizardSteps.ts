@@ -9,16 +9,15 @@ export const steps = [
     },
     {
         title: 'Script Results',
-        index: 2,
-        className: 'wizard__step-window-large'
+        index: 2
     },
     {
         title: 'Finish',
         index: 3,
         optionalButtons: [
             {
-                children: 'SCHEDULE',
-                className: 'shell__btn-medium shell__btn-blue'
+                children: 'Schedule',
+                className: 'button-tertiary'
             }
         ]
     }

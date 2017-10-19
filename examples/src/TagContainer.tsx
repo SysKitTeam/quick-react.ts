@@ -11,10 +11,14 @@ import { Icon } from './../../src/components/Icon/Icon';
 export class Index extends React.Component<any, any> {
     public render() {
         return (
-            <div>
+            <div style={{width: '200px'}}>
                 <TagContainer
-                    title={'Roles'} 
-                    tags={[{ display: 'Tag1', iconName: 'icon-add' }, { display: 'Tag2', iconName: 'icon-alert' }, { display: 'Tag3', iconName: 'icon-Buy' }]}
+                    title={'Roles:'} 
+                    tags={[
+                        { display: 'Tag1', iconName: 'icon-add' },
+                        { display: 'Tag2', iconName: 'icon-alert' },
+                        { display: 'Tag3', iconName: 'icon-buy' }
+                    ]}
                 />
             </div>
         );

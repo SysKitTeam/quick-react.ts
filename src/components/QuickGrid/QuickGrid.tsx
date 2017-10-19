@@ -120,7 +120,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                 isSortable: false,
                 isGroupable: false,
                 width: 15,
-                minWidth: 15
+                minWidth: 28
             });
         }
         for (let index = 0; index < groupBy.length; index++) {
@@ -237,11 +237,13 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                 this.props.onRowDoubleClicked(rowData);
             }
         };
+
         const className = classNames(
             'grid-component-cell',
             'grid-empty-cell',
             rowClass,
             { 'is-selected': rowIndex === this.state.selectedRowIndex });
+
         return (
             <div
                 style={style}
@@ -272,11 +274,17 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         const actionOptions = getActionItemOptions(this.props);
         const { actionIconName } = this.props.gridActions;
         const title = this.props.tooltipsEnabled ? actionsTooltip : null;
+        const className = classNames(
+            'grid-component-cell',
+            rowClass,
+            { 'is-selected': rowIndex === this.state.selectedRowIndex }
+        );
+
         return (
             <div
                 key={key}
                 style={style}
-                className={'grid-component-cell'}
+                className={className}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
                 title={title}
@@ -299,7 +307,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             const customStyle = { ...style, width: columnsTotalWidth, zIndex: 1 };
             const iconName = rowData.isExpanded ? 'icon-arrow_down_right' : 'icon-arrow_right';
             const columnName = this.props.columns.filter((column) => { return column.valueMember === rowData.columnGroupName; })[0].headerText;
-            const divStyle: React.CSSProperties = { paddingLeft: 30 * rowData.depth };
+            const divStyle: React.CSSProperties = { paddingLeft: 25 * rowData.depth };
             const toggleRow = () => {
                 this.onRowExpandToggle(rowData.groupKey, !rowData.isExpanded);
             };
@@ -309,15 +317,14 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             }
             return (
                 <div
-                    className={'grid-group-row'}
+                    className={classNames('grid-group-row is-expanded', { 'is-collapsed': !rowData.isExpanded })}
                     key={key}
                     style={customStyle}
                 >
                     <div className="grid-group-row-inner" style={divStyle}>
-                        <Icon
-                            iconName={iconName}
-                            onClick={toggleRow} />
-                        <div className="group-row-text">
+                        <div className="group-row-text" onClick={toggleRow}>
+                            <Icon
+                                iconName={iconName} />
                             <span>
                                 {groupByFormat}
                             </span>
@@ -376,13 +383,13 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                 return column.cellFormatter(cellData);
             } else {
                 return (
-                    <div style={{ padding: '5px 5px 0 5px', fontSize: '14px' }} >
+                    <div style={{ padding: '3px 5px 0 5px' }} >
                         {cellData}
                     </div>
                 );
             }
         };
-        const title = this.props.tooltipsEnabled ? cellData : null; 
+        const title = this.props.tooltipsEnabled ? cellData : null;
         return (
             <div
                 key={key}

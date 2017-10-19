@@ -12,9 +12,7 @@ export class Index extends React.Component<any, any> {
     public render() {
         return (
             <div>
-                 <MainNavigation id={'mainNavigation'} logo={'icon-logo'}>
-                    <Icon iconName={'icon-buy'}></Icon>
-                </MainNavigation>
+                <MainNavigation id={'mainNavigation'} logo={'icon-logo'}></MainNavigation>
             </div>
         );
     }

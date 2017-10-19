@@ -1,34 +1,13 @@
 @import '../../index.scss';
 
 .compact-dashboard-container {
-    @include disableUserSelection();
-    @include baseFont();
     width: 100%;
     height: 100%;
-    // background-color: $background-color;
-    border-color: $background-color;
-    overflow: hidden; 
-    color: $basic-text-color;
+    overflow: hidden;
+    user-select: none;
+    cursor: default;
 
     .group-by-none-farm {
         margin-top: 32px;
-    }
-}
-
-.compact-dashboard-container.vertical{
-    width: 100%;
-    color: $basic-text-color;
-    .farm{
-        max-width: 350px;
-        display: block;
-        margin: auto;
-        margin-top: 6px;
-        margin-left: 15px; 
-        top: 50px;
-        margin-bottom: 6px;
-        padding-bottom: 25px;
-        .compact-server-container{
-                max-width: 245px;
-        }
     }
 }

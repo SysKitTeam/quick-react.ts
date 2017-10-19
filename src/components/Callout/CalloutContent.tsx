@@ -18,6 +18,7 @@ const BEAK_ORIGIN_POSITION = { top: 0, left: 0 };
 const OFF_SCREEN_POSITION = { top: -9999, left: 0 };
 const BORDER_WIDTH: number = 1;
 const SPACE_FROM_EDGE: number = 8;
+
 export interface ICalloutState {
     positions?: any;
     slideDirectionalClassName?: string;
@@ -29,7 +30,7 @@ export class CalloutContent extends CommonComponent<ICalloutProps, ICalloutState
     public static defaultProps = {
         isBeakVisible: true,
         hideBorder: false,
-        beakWidth: 16,
+        beakWidth: 12,
         gapSpace: 16,
         directionalHint: DirectionalHint.bottomAutoEdge
     };

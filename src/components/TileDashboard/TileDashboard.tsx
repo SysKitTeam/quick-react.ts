@@ -5,7 +5,6 @@ import { ITileData } from '../ServerTile/ServerTile.Props';
 const AutoSizer = require('react-virtualized').AutoSizer;
 const List = require('react-virtualized').List;
 import { Group } from '../Group/Group';
-import { GroupHeader } from '../GroupHeader/GroupHeader';
 import * as classNames from 'classnames';
 import { TagContainer } from '../TagContainer/TagContainer';
 import { Icon } from '../Icon/Icon';
@@ -166,19 +165,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, ITileDas
                     status={server.status}
                     countersData={getServerMeasures(server.measures)}
                     diskInformation={getDiskInformationFromMeasurements(server.measures)}
-                    hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}
-                >
-                    {
-                        server.roles.length > 0 &&
-                        <TagContainer title={''} tags={server.roles} >
-                            {
-                                this.props.onServerRoleEdit &&
-                                <div className="edit-tags tag" title="Edit roles" onClick={(event) => this.onRoleEdit(server.id)}>
-                                    <Icon className="icon-edit"></Icon>
-                                </div>
-                            }
-                        </TagContainer>
-                    }
+                    hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}>
                 </ServerTile>
             </div>
         );

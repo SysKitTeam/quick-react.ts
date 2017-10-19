@@ -1,14 +1,19 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import './Step.scss';
-import {IStepProps} from './IStepProps';
-import {IStepState} from './IStepState';
+import { IStepProps } from './IStepProps';
+import { IStepState } from './IStepState';
 import PropTypes from 'prop-types';
-import {Icon} from '../../components/Icon/Icon';
+import { Icon } from '../../components/Icon/Icon';
 
 interface ObjectConstructor {
   assign(target: any, ...sources: any[]): any;
 }
+
+const $primaryColor = '#F79428';
+const $secondaryColor = '#4D4D4F';
+const $whiteColor = '#FFFFFF';
+const $secondaryColor40 = '#B7B7B8';
+const $secondaryColor20 = '#DADADB';
 
 export default class Step extends React.Component<IStepProps, IStepState> {
   constructor(props: IStepProps) {
@@ -17,24 +22,25 @@ export default class Step extends React.Component<IStepProps, IStepState> {
   }
 
   public static defaultProps: IStepProps = {
-    activeColor: '#5CA704',
-    completeColor: '#FFF',
-    defaultColor: '#FFF',
+    activeColor: $whiteColor,
+    activeBorderColor: $primaryColor,
+    activeTitleColor: $secondaryColor,
+    defaultColor: $whiteColor,
     defaultBorderStyle: 'solid',
-    defaultBorderColor: '#757575',
-    completeBarColor: '#5CA704',
-    completeBorderColor: '#5CA704',
+    defaultBorderColor: $secondaryColor20,
+    defaultBarColor: $secondaryColor40,
+    completeColor: $primaryColor,
+    completeBarColor: $primaryColor,
+    completeBorderColor: $primaryColor,
     completeBorderStyle: 'solid',
-    activeTitleColor: '#000',
-    completeTitleColor: '#000',
-    defaultTitleColor: '#757575',
-    circleFontColor: '#FFF',
+    completeTitleColor: $secondaryColor,
+    defaultTitleColor: $secondaryColor,
+    circleFontColor: $whiteColor,
     size: 24,
     circleFontSize: 16,
     titleFontSize: 16,
     circleTop: 24,
-    titleTop: 8,
-    defaultBarColor: '#E0E0E0',
+    titleTop: 5,
     barStyle: 'solid'
   };
 
@@ -69,7 +75,7 @@ export default class Step extends React.Component<IStepProps, IStepState> {
         color: circleFontColor,
         display: 'block',
         opacity: defaultOpacity,
-        borderWidth: '1px',
+        borderWidth: '2px',
         borderColor: defaultBorderColor,
         borderStyle: defaultBorderStyle,
         boxSizing: 'border-box'
@@ -77,16 +83,12 @@ export default class Step extends React.Component<IStepProps, IStepState> {
       activeCircle: {
         backgroundColor: activeColor,
         opacity: activeOpacity,
-        borderWidth: (activeBorderColor ? 3 : 0),
-        borderColor: activeBorderColor,
-        borderStyle: activeBorderStyle
+        borderColor: activeBorderColor
       },
       completedCircle: {
         backgroundColor: completeColor,
         opacity: completeOpacity,
-        borderWidth: '1px',
-        borderColor: completeBorderColor,
-        borderStyle: completeBorderStyle
+        borderColor: completeBorderColor
       },
       index: {
         // lineHeight: `${size + circleFontSize / 4}px`,    change this line when complete icon is not centered
@@ -95,9 +97,10 @@ export default class Step extends React.Component<IStepProps, IStepState> {
       title: {
         marginTop: titleTop,
         fontSize: titleFontSize,
-        fontWeight: '300',
+        fontWeight: 'normal',
         textAlign: 'center',
         display: 'block',
+        userSelect: 'none',
         color: defaultTitleColor,
         opacity: defaultTitleOpacity
       },
@@ -114,11 +117,11 @@ export default class Step extends React.Component<IStepProps, IStepState> {
         top: circleTop + size / 2,
         height: 1,
         borderTopStyle: barStyle,
-        borderTopWidth: 1,
+        borderTopWidth: 2,
         borderTopColor: defaultBarColor,
         left: 0,
         right: '50%',
-        marginRight: size / 2 + 4,
+        marginRight: size / 2,
         opacity: defaultOpacity
       },
       rightBar: {
@@ -126,16 +129,16 @@ export default class Step extends React.Component<IStepProps, IStepState> {
         top: circleTop + size / 2,
         height: 1,
         borderTopStyle: barStyle,
-        borderTopWidth: 1,
+        borderTopWidth: 2,
         borderTopColor: defaultBarColor,
         right: 0,
         left: '50%',
-        marginLeft: size / 2 + 4,
+        marginLeft: size / 2,
         opacity: defaultOpacity
       },
       completedBar: {
         borderTopStyle: barStyle,
-        borderTopWidth: 1,
+        borderTopWidth: 2,
         borderTopColor: completeBarColor,
         opacity: completeOpacity
       }
@@ -147,38 +150,39 @@ export default class Step extends React.Component<IStepProps, IStepState> {
     const { title, index, active, completed, first, isLast, href } = this.props;
 
     const styles = this.getStyles();
-    const circleStyle = {
+    let circleStyle = {
       ...styles.circle,
-      completedCircle: completed && styles.completedCircle,
-      activeCircle: active && styles.activeCircle
+      ...completed && styles.completedCircle,
+      ...active && styles.activeCircle
     };
+
     const titleStyle = {
       ...styles.title,
-      completedTitle: completed && styles.completedTitle,
-      activeTitle: active && styles.activeTitle
+      ...completed && styles.completedTitle,
+      ...active && styles.activeTitle
     };
-    const leftStyle = { ...styles.leftBar, completedBar: (active || completed) && styles.completedBar };
-    const rightStyle = { ...styles.rightBar, completedBar: completed && styles.completedBar };
+    const leftStyle = { ...styles.leftBar, ...(active || completed) && styles.completedBar };
+    const rightStyle = { ...styles.rightBar, ...completed && styles.completedBar };
 
     return (
-      <div style={ styles.step as any}>
+      <div style={styles.step as any}>
         <div style={circleStyle as any}>
-        {!completed ? (
-          <a style={ styles.index }></a>
-        ) : (
-          <span style={ styles.index }>
-          <Icon className="icon-checkmark green-checkmark"></Icon>
-          </span>
-        )}
+          {!completed ? (
+            <a style={styles.index}></a>
+          ) : (
+              <span style={styles.index}>
+                <Icon className="icon-checkmark wizard-checkmark"></Icon>
+              </span>
+            )}
 
         </div>
         {active || completed ? (
-          <a style={ titleStyle as any}>{ title }</a>
+          <a style={titleStyle as any}>{title}</a>
         ) : (
-          <div style={ titleStyle as any }>{ title }</div>
-        )}
-        { !first && <div style={ leftStyle as any}></div> }
-        { !isLast && <div style={ rightStyle as any }></div> }
+            <div style={titleStyle as any}>{title}</div>
+          )}
+        {!first && <div style={leftStyle as any}></div>}
+        {!isLast && <div style={rightStyle as any}></div>}
       </div>
     );
   }

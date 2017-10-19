@@ -7,7 +7,7 @@ export interface IBreadcrumbsProps extends React.Props<any> {
     className?: string;
     url: string;
     homeDisplayName?: string;
-    homeUrl?: string; 
+    homeUrl?: string;
     homeIconName?: string;
     onPathClick: (path: string) => void;
     iconNameCollapsed?: string;

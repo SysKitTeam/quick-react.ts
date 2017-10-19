@@ -1,38 +1,43 @@
 @import '../../index.scss';
 
-$LeftNavigation-transition-duration: 300ms;
-$LeftNavigation-expanded-width: 170px;
-$LeftNavigation-collapsed-width: 45px;
+$leftNavigation-transition-duration: 300ms;
+$leftNavigation-expanded-width: 170px;
+$leftNavigation-collapsed-width: 45px;
 
 .left-nav {
-    background-color: $primary-color;
-    @include float(left);
-    @include baseFont();
+    background-color: $secondary-color;
+    float: left;
     top: 40px;
-    height: 470px;
-
-    
+    height: 100%;
+ 
     .icon {
-        font-size: larger;
+        font-size: 16px;
+        color: $white-color;
     }
 
     .nav-item {
-        font-weight: 400;
-        @include padding(6px, 8px, 6px, 12px);
+        padding: 6px 8px 6px 14px;
         cursor: pointer;
 
         a {
             span, .icon {
-                color: $font-primary-color;
+                color: $white-color;
             }
         }
 
-        &.selected {
-            background-color: $secondary-color;
-
+        &:hover {
             a {
                 span, .icon {
-                    color: $color-white;
+                    color: $primary-color;
+                }
+            }
+
+        }
+
+        &.selected {
+            a {
+                span, .icon {
+                    color: $primary-color;
                 }
             }
         }
@@ -42,28 +47,27 @@ $LeftNavigation-collapsed-width: 45px;
 
             a {
                 span, .icon {
-                    opacity: 0.4;
+                    color: $secondary-color-40;
                 }
             }
         }
     }
 
     &.expanded {
-        width: $LeftNavigation-expanded-width;
+        width: $leftNavigation-expanded-width;
+        transition-duration: $leftNavigation-transition-duration;
         left: 0;
-        transition-duration: $LeftNavigation-transition-duration;
 
         .nav-item a span {
             display: inline-block;
             position: absolute;
-            font-size: $font-size-m;
         }
     }
 
     &.collapsed {
-        width: $LeftNavigation-collapsed-width;
+        width: $leftNavigation-collapsed-width;
+        transition-duration: $leftNavigation-transition-duration;
         left: -250px;
-        transition-duration: $LeftNavigation-transition-duration;
 
         .nav-item a span {
             display: none;

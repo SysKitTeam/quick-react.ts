@@ -10,9 +10,9 @@ import { getNativeAttributes, textAreaAttributes, inputAttributes } from '../../
 import './TextField.scss';
 
 export interface ITextFieldState {
-    value ?: string;
-    isFocused ?: boolean;
-    errorMessage ?: string;
+    value?: string;
+    isFocused?: boolean;
+    errorMessage?: string;
 }
 
 export class TextField extends React.Component<ITextFieldProps, ITextFieldState> {
@@ -34,7 +34,7 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
     private _async: Async;
     private _delayedValidate: (value: string) => void;
     private _isMounted: boolean;
-    private _lastValidation : number;
+    private _lastValidation: number;
     private _latestValidateValue;
     private _willMountTriggerValidation;
     private _field;
@@ -54,7 +54,7 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
 
         this._onInputChange = this._onInputChange.bind(this);
         this._onFocus = this._onFocus.bind(this);
-        this._onBlur = this._onBlur.bind(this);        
+        this._onBlur = this._onBlur.bind(this);
         this._delayedValidate = this._async.debounce(this._validate, this.props.deferredValidationTime);
         this._lastValidation = 0;
         this._willMountTriggerValidation = false;
@@ -87,7 +87,7 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
             this.setState({
                 value: newProps.value,
                 errorMessage: ''
-            } as ITextFieldState );
+            } as ITextFieldState);
 
             this._delayedValidate(newProps.value);
         }
@@ -116,16 +116,15 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
         );
 
         return (
-            <div className={ textFieldClassName } id={this.props.id} >
-                { label && <Label htmlFor={ this._id }>{ label }</Label> }
-                { iconClass && <i className={ iconClass }></i> }
-                { multiline ? this._renderTextArea() : this._renderInput() }
-                { errorMessage && <div className={'screenReaderOnly'}>{ errorMessage }</div> }
-                { (description || errorMessage) &&
+            <div className={textFieldClassName} id={this.props.id} >
+                {label && <Label htmlFor={this._id}>{label}</Label>}
+                {iconClass && <i className={iconClass}></i>}
+                {multiline ? this._renderTextArea() : this._renderInput()}
+                {(description || errorMessage) &&
                     <span id={this._descriptionId}>
-                        { description && <span className={'textField-description'}>{ description }</span> }
-                        { errorMessage && <p className={'textField-errorMessage slideDownIn20'}>{ errorMessage }</p> }
-                    </span>    
+                        {description && <span className={'textField-description'}>{description}</span>}
+                        {errorMessage && <p className={'textField-errorMessage slideDownIn20'}>{errorMessage}</p>}
+                    </span>
                 }
             </div>
         );
@@ -140,9 +139,9 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
         }
     }
 
-     /**
-    * Selects the text field
-    */
+    /**
+   * Selects the text field
+   */
     public select() {
         if (this._field) {
             this._field.select();
@@ -158,23 +157,23 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
         }
     }
 
-     /**
-     * Sets the selection end of the text field to a specified value
-     */
+    /**
+    * Sets the selection end of the text field to a specified value
+    */
     public setSelectionEnd(value: number) {
         if (this._field) {
             this._field.selectionEnd = value;
         }
     }
 
-    private _onInputChange(event: React.ChangeEvent<any>) : void {
+    private _onInputChange(event: React.ChangeEvent<any>): void {
         const element: HTMLTextAreaElement = event.target as HTMLTextAreaElement;
         const value: string = element.value;
 
         this.setState({
             value: value,
             errorMessage: ''
-        } as ITextFieldState );
+        } as ITextFieldState);
 
         this._willMountTriggerValidation = false;
         this._delayedValidate(value);
@@ -216,7 +215,7 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
             if (typeof result === 'string') {
                 this.setState({
                     errorMessage: result
-                } as ITextFieldState );
+                } as ITextFieldState);
 
                 this._notifyAfterValidate(value, result);
             } else {
@@ -226,7 +225,7 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
                     if (this._isMounted && currentValidation === this._lastValidation) {
                         this.setState({
                             errorMessage
-                        } as ITextFieldState );
+                        } as ITextFieldState);
                     }
 
                     this._notifyAfterValidate(value, errorMessage);
@@ -241,7 +240,7 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
         if (!this._willMountTriggerValidation && value === this.state.value) {
             const { onNotifyValidationResult } = this.props;
             onNotifyValidationResult(errorMessage, value);
-            
+
             if (!errorMessage) {
                 const { onChanged } = this.props;
                 onChanged(value);
@@ -278,48 +277,48 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
 
     private _renderTextArea(): React.ReactElement<React.HTMLProps<HTMLAreaElement>> {
         let textAreaProps = getNativeAttributes(this.props, textAreaAttributes, ['defaultValue']);
-        
-        return(
+
+        return (
             <textarea
                 { ...textAreaProps }
-                id={ this._id }
-                ref={ (c): HTMLTextAreaElement => this._field = c }
-                value={ this.state.value }
-                onChange={ this._onInputChange }
-                onKeyUp={ this._onKeyUp }
-                className={ this._fieldClassName }
-                onFocus={ this._onFocus }
-                onBlur={ this._onBlur }
+                id={this._id}
+                ref={(c): HTMLTextAreaElement => this._field = c}
+                value={this.state.value}
+                onChange={this._onInputChange}
+                onKeyUp={this._onKeyUp}
+                className={this._fieldClassName}
+                onFocus={this._onFocus}
+                onBlur={this._onBlur}
             />
         );
     }
 
     private _renderInput(): React.ReactElement<React.HTMLProps<HTMLInputElement>> {
         let inputProps = getNativeAttributes<React.HTMLProps<HTMLInputElement>>(this.props, inputAttributes, ['defaultValue']);
-        
-        return(
+
+        return (
             <input
                 type={'text'}
                 { ...inputProps }
-                id={ this._id }
-                ref={ (c): HTMLInputElement => this._field = c }
-                value={ this.state.value }
-                onChange={ this._onInputChange }
-                onKeyUp={ this._onKeyUp }
-                className={ this._fieldClassName }
-                onFocus={ this._onFocus }
-                onBlur={ this._onBlur }
+                id={this._id}
+                ref={(c): HTMLInputElement => this._field = c}
+                value={this.state.value}
+                onChange={this._onInputChange}
+                onKeyUp={this._onKeyUp}
+                className={this._fieldClassName}
+                onFocus={this._onFocus}
+                onBlur={this._onBlur}
             />
         );
     }
 
     @autobind
     private _onKeyUp(ev: React.KeyboardEvent<HTMLElement>) {
-        const { onAccept, multiline } = this.props;              
-        switch (ev.which) {     
+        const { onAccept, multiline } = this.props;
+        switch (ev.which) {
             case KeyCodes.enter:
-                if (!multiline) {                    
-                    this._validate(this._field.value);                 
+                if (!multiline) {
+                    this._validate(this._field.value);
 
                     // problems with React batched updates and trying to use the changed value immediately when enter was pressed 
                     if (onAccept) {
@@ -330,7 +329,7 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
             default:
                 return;
         }
-        
+
         // We only get here if the keypress has been handled.
         ev.preventDefault();
         ev.stopPropagation();

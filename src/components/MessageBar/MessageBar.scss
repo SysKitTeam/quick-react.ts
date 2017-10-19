@@ -1,178 +1,134 @@
 @import '../../index.scss';
 
 .messageBar {
-    @include baseFont();
-    background-color: $primary-color;
-    color: $font-primary-color;
-    width: 100%;
+    background-color: $white-color;
+    border: 1px solid $secondary-color-20;
+    border-left: 0;
+    border-radius: 0 8px 8px 0;
+    color: $white-color;
     box-sizing: border-box;
-    display: flex;
-    position: relative;
+    position: absolute;
+    user-select: none;
+    height: 32px;
+    width: 60%;
+    margin: 0 20%;
+    bottom: 10px;
+
+    .messageBar-content {
+        padding-right: 10px;
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
 
     .messageBar-icon {
-        @include padding-right(8px);
-        color: #767676;
-    }
+        display: flex;
+        align-items: center;
+        margin-left: -16px;
 
-    .link {
-        font-size: $font-size-s;
-    }
-}
-
-.messageBar-icon,
-.messageBar-text {
-    display: table-cell;
-    vertical-align: top;
-}
-
-.messageBar-icon {
-    font-size: $font-size-m;
-    min-width: 16px;
-    min-height: 16px;
-    display: flex;
-}
-
-.messageBar-text {
-    @include baseFont();
-    font-size: $font-size-s;
-    font-weight: $font-weight-regular;
-    min-width: 0;
-    display: flex;
-    padding-right: 10px;
-}
-
-//== Modifier: Info message
-//
-.messageBar.messageBar-info {
-    background-color: $font-info-colorBackground;
-    color: $font-info-colorText;
-
-    .messageBar-icon > i {
-        color: $font-info-color;
-    }
-}
-
-//== Modifier: Warning message
-//
-.messageBar.messageBar-warning {
-    background-color: $font-warning-colorBackground;
-    color: $font-warning-colorText;
-
-    .messageBar-icon > i {
-        color: $font-warning-color;
-    }
-}
-
-//== Modifier: Error message
-//
-.messageBar.messageBar-error {
-    background-color: $font-error-colorBackground;
-    color: $font-error-colorText;
-
-    .messageBar-icon > i {
-        color: $font-error-color;
-    }
-}
-
-//== Modifier: Success message
-//
-.messageBar.messageBar-success {
-    background-color: $font-success-colorBackground;
-    color: $font-success-colorText;
-
-    .messageBar-icon > i {
-        color: $font-success-color;
-    }
-}
-
-.messageBar-content {
-    padding: 10px;
-    display: flex;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.messageBar-actionables {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-width: 0;
-    margin-right: 20px;
-}
-
-.messageBar-actionables > .messageBar-dismissal {
-    right: 0;
-    position: absolute !important;
-}
-
-.messageBar-actions, .messageBar-actionsOneline {
-    display: flex;
-    flex: 0 0 auto;
-    flex-direction: row-reverse;
-    align-items: center;
-}
-
-.messageBar-actionsOneline {
-    margin-right: 20px;    
-}
-
-.messageBar-dismissal {
-    min-width: 0;
-    cursor: pointer;
-}
-
-.messageBar-actionsOneline .messageBar-dismissal {
-    @include margin-right(-8px);
-}
-
-.messageBar-checkbox {
-    position: absolute;
-    right: 35px;
-    top: 0px;
-}
-
-// Add space between adjacent MessageBars.
-.messageBar + .messageBar {
-    margin-bottom: 6px;
-}
-
-.messageBar-innerTextPadding {
-
-    span, .messageBar-innerText > span {
-        @include padding-right(4px); // Add padding between text and hyperlink.
-    }
-}
-
-.messageBar-singleline {
-    .messageBar-content {
-        .messageBar-icon {
-            align-items: center;
+        &::before {
+            content: '';
+            width: 32px;
+            height: 32px;
+            box-sizing: border-box;
+            border-radius: 50%;
         }
 
-        .messageBar-actionables > .messageBar-text {
-            justify-content: center;
-            align-items: center;
+        .icon {
+            color: $white-color;
+            position: absolute;
+            font-size: 16px;
+            margin-right: 0;
+            left: -8px;
+        }
+    }
 
-            .messageBar-innerText,
-            .messageBar-innerTextPadding {
-                max-height: 1.3em;
-                line-height: 1.3em;
+    .messageBar-actionables {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        margin-right: 20px;
+        min-width: 0;
+
+        .messageBar-text {
+            min-width: 0;
+            display: flex;
+            margin-left: 15px;
+
+            .messageBar-innerText {
                 overflow-x: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+                cursor: default;
+            }
+        }
+
+        .messageBar-actionsOneline {
+            position: absolute;
+            right: 40px;
+            top: -1px; 
+        }
+
+        .messageBar-checkBox-container {
+            flex: 1;
+            min-width: 250px;
+
+            .messageBar-checkbox {
+                position: absolute;
+                right: 45px;
+                top: -1px;
+
+                .checkbox-label {
+                    margin-top: 8px;
+                }
+            }
+        }
+
+        .messageBar-dismissal {
+            right: 5px;
+            position: absolute;
+            top: 8px;
+            cursor: pointer;
+
+            &:hover {
+                color: $primary-color;
             }
         }
     }
 
-    .messageBar-content > .messageBar-actionables {
-        flex-direction: row;
+    &.messageBar-warning {
+        .messageBar-icon {
+            &:before {
+                background-color: $warning-text-color;
+            }
+        }
+    }
+
+    &.messageBar-error {
+        .messageBar-icon {
+            &:before {
+                background-color: $error-text-color;
+            }
+        }
+    }
+
+    &.messageBar-success {
+        .messageBar-icon {
+            &:before {
+                background-color: $success-text-color;
+            }
+        }
+    }
+
+    &.messageBar-info {
+        .messageBar-icon {
+            &:before {
+                background-color: $info-text-color;
+            }
+        }
     }
 }
 
-.messageBar-checkBox-container {
-    flex: 1;
-    min-width: 250px;
-    .checkbox-label {        
-        white-space: nowrap;
-    }
+.messageBar + .messageBar {
+    margin-top: 10px;
 }

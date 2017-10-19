@@ -55,7 +55,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
                 <div className={classNames('treeview-item', item.className)}>
                     {
                         item.children.length > 0 &&
-                        <Icon iconName={arrowIcon} onClick={this._onExpand}></Icon>
+                        <Icon iconName={arrowIcon} className="arrow-icon" onClick={this._onExpand}></Icon>
                     }
                     <div className={treeveiwItemClassName} >
                         {

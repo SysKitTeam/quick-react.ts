@@ -2,198 +2,96 @@
 @import '../Label/Label.scss';
 
 .text-field {
-    @include baseFont();
-    @include normalize();
-    color: $font-primary-color;
-    font-size: $font-size-m;
-    font-weight: $font-weight-regular;
     margin-bottom: 8px;
 
-    .label {
-        font-size: $font-size-m;
-        font-weight: $font-weight-regular;
-    }
-}
-
-//= State: A disabled textfield
-.text-field.is-disabled {
     .textField-field {
-        background-color: $primary-color;
-        border-color: $primary-color;
-        pointer-events: none;
-        cursor: default;
-    }
-}
+        box-sizing: border-box;
+        border: 1px solid $black-color-15;
+        border-radius: 8px;
+        padding: 5px 10px 6px 10px;
+        width: 100%;
+        outline: 0;
+    
+        &:hover {
+            border-color: $secondary-color-40;
+        }
+    
+        &:active,
+        &:focus {
+            border-color: $primary-color;
+        }
+    
+        &[disabled] {
+            background-color: $black-color-6;
+            border-color: $black-color-15;
+            color: $secondary-disabled-color;
+            pointer-events: none;
+            cursor: default;
+        }
 
-//= State: A required textfield
-.text-field.is-required {
-    .label {
-         &::after {
-            content: ' *';
-            color: $font-error-color;
+        &.textField-field-unresizable {
+            resize: none;
         }
     }
-}
 
-//= State: An active textfield
-.text-field.is-active {
-    border-color: $secondary-color;
-}
-
-.textField-field {
-    @include baseFont();
-    @include normalize();
-    border: 1px solid #c8c8c8;
-    border-radius: 0;
-    font-weight: font-weight-regular;
-    font-size: $font-size-m;
-    color: $font-primary-color;
-    @include padding(6px, 12px, 7px, 12px);
-    width: 100%;
-    outline: 0;
-    text-overflow: ellipsis;
-
-    &:hover {
-        border-color: #767676;
+    .textField-errorMessage {
+        font-size: 12px;
+        color: $error-color;
+        margin: 0;
     }
 
-    &:focus {
-        border-color: $secondary-color;
+    .textField-description {
+        font-size: 12px;
     }
 
-    &[disabled] {
-        background-color: $primary-color;
-        border-color: $primary-color;
-        pointer-events: none;
-        cursor: default;
-    }
-}
-
-.textField-description {
-    color: #767676;
-    font-size: $font-size-s;
-}
-
-//== Modifier: Single line (default), underlined
-//
-.text-field.textField--underlined {
-    border-bottom: 1px solid #c8c8c8;
-    display: table;
-    width: 100%;
-
-    &:hover {
-        border-color: #767676;
+    &.text-field-multiline {
+        .textField-field {
+            min-height: 32px;
+            min-width: 200px;
+        }
     }
 
-    &:active,
-    &:focus {
-        border-color: $secondary-color;
-    }
+    &.text-field-underlined {
+        border-bottom: 1px solid $secondary-color-40;
+        display: table;
+        width: 100%;
 
-    .label {
-        font-size: $font-size-m;
-        @include margin-right(8px);
-        display: table-cell;
-        vertical-align: top;
-        @include padding-left(12px);
-        padding-top: 9px;
-        height: 32px;
-        width: 1%;
-        white-space: nowrap;
-    }
-
-    .textField-field {
-        border: 0;
-        @include float(left);
-        display: table-cell;
-        @include text-align(left);
-        padding-top: 8px;
-        padding-bottom: 3px;
-
-        &:active,
-        &:focus,
         &:hover {
-            outline: 0;
+            border-color: $secondary-color-40;
+        }
+    
+        &:active,
+        &:focus {
+            border-color: $primary-color;
+        }
+    
+        .textField-field {
+            border: 0;
+        }
+    
+        &.is-disabled {
+            border-bottom-color: $black-color-15;
+    
+            .label {
+                color: $secondary-disabled-color;;
+            }
+        }
+    
+        &.is-active {
+            border-color: $primary-color;
         }
     }
 
     &.is-disabled {
-        border-bottom-color: $primary-hover-color;
-
         .label {
-            color: $font-disabled-color;
-        }
-
-        .ms-TextField-field {
-            background-color: transparent;
-            color: $font-disabled-color;
+            color: $secondary-disabled-color;
         }
     }
 
-    &.is-active {
-        border-color: $secondary-color;
+    &.is-required {
+        .label:after {
+            content: ' *';
+            color: $error-color;
+        }
     }
-}
-
-//== Modifier: Multiline textfield
-//
-.text-feld.textField-multiline {
-  .textField-field {
-    @include baseFont();
-    color: $font-primary-color;
-    font-size: $font-size-m;
-    font-weight: $font-weight-regular;
-    line-height: 17px;
-    min-height: 60px;
-    padding-top: 6px;
-    overflow: auto;
-  }
-}
-
-.textField-errorMessage {
-    @include baseFont();
-    font-size: $font-size-s;
-    font-weight: $font-weight-regular;
-    color: $font-error-color;
-    margin: 0;
-    padding-top: 5px;
-}
-
-.textField-invalid,
-.textField-invalid:focus,
-.textField-invalid:hover {
-    border-color: $font-error-color;
-}
-
-.screenReaderOnly {
-    position: absolute;
-    text-indent: -9999px;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    border: 0;
-}
-
-.text-field.textField-underlined {
-    
-    .label {
-        @include padding-left(12px);
-        @include padding-right(0);
-    }
-
-    .textField-field {
-        text-align: left;
-    }
-}
-
-.text-field.text-field-multiline {
-    .textField-field.textField-field-unresizable {
-        resize: none;
-    }
-}
-
-.textField-hidden {
-    display: none;
 }

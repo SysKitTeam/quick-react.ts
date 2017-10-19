@@ -1,124 +1,151 @@
 @import '../../index.scss';
 
 .pivot {
-    @include baseFont();
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     box-shadow: none;
-    font-size: $font-size-m;
-    font-weight: $font-weight-regular;
-    position: relative;
-    color: $secondary-color;
     white-space: nowrap;
-}
+    user-select: none;
 
-.pivot-link {
-    color: $font-primary-color;
-    display: inline-block;
-    font-size: $font-size-m;
-    font-weight: 400;
-    line-height: 40px;
-    @include margin-right(8px);
-    padding: 0 8px;
-    @include text-align(center);
-    position: relative;
-
-    &:hover {
-        cursor: pointer;
-    }
-
-    &:focus {
-        outline: none;
-    }
-
-    // Underline, not yet visible
-    &::before {
-        background-color: transparent;
-        bottom: 0;
-        content: '';
-        height: 2px;
-        left: 8px;
-        position: absolute;
-        right: 8px;
-        transition: background-color 267ms cubic-bezier(.1,.25,.75,.9);
-    }
-
-    // Make room for the heavier text of the selected state
-    &::after {
-        color: transparent;
-        content: attr(title);
-        display: block;
-        font-weight: bold;
-        height: 1px;
-        overflow: hidden;
-        visibility: hidden;
-    }
-
-    .pivot-text,
-    .pivot-count {
+    .pivot-link {
         display: inline-block;
-    }
-    .pivot-icon{
-        @include margin-left(5px);
-        &::before{
-            position: relative;
-            bottom: -5px;
-            font-size: 24px;
-        }
-    }
-    // Spacing between text and count
-    .pivot-count {
-        @include margin-left(4px);
-    }
-
-    //== State: Selected
-    &.is-selected {
-        font-weight: $font-weight-semibold;
-
-        // Show the underline
-        &::before {
-            background-color: $secondary-color;
-        }
-    }
-
-    //== State: Disabled
-    &.is-disabled {
-        color: $font-disabled-color;
-    }
-}
-
-.pivot.pivot-tabs {
-
-  .pivot-link {
-        outline: transparent;
-        position: relative;
-        @include margin-right(0px);
-        height: 40px;
-        line-height: 40px;
-        background-color: $primary-color;
+        line-height: 25px;
         padding: 0 10px;
-        vertical-align: top;
-
-        &:hover:not(.is-selected),
-        &:focus:not(.is-selected) {
-            color: $color-black;
+        position: relative;
+        cursor: pointer;
+    
+        &:hover {
+            .pivot-text, .pivot-icon, .pivot-count {
+                color: $primary-color;
+            }
+        }
+    
+        &:focus {
+            outline: none;
+        }
+    
+        &::before {
+            content: '';
+            bottom: 0;
+            height: 2px;
+            left: 7px;
+            right: 7px;
+            position: absolute;
+            transition: background-color 267ms cubic-bezier(.1,.25,.75,.9);
         }
 
-        &:active {
-            color: $color-white;
-            background-color: $secondary-color;
+        &::after {
+            content: attr(title);
+            display: block;
+            overflow: hidden;
+            visibility: hidden;
         }
-
-        //== State: Selected
-        &.is-selected {
-            background-color: $secondary-color;
-            color: $color-white;
-            font-weight: $font-weight-semilight;
+    
+        .pivot-icon {
+            margin: 0;
 
             &::before {
-                background-color: transparent;
-                transition: none;
+                position: relative;
+                bottom: -3px;
+                font-size: 18px;
+            }
+        }
+
+        .pivot-count {
+            margin-left: 5px;
+        }
+    
+        &.is-selected {
+            .pivot-text, .pivot-icon, .pivot-count {
+                color: $primary-color;
+            }
+
+            &::before {
+                background-color: $primary-color;
+            }
+        }
+
+        &.is-disabled {
+            cursor: default;
+            pointer-events: none;
+
+            .pivot-text, .pivot-icon, .pivot-count {
+                color: $secondary-disabled-color;
+            }
+
+            &.is-selected {
+                &:before {
+                    background-color: $primary-disabled-color;
+                }
+            }
+        }
+    }
+    
+    &.pivot-tabs {
+        .pivot-link {
+            background-color: $primary-color;
+            line-height: 40px;
+            padding: 0 20px;
+
+            .pivot-text {
+                color: $white-color;
+            }
+
+            &::before {
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+            }
+    
+            &:hover:not(.is-selected),
+            &:focus:not(.is-selected) {
+                background-color: $primary-hover-color;
+            }
+
+            &.is-selected {
+                background-color: $primary-color-60;
+                color: $white-color;
+    
+                &::before {
+                    background-color: $white-color;
+                }
+
+                .pivot-text {
+                    font-weight: 600;
+                }
+            }
+
+            &.is-disabled {
+                cursor: default;
+                pointer-events: none;
+                background-color: $primary-disabled-color;
+
+                .pivot-text, .pivot-icon, .pivot-count {
+                    color: $white-color;
+                }
+            }
+        }
+
+        &.pivot-tabs-gray {
+            .pivot-link {
+                background-color: $secondary-color-45;
+
+                &:hover:not(.is-selected),
+                &:focus:not(.is-selected) {
+                    background-color: $secondary-hover-color;
+                }
+
+                &.is-selected {
+                    background-color: $secondary-color;
+                    color: $white-color;
+        
+                    &::before {
+                        background-color: transparent;
+                        transition: none;
+                    }
+                }
             }
         }
     }

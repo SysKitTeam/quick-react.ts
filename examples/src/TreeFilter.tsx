@@ -43,6 +43,8 @@ export class Index extends React.Component<any, DemoState> {
                     maxWidth={700}
                     maxHeight={500}
                 />
+                <br /><br />
+
                 <TreeFilter
                     title="Tree Filter - depth 4"
                     filterId={'f2'}
@@ -52,6 +54,8 @@ export class Index extends React.Component<any, DemoState> {
                     filterSelection={this.state.filterStates['f2']}
                     defaultSelection={FilterSelectionEnum.All}
                 />
+                <br /><br />
+
                 <TreeFilter
                     title="Single Select"
                     filterId={'f3'}
@@ -73,6 +77,8 @@ export class Index extends React.Component<any, DemoState> {
                         topLeft: false
                     }}
                 />
+                <br /><br />
+
                 <TreeFilter
                     title="Flat list"
                     filterId={'f4'}
@@ -82,6 +88,8 @@ export class Index extends React.Component<any, DemoState> {
                     // tslint:disable-next-line:no-string-literal
                     filterSelection={this.state.filterStates['f4']}
                 />
+                <br /><br />
+                
                 <TreeFilter
                     title="Flat list - few elements"
                     filterId={'f5'}
