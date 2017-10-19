@@ -7,6 +7,7 @@ import { CommonComponent } from '../Common/Common';
 import { autobind } from '../../utilities/autobind';
 import { Treeview } from './Treeview';
 import './Treeview.scss';
+import { TreeviewItemHoverBtn } from './treeviewItemHoverBtn';
 
 const expandedIcon: string = 'icon-arrow_down_right';
 const collapsedIcon: string = 'icon-arrow_right';
@@ -79,11 +80,15 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
                             <div className="treeview-item__icons-container">
                                 {
                                     this.props.item.hoverOverBtn.map((btn, key) => (
-                                        <div key={key} className="treeview-item__icon">
-                                            <Icon iconName={btn.iconName} onClick={btn.callback.bind(this.props.item.id)}></Icon>
-                                        </div>
-                                    )
-                                    )
+                                        <TreeviewItemHoverBtn
+                                            key={key}
+                                            id={this.props.item.id}
+                                            iconName={btn.iconName}
+                                            onClick={btn.callback}
+                                            className="treeview-item__icon"
+
+                                        />
+                                    ))
                                 }
                             </div>
                         }

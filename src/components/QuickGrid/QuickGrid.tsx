@@ -31,7 +31,9 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     public static defaultProps = {
         overscanRowCount: 20,
         groupBy: [],
-        rowHeight: 28
+        rowHeight: 28,
+        tooltipsEnabled: true,
+        actionsTooltip: 'Actions'
     };
     private finalGridRows: Array<any>;
     private _grid: any;
@@ -265,12 +267,13 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     }
 
     renderActionCell(key, rowIndex: number, rowData, style) {
+        let { tooltipsEnabled, actionsTooltip } = this.props;
         const rowClass = 'grid-row-' + rowIndex;
         const onMouseEnter = () => { this.onMouseEnterCell(rowClass); };
         const onMouseLeave = () => { this.onMouseLeaveCell(rowClass); };
         const actionOptions = getActionItemOptions(this.props);
         const { actionIconName } = this.props.gridActions;
-
+        const title = this.props.tooltipsEnabled ? actionsTooltip : null;
         const className = classNames(
             'grid-component-cell',
             rowClass,
@@ -284,6 +287,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                 className={className}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
+                title={title}
             >
                 <Dropdown
                     dropdownKey={rowIndex}
@@ -385,6 +389,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                 );
             }
         };
+        const title = this.props.tooltipsEnabled ? cellData : null;
         return (
             <div
                 key={key}
@@ -394,6 +399,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                 onMouseLeave={onMouseLeave}
                 onClick={onClick}
                 onDoubleClick={onDoubleClick}
+                title={title}
             >
                 {columnElement()}
             </div>
@@ -485,6 +491,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                                         hasActionColumn={this.props.gridActions != null}
                                         onCollapseAll={this.collapseAll}
                                         onExpandAll={this.expandAll}
+                                        tooltipsEnabled={this.props.tooltipsEnabled}
                                     />
 
                                     <Grid
@@ -514,6 +521,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                                             columns={this.state.columnsToDisplay}
                                             scrollLeft={scrollLeft}
                                             onScroll={onScroll}
+                                            tooltipsEnabled={this.props.tooltipsEnabled}
                                         />
                                     }
                                 </div>

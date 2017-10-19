@@ -14,6 +14,7 @@ export interface IGridFooterProps {
     rowData: any;
     scrollLeft: any;
     onScroll: any;
+    tooltipsEnabled?: boolean;
 }
 
 export interface IGridFooterState {
@@ -21,6 +22,11 @@ export interface IGridFooterState {
 
 export class GridFooter extends React.PureComponent<IGridFooterProps, IGridFooterState> {
     private _footerGrid: any;
+
+    public static defaultProps = {
+        tooltipsEnabled: true
+    };
+
     constructor(props: IGridFooterProps) {
         super(props);
     }
@@ -38,16 +44,18 @@ export class GridFooter extends React.PureComponent<IGridFooterProps, IGridFoote
         const column = columns[columnIndex];
         const dataKey = column.dataMember || column.valueMember;
         const cellData = this.props.rowData[dataKey];
+        const title = this.props.tooltipsEnabled ? cellData : null;
+        
         const className = classNames(
             'grid-component-cell',
             'grid-footer-cell');
+
         return (
             <div
                 key={key}
                 style={style}
                 className={className}
-                title={cellData}
-            >
+                title={title}>
                 {cellData}
             </div>
         );
