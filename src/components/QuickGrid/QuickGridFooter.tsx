@@ -14,6 +14,7 @@ export interface IGridFooterProps {
     rowData: any;
     scrollLeft: any;
     onScroll: any;
+    tooltipsEnabled?: boolean;
 }
 
 export interface IGridFooterState {
@@ -21,6 +22,11 @@ export interface IGridFooterState {
 
 export class GridFooter extends React.PureComponent<IGridFooterProps, IGridFooterState> {
     private _footerGrid: any;
+
+    public static defaultProps = {
+        tooltipsEnabled: true
+    };
+
     constructor(props: IGridFooterProps) {
         super(props);
     }
@@ -41,11 +47,13 @@ export class GridFooter extends React.PureComponent<IGridFooterProps, IGridFoote
         const className = classNames(
             'grid-component-cell',
             'grid-footer-cell');
+        const title = this.props.tooltipsEnabled ? cellData : null;
         return (
             <div
                 key={key}
                 style={style}
                 className={className}
+                title={title}
             >
                 {cellData}
             </div>
@@ -54,20 +62,20 @@ export class GridFooter extends React.PureComponent<IGridFooterProps, IGridFoote
 
     render() {
         return (
-                <Grid
-                    ref={this.setGridReference}
-                    height={this.props.height}
-                    width={this.props.width}
-                    rowHeight={this.props.rowHeight}
-                    rowCount={1}
-                    columnCount={this.props.columns.length}
-                    cellRenderer={this.columnSummaryCellRenderer}
-                    columnWidth={this.getColumnWidth}
-                    className="grid-column-footer"
-                    scrollLeft={this.props.scrollLeft}
-                    onScroll={this.props.onScroll}
-                    {...this.props}
-                />
+            <Grid
+                ref={this.setGridReference}
+                height={this.props.height}
+                width={this.props.width}
+                rowHeight={this.props.rowHeight}
+                rowCount={1}
+                columnCount={this.props.columns.length}
+                cellRenderer={this.columnSummaryCellRenderer}
+                columnWidth={this.getColumnWidth}
+                className="grid-column-footer"
+                scrollLeft={this.props.scrollLeft}
+                onScroll={this.props.onScroll}
+                {...this.props}
+            />
         );
     }
 }
