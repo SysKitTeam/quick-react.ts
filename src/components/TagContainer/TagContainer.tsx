@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ITagContainerProps } from './TagContainer.Props';
+import { ITagContainerProps, ITag } from './TagContainer.Props';
 import { Icon } from '../Icon/Icon';
 import { autobind } from '../../utilities/autobind';
 import { Label } from '../Label/Label';
@@ -23,7 +23,6 @@ export class TagContainer extends React.Component<ITagContainerProps, any> {
         }
 
         return (
-
             <div className="tag-container">
                 {title &&
                     <Label>{title}</Label>
@@ -31,29 +30,34 @@ export class TagContainer extends React.Component<ITagContainerProps, any> {
                 {
                     tags.length <= 3 &&
                     tags.map((tag, tagIndex) => (
-                        <div key={tag.display} className="tag">
-                            {tag.iconName && <Icon iconName={tag.iconName}></Icon>}
-                            <span style={{ cursor: 'pointer' }} className={'tag-text'} title={tag.display}>
-                                {tag.display}
-                            </span>
-                        </div>
+                        this.renderTag(tag)
                     ))
                 }
                 {
                     tags.length > 3 &&
                     tags.map((i) => { return i; }).slice(0, 3).map((tag, tagIndex) => (
-                        <div key={tag.display} className="tag">
-                            {tag.iconName && <Icon iconName={tag.iconName}></Icon>}
-                            <span style={{ cursor: 'pointer' }} className={'tag-text'} title={tag.display}>
-                                {tag.display}
-                            </span>
-                        </div>
+                        this.renderTag(tag)
                     ))
                 }
                 {
                     tags.length > 3 && <div className="tag points" title={extraTags}>...</div>
                 }
                 {this.props.children}
+            </div>
+        );
+    }
+
+    private renderTag(tag: ITag): JSX.Element {
+        return (
+            <div key={tag.display} className="tag">
+                {tag.iconName &&
+                    <Icon iconName={tag.iconName} title={tag.tooltip} />}
+                <span
+                    style={{ cursor: 'pointer' }}
+                    className={'tag-text'} title={tag.display}
+                >
+                    {tag.display}
+                </span>
             </div>
         );
     }
