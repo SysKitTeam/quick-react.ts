@@ -105,14 +105,15 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         this.setState(prevState => ({ ...prevState, isOpen: !prevState.isOpen }));
     }
 
-    private onDismiss = () => {
+    onDismiss = () => {
         this.setState(prevState => ({ ...prevState, isOpen: false }));
     }
 
     private getBoxSupportElementsHeight = () => {
-        let heightDiff = 5; // 5px: paddings
-        if (!this.props.isSingleSelect) { heightDiff += 44; } // 25px: SelectAll +  19px: Footer
-        if (this.props.hasSearch) { heightDiff += 30; }
+        let heightDiff = 12; // 6px paddings top and bottom
+        if (!this.props.isSingleSelect) { heightDiff += 40; } // 21px: SelectAll +  19px: Footer
+        if (this.props.hasSearch) { heightDiff += 42; } // 32px + 10px margin bottom
+        if (this.props.children) { heightDiff += 42; }
         return heightDiff;
     }
 
@@ -173,6 +174,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         const hasItems = this.props.items != null && this.props.items.length !== 0;
         const treeFilterProps = {
             ...this.props,
+            treeFilterFooter: this.props.children,
             title: undefined,
             allItemIdsGetter: this._getAllItemIds,
             lookupTableGetter: this._getLookups,
@@ -181,11 +183,21 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
             searchQuery: this.state.query
         };
 
+        const treeFilterClassName = classNames(
+            'tree-filter-container',
+            {
+                'is-disabled': this.props.disabled
+            }
+        );
+
         return (
-            <div className="tree-filter-container" ref={this.setAnchorRef}>
-                <span className={classNames({ 'item-selected': !isDefaultSelected })} >{this.props.title}: </span>
+            <div className={treeFilterClassName} ref={this.setAnchorRef}>
                 {
-                    !isDefaultSelected &&
+                    this.props.title &&
+                    <span className={classNames({ 'item-selected': !isDefaultSelected })} >{this.props.title}: </span>
+                }
+                {
+                    this.props.title && !isDefaultSelected &&
                     <Icon iconName="icon-delete" title="Reset selection" className="reset-filter-icon" onClick={this.onFilterReset} />
                 }
                 <div className="tree-filter-title" title={this.state.selectionText} onClick={this.toggleOpenState}>

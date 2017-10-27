@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import { Icon } from '../Icon/Icon';
-import { autobind } from '../../index';
+import { autobind } from '../../utilities/autobind';
 
 export interface ITreeviewItemHoverBtnProps {
     id: string;
@@ -19,11 +19,9 @@ export class TreeviewItemHoverBtn extends React.PureComponent<ITreeviewItemHover
 
     public render(): JSX.Element {
         return (
-            <Icon
-                className={this.props.className}
-                iconName={this.props.iconName}
-                onClick={this._onClick}
-            />
+            <div className={this.props.className}>
+                <Icon iconName={this.props.iconName} onClick={this._onClick}></Icon>
+            </div>
         );
     }
 }

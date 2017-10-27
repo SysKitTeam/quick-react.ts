@@ -6,6 +6,7 @@
     .virtualized-tree-filter-container {
         padding: 6px;
         box-sizing: border-box;
+        z-index: 1000;
 
         .virtualized-tree-filter-title {
             height: 20px;
@@ -37,7 +38,20 @@
             font-size: 12px;
             padding-left: 5px;
             position: absolute;
-            bottom: 5px;
+        }
+
+        .tree-filter-actions {
+            margin-top: 10px;
+            margin-bottom: 6px;
+            position: absolute;
+            bottom: 0;
+            right: 10px;
+        
+            .tree-filter-actionsRight {
+                .tree-filter-action + .tree-filter-action {
+                    margin-left: 15px;
+                }
+            }
         }
 
         ul {

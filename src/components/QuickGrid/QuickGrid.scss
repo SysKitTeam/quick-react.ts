@@ -2,7 +2,7 @@
 
 .grid-component-container {
    height: calc(100% - 40px);
-   width: calc(100% - 26px);
+   width: calc(100% - 35px);
    margin: 20px;
 
    .group-drop-toolbar {
@@ -199,7 +199,7 @@
             .grid-group-row-inner {
                 overflow: hidden;
                 text-overflow: ellipsis;
-                padding-top: 3px;
+                padding-top: 4px;
 
                 .icon {
                     font-size: 10px;

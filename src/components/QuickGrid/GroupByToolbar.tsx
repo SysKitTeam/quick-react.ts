@@ -124,7 +124,7 @@ class GroupByToolbarInner extends React.PureComponent<IGroupByProps, IGroupBySta
                         />
 
                         <Icon
-                            iconName="icon-expand_collapse"
+                            iconName="icon-collapseAll"
                             className="collapse"
                             onClick={onCollapseAll}
                             title="Collapse all"

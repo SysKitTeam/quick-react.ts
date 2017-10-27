@@ -17,6 +17,7 @@ export interface IDropdownProps {
   hasTitleBorder?: boolean;
   icon?: string;
   dropdownType?: DropdownType;
+  dropdownWidth?: string;
   className?: string;
   calloutClassName?: string;
   layerClassName?: string;

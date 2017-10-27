@@ -86,7 +86,6 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
                                             iconName={btn.iconName}
                                             onClick={btn.callback}
                                             className="treeview-item__icon"
-
                                         />
                                     ))
                                 }

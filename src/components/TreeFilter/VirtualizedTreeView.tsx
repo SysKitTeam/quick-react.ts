@@ -145,10 +145,11 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                 </AutoSizer>
                 {
                     !isSingleSelect &&
-                    <label className="virtualized-tree-filter-footer-count">
+                    <label className="virtualized-tree-filter-footer-count" style={{ 'bottom': this.props.treeFilterFooter ? '40px' : '5px' }}>
                         Selected: {checkedItemIds.length}/{this.allItemIds.length}
                     </label>
                 }
+                {this.props.treeFilterFooter}
             </div>
         );
     }
@@ -452,6 +453,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
         }
 
         if (this.props.hasSearch) { heightDiff += 30; }
+        if (this.props.treeFilterFooter) { heightDiff += 42; }
         return heightDiff;
     }
 

@@ -15,8 +15,7 @@ export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
         super(props);
 
         this.state = {
-            isMenuOpen: false,
-            selectedItem: this.props.children.length > 0 ? this.props.children[0].url : ''
+            isMenuOpen: false
         };
     }
 
@@ -69,14 +68,14 @@ export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
 
     private mapChildrenToMenu(children: Array<IBreadcrumbChild>) {
         return children.map((child, index) => {
-            return <li key={index} className={classNames('dropdown-item', { 'is-selected': child.url === this.state.selectedItem })} onClick={() => this.handleChildClick(child)}>{child.displayName}</li>;
+            return <li key={index} className="dropdown-item" onClick={() => this.handleChildClick(child)}>{child.displayName}</li>;
         });
     }
 
     private handleChildClick(child: IBreadcrumbChild) {
         this.props.onClick(child.url);
         this.closeDropdown();
-        this.setState({ isMenuOpen: false, selectedItem: child.url });
+        this.setState({ isMenuOpen: false });
     }
 
     @autobind

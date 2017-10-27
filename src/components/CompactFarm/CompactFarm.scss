@@ -19,14 +19,16 @@
 
 .callout-container {
     .callout {
-        border-radius: 0;
-    
-        .callout-main {
+        &.compact-farm-callout {
             border-radius: 0;
-        }
-    
-        .server-details {
-            margin: 0;
+            
+            .callout-main {
+                border-radius: 0;
+            }
+        
+            .server-details {
+                margin: 0;
+            }
         }
     }
 }
