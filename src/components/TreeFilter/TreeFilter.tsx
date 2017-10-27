@@ -107,6 +107,10 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
 
     onDismiss = () => {
         this.setState(prevState => ({ ...prevState, isOpen: false }));
+
+        if (this.props.onCalloutDismiss !== undefined) {
+            this.props.onCalloutDismiss();
+        }
     }
 
     private getBoxSupportElementsHeight = () => {

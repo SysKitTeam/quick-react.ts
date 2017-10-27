@@ -39,6 +39,7 @@ export interface ITreeFilterProps {
     maxHeight?: number;
     directionalHint?: DirectionalHint;
     clearSearchOnClose?: boolean;
+    onCalloutDismiss?: (ev?: any) => void;
     enabledResizeHandles?: { // all enabled if undefined
         top: boolean,
         right: boolean,
