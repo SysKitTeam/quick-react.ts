@@ -89,7 +89,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
           onKeyDown={this._onDropdownKeyDown}
           onClick={this._onDropdownClick}
           role="combobox"
-          style={{ width: this.getMaxItemWidth() }}
+          style={{ width: this.props.dropdownWidth ? this.props.dropdownWidth : this.getMaxItemWidth() }}
         >
           <span className={dropdownTitleClassName}>
             {icon && (

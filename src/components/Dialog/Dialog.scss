@@ -27,6 +27,7 @@
         display: block;
         line-height: 100vh;
         text-align: center;
+        height: 100%;
     }
 
     &.is-animatingOpen {
@@ -47,7 +48,9 @@
         line-height: 1.35;
         position: relative;
         text-align: left;
-        max-width: 500px;
+        max-width: calc(100% - 70px);
+        max-height: calc(100% - 70px);
+        overflow-y: auto;
         
         &:focus {
             outline: none;
@@ -109,6 +112,6 @@
                     }
                 }
             }
-        }        
+        }
     }
 }

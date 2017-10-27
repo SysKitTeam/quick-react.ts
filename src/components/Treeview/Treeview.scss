@@ -1,7 +1,6 @@
 @import '../../index.scss';
 
 .treeview {
-    margin-left: 20px;
     user-select: none;
 
     .treeview-item {
@@ -37,7 +36,8 @@
                         color: $primary-color;
                         font-size: 14px;
                         position: absolute;
-                        left: 1.7px;
+                        left: 2px;
+                        top: 0px;
                     }
                 }
             }
@@ -48,7 +48,7 @@
                 margin-left: 20px;
         
                 .treeview-item__icon {
-                    margin-right: 5px;
+                    margin-right: 8px;
                     
                     .icon:hover {
                         color: $primary-color;
@@ -58,22 +58,18 @@
         }
     }
 
-    .treeveiw-parent-item {
-        margin-left: -14px;
-    }
-
     .collapsed {
         display: none;
     }
 
     .expanded {
         display: block;
-        margin-left: 28px;
+        margin-left: 15px;
     }
 
     &.treeview-with-checkbox {
         .expanded {
-            margin-left: 34px;
+            margin-left: 20px;
         }
 
         .treeview-item {
@@ -86,7 +82,7 @@
 
                 .checkbox {
                     .label {
-                        padding-left: 20px;
+                        padding: 0 0 0 20px;
                     }
                 }
             }

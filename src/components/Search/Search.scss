@@ -37,7 +37,6 @@ $searchBox-height: 30px; //30px + 2px border
         height: $searchBox-height;
         line-height: $searchBox-height;
         font-size: 16px;
-        color: $secondary-color;
     }
 
     &.can-clear .search-clearButton {

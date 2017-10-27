@@ -52,14 +52,8 @@
     }
 
     &.is-open {
-        .dropdown-title-border {
-            border-radius: 8px 8px 0 0;
-            border-color: $primary-color;
-            border-bottom: 0;
-
-            &:hover {
-                border-color: $primary-color;
-            }
+        .iconArrowWithBorder {
+            color: $primary-color;
         }
     }
 
@@ -119,9 +113,7 @@
         }
 
         &.is-open {
-            border-radius: 8px 8px 0 0;
             border: 1px solid $primary-color;
-            border-bottom: 0;
             background-color: $white-color;
             cursor: pointer;
 
@@ -152,7 +144,7 @@
 
     &.arrow-dropdown {
         border-radius: 0 8px 8px 0;
-        border: 1px solid $primary-color;
+        border: 1px solid $black-color-15;
         height: 30px;
         cursor: pointer;
 
@@ -165,7 +157,7 @@
         }
 
         &:hover {
-            border-color: $primary-hover-color;
+            border-color: $secondary-color-40;
             
             .dropdown-title {
                 .iconArrow {
@@ -175,8 +167,11 @@
         }
 
         &.is-open {
-            border-radius: 0 8px 0 0;
-            border-bottom: 0;
+            .dropdown-title {
+                .iconArrow {
+                    color: $primary-color;
+                }
+            } 
         }
 
         &.is-disabled {
@@ -195,13 +190,25 @@
 
 .callout {
     &.dropdown-callout {
-        border-radius: 0 0 8px 8px;
         border-color: $primary-color;
-        z-index: 100;
+
+        &.slideUpIn20 {
+            margin-top: -5px;
+        }
+
+        &.slideDownIn20 {
+            margin-top: 5px;
+        }
+
+        &.slideLeftIn20 {
+            margin-right: 5px;
+        }
+
+        &.slideRightIn20 {
+            margin-left: 5px;
+        }
 
         .callout-main {
-            border-radius: 8px;
-
             .dropdown-items {
                 padding: 4px 0;
                 margin: 0;

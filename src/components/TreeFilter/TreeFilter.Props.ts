@@ -18,9 +18,10 @@ export enum CheckStatus {
 }
 
 export interface ITreeFilterProps {
-    title: string;
     filterId: string;
     items: Array<TreeItem>;
+    title?: string;
+    disabled?: boolean;
     filterSelection?: IFilterSelection;
     hasSearch?: boolean;
     isSingleSelect?: boolean;
@@ -38,6 +39,7 @@ export interface ITreeFilterProps {
     maxHeight?: number;
     directionalHint?: DirectionalHint;
     clearSearchOnClose?: boolean;
+    onCalloutDismiss?: (ev?: any) => void;
     enabledResizeHandles?: { // all enabled if undefined
         top: boolean,
         right: boolean,
@@ -51,7 +53,6 @@ export interface ITreeFilterProps {
 }
 
 export const defaultTreeFilterProps: Partial<ITreeFilterProps> = {
-    title: 'Title',
     filterId: 'treeFilter',
     hasSearch: true,
     isSingleSelect: false,
@@ -66,7 +67,7 @@ export const defaultTreeFilterProps: Partial<ITreeFilterProps> = {
     minHeight: 200,
     defaultSelection: FilterSelectionEnum.None,
     clearSearchOnClose: true,
-    rowHeight: 20
+    rowHeight: 21
 };
 
 export interface ITreeFilterState {

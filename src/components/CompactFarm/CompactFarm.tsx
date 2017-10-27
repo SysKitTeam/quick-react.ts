@@ -134,7 +134,8 @@ export class CompactFarm extends CommonComponent<ICompactFarmProps, any> {
                             targetElement={this._hoverTargetElement}
                             hideBorder
                             isBeakVisible={false}
-                            gapSpace={5}>
+                            gapSpace={5}
+                            className="compact-farm-callout">
                             {this._renderServerTile(this._serverId)}
                         </Callout>
                     }

@@ -47,4 +47,22 @@
             color: $primary-color;
         }
     }
+
+    &.is-disabled {
+        cursor: default;
+
+        > span, .icon {
+            pointer-events: none;
+            color: $secondary-disabled-color;
+        }
+
+        .tree-filter-title {
+            cursor: default;
+            pointer-events: none;
+
+            > span {
+                color: $secondary-disabled-color;
+            }
+        }
+    }
 }
