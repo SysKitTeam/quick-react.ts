@@ -177,6 +177,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
                 className="compact-farm"
                 style={style}
                 onRoleEdit={this.props.onServerRoleEdit}
+                serverOnClick={this.props.serverOnClick}
                 hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}
             />
         );
