@@ -56,23 +56,23 @@ $white-color-15: #686869;
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-    background: $black-color-6;
+    width: 8px;
+    height: 8px;
+    background: $secondary-color-20;
     border-radius: 15px;
 }
             
 ::-webkit-scrollbar-track {
-    border-radius: 15px;
+    border-radius: 10px;
 }
             
 ::-webkit-scrollbar-thumb {
      border-radius: 10px;
-     background: $primary-color;               
+     background: $secondary-color-45;               
 }
 
 ::-webkit-scrollbar-thumb:window-inactive {
-     background: $primary-color; 
+     background: $secondary-color-45; 
 }
 
 .ReactVirtualized__Grid, .ReactVirtualized__Collection {

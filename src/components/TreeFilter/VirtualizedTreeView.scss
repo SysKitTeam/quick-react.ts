@@ -38,6 +38,11 @@
             font-size: 12px;
             padding-left: 5px;
             position: absolute;
+            bottom: 5px;
+
+            &.virtualized-tree-filter-footer-with-button {
+                bottom: 40px;
+            }
         }
 
         .tree-filter-actions {

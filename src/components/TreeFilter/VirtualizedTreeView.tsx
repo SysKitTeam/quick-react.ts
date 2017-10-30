@@ -145,7 +145,8 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                 </AutoSizer>
                 {
                     !isSingleSelect &&
-                    <label className="virtualized-tree-filter-footer-count" style={{ 'bottom': this.props.treeFilterFooter ? '40px' : '5px' }}>
+                    <label
+                        className={classNames('virtualized-tree-filter-footer-count', { 'virtualized-tree-filter-footer-with-button': this.props.treeFilterFooter })}>
                         Selected: {checkedItemIds.length}/{this.allItemIds.length}
                     </label>
                 }
