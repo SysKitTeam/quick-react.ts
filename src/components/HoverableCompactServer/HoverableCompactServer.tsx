@@ -32,6 +32,13 @@ export class HoverableCompactServer extends CommonComponent<IHoverableCompactSer
         }
     }
 
+    private serverOnClick = (serverId: any) => {
+        const { serverOnClick } = this.props;
+        if (serverOnClick) {
+            serverOnClick('', serverId);
+        }
+    }
+
     public render(): JSX.Element {
         const { server, hoverMessageForCriticalOrWarningServer } = this.props;
         return (
@@ -45,6 +52,7 @@ export class HoverableCompactServer extends CommonComponent<IHoverableCompactSer
                     name={server.name}
                     onMouseEnter={this._onItemMouseEnter}
                     onMouseLeave={this._onMouseLeave}
+                    serverOnClick={this.serverOnClick}
                     hoverMessageForCriticalOrWarningServer={hoverMessageForCriticalOrWarningServer}
                 />
                 {

@@ -154,6 +154,13 @@ export class TileDashboard extends React.Component<ITileDashboardProps, ITileDas
         }
     }
 
+    private serverOnClick = (serverId: any) => {
+        const { serverOnClick } = this.props;
+        if (serverOnClick) {
+            serverOnClick('', serverId);
+        }
+    }
+
     @autobind
     private renderSingleServerCell(server: IServer, { index, isScrolling, key, style }): JSX.Element {
         return (
@@ -166,6 +173,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, ITileDas
                     status={server.status}
                     countersData={getServerMeasures(server.measures)}
                     diskInformation={getDiskInformationFromMeasurements(server.measures)}
+                    serverOnClick={this.serverOnClick}
                     hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}
                 >
                     {
