@@ -107,11 +107,13 @@ class GroupByToolbarInner extends React.PureComponent<IGroupByProps, IGroupBySta
                 {
                     isEmpty && <span className="group-drop-empty">Drag column to group</span>
                 }
-                {
-                    this.state.groupBy.map((groupBy, index) => {
-                        return this.createHeaderColumn(groupBy, index);
-                    })
-                }
+                <div className="group-column-boxes">
+                    {
+                        this.state.groupBy.map((groupBy, index) => {
+                            return this.createHeaderColumn(groupBy, index);
+                        })
+                    }
+                </div>
                 {!isEmpty &&
                     <div
                         className="expand-collapse-buttons"

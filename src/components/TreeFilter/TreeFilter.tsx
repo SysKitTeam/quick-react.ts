@@ -39,20 +39,22 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         this.state = {
             isOpen: false,
             isDefaultSelected: this.checkIfDefaultSelection(props.filterSelection.type, props.filterSelection.selectedIDs),
-            selectionText: this.getSelectedText(props, this.lookups.itemLookup),
-            query: ''
+            selectionText: this.getSelectedText(props.filterSelection, this.lookups.itemLookup),
+            query: '',
+            selection: props.filterSelection
         };
     }
 
-    getSelectedText = (props: ITreeFilterProps, itemLookup) => {
-        if (props.items == null || props.items.length === 0) {
-            return 'No items';
-        }
-        if (props.filterSelection.type === FilterSelectionEnum.All) {
+    getSelectedText = (selection: IFilterSelection, itemLookup) => {
+        if (selection.type === FilterSelectionEnum.All) {
             return '[All]';
+        } else if (selection.type === FilterSelectionEnum.None) {
+            return 'Please select...';
         }
-        const checkedItemIds = props.filterSelection.selectedIDs;
-        if (checkedItemIds.length === 0) {
+
+        const checkedItemIds = selection.selectedIDs;
+
+        if (checkedItemIds === undefined || checkedItemIds.length === 0) {
             return 'Please select...';
         } else if (checkedItemIds.length === 1) {
             const itemId = checkedItemIds[0];
@@ -85,8 +87,9 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         this.setState(
             prevState => ({
                 ...prevState,
-                selectionText: this.getSelectedText(nextProps, this.lookups.itemLookup),
-                isDefaultSelected: this.checkIfDefaultSelection(nextProps.filterSelection.type, nextProps.filterSelection.selectedIDs)
+                selectionText: this.getSelectedText(nextProps.filterSelection, this.lookups.itemLookup),
+                isDefaultSelected: this.checkIfDefaultSelection(nextProps.filterSelection.type, nextProps.filterSelection.selectedIDs),
+                selection: nextProps.filterSelection
             }));
     }
 
@@ -107,10 +110,6 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
 
     onDismiss = () => {
         this.setState(prevState => ({ ...prevState, isOpen: false }));
-
-        if (this.props.onCalloutDismiss !== undefined) {
-            this.props.onCalloutDismiss();
-        }
     }
 
     private getBoxSupportElementsHeight = () => {
@@ -127,6 +126,9 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         const numberOfItems = this.allItemIds.length;
         const itemsListHeight = numberOfItems * this.props.rowHeight;
         if (itemsListHeight < maxListHeight) {
+            if (this.props.showButtons) {
+                return itemsListHeight + supportElementsHeight + 20;
+            }
             return itemsListHeight + supportElementsHeight;
         } else {
             return availableHeight;
@@ -140,8 +142,12 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     @autobind
     private onValuesSelected(filterId: string, filterSelection: IFilterSelection) {
         const isDefault = this.checkIfDefaultSelection(filterSelection.type, filterSelection.selectedIDs);
-        this.setState({ ...this.state, isDefaultSelected: isDefault });
-        this.props.onValuesSelected(filterId, filterSelection);
+        this.setState({ ...this.state, isDefaultSelected: isDefault, selection: filterSelection});
+        if (this.props.onValuesSelected !== undefined) {
+            this.props.onValuesSelected(filterId, filterSelection);
+        } else {
+            this.setState({ selectionText: this.getSelectedText(filterSelection, this.lookups.itemLookup) });
+        }
     }
 
     @autobind
@@ -151,10 +157,16 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
             isDefaultSelected: true
         }));
 
-        this.props.onValuesSelected(this.props.filterId, {
+        const newFilterSelected = {
             type: this.props.defaultSelection,
             selectedIDs: []
-        });
+        };
+
+        if (this.props.onValuesSelected !== undefined) {
+            this.props.onValuesSelected(this.props.filterId, newFilterSelected);
+        } else {
+            this.setState({ selectionText: this.getSelectedText(newFilterSelected, this.lookups.itemLookup), selection: newFilterSelected });
+        }
     }
 
     @autobind
@@ -170,6 +182,25 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         this.setState({ ...this.state, query });
     }
 
+    @autobind
+    private _onDismiss() {
+        this.setState(prevState => ({ 
+            ...prevState,
+            isOpen: false,
+            selection: this.props.filterSelection,
+            selectionText: this.getSelectedText(this.props.filterSelection, this.lookups.itemLookup)
+        }));
+    }
+
+    @autobind
+    private _onSelect() {
+        if (this.props.onSave !== undefined) {
+            this.props.onSave(this.props.filterId, this.state.selection);
+        }
+
+        this.setState(prevState => ({ ...prevState, isOpen: false, selection: this.state.selection }));
+    }
+
     private _getAllItemIds = () => this.allItemIds;
     private _getLookups = () => this.lookups;
 
@@ -178,13 +209,16 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         const hasItems = this.props.items != null && this.props.items.length !== 0;
         const treeFilterProps = {
             ...this.props,
-            treeFilterFooter: this.props.children,
             title: undefined,
             allItemIdsGetter: this._getAllItemIds,
             lookupTableGetter: this._getLookups,
             onValuesSelected: this.onValuesSelected,
             onItemsSearch: this.onItemsSearch,
-            searchQuery: this.state.query
+            searchQuery: this.state.query,
+            showButtons: this.props.showButtons,
+            onSave: this._onSelect,
+            onCancel: this._onDismiss,
+            filterSelection: this.state.selection
         };
 
         const treeFilterClassName = classNames(
@@ -225,7 +259,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                         doNotLayer={false}
                         directionalHint={this.props.directionalHint}
                         targetElement={this._anchor}
-                        onDismiss={this.onDismiss}
+                        onDismiss={this.props.showButtons ? this._onDismiss : this.onDismiss}
                     >
                         <Resizable
                             width={this.props.width}

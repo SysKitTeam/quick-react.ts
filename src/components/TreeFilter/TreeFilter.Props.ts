@@ -30,6 +30,8 @@ export interface ITreeFilterProps {
     onValuesSelected?: (filterId: string, filterSelection: IFilterSelection) => void;
     defaultSelection?: FilterSelectionEnum;
     rowHeight?: number;
+    showButtons?: boolean;
+    onSave?: (filterId: string, filterSelection: IFilterSelection) => void;
     /* Callout specific */
     width?: number;
     height?: number;
@@ -39,7 +41,6 @@ export interface ITreeFilterProps {
     maxHeight?: number;
     directionalHint?: DirectionalHint;
     clearSearchOnClose?: boolean;
-    onCalloutDismiss?: (ev?: any) => void;
     enabledResizeHandles?: { // all enabled if undefined
         top: boolean,
         right: boolean,
@@ -59,7 +60,6 @@ export const defaultTreeFilterProps: Partial<ITreeFilterProps> = {
     itemsAreFlatList: false,
     isGroupSelectableOnSingleSelect: false,
     directionalHint: DirectionalHint.bottomRightEdge,
-    onValuesSelected: () => { },
     filterSelection: { type: FilterSelectionEnum.None, selectedIDs: [] },
     width: 300,
     height: 350,
@@ -67,7 +67,8 @@ export const defaultTreeFilterProps: Partial<ITreeFilterProps> = {
     minHeight: 200,
     defaultSelection: FilterSelectionEnum.None,
     clearSearchOnClose: true,
-    rowHeight: 21
+    rowHeight: 21,
+    showButtons: false
 };
 
 export interface ITreeFilterState {
@@ -76,6 +77,7 @@ export interface ITreeFilterState {
     isDefaultSelected: boolean;
     selectionText: string;
     query: string;
+    selection: IFilterSelection;
 }
 
 export interface TreeItem {

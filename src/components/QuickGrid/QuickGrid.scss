@@ -6,9 +6,9 @@
    margin: 20px;
 
    .group-drop-toolbar {
-       width: calc(100% - 5px);
+       width: 100%;
        box-sizing: border-box;
-       height: 42px;
+       min-height: 42px;
        padding: 2px;
        border-bottom: 1px solid $secondary-color-20;
        background-color: $black-color-4;
@@ -17,64 +17,70 @@
             display: block;
             width: 200px;
             padding-left: 20px;
-            padding-top: 8px;
+            padding-top: 9px;
             color: $secondary-disabled-color;
+        }
+
+        .group-column-boxes {
+            width: calc(100% - 65px);
+
+            .group-column-box {
+                width: 150px;
+                padding-left: 5px;
+                position: relative;
+                top: 3px;
+                display: inline-block;
+    
+                .group-text-boarder {
+                    box-sizing: border-box;
+                    border: 1px solid $secondary-color-20;
+                    border-radius: 8px;
+                    background-color: $white-color;
+                    cursor: pointer;
+                    height: 32px;
+                    line-height: 30px; // height minus the border
+                    position: relative;
+                    padding: 0 10px;
+                    display: block;
+    
+                    .header-text {
+                        span {
+                            overflow: hidden; 
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            width: 75%;
+                            display: inline-block;
+                            color: $primary-color;
+                            font-weight: 500;
+                        }
+                    }
+                }
+    
+                .icon-sort {
+                    top: 1px;
+                    right: 30px;
+                }
+    
+                .icon-remove-group {
+                    font-size: 12px;
+                    margin: 0;
+                    position: absolute;
+                    top: 0;
+                    right: 10px;
+                }
+            }
         }
 
         .expand-collapse-buttons {
             float: right;
             height: 100%;
-            display: flex;
-            align-items: center;
+            position: absolute;
+            top: 12px;
+            right: 6px;
 
             .icon {
                 cursor: pointer;
                 margin-right: 15px;
-            }
-        }
-
-        .group-column-box {
-            width: 150px;
-            padding-left: 5px;
-            padding-top: 3px;
-            display: inline-block;
-
-            .group-text-boarder {
-                box-sizing: border-box;
-                border: 1px solid $secondary-color-20;
-                border-radius: 8px;
-                background-color: $white-color;
-                cursor: pointer;
-                height: 32px;
-                line-height: 30px; // height minus the border
-                position: relative;
-                padding: 0 10px;
-                display: block;
-
-                .header-text {
-                    span {
-                        overflow: hidden; 
-                        white-space: nowrap;
-                        text-overflow: ellipsis;
-                        width: 75%;
-                        display: inline-block;
-                        color: $primary-color;
-                        font-weight: 500;
-                    }
-                }
-            }
-
-            .icon-sort {
-                top: 1px;
-                right: 30px;
-            }
-
-            .icon-remove-group {
-                font-size: 12px;
-                margin: 0;
-                position: absolute;
-                top: 0;
-                right: 10px;
             }
         }
     }

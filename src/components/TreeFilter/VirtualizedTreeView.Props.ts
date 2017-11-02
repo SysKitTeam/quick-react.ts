@@ -10,7 +10,9 @@ export interface IVirtualizedTreeViewProps {
     items: Array<TreeItem>;
     filterSelection?: IFilterSelection;
     isSingleSelect?: boolean;
-    treeFilterFooter?: any;
+    showButtons?: boolean;
+    onSave: () => void;
+    onCancel: () => void;
     isGroupSelectableOnSingleSelect?: boolean;
     itemsAreFlatList?: boolean;
     onValuesSelected?: (filterId: string, filterSelection: IFilterSelection) => void;
