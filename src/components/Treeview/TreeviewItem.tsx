@@ -71,6 +71,7 @@ export class TreeviewItem extends CommonComponent<ITreeviewItemProps, any> {
                             !showCheckbox &&
                             <span
                                 onClick={this.onItemClick}
+                                title={item.title}
                             >
                                 {item.text}
                             </span>

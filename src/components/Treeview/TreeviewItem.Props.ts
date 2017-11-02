@@ -24,4 +24,5 @@ export interface ITreeviewItem {
     parentId?: string;
     hoverOverBtn?: Array<IHoverOverBtn>;
     className?: string;
+    title?: string;
 }
