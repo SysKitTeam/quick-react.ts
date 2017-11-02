@@ -5,7 +5,7 @@ import { autobind } from '../../utilities/autobind';
 
 import './FilteringBar.scss';
 
-export class FilteringBarItem extends React.PureComponent<IFilteringBarItemProps> {
+export class FilteringBarItem extends React.PureComponent<IFilteringBarItemProps, {}> {
 
     public render(): JSX.Element {
         let itemClassNames = classnames(

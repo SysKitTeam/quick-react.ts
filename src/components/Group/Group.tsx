@@ -5,7 +5,7 @@ import { Icon } from '../Icon/Icon';
 import * as classNames from 'classnames';
 import './Group.scss';
 
-export class Group extends React.PureComponent<IGroupProps> {
+export class Group extends React.PureComponent<IGroupProps, {}> {
     public render() {
         let { id } = this.props;
         let hasServersVisible = this.props.serverChildrenCount > 0;

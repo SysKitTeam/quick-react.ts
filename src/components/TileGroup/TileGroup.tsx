@@ -15,7 +15,7 @@ import {
 
 import './TileGroup.scss';
 
-export class TileGroup extends React.PureComponent<ITileGroupProps> {
+export class TileGroup extends React.PureComponent<ITileGroupProps, {}> {
     public render(): JSX.Element {
         const { farm } = this.props;
         let servers = farm.servers.sort((server1, server2) => {
