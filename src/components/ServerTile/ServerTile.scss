@@ -99,6 +99,10 @@
 
             .label:nth-child(2) {
                 font-size: 24px;
+                max-width: 45%;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                display: inline-flex;
             }
         }
     }
