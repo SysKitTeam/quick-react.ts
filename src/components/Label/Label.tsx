@@ -4,7 +4,7 @@ import { getNativeAttributes, divAttributes } from '../../utilities/attributes';
 import { ILabelProps } from './Label.Props';
 import './Label.scss';
 
-export class Label extends React.PureComponent<ILabelProps> {
+export class Label extends React.PureComponent<ILabelProps, {}> {
     render() {
         let { disabled, required, children } = this.props;
 

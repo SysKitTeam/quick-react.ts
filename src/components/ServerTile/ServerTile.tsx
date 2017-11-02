@@ -9,7 +9,7 @@ import { ServerStatus } from '../../models';
 import { GetClassForStatus } from '../../utilities/server';
 import './ServerTile.scss';
 
-export class ServerTile extends React.PureComponent<IServerTileProps> {
+export class ServerTile extends React.PureComponent<IServerTileProps, {}> {
     public render() {
         let className = GetClassForStatus('server-details', this.props.status);
 

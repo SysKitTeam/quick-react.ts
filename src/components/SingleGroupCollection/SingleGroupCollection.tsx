@@ -5,7 +5,7 @@ import { IServer } from '../../models';
 const AutoSizer = require('react-virtualized').AutoSizer;
 const Collection = require('react-virtualized').Collection;
 
-export class SingleGroupCollection extends React.PureComponent<ISingleGroupCollectionProps> {
+export class SingleGroupCollection extends React.PureComponent<ISingleGroupCollectionProps, {}> {
     private collection: any;
     setCollectionRef = (reference) => { this.collection = reference; };
     public render(): JSX.Element {
