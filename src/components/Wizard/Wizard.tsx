@@ -70,6 +70,14 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
         let buttons: Array<JSX.Element> = [];
         buttons.push(
             <Button
+                className="button-textual"
+                onClick={this.props.onCancel}
+            >
+                Cancel
+            </Button>
+        );
+        buttons.push(
+            <Button
                 disabled={this.state.currentStep === 0}
                 className="button-primary-gray"
                 onClick={this._backStep}
@@ -133,7 +141,6 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
                         this.props.onPageRender(this.state.currentStep)
                     }
                     <div className="wizard-footer-navigation">
-                        <div className="wizard-left-navigation-btn-page__container"></div>
                         <div className="wizard-right-navigation-btn-page-container">
                             {
                                 this._renderButtons()
