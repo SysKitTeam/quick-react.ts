@@ -5,5 +5,6 @@ export interface ITooltipProps {
     className?: string;
     targetElement?: HTMLElement;
     directionalHint?: DirectionalHint;
+    showTooltip?: boolean;
     onTooltipToggle?(isTooltipVisible: boolean): void;
 }

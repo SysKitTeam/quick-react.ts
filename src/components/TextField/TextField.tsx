@@ -8,6 +8,9 @@ import { getId } from '../../utilities/getId';
 import { Label } from '../../components/Label/Label';
 import { getNativeAttributes, textAreaAttributes, inputAttributes } from '../../utilities/attributes';
 import './TextField.scss';
+import { Tooltip } from '../Tooltip/Tooltip';
+import { DirectionalHint } from '../../utilities/DirectionalHint';
+import { Icon } from '../Icon/Icon';
 
 export interface ITextFieldState {
     value?: string;
@@ -120,10 +123,9 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
                 {label && <Label htmlFor={this._id}>{label}</Label>}
                 {iconClass && <i className={iconClass}></i>}
                 {multiline ? this._renderTextArea() : this._renderInput()}
-                {(description || errorMessage) &&
+                {description &&
                     <span id={this._descriptionId}>
-                        {description && <span className={'textField-description'}>{description}</span>}
-                        {errorMessage && <p className={'textField-errorMessage slideDownIn20'}>{errorMessage}</p>}
+                        <span className={'textField-description'}>{description}</span>
                     </span>
                 }
             </div>
@@ -278,37 +280,89 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
     private _renderTextArea(): React.ReactElement<React.HTMLProps<HTMLAreaElement>> {
         let textAreaProps = getNativeAttributes(this.props, textAreaAttributes, ['defaultValue']);
 
+        if (!this.props.errorMessage) {
+            return (
+                <textarea
+                    { ...textAreaProps }
+                    id={this._id}
+                    ref={(c): HTMLTextAreaElement => this._field = c}
+                    value={this.state.value}
+                    onChange={this._onInputChange}
+                    onKeyUp={this._onKeyUp}
+                    className={this._fieldClassName}
+                    onFocus={this._onFocus}
+                    onBlur={this._onBlur}
+                />
+            );
+        }
+
         return (
-            <textarea
-                { ...textAreaProps }
-                id={this._id}
-                ref={(c): HTMLTextAreaElement => this._field = c}
-                value={this.state.value}
-                onChange={this._onInputChange}
-                onKeyUp={this._onKeyUp}
-                className={this._fieldClassName}
-                onFocus={this._onFocus}
-                onBlur={this._onBlur}
-            />
+            <Tooltip
+                content={this.props.errorMessage}
+                className="tooltip-error"
+                showTooltip={this.state.isFocused}
+                directionalHint={DirectionalHint.bottomLeftEdge}>
+                <div>
+                    <textarea
+                        { ...textAreaProps }
+                        id={this._id}
+                        ref={(c): HTMLTextAreaElement => this._field = c}
+                        value={this.state.value}
+                        onChange={this._onInputChange}
+                        onKeyUp={this._onKeyUp}
+                        className={this._fieldClassName}
+                        onFocus={this._onFocus}
+                        onBlur={this._onBlur}
+                    />
+                </div>
+            </Tooltip>
         );
     }
 
     private _renderInput(): React.ReactElement<React.HTMLProps<HTMLInputElement>> {
         let inputProps = getNativeAttributes<React.HTMLProps<HTMLInputElement>>(this.props, inputAttributes, ['defaultValue']);
 
+        if (!this.props.errorMessage) {
+            return (
+                <input
+                    type={'text'}
+                    { ...inputProps }
+                    id={this._id}
+                    ref={(c): HTMLInputElement => this._field = c}
+                    value={this.state.value}
+                    onChange={this._onInputChange}
+                    onKeyUp={this._onKeyUp}
+                    className={this._fieldClassName}
+                    onFocus={this._onFocus}
+                    onBlur={this._onBlur}
+                />
+            );
+        }
+
         return (
-            <input
-                type={'text'}
-                { ...inputProps }
-                id={this._id}
-                ref={(c): HTMLInputElement => this._field = c}
-                value={this.state.value}
-                onChange={this._onInputChange}
-                onKeyUp={this._onKeyUp}
-                className={this._fieldClassName}
-                onFocus={this._onFocus}
-                onBlur={this._onBlur}
-            />
+            <Tooltip
+                content={this.props.errorMessage}
+                className="tooltip-error"
+                showTooltip={this.state.isFocused}
+                directionalHint={DirectionalHint.bottomLeftEdge}>
+                <div>
+                    <input
+                        type={'text'}
+                        { ...inputProps }
+                        id={this._id}
+                        ref={(c): HTMLInputElement => this._field = c}
+                        value={this.state.value}
+                        onChange={this._onInputChange}
+                        onKeyUp={this._onKeyUp}
+                        className={this._fieldClassName}
+                        onFocus={this._onFocus}
+                        onBlur={this._onBlur}
+                    />
+                    <div className="textField-error-icon">
+                        <Icon iconName={'icon-usklicnik'}></Icon>
+                    </div>
+                </div>
+            </Tooltip>
         );
     }
 
