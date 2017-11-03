@@ -6,7 +6,7 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import * as ReactDOM from 'react-dom';
 
-import Wizard from './../../src/components/Wizard/Wizard';
+import { Wizard } from './../../src/components/Wizard/Wizard';
 import { autobind } from './../../src/utilities/autobind';
 import { steps } from './../MockData/WizardSteps';
 
@@ -87,8 +87,9 @@ export class Index extends React.Component<any, any> {
                     onPageRender={this._render}
                     onFinish={this._finishCreateScript}
                     nextBtnState={true}
-                    onCancel={() => { console.log('Cancel'); }}>
-                </Wizard>
+                    onCancel={() => { console.log('Cancel'); }}
+                    showContainer={true}
+                />
             </div>
         );
     }

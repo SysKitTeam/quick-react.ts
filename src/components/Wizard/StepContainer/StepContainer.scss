@@ -1,0 +1,37 @@
+@import '../../../index.scss';
+
+.wizard-step-container {
+    display: flex;    
+    flex-direction: column;
+    min-width: 930px;
+    min-height: 500px;
+    position: relative;
+    width: calc(100% - 10px);
+    padding: 5px;
+
+    .wizard-step-header {
+        background-color: $shell__wizard-info-color;
+        padding: 20px 45px 20px 35px;
+        margin: 0;
+    
+        .wizard-header-label {
+            padding: 0;
+            margin: 0;
+            font-size: 15px;
+            font-weight: 400;
+            
+            a {
+                text-decoration: none;
+                color: $shell__link-color;
+                font-family: $shell__primary-font;
+            }
+        }
+    }
+
+    .spinner {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        flex-grow: 100;
+    }
+}

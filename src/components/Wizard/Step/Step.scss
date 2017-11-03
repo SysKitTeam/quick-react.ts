@@ -1,0 +1,73 @@
+@import './../../../index.scss';
+
+.__progress-base__ {
+    position: absolute;
+    top: 36px;
+    height: 1px;
+    border-top: $secondary-color-40 2px solid;
+    content: "";
+}
+
+.step {
+    position: relative;
+    padding-top: 24px;
+    flex-grow: 1;
+    flex-basis: 100px;
+
+    &.inner-left {
+        &::before {
+            @extend .__progress-base__;
+            right: 50%;
+            left: 0;
+            margin-right: 12px;
+        }
+
+        &.active::before {
+            border-color: $primary-color;
+        }
+
+        &.completed::before {
+            border-color: $primary-color;
+        }
+    }
+
+    &.inner-right {
+        &.completed::after {
+            border-color: $primary-color;
+        }
+
+        &::after {
+            @extend .__progress-base__;
+            left: 50%;
+            right: 0;
+            margin-left: 12px;
+        }        
+    }
+
+    .step-circle {
+        width: 24px;
+        height: 24px;
+        margin: 0 auto;
+        border-radius: 50%;
+        text-align: center;
+        border: $secondary-color-20 2px solid;
+        box-sizing: border-box;
+
+        &.completed {
+            background-color: $primary-color;
+        }
+
+        &.active {
+            border-color: $primary-color;
+        }
+    }
+
+    .step-title {
+        margin-top: 5px;
+        font-size: 16px;
+        text-align: center;
+        user-select: none;
+        cursor: auto;
+        color: $secondary-color;
+    }
+}
