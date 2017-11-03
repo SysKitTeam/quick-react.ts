@@ -34,6 +34,7 @@ import {
 } from './VirtualizedTreeView.Props';
 
 import './VirtualizedTreeView.scss';
+import { Button } from '../Button/Button';
 
 export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeViewProps, IVirtualizedTreeViewState> {
 
@@ -146,11 +147,18 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                 {
                     !isSingleSelect &&
                     <label
-                        className={classNames('virtualized-tree-filter-footer-count', { 'virtualized-tree-filter-footer-with-button': this.props.treeFilterFooter })}>
+                        className={classNames('virtualized-tree-filter-footer-count', { 'virtualized-tree-filter-footer-with-button': this.props.showButtons })}>
                         Selected: {checkedItemIds.length}/{this.allItemIds.length}
                     </label>
                 }
-                {this.props.treeFilterFooter}
+                {this.props.showButtons &&
+                    <div className={'tree-filter-actions'}>
+                        <div className={'tree-filter-actionsRight'}>
+                            <Button className="button-textual" onClick={this.props.onCancel}>Cancel</Button>
+                            <Button className="button-primary" onClick={this.props.onSave}>Save</Button>
+                        </div>
+                    </div>
+                }
             </div>
         );
     }
@@ -454,7 +462,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
         }
 
         if (this.props.hasSearch) { heightDiff += 30; }
-        if (this.props.treeFilterFooter) { heightDiff += 42; }
+        if (this.props.showButtons) { heightDiff += 23; } // 42px buttons - 19px footer
         return heightDiff;
     }
 

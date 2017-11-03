@@ -50,7 +50,6 @@
         text-align: left;
         max-width: calc(100% - 70px);
         max-height: calc(100% - 70px);
-        overflow-y: auto;
         
         &:focus {
             outline: none;
@@ -85,14 +84,21 @@
         }
 
         .dialog-inner {
-            padding: 20px;
+            padding: 0 0 20px 20px;
+            height: calc(100% - 70px);
 
             .dialog-content {
                 display: flex;
-                align-items: center;
+                max-height: calc(100% - 82px);
+                overflow-y: auto;
+                height: 100%;
+                padding-right: 20px;
+                padding-top: 20px;
 
                 .dialog-subText {
                     line-height: 1.5;
+                    display: inline-flex;
+                    align-items: center;
                 }
 
                 .dialog-icon {
@@ -103,6 +109,7 @@
 
             .dialog-actions {
                 margin-top: 30px;
+                padding-right: 20px;
 
                 .dialog-actionsRight {
                     text-align: right;

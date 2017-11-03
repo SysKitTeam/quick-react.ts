@@ -1,9 +1,10 @@
+/* tslint:disable:no-console */
 import 'babel-polyfill';
 import 'ts-helpers';
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { TreeFilter, IFilterSelection, FilterSelectionEnum, VirtualizedTreeView, TreeFilterFooter } from '../../src/components/TreeFilter';
+import { TreeFilter, IFilterSelection, FilterSelectionEnum, VirtualizedTreeView } from '../../src/components/TreeFilter';
 import { createFlatList, createRandomizedData, getSelectedIds } from '../MockData/treeFilterElements';
 import { Button } from '../../src/components/Button/Button';
 
@@ -22,13 +23,21 @@ export class Index extends React.Component<any, DemoState> {
             filterStates: {}
         };
     }
+
     onValuesSelected = (filterId: string, filterSelection) => {
-        // tslint:disable-next-line:no-console
         console.log(filterId, filterSelection);
         let newFilters = { ...this.state };
         newFilters.filterStates[filterId] = filterSelection;
         this.setState(newFilters);
     }
+
+    onSave = (filterId: string, filterSelection) => {
+        let newFilters = { ...this.state };
+        newFilters.filterStates[filterId] = filterSelection;
+        this.setState(newFilters);
+        console.log('Save clicked!', newFilters);
+    }
+
     public render() {
 
         return (
@@ -95,15 +104,12 @@ export class Index extends React.Component<any, DemoState> {
                 <TreeFilter
                     filterId={'f5'}
                     items={shortFlatList}
-                    onValuesSelected={this.onValuesSelected}
                     itemsAreFlatList={true}
                     defaultSelection={FilterSelectionEnum.All}
                     // tslint:disable-next-line:no-string-literal
-                    filterSelection={this.state.filterStates['f5']}>
-                    <TreeFilterFooter>
-                        <Button className={'button-textual'}>Cancel</Button>
-                        <Button>Save</Button>
-                    </TreeFilterFooter>
+                    filterSelection={this.state.filterStates['f5']}
+                    showButtons={true}
+                    onSave={this.onSave}>
                 </TreeFilter>
             </div>
         );
