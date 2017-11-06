@@ -30,6 +30,7 @@ export interface ITreeFilterProps {
     onValuesSelected?: (filterId: string, filterSelection: IFilterSelection) => void;
     defaultSelection?: FilterSelectionEnum;
     rowHeight?: number;
+    hasTitleBorder?: boolean;
     showButtons?: boolean;
     onSave?: (filterId: string, filterSelection: IFilterSelection) => void;
     /* Callout specific */

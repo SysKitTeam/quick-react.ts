@@ -4,6 +4,10 @@
 .text-field {
     margin-bottom: 8px;
 
+    .label {
+        padding: 2px 0;
+    }
+
     .textField-field {
         box-sizing: border-box;
         border: 1px solid $black-color-15;
@@ -32,12 +36,25 @@
         &.textField-field-unresizable {
             resize: none;
         }
+
+        &.textField-invalid {
+            border-color: $error-color;
+
+            &:hover {
+                border-color: $error-color;
+            }
+        }
     }
 
-    .textField-errorMessage {
-        font-size: 12px;
-        color: $error-color;
-        margin: 0;
+    .textField-error-icon {
+        position: relative;
+        top: -25px;
+        float: right;
+
+        .icon {
+            font-size: 12px;
+            color: $error-color;
+        }
     }
 
     .textField-description {
@@ -52,8 +69,6 @@
     }
 
     &.text-field-underlined {
-        border-bottom: 1px solid $secondary-color-40;
-        display: table;
         width: 100%;
 
         &:hover {
@@ -67,6 +82,16 @@
     
         .textField-field {
             border: 0;
+            border-bottom: 1px solid $secondary-color-40;
+            border-radius: 0;
+
+            &.textField-invalid {
+                border-color: $error-color;
+    
+                &:hover {
+                    border-color: $error-color;
+                }
+            }
         }
     
         &.is-disabled {

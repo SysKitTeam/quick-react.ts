@@ -7,7 +7,7 @@
 .tooltip-callout {
     user-select: none;
     animation-delay: 300ms;
-    max-width: 250px;
+    max-width: 400px;
 
     &.tooltip-white {
         border: 1px solid $secondary-disabled-color!important;
@@ -51,5 +51,28 @@
 
     .callout-main {
         padding: 12px 20px;
+    }
+
+    &.tooltip-error {
+        border: 1px solid $error-color;
+        background-color: $error-color;
+
+        .callout-beak {
+            background-color: $error-color;
+        }
+
+        .callout-beak-curtain {
+            background-color: $error-color;
+        }
+
+        .callout-main {
+            background-color: $error-color;
+            padding: 4px 10px;
+
+            .tooltip-content span {
+                color: $white-color;
+                font-size: 12px;
+            }
+        }
     }
 }
