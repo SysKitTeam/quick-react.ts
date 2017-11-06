@@ -85,7 +85,12 @@ export class MessageBox extends React.Component<IMessageBoxProps, {}> {
                 }
                 {
                     errorMessage !== undefined && errorMessage !== '' &&
-                    <Tooltip containerClass="operation-error-tooltip-container" content={errorMessage} directionalHint={DirectionalHint.rightCenter}>
+                    <Tooltip
+                        className="tooltip-error"
+                        containerClass="operation-error-tooltip-container"
+                        content={errorMessage}
+                        directionalHint={DirectionalHint.rightCenter}
+                    >
                         <Icon className="operation-error" iconName="icon-usklicnik" />
                     </Tooltip>
                 }

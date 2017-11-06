@@ -35,7 +35,7 @@ export class Index extends React.Component<any, any> {
                 <Button onClick={() => this._changeState(true)}>Open MessageBox</Button>
                 <MessageBox
                     title="Message box!"
-                    message={shortestText}
+                    message={mediumText}
                     level={MessageLevel.Warning}
                     onDismiss={() => this._changeState(false)}
                     isOpen={this.state.isOpen}
