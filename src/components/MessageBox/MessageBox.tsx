@@ -11,7 +11,6 @@ import './messageBox.scss';
 
 export class MessageBox extends React.Component<IMessageBoxProps, {}> {
     public static defaultProps: any = {
-        level: MessageLevel.Information,
         closeText: 'Close',
         acceptText: 'Save',
         isLoading: false
