@@ -29,5 +29,19 @@ export interface IWizardProps {
     title?: string;
     nextBtnState?: boolean;
     showNavigationButtons?: boolean;
-    showContainer?: boolean;
+    nextButtonText?: string;
+    backButtonText?: string;
+    finishButtonText?: string;
 }
+
+const nullFunc = (currentStepIndex?: number, nextStepIndex?: number, direction?: WizardStepDirection): void => { };
+
+export const defaultProps: any = {
+    showNavigationButtons: true,
+    onPageEnter: nullFunc,
+    onPageLeave: nullFunc,
+    showContainer: false,
+    nextButtonText: 'Next',
+    backButtonText: 'Back',
+    finishButtonText: 'Finish'
+};

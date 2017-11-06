@@ -7,16 +7,7 @@ import { IButtonProps } from '../../components/Button/Button.Props';
 import { autobind } from '../../utilities/autobind';
 import { Stepper } from './Stepper/Stepper';
 import { StepContainer } from './StepContainer/StepContainer';
-import { WizardStepDirection, IWizardProps, IPage } from './Wizard.Props';
-
-const nullFunc = (currentStepIndex?: number, nextStepIndex?: number, direction?: WizardStepDirection) => { return; };
-
-const defaultProps: any = {
-    showNavigationButtons: true,
-    onPageEnter: nullFunc,
-    onPageLeave: nullFunc,
-    showContainer: false
-};
+import { WizardStepDirection, IWizardProps, IPage, defaultProps } from './Wizard.Props';
 
 export interface IWizardState {
     currentStep?: number;
@@ -31,7 +22,6 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
         this.state = {
             currentStep: 0
         };
-
     }
 
     public componentWillMount() {
@@ -44,6 +34,7 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
         if ((this.state.currentStep + 1) !== this.props.steps.length) {
             this.props.onPageLeave(this.state.currentStep, this.state.currentStep + 1, WizardStepDirection.Next);
             this.setState({ currentStep: this.state.currentStep + 1 });
+            this.props.onPageEnter(this.state.currentStep + 1, this.state.currentStep + 2);
         }
     }
 
@@ -53,6 +44,7 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
         if (this.state.currentStep > 0) {
             this.props.onPageLeave(this.state.currentStep, this.state.currentStep - 1, WizardStepDirection.Previous);
             this.setState({ currentStep: this.state.currentStep - 1 });
+            this.props.onPageEnter(this.state.currentStep - 1, this.state.currentStep);
         }
     }
 
@@ -63,10 +55,6 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
         const { steps, showNavigationButtons, nextBtnState } = this.props;
         const lastStep = steps.length - 1;
 
-        if (!this.props.showNavigationButtons) {
-            return [];
-        }
-
         let buttons: Array<JSX.Element> = [];
         buttons.push(
             <Button
@@ -76,13 +64,18 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
                 Cancel
             </Button>
         );
+
+        if (!this.props.showNavigationButtons) {
+            return buttons;
+        }
+
         buttons.push(
             <Button
                 disabled={this.state.currentStep === 0}
                 className="button-primary-gray"
                 onClick={this._backStep}
             >
-                Back
+                {this.props.backButtonText}
             </Button>
         );
 
@@ -98,7 +91,7 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
                     className="button-primary"
                     onClick={this._nextStep}
                 >
-                    Next
+                    {this.props.nextButtonText}
                 </Button>
             );
         } else {
@@ -108,7 +101,7 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
                     className="button-primary"
                     onClick={this.props.onFinish}
                 >
-                    Finish
+                    {this.props.finishButtonText}
                 </Button>
             );
         }
