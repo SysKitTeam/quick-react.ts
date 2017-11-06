@@ -1,0 +1,47 @@
+@import '../../index.scss';
+
+.message-box-dialog > .dialog-inner {
+    .dialog-content {
+        .message-box-container {
+            max-width: 1000px;
+            font-size: 16px;
+            padding-right: 30px;
+            display: flex;
+            align-items: center;
+    
+            .icon {
+                font-size: 28px;
+                margin-right: 10px;
+    
+                &.icon-details {
+                    color: $link-color;
+                }
+    
+                &.icon-error {
+                    color: $error-color;
+                }
+    
+                &.icon-warning {
+                    color: $warning-color;
+                }
+            }
+        }
+    
+        .spinner {
+            position: absolute;
+            padding: 0 0 20px 14px;
+            bottom: 0;
+            left: 0;
+    
+            .spinner-circle {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    }
+
+    .dialog-actions {
+        padding-left: 50px;
+    }
+}
+

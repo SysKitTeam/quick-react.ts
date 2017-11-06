@@ -73,24 +73,18 @@ export class MessageBox extends React.Component<IMessageBoxProps, {}> {
                 hasCloseXButton={hasCloseXButton}
                 containerClassName="message-box-dialog"
             >
-                <div>
-                    <div className="message-box-container">
-                        <div>
-                            <Icon iconName={iconName} />
-                        </div>
-                        <div>
-                            {message}
-                        </div>
-                    </div>
-                    {
-                        isLoading && <Spinner className="message-box-spinner" />
-                    }
-                    <DialogFooter>
-                        {onClose && <Button className="button-textual" onClick={onClose}>{closeText}</Button>}
-                        {buttons && mappedButtons}
-                        {onAccept && <Button className="button-primary" onClick={onAccept}>{acceptText}</Button>}
-                    </DialogFooter>
+                <div className="message-box-container">
+                    <Icon iconName={iconName} />
+                    {message}
                 </div>
+                {
+                    isLoading && <Spinner className="message-box-spinner" />
+                }
+                <DialogFooter>
+                    {onClose && <Button className="button-textual" onClick={onClose}>{closeText}</Button>}
+                    {buttons && mappedButtons}
+                    {onAccept && <Button className="button-primary" onClick={onAccept}>{acceptText}</Button>}
+                </DialogFooter>
             </Dialog>
         );
     }

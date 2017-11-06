@@ -67,6 +67,7 @@
                 padding: 13px 20px;
                 color: $white-color;
                 user-select: none;
+                height: 24px;
             }
 
             .dialog-topButton {
@@ -86,6 +87,7 @@
         .dialog-inner {
             padding: 0 0 20px 20px;
             height: calc(100% - 70px);
+            position: relative;
 
             .dialog-content {
                 display: flex;

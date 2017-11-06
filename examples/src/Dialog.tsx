@@ -26,7 +26,7 @@ export class Index extends React.Component<any, any> {
                 <Dialog
                     isOpen={this.state.showDialog}
                     onDismiss={this._toggleDialog.bind(this)}
-                    title={'All emails together'}
+
                     containerClassName="dialog-container">
                     <div style={{ width: '500px' }}>
                         <TextField label="TextField with a placeholder:" placeholder="Now I am a Placeholder" /> <br />

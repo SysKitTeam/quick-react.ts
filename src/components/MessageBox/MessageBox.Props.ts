@@ -11,8 +11,8 @@ export enum MessageLevel {
 
 export interface IMessageBoxProps {
     isOpen: boolean;
-    title?: string;
     message: string | JSX.Element;
+    title?: string;
     level?: MessageLevel;
     onDismiss?(): void;
     onClose?(): void;
