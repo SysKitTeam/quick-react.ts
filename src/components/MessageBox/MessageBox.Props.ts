@@ -23,4 +23,5 @@ export interface IMessageBoxProps {
     buttons?: Array<string | IMessageBoxButton>;
     onCustomButtonClick?(index: number): void;
     isLoading?: boolean;
+    errorMessage?: string;
 }

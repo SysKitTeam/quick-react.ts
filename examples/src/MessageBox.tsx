@@ -35,14 +35,15 @@ export class Index extends React.Component<any, any> {
                 <Button onClick={() => this._changeState(true)}>Open MessageBox</Button>
                 <MessageBox
                     title="Message box!"
-                    message={shortText}
+                    message={shortestText}
                     level={MessageLevel.Warning}
                     onDismiss={() => this._changeState(false)}
                     isOpen={this.state.isOpen}
                     buttons={['Button1']}
                     onAccept={() => console.log('Accept')}
                     onClose={() => console.log('On close')}
-                    isLoading={true}
+                    isLoading={false}
+                    errorMessage={mediumText}
                 />
             </div>
         );

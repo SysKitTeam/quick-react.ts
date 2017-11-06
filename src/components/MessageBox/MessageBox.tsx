@@ -5,6 +5,8 @@ import { Button } from '../Button/Button';
 import { Icon } from '../Icon/Icon';
 import { Spinner } from '../Spinner/Spinner';
 import { MessageLevel, IMessageBoxProps, IMessageBoxButton } from './MessageBox.Props';
+import { DirectionalHint } from '../../utilities/DirectionalHint';
+import { Tooltip } from '../Tooltip/Tooltip';
 import './messageBox.scss';
 
 export class MessageBox extends React.Component<IMessageBoxProps, {}> {
@@ -29,7 +31,8 @@ export class MessageBox extends React.Component<IMessageBoxProps, {}> {
             onDismiss,
             isLoading,
             hasCloseXButton,
-            isOpen
+            isOpen,
+            errorMessage
         } = this.props;
 
         const mappedButtons = buttons && buttons.map((button, index) => {
@@ -43,7 +46,7 @@ export class MessageBox extends React.Component<IMessageBoxProps, {}> {
             }
             return (
                 <Button
-                    className={isPrimary ? 'button-primary' : 'button-secondary'}
+                    className={isPrimary ? 'button-primary' : 'button-primary-gray'}
                     onClick={() => onCustomButtonClick(index)}
                 >
                     {buttonText}
@@ -79,6 +82,12 @@ export class MessageBox extends React.Component<IMessageBoxProps, {}> {
                 </div>
                 {
                     isLoading && <Spinner className="message-box-spinner" />
+                }
+                {
+                    errorMessage !== undefined && errorMessage !== '' &&
+                    <Tooltip containerClass="operation-error-tooltip-container" content={errorMessage} directionalHint={DirectionalHint.rightCenter}>
+                        <Icon className="operation-error" iconName="icon-usklicnik" />
+                    </Tooltip>
                 }
                 <DialogFooter>
                     {onClose && <Button className="button-textual" onClick={onClose}>{closeText}</Button>}

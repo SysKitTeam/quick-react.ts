@@ -33,6 +33,8 @@ export class Tooltip extends CommonComponent<ITooltipProps, any> {
             }
         );
 
+        const tooltipContainerClass = classNames('tooltip-container', [this.props.containerClass]);
+
         return (
             <div
                 ref={this._resolveRef('_tooltipHost')}
@@ -40,7 +42,7 @@ export class Tooltip extends CommonComponent<ITooltipProps, any> {
                 { ...{ onBlurCapture: this._onTooltipMouseLeave } }
                 onMouseEnter={this._onTooltipMouseEnter}
                 onMouseLeave={this._onTooltipMouseLeave}
-                className="tooltip-container">
+                className={tooltipContainerClass}>
 
                 {children}
 
