@@ -6,6 +6,14 @@
     outline: none;
     max-width: 250px;
 
+
+    .dropdown-title:hover {
+        cursor: pointer;
+        .icon {
+            color: $primary-hover-color;
+        }
+    }
+
     .dropdown-title-border {
         border-radius: 8px;
         border: 1px solid $black-color-15;
