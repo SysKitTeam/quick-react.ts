@@ -1,0 +1,29 @@
+@import '../../index.scss';
+
+.custom-date-range-dialog {
+    .custom-date-range-content {
+        text-align: center;
+
+        .custom-date-range-title {
+            font-size: 16px;
+            display: block;
+
+            b {
+                font-weight: 500;
+            }
+        }
+    }
+
+    .custom-date-range-error {
+        float: left;
+        color: $error-color;
+        font-size: 12px;
+        padding-top: 5px;
+
+        .icon {
+            color: $error-color;
+            position: relative;
+            top: 2px;
+        }
+    }
+}
