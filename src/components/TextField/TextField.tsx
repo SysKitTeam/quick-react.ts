@@ -302,7 +302,7 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
                 className="tooltip-error"
                 showTooltip={this.state.isFocused}
                 directionalHint={DirectionalHint.bottomLeftEdge}>
-                <div>
+                <div className="text-field-textarea-error-content">
                     <textarea
                         { ...textAreaProps }
                         id={this._id}
@@ -345,7 +345,7 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
                 className="tooltip-error"
                 showTooltip={this.state.isFocused}
                 directionalHint={DirectionalHint.bottomLeftEdge}>
-                <div>
+                <div className="text-field-input-error-content">
                     <input
                         type={'text'}
                         { ...inputProps }
