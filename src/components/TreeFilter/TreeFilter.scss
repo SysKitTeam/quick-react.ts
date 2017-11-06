@@ -34,6 +34,13 @@
                 color: $primary-color;
             }
         }
+
+        &.tree-filter-title-with-border {
+            border: 1px solid $secondary-color-20;
+            border-radius: 8px;
+            height: 32px;
+            padding: 5px 3px 5px 8px;
+        }
     }
 
     .reset-filter-icon {

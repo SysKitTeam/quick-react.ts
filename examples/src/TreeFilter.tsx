@@ -109,8 +109,21 @@ export class Index extends React.Component<any, DemoState> {
                     // tslint:disable-next-line:no-string-literal
                     filterSelection={this.state.filterStates['f5']}
                     showButtons={true}
-                    onSave={this.onSave}>
-                </TreeFilter>
+                    onSave={this.onSave}
+                />
+                <br /><br />
+
+                <TreeFilter
+                    filterId={'f5'}
+                    items={shortFlatList}
+                    itemsAreFlatList={true}
+                    defaultSelection={FilterSelectionEnum.All}
+                    // tslint:disable-next-line:no-string-literal
+                    filterSelection={this.state.filterStates['f5']}
+                    hasTitleBorder={true}
+                    showButtons={true}
+                    onSave={this.onSave}
+                />
             </div>
         );
     }

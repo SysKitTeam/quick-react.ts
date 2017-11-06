@@ -142,7 +142,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     @autobind
     private onValuesSelected(filterId: string, filterSelection: IFilterSelection) {
         const isDefault = this.checkIfDefaultSelection(filterSelection.type, filterSelection.selectedIDs);
-        this.setState({ ...this.state, isDefaultSelected: isDefault, selection: filterSelection});
+        this.setState({ ...this.state, isDefaultSelected: isDefault, selection: filterSelection });
         if (this.props.onValuesSelected !== undefined) {
             this.props.onValuesSelected(filterId, filterSelection);
         } else {
@@ -184,7 +184,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
 
     @autobind
     private _onDismiss() {
-        this.setState(prevState => ({ 
+        this.setState(prevState => ({
             ...prevState,
             isOpen: false,
             selection: this.props.filterSelection,
@@ -238,7 +238,10 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                     this.props.title && !isDefaultSelected &&
                     <Icon iconName="icon-delete" title="Reset selection" className="reset-filter-icon" onClick={this.onFilterReset} />
                 }
-                <div className="tree-filter-title" title={this.state.selectionText} onClick={this.toggleOpenState}>
+                <div
+                    className={classNames('tree-filter-title', { 'tree-filter-title-with-border': this.props.hasTitleBorder })}
+                    title={this.state.selectionText}
+                    onClick={this.toggleOpenState}>
                     <span>{this.state.selectionText}</span>
                     {
                         hasItems && isOpen &&

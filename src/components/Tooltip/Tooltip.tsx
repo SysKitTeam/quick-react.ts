@@ -18,8 +18,16 @@ export class Tooltip extends CommonComponent<ITooltipProps, any> {
         super(props);
 
         this.state = {
-            isTooltipVisible: false
+            isTooltipVisible: props.showTooltip || false
         };
+    }
+
+    public componentWillReceiveProps(newProps: ITooltipProps) {
+        if (newProps.showTooltip !== undefined) {
+            this.setState({
+                isTooltipVisible: newProps.showTooltip
+            });
+        }
     }
 
     public render() {
@@ -75,13 +83,17 @@ export class Tooltip extends CommonComponent<ITooltipProps, any> {
     // Hide Tooltip
     @autobind
     private _onTooltipMouseLeave(ev: any) {
-        this._toggleTooltip(false);
+        if (this.props.showTooltip === undefined || !this.props.showTooltip) {
+            this._toggleTooltip(false);
+        }
     }
 
     // Hide Tooltip
     @autobind
     private _onTooltipCallOutDismiss() {
-        this._toggleTooltip(false);
+        if (this.props.showTooltip === undefined || !this.props.showTooltip) {
+            this._toggleTooltip(false);
+        }
     }
 
     private _toggleTooltip(isTooltipVisible: boolean) {
