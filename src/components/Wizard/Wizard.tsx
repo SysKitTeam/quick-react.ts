@@ -6,7 +6,6 @@ import { Button } from '../../components/Button/Button';
 import { IButtonProps } from '../../components/Button/Button.Props';
 import { autobind } from '../../utilities/autobind';
 import { Stepper } from './Stepper/Stepper';
-import { StepContainer } from './StepContainer/StepContainer';
 import { WizardStepDirection, IWizardProps, IPage, defaultProps } from './Wizard.Props';
 
 export interface IWizardState {
@@ -80,7 +79,12 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
         );
 
         if (currentStepProp.optionalButtons) {
-            const additionalButtons = currentStepProp.optionalButtons.map((button, index) => <Button {...button} key={index}></Button>);
+            const additionalButtons = currentStepProp.optionalButtons.map((button, index) => {
+                const buttonClass = button.className === undefined ? 'button-tertiary' : button.className;
+                return (
+                    <Button {...{ ...button, className: buttonClass }} key={index}></Button>
+                );
+            });
             buttons = [...buttons, ...additionalButtons];
         }
 
