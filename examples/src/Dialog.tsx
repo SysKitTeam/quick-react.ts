@@ -21,7 +21,6 @@ export class Index extends React.Component<any, any> {
             <div>
                 <Button onClick={this._toggleDialog.bind(this)}>Open Dialog</Button> <br /><br />
                 <Button onClick={this._toggleDialog2.bind(this)}>Open Dialog2</Button> <br /><br />
-                <Button onClick={this._toggleDialog3.bind(this)}>Open Dialog3</Button>
 
                 <Dialog
                     isOpen={this.state.showDialog}
@@ -56,22 +55,10 @@ export class Index extends React.Component<any, any> {
                     isOpen={this.state.showDialog2}
                     onDismiss={this._toggleDialog2.bind(this)}
                     title={'Warning'}
-                    icon={'icon-warning'}
                     subText={'This is warning message and you have to fix it!'}>
                     <DialogFooter>
                         <Button className={'button-textual'} onClick={this._toggleDialog2.bind(this)}>Cancel</Button>
                         <Button className={'button-primary'} onClick={this._toggleDialog2.bind(this)}>Save</Button>
-                    </DialogFooter>
-                </Dialog>
-
-                <Dialog
-                    isOpen={this.state.showDialog3}
-                    onDismiss={this._toggleDialog3.bind(this)}
-                    title={'Warning'}
-                    subText={'This is warning message and you have to fix it!'}>
-                    <DialogFooter>
-                        <Button className={'button-textual'} onClick={this._toggleDialog3.bind(this)}>Cancel</Button>
-                        <Button className={'button-primary'} onClick={this._toggleDialog3.bind(this)}>Save</Button>
                     </DialogFooter>
                 </Dialog>
             </div>
@@ -84,10 +71,6 @@ export class Index extends React.Component<any, any> {
 
     private _toggleDialog2() {
         this.setState({ showDialog2: !this.state.showDialog2 });
-    }
-
-    private _toggleDialog3() {
-        this.setState({ showDialog3: !this.state.showDialog3 });
     }
 }
 ReactDOM.render(<Index />, document.getElementById('root'));
