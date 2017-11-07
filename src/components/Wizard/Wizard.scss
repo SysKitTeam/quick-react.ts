@@ -15,6 +15,7 @@
     text-align: center;
     font-size: 30px;
     margin-bottom: 20px;
+    margin-top: 20px;
   }
 
   .wizard-content {
@@ -43,6 +44,7 @@
     background-color: $white-color;
     border-top: 1px solid $black-color-6;
     display: flex;
+    flex-direction: row-reverse;
     justify-content: space-between;
     align-self: flex-end;
     align-items: center;
