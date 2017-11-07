@@ -1,16 +1,15 @@
 @import '../../index.scss';
 
 .custom-date-range-dialog {
+    height: 481px;
+    
     .custom-date-range-content {
         text-align: center;
 
         .custom-date-range-title {
             font-size: 16px;
             display: block;
-
-            b {
-                font-weight: 500;
-            }
+            font-weight: 500;
         }
     }
 

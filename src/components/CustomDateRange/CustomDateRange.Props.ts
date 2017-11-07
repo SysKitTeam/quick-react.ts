@@ -1,16 +1,14 @@
 export interface ICustomDateRangeProps {
-    className?: string;
     isDialogOpen: boolean;
-    startDate?: Date;
-    endDate?: Date;
-    onSave?: () => void;
-    onDialogClose?: () => void;
+    startDate: Date;
+    endDate: Date;
+    className?: string;
+    onSave?: (startDate: Date, endDate: Date) => void;
+    onClose?: () => void;
 }
 
 export interface ICustomDateRangeState {
     startDate?: Date;
     endDate?: Date;
-    currentSelectedCustomDateStartTime?: Date;
-    currentSelectedCustomDateEndTime?: Date;
-    invalidDateRangeSelected?: boolean;
+    validDateRangeSelected?: boolean;
 }

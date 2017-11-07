@@ -5,7 +5,7 @@ import { Dialog } from '../Dialog/Dialog';
 import { DateTimePicker } from '../DateTimePicker/DateTimePicker';
 import { DialogFooter } from '../Dialog/DialogFooter';
 import { Button } from '../Button/Button';
-import { autobind } from '../../index';
+import { autobind } from '../../utilities/autobind';
 import { Icon } from '../Icon/Icon';
 import * as moment from 'moment';
 import './CustomDateRange.scss';
@@ -17,40 +17,46 @@ export class CustomDateRange extends React.PureComponent<ICustomDateRangeProps, 
         this.state = {
             startDate: props.startDate,
             endDate: props.endDate,
-            currentSelectedCustomDateStartTime: props.startDate,
-            currentSelectedCustomDateEndTime: props.endDate,
-            invalidDateRangeSelected: true
+            validDateRangeSelected: true
         };
+    }
+
+    public componentWillReceiveProps(newProps, nextState) {
+        this.setState({
+            startDate: newProps.startDate,
+            endDate: newProps.endDate
+        });
     }
 
     @autobind
     private _closeCustomDateRangeDialog() {
-        if (this.props.onDialogClose !== undefined) {
-            this.props.onDialogClose();
+        if (this.props.onClose !== undefined) {
+            this.props.onClose();
         }
+
+        this.setState({
+            startDate: this.props.startDate,
+            endDate: this.props.endDate,
+            validDateRangeSelected: true
+        });
     }
 
     @autobind
     private _saveCustomDateRangeDialog() {
-        this._validateDate(moment(this.state.currentSelectedCustomDateStartTime), moment(this.state.currentSelectedCustomDateEndTime));
-        if (this.state.invalidDateRangeSelected) {
+        this._validateDate(moment(this.state.startDate), moment(this.state.endDate));
+        if (this.state.validDateRangeSelected) {
             if (this.props.onSave !== undefined) {
-                this.props.onSave();
-            }    
+                this.props.onSave(this.state.startDate, this.state.endDate);
+            }
         }
 
-        this.setState({
-            startDate: this.state.currentSelectedCustomDateStartTime,
-            endDate: this.state.currentSelectedCustomDateEndTime
-        });
-        
         this._closeCustomDateRangeDialog();
     }
 
     @autobind
     private _startDateSelection(date: Date) {
         this.setState({
-            currentSelectedCustomDateStartTime: date
+            startDate: date
         });
         this._validateDate(moment(date), moment(this.state.endDate));
     }
@@ -58,22 +64,16 @@ export class CustomDateRange extends React.PureComponent<ICustomDateRangeProps, 
     @autobind
     private _endDateSelection(date: Date) {
         this.setState({
-            currentSelectedCustomDateEndTime: date
+            endDate: date
         });
         this._validateDate(moment(this.state.startDate), moment(date));
     }
 
     @autobind
     private _validateDate(startDate: moment.Moment, endDate: moment.Moment) {
-        if (startDate.isAfter(endDate)) {
-            this.setState({
-                invalidDateRangeSelected: false
-            });
-        } else {
-            this.setState({
-                invalidDateRangeSelected: true
-            });
-        }
+        this.setState({
+            validDateRangeSelected: !startDate.isAfter(endDate)
+        });
     }
 
     private dateToString(d: Date): string {
@@ -106,37 +106,37 @@ export class CustomDateRange extends React.PureComponent<ICustomDateRangeProps, 
                 onDismiss={this._closeCustomDateRangeDialog}
                 containerClassName={dialogClassName}>
                 <div className="custom-date-range-content">
-                    <span className="custom-date-range-title">Start: <b>{startTimeText}</b></span>
+                    <div className="custom-date-range-title">Start: {startTimeText}</div>
                     <DateTimePicker
                         is24HourFormat={false}
                         selectedDateTime={this.state.startDate}
                         includeTime={true}
-                        onTimeSelectionChanged={(date) => this._startDateSelection(date)}
+                        onTimeSelectionChanged={this._startDateSelection}
                         useKeyboardForTimeInput={true}
                         isValidDate={valid}
                     />
                 </div>
                 <div className="custom-date-range-content">
-                    <span className="custom-date-range-title">End: <b>{endTimeText}</b></span>
+                    <div className="custom-date-range-title">End: {endTimeText}</div>
                     <DateTimePicker
                         is24HourFormat={false}
                         selectedDateTime={this.state.endDate}
                         includeTime={true}
-                        onTimeSelectionChanged={(date) => this._endDateSelection(date)}
+                        onTimeSelectionChanged={this._endDateSelection}
                         useKeyboardForTimeInput={true}
                         isValidDate={valid}
                     />
                 </div>
 
                 <DialogFooter>
-                    {!this.state.invalidDateRangeSelected &&
+                    {!this.state.validDateRangeSelected &&
                         <div className="custom-date-range-error">
                             <Icon iconName="icon-usklicnik" />
                             Start date cannot be after end date!
                         </div>
                     }
                     <Button className="button-textual" onClick={this._closeCustomDateRangeDialog}>Cancel</Button>
-                    <Button onClick={this._saveCustomDateRangeDialog} disabled={!this.state.invalidDateRangeSelected}>Save</Button>
+                    <Button onClick={this._saveCustomDateRangeDialog} disabled={!this.state.validDateRangeSelected}>Save</Button>
                 </DialogFooter>
             </Dialog>
         );
