@@ -49,7 +49,6 @@ export class CustomDateRange extends React.PureComponent<ICustomDateRangeProps, 
                 this.props.onSave(this.state.startDate, this.state.endDate);
             }
         }
-
         this._closeCustomDateRangeDialog();
     }
 
