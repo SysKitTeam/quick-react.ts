@@ -1,25 +1,13 @@
 @import '../../index.scss';
 
-@mixin fadeOut200() {
-    -webkit-animation-duration: 367ms;
-    -webkit-animation-name: fadeOut;
-    -webkit-animation-fill-mode: both;
-    animation-duration: 367ms;
-    animation-name: fadeOut;
-    animation-fill-mode: both;
-    -webkit-animation-duration: 267ms;
-    animation-duration: 267ms;
+@keyframes fadeIn {
+    from { opacity: 0 }
+    to { opacity: 1 }
 }
 
-@mixin fadeIn200() {
-    -webkit-animation-duration: 367ms;
-    -webkit-animation-name: fadeIn;
-    -webkit-animation-fill-mode: both;
-    animation-duration: 367ms;
-    animation-name: fadeIn;
-    animation-fill-mode: both;
-    -webkit-animation-duration: 267ms;
-    animation-duration: 267ms;
+@keyframes fadeOut {
+    from { opacity: 1 }
+    to { opacity: 0 }
 }
 
 .dialog {
@@ -31,18 +19,22 @@
     }
 
     &.is-animatingOpen {
-        @include fadeIn200();
+        animation-name: fadeIn;
+        animation-duration: 1s;
+        -webkit-animation-duration: 1s;
     }
 
     &.is-animatingClose {
-        @include fadeOut200();
+        animation-name: fadeOut;
+        animation-duration: 1s;
+        -webkit-animation-duration: 1s;
     }
 
     .dialog-main {
         vertical-align: middle;
         display: inline-block;
         border-radius: 8px;
-        box-shadow: 0 0 5px 0 rgba(0,0,0,.2);
+        box-shadow: 0 0 5px 0 rgba(0,0,0,.4);
         background-color: $white-color;
         box-sizing: border-box;
         line-height: 1.35;
@@ -67,6 +59,7 @@
                 padding: 13px 20px;
                 color: $white-color;
                 user-select: none;
+                height: 24px;
             }
 
             .dialog-topButton {
@@ -86,6 +79,7 @@
         .dialog-inner {
             padding: 0 0 20px 20px;
             height: calc(100% - 70px);
+            position: relative;
 
             .dialog-content {
                 display: flex;

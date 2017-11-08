@@ -7,4 +7,5 @@ export interface ITooltipProps {
     directionalHint?: DirectionalHint;
     showTooltip?: boolean;
     onTooltipToggle?(isTooltipVisible: boolean): void;
+    containerClass?: string;
 }
