@@ -21,6 +21,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
         options: [],
         hasTitleBorder: false,
         displaySelection: true,
+        showArrowIcon: true,
         disabled: false,
         dropdownType: DropdownType.linkDropdown
     };
@@ -66,6 +67,8 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
     }
 
     setDropDownRef = (ref) => { this._dropDown = ref; };
+    setDropDownLabelRef = (ref) => {this._dropdownLabel = ref; };
+    
     public render() {
         let { label, options, hasTitleBorder, icon, dropdownType, className, calloutClassName, layerClassName } = this.props;
         let { id, isOpen, selectedIndex, isDisabled } = this.state;
@@ -73,15 +76,17 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
         const dropdownTitleClassName = this.props.hasTitleBorder ? 'dropdown-title-border' : 'dropdown-title';
         const dropdownIconClassName = this.props.hasTitleBorder ? 'iconArrowWithBorder' : 'iconArrow';
         const arrowIcon = isOpen ? 'icon-Arrow_up' : 'icon-arrow_down';
-
+        const dropdownContainerStyle = {
+            width: this.props.dropdownWidth ? this.props.dropdownWidth : this.getMaxItemWidth() 
+        };
         return (
             <div ref="root">
                 {label && (
-                    <label id={id + '-label'} className="label" ref={(dropdownLabel) => this._dropdownLabel = dropdownLabel} >{label}</label>
+                    <label id={id + '-label'} className="label" ref={this.setDropDownLabelRef} >{label}</label>
                 )}
                 <div
                     data-is-focusable={true}
-                    ref={(c): HTMLElement => this._dropDown = c}
+                    ref={this.setDropDownRef}
                     id={id}
                     className={classNames('dropdown', className, {
                         'is-open': isOpen, 'is-disabled': isDisabled
@@ -90,14 +95,14 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
                     onKeyDown={this._onDropdownKeyDown}
                     onClick={this._onDropdownClick}
                     role="combobox"
-                    style={{ width: this.props.dropdownWidth ? this.props.dropdownWidth : this.getMaxItemWidth() }}
+                    style={dropdownContainerStyle}
                 >
                     <span className={dropdownTitleClassName}>
                         {icon && (
                             <Icon iconName={icon}></Icon>
                         )}
                         {this.getSelectionText(dropdownType, selectedOption)}
-                        {this.props.displaySelection &&
+                        {this.props.displaySelection && this.props.showArrowIcon &&
                             <Icon className={dropdownIconClassName} iconName={arrowIcon}></Icon>
                         }
                     </span>
@@ -122,9 +127,9 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
     getMaxItemWidth = () => {
         if (this.props.dropdownType !== DropdownType.actionDropdown && this.props.options.length > 0) {
             let longest = this.props.options.reduce((a, b) => { return a.text.length > b.text.length ? a : b; });
-            return longest.text.length * 8 + 40 + 'px';
+            const arrowIconWidth = this.props.showArrowIcon ? 40 : 15;
+            return longest.text.length * 8 + arrowIconWidth + 'px';
         }
-
         return;
     }
 

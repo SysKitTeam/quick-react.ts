@@ -25,6 +25,7 @@ export interface IDropdownProps {
   onMenuToggle?: (opened: boolean) => void;
   onCustomSelectionText?: () => string;
   displaySelection?: boolean; // default true
+  showArrowIcon?: boolean; // default true
 }
 
 export interface IDropdownOption {
