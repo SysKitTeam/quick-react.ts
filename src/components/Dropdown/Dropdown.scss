@@ -16,7 +16,7 @@
 
     .dropdown-title-border {
         border-radius: 8px;
-        border: 1px solid $black-color-15;
+        border: 1px solid $white-background-lines;
         padding: 0 10px 0 10px;
         box-sizing: border-box;
         cursor: pointer;
@@ -50,7 +50,7 @@
     &:hover {
         .dropdown-title-border {
             &:hover {
-                border-color: $secondary-color-40;
+                border-color: $white-background-lines-hover;
             }
         }
 
@@ -67,12 +67,12 @@
 
     &.is-disabled {
         .dropdown-title-border {
-            background-color: $black-color-6;
-            border-color: $black-color-15;
+            background-color: $disabled-field;
+            border-color: $white-background-lines;
             cursor: default;
 
             &:hover {
-                border-color: $black-color-15;
+                border-color: $white-background-lines;
             }
 
             span {
@@ -152,7 +152,7 @@
 
     &.arrow-dropdown {
         border-radius: 0 8px 8px 0;
-        border: 1px solid $black-color-15;
+        border: 1px solid $white-background-lines;
         height: 30px;
         cursor: pointer;
 
@@ -165,7 +165,7 @@
         }
 
         &:hover {
-            border-color: $secondary-color-40;
+            border-color: $white-background-lines-hover;
             
             .dropdown-title {
                 .iconArrow {
@@ -184,8 +184,8 @@
 
         &.is-disabled {
             cursor: default;
-            background-color: $black-color-6;
-            border-color: $black-color-15;
+            background-color: $disabled-field;
+            border-color: $white-background-lines;
 
             .dropdown-title {
                 .iconArrow {

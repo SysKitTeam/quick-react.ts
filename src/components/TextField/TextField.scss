@@ -10,14 +10,14 @@
 
     .textField-field {
         box-sizing: border-box;
-        border: 1px solid $black-color-15;
+        border: 1px solid $white-background-lines;
         border-radius: 8px;
         padding: 5px 10px 6px 10px;
         width: 100%;
         outline: 0;
     
         &:hover {
-            border-color: $secondary-color-40;
+            border-color: $white-background-lines-hover;
         }
     
         &:active,
@@ -26,8 +26,8 @@
         }
     
         &[disabled] {
-            background-color: $black-color-6;
-            border-color: $black-color-15;
+            background-color: $disabled-field;
+            border-color: $white-background-lines;
             color: $secondary-disabled-color;
             pointer-events: none;
             cursor: default;
@@ -71,10 +71,6 @@
     &.text-field-underlined {
         width: 100%;
 
-        &:hover {
-            border-color: $secondary-color-40;
-        }
-    
         &:active,
         &:focus {
             border-color: $primary-color;
@@ -82,8 +78,17 @@
     
         .textField-field {
             border: 0;
-            border-bottom: 1px solid $secondary-color-40;
+            border-bottom: 1px solid $white-background-lines;
             border-radius: 0;
+
+            &:hover {
+                border-color: $white-background-lines-hover;
+            }
+
+            &:active,
+            &:focus {
+                border-color: $primary-color;
+            }
 
             &.textField-invalid {
                 border-color: $error-color;
@@ -95,7 +100,7 @@
         }
     
         &.is-disabled {
-            border-bottom-color: $black-color-15;
+            border-bottom-color: $white-background-lines;
     
             .label {
                 color: $secondary-disabled-color;;
