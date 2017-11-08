@@ -59,7 +59,7 @@
 
 .rdtPicker td.rdtOld,
 .rdtPicker td.rdtNew {
-  color: $secondary-disabled-color;
+  color: $secondary-color-45;
 }
 
 .rdtPicker td.rdtToday {
@@ -176,7 +176,7 @@
 }
 
 .rdtPicker button:hover {
-  background-color: $black-color-6;
+  background-color: $disabled-field;
 }
 
 .rdtPicker thead button {
@@ -232,7 +232,7 @@ td.rdtYear:hover {
 }
 
 .rdtCounter .rdtBtn:hover {
-  background: $black-color-6;
+  background: $disabled-field;
 }
 
 .rdtCounter .rdtCount {

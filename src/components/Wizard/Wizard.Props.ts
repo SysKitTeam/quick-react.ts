@@ -32,6 +32,7 @@ export interface IWizardProps {
     nextButtonText?: string;
     backButtonText?: string;
     finishButtonText?: string;
+    showContainer?: boolean;
 }
 
 const nullFunc = (currentStepIndex?: number, nextStepIndex?: number, direction?: WizardStepDirection): void => { };

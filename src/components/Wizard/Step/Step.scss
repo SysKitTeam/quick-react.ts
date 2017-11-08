@@ -4,7 +4,7 @@
     position: absolute;
     top: 36px;
     height: 1px;
-    border-top: $secondary-color-40 2px solid;
+    border-top: $white-background-lines 2px solid;
     content: "";
 }
 
@@ -50,7 +50,7 @@
         margin: 0 auto;
         border-radius: 50%;
         text-align: center;
-        border: $secondary-color-20 2px solid;
+        border: $secondary-color-45 2px solid;
         box-sizing: border-box;
 
         &.completed {

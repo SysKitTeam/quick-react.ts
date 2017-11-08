@@ -6,11 +6,11 @@ $searchBox-height: 30px; //30px + 2px border
     box-sizing: border-box;
     position: relative;
     margin-bottom: 10px;
-    border: 1px solid $black-color-15;
+    border: 1px solid $white-background-lines;
     border-radius: 8px;
 
     &:hover {
-        border-color: $secondary-color-40;
+        border-color: $white-background-lines-hover;
     }
 
     .search-field {
@@ -56,7 +56,7 @@ $searchBox-height: 30px; //30px + 2px border
     }
 
     &.is-disabled {
-        border-color: $black-color-15;
+        border-color: $white-background-lines;
         user-select: none;
 
         .search-icon {
@@ -64,7 +64,7 @@ $searchBox-height: 30px; //30px + 2px border
         }
 
         .search-field {
-            background-color: $black-color-6;
+            background-color: $disabled-field;
             pointer-events: none;
             cursor: default;
         }
@@ -72,8 +72,16 @@ $searchBox-height: 30px; //30px + 2px border
 
     &.is-underlined {
         border: 0;
-        border-bottom: 1px solid $black-color-15;
+        border-bottom: 1px solid $white-background-lines;
         border-radius: 0;
+
+        &:hover {
+            border-color: $white-background-lines-hover;
+        }
+
+        &.is-active {
+            border-color: $primary-color;
+        }
 
         .search-field {
             padding-left: 10px;
@@ -90,6 +98,8 @@ $searchBox-height: 30px; //30px + 2px border
         }
 
         &.is-disabled {
+            border-color: $white-background-lines;
+            
             .search-field {
                 background-color: $white-color;
             }

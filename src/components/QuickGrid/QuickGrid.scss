@@ -11,14 +11,14 @@
        min-height: 42px;
        padding: 2px;
        border-bottom: 1px solid $secondary-color-20;
-       background-color: $black-color-4;
+       background-color: $disabled-field;
 
         .group-drop-empty {
             display: block;
             width: 200px;
             padding-left: 20px;
             padding-top: 9px;
-            color: $secondary-disabled-color;
+            color: $secondary-color-45;
         }
 
         .group-column-boxes {
@@ -154,11 +154,11 @@
             }
 
             &.is-hover {
-                background-color: $black-color-4;
+                background-color: $disabled-field;
             }
 
             &.is-selected {
-                background-color: $black-color-6;
+                background-color: $disabled-field;
             }
 
             .status-critical {
