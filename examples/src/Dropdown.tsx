@@ -23,6 +23,27 @@ export class Index extends React.Component<any, any> {
                     dropdownType={DropdownType.selectionDropdown}
                     label="Dropdown:"
                     onClick={(option, index) => console.log(option, index)}
+                    showArrowIcon={false}
+                    options={
+                        [
+                            { key: 'A', text: 'Option a' },
+                            { key: 'B', text: 'Option b' },
+                            { key: 'C', text: 'Option c' },
+                            { key: 'D', text: 'Option d' },
+                            { key: 'E', text: 'Option e' },
+                            { key: 'F', text: 'Option f' },
+                            { key: 'G', text: 'Option g' },
+                            { key: 'H', text: 'Option h', selected: true },
+                            { key: 'I', text: 'Option i' },
+                            { key: 'J', text: 'Option j' }
+                        ]
+                    }
+                />
+                <Dropdown
+                    hasTitleBorder={true}
+                    dropdownType={DropdownType.selectionDropdown}
+                    label="Dropdown:"
+                    onClick={(option, index) => console.log(option, index)}
                     options={
                         [
                             { key: 'A', text: 'Option a', icon: 'icon-add' },
