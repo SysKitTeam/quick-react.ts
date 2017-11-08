@@ -123,9 +123,11 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
                 {label && <Label htmlFor={this._id}>{label}</Label>}
                 {iconClass && <i className={iconClass}></i>}
                 {multiline ? this._renderTextArea() : this._renderInput()}
-                {description &&
-                    <span id={this._descriptionId}>
-                        <span className={'textField-description'}>{description}</span>
+                {!errorMessage && description &&
+                    <span id={this._descriptionId} className={'text-field-info-container'}>
+                        <Tooltip content={description} directionalHint={DirectionalHint.rightCenter}>
+                            <Icon iconName={'icon-Info_krug'} className={'text-field-info'}></Icon>
+                        </Tooltip>
                     </span>
                 }
             </div>
@@ -297,25 +299,34 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
         }
 
         return (
-            <Tooltip
-                content={this.props.errorMessage}
-                className="tooltip-error"
-                showTooltip={this.state.isFocused}
-                directionalHint={DirectionalHint.bottomLeftEdge}>
-                <div className="text-field-textarea-error-content">
-                    <textarea
-                        { ...textAreaProps }
-                        id={this._id}
-                        ref={(c): HTMLTextAreaElement => this._field = c}
-                        value={this.state.value}
-                        onChange={this._onInputChange}
-                        onKeyUp={this._onKeyUp}
-                        className={this._fieldClassName}
-                        onFocus={this._onFocus}
-                        onBlur={this._onBlur}
-                    />
-                </div>
-            </Tooltip>
+            <div className="text-field-textarea-error-container">
+                <Tooltip
+                    content={this.props.errorMessage}
+                    className="tooltip-error"
+                    showTooltip={this.state.isFocused}
+                    directionalHint={DirectionalHint.bottomLeftEdge}>
+                    <div className="text-field-textarea-error-content">
+                        <textarea
+                            { ...textAreaProps }
+                            id={this._id}
+                            ref={(c): HTMLTextAreaElement => this._field = c}
+                            value={this.state.value}
+                            onChange={this._onInputChange}
+                            onKeyUp={this._onKeyUp}
+                            className={this._fieldClassName}
+                            onFocus={this._onFocus}
+                            onBlur={this._onBlur}
+                        />
+                    </div>
+                </Tooltip>
+                {this.props.description &&
+                    <span id={this._descriptionId} className={'text-field-textarea-error-info-container'}>
+                        <Tooltip content={this.props.description} directionalHint={DirectionalHint.rightCenter}>
+                            <Icon iconName={'icon-Info_krug'} className={'text-field-info'}></Icon>
+                        </Tooltip>
+                    </span>
+                }
+            </div>
         );
     }
 
@@ -340,29 +351,38 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
         }
 
         return (
-            <Tooltip
-                content={this.props.errorMessage}
-                className="tooltip-error"
-                showTooltip={this.state.isFocused}
-                directionalHint={DirectionalHint.bottomLeftEdge}>
-                <div className="text-field-input-error-content">
-                    <input
-                        type={'text'}
-                        { ...inputProps }
-                        id={this._id}
-                        ref={(c): HTMLInputElement => this._field = c}
-                        value={this.state.value}
-                        onChange={this._onInputChange}
-                        onKeyUp={this._onKeyUp}
-                        className={this._fieldClassName}
-                        onFocus={this._onFocus}
-                        onBlur={this._onBlur}
-                    />
-                    <div className="textField-error-icon">
-                        <Icon iconName={'icon-usklicnik'}></Icon>
+            <div className="text-field-input-error-container">
+                <Tooltip
+                    content={this.props.errorMessage}
+                    className="tooltip-error"
+                    showTooltip={this.state.isFocused}
+                    directionalHint={DirectionalHint.bottomLeftEdge}>
+                    <div className="text-field-input-error-content">
+                        <input
+                            type={'text'}
+                            { ...inputProps }
+                            id={this._id}
+                            ref={(c): HTMLInputElement => this._field = c}
+                            value={this.state.value}
+                            onChange={this._onInputChange}
+                            onKeyUp={this._onKeyUp}
+                            className={this._fieldClassName}
+                            onFocus={this._onFocus}
+                            onBlur={this._onBlur}
+                        />
+                        <span className="textField-error-icon">
+                            <Icon iconName={'icon-usklicnik'}></Icon>
+                        </span>
                     </div>
-                </div>
-            </Tooltip>
+                </Tooltip>
+                {this.props.description &&
+                    <span id={this._descriptionId} className={'text-field-input-error-info-container'}>
+                        <Tooltip content={this.props.description} directionalHint={DirectionalHint.rightCenter}>
+                            <Icon iconName={'icon-Info_krug'} className={'text-field-info'}></Icon>
+                        </Tooltip>
+                    </span>
+                }
+            </div>
         );
     }
 

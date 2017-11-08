@@ -13,7 +13,7 @@
         border: 1px solid $black-color-15;
         border-radius: 8px;
         padding: 5px 10px 6px 10px;
-        width: 100%;
+        width: calc(100% - 30px);
         outline: 0;
     
         &:hover {
@@ -48,8 +48,7 @@
 
     .textField-error-icon {
         position: relative;
-        top: -25px;
-        float: right;
+        left: -20px;
 
         .icon {
             font-size: 12px;
@@ -57,14 +56,41 @@
         }
     }
 
-    .textField-description {
-        font-size: 12px;
+    .text-field-info-container {
+        margin-left: 10px;
+    }
+
+    .text-field-info {
+        color: $link-color;
+    }
+
+    .text-field-input-error-container {
+        .text-field-input-error-info-container {
+            float: right;
+            position: relative;
+            top: -25px;
+            left: -1px;
+        }
     }
 
     &.text-field-multiline {
         .textField-field {
             min-height: 32px;
             min-width: 200px;
+        }
+
+        .text-field-info-container {
+            display: inline-flex;
+            vertical-align: top;
+        }
+
+        .text-field-textarea-error-container {
+            .text-field-textarea-error-info-container {
+                float: right;
+                position: relative;
+                top: -25px;
+                left: -1px;
+            }
         }
     }
 
