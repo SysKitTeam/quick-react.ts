@@ -20,8 +20,14 @@ export class Index extends React.Component<any, any> {
         super(props);
 
         this.state = {
-            isOpen: false
+            isOpen: false,
+            isLoading: true,
+            errorMessage: ''
         };
+
+        setTimeout(() => {
+            this.setState({ isLoading: false, errorMessage: mediumText });
+        }, 6000);
     }
 
     @autobind
@@ -35,14 +41,14 @@ export class Index extends React.Component<any, any> {
                 <Button onClick={() => this._changeState(true)}>Open MessageBox</Button>
                 <MessageBox
                     title="Message box!"
-                    message={shortestText}
+                    message={longText}
                     onDismiss={() => this._changeState(false)}
                     isOpen={this.state.isOpen}
                     buttons={['Button1']}
                     onAccept={() => console.log('Accept')}
                     onClose={() => console.log('On close')}
-                    isLoading={false}
-                    errorMessage={longText}
+                    isLoading={this.state.isLoading}
+                    errorMessage={this.state.errorMessage}
                 />
             </div>
         );
