@@ -34,7 +34,7 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
 
     private readonly windowPadding = 70;
 
-    private _containerRef: HTMLElement;
+    private _containerRef: HTMLDivElement;
 
     constructor(props: IDialogProps) {
         super(props);
@@ -48,6 +48,10 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
             isAnimatingClose: false,
             dialogClass: ''
         };
+    }
+
+    public componentDidUpdate() {
+        this._checkDialogHeight(this._containerRef);
     }
 
     public componentWillReceiveProps(newProps: IDialogProps) {
@@ -158,7 +162,10 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
     @autobind
     private _getContainerRef(ref: HTMLDivElement) {
         this._containerRef = ref;
+        this._checkDialogHeight(ref);
+    }
 
+    private _checkDialogHeight(ref: HTMLDivElement) {
         if (ref) {
             if (Math.abs(window.innerHeight - ref.clientHeight) <= this.windowPadding) {
                 this.setState({ ...this.state, dialogClass: 'dialog-container' });
