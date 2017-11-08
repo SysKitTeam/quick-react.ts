@@ -25,8 +25,7 @@ export class Index extends React.Component<any, any> {
                 <Dialog
                     isOpen={this.state.showDialog}
                     onDismiss={this._toggleDialog.bind(this)}
-
-                    containerClassName="dialog-container">
+                >
                     <div style={{ width: '500px' }}>
                         <TextField label="TextField with a placeholder:" placeholder="Now I am a Placeholder" /> <br />
                         <TextField label="Required TextField:" required={true} /> <br />
@@ -43,6 +42,8 @@ export class Index extends React.Component<any, any> {
                         <TextField label={'Underlined TextField:'} placeholder="Underlined TextField" underlined /> <br />
                         <TextField label="Multiline TextField:" multiline rows={4} cols={50} />
                     </div>
+
+
 
                     <DialogFooter>
                         <Button className={'button-textual'} onClick={this._toggleDialog.bind(this)}>Cancel</Button>

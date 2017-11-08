@@ -20,14 +20,14 @@
 
     &.is-animatingOpen {
         animation-name: fadeIn;
-        animation-duration: 1s;
-        -webkit-animation-duration: 1s;
+        animation-duration: 700ms;
+        -webkit-animation-duration: 700ms;
     }
 
     &.is-animatingClose {
         animation-name: fadeOut;
-        animation-duration: 1s;
-        -webkit-animation-duration: 1s;
+        animation-duration: 700ms;
+        -webkit-animation-duration: 700ms;
     }
 
     .dialog-main {
@@ -42,6 +42,10 @@
         text-align: left;
         max-width: calc(100% - 70px);
         max-height: calc(100% - 70px);
+
+        &.dialog-container {
+            height: 100%;
+        }
         
         &:focus {
             outline: none;

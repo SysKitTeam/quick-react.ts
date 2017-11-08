@@ -18,6 +18,7 @@ export interface IDialogState {
     isAnimatingOpen?: boolean;
     isAnimatingClose?: boolean;
     id?: string;
+    dialogClass: string;
 }
 
 export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
@@ -31,6 +32,8 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
         contentClassName: ''
     };
 
+    private readonly windowPadding = 70;
+
     private _containerRef: HTMLElement;
 
     constructor(props: IDialogProps) {
@@ -42,7 +45,8 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
             id: getId('dialog'),
             isOpen: props.isOpen,
             isAnimatingOpen: props.isOpen,
-            isAnimatingClose: false
+            isAnimatingClose: false,
+            dialogClass: ''
         };
     }
 
@@ -99,6 +103,8 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
             }
         );
 
+        const dialogMainClass = classNames('dialog-main', this.props.contentClassName, this.state.dialogClass);
+
         let groupings = this._groupChildren();
 
         if (subText) {
@@ -114,7 +120,12 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
                     <div className={dialogClassName}
                         ref={this._onDialogRef}>
                         <Overlay isDarkThemed={isDarkOverlay} onClick={isBlocking ? null : onDismiss} />
-                        <div className={classNames('dialog-main', this.props.containerClassName)} ref={this._getContainerRef} tabIndex={0} onKeyUp={this._onContainerKeyUp}>
+                        <div
+                            className={dialogMainClass}
+                            ref={this._getContainerRef}
+                            tabIndex={0}
+                            onKeyUp={this._onContainerKeyUp}
+                        >
                             <div className={'dialog-header'}>
                                 <div className={'dialog-title'} id={id + '-title'}>{title}</div>
                                 <div className={'dialog-topButton'}>
@@ -145,8 +156,14 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
     }
 
     @autobind
-    private _getContainerRef(ref) {
+    private _getContainerRef(ref: HTMLDivElement) {
         this._containerRef = ref;
+
+        if (ref) {
+            if (Math.abs(window.innerHeight - ref.clientHeight) <= this.windowPadding) {
+                this.setState({ ...this.state, dialogClass: 'dialog-container' });
+            }
+        }
     }
 
     @autobind

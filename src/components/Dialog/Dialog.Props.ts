@@ -7,7 +7,7 @@ export interface IDialogProps extends React.Props<Dialog> {
     onDismiss?: (ev?: React.MouseEvent<HTMLElement>) => any;
     title?: string;
     subText?: string;
-    icon?: string
+    icon?: string;
     isBlocking?: boolean;
     className?: string;
     containerClassName?: string;

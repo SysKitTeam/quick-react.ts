@@ -88,7 +88,6 @@ export class Index extends React.Component<any, any> {
                     onFinish={this._finishCreateScript}
                     nextBtnState={true}
                     onCancel={() => { console.log('Cancel'); }}
-                    showContainer={true}
                 />
             </div>
         );
