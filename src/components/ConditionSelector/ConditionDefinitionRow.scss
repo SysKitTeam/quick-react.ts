@@ -1,0 +1,62 @@
+@import '../../index.scss';
+
+.command-definition-row-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid transparent;
+    background-color: #F0F0F0;
+    border-radius: 8px;
+    padding: 5px;
+    height: 40px;
+    margin: 5px;
+    
+    .left-content {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+    }
+    
+    .condtion-content {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        > div {
+            padding-right: 15px;
+        }
+    }
+    .dropdown, .text-field {
+        margin-bottom: 0;
+    }
+
+    .condition-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-right: 10px;
+        .add-new-condition {
+            border-color: $success-color!important;
+            .icon{
+                color: $success-color!important;
+            }
+        }
+        .add-new-condition:hover, .add-new-condition:active {
+            border-color: #73af54!important;
+            .icon{
+                color: #73af54!important;
+            }
+        }
+
+        .delete-condition {
+            border-color: $error-color!important;
+            .icon{
+                color: $error-color!important;
+            }
+        }
+        .delete-condition:hover, .delete-condition:active  {
+            border-color: #f75151!important;
+            .icon{
+                border-color: #f75151!important;
+            }
+        }
+    }
+}

@@ -6,7 +6,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { Dropdown } from './../../src/components/Dropdown/Dropdown';
-import { ConditionDefinitionRow } from './../../src/components/ConditionSelector/ConditionSelector';
+import { ConditionDefinitionRow } from './../../src/components/ConditionSelector/ConditionDefinitionRow';
 import { DropdownType } from './../../src/components/Dropdown/Dropdown.Props';
 
 import { Label } from './../../src/components/Label/Label';
@@ -21,15 +21,17 @@ export class Index extends React.Component<any, any> {
         return (
             <div>
                     <ConditionDefinitionRow 
-                        IsHardcodedValue={true}
-                        PropertyName="Script returns any data"
-                        HasMultipleLogicalOperations={false}
-                        AllowConditionDeletion={false} />
+                        id={3}
+                        isHardcodedValue={true}
+                        propertyName="Script returns any data"
+                        hasMultipleLogicalOperations={false}
+                        allowConditionDeletion={false} />
                     <ConditionDefinitionRow 
-                        IsHardcodedValue={false}
-                        PropertyName="Name"
-                        HasMultipleLogicalOperations={false}
-                        ConditionSelectionTypes = {[{ key: 'And', text: 'Equals' }, { key: 'Or', text: 'Less than', selected: true }]}
+                        id={3}
+                        isHardcodedValue={false}
+                        propertyName="Name"
+                        hasMultipleLogicalOperations={false}
+                        conditionSelectionTypes = {[{ key: 'And', text: 'Equals' }, { key: 'Or', text: 'Less than', selected: true }]}
                     >
                         <Dropdown
                             hasTitleBorder={true}
@@ -52,10 +54,11 @@ export class Index extends React.Component<any, any> {
                         />
                     </ConditionDefinitionRow>
                     <ConditionDefinitionRow
-                        IsHardcodedValue={false}
-                        PropertyName="Name"
-                        ConditionSelectionTypes = {[{ key: 'Is', text: 'Is'}, { key: 'Or', text: 'Is not'}, { key: 'Ise', text: 'You never know', selected: true }]}
-                        HasIndent={true}
+                        id={3}
+                        isHardcodedValue={false}
+                        propertyName="Name"
+                        conditionSelectionTypes = {[{ key: 'Is', text: 'Is'}, { key: 'Or', text: 'Is not'}, { key: 'Ise', text: 'I don\'t care', selected: true }]}
+                        hasIndent={true}
                     >
                     <TextField required={true} placeholder="Now I am a Placeholder" /> <br />
                     </ConditionDefinitionRow>
