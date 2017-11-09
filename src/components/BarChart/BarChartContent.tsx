@@ -24,7 +24,7 @@ export class BarChartContent extends React.PureComponent<IBarChartProps, any> {
         };
     }
 
-    public componentWillReceiveProps(newProps, nextState) {
+    public componentWillReceiveProps(newProps) {
         this.setState({
             containerWidth: this.props.width - margin.left - margin.right,
             containerHeight: this.props.height - margin.top - margin.bottom
