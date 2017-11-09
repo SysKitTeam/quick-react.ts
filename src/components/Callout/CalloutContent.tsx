@@ -95,7 +95,7 @@ export class CalloutContent extends CommonComponent<ICalloutProps, ICalloutState
 
         let beakReactStyle: React.CSSProperties = {
             top: positions && positions.beak ? positions.beak.top : BEAK_ORIGIN_POSITION.top,
-            left: positions && positions.beak ? positions.beak.left : BEAK_ORIGIN_POSITION.left,
+            left: positions && positions.beak ? (positions.beak.left - 10) : BEAK_ORIGIN_POSITION.left,
             height: beakStyleWidth,
             width: beakStyleWidth
         };

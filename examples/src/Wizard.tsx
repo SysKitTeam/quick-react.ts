@@ -78,7 +78,7 @@ export class Index extends React.Component<any, any> {
 
     public render() {
         return (
-            <div style={{ width: '1000px' }}>
+            <div style={{ width: '1500px' }}>
                 <Wizard
                     title={'Wizard'}
                     onPageEnter={this._enterPage}
