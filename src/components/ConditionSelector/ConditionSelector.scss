@@ -1,0 +1,68 @@
+@import '../../index.scss';
+
+.condition-selector-container {
+    display: flex;
+    justify-content: space-between;
+    .selection-list-container{
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+.command-definition-row-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid $black-color-15;
+    border-radius: 8px;
+    padding: 4px;
+    height: 40px;
+    
+    .left-content {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+    }
+    
+    .condtion-content {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        > div {
+            padding-right: 15px;
+        }
+    }
+    .dropdown, .text-field {
+        margin-bottom: 0;
+    }
+    .condition-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-right: 10px;
+        .add-new-condition {
+            border-color: $success-color!important;
+            .icon{
+                color: $success-color!important;
+            }
+        }
+        .add-new-condition:hover, .add-new-condition:active {
+            border-color: $success-hover-color!important;
+            .icon{
+                color: $success-hover-color!important;
+            }
+        }
+
+        .delete-condition {
+            border-color: $error-color!important;
+            .icon{
+                color: $error-color!important;
+            }
+        }
+        .delete-condition:hover, .delete-condition:active  {
+            border-color: $error-hover-color!important;
+            .icon{
+                color: $error-hover-color!important;
+            }
+        }
+    }
+}

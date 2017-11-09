@@ -6,18 +6,60 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { Dropdown } from './../../src/components/Dropdown/Dropdown';
+import { ConditionDefinitionRow } from './../../src/components/ConditionSelector/ConditionSelector';
 import { DropdownType } from './../../src/components/Dropdown/Dropdown.Props';
 
 import { Label } from './../../src/components/Label/Label';
 import { Icon } from './../../src/components/Icon/Icon';
 import { Slider } from './../../src/components/Slider/Slider';
 import { Button } from './../../src/components/Button/Button';
+import { TextField } from './../../src/components/TextField/TextField';
 
 export class Index extends React.Component<any, any> {
     public render() {
         
         return (
             <div>
+                    <ConditionDefinitionRow 
+                        IsHardcodedValue={true}
+                        PropertyName="Script returns any data"
+                        HasMultipleLogicalOperations={false}
+                        AllowConditionDeletion={false} />
+                    <ConditionDefinitionRow 
+                        IsHardcodedValue={false}
+                        PropertyName="Name"
+                        HasMultipleLogicalOperations={false}
+                        ConditionSelectionTypes = {[{ key: 'And', text: 'Equals' }, { key: 'Or', text: 'Less than', selected: true }]}
+                    >
+                        <Dropdown
+                            hasTitleBorder={true}
+                            dropdownType={DropdownType.selectionDropdown}
+                            onClick={(option, index) => console.log(option, index)}
+                            options={
+                                [
+                                    { key: 'A', text: 'Option a' },
+                                    { key: 'B', text: 'Option b' },
+                                    { key: 'C', text: 'Option c' },
+                                    { key: 'D', text: 'Option d', selected: true},
+                                    { key: 'E', text: 'Option e' },
+                                    { key: 'F', text: 'Option f' },
+                                    { key: 'G', text: 'Option g' },
+                                    { key: 'H', text: 'Option h' },
+                                    { key: 'I', text: 'Option i' },
+                                    { key: 'J', text: 'Option j' }
+                                ]
+                            }
+                        />
+                    </ConditionDefinitionRow>
+                    <ConditionDefinitionRow
+                        IsHardcodedValue={false}
+                        PropertyName="Name"
+                        ConditionSelectionTypes = {[{ key: 'Is', text: 'Is'}, { key: 'Or', text: 'Is not'}, { key: 'Ise', text: 'You never know', selected: true }]}
+                        HasIndent={true}
+                    >
+                    <TextField required={true} placeholder="Now I am a Placeholder" /> <br />
+                    </ConditionDefinitionRow>
+
                 <Dropdown
                     hasTitleBorder={true}
                     dropdownType={DropdownType.selectionDropdown}
