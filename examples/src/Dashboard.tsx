@@ -14,7 +14,7 @@ const dummyDashboard = getDummyDashboard(true); // change to true/false to show/
 export class Index extends React.Component<any, any> {
     public constructor() {
         super();
-         this.state = {
+        this.state = {
             farms: dummyDashboard.farms
         };
         setInterval(() => {
@@ -58,8 +58,8 @@ export class Index extends React.Component<any, any> {
 
     public render() {
         return (
-            <div>
-                 <Dashboard
+            <div style={{ height: '900px' }}>
+                <Dashboard
                     differentDashboards={dummyDashboard.differentDashboards}
                     groupOnClick={dummyDashboard.groupOnClick}
                     farms={this.state.farms}

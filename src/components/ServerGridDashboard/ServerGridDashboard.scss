@@ -1,8 +1,6 @@
 @import '../../index.scss';
 
 .server-grid-dashboard-container {
-    height: calc( 100vh -  16px); // browser body margin: 8px
-    width: 100%;
     overflow-y: auto;
 
     .grid-component-cell {

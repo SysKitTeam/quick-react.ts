@@ -107,7 +107,7 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
             }
         );
 
-        const dialogMainClass = classNames('dialog-main', this.props.contentClassName, this.state.dialogClass);
+        const dialogMainClass = classNames('dialog-main', this.props.containerClassName, this.state.dialogClass);
 
         let groupings = this._groupChildren();
 
