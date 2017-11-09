@@ -31,7 +31,7 @@ export class Checkbox extends CommonComponent<ICheckboxProps, ICheckboxState> {
         };
     }
 
-    public shouldComponentUpdate(nextProps, nextState) {
+    public shouldComponentUpdate(nextProps) {
         return !(this.props.checked === nextProps.checked
             && this.props.className === nextProps.className
             && this.props.label === nextProps.label

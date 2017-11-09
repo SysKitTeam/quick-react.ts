@@ -42,14 +42,6 @@ export class Index extends React.Component<any, any> {
                     onTimeSelectionChanged={(date) => this.setDate(date, 2)}
                     useKeyboardForTimeInput={true}
                 />
-
-                <br/>
-                <br/>
-                
-                <DateTimePickerBar
-                    startDateTime={this.state.date}
-                    endDateTime={this.state.date}>
-                </DateTimePickerBar>
             </div>
         );
     }
