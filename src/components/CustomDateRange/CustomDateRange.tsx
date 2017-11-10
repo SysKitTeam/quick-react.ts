@@ -9,6 +9,8 @@ import { autobind } from '../../utilities/autobind';
 import { Icon } from '../Icon/Icon';
 import * as moment from 'moment';
 import './CustomDateRange.scss';
+import { Tooltip } from '../Tooltip/Tooltip';
+import { DirectionalHint } from '../../utilities/DirectionalHint';
 
 export class CustomDateRange extends React.PureComponent<ICustomDateRangeProps, ICustomDateRangeState> {
     constructor(props: ICustomDateRangeProps) {
@@ -21,11 +23,13 @@ export class CustomDateRange extends React.PureComponent<ICustomDateRangeProps, 
         };
     }
 
-    public componentWillReceiveProps(newProps, nextState) {
-        this.setState({
-            startDate: newProps.startDate,
-            endDate: newProps.endDate
-        });
+    public componentWillReceiveProps(newProps: ICustomDateRangeProps) {
+        if (this.props.startDate !== newProps.startDate || this.props.endDate !== newProps.endDate) {
+            this.setState({
+                startDate: newProps.startDate,
+                endDate: newProps.endDate
+            });
+        }
     }
 
     @autobind
@@ -57,7 +61,12 @@ export class CustomDateRange extends React.PureComponent<ICustomDateRangeProps, 
         this.setState({
             startDate: date
         });
-        this._validateDate(moment(date), moment(this.state.endDate));
+        const isValid = this._validateDate(moment(date), moment(this.state.endDate));
+        if (isValid) {
+            if (this.props.onDateSelectionChanged !== undefined) {
+                this.props.onDateSelectionChanged(date, this.state.endDate);
+            }
+        }
     }
 
     @autobind
@@ -65,7 +74,12 @@ export class CustomDateRange extends React.PureComponent<ICustomDateRangeProps, 
         this.setState({
             endDate: date
         });
-        this._validateDate(moment(this.state.startDate), moment(date));
+        const isValid = this._validateDate(moment(this.state.startDate), moment(date));
+        if (isValid) {
+            if (this.props.onDateSelectionChanged !== undefined) {
+                this.props.onDateSelectionChanged(this.state.startDate, date);
+            }
+        }
     }
 
     @autobind
@@ -73,6 +87,8 @@ export class CustomDateRange extends React.PureComponent<ICustomDateRangeProps, 
         this.setState({
             validDateRangeSelected: !startDate.isAfter(endDate)
         });
+
+        return !startDate.isAfter(endDate);
     }
 
     private dateToString(d: Date): string {
@@ -82,7 +98,9 @@ export class CustomDateRange extends React.PureComponent<ICustomDateRangeProps, 
     public render() {
         let {
             className,
-            isDialogOpen
+            isDialogOpen,
+            invalidDateRangeSelected,
+            invalidErrorMessage
         } = this.props;
 
         const valid = (current) => {
@@ -134,8 +152,17 @@ export class CustomDateRange extends React.PureComponent<ICustomDateRangeProps, 
                             Start date cannot be after end date!
                         </div>
                     }
+                    {this.state.validDateRangeSelected && invalidDateRangeSelected &&
+                        <Tooltip
+                            content={invalidErrorMessage}
+                            className={'tooltip-error'}
+                            directionalHint={DirectionalHint.rightCenter}
+                            containerClass={'custom-date-range-error'}>
+                            <Icon iconName="icon-usklicnik" />
+                        </Tooltip>
+                    }
                     <Button className="button-textual" onClick={this._closeCustomDateRangeDialog}>Cancel</Button>
-                    <Button onClick={this._saveCustomDateRangeDialog} disabled={!this.state.validDateRangeSelected}>Save</Button>
+                    <Button onClick={this._saveCustomDateRangeDialog} disabled={!this.state.validDateRangeSelected || invalidDateRangeSelected}>Save</Button>
                 </DialogFooter>
             </Dialog>
         );

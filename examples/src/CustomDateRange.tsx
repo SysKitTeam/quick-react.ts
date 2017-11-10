@@ -40,7 +40,9 @@ export class Index extends React.Component<any, any> {
         this.state = { 
             isOpen: false,
             startDate: _getTodayFilterDate().startDate,
-            endDate: _getTodayFilterDate().endDate
+            endDate: _getTodayFilterDate().endDate,
+            invalidDateRangeSelected: false,
+            invalidErrorMessage: ''
         };
     }
 
@@ -54,7 +56,10 @@ export class Index extends React.Component<any, any> {
                     startDate={this.state.startDate}
                     endDate={this.state.endDate}
                     onSave={this.onSave}
-                    onClose={this.toggleDialog}>
+                    onClose={this.toggleDialog}
+                    onDateSelectionChanged={this.onDateSelectionChanged}
+                    invalidDateRangeSelected={this.state.invalidDateRangeSelected}
+                    invalidErrorMessage={this.state.invalidErrorMessage}>
                 </CustomDateRange>
             </div>
         );
@@ -62,7 +67,20 @@ export class Index extends React.Component<any, any> {
 
     @autobind
     private toggleDialog() {
-        this.setState({ isOpen: !this.state.isOpen });
+        this.setState({ 
+            isOpen: !this.state.isOpen,
+            invalidDateRangeSelected: false,
+            invalidErrorMessage: ''
+        });
+    }
+
+    @autobind
+    private onDateSelectionChanged(selectedStartDate: Date, selectedEndDate: Date) {
+        const invalidSelectedDate = moment(selectedStartDate) <= moment(selectedEndDate).subtract(3, 'day');
+        this.setState({
+            invalidDateRangeSelected: invalidSelectedDate,
+            invalidErrorMessage: invalidSelectedDate ? 'The time period between Start and End date must not be more than 3 days.' : ''
+        });
     }
 
     @autobind
