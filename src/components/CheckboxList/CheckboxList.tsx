@@ -10,7 +10,7 @@ import { CommonComponent } from '../Common/Common';
 import './CheckboxList.scss';
 
 export class CheckboxList extends CommonComponent<ICheckboxListProps, {}> {
-    public shouldComponentUpdate(nextProps, nextState) {
+    public shouldComponentUpdate(nextProps) {
         return !(this.props.items === nextProps.items
             && this.props.className === nextProps.className
             && this.props.title === nextProps.title

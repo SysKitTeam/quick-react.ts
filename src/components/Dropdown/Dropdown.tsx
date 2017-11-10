@@ -47,7 +47,6 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
 
     public componentWillReceiveProps(newProps: IDropdownProps) {
         this.setState({
-            ...this.state,
             selectedIndex: this._getSelectedIndex(newProps.options, newProps.selectedKey),
             isDisabled: newProps.disabled
         });
@@ -243,7 +242,6 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
     private _onItemClick(index) {
         this.setSelectedIndex(index);
         this.setState({
-            ...this.state,
             isOpen: false
         });
     }

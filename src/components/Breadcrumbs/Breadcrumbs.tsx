@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as classNames from 'classnames';
 import { autobind } from '../../utilities/autobind';
 import { IBreadcrumbsProps, IBreadcrumbItem, ICurrentPathItem } from './Breadcrumbs.Props';
 import './Breadcrumbs.scss';
@@ -17,8 +18,13 @@ export class Breadcrumbs extends React.PureComponent<IBreadcrumbsProps, any> {
 
     public render() {
         const items = this.getDisplayItemsFromProps(this.props);
+        const className = classNames(
+            'breadcrumbs',
+            [this.props.className]
+        );
+
         return (
-            <div className={'breadcrumbs'}>
+            <div className={className}>
                 <ul className={'breadcrumbs-list'}>
                     {
                         items.map((item, index) => {

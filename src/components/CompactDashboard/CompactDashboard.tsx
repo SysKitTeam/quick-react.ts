@@ -56,7 +56,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
         }
     }
 
-    public componentWillReceiveProps(nextProps: ICompactDashboardProps, nextState) {
+    public componentWillReceiveProps(nextProps: ICompactDashboardProps) {
         const filteredFarms = filterFarms(nextProps.farms, nextProps.filter, nextProps.filteringOptions);
         this.setState({ ...this.state, groups: filteredFarms });
     }

@@ -6,7 +6,6 @@ import { autobind } from '../../utilities/autobind';
 import { DropdownType } from '../Dropdown/Dropdown.Props';
 import * as classNames from 'classnames';
 import { IBreadcrumbItemProps, IBreadcrumbChild } from './BreadcrumbItem.Props';
-import './BreadcrumbItem.scss';
 
 export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
     private _dropdown;
