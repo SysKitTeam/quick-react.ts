@@ -50,6 +50,12 @@
                     i:nth-child(2) {
                         display: none;
                     }
+
+                    &.is-open {
+                        .icon {
+                            color: $primary-color;
+                        }
+                    }
                 }
             }
         
@@ -86,6 +92,12 @@
                             color: $white-color;
 
                             &:hover {
+                                color: $primary-color;
+                            }
+                        }
+
+                        &.is-open {
+                            .icon {
                                 color: $primary-color;
                             }
                         }
