@@ -4,7 +4,7 @@ import { Dropdown } from '../Dropdown/Dropdown';
 import { Button } from '../Button/Button';
 import * as classNames from 'classnames';
 import { DropdownType, IDropdownOption } from '../Dropdown/Dropdown.Props';
-import { ConditionDefinitionRowProps, LogicalOperatorTypeEnum, ConditionDefinitionRowState } from './ConditionDefinitionRow.Props';
+import { ConditionDefinitionRowProps, LogicalOperatorTypeEnum, ConditionDefinitionRowState, PropertyTypeEnum } from './ConditionDefinitionRow.Props';
 
 export class ConditionDefinitionRow extends React.PureComponent <ConditionDefinitionRowProps, any> {
     public static defaultProps = {
@@ -13,7 +13,8 @@ export class ConditionDefinitionRow extends React.PureComponent <ConditionDefini
         hasIndent: false,
         indentSize: 30,
         hasMultipleLogicalOperations: true,
-        selectedLogicalOperator: LogicalOperatorTypeEnum.And
+        selectedLogicalOperator: LogicalOperatorTypeEnum.And,
+        propertyType: PropertyTypeEnum.None
     };
 
     getLogicalOperationsList = () => {
@@ -101,7 +102,7 @@ export class ConditionDefinitionRow extends React.PureComponent <ConditionDefini
                                 />
                             }
                             <div>
-                                with <b>{this.props.propertyName}</b>
+                                <b>{this.props.propertyName}</b>
                             </div>
                             <Dropdown 
                                 showArrowIcon={false}

@@ -5,9 +5,19 @@ export enum LogicalOperatorTypeEnum {
     Or
 }
 
+export enum PropertyTypeEnum {
+    String = 0,
+    Number,
+    Enum,
+    Boolean,
+    DateTime,
+    None   
+}
+
 export class ConditionDefinitionRowProps {    
     id: number;
     propertyName: string;
+    propertyType?: PropertyTypeEnum;
     isHardcodedValue: boolean;
     classname?: string;
     selectedLogicalOperator?: LogicalOperatorTypeEnum; // default and
@@ -18,6 +28,7 @@ export class ConditionDefinitionRowProps {
     hasIndent?: boolean; // default false 
     indentSize?: number; // default 30
     conditionStateChanged?: (conditionState: ConditionDefinitionRowState) => void;
+    additionalData?: any;
 }
 
 export class ConditionDefinitionRowState {

@@ -7,7 +7,7 @@ import * as ReactDOM from 'react-dom';
 
 import { Dropdown } from './../../src/components/Dropdown/Dropdown';
 import { ConditionDefinitionRow } from './../../src/components/ConditionSelector/ConditionDefinitionRow';
-import { LogicalOperatorTypeEnum } from './../../src/components/ConditionSelector/ConditionDefinitionRow.Props';
+import { LogicalOperatorTypeEnum, PropertyTypeEnum } from './../../src/components/ConditionSelector/ConditionDefinitionRow.Props';
 import { ConditionSelector } from './../../src/components/ConditionSelector/ConditionSelector';
 import { DropdownType } from './../../src/components/Dropdown/Dropdown.Props';
 
@@ -26,20 +26,54 @@ export class Index extends React.Component<any, any> {
             isHardcodedValue: true,
             propertyName: 'Script returns any data',
             hasMultipleLogicalOperations: false,
-            allowConditionDeletion: false
+            allowConditionDeletion: false,
+            propertyType: PropertyTypeEnum.None
         }, {
             id: 2,
             isHardcodedValue: false,
-            propertyName: 'Name',
+            propertyName: 'Network ID',
             hasMultipleLogicalOperations: false,
-            conditionSelectionTypes:  [{ key: 'And', text: 'Equals' }, { key: 'Or', text: 'Less than', selected: true }]
+            conditionSelectionTypes:  [{ key: 'And', text: 'Equals' }, { key: 'Or', text: 'Less than', selected: true }],
+            propertyType: PropertyTypeEnum.Number
+        }, {
+            id: 25,
+            isHardcodedValue: false,
+            propertyName: 'Network ID',
+            hasMultipleLogicalOperations: false,
+            conditionSelectionTypes:  [{ key: 'And', text: 'Equals' }, { key: 'Or', text: 'More than ', selected: true }],
+            selectedLogicalOperator: LogicalOperatorTypeEnum.Or,
+            propertyType: PropertyTypeEnum.Number,
+            hasIndent: true
         }, {
             id: 3,
             isHardcodedValue: false,
             propertyName: 'Name',
-            conditionSelectionTypes: [{ key: 'Is', text: 'Is'}, { key: 'Or', text: 'Is not'}, { key: 'Ise', text: 'I don\'t care', selected: true }],
-            hasIndent: true,
-            selectedLogicalOperator: LogicalOperatorTypeEnum.Or
+            conditionSelectionTypes: [{ key: 'Is', text: 'Is'}, { key: 'Or', text: 'Starts with', selected: true }, { key: 'Ise', text: 'I don\'t care'}],
+            hasIndent: false,
+            selectedLogicalOperator: LogicalOperatorTypeEnum.Or,
+            propertyType: PropertyTypeEnum.String
+        }, {
+            id: 4,
+            isHardcodedValue: false,
+            propertyName: 'Running',
+            conditionSelectionTypes: [{ key: 'Is', text: 'Is'}, { key: 'Or', text: 'Is not', selected: true}],
+            selectedLogicalOperator: LogicalOperatorTypeEnum.And,
+            propertyType: PropertyTypeEnum.Boolean
+        }, {
+            id: 5,
+            isHardcodedValue: false,
+            propertyName: 'Status',
+            conditionSelectionTypes: [{ key: 'Is', text: 'Is', selected: true}, { key: 'Or', text: 'Is not'}],
+            additionalData: [{ key: 'Is', text: 'Running', selected: true}, { key: 'Or', text: 'Stopped'}, { key: 'O1r', text: 'Restarting'}, { key: 'Or2', text: 'Restart pending'}],
+            selectedLogicalOperator: LogicalOperatorTypeEnum.And,
+            propertyType: PropertyTypeEnum.Enum
+        }, {
+            id: 6,
+            isHardcodedValue: false,
+            propertyName: 'Restarted on',
+            conditionSelectionTypes: [{ key: 'Is', text: 'On', selected: true}, { key: 'O1r', text: 'Before'}, { key: 'O2r', text: 'After'}],
+            selectedLogicalOperator: LogicalOperatorTypeEnum.And,
+            propertyType: PropertyTypeEnum.DateTime
         }];
         return (
             <div>
