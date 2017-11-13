@@ -7,6 +7,8 @@ import * as ReactDOM from 'react-dom';
 
 import { Dropdown } from './../../src/components/Dropdown/Dropdown';
 import { ConditionDefinitionRow } from './../../src/components/ConditionSelector/ConditionDefinitionRow';
+import { LogicalOperatorTypeEnum } from './../../src/components/ConditionSelector/ConditionDefinitionRow.Props';
+import { ConditionSelector } from './../../src/components/ConditionSelector/ConditionSelector';
 import { DropdownType } from './../../src/components/Dropdown/Dropdown.Props';
 
 import { Label } from './../../src/components/Label/Label';
@@ -16,10 +18,38 @@ import { Button } from './../../src/components/Button/Button';
 import { TextField } from './../../src/components/TextField/TextField';
 
 export class Index extends React.Component<any, any> {
+    
     public render() {
-        
+        const treeviewElements = [{id: '1', text: 'Script returns any data'}, {id: '2', text: 'Script does not return data'}, {id: '3', text: 'Exception occurs while executing the script'}];
+        const conditionElements = [{
+            id: 3,
+            isHardcodedValue: true,
+            propertyName: 'Script returns any data',
+            hasMultipleLogicalOperations: false,
+            allowConditionDeletion: false
+        }, {
+            id: 2,
+            isHardcodedValue: false,
+            propertyName: 'Name',
+            hasMultipleLogicalOperations: false,
+            conditionSelectionTypes:  [{ key: 'And', text: 'Equals' }, { key: 'Or', text: 'Less than', selected: true }]
+        }, {
+            id: 3,
+            isHardcodedValue: false,
+            propertyName: 'Name',
+            conditionSelectionTypes: [{ key: 'Is', text: 'Is'}, { key: 'Or', text: 'Is not'}, { key: 'Ise', text: 'I don\'t care', selected: true }],
+            hasIndent: true,
+            selectedLogicalOperator: LogicalOperatorTypeEnum.Or
+        }];
         return (
             <div>
+
+                    <ConditionSelector 
+                        specialConditionsList = {treeviewElements}
+                        standardConditionsList = {treeviewElements}
+                        selectedConditions= {conditionElements}
+                    />
+
                     <ConditionDefinitionRow 
                         id={3}
                         isHardcodedValue={true}
