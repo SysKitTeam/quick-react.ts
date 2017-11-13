@@ -67,7 +67,6 @@ $leftNavigation-collapsed-width: 45px;
     &.collapsed {
         width: $leftNavigation-collapsed-width;
         transition-duration: $leftNavigation-transition-duration;
-        left: -250px;
 
         .nav-item a span {
             display: none;
