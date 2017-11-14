@@ -69,11 +69,17 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
     setDropDownLabelRef = (ref) => { this._dropdownLabel = ref; };
 
     public render() {
-        let { label, options, hasTitleBorder, icon, dropdownType, className, calloutClassName, layerClassName } = this.props;
+        let { label, options, hasTitleBorder, icon, dropdownType, className, calloutClassName, layerClassName, showArrowIcon } = this.props;
         let { id, isOpen, selectedIndex, isDisabled } = this.state;
         let selectedOption = options[selectedIndex];
-        const dropdownTitleClassName = hasTitleBorder ? 'dropdown-title-border' : 'dropdown-title';
         const dropdownIconClassName = hasTitleBorder ? 'iconArrowWithBorder' : 'iconArrow';
+
+        const dropdownTitleClassName = classNames({
+            'dropdown-title-border': hasTitleBorder,
+            'dropdown-title': !hasTitleBorder,
+            'arrow': showArrowIcon
+        });
+
         const arrowIcon = isOpen ? 'icon-Arrow_up' : 'icon-arrow_down';
         const dropdownContainerStyle = {
             width: this.props.dropdownWidth ? this.props.dropdownWidth : this.getMaxItemWidth()
@@ -82,7 +88,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
         const dropdownClass = dropdownType === DropdownType.customDropdown && !hasTitleBorder ? 'dropdown custom-dropdown-borderless' : 'dropdown';
 
         return (
-            <div ref="root">
+            <div ref="root" className="dropdown-root">
                 {label && (
                     <label id={id + '-label'} className="label" ref={this.setDropDownLabelRef} >{label}</label>
                 )}

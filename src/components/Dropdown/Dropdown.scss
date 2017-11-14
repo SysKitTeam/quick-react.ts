@@ -7,15 +7,18 @@
     max-width: 250px;
 
 
-    &.custom-dropdown > .dropdown-title {
+    &.custom-dropdown-borderless > .dropdown-title {
         display: block;
         width: 100%;
         box-sizing: border-box;
         position: relative;
-        padding-right: 20px;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
+
+        &.arrow {
+            padding-right: 20px;
+        }
 
         .iconArrow {
             position: absolute;

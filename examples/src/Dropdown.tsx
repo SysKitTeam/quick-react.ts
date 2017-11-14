@@ -112,6 +112,24 @@ export class Index extends React.Component<any, any> {
                     </li>
                 </Dropdown>
 
+                <Dropdown
+                    label="Custom Dropdown:"
+                    className={'custom-dropdown'}
+                    dropdownType={DropdownType.customDropdown}
+                    hasTitleBorder={false}
+                    showArrowIcon={true}
+                    onCustomSelectionText={() => 'Acceleratio.SPDocKit.EventCollection.Service'}
+                >
+                    <li style={{ display: 'inline-block', padding: '5px', width: '100px' }}>
+                        <Icon style={{ paddingTop: '5px' }} iconName={'icon-account'}></Icon>
+                        <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
+                    </li>
+                    <li style={{ display: 'inline-block', padding: '5px', width: '100px' }}>
+                        <Icon style={{ paddingTop: '5px' }} iconName={'icon-account'}></Icon>
+                        <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
+                    </li>
+                </Dropdown>
+
                 <div>
                     <Label>Button + Arrow Dropdown:</Label>
                     <div style={{ display: 'inline-flex' }}>

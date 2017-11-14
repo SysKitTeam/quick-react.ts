@@ -2,7 +2,7 @@
 
 .breadcrumbs {
     .breadcrumbs-list {
-        display: inline-block;
+        display: flex;
         white-space: nowrap;
         padding: 0;
         margin: 0;
@@ -37,24 +37,18 @@
                 }
             }
         
-            div:last-child {
+            .dropdown-root {
                 display: inline-block;
         
                 .breadcrumbs-dropdown {
                     margin: 0;
         
-                    .dropdown-title > i {
+                    .dropdown-title > .icon {
                         font-size: 10px;
                     }
-        
-                    i:nth-child(2) {
-                        display: none;
-                    }
 
-                    &.is-open {
-                        .icon {
-                            color: $primary-color;
-                        }
+                    &.is-open > .icon {
+                        color: $primary-color;
                     }
                 }
             }
@@ -73,39 +67,29 @@
         }
     }
 
-    &.breadcrumbs-white {
-        .breadcrumbs-list-item {
-            .breadcrumbs-item {
-                .breadcrumbs-item-title {
-                    .breadcrumbs-item-label, .breadcrumbs-item-icon {
-                        color: $white-color;
+    &.breadcrumbs-white > .breadcrumbs-list > .breadcrumbs-list-item > .breadcrumbs-item {
+        .breadcrumbs-item-title > .breadcrumbs-item-label, .breadcrumbs-item-icon {
+            color: $white-color;
 
-                        &:hover {
-                            color: $primary-color;
-                        }
-                    }
-                }
-
-                div:last-child {
-                    .breadcrumbs-dropdown {       
-                        .dropdown-title > i {
-                            color: $white-color;
-
-                            &:hover {
-                                color: $primary-color;
-                            }
-                        }
-
-                        &.is-open {
-                            .icon {
-                                color: $primary-color;
-                            }
-                        }
-                    }
-                }
+            &:hover {
+                color: $primary-color;
             }
         }
-    }
+
+        .dropdown-root > .breadcrumbs-dropdown {      
+            .dropdown-title > .icon {
+                color: $white-color;
+
+                &:hover {
+                    color: $primary-color;
+                }
+            }
+
+            &.is-open > .icon {
+                color: $primary-color;
+            }
+        }
+    }        
 }
 
 .breadcrumbs-dropdown-callout {
