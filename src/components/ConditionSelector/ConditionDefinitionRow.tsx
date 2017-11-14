@@ -3,10 +3,13 @@ import './ConditionDefinitionRow.scss';
 import { Dropdown } from '../Dropdown/Dropdown';
 import { Button } from '../Button/Button';
 import * as classNames from 'classnames';
+import { TextField } from '../TextField/TextField';
+import { Treeview } from '../Treeview/Treeview';
+import { DateTimeDropdownPicker } from '../DateTimeDropdownPicker/DateTimeDropdownPicker';
 import { DropdownType, IDropdownOption } from '../Dropdown/Dropdown.Props';
-import { ConditionDefinitionRowProps, LogicalOperatorTypeEnum, ConditionDefinitionRowState, PropertyTypeEnum } from './ConditionDefinitionRow.Props';
+import { LogicalOperatorTypeEnum, ConditionDefinitionRowState, PropertyTypeEnum, ExpressionDefinitionTree, ConditionDefinition } from './ConditionDefinitionRow.Props';
 
-export class ConditionDefinitionRow extends React.PureComponent <ConditionDefinitionRowProps, any> {
+export class Condition extends React.PureComponent <ConditionDefinition, any> {
     public static defaultProps = {
         showStartLogialOperator: true,
         allowConditionDeletion: true,
@@ -17,18 +20,10 @@ export class ConditionDefinitionRow extends React.PureComponent <ConditionDefini
         propertyType: PropertyTypeEnum.None
     };
 
-    getLogicalOperationsList = () => {
-        const getLogicalOpertionItem = (value: LogicalOperatorTypeEnum, displayText: string) => {
-            return {key: value, text: displayText, selected: value === this.props.selectedLogicalOperator};
-        };
-        return [getLogicalOpertionItem(LogicalOperatorTypeEnum.And, 'And'), getLogicalOpertionItem(LogicalOperatorTypeEnum.Or, 'Or')];        
-    }
-
     logicalOperatorChanged = (option: IDropdownOption, index?: number) => {        
         const state: ConditionDefinitionRowState = {
             id: this.props.id,
             propertyName: this.props.propertyName,
-            selectedLogicalOperator: option,
             conditionSelectionType: this.getSelectedConditionElement(this.props.conditionSelectionTypes),
             addConditionClicked: false,
             removeConditionClicked: false
@@ -42,7 +37,6 @@ export class ConditionDefinitionRow extends React.PureComponent <ConditionDefini
         const state: ConditionDefinitionRowState  = {
             id: this.props.id,
             propertyName: this.props.propertyName,
-            selectedLogicalOperator: this.getSelectedConditionElement(this.getLogicalOperationsList()),
             conditionSelectionType: option,
             addConditionClicked: false,
             removeConditionClicked: false
@@ -65,7 +59,6 @@ export class ConditionDefinitionRow extends React.PureComponent <ConditionDefini
             const state: ConditionDefinitionRowState  = {
                 id: this.props.id,
                 propertyName: this.props.propertyName,
-                selectedLogicalOperator: this.getSelectedConditionElement(this.getLogicalOperationsList()),
                 conditionSelectionType: this.getSelectedConditionElement(this.props.conditionSelectionTypes),
                 addConditionClicked: isAdd,
                 removeConditionClicked: !isAdd
@@ -77,10 +70,9 @@ export class ConditionDefinitionRow extends React.PureComponent <ConditionDefini
     }
 
     render () {
-        const logicalOperators = this.getLogicalOperationsList();
         const indentStyle = {width: this.props.indentSize + 'px'};
         return (
-            <div className={classNames('command-definition-row-container', this.props.classname)}>                    
+            <div draggable={true} className={classNames('command-definition-row-container', this.props.classname)}>                    
                 <div className="left-content">
                     {this.props.hasIndent &&
                         <div style={indentStyle}/>
@@ -91,16 +83,7 @@ export class ConditionDefinitionRow extends React.PureComponent <ConditionDefini
                         </div>     
                     }    
                     {!this.props.isHardcodedValue &&
-                        <div className="condtion-content">
-                            {this.props.showStartLogialOperator &&
-                                <Dropdown 
-                                    showArrowIcon={false}
-                                    dropdownType={DropdownType.selectionDropdown}
-                                    options={this.getLogicalOperationsList()}
-                                    hasTitleBorder={true}
-                                    onChanged={this.logicalOperatorChanged}
-                                />
-                            }
+                        <div className="condtion-content">                           
                             <div>
                                 <b>{this.props.propertyName}</b>
                             </div>
@@ -137,3 +120,88 @@ export class ConditionDefinitionRow extends React.PureComponent <ConditionDefini
         );
     }
 }
+
+export class ConditionGroup extends React.PureComponent <ExpressionDefinitionTree, any> {
+    
+    getLogicalOperationsList = () => {
+        const getLogicalOpertionItem = (value: LogicalOperatorTypeEnum, displayText: string) => {
+            return {key: value, text: displayText, selected: value === this.props.logicalOperator};
+        };
+        return [getLogicalOpertionItem(LogicalOperatorTypeEnum.And, 'And'), getLogicalOpertionItem(LogicalOperatorTypeEnum.Or, 'Or')];        
+    }
+
+    
+    private renderItemEditor = (propertyType: PropertyTypeEnum,  additionalData: any) => {
+        switch (propertyType) {
+            case PropertyTypeEnum.String: {
+                return (
+                    <TextField required={true} placeholder="Enter text value" />
+                );                
+            }
+            case PropertyTypeEnum.Number: {
+                return (
+                    <TextField required={true} placeholder="Enter number value"  value={'0'} type={'number'} />
+                );          
+            }
+            case PropertyTypeEnum.Boolean: {
+                const booleanChoices = [{key: 1, text: 'True', selected: Boolean(additionalData)}, {key: 0, text: 'False', selected: !additionalData}];
+                return (
+                    <Dropdown 
+                        showArrowIcon={false}
+                        dropdownType={DropdownType.selectionDropdown}
+                        options={booleanChoices}
+                        hasTitleBorder={true}/>
+                );
+            }
+            case PropertyTypeEnum.Enum: {
+                return (
+                    <Dropdown 
+                        showArrowIcon={false}
+                        dropdownType={DropdownType.selectionDropdown}
+                        options={additionalData}
+                        hasTitleBorder={true}/>
+                );
+            }
+            case PropertyTypeEnum.DateTime: {
+                return (
+                    <DateTimeDropdownPicker
+                        selectedDate={new Date()}  
+                        includeTime={true}             
+                    />
+                );
+            }
+        }
+    }
+
+    render () {        
+        let {logicalOperator, subExpressions, conditionDefinition} = this.props;
+        return (
+            <div className="condition-definition-item">
+                {logicalOperator !== LogicalOperatorTypeEnum.None && 
+                    <div className="condition-operator">
+                        {logicalOperator !== LogicalOperatorTypeEnum.Null &&
+                            <Dropdown 
+                                showArrowIcon={false}
+                                dropdownType={DropdownType.selectionDropdown}
+                                options={this.getLogicalOperationsList()}
+                                hasTitleBorder={true}
+                            />
+                        }
+                    </div>}
+                    { Boolean(subExpressions) && subExpressions.length > 0 &&                     
+                        <div className="conditions-group-container">
+                            {subExpressions.map((expression, index) => (
+                                <ConditionGroup key={index} {...expression} />
+                            ))}
+                        </div>}
+                {conditionDefinition && 
+                    <div className="single-condition-container">
+                        <Condition {...conditionDefinition}> {this.renderItemEditor(conditionDefinition.propertyType, conditionDefinition.additionalData)} </Condition>
+                    </div>  
+                }                 
+            </div>
+        );
+    }
+}
+
+

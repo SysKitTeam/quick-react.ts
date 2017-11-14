@@ -6,8 +6,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { Dropdown } from './../../src/components/Dropdown/Dropdown';
-import { ConditionDefinitionRow } from './../../src/components/ConditionSelector/ConditionDefinitionRow';
-import { LogicalOperatorTypeEnum, PropertyTypeEnum } from './../../src/components/ConditionSelector/ConditionDefinitionRow.Props';
+import { LogicalOperatorTypeEnum, PropertyTypeEnum, ExpressionDefinitionTree, ConditionDefinition } from './../../src/components/ConditionSelector/ConditionDefinitionRow.Props';
 import { ConditionSelector } from './../../src/components/ConditionSelector/ConditionSelector';
 import { DropdownType } from './../../src/components/Dropdown/Dropdown.Props';
 
@@ -21,6 +20,7 @@ export class Index extends React.Component<any, any> {
     
     public render() {
         const treeviewElements = [{id: '1', text: 'Script returns any data'}, {id: '2', text: 'Script does not return data'}, {id: '3', text: 'Exception occurs while executing the script'}];
+        const treeviewElements2 = [{id: '1', text: 'With specific Name'}, {id: '2', text: 'With specific Status'}, {id: '3', text: 'With specific Restarted On'}, {id: '4', text: 'Mirko'}];
         const conditionElements = [{
             id: 3,
             isHardcodedValue: true,
@@ -41,7 +41,6 @@ export class Index extends React.Component<any, any> {
             propertyName: 'Network ID',
             hasMultipleLogicalOperations: false,
             conditionSelectionTypes:  [{ key: 'And', text: 'Equals' }, { key: 'Or', text: 'More than ', selected: true }],
-            selectedLogicalOperator: LogicalOperatorTypeEnum.Or,
             propertyType: PropertyTypeEnum.Number,
             hasIndent: true
         }, {
@@ -50,14 +49,12 @@ export class Index extends React.Component<any, any> {
             propertyName: 'Name',
             conditionSelectionTypes: [{ key: 'Is', text: 'Is'}, { key: 'Or', text: 'Starts with', selected: true }, { key: 'Ise', text: 'I don\'t care'}],
             hasIndent: false,
-            selectedLogicalOperator: LogicalOperatorTypeEnum.Or,
             propertyType: PropertyTypeEnum.String
         }, {
             id: 4,
             isHardcodedValue: false,
             propertyName: 'Running',
             conditionSelectionTypes: [{ key: 'Is', text: 'Is'}, { key: 'Or', text: 'Is not', selected: true}],
-            selectedLogicalOperator: LogicalOperatorTypeEnum.And,
             propertyType: PropertyTypeEnum.Boolean
         }, {
             id: 5,
@@ -65,67 +62,119 @@ export class Index extends React.Component<any, any> {
             propertyName: 'Status',
             conditionSelectionTypes: [{ key: 'Is', text: 'Is', selected: true}, { key: 'Or', text: 'Is not'}],
             additionalData: [{ key: 'Is', text: 'Running', selected: true}, { key: 'Or', text: 'Stopped'}, { key: 'O1r', text: 'Restarting'}, { key: 'Or2', text: 'Restart pending'}],
-            selectedLogicalOperator: LogicalOperatorTypeEnum.And,
             propertyType: PropertyTypeEnum.Enum
         }, {
             id: 6,
             isHardcodedValue: false,
             propertyName: 'Restarted on',
             conditionSelectionTypes: [{ key: 'Is', text: 'On', selected: true}, { key: 'O1r', text: 'Before'}, { key: 'O2r', text: 'After'}],
-            selectedLogicalOperator: LogicalOperatorTypeEnum.And,
             propertyType: PropertyTypeEnum.DateTime
         }];
+        let conditionElements2: ExpressionDefinitionTree = {logicalOperator: LogicalOperatorTypeEnum.None, 
+                                                            subExpressions: [{ logicalOperator: LogicalOperatorTypeEnum.None,
+                                                                                conditionDefinition: {
+                                                                                    id: 1,
+                                                                                    isHardcodedValue: true,
+                                                                                    propertyName: 'Script returns any data',
+                                                                                    hasMultipleLogicalOperations: false,
+                                                                                    allowConditionDeletion: false,
+                                                                                    propertyType: PropertyTypeEnum.None
+                                                                                 }}, 
+                                                                                {logicalOperator: LogicalOperatorTypeEnum.And,
+                                                                                conditionDefinition: {
+                                                                                    id: 2,
+                                                                                    isHardcodedValue: false,
+                                                                                    propertyName: 'Network ID',
+                                                                                    hasMultipleLogicalOperations: false,
+                                                                                    conditionSelectionTypes:  [{ key: 'And', text: 'Equals' }, { key: 'Or', text: 'Less than', selected: true }],
+                                                                                    propertyType: PropertyTypeEnum.Number
+                                                                                }},
+                                                                            {logicalOperator: LogicalOperatorTypeEnum.Or,
+                                                                                subExpressions: 
+                                                                                    [
+                                                                                        {logicalOperator: LogicalOperatorTypeEnum.None,
+                                                                                            conditionDefinition: {
+                                                                                                id: 3,
+                                                                                                isHardcodedValue: false,
+                                                                                                propertyName: 'Name',
+                                                                                                conditionSelectionTypes: [{ key: 'Is', text: 'Is'}, { key: 'Or', text: 'Starts with', selected: true }, { key: 'Ise', text: 'I don\'t care'}],                                                                                                
+                                                                                                propertyType: PropertyTypeEnum.String
+                                                                                            }
+                                                                                        },
+                                                                                        {logicalOperator: LogicalOperatorTypeEnum.And,
+                                                                                            conditionDefinition: {
+                                                                                                id: 4,
+                                                                                                isHardcodedValue: false,
+                                                                                                propertyName: 'Running',
+                                                                                                conditionSelectionTypes: [{ key: 'Is', text: 'Is'}, { key: 'Or', text: 'Is not', selected: true}],
+                                                                                                propertyType: PropertyTypeEnum.Boolean
+                                                                                            }
+                                                                                        }
+                                                                                    ]
+                                                                            },
+                                                                            {logicalOperator: LogicalOperatorTypeEnum.And,
+                                                                                conditionDefinition: {
+                                                                                    id: 5,
+                                                                                    isHardcodedValue: false,
+                                                                                    propertyName: 'Status',
+                                                                                    conditionSelectionTypes: [{ key: 'Is', text: 'Is', selected: true}, { key: 'Or', text: 'Is not'}],
+                                                                                    additionalData: [{ key: 'Is', text: 'Running', selected: true}, { key: 'Or', text: 'Stopped'}, { key: 'O1r', text: 'Restarting'}, { key: 'Or2', text: 'Restart pending'}],
+                                                                                    propertyType: PropertyTypeEnum.Enum
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                logicalOperator: LogicalOperatorTypeEnum.And,
+                                                                                subExpressions: [
+                                                                                    {
+                                                                                        logicalOperator: LogicalOperatorTypeEnum.Null,
+                                                                                        subExpressions: [
+                                                                                            {
+                                                                                                logicalOperator: LogicalOperatorTypeEnum.None,
+                                                                                                conditionDefinition: {
+                                                                                                    id: 6,
+                                                                                                    isHardcodedValue: false,
+                                                                                                    propertyName: 'Restarted on',
+                                                                                                    conditionSelectionTypes: [{ key: 'Is', text: 'On', selected: true}, { key: 'O1r', text: 'Before'}, { key: 'O2r', text: 'After'}],
+                                                                                                    propertyType: PropertyTypeEnum.DateTime
+                                                                                                }
+                                                                                            },
+                                                                                            {
+                                                                                                logicalOperator: LogicalOperatorTypeEnum.Or,
+                                                                                                conditionDefinition: {
+                                                                                                    id: 7,
+                                                                                                    isHardcodedValue: false,
+                                                                                                    propertyName: 'Display Name',
+                                                                                                    conditionSelectionTypes: [{ key: 'Is', text: 'Is'}, { key: 'Or', text: 'Starts with', selected: true }, { key: 'Ise', text: 'I don\'t care'}],                                                                                                
+                                                                                                    propertyType: PropertyTypeEnum.String
+                                                                                                }                                                                                            
+                                                                                            }
+                                                                                        ]
+                                                                                    },
+                                                                                    {
+                                                                                        logicalOperator: LogicalOperatorTypeEnum.And,
+                                                                                        conditionDefinition: {
+                                                                                            id: 2,
+                                                                                            isHardcodedValue: false,
+                                                                                            propertyName: 'Sex appeal',
+                                                                                            hasMultipleLogicalOperations: false,
+                                                                                            conditionSelectionTypes:  [{ key: 'And', text: 'Equals' }, { key: 'Or', text: 'Less than', selected: true }],
+                                                                                            propertyType: PropertyTypeEnum.Number
+                                                                                        }  
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                            ]};
         return (
             <div>
 
                     <ConditionSelector 
                         specialConditionsList = {treeviewElements}
-                        standardConditionsList = {treeviewElements}
-                        selectedConditions= {conditionElements}
+                        standardConditionsList = {treeviewElements2}
+                        selectedConditions= {conditionElements2}
                     />
 
-                    <ConditionDefinitionRow 
-                        id={3}
-                        isHardcodedValue={true}
-                        propertyName="Script returns any data"
-                        hasMultipleLogicalOperations={false}
-                        allowConditionDeletion={false} />
-                    <ConditionDefinitionRow 
-                        id={3}
-                        isHardcodedValue={false}
-                        propertyName="Name"
-                        hasMultipleLogicalOperations={false}
-                        conditionSelectionTypes = {[{ key: 'And', text: 'Equals' }, { key: 'Or', text: 'Less than', selected: true }]}
-                    >
-                        <Dropdown
-                            hasTitleBorder={true}
-                            dropdownType={DropdownType.selectionDropdown}
-                            onClick={(option, index) => console.log(option, index)}
-                            options={
-                                [
-                                    { key: 'A', text: 'Option a' },
-                                    { key: 'B', text: 'Option b' },
-                                    { key: 'C', text: 'Option c' },
-                                    { key: 'D', text: 'Option d', selected: true},
-                                    { key: 'E', text: 'Option e' },
-                                    { key: 'F', text: 'Option f' },
-                                    { key: 'G', text: 'Option g' },
-                                    { key: 'H', text: 'Option h' },
-                                    { key: 'I', text: 'Option i' },
-                                    { key: 'J', text: 'Option j' }
-                                ]
-                            }
-                        />
-                    </ConditionDefinitionRow>
-                    <ConditionDefinitionRow
-                        id={3}
-                        isHardcodedValue={false}
-                        propertyName="Name"
-                        conditionSelectionTypes = {[{ key: 'Is', text: 'Is'}, { key: 'Or', text: 'Is not'}, { key: 'Ise', text: 'I don\'t care', selected: true }]}
-                        hasIndent={true}
-                    >
-                    <TextField required={true} placeholder="Now I am a Placeholder" /> <br />
-                    </ConditionDefinitionRow>
+
+
 
                 <Dropdown
                     hasTitleBorder={true}

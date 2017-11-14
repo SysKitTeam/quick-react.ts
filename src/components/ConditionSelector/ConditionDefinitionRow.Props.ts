@@ -1,8 +1,10 @@
 import { IDropdownOption } from '../Dropdown/Dropdown.Props';
 
 export enum LogicalOperatorTypeEnum {
+    Null = -1,
     And = 0,
-    Or
+    Or,
+    None = 1000
 }
 
 export enum PropertyTypeEnum {
@@ -14,13 +16,18 @@ export enum PropertyTypeEnum {
     None   
 }
 
-export class ConditionDefinitionRowProps {    
+export class ExpressionDefinitionTree {
+    logicalOperator: LogicalOperatorTypeEnum;
+    conditionDefinition?: ConditionDefinition;
+    subExpressions?: ExpressionDefinitionTree[];
+}
+
+export class ConditionDefinition {    
     id: number;
     propertyName: string;
     propertyType?: PropertyTypeEnum;
     isHardcodedValue: boolean;
     classname?: string;
-    selectedLogicalOperator?: LogicalOperatorTypeEnum; // default and
     conditionSelectionTypes?: IDropdownOption[];
     showStartLogialOperator?: boolean; // default true
     hasMultipleLogicalOperations?: boolean; // default true
@@ -34,7 +41,6 @@ export class ConditionDefinitionRowProps {
 export class ConditionDefinitionRowState {
     id: number;
     propertyName: string;
-    selectedLogicalOperator: IDropdownOption;
     conditionSelectionType: IDropdownOption;
     addConditionClicked: boolean;
     removeConditionClicked: boolean;
