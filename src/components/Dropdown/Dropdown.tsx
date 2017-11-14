@@ -72,12 +72,15 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
         let { label, options, hasTitleBorder, icon, dropdownType, className, calloutClassName, layerClassName } = this.props;
         let { id, isOpen, selectedIndex, isDisabled } = this.state;
         let selectedOption = options[selectedIndex];
-        const dropdownTitleClassName = this.props.hasTitleBorder ? 'dropdown-title-border' : 'dropdown-title';
-        const dropdownIconClassName = this.props.hasTitleBorder ? 'iconArrowWithBorder' : 'iconArrow';
+        const dropdownTitleClassName = hasTitleBorder ? 'dropdown-title-border' : 'dropdown-title';
+        const dropdownIconClassName = hasTitleBorder ? 'iconArrowWithBorder' : 'iconArrow';
         const arrowIcon = isOpen ? 'icon-Arrow_up' : 'icon-arrow_down';
         const dropdownContainerStyle = {
             width: this.props.dropdownWidth ? this.props.dropdownWidth : this.getMaxItemWidth()
         };
+
+        const dropdownClass = dropdownType === DropdownType.customDropdown && !hasTitleBorder ? 'dropdown custom-dropdown-borderless' : 'dropdown';
+
         return (
             <div ref="root">
                 {label && (
@@ -87,7 +90,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
                     data-is-focusable={true}
                     ref={this.setDropDownRef}
                     id={id}
-                    className={classNames('dropdown', className, {
+                    className={classNames(dropdownClass, className, {
                         'is-open': isOpen, 'is-disabled': isDisabled
                     })}
                     tabIndex={isDisabled ? -1 : 0}
