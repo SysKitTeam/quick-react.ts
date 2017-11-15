@@ -6,8 +6,7 @@
     outline: none;
     max-width: 250px;
 
-
-    &.custom-dropdown-borderless > .dropdown-title {
+    .dropdown-title {
         display: block;
         width: 100%;
         box-sizing: border-box;
@@ -16,14 +15,21 @@
         overflow: hidden;
         white-space: nowrap;
 
-        &.arrow {
-            padding-right: 20px;
-        }
+        // .icon {
+        //     position: relative;
+        //     top: 4px;
+        // }
 
-        .iconArrow {
-            position: absolute;
-            right: 0;
-            top: 5px;
+        &.arrow {
+            &.text {
+                padding-right: 20px;
+            }
+
+            .iconArrow {
+                position: absolute;
+                right: 0;
+                top: 5px;
+            }
         }
     }
 
@@ -113,6 +119,7 @@
 
         .dropdown-title {
             background-color: $primary-color;
+            display: initial;
 
             .icon {
                 font-size: 16px;

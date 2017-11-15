@@ -54,14 +54,28 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
 
     getSelectionText = (dropdownType, selectedOption) => {
         if (!this.props.displaySelection) {
-            return '';
+            return {
+                hasText: false,
+                text: ''
+            };
         }
         if (this.props.onCustomSelectionText) {
-            return this.props.onCustomSelectionText();
+            const text = this.props.onCustomSelectionText();
+            return {
+                hasText: text !== '',
+                text
+            };
         } else if (dropdownType === DropdownType.selectionDropdown && selectedOption) {
-            return (<span title={selectedOption.text}>{selectedOption.text}</span>);
+            const element = <span title={selectedOption.text}>{selectedOption.text}</span>;
+            return {
+                hasText: selectedOption.text !== '',
+                text: element
+            };
         } else {
-            return '';
+            return {
+                hasText: false,
+                text: ''
+            };
         }
     }
 
@@ -74,18 +88,19 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
         let selectedOption = options[selectedIndex];
         const dropdownIconClassName = hasTitleBorder ? 'iconArrowWithBorder' : 'iconArrow';
 
+        const selectionTextObj = this.getSelectionText(dropdownType, selectedOption);
+
         const dropdownTitleClassName = classNames({
             'dropdown-title-border': hasTitleBorder,
             'dropdown-title': !hasTitleBorder,
-            'arrow': showArrowIcon
+            'arrow': showArrowIcon,
+            'text': selectionTextObj.hasText
         });
 
         const arrowIcon = isOpen ? 'icon-Arrow_up' : 'icon-arrow_down';
         const dropdownContainerStyle = {
             width: this.props.dropdownWidth ? this.props.dropdownWidth : this.getMaxItemWidth()
         };
-
-        const dropdownClass = dropdownType === DropdownType.customDropdown && !hasTitleBorder ? 'dropdown custom-dropdown-borderless' : 'dropdown';
 
         return (
             <div ref="root" className="dropdown-root">
@@ -96,7 +111,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
                     data-is-focusable={true}
                     ref={this.setDropDownRef}
                     id={id}
-                    className={classNames(dropdownClass, className, {
+                    className={classNames('dropdown', className, {
                         'is-open': isOpen, 'is-disabled': isDisabled
                     })}
                     tabIndex={isDisabled ? -1 : 0}
@@ -109,7 +124,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
                         {icon && (
                             <Icon iconName={icon}></Icon>
                         )}
-                        {this.getSelectionText(dropdownType, selectedOption)}
+                        {selectionTextObj.text}
                         {this.props.displaySelection && this.props.showArrowIcon &&
                             <Icon className={dropdownIconClassName} iconName={arrowIcon}></Icon>
                         }
