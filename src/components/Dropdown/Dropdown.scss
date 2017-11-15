@@ -6,7 +6,6 @@
     outline: none;
     max-width: 250px;
 
-
     &.custom-dropdown-borderless > .dropdown-title {
         display: block;
         width: 100%;
@@ -117,7 +116,7 @@
             .icon {
                 font-size: 16px;
                 color: $white-color;
-                padding: 7px;
+                padding: 8px 7px;
                 margin-right: 0;
                 line-height: 16px;
             }
