@@ -32,7 +32,8 @@ export class MessageBox extends React.Component<IMessageBoxProps, {}> {
             isLoading,
             hasCloseXButton,
             isOpen,
-            errorMessage
+            errorMessage,
+            acceptButtonDisabled
         } = this.props;
 
         const mappedButtons = buttons && buttons.map((button, index) => {
@@ -97,7 +98,7 @@ export class MessageBox extends React.Component<IMessageBoxProps, {}> {
                 <DialogFooter>
                     {onClose && <Button className="button-textual" onClick={onClose}>{closeText}</Button>}
                     {buttons && mappedButtons}
-                    {onAccept && <Button className="button-primary" onClick={onAccept}>{acceptText}</Button>}
+                    {onAccept && <Button className="button-primary" disabled={acceptButtonDisabled} onClick={onAccept}>{acceptText}</Button>}
                 </DialogFooter>
             </Dialog>
         );

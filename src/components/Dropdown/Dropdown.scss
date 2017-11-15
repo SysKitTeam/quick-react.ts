@@ -15,11 +15,6 @@
         overflow: hidden;
         white-space: nowrap;
 
-        // .icon {
-        //     position: relative;
-        //     top: 4px;
-        // }
-
         &.arrow {
             &.text {
                 padding-right: 20px;
@@ -124,7 +119,7 @@
             .icon {
                 font-size: 16px;
                 color: $white-color;
-                padding: 7px;
+                padding: 8px 7px;
                 margin-right: 0;
                 line-height: 16px;
             }
