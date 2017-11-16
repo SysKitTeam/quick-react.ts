@@ -1,0 +1,127 @@
+//@import '../QuickGrid/QuickGrid.scss';
+@import '../../index.scss';
+$black-color-4: #F4F4F4;
+$black-color-6: #EFEFEF;
+$filter-border: rgba(247, 148, 40, 1);
+$default-background: white;
+$legend-row-background: #FBD8DC;
+$legend-cell-background: #F5A1A4;
+$legend-cell-row-border: rgba(77, 77, 79, 0.2);
+$compare-row-missing-target-background: rgba(209, 227, 156, 1);
+$compare-row-missing-source-background: rgba(182, 227, 242, 1);
+$compare-row-different-background: rgba(251, 216, 220, 1);
+$compare-cell-different-background: rgba(245, 161, 164, 1);
+$icon-arrow-right-color:#B9C935;
+$icon-arrow-left-color:#25A7EF;
+$icon-different-color:#E44126;
+$icon-equal-color:rgba(77, 77, 79, 0.45);
+$icon-arrows-color: black;
+
+.compare-base-container {
+    height : inherit;
+    padding : 0px 20px 0px 20px;
+    .compare-resize-component {
+        .grid-component-container {
+            display: flex;
+            flex-direction: row;
+            margin: 0px;
+            width: 100%;
+          }
+        > .button {
+            float:right;
+            background-color:$default-background;
+            margin-bottom: 2px;
+            margin-left: 3px;
+            &.compare-button-active {
+                border: 2px solid $filter-border;
+                border-radius: 8px;
+            }
+            &:not(.compare-button-active) {
+                border: 2px solid $default-background;
+            }
+        }
+
+        .compare-single-grid-wrapper {
+            display: flex;
+            flex-direction: column;
+            background-color: $default-background;
+
+            .compare-grid-middle {
+                overflow: hidden !important;
+                margin-top: 28px;
+
+                .compare-middle-cell {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    i {
+                        font-size: 16px;
+                    }
+                    i:hover {
+                        color: inherit;
+                    }
+                }
+            }
+        }
+        .compare-missing-in-target {
+            background-color: $compare-row-missing-target-background;
+        }
+        
+        .compare-missing-in-source {
+            background-color: $compare-row-missing-source-background;
+        }
+        .compare-row-different {
+            background-color: $compare-row-different-background;
+        }
+        
+        .compare-cell-different {
+            background-color: $compare-cell-different-background;
+        }
+
+        .compare-legend-icons {
+            font-size: 11px;
+            line-height: 15px;
+            margin-top: 5px;
+            display:flex;
+            flex-direction: row;
+            i {
+                margin-left: 15px;
+                font-size : 15px;
+            }
+            .icon-cell-different, .icon-row-different {
+                margin-left: 15px;
+                margin-right: 5px;
+                border: 1px solid;
+                border-color: $legend-cell-row-border;
+                width: 12px;
+                height : 12px;
+            }
+            .icon-row-different {
+                background-color: $legend-row-background;
+            }
+            .icon-cell-different{
+                background-color: $legend-cell-background;
+            }
+        }
+
+        .icon-arrow_R {
+            color: $icon-arrow-right-color !important;
+        }
+        
+        .icon-arrow_L {
+            color: $icon-arrow-left-color !important;
+        }
+        
+        .icon-not_equal, .icon-cell-different {
+            color: $icon-different-color !important;
+        }
+        
+        .icon-equal {
+            color: $icon-equal-color !important;
+        }
+        
+        .icon-arrows {
+            color: $icon-arrows-color !important;
+        }
+    }
+}

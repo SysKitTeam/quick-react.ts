@@ -148,7 +148,7 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
         const showSortIndicator = this.props.sortColumn === valueMember;
         const newSortDirection = this.props.sortColumn !== valueMember || this.props.sortDirection === SortDirection.Descending ? SortDirection.Ascending : SortDirection.Descending;
         const onClick = (event) => {
-            if (isSortable !== false) {
+            if (isSortable !== false && this.props.onSort) {
                 this.props.onSort(valueMember, newSortDirection);
             }
         };

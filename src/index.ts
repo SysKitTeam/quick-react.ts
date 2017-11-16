@@ -2,6 +2,7 @@
 /**
  * @module quick-react-ts components
  */
+import './test.scss';
 export * from './components/Breadcrumbs';
 export * from './components/Button';
 export * from './components/Callout';
@@ -11,6 +12,7 @@ export * from './components/ChoiceGroup';
 export * from './components/Common';
 export * from './components/CompactDashboard';
 export * from './components/CompactServer';
+export * from './components/Compare';
 export * from './components/ContextualMenu';
 export * from './components/CustomDateRange';
 export * from './components/Dashboard';
