@@ -1,21 +1,16 @@
 //@import '../QuickGrid/QuickGrid.scss';
 @import '../../index.scss';
-$black-color-4: #F4F4F4;
-$black-color-6: #EFEFEF;
-$filter-border: rgba(247, 148, 40, 1);
-$default-background: white;
-$legend-row-background: #FBD8DC;
-$legend-cell-background: #F5A1A4;
+$default-background: $white-color;
+$row-different-background: #FBD8DC;
+$cell-different-background: #F5A1A4;
 $legend-cell-row-border: rgba(77, 77, 79, 0.2);
-$compare-row-missing-target-background: rgba(209, 227, 156, 1);
-$compare-row-missing-source-background: rgba(182, 227, 242, 1);
-$compare-row-different-background: rgba(251, 216, 220, 1);
-$compare-cell-different-background: rgba(245, 161, 164, 1);
+$compare-row-missing-target-background: #D1E39C;
+$compare-row-missing-source-background: #B6E3F2;
 $icon-arrow-right-color:#B9C935;
-$icon-arrow-left-color:#25A7EF;
+$icon-arrow-left-color: $link-color;
 $icon-different-color:#E44126;
 $icon-equal-color:rgba(77, 77, 79, 0.45);
-$icon-arrows-color: black;
+$icon-arrows-color: $black-color;
 
 .compare-base-container {
     height : inherit;
@@ -33,7 +28,7 @@ $icon-arrows-color: black;
             margin-bottom: 2px;
             margin-left: 3px;
             &.compare-button-active {
-                border: 2px solid $filter-border;
+                border: 2px solid $primary-color;
                 border-radius: 8px;
             }
             &:not(.compare-button-active) {
@@ -71,11 +66,11 @@ $icon-arrows-color: black;
             background-color: $compare-row-missing-source-background;
         }
         .compare-row-different {
-            background-color: $compare-row-different-background;
+            background-color: $row-different-background;
         }
         
         .compare-cell-different {
-            background-color: $compare-cell-different-background;
+            background-color: $cell-different-background;
         }
 
         .compare-legend-icons {
@@ -97,10 +92,10 @@ $icon-arrows-color: black;
                 height : 12px;
             }
             .icon-row-different {
-                background-color: $legend-row-background;
+                background-color: $row-different-background;
             }
             .icon-cell-different{
-                background-color: $legend-cell-background;
+                background-color: $cell-different-background;
             }
         }
 
