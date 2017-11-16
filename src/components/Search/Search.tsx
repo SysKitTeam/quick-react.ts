@@ -157,7 +157,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
                 break;
 
             case KeyCodes.enter:
-                if (this.props.onSearch && this.state.value.length > 0) {
+                if (this.props.onSearch) {
                     this.props.onSearch(this.state.value);
                 }
                 break;

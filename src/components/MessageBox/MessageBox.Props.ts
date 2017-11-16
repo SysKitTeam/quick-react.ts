@@ -1,6 +1,6 @@
 export interface IMessageBoxButton {
     title: string;
-    primary?: boolean;
+    className?: string;
 }
 
 export enum MessageLevel {

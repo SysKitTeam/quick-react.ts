@@ -38,16 +38,16 @@ export class MessageBox extends React.Component<IMessageBoxProps, {}> {
 
         const mappedButtons = buttons && buttons.map((button, index) => {
             let buttonText = '';
-            let isPrimary = false;
+            let buttonClassName= 'button-primary';
             if (typeof button === 'string') {
                 buttonText = button;
             } else {
                 const customButton = button as IMessageBoxButton;
-                ({ title: buttonText, primary: isPrimary } = customButton);
+                ({ title: buttonText, className: buttonClassName } = customButton);
             }
             return (
                 <Button
-                    className={isPrimary ? 'button-primary' : 'button-primary-gray'}
+                    className={buttonClassName}
                     onClick={() => onCustomButtonClick(index)}
                 >
                     {buttonText}
