@@ -21,6 +21,7 @@ module.exports = {
         Icon: "./examples/src/Icon.tsx",
         Breadcrumbs: "./examples/src/Breadcrumbs.tsx",
         LeftNavigation: "./examples/src/LeftNavigation.tsx",
+        ConditionSelector: "./examples/src/ConditionSelector.tsx",
         ContextualMenu: "./examples/src/ContextualMenu.tsx",
         Checkbox: "./examples/src/Checkbox.tsx",
         ChoiceGroup: "./examples/src/ChoiceGroup.tsx",

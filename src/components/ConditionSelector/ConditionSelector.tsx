@@ -1,13 +1,9 @@
 import * as React from 'react';
 import './ConditionSelector.scss';
-import { Treeview } from '../Treeview/Treeview';
-import { ITreeviewItem } from '../Treeview/TreeviewItem.Props';
-import { ExpressionDefinitionTree, PropertyTypeEnum } from './ConditionDefinitionRow.Props';
-import { ConditionGroup } from './ConditionDefinitionRow';
-import { TextField } from '../TextField/TextField';
-import { Dropdown } from '../Dropdown/Dropdown';
-import { DateTimeDropdownPicker } from '../DateTimeDropdownPicker/DateTimeDropdownPicker';
-import { DropdownType, IDropdownOption } from '../Dropdown/Dropdown.Props';
+import { Treeview, ITreeviewItem } from '../Treeview';
+import { ExpressionDefinitionTree, ConditionGroup } from './';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
 
 export class ConditionSelectorPorps {
     specialConditionsList?: ITreeviewItem[];
@@ -15,7 +11,7 @@ export class ConditionSelectorPorps {
     selectedConditions?: ExpressionDefinitionTree;
 }
 
-
+@DragDropContext(HTML5Backend)
 export class ConditionSelector extends React.PureComponent <ConditionSelectorPorps, any> {
 
     render() {
