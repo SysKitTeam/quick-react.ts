@@ -6,6 +6,12 @@
 
     svg {
         overflow: visible;
+
+        g {
+            rect {
+                cursor: default;
+            }
+        }
     }
 
     .percentage-label {
