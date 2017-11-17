@@ -33,7 +33,7 @@ export class CompactServer extends React.PureComponent<ICompactServerProps, any>
 
         return (
             <div
-                className={className}
+                className={classNames(className, { 'is-clickable': this.props.serverOnClick !== undefined && this.props.serverOnClick !== null })}
                 onMouseEnter={this.props.onMouseEnter}
                 onMouseLeave={this.props.onMouseLeave}
                 onClick={this.onclick}

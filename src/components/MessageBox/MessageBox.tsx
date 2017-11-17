@@ -38,7 +38,7 @@ export class MessageBox extends React.Component<IMessageBoxProps, {}> {
 
         const mappedButtons = buttons && buttons.map((button, index) => {
             let buttonText = '';
-            let buttonClassName= 'button-primary';
+            let buttonClassName = 'button-primary';
             if (typeof button === 'string') {
                 buttonText = button;
             } else {

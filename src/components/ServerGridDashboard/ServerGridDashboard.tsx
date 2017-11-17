@@ -209,6 +209,7 @@ export class ServerGridDashboard extends React.PureComponent<IServerGridDashboar
                     sortDirection={SortDirection.Ascending}
                     onGroupByChanged={this.groupByChanged}
                     groupRowFormat={this.groupRowFormat}
+                    tooltipsEnabled={false}
                 />
             </div>
         );

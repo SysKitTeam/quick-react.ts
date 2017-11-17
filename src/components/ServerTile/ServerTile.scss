@@ -108,6 +108,14 @@
         }
     }
 
+    &.is-clickable {
+        cursor: pointer;
+
+        .server-name, .tile > .label {
+            cursor: pointer;
+        }
+    }
+
     &.status-ok {
         border-left-color: $ok-status-server;
     }
