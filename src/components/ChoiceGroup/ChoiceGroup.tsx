@@ -84,6 +84,7 @@ export class ChoiceGroup extends React.Component<IChoiceGroupProps, IChoiceGroup
                                 onBlur={this._onBlur.bind(this, option)}
                             />
                             {this._renderField(option)}
+                            {this._renderAdditionalOptionContent(option, keyChecked)}
                         </div>
                     ))}
                 </div>
@@ -123,6 +124,16 @@ export class ChoiceGroup extends React.Component<IChoiceGroupProps, IChoiceGroup
                     {option.text}
                 </span>
             </label>
+        );
+    }
+
+    private _renderAdditionalOptionContent(option, keyChecked) {
+        return (
+            <div className={classNames('option-additional-content',
+                { 'is-unchecked': option.key !== keyChecked })}
+            >
+                {option.additionalContent}
+            </div>
         );
     }
 

@@ -48,7 +48,8 @@ module.exports = {
         Tooltip: "./examples/src/Tooltip.tsx",
         Wizard: "./examples/src/Wizard.tsx",
         MessageBox: "./examples/src/MessageBox.tsx",
-        Compare: "./examples/src/Compare.tsx"
+        Compare: "./examples/src/Compare.tsx",
+        Scheduler: "./examples/src/Scheduler.tsx",
     },
     output: {
         path: path.join(__dirname, '/dist'),
