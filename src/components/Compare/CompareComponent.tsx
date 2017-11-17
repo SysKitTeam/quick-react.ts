@@ -259,6 +259,7 @@ class CompareComponentInner extends React.PureComponent<ICompareComponentProp, I
     }
 
     public render() {
+
         return (
             <div className={'compare-base-container'}>
             <AutoSizer onResize={this.onGridResize}>
@@ -293,7 +294,6 @@ class CompareComponentInner extends React.PureComponent<ICompareComponentProp, I
                                                 width={this.gridComponentWidth(width)}
                                                 scrollLeft={scrollLeft}
                                                 className={'grid-component-header'}
-                                                groupBy={[]}
                                                 onResize={this.onGridHeaderColumnsResize}
                                                 displayGroupContainer={false}
                                                 hasActionColumn={false}
@@ -337,7 +337,6 @@ class CompareComponentInner extends React.PureComponent<ICompareComponentProp, I
                                             width={this.gridComponentWidth(width)}
                                             scrollLeft={scrollLeft}
                                             className={'grid-component-header'}
-                                            groupBy={[]}
                                             onResize={this.onGridHeaderColumnsResize}
                                             displayGroupContainer={false}
                                             hasActionColumn={false}

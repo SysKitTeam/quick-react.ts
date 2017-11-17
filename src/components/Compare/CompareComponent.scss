@@ -11,6 +11,7 @@ $icon-arrow-left-color: $link-color;
 $icon-different-color:#E44126;
 $icon-equal-color:rgba(77, 77, 79, 0.45);
 $icon-arrows-color: $black-color;
+$odd-row-background: rgba(77, 77, 79, 0.06);
 
 .compare-base-container {
     height : inherit;
@@ -21,6 +22,37 @@ $icon-arrows-color: $black-color;
             flex-direction: row;
             margin: 0px;
             width: 100%;
+
+            .grid-component-header {
+                overflow: hidden !important;
+                border: 1px solid #AEAEAF;
+                border-right: 1px solid #AEAEAF;
+            }
+            
+            .grid-component {
+                border: 1px solid #AEAEAF !important;
+                .grid-component-cell {
+                    white-space: nowrap;
+                    overflow: hidden !important;
+                    text-overflow: ellipsis;
+                    padding: 3px 5px 0px;
+                    > div {
+                        white-space: nowrap;
+                        overflow: hidden  !important;
+                        text-overflow: ellipsis;
+                        cursor: default;
+                        padding-top: 5px;
+                    }
+                }
+                .border-column-cell {
+                    border-right: none;
+                    border-bottom: none;
+                    box-sizing: border-box;
+                }
+                .grid-row-1 {
+                    background-color: $odd-row-background;
+                }
+            }
           }
         > .button {
             float:right;
@@ -59,18 +91,18 @@ $icon-arrows-color: $black-color;
             }
         }
         .compare-missing-in-target {
-            background-color: $compare-row-missing-target-background;
+            background-color: $compare-row-missing-target-background !important;
         }
         
         .compare-missing-in-source {
-            background-color: $compare-row-missing-source-background;
+            background-color: $compare-row-missing-source-background !important;
         }
         .compare-row-different {
-            background-color: $row-different-background;
+            background-color: $row-different-background !important;
         }
         
         .compare-cell-different {
-            background-color: $cell-different-background;
+            background-color: $cell-different-background !important;
         }
 
         .compare-legend-icons {

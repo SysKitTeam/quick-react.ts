@@ -3,7 +3,7 @@ import { GridColumn, SortDirection, IGroupBy } from './QuickGrid.Props';
 export interface IGridHeaderProps {
     allColumns: Array<GridColumn>;
     headerColumns: Array<GridColumn>;
-    groupBy: Array<IGroupBy>;
+    groupBy?: Array<IGroupBy>;
     columnWidths: Array<number>;
     onResize: (newColumnWidths) => void;
     sortColumn?: string;
