@@ -11,6 +11,9 @@ import * as _ from 'lodash';
 import './QuickGrid.scss';
 
 export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeaderState> {
+    public static defaultProps = {
+        groupBy: []
+    };
     private _headerGrid: any;
     private columnMinWidths: Array<number>;
     constructor(props: IGridHeaderProps) {
@@ -86,7 +89,7 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
         const notLastIndex = columnIndex < (this.state.columnWidths.length - 1);
         const column = this.props.headerColumns[columnIndex];
         const isAction = this.props.hasActionColumn && columnIndex === 0 || (column.valueMember === undefined && column.dataMember === undefined);
-        const notEmptyColumns = !isAction && columnIndex >= (this.props.groupBy ? this.props.groupBy.length : 0);
+        const notEmptyColumns = !isAction && columnIndex >= this.props.groupBy.length;
         const displayResizeHandle = notLastIndex && notEmptyColumns;
 
         return (

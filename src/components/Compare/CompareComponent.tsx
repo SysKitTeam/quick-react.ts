@@ -142,8 +142,8 @@ class CompareComponentInner extends React.PureComponent<ICompareComponentProp, I
     }
 
     private reCalculateRows(props : ICompareComponentProp, state : ICompareComponentState) {
-        let filteredSourceRows = props.sourceRows.map((x) => ({...x}));
-        let filteredTargetRows = props.targetRows.map((x) => ({...x}));
+        let filteredSourceRows = Array<any>();
+        let filteredTargetRows = Array<any>();
         let filteredDiffs = props.differences.map((x) => ({...x}));
         let removeRows : Array<number> = [];
         if (!state.equalFilter) {
@@ -155,7 +155,11 @@ class CompareComponentInner extends React.PureComponent<ICompareComponentProp, I
                 filteredDiffs[index].rowIndex = index;
                 return props.targetRows[x.rowIndex];
             });
+        } else {            
+            filteredSourceRows = props.sourceRows.map((x) => ({...x}));
+            filteredTargetRows = props.targetRows.map((x) => ({...x}));
         }
+        
         if (!state.missingFilter) {
             removeRows = filteredDiffs.filter((x) => {
                 return x.differenceType !== CompareDifferenceType.NotEqual;
@@ -250,12 +254,14 @@ class CompareComponentInner extends React.PureComponent<ICompareComponentProp, I
         });
     }
 
-    private gridComponentWidth(width) {
-        return width / 2 - 25;
+    private singleGridComponentWidth(totalContainerwidth) {
+        const middleGridHalfWidth = 25;
+        return totalContainerwidth / 2 - middleGridHalfWidth;
     }
 
-    private gridComponentHeight(height) {
-        return height - 50;
+    private gridComponentHeight(fullHeight) {
+        const headerAndLegendHeight = 50;
+        return fullHeight - headerAndLegendHeight;
     }
 
     public render() {
@@ -285,13 +291,13 @@ class CompareComponentInner extends React.PureComponent<ICompareComponentProp, I
                                         title={'Show/Hide equal entires'}
                                         icon={'icon-equal'}
                                     />
-                                    <div className={'grid-component-container'} style={{height : height - 50}}>
+                                    <div className={'grid-component-container'} style={{height : this.gridComponentHeight(height)}}>
                                         <div className={'compare-single-grid-wrapper'}>
                                             <GridHeader
                                                 allColumns={this.columns}
                                                 headerColumns={this.columns}
                                                 columnWidths={this.state.columnWidths}
-                                                width={this.gridComponentWidth(width)}
+                                                width={this.singleGridComponentWidth(width)}
                                                 scrollLeft={scrollLeft}
                                                 className={'grid-component-header'}
                                                 onResize={this.onGridHeaderColumnsResize}
@@ -302,7 +308,7 @@ class CompareComponentInner extends React.PureComponent<ICompareComponentProp, I
                                             <Grid
                                                 ref={this.setLeftGridReference}
                                                 height={this.gridComponentHeight(height)}
-                                                width={this.gridComponentWidth(width)}
+                                                width={this.singleGridComponentWidth(width)}
                                                 cellRenderer={this.cellRenderer}
                                                 overscanRowCount={20}
                                                 columnWidth={this.getColumnWidth}
@@ -334,7 +340,7 @@ class CompareComponentInner extends React.PureComponent<ICompareComponentProp, I
                                             allColumns={this.columns}
                                             headerColumns={this.columns}
                                             columnWidths={this.state.columnWidths}
-                                            width={this.gridComponentWidth(width)}
+                                            width={this.singleGridComponentWidth(width)}
                                             scrollLeft={scrollLeft}
                                             className={'grid-component-header'}
                                             onResize={this.onGridHeaderColumnsResize}
@@ -345,7 +351,7 @@ class CompareComponentInner extends React.PureComponent<ICompareComponentProp, I
                                         <Grid
                                             ref={this.setRightGridReference}
                                             height={this.gridComponentHeight(height)}
-                                            width={this.gridComponentWidth(width)}
+                                            width={this.singleGridComponentWidth(width)}
                                             cellRenderer={this.cellRendererRight}
                                             overscanRowCount={20}
                                             columnWidth={this.getColumnWidth}
