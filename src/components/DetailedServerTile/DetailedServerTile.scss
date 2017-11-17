@@ -24,6 +24,14 @@
         }
     }
 
+    &.is-clickable {
+        cursor: pointer;
+
+        .label, .progress-bar-component svg g rect {
+            cursor: pointer;
+        }
+    }
+
     &.status-critical {
         border-left-color: $error-status-server;
     }

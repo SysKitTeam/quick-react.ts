@@ -12,6 +12,11 @@
 
         .farm-name {
             position: initial;
+            padding: 5px;
+
+            .group-icon {
+                margin-left: 10px;
+            }
         }
     }
 }
