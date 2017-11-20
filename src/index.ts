@@ -2,7 +2,6 @@
 /**
  * @module quick-react-ts components
  */
-import './test.scss';
 export * from './components/Breadcrumbs';
 export * from './components/Button';
 export * from './components/Callout';
