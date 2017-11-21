@@ -44,7 +44,7 @@ export class Index extends React.Component<any, any> {
                     message={longText}
                     onDismiss={() => this._changeState(false)}
                     isOpen={this.state.isOpen}
-                    buttons={['Button1']}
+                    buttons={[{ title: 'Button1', className: 'button-primary-gray' }]}
                     onAccept={() => console.log('Accept')}
                     onClose={() => console.log('On close')}
                     isLoading={this.state.isLoading}

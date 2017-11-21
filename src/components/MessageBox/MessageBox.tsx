@@ -92,7 +92,7 @@ export class MessageBox extends React.Component<IMessageBoxProps, {}> {
                         content={errorMessage}
                         directionalHint={DirectionalHint.rightCenter}
                     >
-                        <Icon className="operation-error" iconName="icon-usklicnik" />
+                        <Icon className="operation-error" iconName="icon-warning2" />
                     </Tooltip>
                 }
                 <DialogFooter>

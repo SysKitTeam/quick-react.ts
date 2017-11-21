@@ -371,7 +371,7 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
                             onBlur={this._onBlur}
                         />
                         <span className="textField-error-icon">
-                            <Icon iconName={'icon-usklicnik'}></Icon>
+                            <Icon iconName={'icon-warning2'}></Icon>
                         </span>
                     </div>
                 </Tooltip>
