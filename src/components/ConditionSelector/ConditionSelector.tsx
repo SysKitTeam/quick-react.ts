@@ -9,21 +9,28 @@ export class ConditionSelectorPorps {
     specialConditionsList?: ITreeviewItem[];
     standardConditionsList?: ITreeviewItem[];
     selectedConditions?: ExpressionDefinitionTree;
-    conditionsChanged?: (key: any, checked: boolean) => void;
     conditionDragged?: (dragSource: any, dragTarget: any) => void;
     conditionValueChanged?: (conditionId: string, conditionValue: any) => void;
     logicalOperatorChanged?: (id: string, logicalOperator: LogicalOperatorTypeEnum) => void;
     compareConditionChanged?: (conditionRowState: ConditionRowState) => void;
+    conditionListSelectionChanged?: (treeListId: string, itemsId?: string[], checked?: boolean) => void;
 
 }
 
 // @DragDropContext(HTML5Backend)
 export class ConditionSelector extends React.PureComponent <ConditionSelectorPorps, any> {
 
-    filterSelectionChanged = (ev?: React.FormEvent<HTMLElement>, itemsId?: string[], checked?: boolean) => {
-        const a = 2;
-        let b = 2 + '2';
-    }   
+    specialConditionsSelectionChanged = (ev?: React.FormEvent<HTMLElement>, itemsId?: string[], checked?: boolean) => {
+        if (this.props.conditionListSelectionChanged) {
+            this.props.conditionListSelectionChanged('0', itemsId, checked);
+        }
+    }  
+
+    standardConditionsSelectionChanged = (ev?: React.FormEvent<HTMLElement>, itemsId?: string[], checked?: boolean) => {
+        if (this.props.conditionListSelectionChanged) {
+            this.props.conditionListSelectionChanged('1', itemsId, checked);
+        }
+    }  
 
     render() {
         const {specialConditionsList, standardConditionsList, selectedConditions,
@@ -39,14 +46,14 @@ export class ConditionSelector extends React.PureComponent <ConditionSelectorPor
                             <Treeview
                                 showCheckbox={true}                                                                    
                                 items={ specialConditionsList }
-                                onSelect= {this.filterSelectionChanged }
+                                onSelect= {this.specialConditionsSelectionChanged }
                             />
                         }
                         {standardConditionsList &&
                             <Treeview
                                 showCheckbox={true}
                                 items={ standardConditionsList }
-                                onSelect= {this.filterSelectionChanged }
+                                onSelect= {this.standardConditionsSelectionChanged }
                             />
                         }
                     </div>
@@ -72,8 +79,15 @@ export class ConditionSelector extends React.PureComponent <ConditionSelectorPor
     }
 }
 
+export class ConditionSelectorContainerPorps {
+    conditionSelectorProps: ConditionSelectorPorps;
+    onDragDrop?: (newTree: ExpressionDefinitionTree) =>  void;
+
+}
+
+
 @DragDropContext(HTML5Backend)
-export class MiddleWare extends React.PureComponent <ConditionSelectorPorps, any> {
+export class ConditionSelectorContainer extends React.PureComponent <ConditionSelectorContainerPorps, any> {
     
     constructor (props) {
         super(props);
@@ -95,10 +109,14 @@ export class MiddleWare extends React.PureComponent <ConditionSelectorPorps, any
             }
             return null;
         };
+        const { onDragDrop } = this.props;
+        let conditionSelectorProps = { ...this.props.conditionSelectorProps};
 
-        let target = findElement(dragTarget.id, this.props.selectedConditions);
-        let source = findElement(dragSource.parentId, this.props.selectedConditions);
-
+        let target = findElement(dragTarget.id, conditionSelectorProps.selectedConditions);
+        let source = findElement(dragSource.parentId, conditionSelectorProps.selectedConditions);
+        if (target.id === source.id) {
+            return;
+        }
         target.subExpressions = [];
         const existingCondition: ExpressionDefinitionTree = {
             id: dragTarget.id + (target.subExpressions.length + 1),
@@ -115,38 +133,24 @@ export class MiddleWare extends React.PureComponent <ConditionSelectorPorps, any
         target.conditionDefinition = null;
         source.conditionDefinition = null;
         source = null;
+        if (onDragDrop) {
+            onDragDrop(conditionSelectorProps.selectedConditions);
+        }
     }
 
-
-    conditionValueChanged = (conditionId: string, conditionValue: any) => {
-        const a = 2; 
-        let b = 2 + 2;
-    }
-
-    logicalOperatorChanged = (id: string, logicalOperator: LogicalOperatorTypeEnum) => {
-        const a = 2; 
-        let b = 2 + 2;
-    }
-
-    compareConditionChanged = (conditionRowState: ConditionRowState) => {
-        const a = 2; 
-        let b = 2 + 2;
-    }
 
     render () {
-        let props = this.props;
-        props.selectedConditions.conditionDragged = this.conditionDragged;
-        props.selectedConditions.conditionValueChanged = this.conditionValueChanged;
-        props.selectedConditions.logicalOperatorChanged = this.logicalOperatorChanged;
-        props.selectedConditions.compareConditionChanged = this.compareConditionChanged;
+        let props = this.props.conditionSelectorProps;
         return (
             <div>
                 <ConditionSelector 
                     {...props} 
                     conditionDragged={this.conditionDragged} 
-                    conditionValueChanged={this.conditionValueChanged} 
-                    logicalOperatorChanged={this.logicalOperatorChanged} 
-                    compareConditionChanged={this.compareConditionChanged}   />
+                    conditionValueChanged={props.conditionValueChanged} 
+                    logicalOperatorChanged={props.logicalOperatorChanged} 
+                    compareConditionChanged={props.compareConditionChanged}
+                    conditionListSelectionChanged={props.conditionListSelectionChanged}   
+                />
             </div>
         );
     }

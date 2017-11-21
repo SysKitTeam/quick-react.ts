@@ -5,9 +5,38 @@ import 'ts-helpers';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { LogicalOperatorTypeEnum, PropertyTypeEnum, ExpressionDefinitionTree, ConditionDefinition, ConditionSelector, MiddleWare } from './../../src/components/ConditionSelector';
+import { LogicalOperatorTypeEnum, PropertyTypeEnum, ExpressionDefinitionTree, ConditionDefinition, ConditionSelector, ConditionSelectorContainer, ConditionRowState, ConditionSelectorPorps } from './../../src/components/ConditionSelector';
 
 export class Index extends React.Component<any, any> {    
+
+
+
+
+    conditionValueChanged = (conditionId: string, conditionValue: any) => {
+        const a = 2; 
+        let b = 2 + 2;
+    }
+
+    logicalOperatorChanged = (id: string, logicalOperator: LogicalOperatorTypeEnum) => {
+        const a = 2; 
+        let b = 2 + 2;
+    }
+
+    compareConditionChanged = (conditionRowState: ConditionRowState) => {
+        const a = 2; 
+        let b = 2 + 2;
+    }
+
+
+    dragDrop = (newTree: ExpressionDefinitionTree) => {
+        const a = 2; 
+        let b = 2 + 2;
+    }
+    conditionListSelectionChanged = (treeListId: string, itemsId?: string[], checked?: boolean) => {
+        const a = 2; 
+        let b = 2 + 2;
+    }
+
     public render() {
         const treeviewElements = [{id: '1', text: 'Script returns any data'}, {id: '2', text: 'Script does not return data'}, {id: '3', text: 'Exception occurs while executing the script'}];
         const treeviewElements2 = [{id: '1', text: 'With specific Name'}, {id: '2', text: 'With specific Status'}, {id: '3', text: 'With specific Restarted On'}, {id: '4', text: 'Mirko'}];        
@@ -81,12 +110,21 @@ export class Index extends React.Component<any, any> {
                                                                     }  
                                                 }]
                                 }]};
+        const innerProps: ConditionSelectorPorps = {
+            specialConditionsList: treeviewElements,
+            standardConditionsList: treeviewElements2,
+            selectedConditions: conditionElements2,
+            conditionDragged: this.dragDrop,
+            conditionValueChanged: this.conditionValueChanged,
+            logicalOperatorChanged: this.logicalOperatorChanged,
+            compareConditionChanged: this.compareConditionChanged,
+            conditionListSelectionChanged: this.conditionListSelectionChanged
+        };
         return (
             <div>
-                <MiddleWare 
-                    specialConditionsList = {treeviewElements}
-                    standardConditionsList = {treeviewElements2}
-                    selectedConditions= {conditionElements2}
+                <ConditionSelectorContainer 
+                    conditionSelectorProps={innerProps}
+                    onDragDrop = {this.dragDrop}
                 />
             </div>
 
