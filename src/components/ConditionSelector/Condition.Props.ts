@@ -8,28 +8,25 @@ export enum PropertyTypeEnum {
     DateTime,
     None   
 }
-
 export class ConditionDefinition {    
-    id: number;
+    id: string;
+    parentId?: string;
     propertyName: string;
     propertyType: PropertyTypeEnum;
     isHardcodedValue?: boolean;
     classname?: string;
-    conditionSelectionTypes?: IDropdownOption[];
-    hasMultipleLogicalOperations?: boolean; // default true
-    allowConditionDeletion?: boolean; // default true
+    compareConditions?: IDropdownOption[];
     hasIndent?: boolean; // default false 
     indentSize?: number; // default 30
-    conditionStateChanged?: (conditionState: ConditionDefinitionRowState) => void;
+    compareConditionChanged?: (conditionRowState: ConditionRowState) => void;
+    conditionValueChanged?: (conditionId: string, conditionValue: any) => void;
     additionalData?: any;
+    conditionDragged?: (dragSource: any, dragTarget: any) => void;
     connectDragSource?: any;
     isDragging?: any;
 }
 
-export class ConditionDefinitionRowState {
-    id: number;
-    propertyName: string;
-    conditionSelectionType: IDropdownOption;
-    addConditionClicked: boolean;
-    removeConditionClicked: boolean;
+export class ConditionRowState {
+    propertyId: string;
+    selectedCompareConditionKey: string | number;
 }

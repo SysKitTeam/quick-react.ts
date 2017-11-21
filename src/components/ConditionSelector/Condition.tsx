@@ -1,16 +1,22 @@
 import * as React from 'react';
 import './Condition.scss';
 import * as classNames from 'classnames';
+import { ConditionRowState, ConditionDefinition, PropertyTypeEnum } from './';
 import { Dropdown, DropdownType, IDropdownOption } from '../Dropdown';
 import { Button } from '../Button';
-import { ConditionDefinitionRowState, ConditionDefinition } from './Condition.Props';
+import { TextField } from '../TextField';
+import { DateTimeDropdownPicker } from '../DateTimeDropdownPicker/DateTimeDropdownPicker';
 import { DragSource } from 'react-dnd';
 
 const conditionSource = {
     beginDrag(props) {
         return {};
     },
-    endDrag(props) {
+    endDrag(props, monitor, component) {
+        const dropTarget = monitor.getDropResult();
+        if (Boolean(props) && Boolean(dropTarget) && component.props.conditionDragged) {
+            component.props.conditionDragged(props, dropTarget);
+        }
         return {};
     }
 };
@@ -26,37 +32,18 @@ function collectSource(connect, monitor) {
 @DragSource('condition', conditionSource, collectSource)
 export class Condition extends React.PureComponent <ConditionDefinition, any> {
     public static defaultProps = {
-        showStartLogialOperator: true,
-        allowConditionDeletion: true,
         hasIndent: false,
         indentSize: 30,
-        hasMultipleLogicalOperations: true,
         isHardcodedValue: false
     };
 
-    logicalOperatorChanged = (option: IDropdownOption, index?: number) => {        
-        const state: ConditionDefinitionRowState = {
-            id: this.props.id,
-            propertyName: this.props.propertyName,
-            conditionSelectionType: this.getSelectedConditionElement(this.props.conditionSelectionTypes),
-            addConditionClicked: false,
-            removeConditionClicked: false
+    compareConditionChanged = (option: IDropdownOption, index?: number) => {
+        const state: ConditionRowState  = {
+            propertyId: this.props.id,
+            selectedCompareConditionKey: option.key
         };
-        if (this.props.conditionStateChanged) {
-            this.props.conditionStateChanged(state);
-        }
-    }
-
-    conditionSelectionChanged = (option: IDropdownOption, index?: number) => {
-        const state: ConditionDefinitionRowState  = {
-            id: this.props.id,
-            propertyName: this.props.propertyName,
-            conditionSelectionType: option,
-            addConditionClicked: false,
-            removeConditionClicked: false
-        };
-        if (this.props.conditionStateChanged) {
-           this.props.conditionStateChanged(state);
+        if (this.props.compareConditionChanged) {
+           this.props.compareConditionChanged(state);
         }
     }
 
@@ -67,68 +54,110 @@ export class Condition extends React.PureComponent <ConditionDefinition, any> {
         const element = selectOptions.find(x => x.selected === true);
         return element;
     }
-
-    actionButtonClicked = (isAdd: boolean) => {
-        return () => {
-            const state: ConditionDefinitionRowState  = {
-                id: this.props.id,
-                propertyName: this.props.propertyName,
-                conditionSelectionType: this.getSelectedConditionElement(this.props.conditionSelectionTypes),
-                addConditionClicked: isAdd,
-                removeConditionClicked: !isAdd
-            };
-            if (this.props.conditionStateChanged) {
-            this.props.conditionStateChanged(state);
+    
+    renderItemEditor = (propertyType: PropertyTypeEnum,  additionalData: any) => {
+        switch (propertyType) {
+            case PropertyTypeEnum.String: {
+                return (
+                    <TextField 
+                        required={true} 
+                        placeholder="Enter text value"
+                        value={additionalData}
+                        onChanged={this.textFieldChanged}
+                    />
+                );                
             }
-        };
+            case PropertyTypeEnum.Number: {
+                return (
+                    <TextField 
+                        required={true} 
+                        placeholder="Enter number value"  
+                        value={additionalData}
+                        type={'number'}                         
+                        onChanged={this.textFieldChanged}
+                    />
+                );          
+            }
+            case PropertyTypeEnum.Boolean: {
+                const booleanChoices = [{key: 1, text: 'True', selected: Boolean(additionalData)}, {key: 0, text: 'False', selected: !additionalData}];
+                return (
+                    <Dropdown 
+                        showArrowIcon={false}
+                        dropdownType={DropdownType.selectionDropdown}
+                        options={booleanChoices}
+                        hasTitleBorder={true}
+                        onChanged={this.dropdownChanged}/>
+                );
+            }
+            case PropertyTypeEnum.Enum: {
+                return (
+                    <Dropdown 
+                        showArrowIcon={false}
+                        dropdownType={DropdownType.selectionDropdown}
+                        options={additionalData}
+                        hasTitleBorder={true}
+                        onChanged={this.dropdownChanged}/>
+                );
+            }
+            case PropertyTypeEnum.DateTime: {
+                return (
+                    <DateTimeDropdownPicker
+                        selectedDate={new Date()}  
+                        includeTime={true} 
+                        onTimeSelectionChanged={this.dateDropdownChanged}            
+                    />
+                );
+            }
+        }
+    }
+
+    dateDropdownChanged = (newDate: Date) => {
+        this.conditionValueChanged(newDate);
+    }
+
+    textFieldChanged = (newText: string) => {
+        this.conditionValueChanged(newText);
+    }
+
+    dropdownChanged = (option: IDropdownOption, index?: number) => {
+        this.conditionValueChanged( option.key);
+    }
+
+    conditionValueChanged = (conditionValue: any) => {
+        if (this.props.conditionValueChanged) {
+            this.props.conditionValueChanged(this.props.id, conditionValue);
+        }
     }
 
     render () {
-        const indentStyle = {width: this.props.indentSize + 'px'};
-        const { connectDragSource, isDragging } = this.props;
+        const { connectDragSource, isDragging, compareConditions, hasIndent, indentSize, additionalData,
+            classname, propertyName, propertyType, isHardcodedValue } = this.props;
+        const indentStyle = {width: indentSize + 'px'};
         return connectDragSource (
-            <div draggable={true} className={classNames('command-definition-row-container', this.props.classname, {'command-in-drag': isDragging})}>                    
+            <div draggable={true} className={classNames('command-definition-row-container', classname, {'command-in-drag': isDragging})}>                    
                 <div className="left-content">
-                    {this.props.hasIndent &&
+                    {hasIndent &&
                         <div style={indentStyle}/>
                     }
-                    {this.props.isHardcodedValue &&           
+                    {isHardcodedValue &&           
                         <div>
-                            {this.props.propertyName}
+                            {propertyName}
                         </div>     
                     }    
-                    {!this.props.isHardcodedValue &&
+                    {!isHardcodedValue &&
                         <div className="condtion-content">                           
                             <div>
-                                <b>{this.props.propertyName}</b>
+                                <b>{propertyName}</b>
                             </div>
                             <Dropdown 
                                 showArrowIcon={false}
                                 dropdownType={DropdownType.selectionDropdown}
-                                options={this.props.conditionSelectionTypes}
+                                options={compareConditions}
                                 hasTitleBorder={true}
-                                onChanged={this.conditionSelectionChanged}
+                                onChanged={this.compareConditionChanged}
                             />
-                            {this.props.children}
+                            {this.renderItemEditor(propertyType, additionalData)}
                         </div>
-                    }
-                </div>
-                <div className="condition-actions">
-                    {false && this.props.hasMultipleLogicalOperations &&
-                        <Button 
-                            className={'button-secondary add-new-condition'} 
-                            icon={'icon-add'} 
-                            title={'Add sub-condition'} 
-                            onClick={this.actionButtonClicked(true)} 
-                        />
-                    }
-                    {false && this.props.allowConditionDeletion &&
-                        <Button 
-                            className={'button-secondary delete-condition'} 
-                            icon={'icon-delete'} 
-                            title={'Remove condition'} 
-                            onClick={this.actionButtonClicked(false)}
-                        />
                     }
                 </div>
             </div>

@@ -2,20 +2,15 @@ import * as React from 'react';
 import './ConditionGroup.scss';
 import * as classNames from 'classnames';
 import { Condition, PropertyTypeEnum, LogicalOperatorTypeEnum, ExpressionDefinitionTree } from './';
-import { Dropdown, DropdownType } from '../Dropdown';
+import { Dropdown, DropdownType, IDropdownOption } from '../Dropdown';
 import { TextField } from '../TextField';
 import { DateTimeDropdownPicker } from '../DateTimeDropdownPicker/DateTimeDropdownPicker';
 import { DropTarget } from 'react-dnd';
 
 const conditionTarget = {
-    canDrop(props) {
-        return true;
-    },
-    drop(props, monitor, component) {
-        if (!component.props.subExpressions) {
-            let a = 2;
-            a++;
-            const b = a + 'a';
+    drop(props) {
+        if (!props.subExpressions) {
+            return props;
         }
     }
 };
@@ -30,59 +25,25 @@ function collectTarget(connect, monitor) {
 
 @DropTarget('condition', conditionTarget, collectTarget)
 export class ConditionGroup extends React.PureComponent <ExpressionDefinitionTree, any> {
-    
     getLogicalOperationsList = () => {
         const getLogicalOpertionItem = (value: LogicalOperatorTypeEnum, displayText: string) => {
             return {key: value, text: displayText, selected: value === this.props.logicalOperator};
         };
         return [getLogicalOpertionItem(LogicalOperatorTypeEnum.And, 'And'), getLogicalOpertionItem(LogicalOperatorTypeEnum.Or, 'Or')];        
     }
-    
-    private renderItemEditor = (propertyType: PropertyTypeEnum,  additionalData: any) => {
-        switch (propertyType) {
-            case PropertyTypeEnum.String: {
-                return (
-                    <TextField required={true} placeholder="Enter text value" />
-                );                
-            }
-            case PropertyTypeEnum.Number: {
-                return (
-                    <TextField required={true} placeholder="Enter number value"  value={'0'} type={'number'} />
-                );          
-            }
-            case PropertyTypeEnum.Boolean: {
-                const booleanChoices = [{key: 1, text: 'True', selected: Boolean(additionalData)}, {key: 0, text: 'False', selected: !additionalData}];
-                return (
-                    <Dropdown 
-                        showArrowIcon={false}
-                        dropdownType={DropdownType.selectionDropdown}
-                        options={booleanChoices}
-                        hasTitleBorder={true}/>
-                );
-            }
-            case PropertyTypeEnum.Enum: {
-                return (
-                    <Dropdown 
-                        showArrowIcon={false}
-                        dropdownType={DropdownType.selectionDropdown}
-                        options={additionalData}
-                        hasTitleBorder={true}/>
-                );
-            }
-            case PropertyTypeEnum.DateTime: {
-                return (
-                    <DateTimeDropdownPicker
-                        selectedDate={new Date()}  
-                        includeTime={true}             
-                    />
-                );
-            }
+
+    logicalConditionChanged = (option: IDropdownOption, index?: number) => {
+        if (this.props.logicalOperatorChanged) {
+            this.props.logicalOperatorChanged(this.props.id, Number(option.key));
         }
     }
 
     render () {        
-        let { logicalOperator, subExpressions, conditionDefinition } = this.props;
-        const { isOver, connectDropTarget } = this.props;
+        let { logicalOperator, subExpressions, conditionDefinition, conditionValueChanged, compareConditionChanged,
+            isOver, connectDropTarget, id, conditionDragged, logicalOperatorChanged } = this.props;
+        if ((!subExpressions || subExpressions.length === 0) && !conditionDefinition) {
+            return null;
+        }
         return connectDropTarget (
             <div className={'condition-definition-item'}>
                 {logicalOperator !== LogicalOperatorTypeEnum.None && 
@@ -93,21 +54,35 @@ export class ConditionGroup extends React.PureComponent <ExpressionDefinitionTre
                                 dropdownType={DropdownType.selectionDropdown}
                                 options={this.getLogicalOperationsList()}
                                 hasTitleBorder={true}
+                                onChanged={this.logicalConditionChanged}
                             />
                         }
                     </div>}
                     { Boolean(subExpressions) && subExpressions.length > 0 &&                     
                         <div className="conditions-group-container">
                             {subExpressions.map((expression, index) => (
-                                <ConditionGroup key={index} {...expression} />
+                                <ConditionGroup 
+                                    key={index} 
+                                    {...expression} 
+                                    conditionDragged={conditionDragged} 
+                                    conditionValueChanged={conditionValueChanged} 
+                                    compareConditionChanged={compareConditionChanged} 
+                                    logicalOperatorChanged={logicalOperatorChanged}
+                                />
                             ))}
                         </div>}
                 {conditionDefinition && 
                     <div className="single-condition-container">
-                        <Condition {...conditionDefinition}> {this.renderItemEditor(conditionDefinition.propertyType, conditionDefinition.additionalData)} </Condition>
+                        <Condition 
+                            {...conditionDefinition} 
+                            conditionDragged={conditionDragged} 
+                            parentId={id} 
+                            conditionValueChanged={conditionValueChanged} 
+                            compareConditionChanged={compareConditionChanged}
+                        />
                         <div className={classNames('droppable', {'hiddenDroppable': !isOver})}/>
                     </div>  
-                }                 
+                }                             
             </div>
         );
     }
