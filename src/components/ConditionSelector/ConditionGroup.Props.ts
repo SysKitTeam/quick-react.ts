@@ -12,7 +12,7 @@ export class ExpressionDefinitionTree {
     logicalOperator: LogicalOperatorTypeEnum;
     conditionDefinition?: ConditionDefinition;
     subExpressions?: ExpressionDefinitionTree[];    
-    isOver?: any;    
+    isOver?: boolean;    
     connectDropTarget?: any;
     conditionDragged?: (dragSource: any, dragTarget: any) => void;
     conditionValueChanged?: (conditionId: string, conditionValue: any) => void;

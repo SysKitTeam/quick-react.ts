@@ -13,28 +13,23 @@ export class Index extends React.Component<any, any> {
 
 
     conditionValueChanged = (conditionId: string, conditionValue: any) => {
-        const a = 2; 
-        let b = 2 + 2;
+        console.log('Condition value changed');
     }
 
     logicalOperatorChanged = (id: string, logicalOperator: LogicalOperatorTypeEnum) => {
-        const a = 2; 
-        let b = 2 + 2;
+        console.log('Logical operator changed');
     }
 
     compareConditionChanged = (conditionRowState: ConditionRowState) => {
-        const a = 2; 
-        let b = 2 + 2;
+        console.log('Compoare condition changed');
     }
-
 
     dragDrop = (newTree: ExpressionDefinitionTree) => {
-        const a = 2; 
-        let b = 2 + 2;
+        console.log('Drag\'n\'drop occurred');
     }
+
     conditionListSelectionChanged = (treeListId: string, itemsId?: string[], checked?: boolean) => {
-        const a = 2; 
-        let b = 2 + 2;
+        console.log('Condition list selection changed');
     }
 
     public render() {

@@ -22,7 +22,7 @@ function collectTarget(connect, monitor) {
 }
 
 @DropTarget('condition', conditionTarget, collectTarget)
-export class ConditionGroup extends React.PureComponent <ExpressionDefinitionTree, any> {
+export class ConditionGroup extends React.PureComponent <ExpressionDefinitionTree, {}> {
     getLogicalOperationsList = () => {
         const getLogicalOpertionItem = (value: LogicalOperatorTypeEnum, displayText: string) => {
             return {key: value, text: displayText, selected: value === this.props.logicalOperator};

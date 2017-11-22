@@ -30,7 +30,7 @@ function collectSource(connect, monitor) {
 }
 
 @DragSource('condition', conditionSource, collectSource)
-export class Condition extends React.PureComponent <ConditionDefinition, any> {
+export class Condition extends React.PureComponent <ConditionDefinition, {}> {
     public static defaultProps = {
         hasIndent: false,
         indentSize: 30,

@@ -10,5 +10,11 @@ export class ConditionSelectorPorps {
     logicalOperatorChanged?: (id: string, logicalOperator: LogicalOperatorTypeEnum) => void;
     compareConditionChanged?: (conditionRowState: ConditionRowState) => void;
     conditionListSelectionChanged?: (treeListId: string, itemsId?: string[], checked?: boolean) => void;
-
 }
+
+export class ConditionSelectorContainerProps {
+    conditionSelectorProps: ConditionSelectorPorps;
+    onDragDrop?: (newTree: ExpressionDefinitionTree) =>  void;
+}
+
+
