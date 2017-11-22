@@ -46,59 +46,54 @@ export class Condition extends React.PureComponent <IConditionDefinition, {}> {
            this.props.compareConditionChanged(state);
         }
     }
+
+    renderTextFieldEditor = (placeholer: string, value: any, type: string = 'text') => {
+        return <TextField 
+                required={true} 
+                placeholder="Enter text value"
+                value={value}
+                onChanged={this.textFieldChanged}
+                type={type}
+            />; 
+    }
+
+    renderDropDown = (options) => {
+        return <Dropdown 
+                showArrowIcon={false}
+                dropdownType={DropdownType.selectionDropdown}
+                options={options}
+                hasTitleBorder={true}
+                onChanged={this.dropdownChanged} 
+               />;
+    }
+
+
+    renderDatePicker = (value: any) => {
+        return <DateTimeDropdownPicker
+                selectedDate={value}  
+                includeTime={true} 
+                onTimeSelectionChanged={this.dateDropdownChanged}            
+              />;
+    }
+
     
     renderItemEditor = (propertyType: PropertyTypeEnum,  additionalData: any) => {
         switch (propertyType) {
             case PropertyTypeEnum.String: {
-                return (
-                    <TextField 
-                        required={true} 
-                        placeholder="Enter text value"
-                        value={additionalData}
-                        onChanged={this.textFieldChanged}
-                    />
-                );                
+                return this.renderTextFieldEditor('Enter text', additionalData);                
             }
             case PropertyTypeEnum.Number: {
-                return (
-                    <TextField 
-                        required={true} 
-                        placeholder="Enter number value"  
-                        value={additionalData}
-                        type={'number'}                         
-                        onChanged={this.textFieldChanged}
-                    />
-                );          
+                return this.renderTextFieldEditor('Enter number', additionalData, 'number');
             }
             case PropertyTypeEnum.Boolean: {
                 const booleanChoices = [{key: 1, text: 'True', selected: Boolean(additionalData)}, {key: 0, text: 'False', selected: !additionalData}];
-                return (
-                    <Dropdown 
-                        showArrowIcon={false}
-                        dropdownType={DropdownType.selectionDropdown}
-                        options={booleanChoices}
-                        hasTitleBorder={true}
-                        onChanged={this.dropdownChanged}/>
-                );
+                return this.renderDropDown(booleanChoices);
             }
             case PropertyTypeEnum.Enum: {
-                return (
-                    <Dropdown 
-                        showArrowIcon={false}
-                        dropdownType={DropdownType.selectionDropdown}
-                        options={additionalData}
-                        hasTitleBorder={true}
-                        onChanged={this.dropdownChanged}/>
-                );
+                return this.renderDropDown(additionalData);
             }
             case PropertyTypeEnum.DateTime: {
-                return (
-                    <DateTimeDropdownPicker
-                        selectedDate={new Date()}  
-                        includeTime={true} 
-                        onTimeSelectionChanged={this.dateDropdownChanged}            
-                    />
-                );
+                return this.renderDatePicker(additionalData);
             }
         }
     }

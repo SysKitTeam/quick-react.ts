@@ -1,8 +1,8 @@
 import * as React from 'react';
 import './ConditionSelector.scss';
-import { ConditionGroup, ConditionSelectorPorps } from './';
+import { ConditionGroup, IConditionSelectorPorps } from './';
 import { Treeview } from '../Treeview';
-export class ConditionSelector extends React.PureComponent <ConditionSelectorPorps, {}> {
+export class ConditionSelector extends React.PureComponent <IConditionSelectorPorps, {}> {
 
     specialConditionsSelectionChanged = (ev?: React.FormEvent<HTMLElement>, itemsId?: string[], checked?: boolean) => {
         if (this.props.conditionListSelectionChanged) {
