@@ -1,6 +1,6 @@
 export interface IMessageBoxButton {
     title: string;
-    primary?: boolean;
+    className?: string;
 }
 
 export enum MessageLevel {
@@ -20,8 +20,10 @@ export interface IMessageBoxProps {
     hasCloseXButton?: boolean;
     closeText?: string;
     acceptText?: string;
+    acceptButtonDisabled?: boolean;
     buttons?: Array<string | IMessageBoxButton>;
     onCustomButtonClick?(index: number): void;
     isLoading?: boolean;
     errorMessage?: string;
+    bulletedList?: Array<string>;
 }

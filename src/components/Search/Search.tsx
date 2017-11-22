@@ -12,6 +12,7 @@ import { elementContains } from '../../utilities/elementContains';
 import * as _ from 'lodash';
 import './Search.scss';
 import { Button } from '../Button/Button';
+import { getNativeAttributes, inputAttributes } from '../../utilities/attributes';
 
 export interface ISearchState {
     value?: string;
@@ -76,7 +77,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
         }
     }
 
-    public render() {
+    public render(): React.ReactElement<React.HTMLProps<HTMLInputElement>> {
         let { labelText, disabled, className, underlined } = this.props;
         let { value, hasFocus, id } = this.state;
 
@@ -91,6 +92,8 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
             }
         );
 
+        let inputProps = getNativeAttributes<React.HTMLProps<HTMLInputElement>>(this.props, inputAttributes, ['defaultValue']);
+
         return (
             <div
                 ref={this._resolveRef('_rootElement')}
@@ -100,6 +103,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
                     <Icon className={'search-icon'} iconName={'icon-search'}></Icon>
                 }
                 <input
+                    {...inputProps}
                     id={id}
                     className={'search-field'}
                     value={value}
@@ -153,7 +157,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
                 break;
 
             case KeyCodes.enter:
-                if (this.props.onSearch && this.state.value.length > 0) {
+                if (this.props.onSearch) {
                     this.props.onSearch(this.state.value);
                 }
                 break;

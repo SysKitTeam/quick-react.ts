@@ -17,4 +17,5 @@ export interface IDialogProps extends React.Props<Dialog> {
     hasCloseXButton?: boolean;
     layerClassName?: string;
     useOpenCloseAnimation?: boolean;
+    headerClassName?: string;
 }

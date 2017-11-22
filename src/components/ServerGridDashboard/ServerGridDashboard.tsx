@@ -188,7 +188,6 @@ export class ServerGridDashboard extends React.PureComponent<IServerGridDashboar
     }
 
     public render(): JSX.Element {
-        const className = classNames({ [this.props.className]: this.props.className !== undefined }, 'server-grid-dashboard-container');
         let columns = [...gridColumns];
         if (!this.props.singleGroupView) {
             let groupBy = groupByColumn;
@@ -199,20 +198,19 @@ export class ServerGridDashboard extends React.PureComponent<IServerGridDashboar
         }
 
         return (
-            <div className="quick-grid-container">
-                <div className={className}>
-                    <QuickGrid
-                        rows={this.state.rows}
-                        columns={columns}
-                        groupBy={this.state.groupBy}
-                        overscanRowCount={30}
-                        onRowDoubleClicked={this.onRowDoubleClick}
-                        sortColumn="ServerName"
-                        sortDirection={SortDirection.Ascending}
-                        onGroupByChanged={this.groupByChanged}
-                        groupRowFormat={this.groupRowFormat}
-                    />
-                </div>
+            <div className={classNames(this.props.className, 'server-grid-dashboard-container')}>
+                <QuickGrid
+                    rows={this.state.rows}
+                    columns={columns}
+                    groupBy={this.state.groupBy}
+                    overscanRowCount={30}
+                    onRowDoubleClicked={this.onRowDoubleClick}
+                    sortColumn="ServerName"
+                    sortDirection={SortDirection.Ascending}
+                    onGroupByChanged={this.groupByChanged}
+                    groupRowFormat={this.groupRowFormat}
+                    tooltipsEnabled={false}
+                />
             </div>
         );
     }

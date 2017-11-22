@@ -16,8 +16,11 @@ $leftNavigation-collapsed-width: 45px;
     }
 
     .nav-item {
-        padding: 6px 8px 6px 14px;
         cursor: pointer;
+        padding: 0 8px 0 14px;
+        height: 30px;
+        display: flex;
+        align-items: center;
 
         a {
             span, .icon {
@@ -61,13 +64,13 @@ $leftNavigation-collapsed-width: 45px;
         .nav-item a span {
             display: inline-block;
             position: absolute;
+            margin-top: -2px;
         }
     }
 
     &.collapsed {
         width: $leftNavigation-collapsed-width;
         transition-duration: $leftNavigation-transition-duration;
-        left: -250px;
 
         .nav-item a span {
             display: none;

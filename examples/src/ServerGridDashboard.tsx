@@ -28,7 +28,7 @@ export class Index extends React.Component<any, any> {
 
     public render() {
         return (
-            <div>
+            <div style={{height: '1000px'}}>
                 <ServerGridDashboard
                     className={'viewport-height'}
                     farms={this.state.farms}

@@ -13,92 +13,137 @@ import { Icon } from './../../src/components/Icon/Icon';
 import { Slider } from './../../src/components/Slider/Slider';
 import { Button } from './../../src/components/Button/Button';
 
+import { dropdownOptions } from '../MockData/dropdownOptions';
+
 export class Index extends React.Component<any, any> {
     public render() {
-        
+
         return (
             <div>
                 <Dropdown
-                    hasTitleBorder={true}
                     dropdownType={DropdownType.selectionDropdown}
-                    label="Dropdown:"
+                    label="Selection dropdown with arrow and border"
                     onClick={(option, index) => console.log(option, index)}
-                    showArrowIcon={false}
-                    options={
-                        [
-                            { key: 'A', text: 'Option a' },
-                            { key: 'B', text: 'Option b' },
-                            { key: 'C', text: 'Option c' },
-                            { key: 'D', text: 'Option d' },
-                            { key: 'E', text: 'Option e' },
-                            { key: 'F', text: 'Option f' },
-                            { key: 'G', text: 'Option g' },
-                            { key: 'H', text: 'Option h', selected: true },
-                            { key: 'I', text: 'Option i' },
-                            { key: 'J', text: 'Option j' }
-                        ]
-                    }
-                />
-                <Dropdown
+                    options={dropdownOptions}
+                    showArrowIcon={true}
                     hasTitleBorder={true}
-                    dropdownType={DropdownType.selectionDropdown}
-                    label="Dropdown:"
-                    onClick={(option, index) => console.log(option, index)}
-                    options={
-                        [
-                            { key: 'A', text: 'Option a', icon: 'icon-add' },
-                            { key: 'B', text: 'Option b', icon: 'icon-buy' },
-                            { key: 'C', text: 'Option c', icon: 'icon-user' },
-                            { key: 'D', text: 'Option d' },
-                            { key: 'E', text: 'Option e' },
-                            { key: 'F', text: 'Option f' },
-                            { key: 'G', text: 'Option g' },
-                            { key: 'H', text: 'Option h', selected: true },
-                            { key: 'I', text: 'Option i' },
-                            { key: 'J', text: 'Option j' }
-                        ]
-                    }
+                    icon="icon-add"
                 />
 
+                <hr />
+
                 <Dropdown
+                    dropdownType={DropdownType.selectionDropdown}
+                    label="Selection dropdown without arrow and with border"
+                    onClick={(option, index) => console.log(option, index)}
+                    options={dropdownOptions}
+                    showArrowIcon={false}
+                    hasTitleBorder={true}
+                />
+
+                <hr />
+
+                <Dropdown
+                    dropdownType={DropdownType.selectionDropdown}
+                    label="Selection dropdown with arrow and without border"
+                    onClick={(option, index) => console.log(option, index)}
+                    options={dropdownOptions}
+                    showArrowIcon={true}
+                    hasTitleBorder={false}
+                />
+
+                <hr />
+
+                <Dropdown
+                    dropdownType={DropdownType.selectionDropdown}
+                    label="Selection dropdown without arrow and border"
+                    onClick={(option, index) => console.log(option, index)}
+                    options={dropdownOptions}
+                    showArrowIcon={false}
+                    hasTitleBorder={false}
+                />
+
+                <hr />
+
+                {/* <Dropdown
                     hasTitleBorder={true}
                     dropdownType={DropdownType.selectionDropdown}
                     label="Disabled Dropdown:"
                     disabled={true}
                     onClick={(option, index) => console.log(option, index)}
-                    options={
-                        [
-                            { key: 'A', text: 'Option a', icon: 'icon-add' },
-                            { key: 'B', text: 'Option b', icon: 'icon-buy' },
-                            { key: 'C', text: 'Option c', icon: 'icon-user' },
-                            { key: 'D', text: 'Option d' },
-                            { key: 'E', text: 'Option e' },
-                            { key: 'F', text: 'Option f' },
-                            { key: 'G', text: 'Option g' },
-                            { key: 'H', text: 'Option h', selected: true },
-                            { key: 'I', text: 'Option i' },
-                            { key: 'J', text: 'Option j' }
-                        ]
-                    }
-                />
+                    options={dropdownOptions}
+                /> */}
 
-                <Dropdown icon={'icon-add'} label="Icon Dropdown:" className={'icon-dropdown'} dropdownType={DropdownType.customDropdown}>
-                    <Label style={{paddingLeft: '5px'}}>Header</Label>
-                    <hr />
-                    <li style={{display: 'inline-block', padding: '5px', width: '100px'}}>
-                        <Icon style={{paddingTop: '5px'}} iconName={'icon-account'}></Icon>
+                <Dropdown
+                    label="Custom Dropdown:"
+                    className={'custom-dropdown'}
+                    dropdownType={DropdownType.customDropdown}
+                    hasTitleBorder={false}
+                    showArrowIcon={true}
+                    onCustomSelectionText={() => 'Acceleratio.SPDocKit.EventCollection.Service'}
+                >
+                    <li style={{ display: 'inline-block', padding: '5px', width: '100px' }}>
+                        <Icon style={{ paddingTop: '5px' }} iconName={'icon-account'}></Icon>
                         <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
                     </li>
-                    <li style={{display: 'inline-block', padding: '5px', width: '100px'}}>
-                        <Icon style={{paddingTop: '5px'}} iconName={'icon-account'}></Icon>
+                    <li style={{ display: 'inline-block', padding: '5px', width: '100px' }}>
+                        <Icon style={{ paddingTop: '5px' }} iconName={'icon-account'}></Icon>
+                        <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
+                    </li>
+                </Dropdown>
+
+                <Dropdown icon={'icon-add'} label="Icon Dropdown:" className={'icon-dropdown'} dropdownType={DropdownType.customDropdown}>
+                    <Label style={{ paddingLeft: '5px' }}>Header</Label>
+                    <hr />
+                    <li style={{ display: 'inline-block', padding: '5px', width: '100px' }}>
+                        <Icon style={{ paddingTop: '5px' }} iconName={'icon-account'}></Icon>
+                        <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
+                    </li>
+                    <li style={{ display: 'inline-block', padding: '5px', width: '100px' }}>
+                        <Icon style={{ paddingTop: '5px' }} iconName={'icon-account'}></Icon>
+                        <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
+                    </li>
+                </Dropdown>
+
+                <Dropdown
+                    label="Custom Dropdown:"
+                    className={'custom-dropdown'}
+                    dropdownType={DropdownType.customDropdown}
+                    hasTitleBorder={true}
+                    onCustomSelectionText={() => 'Acceleratio.SPDocKit.EventCollection.Service'}
+                >
+                    <li style={{ display: 'inline-block', padding: '5px', width: '100px' }}>
+                        <Icon style={{ paddingTop: '5px' }} iconName={'icon-account'}></Icon>
+                        <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
+                    </li>
+                    <li style={{ display: 'inline-block', padding: '5px', width: '100px' }}>
+                        <Icon style={{ paddingTop: '5px' }} iconName={'icon-account'}></Icon>
+                        <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
+                    </li>
+                </Dropdown>
+
+                <Dropdown
+                    label="Custom Dropdown:"
+                    className={'custom-dropdown'}
+                    dropdownType={DropdownType.customDropdown}
+                    hasTitleBorder={false}
+                    showArrowIcon={true}
+                    onCustomSelectionText={() => 'Acceleratio.SPDocKit.EventCollection.Service'}
+                >
+                    <li style={{ display: 'inline-block', padding: '5px', width: '100px' }}>
+                        <Icon style={{ paddingTop: '5px' }} iconName={'icon-account'}></Icon>
+                        <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
+                    </li>
+                    <li style={{ display: 'inline-block', padding: '5px', width: '100px' }}>
+                        <Icon style={{ paddingTop: '5px' }} iconName={'icon-account'}></Icon>
                         <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
                     </li>
                 </Dropdown>
 
                 <div>
                     <Label>Button + Arrow Dropdown:</Label>
-                    <div style={{display: 'inline-flex'}}>
-                        <Button className={'button-primary'} icon={'icon-add'} style={{borderRadius: '8px 0 0 8px'}}></Button>
+                    <div style={{ display: 'inline-flex' }}>
+                        <Button className={'button-primary'} icon={'icon-add'} style={{ borderRadius: '8px 0 0 8px' }}></Button>
                         <Dropdown className={'arrow-dropdown'} dropdownType={DropdownType.customDropdown}>
                             <li className={'dropdown-item'}>Option a</li>
                             <li className={'dropdown-item is-selected'}>Option b</li>
@@ -107,6 +152,13 @@ export class Index extends React.Component<any, any> {
                         </Dropdown>
                     </div>
                 </div>
+
+                <Dropdown icon="icon-add" label="Arrow dropdown" className={'arrow-dropdown'} hasTitleBorder={false} dropdownType={DropdownType.customDropdown}>
+                    <li className={'dropdown-item'}>Option a</li>
+                    <li className={'dropdown-item is-selected'}>Option b</li>
+                    <li className={'dropdown-item'}>Option c</li>
+                    <li className={'dropdown-item'}>Option d</li>
+                </Dropdown>
             </div>
 
         );

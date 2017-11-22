@@ -12,6 +12,7 @@ export class Index extends React.Component<any, any> {
         return (
             <div>
                 <Label>I'm a Label</Label>
+                <Label icon={'icon-add'}>I'm a Label with icon</Label>
                 <Label disabled={true}>I'm a disabled Label</Label>
                 <Label required={true}>I'm a required Label</Label>
             </div>

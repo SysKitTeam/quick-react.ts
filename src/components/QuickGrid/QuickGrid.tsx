@@ -166,8 +166,8 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         } else {
             width = document.getElementById('root').clientWidth;
         }
-        // left margin is 25px
-        return width - 25;
+        // 35px margins
+        return width - 35;
     }
 
     getGridWidth() {

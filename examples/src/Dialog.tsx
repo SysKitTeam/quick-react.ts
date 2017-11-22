@@ -25,6 +25,7 @@ export class Index extends React.Component<any, any> {
                 <Dialog
                     isOpen={this.state.showDialog}
                     onDismiss={this._toggleDialog.bind(this)}
+                    headerClassName="header-inverse"
                 >
                     <div style={{ width: '500px' }}>
                         <TextField label="TextField with a placeholder:" placeholder="Now I am a Placeholder" /> <br />
@@ -56,7 +57,8 @@ export class Index extends React.Component<any, any> {
                     isOpen={this.state.showDialog2}
                     onDismiss={this._toggleDialog2.bind(this)}
                     title={'Warning'}
-                    subText={'This is warning message and you have to fix it!'}>
+                    subText={'This is warning message and you have to fix it!'}
+                    headerClassName="header-white">
                     <DialogFooter>
                         <Button className={'button-textual'} onClick={this._toggleDialog2.bind(this)}>Cancel</Button>
                         <Button className={'button-primary'} onClick={this._toggleDialog2.bind(this)}>Save</Button>

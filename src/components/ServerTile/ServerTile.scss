@@ -19,6 +19,7 @@
     }
 
     .server-details-header {
+        padding-left: 10px;
         margin: 5px 0 10px 0;
         height: 45px;
 
@@ -104,6 +105,14 @@
                 overflow: hidden;
                 display: inline-flex;
             }
+        }
+    }
+
+    &.is-clickable {
+        cursor: pointer;
+
+        .server-name, .tile > .label {
+            cursor: pointer;
         }
     }
 

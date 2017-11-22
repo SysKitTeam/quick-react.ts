@@ -43,7 +43,11 @@
              color: $error-color;
              cursor: pointer;
          }
-     }
+    }
+
+     &.is-clickable {
+        cursor: pointer;
+    }
 
     &.status-ok {
         border-left-color: $ok-status-server;

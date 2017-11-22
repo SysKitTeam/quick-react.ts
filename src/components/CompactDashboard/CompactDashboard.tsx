@@ -166,13 +166,16 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
 
     @autobind
     private renderSingleServerCell(server, { index, isScrolling, key, style }): JSX.Element {
+        let compactServerClassName = classNames('compact-farm', { 'is-clickable': this.props.serverOnClick !== undefined && this.props.serverOnClick !== null });
+
         return (
             <HoverableCompactServer
                 key={key}
                 server={server}
-                className="compact-farm"
+                className={compactServerClassName}
                 style={style}
                 onRoleEdit={this.props.onServerRoleEdit}
+                serverOnClick={this.props.serverOnClick}
                 hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}
             />
         );

@@ -1,5 +1,5 @@
 export interface IProgressBarProps {
-    title: string;
+    title?: string;
     info?: string;
     data: IUsage;
     progressClass?: string;

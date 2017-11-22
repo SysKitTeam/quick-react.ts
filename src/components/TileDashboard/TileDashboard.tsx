@@ -122,11 +122,11 @@ export class TileDashboard extends React.Component<ITileDashboardProps, ITileDas
 
     @autobind
     private _renderRow({ index, isScrolling, key, style }): JSX.Element {
-        const farm = this.getRow(index);
-        if (farm.servers.length === 0) {
+        const group = this.getRow(index);
+        if (group.servers.length === 0) {
             return;
         }
-        let icon = getIconNameFromType(this.props.icons, farm.type);
+        let icon = getIconNameFromType(this.props.icons, group.type);
         return (
             <div style={style} key={index}>
                 <TileGroup
@@ -134,7 +134,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, ITileDas
                     onGroupDelete={this.props.onGroupDelete}
                     onAddToGroup={this.props.onAddToGroup}
                     onServerRoleEdit={this.props.onServerRoleEdit}
-                    farm={farm}
+                    group={group}
                     serverOnClick={this.props.serverOnClick}
                     groupOnClick={this.props.groupOnClick}
                     iconName={icon.iconName}
@@ -153,6 +153,13 @@ export class TileDashboard extends React.Component<ITileDashboardProps, ITileDas
         }
     }
 
+    private serverOnClick = (serverId: any) => {
+        const { serverOnClick } = this.props;
+        if (serverOnClick) {
+            serverOnClick('', serverId);
+        }
+    }
+
     @autobind
     private renderSingleServerCell(server: IServer, { index, isScrolling, key, style }): JSX.Element {
         return (
@@ -165,6 +172,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, ITileDas
                     status={server.status}
                     countersData={getServerMeasures(server.measures)}
                     diskInformation={getDiskInformationFromMeasurements(server.measures)}
+                    serverOnClick={this.serverOnClick}
                     hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}>
                 </ServerTile>
             </div>

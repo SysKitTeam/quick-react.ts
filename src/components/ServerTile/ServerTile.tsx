@@ -16,7 +16,7 @@ export class ServerTile extends React.PureComponent<IServerTileProps, {}> {
         let serverHoverMessage = this.props.hoverMessageForCriticalOrWarningServer && (this.props.status === ServerStatus.Critical || this.props.status === ServerStatus.Warning) ? this.props.hoverMessageForCriticalOrWarningServer : '';
 
         return (
-            <div className={className} onClick={this.serverOnClick} title={serverHoverMessage}>
+            <div className={classNames(className, { 'is-clickable': this.props.serverOnClick !== undefined && this.props.serverOnClick !== null })} onClick={this.serverOnClick} title={serverHoverMessage}>
                 <div className={'server-details-header'}>
                     <Label className="server-name" title={this.props.name}>{this.props.name}</Label>
                     {this.props.onClose &&

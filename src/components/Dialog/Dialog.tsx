@@ -130,7 +130,7 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
                             tabIndex={0}
                             onKeyUp={this._onContainerKeyUp}
                         >
-                            <div className={'dialog-header'}>
+                            <div className={classNames('dialog-header', this.props.headerClassName)}>
                                 <div className={'dialog-title'} id={id + '-title'}>{title}</div>
                                 <div className={'dialog-topButton'}>
                                     {hasCloseXButton &&
