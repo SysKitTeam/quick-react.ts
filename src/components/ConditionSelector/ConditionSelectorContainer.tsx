@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './ConditionSelector.scss';
-import { IExpressionDefinitionTree, IConditionDefinition, LogicalOperatorTypeEnum, IConditionSelectorPorps, ConditionSelector, IConditionSelectorContainerProps } from './';
+import { IExpressionDefinitionTree, IConditionDefinition, LogicalOperatorTypeEnum, ConditionSelector, IConditionSelectorContainerProps } from './';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 

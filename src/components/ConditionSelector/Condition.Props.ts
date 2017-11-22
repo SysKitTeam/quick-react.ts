@@ -23,7 +23,7 @@ export interface IConditionDefinition {
     additionalData?: any;
     conditionDragged?: (dragSource: any, dragTarget: any) => void;
     connectDragSource?: any;
-    isDragging?: any;
+    isDragging?: boolean;
 }
 
 export interface IConditionRowState {

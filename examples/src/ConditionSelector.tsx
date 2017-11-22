@@ -6,7 +6,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { LogicalOperatorTypeEnum, PropertyTypeEnum, IExpressionDefinitionTree, 
-    ConditionSelectorContainer, IConditionRowState, IConditionSelectorPorps } from './../../src/components/ConditionSelector';
+    ConditionSelectorContainer, IConditionRowState, IConditionSelectorProps } from './../../src/components/ConditionSelector';
 
 export class Index extends React.Component<any, any> {    
 
@@ -106,7 +106,7 @@ export class Index extends React.Component<any, any> {
                                                                     }  
                                                 }]
                                 }]};
-        const innerProps: IConditionSelectorPorps = {
+        const innerProps: IConditionSelectorProps = {
             specialConditionsList: treeviewElements,
             standardConditionsList: treeviewElements2,
             selectedConditions: conditionElements2,

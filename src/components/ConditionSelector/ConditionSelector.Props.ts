@@ -1,7 +1,7 @@
 import { ITreeviewItem } from '../Treeview';
 import { IExpressionDefinitionTree, LogicalOperatorTypeEnum, IConditionRowState } from './';
 
-export interface IConditionSelectorPorps {
+export interface IConditionSelectorProps {
     specialConditionsList?: ITreeviewItem[];
     standardConditionsList?: ITreeviewItem[];
     selectedConditions?: IExpressionDefinitionTree;
@@ -13,7 +13,7 @@ export interface IConditionSelectorPorps {
 }
 
 export interface IConditionSelectorContainerProps {
-    conditionSelectorProps: IConditionSelectorPorps;
+    conditionSelectorProps: IConditionSelectorProps;
     onDragDrop?: (newTree: IExpressionDefinitionTree) =>  void;
 }
 

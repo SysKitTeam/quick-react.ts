@@ -50,7 +50,7 @@ export class Condition extends React.PureComponent <IConditionDefinition, {}> {
     renderTextFieldEditor = (placeholer: string, value: any, type: string = 'text') => {
         return <TextField 
                 required={true} 
-                placeholder="Enter text value"
+                placeholder={placeholer}
                 value={value}
                 onChanged={this.textFieldChanged}
                 type={type}
