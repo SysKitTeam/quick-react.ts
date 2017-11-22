@@ -1,20 +1,20 @@
 import { ITreeviewItem } from '../Treeview';
-import { ExpressionDefinitionTree, LogicalOperatorTypeEnum, ConditionRowState } from './';
+import { IExpressionDefinitionTree, LogicalOperatorTypeEnum, IConditionRowState } from './';
 
-export class ConditionSelectorPorps {
+export interface IConditionSelectorPorps {
     specialConditionsList?: ITreeviewItem[];
     standardConditionsList?: ITreeviewItem[];
-    selectedConditions?: ExpressionDefinitionTree;
+    selectedConditions?: IExpressionDefinitionTree;
     conditionDragged?: (dragSource: any, dragTarget: any) => void;
     conditionValueChanged?: (conditionId: string, conditionValue: any) => void;
     logicalOperatorChanged?: (id: string, logicalOperator: LogicalOperatorTypeEnum) => void;
-    compareConditionChanged?: (conditionRowState: ConditionRowState) => void;
+    compareConditionChanged?: (conditionRowState: IConditionRowState) => void;
     conditionListSelectionChanged?: (treeListId: string, itemsId?: string[], checked?: boolean) => void;
 }
 
-export class ConditionSelectorContainerProps {
-    conditionSelectorProps: ConditionSelectorPorps;
-    onDragDrop?: (newTree: ExpressionDefinitionTree) =>  void;
+export interface IConditionSelectorContainerProps {
+    conditionSelectorProps: IConditionSelectorPorps;
+    onDragDrop?: (newTree: IExpressionDefinitionTree) =>  void;
 }
 
 

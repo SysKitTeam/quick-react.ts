@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './ConditionGroup.scss';
 import * as classNames from 'classnames';
-import { Condition, LogicalOperatorTypeEnum, ExpressionDefinitionTree } from './';
+import { Condition, LogicalOperatorTypeEnum, IExpressionDefinitionTree } from './';
 import { Dropdown, DropdownType, IDropdownOption } from '../Dropdown';
 import { DropTarget } from 'react-dnd';
 
@@ -22,7 +22,7 @@ function collectTarget(connect, monitor) {
 }
 
 @DropTarget('condition', conditionTarget, collectTarget)
-export class ConditionGroup extends React.PureComponent <ExpressionDefinitionTree, {}> {
+export class ConditionGroup extends React.PureComponent <IExpressionDefinitionTree, {}> {
     getLogicalOperationsList = () => {
         const getLogicalOpertionItem = (value: LogicalOperatorTypeEnum, displayText: string) => {
             return {key: value, text: displayText, selected: value === this.props.logicalOperator};

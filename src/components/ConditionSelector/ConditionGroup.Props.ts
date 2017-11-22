@@ -1,4 +1,4 @@
-import { ConditionDefinition, ConditionRowState } from './';
+import { IConditionDefinition, IConditionRowState } from './';
 
 export enum LogicalOperatorTypeEnum {
     None = -1,
@@ -7,15 +7,15 @@ export enum LogicalOperatorTypeEnum {
     Empty = 1000
 }
 
-export class ExpressionDefinitionTree {
+export interface IExpressionDefinitionTree {
     id: string;
     logicalOperator: LogicalOperatorTypeEnum;
-    conditionDefinition?: ConditionDefinition;
-    subExpressions?: ExpressionDefinitionTree[];    
+    conditionDefinition?: IConditionDefinition;
+    subExpressions?: IExpressionDefinitionTree[];    
     isOver?: boolean;    
     connectDropTarget?: any;
     conditionDragged?: (dragSource: any, dragTarget: any) => void;
     conditionValueChanged?: (conditionId: string, conditionValue: any) => void;
     logicalOperatorChanged?: (id: string, logicalOperator: LogicalOperatorTypeEnum) => void;
-    compareConditionChanged?: (conditionRowState: ConditionRowState) => void;
+    compareConditionChanged?: (conditionRowState: IConditionRowState) => void;
 }

@@ -8,7 +8,7 @@ export enum PropertyTypeEnum {
     DateTime,
     None   
 }
-export class ConditionDefinition {    
+export interface IConditionDefinition {    
     id: string;
     parentId?: string;
     propertyName: string;
@@ -18,7 +18,7 @@ export class ConditionDefinition {
     compareConditions?: IDropdownOption[];
     hasIndent?: boolean; // default false 
     indentSize?: number; // default 30
-    compareConditionChanged?: (conditionRowState: ConditionRowState) => void;
+    compareConditionChanged?: (conditionRowState: IConditionRowState) => void;
     conditionValueChanged?: (conditionId: string, conditionValue: any) => void;
     additionalData?: any;
     conditionDragged?: (dragSource: any, dragTarget: any) => void;
@@ -26,7 +26,7 @@ export class ConditionDefinition {
     isDragging?: any;
 }
 
-export class ConditionRowState {
+export interface IConditionRowState {
     propertyId: string;
     selectedCompareConditionKey: string | number;
 }

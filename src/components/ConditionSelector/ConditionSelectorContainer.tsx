@@ -1,18 +1,18 @@
 import * as React from 'react';
 import './ConditionSelector.scss';
-import { ExpressionDefinitionTree, ConditionDefinition, LogicalOperatorTypeEnum, ConditionSelectorPorps, ConditionSelector, ConditionSelectorContainerProps } from './';
+import { IExpressionDefinitionTree, IConditionDefinition, LogicalOperatorTypeEnum, IConditionSelectorPorps, ConditionSelector, IConditionSelectorContainerProps } from './';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 
 @DragDropContext(HTML5Backend)
-export class ConditionSelectorContainer extends React.PureComponent <ConditionSelectorContainerProps, {}> {
+export class ConditionSelectorContainer extends React.PureComponent <IConditionSelectorContainerProps, {}> {
     
     constructor (props) {
         super(props);
     }
 
-    conditionDragged = (dragSource: ConditionDefinition, dragTarget: ExpressionDefinitionTree) => {
-        const findElement = (id, treeElement: ExpressionDefinitionTree) => {
+    conditionDragged = (dragSource: IConditionDefinition, dragTarget: IExpressionDefinitionTree) => {
+        const findElement = (id, treeElement: IExpressionDefinitionTree) => {
             if (Boolean(treeElement)) {
                 if (treeElement.id === id) {
                     return treeElement;
@@ -36,13 +36,13 @@ export class ConditionSelectorContainer extends React.PureComponent <ConditionSe
             return;
         }
         target.subExpressions = [];
-        const existingCondition: ExpressionDefinitionTree = {
+        const existingCondition: IExpressionDefinitionTree = {
             id: dragTarget.id + (target.subExpressions.length + 1),
             logicalOperator: LogicalOperatorTypeEnum.None,
             conditionDefinition: {...dragTarget.conditionDefinition}
         };
         target.subExpressions.push(existingCondition);
-        const conditionCopy: ExpressionDefinitionTree = {
+        const conditionCopy: IExpressionDefinitionTree = {
             id: dragTarget.id + (target.subExpressions.length + 1),
             logicalOperator: LogicalOperatorTypeEnum.And,
             conditionDefinition: {...dragSource}

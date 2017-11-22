@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './Condition.scss';
 import * as classNames from 'classnames';
-import { ConditionRowState, ConditionDefinition, PropertyTypeEnum } from './';
+import { IConditionRowState, IConditionDefinition, PropertyTypeEnum } from './';
 import { Dropdown, DropdownType, IDropdownOption } from '../Dropdown';
 import { Button } from '../Button';
 import { TextField } from '../TextField';
@@ -30,7 +30,7 @@ function collectSource(connect, monitor) {
 }
 
 @DragSource('condition', conditionSource, collectSource)
-export class Condition extends React.PureComponent <ConditionDefinition, {}> {
+export class Condition extends React.PureComponent <IConditionDefinition, {}> {
     public static defaultProps = {
         hasIndent: false,
         indentSize: 30,
@@ -38,7 +38,7 @@ export class Condition extends React.PureComponent <ConditionDefinition, {}> {
     };
 
     compareConditionChanged = (option: IDropdownOption, index?: number) => {
-        const state: ConditionRowState  = {
+        const state: IConditionRowState  = {
             propertyId: this.props.id,
             selectedCompareConditionKey: option.key
         };

@@ -5,7 +5,8 @@ import 'ts-helpers';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { LogicalOperatorTypeEnum, PropertyTypeEnum, ExpressionDefinitionTree, ConditionDefinition, ConditionSelector, ConditionSelectorContainer, ConditionRowState, ConditionSelectorPorps } from './../../src/components/ConditionSelector';
+import { LogicalOperatorTypeEnum, PropertyTypeEnum, IExpressionDefinitionTree, 
+    ConditionSelectorContainer, IConditionRowState, IConditionSelectorPorps } from './../../src/components/ConditionSelector';
 
 export class Index extends React.Component<any, any> {    
 
@@ -20,11 +21,11 @@ export class Index extends React.Component<any, any> {
         console.log('Logical operator changed');
     }
 
-    compareConditionChanged = (conditionRowState: ConditionRowState) => {
+    compareConditionChanged = (conditionRowState: IConditionRowState) => {
         console.log('Compoare condition changed');
     }
 
-    dragDrop = (newTree: ExpressionDefinitionTree) => {
+    dragDrop = (newTree: IExpressionDefinitionTree) => {
         console.log('Drag\'n\'drop occurred');
     }
 
@@ -35,7 +36,7 @@ export class Index extends React.Component<any, any> {
     public render() {
         const treeviewElements = [{id: '1', text: 'Script returns any data'}, {id: '2', text: 'Script does not return data'}, {id: '3', text: 'Exception occurs while executing the script'}];
         const treeviewElements2 = [{id: '1', text: 'With specific Name'}, {id: '2', text: 'With specific Status'}, {id: '3', text: 'With specific Restarted On'}, {id: '4', text: 'Mirko'}];        
-        let conditionElements2: ExpressionDefinitionTree 
+        let conditionElements2: IExpressionDefinitionTree 
             = { logicalOperator: LogicalOperatorTypeEnum.None, 
                 id: '1',
                 subExpressions: [{ logicalOperator: LogicalOperatorTypeEnum.None,
@@ -105,7 +106,7 @@ export class Index extends React.Component<any, any> {
                                                                     }  
                                                 }]
                                 }]};
-        const innerProps: ConditionSelectorPorps = {
+        const innerProps: IConditionSelectorPorps = {
             specialConditionsList: treeviewElements,
             standardConditionsList: treeviewElements2,
             selectedConditions: conditionElements2,
