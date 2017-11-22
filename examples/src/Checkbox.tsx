@@ -40,7 +40,7 @@ export class Index extends React.Component<any, any> {
                     checked={this.state.iconChecked}
                 />
 
-                <div style={{backgroundColor: $secondaryColor, paddingLeft: '10px'}}>
+                <div style={{ backgroundColor: $secondaryColor, paddingLeft: '10px' }}>
                     <Checkbox
                         label={'This is white checkbox'}
                         onChange={(ev, checked) => this._onWhiteChange()}
@@ -49,7 +49,7 @@ export class Index extends React.Component<any, any> {
                     />
                 </div>
 
-                <div style={{backgroundColor: $secondaryColor, paddingLeft: '10px'}}>
+                <div style={{ backgroundColor: $secondaryColor, paddingLeft: '10px' }}>
                     <Checkbox
                         label={'This is disabled white checkbox'}
                         disabled={true}

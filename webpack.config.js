@@ -43,11 +43,14 @@ module.exports = {
         DetailedServerTile: "./examples/src/DetailedServerTile.tsx",
         ServerGridDashboard: "./examples/src/ServerGridDashboard.tsx",
         DateTimePicker: "./examples/src/DateTimePicker.tsx",
+        CustomDateRange: "./examples/src/CustomDateRange.tsx",
         TreeFilter: "./examples/src/TreeFilter.tsx",
         QuickGrid: "./examples/src/QuickGrid.tsx",
         Tooltip: "./examples/src/Tooltip.tsx",
         Wizard: "./examples/src/Wizard.tsx",
-        MessageBox: "./examples/src/MessageBox.tsx"
+        MessageBox: "./examples/src/MessageBox.tsx",
+        Compare: "./examples/src/Compare.tsx",
+        Scheduler: "./examples/src/Scheduler.tsx",
     },
     output: {
         path: path.join(__dirname, '/dist'),

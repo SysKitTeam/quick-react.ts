@@ -34,7 +34,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
     /**
      * When component receives new props set state based on new props.
      */
-    public componentWillReceiveProps(newProps: ILineChartProps, newState: any) {
+    public componentWillReceiveProps(newProps: ILineChartProps) {
         this.setState({
             fullWidth: newProps.width,
             fullHeight: newProps.height,

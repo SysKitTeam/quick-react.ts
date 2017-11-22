@@ -11,8 +11,8 @@ export interface IVirtualizedTreeViewProps {
     filterSelection?: IFilterSelection;
     isSingleSelect?: boolean;
     showButtons?: boolean;
-    onSave: () => void;
-    onCancel: () => void;
+    onSave?: () => void;
+    onCancel?: () => void;
     isGroupSelectableOnSingleSelect?: boolean;
     itemsAreFlatList?: boolean;
     onValuesSelected?: (filterId: string, filterSelection: IFilterSelection) => void;

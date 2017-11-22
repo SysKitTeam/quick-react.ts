@@ -30,7 +30,7 @@ export class ChartTooltip extends React.PureComponent<IChartTooltipProps, any> {
         };
     }
 
-    public componentWillReceiveProps(nextProps: IChartTooltipProps, nextState: any) {
+    public componentWillReceiveProps(nextProps: IChartTooltipProps) {
         const x = nextProps.x - this.state.width / 2;
         const y = nextProps.y - this.state.height - TIP_ARROW_HEIGHT;
         this.setState({ translateX: x, translateY: y });
