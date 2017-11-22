@@ -127,7 +127,8 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
     if (this.props.dropdownType !== DropdownType.actionDropdown && this.props.options.length > 0) {
       let longest = this.props.options.reduce((a, b) => { return a.text.length > b.text.length ? a : b; });
       const arrowIconWidth = this.props.showArrowIcon ? 40 : 15;
-      return longest.text.length * 8 + arrowIconWidth + 'px';
+      const accualWitdh = longest.text.length * 8  + arrowIconWidth;
+      return Math.max(accualWitdh, 50) + 'px';
     }
     return;
   }
