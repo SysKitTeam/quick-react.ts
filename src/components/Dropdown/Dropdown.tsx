@@ -120,7 +120,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
                     role="combobox"
                     style={dropdownContainerStyle}
                 >
-                    <span className={dropdownTitleClassName} title={this.props.title}>
+                    <span className={dropdownTitleClassName} title={this.props.label}>
                         {icon && (
                             <Icon iconName={icon}></Icon>
                         )}
@@ -150,8 +150,9 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
     getMaxItemWidth = () => {
         if (this.props.dropdownType !== DropdownType.actionDropdown && this.props.options.length > 0) {
             let longest = this.props.options.reduce((a, b) => { return a.text.length > b.text.length ? a : b; });
-            const arrowIconWidth = this.props.showArrowIcon ? 40 : 15;
-            return longest.text.length * 8 + arrowIconWidth + 'px';
+            const arrowIconWidth = this.props.showArrowIcon ? 50 : 25;
+            const accualWitdh = longest.text.length * 8  + arrowIconWidth;
+            return Math.max(accualWitdh, 60) + 'px';
         }
         return;
     }

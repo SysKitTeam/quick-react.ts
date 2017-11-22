@@ -1,0 +1,35 @@
+@import '../../index.scss';
+
+.command-definition-row-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: #F0F0F0;
+    padding: 5px;
+    height: 40px;
+    
+    &.command-in-drag {
+        opacity: 0.3;
+    }
+
+    .left-content {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+    }
+    
+    .condtion-content {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        > div {
+            padding-right: 15px;
+        }
+    }
+
+    .dropdown, .text-field {
+        margin-bottom: 0;
+    }
+}

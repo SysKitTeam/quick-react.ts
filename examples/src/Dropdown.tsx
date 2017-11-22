@@ -7,7 +7,6 @@ import * as ReactDOM from 'react-dom';
 
 import { Dropdown } from './../../src/components/Dropdown/Dropdown';
 import { DropdownType } from './../../src/components/Dropdown/Dropdown.Props';
-
 import { Label } from './../../src/components/Label/Label';
 import { Icon } from './../../src/components/Icon/Icon';
 import { Slider } from './../../src/components/Slider/Slider';
@@ -16,8 +15,8 @@ import { Button } from './../../src/components/Button/Button';
 import { dropdownOptions } from '../MockData/dropdownOptions';
 
 export class Index extends React.Component<any, any> {
+    
     public render() {
-
         return (
             <div>
                 <Dropdown
