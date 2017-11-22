@@ -7,6 +7,7 @@ import { Spinner } from '../Spinner/Spinner';
 import { MessageLevel, IMessageBoxProps, IMessageBoxButton } from './MessageBox.Props';
 import { DirectionalHint } from '../../utilities/DirectionalHint';
 import { Tooltip } from '../Tooltip/Tooltip';
+import { autobind } from './../../utilities/autobind';
 import './messageBox.scss';
 
 export class MessageBox extends React.Component<IMessageBoxProps, {}> {
@@ -33,7 +34,8 @@ export class MessageBox extends React.Component<IMessageBoxProps, {}> {
             hasCloseXButton,
             isOpen,
             errorMessage,
-            acceptButtonDisabled
+            acceptButtonDisabled,
+            bulletedList
         } = this.props;
 
         const mappedButtons = buttons && buttons.map((button, index) => {
@@ -81,6 +83,7 @@ export class MessageBox extends React.Component<IMessageBoxProps, {}> {
                     <Icon iconName={iconName} />
                     {message}
                 </div>
+                {this._renderBulletList()}
                 {
                     isLoading && <Spinner className="message-box-spinner" />
                 }
@@ -101,6 +104,21 @@ export class MessageBox extends React.Component<IMessageBoxProps, {}> {
                     {onAccept && <Button className="button-primary" disabled={acceptButtonDisabled} onClick={onAccept}>{acceptText}</Button>}
                 </DialogFooter>
             </Dialog>
+        );
+    }
+
+    @autobind
+    _renderBulletList() {
+        if (!this.props.bulletedList || this.props.bulletedList.length === 0) {
+            return null;
+        }
+
+        return (
+            <ul>
+                {this.props.bulletedList.map(data => (
+                    <li>{data}</li>
+                ))}
+            </ul>
         );
     }
 }

@@ -25,4 +25,5 @@ export interface IMessageBoxProps {
     onCustomButtonClick?(index: number): void;
     isLoading?: boolean;
     errorMessage?: string;
+    bulletedList?: Array<string>;
 }
