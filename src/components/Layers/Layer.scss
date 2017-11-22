@@ -11,6 +11,7 @@
     visibility: visible;
     position: absolute;
     width: 100%;
+    z-index: 10;
 
     &.dropdown-projected-layer {
         height: 100%;

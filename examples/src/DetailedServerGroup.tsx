@@ -9,17 +9,17 @@ import { DetailedServerGroup } from './../../src/components/DetailedServerGroup/
 import { DemoServerGroup } from './../MockData/farms';
 
 export class Index extends React.Component<any, any> {
-       public constructor() {
+    public constructor() {
         super();
-         this.state = {
+        this.state = {
             farm: DemoServerGroup
-        };    
+        };
     }
 
     public render() {
         return (
-            <div>
-                <DetailedServerGroup id={''} filter={''} name={this.state.farm.name} servers={this.state.farm.servers} iconName={'icon-group'} iconTitle={'Group'}/>              
+            <div style={{ height: '900px' }}>
+                <DetailedServerGroup id={''} filter={''} name={this.state.farm.name} servers={this.state.farm.servers} iconName={'icon-group'} iconTitle={'Group'} />
             </div>
         );
     }

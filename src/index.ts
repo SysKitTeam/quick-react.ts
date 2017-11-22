@@ -56,3 +56,4 @@ export * from './components/Scheduler';
 export * from './utilities/autobind';
 export * from './utilities/KeyCodes';
 export * from './utilities/rtl';
+export * from './utilities/DirectionalHint';

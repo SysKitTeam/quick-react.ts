@@ -35,7 +35,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
         let serverHoverMessage = this.props.hoverMessageForCriticalOrWarningServer && (this.props.status === ServerStatus.Critical || this.props.status === ServerStatus.Warning) ? this.props.hoverMessageForCriticalOrWarningServer : '';
 
         return (
-            <div className={classNames(className)} onClick={this.serverOnClick} style={this.props.style} title={serverHoverMessage}>
+            <div className={classNames(className, {'is-clickable': this.props.serverOnClick !== undefined && this.props.serverOnClick !== null})} onClick={this.serverOnClick} style={this.props.style} title={serverHoverMessage}>
                 {this.props.onClose &&
                     <Icon disabled={false}
                         className={'dialog-button dialog-button-close'}

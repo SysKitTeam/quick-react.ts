@@ -23,7 +23,7 @@ export function createFarms(numOfFarms: number, minServerCount: number, maxServe
             servers.push({
                 id: 'server' + farmIndex + '' + i,
                 name: 'server ' + farmIndex + '' + i,
-                roles: hasRoles ? roleListFarms : [],                
+                roles: hasRoles ? roleListFarms : [],
                 status: Math.random() >= 0.5 ? 1 : 2,
                 type: Math.random() >= 0.5 ? GroupTypeEnum.SharePoint : GroupTypeEnum.Sql
             });
@@ -85,6 +85,78 @@ export const DemoServerGroup: IGroup = {
         {
             id: 'FQDN2',
             name: 'server2',
+            roles: roleListFarms,
+            status: Math.random() >= 0.5 ? 1 : 2,
+            numberOfUsers: '2351',
+            memoryUsage: memoryUsage,
+            partitionUsages: partitionUsages,
+            processorUsage: processorUsage,
+            measures: [],
+            type: Math.random() >= 0.5 ? GroupTypeEnum.SharePoint : GroupTypeEnum.SqlAlwaysOn
+        },
+        {
+            id: 'FQDN3',
+            name: 'server3',
+            roles: roleListFarms,
+            status: Math.random() >= 0.5 ? 1 : 2,
+            numberOfUsers: '2351',
+            memoryUsage: memoryUsage,
+            partitionUsages: partitionUsages,
+            processorUsage: processorUsage,
+            measures: [],
+            type: Math.random() >= 0.5 ? GroupTypeEnum.SharePoint : GroupTypeEnum.SqlAlwaysOn
+        },
+        {
+            id: 'FQDN4',
+            name: 'server4',
+            roles: roleListFarms,
+            status: Math.random() >= 0.5 ? 1 : 2,
+            numberOfUsers: '2351',
+            memoryUsage: memoryUsage,
+            partitionUsages: partitionUsages,
+            processorUsage: processorUsage,
+            measures: [],
+            type: Math.random() >= 0.5 ? GroupTypeEnum.SharePoint : GroupTypeEnum.SqlAlwaysOn
+        },
+        {
+            id: 'FQDN5',
+            name: 'server5',
+            roles: roleListFarms,
+            status: Math.random() >= 0.5 ? 1 : 2,
+            numberOfUsers: '2351',
+            memoryUsage: memoryUsage,
+            partitionUsages: partitionUsages,
+            processorUsage: processorUsage,
+            measures: [],
+            type: Math.random() >= 0.5 ? GroupTypeEnum.SharePoint : GroupTypeEnum.SqlAlwaysOn
+        },
+        {
+            id: 'FQDN6',
+            name: 'server6',
+            roles: roleListFarms,
+            status: Math.random() >= 0.5 ? 1 : 2,
+            numberOfUsers: '2351',
+            memoryUsage: memoryUsage,
+            partitionUsages: partitionUsages,
+            processorUsage: processorUsage,
+            measures: [],
+            type: Math.random() >= 0.5 ? GroupTypeEnum.SharePoint : GroupTypeEnum.SqlAlwaysOn
+        },
+        {
+            id: 'FQDN7',
+            name: 'server7',
+            roles: roleListFarms,
+            status: Math.random() >= 0.5 ? 1 : 2,
+            numberOfUsers: '2351',
+            memoryUsage: memoryUsage,
+            partitionUsages: partitionUsages,
+            processorUsage: processorUsage,
+            measures: [],
+            type: Math.random() >= 0.5 ? GroupTypeEnum.SharePoint : GroupTypeEnum.SqlAlwaysOn
+        },
+        {
+            id: 'FQDN8',
+            name: 'server8',
             roles: roleListFarms,
             status: Math.random() >= 0.5 ? 1 : 2,
             numberOfUsers: '2351',

@@ -1,9 +1,8 @@
 @import '../../index.scss';
 
 .server-grid-dashboard-container {
-    height: calc( 100vh -  16px); // browser body margin: 8px
-    width: 100%;
     overflow-y: auto;
+    height: 100%;
 
     .grid-component-cell {
         .server-column-cell {
@@ -46,7 +45,7 @@
             }
             
             &.status-ok {
-                color: $ok-status-server;
+                color: $secondary-color;
             }     
         }   
     }

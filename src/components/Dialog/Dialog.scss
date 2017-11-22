@@ -52,8 +52,18 @@
         }
 
         .dialog-header {
+            &.header-white {
+                background-color: $white-color;
+                color: $secondary-color;
+            }
+
+            &.header-inverse {
+                background-color: $secondary-color;
+            }
+
             box-sizing: border-box;
             background-color: $primary-color;
+            color: $white-color;
             border-radius: 8px 8px 0 0;
 
             .dialog-title {
@@ -61,7 +71,7 @@
                 font-size: 18px;
                 font-weight: 100;
                 padding: 13px 20px;
-                color: $white-color;
+                color: inherit;
                 user-select: none;
                 height: 24px;
             }
@@ -71,10 +81,11 @@
                 top: 0;
                 right: 0;
                 padding: 14px 12px 0 0;
+                color: inherit;
             
                 .dialog-button-close {
                     cursor: pointer;
-                    color: $white-color;
+                    color: inherit;
                     font-size: 16px;
                 }
             }

@@ -6,6 +6,27 @@
     outline: none;
     max-width: 250px;
 
+    .dropdown-title {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        position: relative;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+
+        &.arrow {
+            &.text {
+                padding-right: 20px;
+            }
+
+            .iconArrow {
+                position: absolute;
+                right: 0;
+                top: 5px;
+            }
+        }
+    }
 
     .dropdown-title:hover {
         cursor: pointer;
@@ -17,7 +38,7 @@
     .dropdown-title-border {
         border-radius: 8px;
         border: 1px solid $white-background-lines;
-        padding: 0 10px 0 10px;
+        padding: 0 20px 0 10px;
         box-sizing: border-box;
         cursor: pointer;
         line-height: 29px;
@@ -93,11 +114,12 @@
 
         .dropdown-title {
             background-color: $primary-color;
+            display: initial;
 
             .icon {
                 font-size: 16px;
                 color: $white-color;
-                padding: 7px;
+                padding: 8px 7px;
                 margin-right: 0;
                 line-height: 16px;
             }
@@ -229,6 +251,7 @@
                     text-overflow: ellipsis;
                     user-select: none;
                     cursor: pointer;
+                    display: block;
 
                     &.is-selected {
                         background-color: $white-color;

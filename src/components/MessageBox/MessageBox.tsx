@@ -7,6 +7,7 @@ import { Spinner } from '../Spinner/Spinner';
 import { MessageLevel, IMessageBoxProps, IMessageBoxButton } from './MessageBox.Props';
 import { DirectionalHint } from '../../utilities/DirectionalHint';
 import { Tooltip } from '../Tooltip/Tooltip';
+import { autobind } from './../../utilities/autobind';
 import './messageBox.scss';
 
 export class MessageBox extends React.Component<IMessageBoxProps, {}> {
@@ -32,21 +33,23 @@ export class MessageBox extends React.Component<IMessageBoxProps, {}> {
             isLoading,
             hasCloseXButton,
             isOpen,
-            errorMessage
+            errorMessage,
+            acceptButtonDisabled,
+            bulletedList
         } = this.props;
 
         const mappedButtons = buttons && buttons.map((button, index) => {
             let buttonText = '';
-            let isPrimary = false;
+            let buttonClassName = 'button-primary';
             if (typeof button === 'string') {
                 buttonText = button;
             } else {
                 const customButton = button as IMessageBoxButton;
-                ({ title: buttonText, primary: isPrimary } = customButton);
+                ({ title: buttonText, className: buttonClassName } = customButton);
             }
             return (
                 <Button
-                    className={isPrimary ? 'button-primary' : 'button-primary-gray'}
+                    className={buttonClassName}
                     onClick={() => onCustomButtonClick(index)}
                 >
                     {buttonText}
@@ -80,6 +83,7 @@ export class MessageBox extends React.Component<IMessageBoxProps, {}> {
                     <Icon iconName={iconName} />
                     {message}
                 </div>
+                {this._renderBulletList()}
                 {
                     isLoading && <Spinner className="message-box-spinner" />
                 }
@@ -91,15 +95,30 @@ export class MessageBox extends React.Component<IMessageBoxProps, {}> {
                         content={errorMessage}
                         directionalHint={DirectionalHint.rightCenter}
                     >
-                        <Icon className="operation-error" iconName="icon-usklicnik" />
+                        <Icon className="operation-error" iconName="icon-warning2" />
                     </Tooltip>
                 }
                 <DialogFooter>
                     {onClose && <Button className="button-textual" onClick={onClose}>{closeText}</Button>}
                     {buttons && mappedButtons}
-                    {onAccept && <Button className="button-primary" onClick={onAccept}>{acceptText}</Button>}
+                    {onAccept && <Button className="button-primary" disabled={acceptButtonDisabled} onClick={onAccept}>{acceptText}</Button>}
                 </DialogFooter>
             </Dialog>
+        );
+    }
+
+    @autobind
+    _renderBulletList() {
+        if (!this.props.bulletedList || this.props.bulletedList.length === 0) {
+            return null;
+        }
+
+        return (
+            <ul>
+                {this.props.bulletedList.map(data => (
+                    <li>{data}</li>
+                ))}
+            </ul>
         );
     }
 }

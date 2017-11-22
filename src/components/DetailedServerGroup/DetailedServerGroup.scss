@@ -1,12 +1,22 @@
 @import '../../index.scss';
 
 .detailed-server-group {
-    height: 90vh;
+    height: 100%;
     width: 100%;
 
     .farm {
-        margin-bottom: 0;
-        margin-top: 60px;
+        margin: 0;
         display: table;
+        padding: 20px;
+        padding-bottom: 0;
+
+        .farm-name {
+            position: initial;
+            padding: 5px;
+
+            .group-icon {
+                margin-left: 10px;
+            }
+        }
     }
 }

@@ -5,6 +5,11 @@ import { IServer } from '../../models';
 const AutoSizer = require('react-virtualized').AutoSizer;
 const Collection = require('react-virtualized').Collection;
 
+import './SingleGroupCollection.scss';
+
+const PADDING_TOP = 10;
+const PADDING_LEFT = 30;
+
 export class SingleGroupCollection extends React.PureComponent<ISingleGroupCollectionProps, {}> {
     private collection: any;
     setCollectionRef = (reference) => { this.collection = reference; };
@@ -13,10 +18,10 @@ export class SingleGroupCollection extends React.PureComponent<ISingleGroupColle
             <AutoSizer onResize={this._onResize}>
                 {({ width, height }) => (
                     <div style={{ width: width, height: height }}>
-                        <div className="farm farm-name-inside group-by-none-farm">
+                        <div className="single-group-collection">
                             <Collection
-                                height={height - 40}
-                                width={width - 25}
+                                height={height - PADDING_TOP}
+                                width={width - PADDING_LEFT}
                                 ref={this.setCollectionRef}
                                 cellCount={this.props.group.servers.length}
                                 cellRenderer={this.renderSingleServerCell}

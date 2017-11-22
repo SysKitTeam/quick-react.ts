@@ -24,7 +24,7 @@ export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
 
         return (
             <div className={classNames('breadcrumbs-item', className)}>
-                <div className={'breadcrumbs-item-title'}>
+                <div className="breadcrumbs-item-title">
                     {
                         iconName &&
                         <Icon
@@ -44,14 +44,15 @@ export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
                 {
                     (children.length !== 0) &&
                     <Dropdown
-                        className={'breadcrumbs-dropdown'}
+                        className="breadcrumbs-dropdown"
                         ref={this.setDropdownReference}
-                        calloutClassName={'breadcrumbs-dropdown-callout'}
+                        calloutClassName="breadcrumbs-dropdown-callout"
                         dropdownType={DropdownType.customDropdown}
                         displaySelection={false}
                         icon={icon}
                         onClosed={this.onClosed}
                         onMenuToggle={(opened) => this.setState({ isMenuOpen: opened })}
+                        showArrowIcon={false}
                     >
                         {this.mapChildrenToMenu(children)}
                     </Dropdown>
@@ -67,7 +68,16 @@ export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
 
     private mapChildrenToMenu(children: Array<IBreadcrumbChild>) {
         return children.map((child, index) => {
-            return <li key={index} className="dropdown-item" onClick={() => this.handleChildClick(child)}>{child.displayName}</li>;
+            return (
+                <li
+                    key={index}
+                    className="dropdown-item"
+                    title={child.displayName}
+                    onClick={() => this.handleChildClick(child)}
+                >
+                    {child.displayName}
+                </li>
+            );
         });
     }
 

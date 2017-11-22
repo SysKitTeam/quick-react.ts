@@ -148,7 +148,7 @@ export class CustomDateRange extends React.PureComponent<ICustomDateRangeProps, 
                 <DialogFooter>
                     {!this.state.validDateRangeSelected &&
                         <div className="custom-date-range-error">
-                            <Icon iconName="icon-usklicnik" />
+                            <Icon iconName="icon-warning2" />
                             Start date cannot be after end date!
                         </div>
                     }
@@ -158,7 +158,7 @@ export class CustomDateRange extends React.PureComponent<ICustomDateRangeProps, 
                             className={'tooltip-error'}
                             directionalHint={DirectionalHint.rightCenter}
                             containerClass={'custom-date-range-error'}>
-                            <Icon iconName="icon-usklicnik" />
+                            <Icon iconName="icon-warning2" />
                         </Tooltip>
                     }
                     <Button className="button-textual" onClick={this._closeCustomDateRangeDialog}>Cancel</Button>

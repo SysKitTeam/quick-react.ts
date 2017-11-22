@@ -44,7 +44,7 @@ const items = [
                 displayName: 'Farm 1',
                 key: '1db521f3-f28a-427f-8dec-8aadf5224ce7',
                 children: [
-                    { displayName: 'Server 1', key: '6353dfd5-62ae-43fb-95b1-793069970c16' },
+                    { displayName: 'Server 1Server 1Server 1Server 1Server 1Server 1Server 1', key: '6353dfd5-62ae-43fb-95b1-793069970c16' },
                     { displayName: 'Server 1', key: '0625a264-9a87-4339-acc1-852fed86fda7' }
                 ]
             },
@@ -83,7 +83,7 @@ export class Index extends React.Component<any, any> {
                     homeDisplayName={'Home'}
                     homeUrl={'/'}
                     items={items}
-                    url={'/performance/07bf612a-1354-4269-9339-bbca5ecca246/1'}
+                    url={'/performance/1db521f3-f28a-427f-8dec-8aadf5224ce7/1'}
                     onPathClick={(path) => console.log(path)} />
 
                 <br />

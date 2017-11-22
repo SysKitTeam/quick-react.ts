@@ -1,9 +1,8 @@
 @import '../../index.scss';
 
 .statusBar {
-    background-color: $secondary-color;                       
+    background-color: $primary-color;                       
     height: 23px;
-    z-index: 100;
     width: 100%;
 
     span {
