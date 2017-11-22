@@ -32,35 +32,4 @@
     .dropdown, .text-field {
         margin-bottom: 0;
     }
-
-    .condition-actions {
-        display: flex;
-        justify-content: space-between;
-        margin-right: 10px;
-        .add-new-condition {
-            border-color: $success-color!important;
-            .icon{
-                color: $success-color!important;
-            }
-        }
-        .add-new-condition:hover, .add-new-condition:active {
-            border-color: #73af54!important;
-            .icon{
-                color: #73af54!important;
-            }
-        }
-
-        .delete-condition {
-            border-color: $error-color!important;
-            .icon{
-                color: $error-color!important;
-            }
-        }
-        .delete-condition:hover, .delete-condition:active  {
-            border-color: #f75151!important;
-            .icon{
-                border-color: #f75151!important;
-            }
-        }
-    }
 }

@@ -1,10 +1,8 @@
 import * as React from 'react';
 import './ConditionGroup.scss';
 import * as classNames from 'classnames';
-import { Condition, PropertyTypeEnum, LogicalOperatorTypeEnum, ExpressionDefinitionTree } from './';
+import { Condition, LogicalOperatorTypeEnum, ExpressionDefinitionTree } from './';
 import { Dropdown, DropdownType, IDropdownOption } from '../Dropdown';
-import { TextField } from '../TextField';
-import { DateTimeDropdownPicker } from '../DateTimeDropdownPicker/DateTimeDropdownPicker';
 import { DropTarget } from 'react-dnd';
 
 const conditionTarget = {

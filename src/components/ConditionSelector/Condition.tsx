@@ -46,14 +46,6 @@ export class Condition extends React.PureComponent <ConditionDefinition, any> {
            this.props.compareConditionChanged(state);
         }
     }
-
-    getSelectedConditionElement (selectOptions) { 
-        if (!selectOptions) {
-            return null;
-        }
-        const element = selectOptions.find(x => x.selected === true);
-        return element;
-    }
     
     renderItemEditor = (propertyType: PropertyTypeEnum,  additionalData: any) => {
         switch (propertyType) {
@@ -120,7 +112,7 @@ export class Condition extends React.PureComponent <ConditionDefinition, any> {
     }
 
     dropdownChanged = (option: IDropdownOption, index?: number) => {
-        this.conditionValueChanged( option.key);
+        this.conditionValueChanged(option.key);
     }
 
     conditionValueChanged = (conditionValue: any) => {

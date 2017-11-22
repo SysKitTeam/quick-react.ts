@@ -1,23 +1,10 @@
 import * as React from 'react';
 import './ConditionSelector.scss';
-import { Treeview, ITreeviewItem } from '../Treeview';
-import { ExpressionDefinitionTree, ConditionGroup, ConditionDefinition, LogicalOperatorTypeEnum, ConditionRowState } from './';
+import { ExpressionDefinitionTree, ConditionGroup, ConditionDefinition, LogicalOperatorTypeEnum, ConditionSelectorPorps } from './';
+import { Treeview } from '../Treeview';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 
-export class ConditionSelectorPorps {
-    specialConditionsList?: ITreeviewItem[];
-    standardConditionsList?: ITreeviewItem[];
-    selectedConditions?: ExpressionDefinitionTree;
-    conditionDragged?: (dragSource: any, dragTarget: any) => void;
-    conditionValueChanged?: (conditionId: string, conditionValue: any) => void;
-    logicalOperatorChanged?: (id: string, logicalOperator: LogicalOperatorTypeEnum) => void;
-    compareConditionChanged?: (conditionRowState: ConditionRowState) => void;
-    conditionListSelectionChanged?: (treeListId: string, itemsId?: string[], checked?: boolean) => void;
-
-}
-
-// @DragDropContext(HTML5Backend)
 export class ConditionSelector extends React.PureComponent <ConditionSelectorPorps, any> {
 
     specialConditionsSelectionChanged = (ev?: React.FormEvent<HTMLElement>, itemsId?: string[], checked?: boolean) => {
@@ -82,7 +69,6 @@ export class ConditionSelector extends React.PureComponent <ConditionSelectorPor
 export class ConditionSelectorContainerPorps {
     conditionSelectorProps: ConditionSelectorPorps;
     onDragDrop?: (newTree: ExpressionDefinitionTree) =>  void;
-
 }
 
 
