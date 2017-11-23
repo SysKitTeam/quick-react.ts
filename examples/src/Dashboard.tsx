@@ -9,12 +9,12 @@ import { Dashboard } from './../../src/components/Dashboard/Dashboard';
 import { getDummyDashboard, generateMeasures } from '../MockData/DashboardDummy';
 import { IGroup, IServer, ServerStatus } from './../../src/models';
 
-const dummyDashboard = getDummyDashboard(false); // change to true/false to show/hide roles on tiles
+const dummyDashboard = getDummyDashboard(true); // change to true/false to show/hide roles on tiles
 
 export class Index extends React.Component<any, any> {
     public constructor() {
         super();
-         this.state = {
+        this.state = {
             farms: dummyDashboard.farms
         };
         setInterval(() => {
@@ -33,6 +33,7 @@ export class Index extends React.Component<any, any> {
                     }
                     if (Math.random() < 0.05) { status = ServerStatus.Offline; }
                     if (Math.random() < 0.05) { status = ServerStatus.Disabled; }
+                    if (Math.random() < 0.05) { status = ServerStatus.CountersDisabled; }
                     return {
                         id: server.id,
                         status: status,
@@ -57,8 +58,8 @@ export class Index extends React.Component<any, any> {
 
     public render() {
         return (
-            <div>
-                 <Dashboard
+            <div style={{ height: '900px' }}>
+                <Dashboard
                     differentDashboards={dummyDashboard.differentDashboards}
                     groupOnClick={dummyDashboard.groupOnClick}
                     farms={this.state.farms}

@@ -56,7 +56,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
         }
     }
 
-    public componentWillReceiveProps(nextProps: ICompactDashboardProps, nextState) {
+    public componentWillReceiveProps(nextProps: ICompactDashboardProps) {
         const filteredFarms = filterFarms(nextProps.farms, nextProps.filter, nextProps.filteringOptions);
         this.setState({ ...this.state, groups: filteredFarms });
     }
@@ -121,11 +121,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
         if (farm === undefined) {
             return 0;
         }
-        let serverTileTotalHeight = serverTileHeight;
-        const anyRolesOnServers = farm.servers.filter(server => (server.roles && server.roles.length > 0)).length > 0;
-        if (anyRolesOnServers) {
-            serverTileTotalHeight += headerRolesHeight;
-        }
+        let serverTileTotalHeight = serverTileHeight + headerRolesHeight;
         const serversPerRow = Math.floor((width - totalPaddingHorizontal) / serverTileWidth);
         let farmServerCount = farm.servers.length;
         const rowCount = Math.ceil(farmServerCount / serversPerRow);
@@ -170,11 +166,13 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
 
     @autobind
     private renderSingleServerCell(server, { index, isScrolling, key, style }): JSX.Element {
+        let compactServerClassName = classNames('compact-farm', { 'is-clickable': this.props.serverOnClick !== undefined && this.props.serverOnClick !== null });
+
         return (
             <HoverableCompactServer
                 key={key}
                 server={server}
-                className="compact-farm"
+                className={compactServerClassName}
                 style={style}
                 onRoleEdit={this.props.onServerRoleEdit}
                 serverOnClick={this.props.serverOnClick}

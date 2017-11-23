@@ -9,7 +9,6 @@ import { DirectionalHint } from './../../src/utilities/DirectionalHint';
 import { ContextualMenu } from './../../src/components/ContextualMenu/ContextualMenu';
 
 import { Button } from './../../src/components/Button/Button';
-import { ButtonType } from './../../src/components/Button/Button.Props';
 
 export class Index extends React.Component<any, any> {    
     public render() {
@@ -25,7 +24,7 @@ export class Index extends React.Component<any, any> {
                         [
                             {
                                 key: 'newItem',
-                                icon: 'Add',
+                                iconProps: {iconName: 'icon-add'},
                                 items: [
                                     {
                                         key: 'emailMessage',
@@ -42,7 +41,7 @@ export class Index extends React.Component<any, any> {
                             },
                             {
                                 key: 'upload',
-                                icon: 'Upload',
+                                iconProps: {iconName: 'icon-upload'},
                                 name: 'Upload',
                                 title: 'Upload a file'
                             },
@@ -69,12 +68,12 @@ export class Index extends React.Component<any, any> {
                             },
                             {
                                 key: 'share',
-                                icon: 'Share',
+                                iconProps: {iconName: 'icon-ghost'},
                                 items: [
                                     {
                                         key: 'sharetoemail',
                                         name: 'Share to Email',
-                                        icon: 'Mail'
+                                        iconProps: {iconName: 'icon-add'}
                                     },
                                     {
                                         key: 'sharetofacebook',
@@ -83,13 +82,13 @@ export class Index extends React.Component<any, any> {
                                     {
                                         key: 'sharetotwitter',
                                         name: 'Share to Twitter',
-                                        icon: 'Share',
+                                        iconProps: {iconName: 'icon-add'},
                                         items: [
                                             {
                                                 key: 'sharetoemail_1',
                                                 name: 'Share to Email',
                                                 title: 'Share to Email',
-                                                icon: 'Mail'
+                                                iconProps: {iconName: 'icon-add'}
                                             },
                                             {
                                                 key: 'sharetofacebook_1',
@@ -100,7 +99,7 @@ export class Index extends React.Component<any, any> {
                                                 key: 'sharetotwitter_1',
                                                 name: 'Share to Twitter',
                                                 title: 'Share to Twitter',
-                                                icon: 'Share'
+                                                iconProps: {iconName: 'icon-add'}
                                             }
                                         ]
                                     }
@@ -109,12 +108,12 @@ export class Index extends React.Component<any, any> {
                             },
                             {
                                 key: 'print',
-                                icon: 'Print',
+                                iconProps: {iconName: 'icon-add'},
                                 name: 'Print'
                             },
                             {
                                 key: 'music',
-                                icon: 'MusicInCollectionFill',
+                                iconProps: {iconName: 'icon-add'},
                                 name: 'Music'
                             },
                             {

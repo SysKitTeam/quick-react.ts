@@ -3,5 +3,5 @@ export interface IFilteringBarItemProps {
     selected: boolean;
     itemKey: string;
     type: string;
-    onClick: (key: string, newState: boolean) => void;    
+    onClick: (key: string, newState: boolean) => void;
 }

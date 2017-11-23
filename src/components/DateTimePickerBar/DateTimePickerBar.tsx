@@ -12,25 +12,28 @@ export interface IDateTimePickerBarProperties {
     endDateTimeChanged?: (newDateTime: Date) => void;
 }
 
-export class DateTimePickerBar extends React.PureComponent<IDateTimePickerBarProperties, void> {
+export class DateTimePickerBar extends React.PureComponent<IDateTimePickerBarProperties, any> {
+    constructor(props) {
+        super(props);
+    }
 
     public render(): JSX.Element {
         const { startDateTime, endDateTime, className, startDateTimeChanged, endDateTimeChanged } = this.props;
         return (
             <div className="date-time-picker-bar">
                 <div className="date-time-picker-option">
-                    <div>End time:</div>
-                    <DateTimeDropdownPicker
-                        selectedDate={endDateTime}
-                        onTimeSelectionChanged={endDateTimeChanged}
-                        className="date-time-picker-dropdown"
-                    />
-                </div>
-                <div className="date-time-picker-option">
                     <div>Start time:</div>
                     <DateTimeDropdownPicker
                         selectedDate={startDateTime}
                         onTimeSelectionChanged={startDateTimeChanged}
+                        className="date-time-picker-dropdown"
+                    />
+                </div>
+                <div className="date-time-picker-option">
+                    <div>End time:</div>
+                    <DateTimeDropdownPicker
+                        selectedDate={endDateTime}
+                        onTimeSelectionChanged={endDateTimeChanged}
                         className="date-time-picker-dropdown"
                     />
                 </div>

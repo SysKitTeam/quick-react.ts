@@ -3,19 +3,20 @@ import * as classNames from 'classnames';
 import { Label } from '../Label/Label';
 import { IServerTileProps, ITileData } from './ServerTile.Props';
 import { DisksInformation } from './DisksInformation/DisksInformation';
+import { TagContainer } from '../TagContainer/TagContainer';
 import { Icon } from '../Icon/Icon';
 import { ServerStatus } from '../../models';
 import { GetClassForStatus } from '../../utilities/server';
 import './ServerTile.scss';
 
-export class ServerTile extends React.PureComponent<IServerTileProps> {   
+export class ServerTile extends React.PureComponent<IServerTileProps, {}> {
     public render() {
         let className = GetClassForStatus('server-details', this.props.status);
 
         let serverHoverMessage = this.props.hoverMessageForCriticalOrWarningServer && (this.props.status === ServerStatus.Critical || this.props.status === ServerStatus.Warning) ? this.props.hoverMessageForCriticalOrWarningServer : '';
 
         return (
-            <div className={className} onClick={this.serverOnClick} title={serverHoverMessage}>
+            <div className={classNames(className, { 'is-clickable': this.props.serverOnClick !== undefined && this.props.serverOnClick !== null })} onClick={this.serverOnClick} title={serverHoverMessage}>
                 <div className={'server-details-header'}>
                     <Label className="server-name" title={this.props.name}>{this.props.name}</Label>
                     {this.props.onClose &&
@@ -34,6 +35,17 @@ export class ServerTile extends React.PureComponent<IServerTileProps> {
                         <Icon data-users={this.props.numberOfUsers}
                             iconName={'icon-user'}
                             title={this.props.numberOfUsers + ' number of users online'} />
+                    }
+                    {this.props.roles.length > 0 &&
+                        <div>
+                            <TagContainer title={''} tags={this.props.roles}>
+                                {this.props.onRoleEdit &&
+                                    <div className="edit-tags tag" title="Edit roles" onClick={(event => this.props.onRoleEdit(this.props.id))}>
+                                        <Icon className="icon-edit"></Icon>
+                                    </div>
+                                }
+                            </TagContainer>
+                        </div>
                     }
                     {this.props.children}
 

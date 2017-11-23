@@ -1,17 +1,78 @@
 @import '../../index.scss';
 
-.tip-container {
-    pointer-events: none;
-    polygon, rect {
-        fill: #f9f9f9;
-        pointer-events: inherit;
-        opacity: 0.8;
+.tooltip-container {
+    display: inline;
+}
+
+.tooltip-callout {
+    user-select: none;
+    animation-delay: 300ms;
+    max-width: 400px;
+
+    &.tooltip-white {
+        border: 1px solid $secondary-color-45!important;
+        background-color: $white-color;
+
+        .callout-beak {
+            background-color: $white-color;
+        }
+        
+        .callout-main {
+            .tooltip-content span {
+                color: $secondary-color;
+            }
+        }
     }
-    .tip-text {
-        font-family: $font-family-base;
-        font-size: 12px;
-        fill: black;
-        font-weight: 400;
-        pointer-events: inherit;
+
+    &.tooltip-gray {
+        border: 1px solid $secondary-color;
+        background-color: $secondary-color;
+
+        .callout-beak {
+            background-color: $secondary-color;
+        }
+
+        .callout-beak-curtain {
+            background-color: $secondary-color;
+        }
+
+        .callout-main {
+            background-color: $secondary-color;
+
+            .tooltip-content span {
+                color: $white-color;
+            }
+        }
+    }
+
+    .callout-beak-curtain {
+        border-radius: 7px;
+    }
+
+    .callout-main {
+        padding: 12px 20px;
+    }
+
+    &.tooltip-error {
+        border: 1px solid $error-color;
+        background-color: $error-color;
+
+        .callout-beak {
+            background-color: $error-color;
+        }
+
+        .callout-beak-curtain {
+            background-color: $error-color;
+        }
+
+        .callout-main {
+            background-color: $error-color;
+            padding: 4px 10px;
+
+            .tooltip-content span {
+                color: $white-color;
+                font-size: 12px;
+            }
+        }
     }
 }

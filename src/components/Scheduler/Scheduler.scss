@@ -1,0 +1,57 @@
+.scheduler {
+
+    div.dropdown-container, div.textField-container {
+        display: flex;
+        align-items: center;
+        margin: 15px 0px;
+
+        > span {
+            margin-right: 10px;
+        }
+    }
+
+    .dropdown {
+        margin: 0px 10px 0px 0px;
+    }
+    
+    .text-field{
+        margin-bottom: 0px;
+        width: 70px;
+        margin-right: 10px;
+
+        > .textField-field {
+            width: 100%;
+        }
+    }
+
+    > .inner-scheduler {
+        margin: 10px;
+
+        .choiceFieldGroup {
+            .choice-item-content {
+                display: flex;
+                align-items: center;
+
+                > span {
+                    margin-right: 10px;
+                }
+            }
+        }
+
+        &.weekly-scheduler {
+            .checkboxlist {
+                display: flex;
+                margin-left: 10px;
+                > div {
+                    padding-right: 15px;
+                }
+            }
+        }
+    }
+}
+
+.scheduler-day-of-month-dropdown-callout {
+    .callout-main {
+        max-height: 200px !important;
+    }
+}

@@ -1,129 +1,77 @@
 @import '../../index.scss';
 
-$tile-height: 220px;
-$tile-width: 300px;
-$counters-data-size: 24px;
-$counters-unit-size: 14px;
-$header-font-size: 14px;
-$counters-title-font-size: 12px;
-$counters-title-font-color: $basic-text-color;
-$server-status-color: $basic-text-color;
-
 .detailed-server-details {
-    @include disableUserSelection();
-    min-height: 458px;
+    box-sizing: border-box;
+    min-height: 450px;
     margin: 10px;
-    padding: 0px 10px 0px 10px;
-    font-family: $font-family-base;
-    width: $tile-width;
+    padding: 0 10px;
+    width: 330px;
     display: inline-block;
+    user-select: none;
     position: relative;
-    border-left: 10px solid $background-color;
-    border-top: 1px solid $background-color;
-    border-right: 1px solid $background-color;
-    border-bottom: 1px solid $background-color;
+    border-left: 10px solid $secondary-color-20;
+    border-top: 1px solid $secondary-color-20;
+    border-right: 1px solid $secondary-color-20;
+    border-bottom: 1px solid $secondary-color-20;
 
     .dialog-button-close {
-        padding: 0;
-        margin: 10px 0px 0px 0px;
+        margin-top: 10px;
         cursor: pointer;
-        position: absolute;
-        left: 295px;
+        float: right;
 
         &:hover {
-            color: red;
+            color: $error-color;
         }
     }
 
+    &.is-clickable {
+        cursor: pointer;
+
+        .label, .progress-bar-component svg g rect {
+            cursor: pointer;
+        }
+    }
 
     &.status-critical {
-        border-left-color: $red-color;
+        border-left-color: $error-status-server;
     }
+    
     &.status-warning {
-        border-left-color: $yellow-color;
-    }
-    &.status-ok {
-        border-left-color: $green-color;
-    }
-    &.status-offline {
-        border-left-color: $default-offline-color;        
+        border-left-color: $warning-status-server;
     }
 
-    .icon {
-        color: $basic-text-color;
+    &.status-ok {
+        border-left-color: $ok-status-server;
+    }
+
+    &.status-offline {
+        border-left-color: $secondary-color-20;        
     }
     
     .server-details-header {
-        font-size: $header-font-size;
-        width: 100%;
-        display: block;
-        padding: 0;
-
         .server-name {
             display: inline-block;
-            color: $emphasized-text-color;
-            width: 60%;
+            width: 72%;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-weight: 400;
-            font-size: 17px;
+            font-size: 16px;
             vertical-align: bottom;
         }
 
         .icon-user {
-            vertical-align: super;
-            padding: 0;
-            margin: 0px 5px 5px 5px;
+            margin: 0 5px 5px 5px;
 
             &:after {
                 content: attr(data-users);
-                padding: 0;
-                margin: 0px 0px 2px 5px;
-                font-family: $font-family-base;
-                font-size: $header-font-size;
-            }
-        }
-
-        .disk-icon {
-            padding: 0;
-            margin: 0;
-            vertical-align: super;
-        }
-
-        .tag-container {
-            position: relative;
-            display: block;
-            margin: 5px 0px 10px 0px;
-            color: $tag-color;
-
-            .tag {
-                padding: 0px 5px 0px 0px;
-                margin: 0;
-                font-size:12px;
-                font-weight: normal;
-                margin-left: 4px;
-                .icon {
-                    color: $tag-color;
-                }
-            }
-            .edit-tags:hover{
-                background: inherit;
-                color:$green-color;
-                .icon{
-                    background: inherit;
-                    color:$green-color;
-                }
+                margin-left: 2px;
+                font-family: 'Segoe UI';
             }
         }
     }
 
     .counters-container {
-        display: block;
-        width: 100%;
-        height: calc(100% - 77px);
-        margin: 10px 0px 10px 0px;
-        padding: 0;
+        margin: 10px 0;
 
         .line-chart-component {
             .line-chart-title {
@@ -131,20 +79,19 @@ $server-status-color: $basic-text-color;
             }
 
             svg > .line-chart-container > .y-axis > .tick > text {
-                transform: translateX(10px) !important;
+                transform: translateX(10px);
             }
         }
 
         .progress-bar-component {
-            margin: -30px 0px 15px 0px;
+            margin: -30px 0 15px 0;
+
             label:nth-child(1) {
                 font-weight: 500;
             }
         }
 
         .partition-container {
-            display: block;
-
             label {
                 font-weight: 500;
             }
@@ -153,16 +100,13 @@ $server-status-color: $basic-text-color;
                 margin-top: 10px;
                 text-align: center;
 
-                label:nth-child(1) {
-                    font-weight: 500;
-                    font-size: 14px;
+                .server-name {
                     padding: 0;
                 }
 
                 label:nth-child(2) {
                     font-size: 12px;
-                    color: #929292;
-                    padding: 0px 0px 5px 0px;
+                    padding-bottom: 5px;
                 }
 
                 &.partition-tile {
@@ -182,8 +126,8 @@ $server-status-color: $basic-text-color;
             margin: 50% 0;
 
             .icon {
-                color: $font-info-color!important;
-                font-size: 18px;
+                color: $link-color;
+                font-size: 16px;
                 top: 2px;
                 position: relative;
             }

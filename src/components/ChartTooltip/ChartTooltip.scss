@@ -1,0 +1,16 @@
+@import '../../index.scss';
+
+.tip-container {
+    pointer-events: none;
+
+    polygon, rect {
+        fill: $white-color;
+        pointer-events: inherit;
+        opacity: 0.8;
+    }
+
+    .tip-text {
+        font-size: 12px;
+        fill: $secondary-color;
+    }
+}

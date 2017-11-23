@@ -3,8 +3,6 @@ import * as classNames from 'classnames';
 import { IMessageBarProps, MessageBarType } from './MessageBar.Props';
 import { getId } from '../../utilities/getId';
 import { Icon } from '../../components/Icon/Icon';
-import { Button } from '../../components/Button/Button';
-import { ButtonType } from '../../components/Button/Button.Props';
 import { Checkbox } from '../../components/Checkbox/Checkbox';
 import './MessageBar.scss';
 
@@ -23,7 +21,7 @@ export class MessageBar extends React.Component<IMessageBarProps, IMessageBarSta
     private ICON_MAP = {
         [MessageBarType.info]: 'icon-details',
         [MessageBarType.warning]: 'icon-warning',
-        [MessageBarType.error]: 'icon-error',
+        [MessageBarType.error]: 'icon-delete',
         [MessageBarType.success]: 'icon-checkmark'
     };
 
@@ -31,7 +29,7 @@ export class MessageBar extends React.Component<IMessageBarProps, IMessageBarSta
         super(props);
 
         this.state = {
-        labelId: getId('messageBar')
+            labelId: getId('messageBar')
         };
     }
 
@@ -49,25 +47,25 @@ export class MessageBar extends React.Component<IMessageBarProps, IMessageBarSta
                 'messageBar-warning': this.props.messageBarType === MessageBarType.warning
             }
         );
-        
+
         let tooltip;
         if (typeof this.props.children === 'string') {
             tooltip = this.props.children;
         }
         return (
-            <div className={ messageBarClassName } role="status">
+            <div className={messageBarClassName} role="status">
                 <div className={'messageBar-content'}>
-                { this._getIconSpan() }
-                <div className={'messageBar-actionables'}>                    
-                    <div className={'messageBar-text'} id={ this.state.labelId }>
-                    <span className={ this._getInnerTextClassName() } title={tooltip}>
-                        { this.props.children }
-                    </span>
+                    {this._getIconSpan()}
+                    <div className={'messageBar-actionables'}>
+                        <div className={'messageBar-text'} id={this.state.labelId}>
+                            <span className={this._getInnerTextClassName()} title={tooltip}>
+                                {this.props.children}
+                            </span>
+                        </div>
+                        {this._getActionsDiv()}
+                        {this._getDontShowAgainDiv()}
+                        {this._getDismissDiv()}
                     </div>
-                    { this._getActionsDiv() }                    
-                    { this._getDontShowAgainDiv() }
-                    { this._getDismissDiv() }                                        
-                </div>                
                 </div>
             </div>
         );
@@ -76,7 +74,7 @@ export class MessageBar extends React.Component<IMessageBarProps, IMessageBarSta
     private _getIconSpan(): JSX.Element {
         return (
             <div className={'messageBar-icon'}>
-                <Icon iconName={ this.ICON_MAP[this.props.messageBarType] }></Icon>
+                <Icon iconName={this.ICON_MAP[this.props.messageBarType]}></Icon>
             </div>
         );
     }
@@ -88,10 +86,10 @@ export class MessageBar extends React.Component<IMessageBarProps, IMessageBarSta
     private _getActionsDiv(): JSX.Element {
         if (this.props.actions) {
             return (
-                 <div className={'messageBar-actionsOneline'}>                   
-                    { this.props.actions }
+                <div className={'messageBar-actionsOneline'}>
+                    {this.props.actions}
                 </div>
-            );  
+            );
         }
         return null;
     }
@@ -100,10 +98,10 @@ export class MessageBar extends React.Component<IMessageBarProps, IMessageBarSta
         if (this.props.onDismiss != null) {
             return (
                 <Icon
-                    disabled={ false }
+                    disabled={false}
                     className={'messageBar-dismissal'}
-                    onClick={ this.props.onDismiss } 
-                    iconName={'icon-delete'}/>
+                    onClick={this.props.onDismiss}
+                    iconName={'icon-delete'} />
             );
         }
         return null;
@@ -111,13 +109,13 @@ export class MessageBar extends React.Component<IMessageBarProps, IMessageBarSta
 
     private _getDontShowAgainDiv(): JSX.Element {
         let { hasDontShowAgain, dontShowAgainChecked, dontShowAgainClicked } = this.props;
-        
+
         if (this.props.hasDontShowAgain != null && this.props.hasDontShowAgain) {
             return (
-                <div className="messageBar-checkBox-container"><Checkbox className={'messageBar-checkbox'} checked={ this.props.dontShowAgainChecked } label={'Don\'t show this message again'} onChange={ this.props.dontShowAgainClicked }></Checkbox></div>
+                <div className="messageBar-checkBox-container"><Checkbox className={'messageBar-checkbox'} checked={this.props.dontShowAgainChecked} label={'Don\'t show this message again'} onChange={this.props.dontShowAgainClicked}></Checkbox></div>
             );
         }
-        
+
         return null;
     }
 }

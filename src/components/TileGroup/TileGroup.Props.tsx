@@ -1,8 +1,8 @@
 import { IGroup } from '../../models';
 
 export interface ITileGroupProps {
-    farm: IGroup;
-    filter?: string;  
+    group: IGroup;
+    filter?: string;
     iconName?: string;
     iconTitle?: string;
     groupOnClick?: (groupId: any) => void;

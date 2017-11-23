@@ -18,6 +18,7 @@ const BEAK_ORIGIN_POSITION = { top: 0, left: 0 };
 const OFF_SCREEN_POSITION = { top: -9999, left: 0 };
 const BORDER_WIDTH: number = 1;
 const SPACE_FROM_EDGE: number = 8;
+
 export interface ICalloutState {
     positions?: any;
     slideDirectionalClassName?: string;
@@ -29,7 +30,7 @@ export class CalloutContent extends CommonComponent<ICalloutProps, ICalloutState
     public static defaultProps = {
         isBeakVisible: true,
         hideBorder: false,
-        beakWidth: 16,
+        beakWidth: 12,
         gapSpace: 16,
         directionalHint: DirectionalHint.bottomAutoEdge
     };
@@ -92,9 +93,28 @@ export class CalloutContent extends CommonComponent<ICalloutProps, ICalloutState
         let { positions, slideDirectionalClassName } = this.state;
         let beakStyleWidth = beakWidth;
 
+        let isTopOrBottomLeftDirection =
+            this.props.directionalHint === DirectionalHint.topLeftEdge ||
+            this.props.directionalHint === DirectionalHint.bottomLeftEdge;
+
+        let isTopOrBottomRightDirection =
+            this.props.directionalHint === DirectionalHint.bottomRightEdge ||
+            this.props.directionalHint === DirectionalHint.topRightEdge;
+
+        let breakLeftPosition;
+        if (positions && positions.beak) {
+            breakLeftPosition = positions.beak.left;
+
+            if (isTopOrBottomLeftDirection) {
+                breakLeftPosition -= 10;
+            } else if (isTopOrBottomRightDirection) {
+                breakLeftPosition += 10;
+            }
+        }
+
         let beakReactStyle: React.CSSProperties = {
             top: positions && positions.beak ? positions.beak.top : BEAK_ORIGIN_POSITION.top,
-            left: positions && positions.beak ? positions.beak.left : BEAK_ORIGIN_POSITION.left,
+            left: positions && positions.beak ? breakLeftPosition : BEAK_ORIGIN_POSITION.left,
             height: beakStyleWidth,
             width: beakStyleWidth
         };

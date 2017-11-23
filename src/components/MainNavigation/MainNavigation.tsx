@@ -7,7 +7,7 @@ import { Icon } from '../../components/Icon/Icon';
 import './MainNavigation.scss';
 
 export class MainNavigation extends React.Component<IMainNavigationProps, any> {
-    constructor (props) {
+    constructor(props) {
         super(props);
     }
 
@@ -22,15 +22,15 @@ export class MainNavigation extends React.Component<IMainNavigationProps, any> {
             'main-nav-container',
             [this.props.className]
         );
-        
+
         return (
             <nav className={className}>
-                { logo && (
+                {logo && (
                     <div className={'logo-container'}>
                         <Icon className={'logo'} iconName={this.props.logo}></Icon>
                     </div>
                 )}
-                { children }
+                {children}
             </nav>
         );
     }

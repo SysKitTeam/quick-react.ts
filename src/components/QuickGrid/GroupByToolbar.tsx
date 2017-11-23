@@ -14,6 +14,9 @@ export interface IGroupByProps {
     onGroupByRemoved: (groupName: string) => void;
     onGroupByChanged: (newGroupBy: Array<IGroupBy>) => void;
     onSort: (sortBy: string, sortDirection: SortDirection) => void;
+    onCollapseAll: (event) => void;
+    onExpandAll: (event) => void;
+    tooltipsEnabled?: boolean;
 
     // Drag&Drop props
     canDrop?: any;
@@ -75,6 +78,8 @@ class GroupByToolbarInner extends React.PureComponent<IGroupByProps, IGroupBySta
                             moveGroupByColumn={this.groupOrderChange}
                             itemArrayIndex={index}
                             removeGroupColumn={this.props.onGroupByRemoved}
+                            tooltipsEnabled={this.props.tooltipsEnabled}
+                            tooltip={columnDefinition.headerTooltip}
                         />
                     </span>
                     <Icon iconName="icon-delete" className="icon-remove-group" onClick={removeGroup} />
@@ -95,17 +100,38 @@ class GroupByToolbarInner extends React.PureComponent<IGroupByProps, IGroupBySta
     }
 
     render() {
-        const { connectDropTarget, columns, onGroupByRemoved } = this.props;
+        const { connectDropTarget, columns, onGroupByRemoved, onCollapseAll, onExpandAll } = this.props;
         const isEmpty = _.isEmpty(this.state.groupBy);
         return connectDropTarget(
             <div className="group-drop-toolbar">
                 {
                     isEmpty && <span className="group-drop-empty">Drag column to group</span>
                 }
-                {
-                    this.state.groupBy.map((groupBy, index) => {
-                        return this.createHeaderColumn(groupBy, index);
-                    })
+                <div className="group-column-boxes">
+                    {
+                        this.state.groupBy.map((groupBy, index) => {
+                            return this.createHeaderColumn(groupBy, index);
+                        })
+                    }
+                </div>
+                {!isEmpty &&
+                    <div
+                        className="expand-collapse-buttons"
+                    >
+                        <Icon
+                            iconName="icon-expandAll"
+                            className="expand"
+                            onClick={onExpandAll}
+                            title="Expand all"
+                        />
+
+                        <Icon
+                            iconName="icon-collapseAll"
+                            className="collapse"
+                            onClick={onCollapseAll}
+                            title="Collapse all"
+                        />
+                    </div>
                 }
             </div>
         );

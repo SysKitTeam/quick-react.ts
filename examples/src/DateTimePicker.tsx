@@ -5,6 +5,8 @@ import 'ts-helpers';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { DateTimePicker } from '../../src/components/DateTimePicker/DateTimePicker';
+import { DateTimePickerBar } from '../../src/components/DateTimePickerBar/DateTimePickerBar';
+
 export class Index extends React.Component<any, any> {
     constructor() {
         super();

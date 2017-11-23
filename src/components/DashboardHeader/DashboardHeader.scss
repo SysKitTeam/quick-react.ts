@@ -1,143 +1,57 @@
- @import '../../index.scss';
+@import '../../index.scss';
 
 .dashboard-header-container {
-    @include baseFont();
-    display: flex;
-    width: calc(100% - 32px);
-    color: $basic-text-color;
-    padding: 15px;
-    border: 1px solid #eee;
+    width: calc(100% - 38px);
+    padding: 10px 0;
+    margin: 0 16px 0 20px;
+    border: 0;
+    border-bottom: 2px solid $white-background-lines;
     overflow: hidden;
-    display: block;
-   .icon{
-       color: $emphasized-text-color;
-   }
-    .dashboard-header-title-container {
-        width: 30%;
-        display: inline-block;
-        font-weight: 400;
-        font-size: 25px;
-        color: $emphasized-text-color;
 
-        .dashboard-header-title {
-            display: inherit;
-            width: auto;
-            position: relative;
-            max-width: 80%;
-            vertical-align: middle;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .icon.add-farm {
-            display: inherit;
-            width: auto;
-            padding: 0;
-            margin: 5px 10px 0px 10px;
-            vertical-align: middle;
-            top: -3px;
-            position: relative;
-            color: $green-color;
-            cursor: pointer;
-            &:hover {
-                    opacity: 0.7;
-            }
-        }
+    .dashboard-header-pivot {
+        float: left;
     }
 
-    .pivot-link{
-        color: $basic-text-color;
-        &.is-selected{
-            color:$emphasized-text-color;
-            &::before{
-                background-color: $light-text-color;
-            }
+    .icon-filter-dashboard-header {
+        float: right;
+        font-size: 18px;
+        padding-top: 6px;
+        padding-left: 15px;
+        cursor: pointer;
+    
+        &.icon-filter-selected {
+            color: $primary-color;
         }
     }
 
     .search {
-        width:30%;
-        display: inline-block;
-        position: relative;
-        right: 0;
+        width: 30%;
         float: right;
-        border-radius: 5px;
+    }
+    
+    .grouping-dropdown-container {
         position: relative;
-        top: 3px;
-        border-color: $search-border-color;
+        float: right;
+        padding-right: 15px;
 
-        .icon {
-            color: $light-text-color;
+        .grouping-dropdown-label {
+            vertical-align: top;    
+            padding-right: 8px;
+            position: relative;
+            top: 5px;
         }
 
-        &.is-active {
-            border-color: $light-text-color;
-    
-            .search-field {
-                padding: 5px 26px 5px 8px;
+        div {
+            display: inline-block;
+
+            .dashboard-grouping-header {
+                width: 100px;
             }
         }
-
-        .search-field {  
-            height: 28px;
-            line-height: 28px;
-            padding: 5px 30px;
-        }
-
-        .icon-search, .search-clearButton {
-            height: 29px;
-            line-height: 29px;
-        }
     }
-}
 
-.dashboard-grouping-header {
-    width: 100px;
-}
-
-.dashboard-header-pivot {
-    width: 500px;
-    float:left;
-
-}
-
-.grouping-dropdown-container {
-    position: relative;
-    float: right;
-    top: 7px;    
-    padding-right: 15px;
-
-    div {
-        display: inline-block;
-        position: relative;
-        top: -3px;
-        font-size: 14px;
+    .filtering-menu-container {
+        height: 20px;
+        clear: both;
     }
-}
-
-.grouping-dropdown-label {    
-    display: inline-block;
-    font-size: 14px;
-    vertical-align: top;    
-    padding-right: 8px;
-}
-
-.icon-filter-dashboard-header {
-    float: right;
-    font-size: 18px;
-    padding-top: 8px;
-    padding-left: 15px;
-    cursor: pointer;
-
-    &.icon-filter-selected {
-        color: $secondary-color!important;
-    }
-}
-
-.filtering-menu-container {
-    height: 15px;
-    width: 100%;
-    clear: both;
-    display: block;
 }

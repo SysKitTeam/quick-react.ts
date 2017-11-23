@@ -18,17 +18,17 @@ export class Index extends React.Component<any, any> {
         this.state = {
             farms: createFarms(10, 20, 50, true).map(convertFarm)
         };
-        setTimeout(this.refreshFarms.bind(this), 3000);
+        setTimeout(this.refreshFarms.bind(this), 5000);
     }
 
     refreshFarms() {
         this.setState({ farms: createFarms(10, 20, 50, true).map(convertFarm) });
-        setTimeout(this.refreshFarms.bind(this), 3000);
+        setTimeout(this.refreshFarms.bind(this), 5000);
     }
 
     public render() {
         return (
-            <div>
+            <div style={{height: '1000px'}}>
                 <ServerGridDashboard
                     className={'viewport-height'}
                     farms={this.state.farms}

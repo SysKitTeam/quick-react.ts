@@ -1,29 +1,28 @@
 @import '../../index.scss';
 
-.compact-farm{
-    @include baseFont();
+.compact-farm {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    color: $basic-text-color;
-        
-    .farm {
-        margin-bottom: 0px;
-        margin-top: 60px;
 
-        .compact-server-container:hover {
-            cursor: pointer;
+    .farm {
+        margin-bottom: 0;
+        margin-top: 60px;
+    }
+}
+
+.callout-container {
+    .callout {
+        &.compact-farm-callout {
+            border-radius: 0;
+            
+            .callout-main {
+                border-radius: 0;
+            }
+        
+            .server-details {
+                margin: 0;
+            }
         }
     }
-    .compact-dashboard-server{
-            order:1;
-    }
-    .compact-server-container{
-            font-size: 14px;
-            max-width: 215px;
-            display: inline-block;
-            border-top: 1px solid $background-color;
-            border-right: 1px solid $background-color;
-            border-bottom: 1px solid $background-color;
-    }        
 }

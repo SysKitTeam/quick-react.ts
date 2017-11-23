@@ -13,7 +13,7 @@ export class PartitionTile extends React.PureComponent<IPartitionTileProps, any>
     public static defaultProps = {
         okColor: '#7DC458',
         warningColor: '#EAC71A',
-        criticalColor: '#fb6464'
+        criticalColor: '#FB6464'
     };
 
     public render() {
@@ -33,15 +33,15 @@ export class PartitionTile extends React.PureComponent<IPartitionTileProps, any>
 
     private transformPartitionData(partition: IPartitionUsage): Array<IPieChartData> {
         const free = partition.capacity - partition.used;
-        return [{ label: 'Used', value: partition.used, color: this.getColorByStatus(partition.status) }, { label: 'Free', value: free, color: '#ececec' }];
+        return [{ label: 'Used', value: partition.used, color: this.getColorByStatus(partition.status) }, { label: 'Free', value: free, color: '#EFEFEF' }];
     }
 
-    private getColorByStatus(status: ServerStatus) : string {
+    private getColorByStatus(status: ServerStatus): string {
         if (status === ServerStatus.Critical) {
             return this.props.criticalColor;
         } else if (status === ServerStatus.Warning) {
             return this.props.warningColor;
-        } 
+        }
         return this.props.okColor;
     }
 }

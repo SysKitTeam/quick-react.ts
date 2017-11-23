@@ -6,7 +6,7 @@ import { IRectangle } from '../../utilities/IRectangle';
 import { IPoint } from '../../utilities/IPoint';
 
 export interface ICalloutProps extends React.Props<Callout | CalloutContent> {
-  
+
   target?: HTMLElement | string | MouseEvent;
   targetElement?: HTMLElement;
   directionalHint?: DirectionalHint;

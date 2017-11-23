@@ -15,10 +15,10 @@ import {
 
 import './TileGroup.scss';
 
-export class TileGroup extends React.PureComponent<ITileGroupProps> {
+export class TileGroup extends React.PureComponent<ITileGroupProps, {}> {
     public render(): JSX.Element {
-        const { farm } = this.props;
-        let servers = farm.servers.sort((server1, server2) => {
+        const { group } = this.props;
+        let servers = group.servers.sort((server1, server2) => {
             return sortServersByStatusAndName(
                 { status: server1.status, name: server1.name },
                 { status: server2.status, name: server2.name }
@@ -29,12 +29,12 @@ export class TileGroup extends React.PureComponent<ITileGroupProps> {
                 editFunc={this.props.onGroupEdit}
                 deleteFunc={this.props.onGroupDelete}
                 addFunc={this.props.onAddToGroup}
-                serverChildrenCount={farm.servers.length}
+                serverChildrenCount={group.servers.length}
                 filter={this.props.filter}
                 className={'farm-name-inside'}
-                id={farm.id}
-                name={farm.name}
-                key={farm.id}
+                id={group.id}
+                name={group.name}
+                key={group.id}
                 onClick={this.props.groupOnClick}
                 iconName={this.props.iconName}
                 iconTitle={this.props.iconTitle}
@@ -51,19 +51,7 @@ export class TileGroup extends React.PureComponent<ITileGroupProps> {
                             serverOnClick={this.serverOnClick}
                             diskInformation={getDiskInformationFromMeasurements(server.measures)}
                             onClose={this.props.onServerClose !== undefined ? this._onServerClose : undefined}
-                            hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}
-                        >
-                            {
-                                server.roles.length > 0 &&
-                                <TagContainer title={''} tags={server.roles} >
-                                    {
-                                        this.props.onServerRoleEdit &&
-                                        <div className="edit-tags tag" title="Edit roles" onClick={(event) => this._editRoles(server.id, event)}>
-                                            <Icon className="icon-edit"></Icon>
-                                        </div>
-                                    }
-                                </TagContainer>
-                            }
+                            hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}>
                         </ServerTile>
                     ))
                 }
@@ -72,17 +60,17 @@ export class TileGroup extends React.PureComponent<ITileGroupProps> {
     }
 
     private _onServerClose = (serverId: any, event: any) => {
-        this.props.onServerClose(serverId, this.props.farm.id, event);
+        this.props.onServerClose(serverId, this.props.group.id, event);
     }
 
     private _editRoles = (serverId: any, event: any) => {
-        this.props.onServerRoleEdit(serverId, this.props.farm.id, event);
+        this.props.onServerRoleEdit(serverId, this.props.group.id, event);
     }
 
     private serverOnClick = (serverId: any) => {
-        const { farm, serverOnClick } = this.props;
+        const { group, serverOnClick } = this.props;
         if (serverOnClick) {
-            serverOnClick(farm.id, serverId);
+            serverOnClick(group.id, serverId);
         }
     }
 }

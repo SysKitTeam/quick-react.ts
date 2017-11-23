@@ -2,7 +2,6 @@ import * as React from 'react';
 import { IDetailedServerGroupProps } from './DetailedServerGroup.Props';
 import { DetailedServerTile } from '../DetailedServerTile/DetailedServerTile';
 import { Group } from '../Group/Group';
-import { GroupHeader } from '../GroupHeader/GroupHeader';
 import * as classNames from 'classnames';
 import { getServerMeasures, sortServersByStatusAndName, filterServerByName } from '../../utilities/server';
 import { autobind } from '../../utilities/autobind';
@@ -11,7 +10,7 @@ import './DetailedServerGroup.scss';
 
 const Collection = require('react-virtualized').Collection;
 const GUTTER_SIZE = 20;
-const serverWidth = 300;
+const serverWidth = 330;
 
 export class DetailedServerGroup extends React.PureComponent<IDetailedServerGroupProps, any> {
     private _collection: any;
@@ -115,7 +114,7 @@ export class DetailedServerGroup extends React.PureComponent<IDetailedServerGrou
                 memoryUsage={server.memoryUsage}
                 processorUsage={server.processorUsage}
                 partitionUsages={server.partitionUsages}
-                serverOnClick={this.onServerClick}
+                serverOnClick={this.props.serverOnClick !== undefined ? this.onServerClick : undefined}
                 style={style}
                 hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}
             />
@@ -131,8 +130,8 @@ export class DetailedServerGroup extends React.PureComponent<IDetailedServerGrou
     private _getServerHeight(index: number) {
         let server = this.getServer(index);
 
-        // 57px header + 220px line chart + 40px progress bar + 15px margin-top + 29px label "Disks" + (numberOfDisks/2) * 130px height
-        let serverHeight = 57 + 220 + 40 + 15 + 29 + (Math.ceil(server.partitionUsages.length / 2)) * 130;
+        // 61px header + 20px margin + 220px line chart + 31px progress bar + 15px margin-top + 29px label "Disks" + (numberOfDisks/2) * 135px height
+        let serverHeight = 61 + 20 + 220 + 31 + 15 + 29 + (Math.ceil(server.partitionUsages.length / 2)) * 135;
         return serverHeight;
     }
 }

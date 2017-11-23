@@ -22,7 +22,7 @@ export class ChoiceGroup extends React.Component<IChoiceGroupProps, IChoiceGroup
         super(props);
 
         this.state = {
-            keyChecked : this._getKeyChecked(props.options),
+            keyChecked: this._getKeyChecked(props.options),
             keyFocused: undefined
         };
 
@@ -49,43 +49,44 @@ export class ChoiceGroup extends React.Component<IChoiceGroupProps, IChoiceGroup
             'label',
             className,
             {
-                'is-required': required   
+                'is-required': required
             }
         );
 
         return (
-            <div role="application" className={ className }>
+            <div role="application" className={className}>
                 <div
                     className={'choiceFieldGroup'}
                     role="radiogroup">
                     <div className={'choiceFieldGroup-title'}>
-                        {this.props.label ? 
-                            <label className={ titleClassName } 
+                        {this.props.label ?
+                            <label className={titleClassName}
                                 id={this._id + '-label'}>
                                 {label}
                             </label>
-                            : null }
+                            : null}
                     </div>
 
-                    { options.map((option) => (
+                    {options.map((option) => (
                         <div
                             key={option.key}
-                            className={ classNames('choiceField', { 'is-inFocus': option.key === keyFocused }) }>
+                            className={classNames('choiceField', { 'is-inFocus': option.key === keyFocused })}>
                             <input
-                                ref={ (c): HTMLInputElement => this._inputElement = c }
-                                id={ `${this._id}-${option.key}` }
+                                ref={(c): HTMLInputElement => this._inputElement = c}
+                                id={`${this._id}-${option.key}`}
                                 className={'choiceField-input'}
                                 type="radio"
-                                name={ this._id }
-                                disabled={ option.isDisabled || option.disabled || this.props.disabled }
-                                checked={ option.key === keyChecked }
-                                onChange={ this._onChange.bind(this, option) }
-                                onFocus={ this._onFocus.bind(this, option) }
-                                onBlur={ this._onBlur.bind(this, option) }
-                                />
-                                { this._renderField(option) }
+                                name={this._id}
+                                disabled={option.isDisabled || option.disabled || this.props.disabled}
+                                checked={option.key === keyChecked}
+                                onChange={this._onChange.bind(this, option)}
+                                onFocus={this._onFocus.bind(this, option)}
+                                onBlur={this._onBlur.bind(this, option)}
+                            />
+                            {this._renderField(option)}
+                            {this._renderAdditionalOptionContent(option, keyChecked)}
                         </div>
-                    )) }
+                    ))}
                 </div>
             </div>
         );
@@ -117,12 +118,22 @@ export class ChoiceGroup extends React.Component<IChoiceGroupProps, IChoiceGroup
 
         return (
             <label
-                htmlFor={ this._id + '-' + option.key }
-                className={ classNames('choiceField-field', { 'is-checked': option.key === keyChecked, 'is-disabled': isDisabled }) }>
-                <span id={ `${this._descriptionId}-${option.key}` } className={'label'}>
-                    { option.text }
+                htmlFor={this._id + '-' + option.key}
+                className={classNames('choiceField-field', { 'is-checked': option.key === keyChecked, 'is-disabled': isDisabled })}>
+                <span id={`${this._descriptionId}-${option.key}`} className={'label'}>
+                    {option.text}
                 </span>
             </label>
+        );
+    }
+
+    private _renderAdditionalOptionContent(option, keyChecked) {
+        return (
+            <div className={classNames('option-additional-content',
+                { 'is-unchecked': option.key !== keyChecked })}
+            >
+                {option.additionalContent}
+            </div>
         );
     }
 

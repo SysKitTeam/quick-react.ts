@@ -8,7 +8,6 @@ import { Layer } from '../../components/Layers/Layer';
 import { Popup } from '../Popup';
 import { Overlay } from '../../components/Overlay/Overlay';
 import { Button } from '../../components/Button/Button';
-import { ButtonType } from '../../components/Button/Button.Props';
 import { Icon } from '../../components/Icon/Icon';
 import './Dialog.scss';
 import { autobind } from '../../utilities/autobind';
@@ -19,6 +18,7 @@ export interface IDialogState {
     isAnimatingOpen?: boolean;
     isAnimatingClose?: boolean;
     id?: string;
+    dialogClass: string;
 }
 
 export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
@@ -32,7 +32,9 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
         contentClassName: ''
     };
 
-    private _containerRef: HTMLElement;
+    private readonly windowPadding = 70;
+
+    private _containerRef: HTMLDivElement;
 
     constructor(props: IDialogProps) {
         super(props);
@@ -43,8 +45,13 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
             id: getId('dialog'),
             isOpen: props.isOpen,
             isAnimatingOpen: props.isOpen,
-            isAnimatingClose: false
+            isAnimatingClose: false,
+            dialogClass: ''
         };
+    }
+
+    public componentDidUpdate() {
+        this._checkDialogHeight(this._containerRef);
     }
 
     public componentWillReceiveProps(newProps: IDialogProps) {
@@ -76,6 +83,7 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
             onLayerDidMount,
             onLayerMounted,
             subText,
+            icon,
             title,
             layerClassName,
             useOpenCloseAnimation
@@ -99,14 +107,16 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
             }
         );
 
+        const dialogMainClass = classNames('dialog-main', this.props.containerClassName, this.state.dialogClass);
+
         let groupings = this._groupChildren();
 
         if (subText) {
-            subTextContent = <p className={'dialog-subText'} id={id + '-subText'}>{subText}</p>;
+            subTextContent = <span className={'dialog-subText'} id={id + '-subText'}>{subText}</span>;
         }
 
         return (
-            <Layer onLayerMounted={onLayerMounted || onLayerDidMount} className={layerClassName}>
+            <Layer onLayerMounted={onLayerMounted || onLayerDidMount} className={classNames(layerClassName, 'dropdown-projected-layer')}>
                 <Popup
                     role="dialog"
                     onDismiss={onDismiss}
@@ -114,9 +124,14 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
                     <div className={dialogClassName}
                         ref={this._onDialogRef}>
                         <Overlay isDarkThemed={isDarkOverlay} onClick={isBlocking ? null : onDismiss} />
-                        <div className={classNames('dialog-main', this.props.containerClassName)} ref={this._getContainerRef} tabIndex={0} onKeyUp={this._onContainerKeyUp}>
-                            <div className={'dialog-header'}>
-                                <p className={'dialog-title'} id={id + '-title'}>{title}</p>
+                        <div
+                            className={dialogMainClass}
+                            ref={this._getContainerRef}
+                            tabIndex={0}
+                            onKeyUp={this._onContainerKeyUp}
+                        >
+                            <div className={classNames('dialog-header', this.props.headerClassName)}>
+                                <div className={'dialog-title'} id={id + '-title'}>{title}</div>
                                 <div className={'dialog-topButton'}>
                                     {hasCloseXButton &&
                                         <Icon
@@ -129,6 +144,9 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
                             </div>
                             <div className={'dialog-inner'}>
                                 <div className={classNames('dialog-content', this.props.contentClassName)}>
+                                    {icon &&
+                                        <Icon className={'dialog-icon'} iconName={icon}></Icon>
+                                    }
                                     {subTextContent}
                                     {groupings.contents}
                                 </div>
@@ -142,8 +160,17 @@ export class Dialog extends CommonComponent<IDialogProps, IDialogState> {
     }
 
     @autobind
-    private _getContainerRef(ref) {
+    private _getContainerRef(ref: HTMLDivElement) {
         this._containerRef = ref;
+        this._checkDialogHeight(ref);
+    }
+
+    private _checkDialogHeight(ref: HTMLDivElement) {
+        if (ref) {
+            if (Math.abs(window.innerHeight - ref.clientHeight) <= this.windowPadding) {
+                this.setState({ ...this.state, dialogClass: 'dialog-container' });
+            }
+        }
     }
 
     @autobind

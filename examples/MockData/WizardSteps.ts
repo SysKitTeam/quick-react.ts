@@ -1,4 +1,6 @@
-export const steps = [
+import { IWizardStep } from '../../src/components/Wizard/Wizard.Props';
+
+export const steps: Array<IWizardStep> = [
     {
         title: 'Script Details',
         index: 0
@@ -9,16 +11,23 @@ export const steps = [
     },
     {
         title: 'Script Results',
-        index: 2,
-        className: 'wizard__step-window-large'
+        index: 2
+    },
+    {
+        title: 'Some really really long title',
+        index: 2
+    },
+    {
+        title: 'Some wizard step',
+        index: 2
     },
     {
         title: 'Finish',
         index: 3,
         optionalButtons: [
             {
-                children: 'SCHEDULE',
-                className: 'shell__btn-medium shell__btn-blue'
+                children: 'Schedule',
+                className: 'button-tertiary'
             }
         ]
     }

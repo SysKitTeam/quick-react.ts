@@ -15,7 +15,7 @@ export class Index extends React.Component<any, any> {
                         { key: 'A', text: 'Option A' },
                         { key: 'B', text: 'Option B', checked: true },
                         { key: 'C', text: 'Option C', disabled: true },
-                        { key: 'D', text: 'Option D', checked: true, disabled: true }
+                        { key: 'D', text: 'Option D', disabled: true }
                     ]} label="Pick one">
                 </ChoiceGroup>
             </div>

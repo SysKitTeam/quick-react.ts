@@ -1,136 +1,52 @@
- @import '../../index.scss';
-
-$tile-dashboard-background: $background-color;
-$server-status-color: $basic-text-color;
-$background-color: $background-color;
-
-.grid-component-cell {
-    .status-critical {
-        color: $red-color;
-    }
-    .status-warning {
-        color: $yellow-color;
-    }
-    .status-ok {
-        color: $emphasized-text-color;
-    }
-  }
-
-.server-column-cell {
-    padding-left: 5px;
-    font-size: 13px;
-}
-
-.server-dashboard-grid-cell-content {
-    padding-left: 5px;
-    font-size: 13px;
-}
+@import '../../index.scss';
 
 .server-grid-dashboard-container {
-    overflow: hidden;
-    height: calc( 100vh -  16px); // browser body margin: 8px
-    @include baseFont();
-    width: 100%;
     overflow-y: auto;
-
-    .farm {
-        margin-top: 60px;
-        margin-bottom: 0px;
-    }
-    .Table {
-        width: 100%;
-        margin-top: 15px;
-    }
-
-    .headerRow,
-    .evenRow,
-    .oddRow {
-        border-bottom: 1px solid #e0e0e0;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-    .oddRow {
-        background-color: #fafafa;
-    }
-
-    .headerColumn {
-        text-transform: none;
-        font-weight: 700;
-
-    }
-    .exampleColumn {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .checkboxLabel {
-        margin-left: .5rem;
-    }
-    .checkboxLabel:first-of-type {
-        margin-left: 0;
-    }
-
-    .noRows {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1em;
-        color: #bdbdbd;
-    }
-
-    .empty-header-column {
-        border-right: 0px;
-    }
-
-    .grid-header-column:nth-child(2) {
-        .grid-header-column span {
-            padding-left: 1px;
-        }
-    }
-
-    .grid-header-column:last-child, .ReactVirtualized__Table__rowColumn:last-child {
-        border-right: 0;
-    }
-
-    .ReactVirtualized__Table__rowColumn:first-child {
-        padding-left: 22px;
-    }
-
-    .server-status {
-        width: 10px;
-        float: left;
-        margin-right: 5px;
-        height: 19px;
-    }
-
-    .quick-grid-container {
-        margin: 30px 10px 20px 20px;
-        box-sizing: border-box;
-        height: calc(100% - 60px);
-        width: calc(100% - 20px);
-    }
+    height: 100%;
 
     .grid-component-cell {
-        div {
-            .status-critical {
-                background-color: $red-color;
-            }
-            .status-warning {
-                background-color: $yellow-color;
-            }
-            .status-ok {
-                background-color: $green-color;
-            }
-            .status-offline {
-                background-color: $default-offline-color;
-            }
+        .server-column-cell {
+            padding-left: 5px;
+
+            .server-status {
+                width: 10px;
+                float: left;
+                margin-right: 5px;
+                height: 19px;
+
+                &.status-critical {
+                    background-color: $error-status-server;
+                }
+
+                &.status-warning {
+                    background-color: $warning-status-server;
+                }
+
+                &.status-ok {
+                    background-color: $ok-status-server;
+                }
+
+                &.status-offline {
+                    background-color: $secondary-color-20;
+                }
+            } 
         }
+
+        .server-dashboard-grid-cell-content {
+            padding-left: 5px;
+            font-size: 13px;
+
+            &.status-critical {
+                color: $error-status-server;
+            }
+
+            &.status-warning {
+                color: $warning-status-server;
+            }
+            
+            &.status-ok {
+                color: $secondary-color;
+            }     
+        }   
     }
 }

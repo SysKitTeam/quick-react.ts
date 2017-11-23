@@ -11,6 +11,9 @@ import * as _ from 'lodash';
 import './QuickGrid.scss';
 
 export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeaderState> {
+    public static defaultProps = {
+        groupBy: []
+    };
     private _headerGrid: any;
     private columnMinWidths: Array<number>;
     constructor(props: IGridHeaderProps) {
@@ -40,7 +43,7 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
 
     render() {
         const headerClass = classNames('grid-header', this.props.className);
-        const { allColumns, headerColumns, width, scrollLeft } = this.props;
+        const { allColumns, headerColumns, width, scrollLeft, tooltipsEnabled } = this.props;
         return (
             <div style={{ width }}>
                 {
@@ -51,6 +54,9 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
                         onGroupByChanged={this.props.onGroupByChanged}
                         onGroupByRemoved={this.onGroupByRemoved}
                         onSort={this.props.onGroupBySort}
+                        onCollapseAll={this.props.onCollapseAll}
+                        onExpandAll={this.props.onExpandAll}
+                        tooltipsEnabled={tooltipsEnabled}
                     />
                 }
                 <Grid
@@ -59,7 +65,7 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
                     className="grid-component-header"
                     columnWidth={this.getHeaderColumnWidth}
                     columnCount={headerColumns.length}
-                    height={30}
+                    height={28}
                     rowHeight={28}
                     rowCount={1}
                     width={width}
@@ -81,17 +87,17 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
 
     headerCellRender = ({ columnIndex, key, rowIndex, style }) => {
         const notLastIndex = columnIndex < (this.state.columnWidths.length - 1);
-        const isAction = this.props.hasActionColumn && columnIndex === 0;
+        const column = this.props.headerColumns[columnIndex];
+        const isAction = this.props.hasActionColumn && columnIndex === 0 || (column.valueMember === undefined && column.dataMember === undefined);
         const notEmptyColumns = !isAction && columnIndex >= this.props.groupBy.length;
         const displayResizeHandle = notLastIndex && notEmptyColumns;
-        const column = this.props.headerColumns[columnIndex];
 
         return (
             <div
                 className={classNames({ 'empty-header-column': !displayResizeHandle }, 'grid-header-column')}
                 key={key}
                 style={style}>
-                { notEmptyColumns &&
+                {notEmptyColumns &&
                     this.createHeaderColumn(column)
                 }
                 {displayResizeHandle &&
@@ -140,12 +146,12 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
     }
 
     createHeaderColumn(column: GridColumn) {
-        const { headerText, isSortable, headerClassName, valueMember } = column;
+        const { headerText, isSortable, headerClassName, valueMember, headerTooltip } = column;
         const columnClassName = classNames('header-column-content', headerClassName, { 'header-column-sortable': isSortable !== false });
         const showSortIndicator = this.props.sortColumn === valueMember;
         const newSortDirection = this.props.sortColumn !== valueMember || this.props.sortDirection === SortDirection.Descending ? SortDirection.Ascending : SortDirection.Descending;
         const onClick = (event) => {
-            if (isSortable !== false) {
+            if (isSortable !== false && this.props.onSort) {
                 this.props.onSort(valueMember, newSortDirection);
             }
         };
@@ -164,6 +170,8 @@ export class GridHeader extends React.PureComponent<IGridHeaderProps, IGridHeade
                 isGroupable={column.isGroupable}
                 onClick={onClick}
                 onKeyDown={onKeyDown}
+                tooltipsEnabled={this.props.tooltipsEnabled}
+                tooltip={headerTooltip}
             />
         );
     }

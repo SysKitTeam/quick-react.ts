@@ -1,39 +1,75 @@
 @import '../../index.scss';
 
 .tree-filter-container {
-    @include disableUserSelection();
-    
-    height: 50px;
+    user-select: none;
     width: 200px;
     position: relative;
-    color: $font-primary-color;
-    font-family: $font-family-base;
 
-    .tree-filter-title {
-        width: 200px;
-        height: 20px;
-        padding: 2px 1px 2px 1px;
-        border-bottom: 1px solid $secondary-color;
-        cursor: pointer;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-        .dropdown-icon {
-            float: right;
-            padding-top: 6px;
-            padding-right: 1px;
-            font-size: 11px;
-        }
+    > span {
+        height: 22px;
+        line-height: 22px;
     }
 
-    .item-selected {
-        color: $secondary-color;
+    .tree-filter-title {
+        box-sizing: border-box;
+        width: 200px;
+        height: 22px;
+        border-bottom: 1px solid $secondary-color-20;
+        cursor: pointer;
+
+        span {
+            width: calc(100% - 20px);
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .dropdown-icon {
+            float: right;
+            padding-top: 5px;
+            font-size: 11px;
+
+            &:hover {
+                color: $primary-color;
+            }
+        }
+
+        &.tree-filter-title-with-border {
+            border: 1px solid $secondary-color-20;
+            border-radius: 8px;
+            height: 32px;
+            padding: 5px 3px 5px 8px;
+        }
     }
 
     .reset-filter-icon {
         font-size: 11px;
-        position: absolute;
-        top: 0;
         right: 0;
+        position: absolute;
+        top: 6px;
+        cursor: pointer;
+
+        &:hover {
+            color: $primary-color;
+        }
+    }
+
+    &.is-disabled {
+        cursor: default;
+
+        > span, .icon {
+            pointer-events: none;
+            color: $secondary-disabled-color;
+        }
+
+        .tree-filter-title {
+            cursor: default;
+            pointer-events: none;
+
+            > span {
+                color: $secondary-disabled-color;
+            }
+        }
     }
 }

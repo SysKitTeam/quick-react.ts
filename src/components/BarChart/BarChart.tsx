@@ -12,7 +12,7 @@ export class BarChart extends React.PureComponent<IBarChartProps, any> {
         xAxisFormat: () => null,
         width: 500,
         height: 300,
-        onClick: () => {},
+        onClick: () => { },
         selectedIndex: 0
     };
 
@@ -30,13 +30,13 @@ export class BarChart extends React.PureComponent<IBarChartProps, any> {
 
     public render() {
         const mainContainerClass = classNames('bar-chart-component', this.props.id);
-        const props = {...this.props, width: this.state.fullWidth, height: this.state.fullHeight};
+        const props = { ...this.props, width: this.state.fullWidth, height: this.state.fullHeight };
 
         return (
             <div className={mainContainerClass}
-                style={{width: this.props.dimensions.width, height: this.props.dimensions.height}}
+                style={{ width: this.props.dimensions.width, height: this.props.dimensions.height }}
                 ref={(element: HTMLDivElement) => this.init(element)}>
-                { this.state.parentMounted && <BarChartContent {...props}/> }
+                {this.state.parentMounted && <BarChartContent {...props} />}
             </div>
         );
     }
@@ -47,23 +47,23 @@ export class BarChart extends React.PureComponent<IBarChartProps, any> {
      * When root container is rendered and its dimensions are known set resize sensor to it and
      * calculate dimensions so that chart content could be displayed inside it.
      */
-    private init(element: HTMLDivElement) : void {
+    private init(element: HTMLDivElement): void {
         if (element === null) { return; }
         this.containerRef = element;
         const sensor = new ResizeSensor(element, () => this.onResize());
-        this.setState({ fullWidth : element.offsetWidth, fullHeight: element.offsetHeight, parentMounted: true });
+        this.setState({ fullWidth: element.offsetWidth, fullHeight: element.offsetHeight, parentMounted: true });
     }
 
     /**
      * When root element is resized calculate new dimensions and update state which causes all other child components
      * to be scaled to appropriate dimensions. SetState will not be called if new dimensions are the same as ones in state.
      */
-    private onResize() : void {
+    private onResize(): void {
         const width = this.containerRef.offsetWidth;
         const height = this.containerRef.offsetHeight;
         if (this.state.fullWidth !== width || this.state.fullHeight !== height) {
-            this.setState({ fullWidth: width, fullHeight: height }); 
-            this.forceUpdate(); 
+            this.setState({ fullWidth: width, fullHeight: height });
+            this.forceUpdate();
         }
     }
 }

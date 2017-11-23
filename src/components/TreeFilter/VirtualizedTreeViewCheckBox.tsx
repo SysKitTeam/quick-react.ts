@@ -9,6 +9,7 @@ export interface IVirtualizedTreeViewCheckBoxProps {
     itemId: string;
     checked: CheckStatus;
     text: string;
+    className?: string;
     onChange: () => void;
 }
 
@@ -17,19 +18,20 @@ export class VirtualizedTreeViewCheckBox extends React.PureComponent<IVirtualize
         const { itemId, checked, onChange, text } = this.props;
         const isChecked = checked === CheckStatus.Checked;
 
-        const className = classNames(
-            'TreeFilter-checkbox',
+        const virtualizedTreeClassName = classNames(
+            'virtualized-tree-filter-checkbox',
+            [this.props.className],
             {
                 'partial-selected': checked === CheckStatus.ChildChecked
             }
         );
 
         return (
-            <div className={className} onClick={onChange} >
+            <div className={virtualizedTreeClassName} onClick={onChange} >
                 <input {...isChecked} className={'checkbox-input'} type="checkbox" />
-                {isChecked && <Icon className={'TreeFilter-checkbox-checkmark'} iconName={'icon-checkmark'} />}
-                <label className="TreeFilter-checkbox-label"  >
-                    <span className={'label'}>{text}</span>
+                {isChecked && <Icon className={'virtualized-tree-filter-checkbox-checkmark'} iconName={'icon-checkmark'} />}
+                <label className={classNames('virtualized-tree-filter-checkbox-label', { 'is-checked': isChecked })} >
+                    <span className={'label'} title={text}>{text}</span>
                 </label>
             </div>
         );

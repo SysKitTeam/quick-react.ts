@@ -18,9 +18,10 @@ export enum CheckStatus {
 }
 
 export interface ITreeFilterProps {
-    title: string;
     filterId: string;
     items: Array<TreeItem>;
+    title?: string;
+    disabled?: boolean;
     filterSelection?: IFilterSelection;
     hasSearch?: boolean;
     isSingleSelect?: boolean;
@@ -29,6 +30,9 @@ export interface ITreeFilterProps {
     onValuesSelected?: (filterId: string, filterSelection: IFilterSelection) => void;
     defaultSelection?: FilterSelectionEnum;
     rowHeight?: number;
+    hasTitleBorder?: boolean;
+    showButtons?: boolean;
+    onSave?: (filterId: string, filterSelection: IFilterSelection) => void;
     /* Callout specific */
     width?: number;
     height?: number;
@@ -51,14 +55,12 @@ export interface ITreeFilterProps {
 }
 
 export const defaultTreeFilterProps: Partial<ITreeFilterProps> = {
-    title: 'Title',
     filterId: 'treeFilter',
     hasSearch: true,
     isSingleSelect: false,
     itemsAreFlatList: false,
     isGroupSelectableOnSingleSelect: false,
     directionalHint: DirectionalHint.bottomRightEdge,
-    onValuesSelected: () => { },
     filterSelection: { type: FilterSelectionEnum.None, selectedIDs: [] },
     width: 300,
     height: 350,
@@ -66,7 +68,8 @@ export const defaultTreeFilterProps: Partial<ITreeFilterProps> = {
     minHeight: 200,
     defaultSelection: FilterSelectionEnum.None,
     clearSearchOnClose: true,
-    rowHeight: 20
+    rowHeight: 21,
+    showButtons: false
 };
 
 export interface ITreeFilterState {
@@ -75,6 +78,7 @@ export interface ITreeFilterState {
     isDefaultSelected: boolean;
     selectionText: string;
     query: string;
+    selection: IFilterSelection;
 }
 
 export interface TreeItem {

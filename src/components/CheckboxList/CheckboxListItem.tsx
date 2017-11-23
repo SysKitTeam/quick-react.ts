@@ -38,7 +38,7 @@ export class CheckboxListItem extends CommonComponent<ICheckboxListItemProps, an
             }
         );
         let isParent = item.children && item.children.length > 0;
-        return (          
+        return (
             <div>
                 {
                     isParent && <div className={'checkboxlist-item'} onClick={this._onItemClick.bind(this)}>

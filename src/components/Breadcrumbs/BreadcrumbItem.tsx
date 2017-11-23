@@ -6,7 +6,6 @@ import { autobind } from '../../utilities/autobind';
 import { DropdownType } from '../Dropdown/Dropdown.Props';
 import * as classNames from 'classnames';
 import { IBreadcrumbItemProps, IBreadcrumbChild } from './BreadcrumbItem.Props';
-import './BreadcrumbItem.scss';
 
 export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
     private _dropdown;
@@ -22,35 +21,38 @@ export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
     public render() {
         let { className, iconName, text, children } = this.props;
         const icon = this.state.isMenuOpen ? this.props.iconExpanded : this.props.iconCollapsed;
+
         return (
             <div className={classNames('breadcrumbs-item', className)}>
-                <div className={'breadcrumbs-item-title'}>
-                {
-                    iconName &&
-                    <Icon
-                        className={classNames('breadcrumbs-item-icon', className)}
-                        iconName={iconName}
-                        onClick={() => this.props.onClick(this.props.url)}
-                    />
-                }
-                {
-                    text &&
-                    <Label
-                        className={classNames('breadcrumbs-item-label', className)}
-                        onClick={() => this.props.onClick(this.props.url)}
-                    >{text}</Label>
-                }
+                <div className="breadcrumbs-item-title">
+                    {
+                        iconName &&
+                        <Icon
+                            className={classNames('breadcrumbs-item-icon', className)}
+                            iconName={iconName}
+                            onClick={() => this.props.onClick(this.props.url)}
+                        />
+                    }
+                    {
+                        text &&
+                        <Label
+                            className={classNames('breadcrumbs-item-label', className)}
+                            onClick={() => this.props.onClick(this.props.url)}
+                        >{text}</Label>
+                    }
                 </div>
                 {
                     (children.length !== 0) &&
                     <Dropdown
-                        className={'breadcrumbs-dropdown'}
+                        className="breadcrumbs-dropdown"
                         ref={this.setDropdownReference}
-                        calloutClassName={'breadcrumbs-dropdown-callout'}
+                        calloutClassName="breadcrumbs-dropdown-callout"
                         dropdownType={DropdownType.customDropdown}
+                        displaySelection={false}
                         icon={icon}
                         onClosed={this.onClosed}
                         onMenuToggle={(opened) => this.setState({ isMenuOpen: opened })}
+                        showArrowIcon={false}
                     >
                         {this.mapChildrenToMenu(children)}
                     </Dropdown>
@@ -66,7 +68,16 @@ export class BreadcrumbItem extends React.Component<IBreadcrumbItemProps, any> {
 
     private mapChildrenToMenu(children: Array<IBreadcrumbChild>) {
         return children.map((child, index) => {
-            return <li key={index} onClick={() => this.handleChildClick(child)}>{child.displayName}</li>;
+            return (
+                <li
+                    key={index}
+                    className="dropdown-item"
+                    title={child.displayName}
+                    onClick={() => this.handleChildClick(child)}
+                >
+                    {child.displayName}
+                </li>
+            );
         });
     }
 

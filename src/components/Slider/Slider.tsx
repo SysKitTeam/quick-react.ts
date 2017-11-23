@@ -5,13 +5,13 @@ import { autobind } from '../../utilities/autobind';
 import { getId } from '../../utilities/getId';
 import { getRTL as isRTL, getRTLSafeKeyCode } from '../../utilities/rtl';
 import { CommonComponent } from '../Common/Common';
-import {KeyCodes} from '../../utilities/KeyCodes';
+import { KeyCodes } from '../../utilities/KeyCodes';
 import { Label } from '../../components/Label/Label';
 import './Slider.scss';
 
 export interface ISliderState {
-    value ?: number;
-    renderedValue ?: number;
+    value?: number;
+    renderedValue?: number;
 }
 
 export class Slider extends CommonComponent<ISliderProps, ISliderState> implements ISlider {
@@ -35,8 +35,8 @@ export class Slider extends CommonComponent<ISliderProps, ISliderState> implemen
 
     constructor(props?: ISliderProps) {
         super(props);
-        
-        this._id =  getId('slider');
+
+        this._id = getId('slider');
 
         let value = props.value || props.defaultValue || props.min;
 
@@ -65,53 +65,53 @@ export class Slider extends CommonComponent<ISliderProps, ISliderState> implemen
         const onMouseDownProp: {} = disabled ? {} : { onMouseDown: this._onMouseDownOrTouchStart };
         const onTouchStartProp: {} = disabled ? {} : { onTouchStart: this._onMouseDownOrTouchStart };
         const onKeyDownProp: {} = disabled ? {} : { onKeyDown: this._onKeyDown };
-        
+
         const sliderClassName = classNames(
             'slider',
-            className, 
+            className,
             {
                 'slider-enabled': !disabled,
                 'slider-disabled': disabled
-        });
-        
+            });
+
         const buttonClassName = classNames(
             'slider-slideBox',
-            buttonProps.className, 
+            buttonProps.className,
             {
                 'slider-showValue': showValue,
                 'slider-showTransitions': (renderedValue === value)
-        });
+            });
 
         return (
-            <div className={ sliderClassName }
-            ref="root">
-            { label && (
-                <Label>{ label }</Label>
-            )}
+            <div className={sliderClassName}
+                ref="root">
+                {label && (
+                    <Label>{label}</Label>
+                )}
                 <div className={'slider-container'}>
                     <button
                         { ...onMouseDownProp }
                         { ...onTouchStartProp }
                         { ...onKeyDownProp }
                         { ...buttonProps }
-                        className={ buttonClassName }
-                        id={ this._id }
-                        disabled={ disabled }
+                        className={buttonClassName}
+                        id={this._id}
+                        disabled={disabled}
                         type="button"
                         role="slider">
-                            <div ref="sliderLine"
-                                className={'slider-line'}>
-                                <span ref="thumb"
-                                    className={'slider-thumb'}
-                                    style={ isRTL() ?
-                                        { 'right': thumbOffsetPercent + '%' } :
-                                        { 'left': thumbOffsetPercent + '%' } }>
-                                </span>
-                                <span className={'slider-active'} style={ { 'width': thumbOffsetPercent + '%' } }></span>
-                                <span className={'slider-inactive'} style={ { 'width': (100 - thumbOffsetPercent) + '%' } }></span>
-                            </div>
+                        <div ref="sliderLine"
+                            className={'slider-line'}>
+                            <span ref="thumb"
+                                className={'slider-thumb'}
+                                style={isRTL() ?
+                                    { 'right': thumbOffsetPercent + '%' } :
+                                    { 'left': thumbOffsetPercent + '%' }}>
+                            </span>
+                            <span className={'slider-active'} style={{ 'width': thumbOffsetPercent + '%' }}></span>
+                            <span className={'slider-inactive'} style={{ 'width': (100 - thumbOffsetPercent) + '%' }}></span>
+                        </div>
                     </button>
-                     { showValue && <label className={'label slider-value'}>{ value }</label> }
+                    {showValue && <label className={'label slider-value'}>{value}</label>}
                 </div>
             </div>
         ) as React.ReactElement<{}>;
@@ -119,7 +119,7 @@ export class Slider extends CommonComponent<ISliderProps, ISliderState> implemen
 
     public focus(): void {
         if (this.refs.thumb) {
-        this.refs.thumb.focus();
+            this.refs.thumb.focus();
         }
     }
 
@@ -129,7 +129,7 @@ export class Slider extends CommonComponent<ISliderProps, ISliderState> implemen
 
     @autobind
     private _onMouseDownOrTouchStart(event: MouseEvent | TouchEvent): void {
-         if (event.type === 'mousedown') {
+        if (event.type === 'mousedown') {
             this._events.on(window, 'mousemove', this._onMouseMoveOrTouchMove, true);
             this._events.on(window, 'mouseup', this._onMouseUpOrTouchEnd, true);
         } else if (event.type === 'touchstart') {
@@ -196,13 +196,13 @@ export class Slider extends CommonComponent<ISliderProps, ISliderState> implemen
     @autobind
     private _onMouseUpOrTouchEnd(): void {
 
-    // Synchronize the renderedValue to the actual value.
+        // Synchronize the renderedValue to the actual value.
         this.setState({
             renderedValue: this.state.value
         });
 
         this._events.off();
-  }
+    }
 
     @autobind
     private _onKeyDown(event: KeyboardEvent): void {

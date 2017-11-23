@@ -1,0 +1,37 @@
+@import '../../index.scss';
+
+.condition-selector-container {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid $secondary-color-20;    
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px;
+    min-height: 300px;
+    min-width: 850px;
+    > div:last-child {
+        margin-left: 10px;
+    }    
+    > div:first-child {
+        margin-right: 10px;
+    }
+    .selection-container{
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 400px;
+        .selection-inner-container {
+            border: 1px solid $secondary-color-20;    
+            border-radius: 8px;
+            flex-grow: 1;            
+            overflow-x: auto;
+            >:not(:last-child) {
+                margin-bottom: 15px;
+            }
+        }
+        .conditions-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+    }
+}

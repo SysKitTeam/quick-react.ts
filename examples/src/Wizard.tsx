@@ -6,12 +6,12 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 import * as ReactDOM from 'react-dom';
 
-import Wizard from './../../src/components/Wizard/Wizard';
-import {autobind} from './../../src/utilities/autobind';
-import {steps} from './../MockData/WizardSteps';
+import { Wizard } from './../../src/components/Wizard/Wizard';
+import { autobind } from './../../src/utilities/autobind';
+import { steps } from './../MockData/WizardSteps';
 
 export class Index extends React.Component<any, any> {
-    
+
     @autobind
     private _render(id: number): JSX.Element {
         switch (id) {
@@ -20,14 +20,14 @@ export class Index extends React.Component<any, any> {
             case 1:
                 return this._renderSecondPage();
             case 2:
-                return this. _renderThirdPage();
+                return this._renderThirdPage();
 
             case 3:
                 return this._renderFourthPage();
         }
     }
 
-    @autobind 
+    @autobind
     _renderPage(id: number): JSX.Element {
         return (
             <div>{id}</div>
@@ -54,7 +54,7 @@ export class Index extends React.Component<any, any> {
             <div>THIRD PAGE</div>
         );
     }
-    
+
 
     @autobind
     private _renderFourthPage(): JSX.Element {
@@ -78,16 +78,18 @@ export class Index extends React.Component<any, any> {
 
     public render() {
         return (
-            <Wizard 
-            title={'Wizard'}
-            onPageEnter={this._enterPage}
-            onPageLeave={this._leavePage}
-            steps={steps}
-            onPageRender={this._render}
-            onFinish={this._finishCreateScript}
-            nextBtnState={true}>
-            </Wizard>
-
+            <div style={{ width: '1500px' }}>
+                <Wizard
+                    title={'Wizard'}
+                    onPageEnter={this._enterPage}
+                    onPageLeave={this._leavePage}
+                    steps={steps}
+                    onPageRender={this._render}
+                    onFinish={this._finishCreateScript}
+                    nextBtnState={true}
+                    onCancel={() => { console.log('Cancel'); }}
+                />
+            </div>
         );
     }
 }

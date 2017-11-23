@@ -1,8 +1,11 @@
+import { DirectionalHint } from '../../utilities/DirectionalHint';
+
 export interface ITooltipProps {
-    id: string;
-    text: string;
-    x: number;
-    y: number;
-    visible: boolean;
-    tipBorderColor?: string;
-}
+    content: string;
+    className?: string;
+    targetElement?: HTMLElement;
+    directionalHint?: DirectionalHint;
+    showTooltip?: boolean;
+    onTooltipToggle?(isTooltipVisible: boolean): void;
+    containerClass?: string;
+}

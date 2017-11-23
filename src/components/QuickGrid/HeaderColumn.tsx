@@ -20,6 +20,8 @@ export interface IHeaderColumnProps {
     moveGroupByColumn?: (draggedColumn, hoverColumn) => void;
     itemArrayIndex?: number;
     removeGroupColumn?: (columnName) => void;
+    tooltipsEnabled?: boolean;
+    tooltip?: string;
 
     // Drag&Drop props
     connectDragSource?: any;
@@ -27,11 +29,16 @@ export interface IHeaderColumnProps {
     connectDropTarget?: any;
 }
 
-class HeaderColumnInner extends React.Component<IHeaderColumnProps, void> {
+class HeaderColumnInner extends React.PureComponent<IHeaderColumnProps, void> {
+    public static defaultProps = {
+        tooltipsEnabled: true
+    };
+
     DragElement = <div style={{ height: 50, width: 30 }} > <span> Drag </span> </div>;
     render() {
-        const { className, text, showSortIndicator, sortDirection, onClick, onKeyDown } = this.props;
+        const { className, text, showSortIndicator, sortDirection, onClick, onKeyDown, tooltipsEnabled, tooltip } = this.props;
         const sortIcon = sortDirection === SortDirection.Ascending ? 'icon-Arrow_up' : 'icon-arrow_down';
+        const title = getHeaderTooltip(tooltipsEnabled, tooltip, text);
         return (
             this.props.connectDragSource(this.props.connectDropTarget(
                 <div
@@ -43,7 +50,7 @@ class HeaderColumnInner extends React.Component<IHeaderColumnProps, void> {
                     <div className="header-text">
                         <span
                             key="label"
-                            title={text}
+                            title={title}
                         >
                             {text}
                         </span>
@@ -106,6 +113,17 @@ const headerCellDropTarget = {
         monitor.getItem().index = hoverItemIndex;
     }
 };
+
+function getHeaderTooltip(tooltipsEnabled, tooltip, text) {
+    if (tooltipsEnabled) {
+        if (tooltip) {
+            return tooltip;
+        } else {
+            return text;
+        }
+    }
+    return null;
+}
 
 function collectDropTarget(connect) {
     return {

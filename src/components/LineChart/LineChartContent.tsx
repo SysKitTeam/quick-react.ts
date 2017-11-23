@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as d3 from 'd3';
 import * as classNames from 'classnames';
 import { ILineChartProps, ILineChartData, ISeriesData } from './LineChart.props';
-import { Tooltip } from '../Tooltip/Tooltip';
+import { ChartTooltip } from '../ChartTooltip/ChartTooltip';
 
 const margin = { top: 20, bottom: 70, left: 50, right: 20 };
 
@@ -34,7 +34,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
     /**
      * When component receives new props set state based on new props.
      */
-    public componentWillReceiveProps(newProps: ILineChartProps, newState: any) {
+    public componentWillReceiveProps(newProps: ILineChartProps) {
         this.setState({
             fullWidth: newProps.width,
             fullHeight: newProps.height,
@@ -93,7 +93,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
                     <g className={xAxisClass} transform={translateXAxis} ref={(element: SVGAElement) => this.renderXAxis(element)} />
                     <g className={yAxisClass} ref={(element: SVGAElement) => this.renderYAxis(element)} />
                     {this.drawSeries()}
-                    <Tooltip id={this.props.id} text={this.state.tipText} x={this.state.tipX} y={this.state.tipY} visible={this.state.isTipVisible} tipBorderColor={this.state.tooltipBorderColor} />
+                    <ChartTooltip id={this.props.id} text={this.state.tipText} x={this.state.tipX} y={this.state.tipY} visible={this.state.isTipVisible} tipBorderColor={this.state.tooltipBorderColor} />
                 </g>
             </svg>
         );

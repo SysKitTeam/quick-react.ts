@@ -13,13 +13,11 @@
 
 .icon {
     -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    display: inline-block;
+	-webkit-font-smoothing: antialiased;
+	display: inline-block;
     font-family: icomoon;
     font-style: normal;
-    font-weight: 400;
-	@include margin-right(5px);
-	color: $font-primary-color;
+	margin-right: 5px;
 }
 
 @import './Icon.Content.scss'

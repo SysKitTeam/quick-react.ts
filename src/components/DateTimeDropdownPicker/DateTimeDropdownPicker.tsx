@@ -3,16 +3,16 @@ import * as classNames from 'classnames';
 import { Dropdown } from '../Dropdown/Dropdown';
 import { DropdownType } from '../Dropdown/Dropdown.Props';
 import { Button } from '../Button/Button';
-import { ButtonType } from '../Button/Button.Props';
 import { DateTimePicker } from '../DateTimePicker/DateTimePicker';
 import { autobind } from '../../utilities/autobind';
 import * as moment from 'moment';
-
+import './DateTimeDropdownPicker.scss';
 
 export interface IDateTimeDropdownPickerProps {
     selectedDate: Date;
     onTimeSelectionChanged?: (selectedDateTime: Date) => void;
     className?: string;
+    includeTime?: boolean;
 }
 
 export interface IDateTimeDropDownPickerState {
@@ -38,7 +38,7 @@ export class DateTimeDropdownPicker extends React.PureComponent<IDateTimeDropdow
     }
 
     public render(): JSX.Element {
-        const { onTimeSelectionChanged, className } = this.props;
+        const { onTimeSelectionChanged, className, includeTime } = this.props;
         const { selectedDateCached } = this.state;
 
         return (
@@ -53,10 +53,11 @@ export class DateTimeDropdownPicker extends React.PureComponent<IDateTimeDropdow
                         selectedDateTime={selectedDateCached}
                         is24HourFormat={false}
                         onTimeSelectionChanged={this._dateTimeChanged}
+                        includeTime={includeTime}
                     />
                     <div className="dropdown-buttons-container">
-                        <Button onClick={this._cancelClicked}>Close</Button>
-                        <Button buttonType={ButtonType.primary} onClick={this._flushChange}>OK</Button>
+                        <Button className={'button-textual'} onClick={this._cancelClicked}>Close</Button>
+                        <Button className={'button-primary'} onClick={this._flushChange}>OK</Button>
                     </div>
                 </Dropdown>
             </div>
@@ -66,13 +67,15 @@ export class DateTimeDropdownPicker extends React.PureComponent<IDateTimeDropdow
     @autobind
     private _cancelClicked() {
         this._closeDropDown();
-         this.setState({ selectedDateCached: this.props.selectedDate });
+        this.setState({ selectedDateCached: this.props.selectedDate });
     }
 
     @autobind
     private _flushChange() {
         const { onTimeSelectionChanged } = this.props;
-        onTimeSelectionChanged(this.state.selectedDateCached);
+        if (onTimeSelectionChanged !== undefined) {
+            onTimeSelectionChanged(this.state.selectedDateCached);
+        }
         this._closeDropDown();
     }
 

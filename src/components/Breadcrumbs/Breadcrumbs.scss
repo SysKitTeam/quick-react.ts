@@ -1,33 +1,102 @@
  @import '../../index.scss';
 
 .breadcrumbs {
-    @include baseFont();
-    @include disableUserSelection();
-    
-    .icon-home {
-        vertical-align: sub;
-        cursor: pointer;
-
-        &:hover {
-            color: $secondary-color;
-        }
-    }
-
     .breadcrumbs-list {
-        display: inline-block;
+        display: flex;
         white-space: nowrap;
         padding: 0;
         margin: 0;
     }
 
     .breadcrumbs-list-item {
-        list-style-type: none;
-        vertical-align: top;
-        margin: 0;
-        padding: 0;
         display: inline-block;
         position: relative;
-        font-size: $font-size-m;
+        margin-left: 1px;
         cursor: pointer;
+
+        .breadcrumbs-item {
+            .breadcrumbs-item-title {
+                display: inline-block;
+                vertical-align: top;
+        
+                .breadcrumbs-item-label {
+                    padding: 0 6px 0 0;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    vertical-align: bottom;
+                    cursor: pointer;
+        
+                    &:hover {
+                        color: $primary-color;
+                    }
+                }
+        
+                .breadcrumbs-item-icon {
+                    margin-right: 8px;
+                }
+            }
+        
+            .dropdown-root {
+                display: inline-block;
+        
+                .breadcrumbs-dropdown {
+                    margin: 0;
+        
+                    .dropdown-title > .icon {
+                        font-size: 10px;
+                    }
+
+                    &.is-open > .icon {
+                        color: $primary-color;
+                    }
+                }
+            }
+        
+            .icon:hover {
+                color: $primary-color;
+            }
+        }
+    }
+
+    .icon-home {
+        cursor: pointer;
+
+        &:hover {
+            color: $primary-color;
+        }
+    }
+
+    &.breadcrumbs-white > .breadcrumbs-list > .breadcrumbs-list-item > .breadcrumbs-item {
+        .breadcrumbs-item-title > .breadcrumbs-item-label, .breadcrumbs-item-icon {
+            color: $white-color;
+
+            &:hover {
+                color: $primary-color;
+            }
+        }
+
+        .dropdown-root > .breadcrumbs-dropdown {      
+            .dropdown-title > .icon {
+                color: $white-color;
+
+                &:hover {
+                    color: $primary-color;
+                }
+            }
+
+            &.is-open > .icon {
+                color: $primary-color;
+            }
+        }
+    }        
+}
+
+.breadcrumbs-dropdown-callout {
+    margin-top: 5px;
+    margin-left: 5px;
+
+    .callout-main {
+        width: 150px;
     }
 }

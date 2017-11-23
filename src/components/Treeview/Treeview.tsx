@@ -12,7 +12,10 @@ export class Treeview extends React.PureComponent<ITreeviewProps, {}> {
 
         const className = classNames(
             'treeview',
-            [this.props.className]
+            [this.props.className],
+            {
+                'treeview-with-checkbox': showCheckbox
+            }
         );
 
         const parent = items.map((element) => {
@@ -46,7 +49,7 @@ export class Treeview extends React.PureComponent<ITreeviewProps, {}> {
             const grandChildren = this._setElementChildren(element, allItems);
             element.children = grandChildren;
         });
-        
+
         return children;
     }
 }

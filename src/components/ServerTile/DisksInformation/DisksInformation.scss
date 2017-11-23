@@ -1,44 +1,37 @@
- @import '../../../themes/basic-theme.scss';
+@import '../../../index.scss';
 
 .disk-information-container {
      .status-critical {
-        color: $red-color!important;
+        color: $error-color;
     }
 
     .status-warning {
-        color: $yellow-color!important;
+        color: $warning-color;
     }
 }
 
-.disk-information-callout {
-    border: 1px solid $light-text-color;
-
-    .callout-main {
-        padding: 8px;
-
-        div {
-            font-size: 14px;
-            color: $emphasized-text-color;
-        }
-
-        div + div {
-            padding-top: 5px;
-        }
-
-        .status-critical {
-            color: $red-color;
-        }
-
-        .status-warning {
-            color: $yellow-color;
+.callout-container {
+    .callout {
+        &.disk-information-callout {
+            border: 1px solid $secondary-color-20!important;
+            border-radius: 8px;
+        
+            .callout-main {
+                padding: 8px;
+                border-radius: 8px;
+        
+                div + div {
+                    padding-top: 5px;
+                }
+        
+                .status-critical {
+                    color: $error-color;
+                }
+        
+                .status-warning {
+                    color: $warning-color;
+                }
+            }
         }
     }
-}
-
-.cursor-pointer {
-    cursor: pointer;
-}
-
-.cursor-default {
-    cursor: default;
 }

@@ -21,7 +21,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
     public static defaultProps = {
         okColor: '#7DC458',
         warningColor: '#EAC71A',
-        criticalColor: '#fb6464'
+        criticalColor: '#FB6464'
     };
 
     public render() {
@@ -35,7 +35,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
         let serverHoverMessage = this.props.hoverMessageForCriticalOrWarningServer && (this.props.status === ServerStatus.Critical || this.props.status === ServerStatus.Warning) ? this.props.hoverMessageForCriticalOrWarningServer : '';
 
         return (
-            <div className={classNames(className)} onClick={this.serverOnClick} style={this.props.style} title={serverHoverMessage}>
+            <div className={classNames(className, {'is-clickable': this.props.serverOnClick !== undefined && this.props.serverOnClick !== null})} onClick={this.serverOnClick} style={this.props.style} title={serverHoverMessage}>
                 {this.props.onClose &&
                     <Icon disabled={false}
                         className={'dialog-button dialog-button-close'}
@@ -60,12 +60,12 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                             xAxisTicks={3}
                             showLegend={false}
                             tooltipText={(d: ILineChartData) => toPrettyString(d.value, 0) + '%'}
-                            colorPallette={['#676767']}
+                            colorPallette={['#686869']}
                         />
                         <ProgressBar
                             title={'Memory'}
                             info={this.getProgressInfo(this.props.memoryUsage)}
-                            dimensions={{ height: '40px', width: '100%' }}
+                            dimensions={{ height: '45px', width: '100%' }}
                             data={{ total: this.props.memoryUsage.capacity, current: this.props.memoryUsage.used }}
                             progressColor={this.getProgressColor()}
                         />
@@ -78,7 +78,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                     </div>
                 }
 
-                {this.props.status === ServerStatus.Offline  &&
+                {this.props.status === ServerStatus.Offline &&
                     <div className={'counters-container'}>
                         <div className="offline-server-message">
                             <Icon iconName={'icon-details'}></Icon>
@@ -86,7 +86,7 @@ export class DetailedServerTile extends React.PureComponent<IDetailedServerProps
                         </div>
                     </div>
                 }
-                {this.props.status === ServerStatus.Disabled  &&
+                {this.props.status === ServerStatus.Disabled &&
                     <div className={'counters-container'}>
                         <div className="offline-server-message">
                             <Icon iconName={'icon-details'}></Icon>

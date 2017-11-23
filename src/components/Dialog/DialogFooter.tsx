@@ -6,7 +6,7 @@ export class DialogFooter extends React.Component<any, any> {
         return (
             <div className={'dialog-actions'}>
                 <div className={'dialog-actionsRight'}>
-                    { this._renderChildrenAsActions() }
+                    {this._renderChildrenAsActions()}
                 </div>
             </div>
         );
@@ -14,7 +14,7 @@ export class DialogFooter extends React.Component<any, any> {
 
     private _renderChildrenAsActions() {
         return React.Children.map(this.props.children, child =>
-            <span className={'dialog-action'}>{ child }</span>
+            <span className={'dialog-action'}>{child}</span>
         );
     }
 }

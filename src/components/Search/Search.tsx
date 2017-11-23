@@ -11,6 +11,8 @@ import { getWindow } from '../../utilities/getDocument';
 import { elementContains } from '../../utilities/elementContains';
 import * as _ from 'lodash';
 import './Search.scss';
+import { Button } from '../Button/Button';
+import { getNativeAttributes, inputAttributes } from '../../utilities/attributes';
 
 export interface ISearchState {
     value?: string;
@@ -29,7 +31,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
     private _targetWindow: Window;
 
     public constructor(props: ISearchProps) {
-        super(props);     
+        super(props);
         this._callOnChange = _.debounce(this._callOnChange, props.debounceWaitMs);
         this.state = {
             value: props.value || '',
@@ -75,8 +77,8 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
         }
     }
 
-    public render() {
-        let { labelText, className } = this.props;
+    public render(): React.ReactElement<React.HTMLProps<HTMLInputElement>> {
+        let { labelText, disabled, className, underlined } = this.props;
         let { value, hasFocus, id } = this.state;
 
         const searchClassName = classNames(
@@ -84,24 +86,37 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
             className,
             {
                 'is-active': hasFocus,
-                'can-clear': value.length > 0
+                'can-clear': value.length > 0,
+                'is-disabled': disabled,
+                'is-underlined': underlined
             }
         );
+
+        let inputProps = getNativeAttributes<React.HTMLProps<HTMLInputElement>>(this.props, inputAttributes, ['defaultValue']);
 
         return (
             <div
                 ref={this._resolveRef('_rootElement')}
                 className={searchClassName}
                 { ...{ onFocusCapture: this._onFocusCapture } }>
-                <Icon className={'search-icon'} iconName={'icon-search'}></Icon>
+                {!underlined &&
+                    <Icon className={'search-icon'} iconName={'icon-search'}></Icon>
+                }
                 <input
+                    {...inputProps}
                     id={id}
                     className={'search-field'}
                     value={value}
                     placeholder={labelText}
                     onChange={this._onInputChange}
                     onKeyDown={this._onKeyDown}
+                    disabled={disabled}
                     ref={this._resolveRef('_inputElement')} />
+                {underlined &&
+                    <div className="search-button">
+                        <Button disabled={disabled} className={'button-primary'} icon={'icon-search'}></Button>
+                    </div>
+                }
                 <div
                     className={'search-clearButton'}
                     onClick={this._onClearClick}>
@@ -142,7 +157,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
                 break;
 
             case KeyCodes.enter:
-                if (this.props.onSearch && this.state.value.length > 0) {
+                if (this.props.onSearch) {
                     this.props.onSearch(this.state.value);
                 }
                 break;
@@ -175,7 +190,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
 
     private _callOnChange(newValue: string): void {
         // Handle deprecated prop        
-        let onChange = (this.props.onChanged) ? this.props.onChanged : this.props.onChange;     
+        let onChange = (this.props.onChanged) ? this.props.onChanged : this.props.onChange;
         if (onChange) {
             onChange(newValue);
         }
