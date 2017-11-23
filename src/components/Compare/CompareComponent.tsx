@@ -333,6 +333,7 @@ class CompareComponentInner extends React.PureComponent<ICompareComponentProp, I
                                                 rowCount={this.targetRows.length}
                                                 columnCount={1}
                                                 scrollTop={scrollTop}
+                                                {...this.differences} // force update on difference change.
                                             />
                                         </div>
                                         <div className={'compare-single-grid-wrapper'}>
