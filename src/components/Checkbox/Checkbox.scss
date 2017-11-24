@@ -11,6 +11,8 @@ $checkbox-transition-timing: cubic-bezier(.4, 0, .23, 1);
     .checkbox-input {
         position: absolute;
         opacity: 0;
+        top: -9999px;
+        left: -9999px;
     }
 
     .checkbox-label {
