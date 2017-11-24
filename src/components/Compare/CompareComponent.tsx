@@ -87,12 +87,12 @@ class CompareComponentInner extends React.PureComponent<ICompareComponentProp, I
         if (diffOnRow) {
             switch (diffOnRow.differenceType) {
                 case CompareDifferenceType.MissingInSource:
-                    if (isSource) {
+                    if (!isSource) {
                         colorClass = 'compare-missing-in-source';
                     }
                     break;
                 case CompareDifferenceType.MissingInTarget:
-                    if (!isSource) {
+                    if (isSource) {
                         colorClass = 'compare-missing-in-target';
                     }
                     break;
@@ -178,7 +178,7 @@ class CompareComponentInner extends React.PureComponent<ICompareComponentProp, I
                 filteredTargetRows.splice(x - cnt, 1);
                 filteredDiffs.splice(filteredDiffs.indexOf(filteredDiffs.filter((y) => y.rowIndex === x - cnt)[0]), 1);
                 filteredDiffs = filteredDiffs.map((y) => {
-                    if (y.rowIndex >= x) {
+                    if (y.rowIndex >= x - cnt) {
                         y.rowIndex--;
                     }
                     return y;
@@ -199,9 +199,6 @@ class CompareComponentInner extends React.PureComponent<ICompareComponentProp, I
 
         this.columnsMinTotalWidth = props.columns.map(x => x.minWidth || defaultMinColumnWidth).reduce((a, b) => a + b, 0);
         this.columns = props.columns;
-        this.sourceRows = props.sourceRows.map((x) => ({...x}));
-        this.targetRows = props.targetRows.map((x) => ({...x}));
-        this.differences = props.differences.map((x) => ({...x}));
     }
 
     componentWillUpdate(nextProps : ICompareComponentProp, nextState : ICompareComponentState) {
@@ -218,6 +215,7 @@ class CompareComponentInner extends React.PureComponent<ICompareComponentProp, I
             prevProps.targetRows !== this.props.targetRows ||
             prevProps.differences !== this.props.differences) {
                 this.reSetPropeties(this.props);
+                this.reCalculateRows(this.props, this.state);
         }
         if (prevProps.columns !== this.props.columns || prevState.columnWidths !== this.state.columnWidths) {
             this.leftGrid.recomputeGridSize();
