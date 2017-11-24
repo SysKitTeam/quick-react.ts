@@ -276,13 +276,13 @@ class CompareComponentInner extends React.PureComponent<ICompareComponentProp, I
                                     <Button
                                         className={classNames({'compare-button-active' : this.state.missingFilter})}
                                         onClick={this.toggleMissingEntires}
-                                        title={'Show/Hide equal entires'}
+                                        title={'Show/Hide missing entires'}
                                         icon={' icon-arrows'}
                                     />
                                     <Button
                                         className={classNames({'compare-button-active' : this.state.diffFilter})}
                                         onClick={this.toggleNotEqualEntires}
-                                        title={'Show/Hide equal entires'}
+                                        title={'Show/Hide different entires'}
                                         icon={'icon-not_equal'}
                                     />
                                     <Button
