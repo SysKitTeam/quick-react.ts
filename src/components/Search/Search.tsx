@@ -114,7 +114,7 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
                     ref={this._resolveRef('_inputElement')} />
                 {underlined &&
                     <div className="search-button">
-                        <Button disabled={disabled} className={'button-primary'} icon={'icon-search'}></Button>
+                        <Button disabled={disabled} className={'button-primary'} icon={'icon-search'} onClick={this._onSearchClick}></Button>
                     </div>
                 }
                 <div
@@ -146,6 +146,13 @@ export class Search extends CommonComponent<ISearchProps, ISearchState> {
         });
 
         this._events.on(getDocument().body, 'focus', this._handleDocumentFocus, true);
+    }
+
+    @autobind
+    private _onSearchClick() {
+        if (this.props.onSearch) {
+            this.props.onSearch(this.state.value);
+        }
     }
 
     @autobind
