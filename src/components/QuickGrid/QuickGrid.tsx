@@ -171,7 +171,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     }
 
     getGridWidth() {
-        return this.getViewportWidth() - scrollbarSize();
+        return this.getViewportWidth();
     }
 
     getGridHeight = (height: number) => {
@@ -481,7 +481,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                                         sortColumn={this.state.sortColumn}
                                         sortDirection={this.state.sortDirection}
                                         onSort={this.onSortColumn}
-                                        width={width - scrollbarSize()}
+                                        width={width}
                                         scrollLeft={scrollLeft}
                                         className={headerClass}
                                         groupBy={this.state.groupBy}
@@ -534,4 +534,4 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     }
 }
 
-export const QuickGrid: React.ComponentClass<IQuickGridProps> = DragDropContext(HTML5Backend)(QuickGridInner);
+export const QuickGrid: React.ComponentClass<IQuickGridProps> = QuickGridInner;
