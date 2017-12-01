@@ -14,7 +14,6 @@ import { Dropdown, DropdownType, IDropdownOption } from '../Dropdown';
 import { Icon } from '../Icon/Icon';
 import * as _ from 'lodash';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContextProvider, DragDropContext } from 'react-dnd';
 import { groupBy as arrayGroupBy } from '../../utilities/array';
 const createSelector = require('reselect').createSelector;
 import { GridFooter } from './QuickGridFooter';
