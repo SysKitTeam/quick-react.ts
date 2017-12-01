@@ -8,13 +8,12 @@ import { autobind } from '../../utilities/autobind';
 import { AutoSizer, ScrollSync, MultiGrid, Grid } from 'react-virtualized';
 import './CompareComponent.scss';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContextProvider, DragDropContext } from 'react-dnd';
 const scrollbarSize = require('dom-helpers/util/scrollbarSize');
 
 import * as classNames from 'classnames';
 
 const defaultMinColumnWidth = 100;
-class CompareComponentInner extends React.PureComponent<ICompareComponentProp, ICompareComponentState> {
+export class CompareComponent extends React.PureComponent<ICompareComponentProp, ICompareComponentState> {
     private sourceRows: Array<any>;
     private targetRows: Array<any>;
     private columns: Array<GridColumn>;
@@ -380,5 +379,3 @@ class CompareComponentInner extends React.PureComponent<ICompareComponentProp, I
             </div>);
     }
 }
-
-export const CompareComponent: React.ComponentClass<ICompareComponentProp> = DragDropContext(HTML5Backend)(CompareComponentInner);

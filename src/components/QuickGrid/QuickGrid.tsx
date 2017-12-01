@@ -14,7 +14,6 @@ import { Dropdown, DropdownType, IDropdownOption } from '../Dropdown';
 import { Icon } from '../Icon/Icon';
 import * as _ from 'lodash';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContextProvider, DragDropContext } from 'react-dnd';
 import { groupBy as arrayGroupBy } from '../../utilities/array';
 const createSelector = require('reselect').createSelector;
 import { GridFooter } from './QuickGridFooter';
@@ -171,7 +170,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     }
 
     getGridWidth() {
-        return this.getViewportWidth() - scrollbarSize();
+        return this.getViewportWidth();
     }
 
     getGridHeight = (height: number) => {
@@ -481,7 +480,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                                         sortColumn={this.state.sortColumn}
                                         sortDirection={this.state.sortDirection}
                                         onSort={this.onSortColumn}
-                                        width={width - scrollbarSize()}
+                                        width={width}
                                         scrollLeft={scrollLeft}
                                         className={headerClass}
                                         groupBy={this.state.groupBy}
@@ -534,4 +533,4 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     }
 }
 
-export const QuickGrid: React.ComponentClass<IQuickGridProps> = DragDropContext(HTML5Backend)(QuickGridInner);
+export const QuickGrid: React.ComponentClass<IQuickGridProps> = QuickGridInner;
