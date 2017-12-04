@@ -76,7 +76,6 @@ $checkbox-transition-timing: cubic-bezier(.4, 0, .23, 1);
         .checkboxCheckmark {
             position: absolute;
             color: $white-color;
-            z-index: 100;
             font-size: 10px;
             margin-left: 3px;
         }
@@ -126,7 +125,6 @@ $checkbox-transition-timing: cubic-bezier(.4, 0, .23, 1);
             .checkboxCheckmark {
                 position: absolute;
                 color: $secondary-color;
-                z-index: 100;
                 font-size: 10px;
                 margin-left: 3px;
             }
