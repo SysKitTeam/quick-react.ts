@@ -7,25 +7,52 @@
 
 .wizard-container {
   height: calc(100% - 71px);
-  display: block;
+  display: inline-flex;
   overflow: auto;
   animation: fadeIn 1s;
+  padding-top: 40px;
+  flex-flow: row wrap;
+  min-width: 1200px;
+  width: 90%;
 
-  .wizard-title {
-    text-align: center;
-    font-size: 30px;
-    margin-bottom: 20px;
-    margin-top: 20px;
+  .wizard-step-window{
+    flex: 1;
   }
 
   .wizard-content {
-    width: 40%;
-    margin: 0px auto;
+    width: 360px;
+    display: flex;
+    flex-direction: column;
+    padding-left: 9px; 
+
+    .wizard-title-container{
+      display: flex;
+      margin-bottom: 20px;
+    
+      .wizard-back-icon-container{
+        height: 32px;
+        width: 32px;   
+        display: flex;
+        align-items: center;
+
+        .wizard-back-icon:hover{
+          cursor:pointer;
+        }
+      }
+
+      .wizard-title {
+        text-align: left;
+        font-size: 24px;
+        font-family: "Segoe UI";
+        padding-left: 9px;
+    }
+  }
 
     .wizard-stepper {
       display: flex;
-      width: 100%;
+      width: calc(100% - 50px);
       margin: 0px auto;
+      padding-left: 50px;
 
       .wizard-checkmark {
         margin-right: 0;

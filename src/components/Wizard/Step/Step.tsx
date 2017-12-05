@@ -23,18 +23,30 @@ const step: React.SFC<IStepProps> = (props) => {
     const titleClassName = classNames({
         'step-title': true,
         'completed': completed,
-        'active': active || completed
+        'active': active
+    });
+
+    const connectorClassName = classNames({
+        'step-connector': true,
+        'completed': completed,
+        'active': completed
     });
 
     return (
-        <div className={stepClassName}>
-            <div className={circleClassName}>
-                {
-                    completed && <Icon className="icon-checkmark wizard-checkmark" />
-                }
+        <div>
+            <div className={stepClassName}>
+                <div className={circleClassName}>
+                    {
+                        completed && <Icon className="icon-checkmark wizard-checkmark" />
+                    }
+                </div>
+                <div className={titleClassName} title={title}>{title}</div>
             </div>
-            <div className="step-title" title={title}>{title}</div>
-        </div>
+            {!isLast &&
+                < div className={connectorClassName}>
+                </div>
+            }
+        </div >
     );
 };
 
