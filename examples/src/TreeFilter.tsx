@@ -4,14 +4,16 @@ import 'ts-helpers';
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { TreeFilter, IFilterSelection, FilterSelectionEnum, VirtualizedTreeView } from '../../src/components/TreeFilter';
+import { TreeFilter, IFilterSelection, FilterSelectionEnum, VirtualizedTreeView, TreeItem } from '../../src/components/TreeFilter';
 import { createFlatList, createRandomizedData, getSelectedIds } from '../MockData/treeFilterElements';
 import { Button } from '../../src/components/Button/Button';
 
 interface DemoState {
     filterStates: { [id: string]: IFilterSelection };
+    loadingItemIds: string[];
 }
 const treeData = createRandomizedData(2000, 2);
+let asyncTreeData = createRandomizedData(2000, 2, true);
 const deeperTreeData = createRandomizedData(50, 4);
 const flatList = createFlatList(4000);
 const selected = getSelectedIds(4000);
@@ -20,7 +22,8 @@ export class Index extends React.Component<any, DemoState> {
     constructor(props) {
         super(props);
         this.state = {
-            filterStates: {}
+            filterStates: {},
+            loadingItemIds: []
         };
     }
 
@@ -38,6 +41,29 @@ export class Index extends React.Component<any, DemoState> {
         console.log('Save clicked!', newFilters);
     }
 
+    onAsyncLoad = (treeItem: TreeItem) => {
+        console.log('started loading');
+        this.setState({
+            ...this.state,
+            loadingItemIds: this.state.loadingItemIds.concat([treeItem.id])
+        });
+        setTimeout(() => {
+            treeItem.children = [{
+                id: treeItem.id + '-' + '1',
+                value: 'asyncly loaded',
+                expanded: false
+            }];
+            treeItem.isLoading = false;
+            const index = this.state.loadingItemIds.indexOf(treeItem.id);
+            let newLoadingIds = this.state.loadingItemIds.splice(index, 1);
+            this.setState({
+                ...this.state,
+                loadingItemIds: newLoadingIds
+            });
+            console.log(newLoadingIds);
+        }, 2000);
+    }
+
     public render() {
 
         return (
@@ -45,13 +71,15 @@ export class Index extends React.Component<any, DemoState> {
                 <TreeFilter
                     title="Tree Filter (max size)"
                     filterId={'f1'}
-                    items={treeData}
+                    items={asyncTreeData}
                     onValuesSelected={this.onValuesSelected}
                     // tslint:disable-next-line:no-string-literal
                     filterSelection={this.state.filterStates['f1']}
                     defaultSelection={FilterSelectionEnum.All}
                     maxWidth={700}
                     maxHeight={500}
+                    onAsyncLoad={this.onAsyncLoad}
+                    loadingItemIds={this.state.loadingItemIds}
                 />
                 <br /><br />
 

@@ -173,6 +173,10 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
     private renderItem(treeItem: TreeItem, itemKey) {
         const onExpandClick = (event) => {
             event.stopPropagation();
+            if (treeItem.hasAsyncLoad && !treeItem.expanded) {
+                treeItem.isLoading = true;
+                this.props.onAsyncLoad(treeItem);
+            }
             treeItem.expanded = !treeItem.expanded;
             this._list.recomputeRowHeights();
         };
@@ -223,6 +227,17 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                         <Icon className="virtualized-tree-expand-icon" iconName={'icon-arrow_down_right'} onClick={onExpandClick} />
                         <ItemCheckboxElement />
                     </div>
+                    {treeItem.isLoading &&
+                        <ul>
+                            <li>
+                                <div>
+                                    <div className="item-container" style={{ height: this.props.rowHeight }} >
+                                        isLoading...
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    }
                     {itemHasChildren(treeItem) &&
                         <ul>
                             <li>
@@ -258,7 +273,8 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
     }
 
     private rowHeight = ({ index }) => {
-        return this.getExpandedItemCount(this.state.filteredItems[index]) * this.props.rowHeight;
+        const loadingRow = this.state.filteredItems[index].isLoading ? 1 : 0;
+        return (this.getExpandedItemCount(this.state.filteredItems[index]) + loadingRow) * this.props.rowHeight;
     }
 
     private getExpandedItemCount = (item) => {

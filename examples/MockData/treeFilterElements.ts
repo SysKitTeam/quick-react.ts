@@ -17,7 +17,7 @@ export function getSelectedIds(numOfItems) {
     return ids;
 }
 
-export function createRandomizedData(numOfItems, maxDepth) {
+export function createRandomizedData(numOfItems, maxDepth, async = false) {
 
     const createRandomizedItem = (key, depth) => {
         let children = [];
@@ -31,7 +31,8 @@ export function createRandomizedData(numOfItems, maxDepth) {
             id: key,
             value: key + ' ' + name,
             expanded: false,
-            children: children
+            children: children,
+            hasAsyncLoad: async
         };
     };
 
@@ -41,4 +42,3 @@ export function createRandomizedData(numOfItems, maxDepth) {
     }
     return data;
 }
-

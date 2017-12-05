@@ -52,6 +52,8 @@ export interface ITreeFilterProps {
         bottomLeft: boolean,
         topLeft: boolean
     };
+    onAsyncLoad?: (treeItem: TreeItem) => void;
+    loadingItemIds?: string[];
 }
 
 export const defaultTreeFilterProps: Partial<ITreeFilterProps> = {
@@ -87,4 +89,6 @@ export interface TreeItem {
     expanded?: boolean;
     children?: Array<TreeItem>;
     className?: string;
+    hasAsyncLoad?: boolean;
+    isLoading?: boolean;
 }
