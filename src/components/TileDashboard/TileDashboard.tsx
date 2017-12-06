@@ -173,19 +173,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, ITileDas
                     countersData={getServerMeasures(server.measures)}
                     diskInformation={getDiskInformationFromMeasurements(server.measures)}
                     serverOnClick={this.serverOnClick}
-                    hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}
-                >
-                    {
-                        server.roles.length > 0 &&
-                        <TagContainer title={''} tags={server.roles} >
-                            {
-                                this.props.onServerRoleEdit &&
-                                <div className="edit-tags tag" title="Edit roles" onClick={(event) => this.onRoleEdit(server.id)}>
-                                    <Icon className="icon-edit"></Icon>
-                                </div>
-                            }
-                        </TagContainer>
-                    }
+                    hoverMessageForCriticalOrWarningServer={this.props.hoverMessageForCriticalOrWarningServer}> 
                 </ServerTile>
             </div>
         );
