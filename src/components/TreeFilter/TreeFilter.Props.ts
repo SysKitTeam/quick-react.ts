@@ -52,6 +52,7 @@ export interface ITreeFilterProps {
         bottomLeft: boolean,
         topLeft: boolean
     };
+    onCalloutClose?(): void;
 }
 
 export const defaultTreeFilterProps: Partial<ITreeFilterProps> = {
@@ -69,7 +70,8 @@ export const defaultTreeFilterProps: Partial<ITreeFilterProps> = {
     defaultSelection: FilterSelectionEnum.None,
     clearSearchOnClose: true,
     rowHeight: 21,
-    showButtons: false
+    showButtons: false,
+    onCalloutClose: () => { }
 };
 
 export interface ITreeFilterState {

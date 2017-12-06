@@ -52,6 +52,7 @@ export class Index extends React.Component<any, DemoState> {
                     defaultSelection={FilterSelectionEnum.All}
                     maxWidth={700}
                     maxHeight={500}
+                    onCalloutClose={() => console.log('closing...')}
                 />
                 <br /><br />
 
