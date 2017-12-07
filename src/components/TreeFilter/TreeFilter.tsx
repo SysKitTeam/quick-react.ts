@@ -108,8 +108,9 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         this.setState(prevState => ({ ...prevState, isOpen: !prevState.isOpen }));
     }
 
-    onDismiss = () => {
+    private onDismiss = () => {
         this.setState(prevState => ({ ...prevState, isOpen: false }));
+        this.props.onCalloutClose();
     }
 
     private getBoxSupportElementsHeight = () => {
@@ -190,6 +191,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
             selection: this.props.filterSelection,
             selectionText: this.getSelectedText(this.props.filterSelection, this.lookups.itemLookup)
         }));
+        this.props.onCalloutClose();
     }
 
     @autobind
@@ -199,6 +201,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         }
 
         this.setState(prevState => ({ ...prevState, isOpen: false, selection: this.state.selection }));
+        this.props.onCalloutClose();
     }
 
     private _getAllItemIds = () => this.allItemIds;
