@@ -35,6 +35,8 @@ import {
 
 import './VirtualizedTreeView.scss';
 import { Button } from '../Button/Button';
+import { Spinner } from '../../index';
+import { SpinnerType } from '../Spinner/Spinner.Props';
 
 export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeViewProps, IVirtualizedTreeViewState> {
 
@@ -65,9 +67,8 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
     }
 
     public componentWillReceiveProps(nextProps: IVirtualizedTreeViewProps) {
-        if (nextProps.items !== this.props.items) {
+        if (nextProps.items !== this.props.items || nextProps.loadingItemIds !== this.props.loadingItemIds) {
             const filteredItems = ItemOperator.filterItems(nextProps.items, this.state.searchText);
-
             this.setState(
                 prevState => ({
                     ...prevState,
@@ -75,6 +76,10 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                     searchText: nextProps.searchQuery
                 })
             );
+        }
+
+        if (nextProps.loadingItemIds !== this.props.loadingItemIds) {
+            this._list.recomputeRowHeights();
         }
 
         const lookups = nextProps.lookupTableGetter(nextProps.items);
@@ -173,7 +178,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
     private renderItem(treeItem: TreeItem, itemKey) {
         const onExpandClick = (event) => {
             event.stopPropagation();
-            if (treeItem.hasAsyncLoad && !treeItem.expanded) {
+            if (treeItem.hasAsyncLoad && !treeItem.expanded && !itemHasChildren(treeItem)) {
                 treeItem.isLoading = true;
                 this.props.onAsyncLoad(treeItem);
             }
@@ -227,18 +232,8 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                         <Icon className="virtualized-tree-expand-icon" iconName={'icon-arrow_down_right'} onClick={onExpandClick} />
                         <ItemCheckboxElement />
                     </div>
-                    {treeItem.isLoading &&
-                        <ul>
-                            <li>
-                                <div>
-                                    <div className="item-container" style={{ height: this.props.rowHeight }} >
-                                        isLoading...
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    }
-                    {itemHasChildren(treeItem) &&
+                    {treeItem.isLoading && this.renderLoadingLabel()}
+                    {!treeItem.isLoading && itemHasChildren(treeItem) &&
                         <ul>
                             <li>
                                 {
@@ -251,7 +246,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                     }
                 </div>
             );
-        } else if (itemHasChildren(treeItem)) { // expandable
+        } else if (itemHasChildren(treeItem) || treeItem.hasAsyncLoad) { // expandable
             return (
                 <div className="item-container expandible-item" key={itemKey} style={{ height: this.props.rowHeight }} >
                     <Icon className="virtualized-tree-expand-icon" iconName={'icon-arrow_right'} onClick={onExpandClick} />
@@ -268,18 +263,41 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
         }
     }
 
+    private renderLoadingLabel() {
+        const marginLeft = this.props.itemsAreFlatList ? 0 : 18;
+        return (
+            <ul>
+                <li>
+                    <div
+                        className="item-container loading-container"
+                        style={{ height: this.props.rowHeight, marginLeft: marginLeft }}
+                    >
+                        <Spinner className="tree-view-async-loading-spinner"
+                            type={SpinnerType.small}
+                        />
+                        <span className="tree-view-async-loading-label">
+                            Loading...
+                        </span>
+                    </div>
+                </li>
+            </ul>
+        );
+    }
+
     private isItemInList(list, treeItem: TreeItem): boolean {
         return list.indexOf(treeItem.id) !== -1;
     }
 
     private rowHeight = ({ index }) => {
-        const loadingRow = this.state.filteredItems[index].isLoading ? 1 : 0;
-        return (this.getExpandedItemCount(this.state.filteredItems[index]) + loadingRow) * this.props.rowHeight;
+        return (this.getExpandedItemCount(this.state.filteredItems[index])) * this.props.rowHeight;
     }
 
     private getExpandedItemCount = (item) => {
         let count = 1;
-        if (item.expanded) {
+        if (item.isLoading) {
+            count += 1;
+        }
+        if (item.expanded && itemHasChildren(item)) {
             count += item.children
                 .map(this.getExpandedItemCount)
                 .reduce(function (total, currentCount) { return total + currentCount; }, 0);

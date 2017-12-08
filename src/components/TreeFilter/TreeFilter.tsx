@@ -79,7 +79,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     }
 
     public componentWillReceiveProps(nextProps: ITreeFilterProps) {
-        if (nextProps.items !== this.props.items) {
+        if (nextProps.items !== this.props.items || nextProps.loadingItemIds !== this.props.loadingItemIds) {
             this.lookups = ItemOperator.getLookupTableAndParentLookup(nextProps.items);
             this.allItemIds = ItemOperator.getAllItemIds(nextProps.items);
         }

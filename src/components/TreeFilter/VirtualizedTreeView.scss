@@ -34,6 +34,21 @@
             }
         }
 
+        .item-container.loading-container {
+            display: flex;
+            align-items: center;
+            margin-left: 18px;
+            .spinner.tree-view-async-loading-spinner{
+                > .spinner-circle {
+                    margin: 0;
+                }
+            }
+
+            .tree-view-async-loading-label {
+                margin-left: 6px;
+            }
+        }
+
         .virtualized-tree-filter-footer-count {
             font-size: 12px;
             padding-left: 5px;

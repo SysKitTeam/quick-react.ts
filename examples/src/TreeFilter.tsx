@@ -13,7 +13,7 @@ interface DemoState {
     loadingItemIds: string[];
 }
 const treeData = createRandomizedData(2000, 2);
-let asyncTreeData = createRandomizedData(2000, 2, true);
+let asyncTreeData = createRandomizedData(2000, 0, true);
 const deeperTreeData = createRandomizedData(50, 4);
 const flatList = createFlatList(4000);
 const selected = getSelectedIds(4000);
@@ -42,26 +42,30 @@ export class Index extends React.Component<any, DemoState> {
     }
 
     onAsyncLoad = (treeItem: TreeItem) => {
-        console.log('started loading');
         this.setState({
             ...this.state,
-            loadingItemIds: this.state.loadingItemIds.concat([treeItem.id])
+            loadingItemIds: [...this.state.loadingItemIds].concat([treeItem.id])
         });
         setTimeout(() => {
             treeItem.children = [{
                 id: treeItem.id + '-' + '1',
                 value: 'asyncly loaded',
                 expanded: false
+            }, {
+                id: treeItem.id + '-' + '2',
+                value: 'asyncly loaded2',
+                expanded: false,
+                hasAsyncLoad: true
             }];
             treeItem.isLoading = false;
             const index = this.state.loadingItemIds.indexOf(treeItem.id);
-            let newLoadingIds = this.state.loadingItemIds.splice(index, 1);
+            let newLoadingIds = [...this.state.loadingItemIds];
+            newLoadingIds.splice(index, 1);
             this.setState({
                 ...this.state,
                 loadingItemIds: newLoadingIds
             });
-            console.log(newLoadingIds);
-        }, 2000);
+        }, 1500);
     }
 
     public render() {
