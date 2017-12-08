@@ -22,8 +22,8 @@ export interface IVirtualizedTreeViewProps {
     searchQuery?: string;
     allItemIdsGetter?: (items?: Array<TreeItem>) => ReadonlyArray<string>;
     lookupTableGetter?: (items?: Array<TreeItem>) => any;
-    onAsyncLoad?: (item?: TreeItem) => void;
-    loadingItemIds?: string[];
+    onItemExpand?: (item?: TreeItem) => void;
+    // loadingItemIds?: string[];
 }
 
 export const defaultTreeProps: Partial<IVirtualizedTreeViewProps> = {

@@ -10,7 +10,7 @@ import { Button } from '../../src/components/Button/Button';
 
 interface DemoState {
     filterStates: { [id: string]: IFilterSelection };
-    loadingItemIds: string[];
+    asynclyLoadableItemIds: string[];
 }
 const treeData = createRandomizedData(2000, 2);
 let asyncTreeData = createRandomizedData(2000, 0, true);
@@ -23,7 +23,7 @@ export class Index extends React.Component<any, DemoState> {
         super(props);
         this.state = {
             filterStates: {},
-            loadingItemIds: []
+            asynclyLoadableItemIds: []
         };
     }
 
@@ -41,11 +41,7 @@ export class Index extends React.Component<any, DemoState> {
         console.log('Save clicked!', newFilters);
     }
 
-    onAsyncLoad = (treeItem: TreeItem) => {
-        this.setState({
-            ...this.state,
-            loadingItemIds: [...this.state.loadingItemIds].concat([treeItem.id])
-        });
+    onItemExpand = (treeItem: TreeItem) => {
         setTimeout(() => {
             treeItem.children = [{
                 id: treeItem.id + '-' + '1',
@@ -55,16 +51,8 @@ export class Index extends React.Component<any, DemoState> {
                 id: treeItem.id + '-' + '2',
                 value: 'asyncly loaded2',
                 expanded: false,
-                hasAsyncLoad: true
+                alwaysExpandable: true
             }];
-            treeItem.isLoading = false;
-            const index = this.state.loadingItemIds.indexOf(treeItem.id);
-            let newLoadingIds = [...this.state.loadingItemIds];
-            newLoadingIds.splice(index, 1);
-            this.setState({
-                ...this.state,
-                loadingItemIds: newLoadingIds
-            });
         }, 1500);
     }
 
@@ -82,8 +70,8 @@ export class Index extends React.Component<any, DemoState> {
                     defaultSelection={FilterSelectionEnum.All}
                     maxWidth={700}
                     maxHeight={500}
-                    onAsyncLoad={this.onAsyncLoad}
-                    loadingItemIds={this.state.loadingItemIds}
+                    onItemExpand={this.onItemExpand}
+                    // loadingItemIds={this.state.loadingItemIds}
                     onCalloutClose={() => console.log('closing...')}
                 />
                 <br /><br />

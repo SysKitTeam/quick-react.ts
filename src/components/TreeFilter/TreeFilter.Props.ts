@@ -52,8 +52,8 @@ export interface ITreeFilterProps {
         bottomLeft: boolean,
         topLeft: boolean
     };
-    onAsyncLoad?: (treeItem: TreeItem) => void;
-    loadingItemIds?: string[];
+    onItemExpand?: (treeItem: TreeItem) => void;
+    // loadingItemIds?: string[];
     onCalloutClose?(): void;
 }
 
@@ -91,8 +91,8 @@ export interface TreeItem {
     expanded?: boolean;
     children?: Array<TreeItem>;
     className?: string;
-    hasAsyncLoad?: boolean;
-    isLoading?: boolean;
+    alwaysExpandable?: boolean;
+    // isLoading?: boolean;
     iconName?: string;
     iconClassName?: string;
 }
