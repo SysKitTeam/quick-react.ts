@@ -81,7 +81,7 @@ export class CompareComponent extends React.PureComponent<ICompareComponentProp,
     public cellRenderer = ({ columnIndex, key, rowIndex, style }, isSource = true) => {
         const columnValue = this.columns[columnIndex].valueMember;
         const value = isSource ? this.sourceRows[rowIndex][columnValue] : this.targetRows[rowIndex][columnValue];
-        const diffOnRow = this.differences.filter(item => item.rowIndex === rowIndex)[0];
+        const diffOnRow = this.differences.find(item => item.rowIndex === rowIndex);
         let colorClass = '';
         if (diffOnRow) {
             switch (diffOnRow.differenceType) {
@@ -115,7 +115,7 @@ export class CompareComponent extends React.PureComponent<ICompareComponentProp,
         );
     }
     public cellRendererMiddle = ({ columnIndex, key, rowIndex, style }) => {
-        const diffOnRow = this.differences.filter(item => item.rowIndex === rowIndex)[0];
+        const diffOnRow = this.differences.find(item => item.rowIndex === rowIndex);
         let iconName = 'icon-equal';
         if (diffOnRow) {
             switch (diffOnRow.differenceType) {
@@ -175,7 +175,7 @@ export class CompareComponent extends React.PureComponent<ICompareComponentProp,
             removeRows.map((x, index) => {
                 filteredSourceRows.splice(x - cnt, 1);
                 filteredTargetRows.splice(x - cnt, 1);
-                filteredDiffs.splice(filteredDiffs.indexOf(filteredDiffs.filter((y) => y.rowIndex === x - cnt)[0]), 1);
+                filteredDiffs.splice(filteredDiffs.indexOf(filteredDiffs.find((y) => y.rowIndex === x - cnt)), 1);
                 filteredDiffs = filteredDiffs.map((y) => {
                     if (y.rowIndex >= x - cnt) {
                         y.rowIndex--;

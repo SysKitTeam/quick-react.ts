@@ -11,6 +11,9 @@
 
     .checkboxlist-item {
         cursor: pointer;
+        height: 24px;
+        align-items: center;
+        display: flex;
 
         .icon {
             font-size: 12px;

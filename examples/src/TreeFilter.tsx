@@ -84,6 +84,7 @@ export class Index extends React.Component<any, DemoState> {
                     maxHeight={500}
                     onAsyncLoad={this.onAsyncLoad}
                     loadingItemIds={this.state.loadingItemIds}
+                    onCalloutClose={() => console.log('closing...')}
                 />
                 <br /><br />
 

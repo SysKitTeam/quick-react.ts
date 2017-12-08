@@ -10,9 +10,9 @@ export const classListExample = {
 };
 
 let roleListFarms = [{ display: 'WPF', iconName: 'icon-add' }, { display: 'WPF1111111', iconName: 'icon-add', tooltip: 'A long role named WPF2222222' }, { display: 'Not another', iconName: 'icon-add' }, { display: 'Search', iconName: 'icon-alert' }];
+let serverIndexer = 0;
 
 export const farms: Array<IGroup> = createFarms(10, 10, 10, true);
-let serverIndexer = 0;
 
 export function createFarms(numOfFarms: number, minServerCount: number, maxServerCount: number, hasRoles: boolean): Array<IGroup> {
     let _farms = new Array<IGroup>();

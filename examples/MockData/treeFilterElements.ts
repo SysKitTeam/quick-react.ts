@@ -32,7 +32,9 @@ export function createRandomizedData(numOfItems, maxDepth, async = false) {
             value: key + ' ' + name,
             expanded: false,
             children: children,
-            hasAsyncLoad: async
+            hasAsyncLoad: numChildren === 0 ? async : false,
+            iconName: Math.random() > 0.8 ? 'icon-edit_user' : '',
+            iconClassName: 'color'
         };
     };
 

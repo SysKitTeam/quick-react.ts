@@ -54,6 +54,7 @@ export interface ITreeFilterProps {
     };
     onAsyncLoad?: (treeItem: TreeItem) => void;
     loadingItemIds?: string[];
+    onCalloutClose?(): void;
 }
 
 export const defaultTreeFilterProps: Partial<ITreeFilterProps> = {
@@ -71,7 +72,8 @@ export const defaultTreeFilterProps: Partial<ITreeFilterProps> = {
     defaultSelection: FilterSelectionEnum.None,
     clearSearchOnClose: true,
     rowHeight: 21,
-    showButtons: false
+    showButtons: false,
+    onCalloutClose: () => { }
 };
 
 export interface ITreeFilterState {
@@ -91,4 +93,6 @@ export interface TreeItem {
     className?: string;
     hasAsyncLoad?: boolean;
     isLoading?: boolean;
+    iconName?: string;
+    iconClassName?: string;
 }
