@@ -264,6 +264,10 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         return (
             <div className={treeFilterClassName} ref={this.setAnchorRef}>
                 {
+                    this.props.iconName && this.props.title &&
+                    <Icon iconName={this.props.iconName} className="filter-title-icon" />
+                }
+                {
                     this.props.title &&
                     <span className={classNames({ 'item-selected': !isDefaultSelected })} >{this.props.title}: </span>
                 }

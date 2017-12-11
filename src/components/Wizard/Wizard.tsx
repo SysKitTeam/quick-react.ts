@@ -7,6 +7,7 @@ import { IButtonProps } from '../../components/Button/Button.Props';
 import { autobind } from '../../utilities/autobind';
 import { Stepper } from './Stepper/Stepper';
 import { WizardStepDirection, IWizardProps, IPage, defaultProps } from './Wizard.Props';
+import { Icon } from '../../components/Icon/Icon';
 
 export interface IWizardState {
     currentStep?: number;
@@ -126,8 +127,13 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
 
         return (
             <div className="wizard-container">
-                <div className="wizard-title">{this.props.title}</div>
                 <div className="wizard-content">
+                    <div className="wizard-title-container">
+                        <div className="wizard-back-icon-container">
+                            <Icon className="icon-arrow-left wizard-back-icon" onClick={this.props.onCancel} />
+                        </div>
+                        <div className="wizard-title">{this.props.title}</div>
+                    </div>
                     <Stepper
                         steps={this.props.steps}
                         activeStep={this.state.currentStep}
@@ -137,12 +143,14 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
                     {
                         this.props.onPageRender(this.state.currentStep)
                     }
-                    <div className="wizard-footer-navigation">
-                        <div className="wizard-right-navigation-btn-page-container">
-                            {
-                                this._renderButtons()
-                            }
-                        </div>
+
+                </div>
+
+                <div className="wizard-footer-navigation">
+                    <div className="wizard-right-navigation-btn-page-container">
+                        {
+                            this._renderButtons()
+                        }
                     </div>
                 </div>
             </div>

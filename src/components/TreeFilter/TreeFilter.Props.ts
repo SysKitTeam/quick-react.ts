@@ -21,6 +21,7 @@ export interface ITreeFilterProps {
     filterId: string;
     items: Array<TreeItem>;
     title?: string;
+    iconName?: string;
     disabled?: boolean;
     filterSelection?: IFilterSelection;
     hasSearch?: boolean;

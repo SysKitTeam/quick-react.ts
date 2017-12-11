@@ -24,7 +24,7 @@ export class Treeview extends React.PureComponent<ITreeviewProps, {}> {
         });
 
         return (
-            <div >
+            <div className="treeview-container">
                 {parent.map((item, index) => (!item.parentId &&
                     <div key={index} className={className}>
                         <TreeviewItem
