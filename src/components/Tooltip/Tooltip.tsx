@@ -10,8 +10,11 @@ import './Tooltip.scss';
 export class Tooltip extends CommonComponent<ITooltipProps, any> {
     private _tooltipHost: HTMLElement;
 
+    public timer;
+
     public static defaultProps = {
-        directionalHint: DirectionalHint.bottomCenter
+        directionalHint: DirectionalHint.bottomCenter,
+        delayMs: 300
     };
 
     constructor(props: ITooltipProps) {
@@ -97,9 +100,9 @@ export class Tooltip extends CommonComponent<ITooltipProps, any> {
     }
 
     private _toggleTooltip(isTooltipVisible: boolean) {
-        this.setState(
+        this.timer = setTimeout(() => this.setState(
             { isTooltipVisible },
             () => this.props.onTooltipToggle &&
-                this.props.onTooltipToggle(this.state.isTooltipVisible));
+                this.props.onTooltipToggle(this.state.isTooltipVisible)), this.props.delayMs);
     }
 }

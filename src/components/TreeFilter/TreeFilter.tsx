@@ -17,6 +17,7 @@ import {
 import { ItemOperator } from './TreeItemOperators';
 import { VirtualizedTreeView } from './VirtualizedTreeView';
 import { IVirtualizedTreeViewProps } from './VirtualizedTreeView.Props';
+import { Tooltip } from '../Tooltip/Tooltip';
 
 import { autobind } from '../../utilities/autobind';
 
@@ -27,6 +28,8 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     private _callout: any;
     private allItemIds: ReadonlyArray<string>;
     private lookups: any;
+
+    private _tooltipRef: any;
 
     static defaultProps = defaultTreeFilterProps;
 
@@ -53,7 +56,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         let titleText;
 
         if (selection.type === FilterSelectionEnum.All) {
-            return { selectionText: '[All]', titleText: '[All]' };
+            return { selectionText: '[All]', titleText: 'All items selected' };
         } else if (selection.type === FilterSelectionEnum.None) {
             return { selectionText: this.props.emptySelectionText, titleText: this.props.emptySelectionText };
         }
@@ -117,6 +120,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         if (this.props.items == null || this.props.items.length === 0) {
             return;
         }
+        clearTimeout(this._tooltipRef.timer);
         this.setState(prevState => ({ ...prevState, isOpen: !prevState.isOpen }));
     }
 
@@ -225,6 +229,11 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         this.props.onCalloutClose();
     }
 
+    @autobind
+    private _setTooltipRef(ref) {
+        this._tooltipRef = ref;
+    }
+
     private _getAllItemIds = () => this.allItemIds;
     private _getLookups = () => this.lookups;
 
@@ -262,20 +271,21 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                     this.props.title && !isDefaultSelected &&
                     <Icon iconName="icon-delete" title="Reset selection" className="reset-filter-icon" onClick={this.onFilterReset} />
                 }
-                <div
-                    className={classNames('tree-filter-title', { 'tree-filter-title-with-border': this.props.hasTitleBorder })}
-                    title={this.state.titleText}
-                    onClick={this.toggleOpenState}>
-                    <span>{this.state.selectionText}</span>
-                    {
-                        hasItems && isOpen &&
-                        <Icon className="dropdown-icon" iconName={'icon-Arrow_up'} />
-                    }
-                    {
-                        hasItems && !isOpen &&
-                        <Icon className="dropdown-icon" iconName={'icon-arrow_down'} />
-                    }
-                </div>
+                <Tooltip content={this.state.titleText} delayMs={500} directionalHint={DirectionalHint.rightCenter} ref={this._setTooltipRef}>
+                    <div
+                        className={classNames('tree-filter-title', { 'tree-filter-title-with-border': this.props.hasTitleBorder })}
+                        onClick={this.toggleOpenState}>
+                        <span>{this.state.selectionText}</span>
+                        {
+                            hasItems && isOpen &&
+                            <Icon className="dropdown-icon" iconName={'icon-Arrow_up'} />
+                        }
+                        {
+                            hasItems && !isOpen &&
+                            <Icon className="dropdown-icon" iconName={'icon-arrow_down'} />
+                        }
+                    </div>
+                </Tooltip>
                 {
                     this.state.isOpen &&
                     <Callout
