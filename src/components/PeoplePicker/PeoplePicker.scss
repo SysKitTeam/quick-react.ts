@@ -1,0 +1,41 @@
+@import '../../index.scss';
+
+.people-picker-container {
+    .people-picker-input{
+        box-sizing: border-box;
+        border: 1px solid $white-background-lines;
+        border-radius: 8px;
+        padding: 5px 10px 6px 10px;
+        width: calc(100% - 30px);
+        outline: 0;
+    
+        &:hover {
+            border-color: $white-background-lines-hover;
+        }
+    
+        &:active,
+        &:focus {
+            border-color: $primary-color;
+        }
+    
+        &[disabled] {
+            background-color: $disabled-field;
+            border-color: $white-background-lines;
+            color: $secondary-disabled-color;
+            pointer-events: none;
+            cursor: default;
+        }
+
+        &.textField-field-unresizable {
+            resize: none;
+        }
+
+        &.textField-invalid {
+            border-color: $error-color;
+
+            &:hover {
+                border-color: $error-color;
+            }
+        }
+    }
+}
