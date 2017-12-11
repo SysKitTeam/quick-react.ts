@@ -125,6 +125,22 @@ export class Index extends React.Component<any, DemoState> {
                     showButtons={true}
                     onSave={this.onSave}
                 />
+                <br /><br />
+
+                <TreeFilter
+                    title="Title with icon"
+                    iconName="icon-camera"
+                    filterId={'f5'}
+                    items={shortFlatList}
+                    itemsAreFlatList={true}
+                    defaultSelection={FilterSelectionEnum.All}
+                    // tslint:disable-next-line:no-string-literal
+                    filterSelection={this.state.filterStates['f5']}
+                    hasTitleBorder={true}
+                    showButtons={true}
+                    onSave={this.onSave}
+                />
+
             </div>
         );
     }
