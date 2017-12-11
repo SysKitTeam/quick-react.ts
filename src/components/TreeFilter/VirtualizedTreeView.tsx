@@ -110,7 +110,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
             'virtualized-tree-filter-container',
             {
                 'is-single-select': isSingleSelect,
-                'is-flat-list': itemsAreFlatList
+                'is-flat-list': itemsAreFlatList && showSelectAll
             }
         );
 
