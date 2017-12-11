@@ -36,34 +36,43 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         this.allItemIds = ItemOperator.getAllItemIds(props.items);
         this.lookups = ItemOperator.getLookupTableAndParentLookup(props.items);
 
+        const selectionStrings = this.getSelectedText(props.filterSelection, this.lookups.itemLookup);
+
         this.state = {
             isOpen: false,
             isDefaultSelected: this.checkIfDefaultSelection(props.filterSelection.type, props.filterSelection.selectedIDs),
-            selectionText: this.getSelectedText(props.filterSelection, this.lookups.itemLookup),
+            selectionText: selectionStrings.selectionText,
             query: '',
-            selection: props.filterSelection
+            selection: props.filterSelection,
+            titleText: selectionStrings.titleText
         };
     }
 
     getSelectedText = (selection: IFilterSelection, itemLookup) => {
+        let selectionText;
+        let titleText;
+
         if (selection.type === FilterSelectionEnum.All) {
-            return '[All]';
+            return { selectionText: '[All]', titleText: '[All]' };
         } else if (selection.type === FilterSelectionEnum.None) {
-            return 'Please select...';
+            return { selectionText: this.props.emptySelectionText, titleText: this.props.emptySelectionText };
         }
 
         const checkedItemIds = selection.selectedIDs;
 
         if (checkedItemIds === undefined || checkedItemIds.length === 0) {
-            return 'Please select...';
+            selectionText = titleText = this.props.emptySelectionText;
         } else if (checkedItemIds.length === 1) {
             const itemId = checkedItemIds[0];
-            return itemLookup[itemId].value;
+            selectionText = titleText = itemLookup[itemId].value;
         } else {
             const someIds = checkedItemIds.slice(0, 3);
             const names = someIds.map(itemID => itemLookup[itemID].value);
-            return names.join(', ') + '...';
+            selectionText = names.join(', ') + '...';
+            titleText = checkedItemIds.map(id => itemLookup[id].value).join(', ');
         }
+
+        return { selectionText, titleText };
     }
 
     private checkIfDefaultSelection(filterSelectionType: FilterSelectionEnum, selectedIds: Array<string>): boolean {
@@ -84,10 +93,13 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
             this.allItemIds = ItemOperator.getAllItemIds(nextProps.items);
         }
 
+        const selectionStrings = this.getSelectedText(nextProps.filterSelection, this.lookups.itemLookup);
+
         this.setState(
             prevState => ({
                 ...prevState,
-                selectionText: this.getSelectedText(nextProps.filterSelection, this.lookups.itemLookup),
+                selectionText: selectionStrings.selectionText,
+                titleText: selectionStrings.titleText,
                 isDefaultSelected: this.checkIfDefaultSelection(nextProps.filterSelection.type, nextProps.filterSelection.selectedIDs),
                 selection: nextProps.filterSelection
             }));
@@ -114,10 +126,11 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     }
 
     private getBoxSupportElementsHeight = () => {
-        let heightDiff = 12; // 6px paddings top and bottom
-        if (!this.props.isSingleSelect) { heightDiff += 40; } // 21px: SelectAll +  19px: Footer
-        if (this.props.hasSearch) { heightDiff += 42; } // 32px + 10px margin bottom
-        if (this.props.children) { heightDiff += 42; }
+        let heightDiff = 12;
+        if (!this.props.isSingleSelect && this.props.showStatusBar) { heightDiff += 20; }
+        if (this.props.showSelectAll) { heightDiff += 21; }
+        if (this.props.hasSearch) { heightDiff += 42; }
+        if (this.props.showButtons) { heightDiff += 22; }
         return heightDiff;
     }
 
@@ -147,7 +160,8 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         if (this.props.onValuesSelected !== undefined) {
             this.props.onValuesSelected(filterId, filterSelection);
         } else {
-            this.setState({ selectionText: this.getSelectedText(filterSelection, this.lookups.itemLookup) });
+            const selectionStrings = this.getSelectedText(filterSelection, this.lookups.itemLookup);
+            this.setState({ selectionText: selectionStrings.selectionText, titleText: selectionStrings.titleText });
         }
     }
 
@@ -166,7 +180,12 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
         if (this.props.onValuesSelected !== undefined) {
             this.props.onValuesSelected(this.props.filterId, newFilterSelected);
         } else {
-            this.setState({ selectionText: this.getSelectedText(newFilterSelected, this.lookups.itemLookup), selection: newFilterSelected });
+            const selectionStrings = this.getSelectedText(newFilterSelected, this.lookups.itemLookup);
+            this.setState({
+                selectionText: selectionStrings.selectionText,
+                titleText: selectionStrings.titleText,
+                selection: newFilterSelected
+            });
         }
     }
 
@@ -185,11 +204,13 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
 
     @autobind
     private _onDismiss() {
+        const selectionStrings = this.getSelectedText(this.props.filterSelection, this.lookups.itemLookup);
         this.setState(prevState => ({
             ...prevState,
             isOpen: false,
             selection: this.props.filterSelection,
-            selectionText: this.getSelectedText(this.props.filterSelection, this.lookups.itemLookup)
+            selectionText: selectionStrings.selectionText,
+            titleText: selectionStrings.titleText
         }));
         this.props.onCalloutClose();
     }
@@ -243,7 +264,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                 }
                 <div
                     className={classNames('tree-filter-title', { 'tree-filter-title-with-border': this.props.hasTitleBorder })}
-                    title={this.state.selectionText}
+                    title={this.state.titleText}
                     onClick={this.toggleOpenState}>
                     <span>{this.state.selectionText}</span>
                     {

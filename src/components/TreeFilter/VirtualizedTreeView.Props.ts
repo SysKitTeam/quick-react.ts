@@ -22,6 +22,8 @@ export interface IVirtualizedTreeViewProps {
     searchQuery?: string;
     allItemIdsGetter?: (items?: Array<TreeItem>) => ReadonlyArray<string>;
     lookupTableGetter?: (items?: Array<TreeItem>) => any;
+    showSelectAll?: boolean;
+    showStatusBar?: boolean;
 }
 
 export const defaultTreeProps: Partial<IVirtualizedTreeViewProps> = {

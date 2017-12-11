@@ -99,6 +99,7 @@ export class Index extends React.Component<any, DemoState> {
                     itemsAreFlatList={true}
                     // tslint:disable-next-line:no-string-literal
                     filterSelection={this.state.filterStates['f4']}
+                    showStatusBar={false}
                 />
                 <br /><br />
 
@@ -124,6 +125,38 @@ export class Index extends React.Component<any, DemoState> {
                     hasTitleBorder={true}
                     showButtons={true}
                     onSave={this.onSave}
+                />
+
+                <br /><br />
+
+                <TreeFilter
+                    filterId={'f5'}
+                    items={shortFlatList}
+                    itemsAreFlatList={true}
+                    defaultSelection={FilterSelectionEnum.All}
+                    // tslint:disable-next-line:no-string-literal
+                    filterSelection={this.state.filterStates['f5']}
+                    hasTitleBorder={true}
+                    showButtons={false}
+                    onSave={this.onSave}
+                />
+
+                <br /><br />
+
+                <TreeFilter
+                    filterId={'f5'}
+                    items={shortFlatList}
+                    itemsAreFlatList={true}
+                    defaultSelection={FilterSelectionEnum.All}
+                    // tslint:disable-next-line:no-string-literal
+                    filterSelection={this.state.filterStates['f5']}
+                    hasTitleBorder={true}
+                    showButtons={false}
+                    hasSearch={false}
+                    onSave={this.onSave}
+                    showSelectAll={false}
+                    emptySelectionText="Select role"
+                    showStatusBar={false}
                 />
             </div>
         );

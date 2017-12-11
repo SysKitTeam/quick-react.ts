@@ -40,8 +40,11 @@ export interface ITreeFilterProps {
     minHeight?: number;
     maxWidth?: number;
     maxHeight?: number;
+    showSelectAll?: boolean;
     directionalHint?: DirectionalHint;
     clearSearchOnClose?: boolean;
+    emptySelectionText?: string;
+    showStatusBar?: boolean;
     enabledResizeHandles?: { // all enabled if undefined
         top: boolean,
         right: boolean,
@@ -71,16 +74,19 @@ export const defaultTreeFilterProps: Partial<ITreeFilterProps> = {
     clearSearchOnClose: true,
     rowHeight: 21,
     showButtons: false,
-    onCalloutClose: () => { }
+    onCalloutClose: () => { },
+    showSelectAll: true,
+    emptySelectionText: 'Please select...',
+    showStatusBar: true
 };
 
 export interface ITreeFilterState {
     isOpen: boolean;
-    // filterSelection: IFilterSelection;
     isDefaultSelected: boolean;
     selectionText: string;
     query: string;
     selection: IFilterSelection;
+    titleText: string;
 }
 
 export interface TreeItem {
