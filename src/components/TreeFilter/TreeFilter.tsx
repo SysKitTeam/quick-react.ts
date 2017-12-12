@@ -269,7 +269,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                 }
                 {
                     this.props.title &&
-                    <span className={classNames({ 'item-selected': !isDefaultSelected })} >{this.props.title}: </span>
+                    <span className={classNames({ 'item-selected': !isDefaultSelected })} >{this.props.title}</span>
                 }
                 {
                     this.props.title && !isDefaultSelected &&
