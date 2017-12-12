@@ -2,18 +2,20 @@
 import 'babel-polyfill';
 import 'ts-helpers';
 
+import { rebuildTree, updateTree, expandOrCollapseTreeItem } from '../../src/utilities/rebuildTree';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { TreeFilter, IFilterSelection, FilterSelectionEnum, VirtualizedTreeView, TreeItem } from '../../src/components/TreeFilter';
-import { createFlatList, createRandomizedData, getSelectedIds } from '../MockData/treeFilterElements';
+import { createFlatList, createRandomizedData, getSelectedIds, createAsyncLoadRandomizedData } from '../MockData/treeFilterElements';
 import { Button } from '../../src/components/Button/Button';
+import { ILookupTable } from '../../src/components/TreeFilter/TreeItemOperators';
 
 interface DemoState {
     filterStates: { [id: string]: IFilterSelection };
     asynclyLoadableItemIds: string[];
+    asyncTreeData: TreeItem[];
 }
 const treeData = createRandomizedData(2000, 2);
-let asyncTreeData = createRandomizedData(2000, 0, true);
 const deeperTreeData = createRandomizedData(50, 4);
 const flatList = createFlatList(4000);
 const selected = getSelectedIds(4000);
@@ -21,9 +23,11 @@ const shortFlatList = createFlatList(6);
 export class Index extends React.Component<any, DemoState> {
     constructor(props) {
         super(props);
+        const asyncTreeData = createAsyncLoadRandomizedData(2000, 4);
         this.state = {
             filterStates: {},
-            asynclyLoadableItemIds: []
+            asynclyLoadableItemIds: asyncTreeData[1],
+            asyncTreeData: asyncTreeData[0]
         };
     }
 
@@ -41,19 +45,48 @@ export class Index extends React.Component<any, DemoState> {
         console.log('Save clicked!', newFilters);
     }
 
-    onItemExpand = (treeItem: TreeItem) => {
+
+    onItemExpand = (treeItem: TreeItem, lookupTableGetter) => {
+
+        const index = this.state.asynclyLoadableItemIds.indexOf(treeItem.id);
+        const isAsyncLoadItem = index > -1;
+        const isNowExpanded = !treeItem.expanded;
+
+        let newAsynclyLoadableItems = [...this.state.asynclyLoadableItemIds];
+        if (isAsyncLoadItem) {
+            newAsynclyLoadableItems.splice(index, 1);
+        }
+
+        this.setState({
+            ...this.state,
+            asyncTreeData: expandOrCollapseTreeItem(this.state.asyncTreeData, treeItem, lookupTableGetter),
+            asynclyLoadableItemIds: newAsynclyLoadableItems
+        });
+
+        if (!isAsyncLoadItem || !isNowExpanded) {
+            return;
+        }
         setTimeout(() => {
-            treeItem.children = [{
-                id: treeItem.id + '-' + '1',
-                value: 'asyncly loaded',
-                expanded: false
-            }, {
-                id: treeItem.id + '-' + '2',
-                value: 'asyncly loaded2',
-                expanded: false,
-                alwaysExpandable: true
-            }];
-        }, 1500);
+            const newTreeItem = {
+                ...treeItem,
+                expanded: !treeItem.expanded,
+                children: [{
+                    id: treeItem.id + '-' + '1',
+                    value: 'asyncly loaded ' + (Math.random() * 100).toFixed(0),
+                    expanded: false
+                }, {
+                    id: treeItem.id + '-' + '2',
+                    value: 'asyncly loaded 2',
+                    expanded: false
+                }]
+            };
+
+            const newTreeData = updateTree(this.state.asyncTreeData, newTreeItem, lookupTableGetter);
+            this.setState({
+                ...this.state,
+                asyncTreeData: newTreeData
+            });
+        }, 10);
     }
 
     public render() {
@@ -63,7 +96,7 @@ export class Index extends React.Component<any, DemoState> {
                 <TreeFilter
                     title="Tree Filter (max size)"
                     filterId={'f1'}
-                    items={asyncTreeData}
+                    items={this.state.asyncTreeData}
                     onValuesSelected={this.onValuesSelected}
                     // tslint:disable-next-line:no-string-literal
                     filterSelection={this.state.filterStates['f1']}

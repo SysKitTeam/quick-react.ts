@@ -1,5 +1,5 @@
 import { FilterSelectionEnum, TreeItem, IFilterSelection } from './TreeFilter.Props';
-import { ItemOperator } from './TreeItemOperators';
+import { ItemOperator, ILookupTable } from './TreeItemOperators';
 
 const nullFunc = () => { };
 
@@ -22,7 +22,7 @@ export interface IVirtualizedTreeViewProps {
     searchQuery?: string;
     allItemIdsGetter?: (items?: Array<TreeItem>) => ReadonlyArray<string>;
     lookupTableGetter?: (items?: Array<TreeItem>) => any;
-    onItemExpand?: (item?: TreeItem) => void;
+    onItemExpand?: (item?: TreeItem, lookupTableGetter?) => void;
     // loadingItemIds?: string[];
 }
 

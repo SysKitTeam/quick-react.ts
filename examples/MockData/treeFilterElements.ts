@@ -17,7 +17,7 @@ export function getSelectedIds(numOfItems) {
     return ids;
 }
 
-export function createRandomizedData(numOfItems, maxDepth, async = false) {
+export function createRandomizedData(numOfItems, maxDepth) {
 
     const createRandomizedItem = (key, depth) => {
         let children = [];
@@ -32,7 +32,6 @@ export function createRandomizedData(numOfItems, maxDepth, async = false) {
             value: key + ' ' + name,
             expanded: false,
             children: children,
-            alwaysExpandable: numChildren === 0 ? async : false,
             iconName: Math.random() > 0.8 ? 'icon-edit_user' : '',
             iconClassName: 'color'
         };
@@ -43,4 +42,42 @@ export function createRandomizedData(numOfItems, maxDepth, async = false) {
         data.push(createRandomizedItem(i, 0));
     }
     return data;
+}
+
+export function createAsyncLoadRandomizedData(numOfItems, maxDepth) {
+    let asynclyLoadableIds = [];
+    const createRandomizedItem = (key, depth) => {
+        let children = [];
+        let name = RANDOM_WORDS[Math.floor(Math.random() * RANDOM_WORDS.length)];
+        if (Math.random() > 0.5) {
+            const childId = key + '-' + '1';
+            children = [{
+                id: childId,
+                value: 'Loading...',
+                expanded: false,
+                children: []
+            }];
+            asynclyLoadableIds.push(key);
+        } else {
+            let numChildren = depth < maxDepth ? 4 : 0;
+            for (let i = 0; i < numChildren; i++) {
+                children.push(createRandomizedItem(key + '-' + i, depth + 1));
+            }
+        }
+        return {
+            id: key,
+            value: key + ' ' + name,
+            expanded: false,
+            children: children,
+            iconName: Math.random() > 0.8 ? 'icon-edit_user' : '',
+            iconClassName: 'color'
+        };
+    };
+
+    let data = [];
+    for (let i = 0; i < numOfItems; i++) {
+        data.push(createRandomizedItem(i, 0));
+    }
+    return [data, asynclyLoadableIds];
+
 }

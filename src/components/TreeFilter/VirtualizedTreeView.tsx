@@ -67,6 +67,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
     }
 
     public componentWillReceiveProps(nextProps: IVirtualizedTreeViewProps) {
+        let t0 = performance.now();
         if (nextProps.items !== this.props.items) {
             const filteredItems = ItemOperator.filterItems(nextProps.items, this.state.searchText);
             this.setState(
@@ -78,15 +79,13 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
             );
         }
 
-        // if (nextProps.loadingItemIds !== this.props.loadingItemIds) {
-        //     this._list.recomputeRowHeights();
-        // }
-
         const lookups = nextProps.lookupTableGetter(nextProps.items);
         this.parentLookup = lookups.parentLookup;
         this.itemLookup = lookups.itemLookup;
 
         this.allItemIds = nextProps.allItemIdsGetter(nextProps.items);
+        let t1 = performance.now();
+        console.log('TreeViewWillReceive: ' + (t1 - t0));
     }
 
     public componentDidUpdate(prevProps: ITreeFilterProps, prevState: IVirtualizedTreeViewState) {
@@ -178,7 +177,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
     private renderItem(treeItem: TreeItem, itemKey) {
         const onExpandClick = (event) => {
             event.stopPropagation();
-            this.props.onItemExpand(treeItem);
+            this.props.onItemExpand(treeItem, this.props.lookupTableGetter);
             this._list.recomputeRowHeights(); // provjeriti treba li ovo
         };
 
@@ -256,7 +255,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                     }
                 </div>
             );
-        } else if (itemHasChildren(treeItem) || treeItem.alwaysExpandable) { // expandable
+        } else if (itemHasChildren(treeItem)) { // expandable
             return (
                 <div className="item-container expandible-item" key={itemKey} style={{ height: this.props.rowHeight }} >
                     <Icon className="virtualized-tree-expand-icon" iconName={'icon-arrow_right'} onClick={onExpandClick} />
@@ -273,26 +272,26 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
         }
     }
 
-    private renderLoadingLabel() {
-        const marginLeft = this.props.itemsAreFlatList ? 0 : 18;
-        return (
-            <ul>
-                <li>
-                    <div
-                        className="item-container loading-container"
-                        style={{ height: this.props.rowHeight, marginLeft: marginLeft }}
-                    >
-                        <Spinner className="tree-view-async-loading-spinner"
-                            type={SpinnerType.small}
-                        />
-                        <span className="tree-view-async-loading-label">
-                            Loading...
-                        </span>
-                    </div>
-                </li>
-            </ul>
-        );
-    }
+    // private renderLoadingLabel() {
+    //     const marginLeft = this.props.itemsAreFlatList ? 0 : 18;
+    //     return (
+    //         <ul>
+    //             <li>
+    //                 <div
+    //                     className="item-container loading-container"
+    //                     style={{ height: this.props.rowHeight, marginLeft: marginLeft }}
+    //                 >
+    //                     <Spinner className="tree-view-async-loading-spinner"
+    //                         type={SpinnerType.small}
+    //                     />
+    //                     <span className="tree-view-async-loading-label">
+    //                         Loading...
+    //                     </span>
+    //                 </div>
+    //             </li>
+    //         </ul>
+    //     );
+    // }
 
     private isItemInList(list, treeItem: TreeItem): boolean {
         return list.indexOf(treeItem.id) !== -1;
