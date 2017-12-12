@@ -7,6 +7,10 @@ $checkbox-transition-timing: cubic-bezier(.4, 0, .23, 1);
 .checkbox {
     box-sizing: border-box;
     height: 28px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
 
     .checkbox-input {
         position: absolute;

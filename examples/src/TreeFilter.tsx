@@ -99,6 +99,7 @@ export class Index extends React.Component<any, DemoState> {
                     itemsAreFlatList={true}
                     // tslint:disable-next-line:no-string-literal
                     filterSelection={this.state.filterStates['f4']}
+                    showStatusBar={false}
                 />
                 <br /><br />
 
@@ -125,11 +126,10 @@ export class Index extends React.Component<any, DemoState> {
                     showButtons={true}
                     onSave={this.onSave}
                 />
+
                 <br /><br />
 
                 <TreeFilter
-                    title="Title with icon"
-                    iconName="icon-camera"
                     filterId={'f5'}
                     items={shortFlatList}
                     itemsAreFlatList={true}
@@ -137,10 +137,27 @@ export class Index extends React.Component<any, DemoState> {
                     // tslint:disable-next-line:no-string-literal
                     filterSelection={this.state.filterStates['f5']}
                     hasTitleBorder={true}
-                    showButtons={true}
+                    showButtons={false}
                     onSave={this.onSave}
                 />
 
+                <br /><br />
+
+                <TreeFilter
+                    filterId={'f5'}
+                    items={shortFlatList}
+                    itemsAreFlatList={true}
+                    defaultSelection={FilterSelectionEnum.All}
+                    // tslint:disable-next-line:no-string-literal
+                    filterSelection={this.state.filterStates['f5']}
+                    hasTitleBorder={true}
+                    showButtons={false}
+                    hasSearch={false}
+                    onSave={this.onSave}
+                    showSelectAll={false}
+                    emptySelectionText="Select role"
+                    showStatusBar={false}
+                />
             </div>
         );
     }

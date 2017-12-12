@@ -97,7 +97,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
     }
 
     public render() {
-        const { title, hasSearch, isSingleSelect, defaultSelection, itemsAreFlatList } = this.props;
+        const { title, hasSearch, isSingleSelect, defaultSelection, itemsAreFlatList, showStatusBar, showSelectAll } = this.props;
 
         const allSelected = this.getAllSelectedCheckMark();
 
@@ -110,7 +110,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
             'virtualized-tree-filter-container',
             {
                 'is-single-select': isSingleSelect,
-                'is-flat-list': itemsAreFlatList
+                'is-flat-list': itemsAreFlatList && showSelectAll
             }
         );
 
@@ -123,7 +123,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                     hasSearch && <Search labelText={this.state.searchText} onChange={this.searchItems} className="filter-search" />
                 }
                 {
-                    !isSingleSelect &&
+                    !isSingleSelect && showSelectAll &&
                     <VirtualizedTreeViewCheckBox
                         text="Select All"
                         itemId="ALL"
@@ -145,13 +145,14 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                     )}
                 </AutoSizer>
                 {
-                    !isSingleSelect &&
+                    !isSingleSelect && showStatusBar &&
                     <label
                         className={classNames('virtualized-tree-filter-footer-count', { 'virtualized-tree-filter-footer-with-button': this.props.showButtons })}>
                         Selected: {checkedItemIds.length}/{this.allItemIds.length}
                     </label>
                 }
-                {this.props.showButtons &&
+                {
+                    this.props.showButtons &&
                     <div className={'tree-filter-actions'}>
                         <div className={'tree-filter-actionsRight'}>
                             <Button className="button-textual" onClick={this.props.onCancel}>Cancel</Button>
@@ -469,15 +470,11 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
     }
 
     private getBoxSupportElementsHeight = () => {
-        let heightDiff = 5; // 5px: paddings
-        if (!this.props.isSingleSelect) {
-            heightDiff += 44; // 25px: SelectAll +  19px: Footer
-        } else {
-            heightDiff += 10;
-        }
-
-        if (this.props.hasSearch) { heightDiff += 30; }
-        if (this.props.showButtons) { heightDiff += 23; } // 42px buttons - 19px footer
+        let heightDiff = 0;
+        if (!this.props.isSingleSelect && this.props.showStatusBar) { heightDiff += 20; }
+        if (this.props.showSelectAll) { heightDiff += 21; }
+        if (this.props.hasSearch) { heightDiff += 42; }
+        if (this.props.showButtons) { heightDiff += 22; }
         return heightDiff;
     }
 
