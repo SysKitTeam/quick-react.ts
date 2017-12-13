@@ -91,7 +91,6 @@ export interface TreeItem {
     expanded?: boolean;
     children?: Array<TreeItem>;
     className?: string;
-    alwaysExpandable?: boolean;
     iconName?: string;
     iconClassName?: string;
     renderElement?: (style: any) => JSX.Element;

@@ -175,14 +175,13 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
         if (treeItem.renderElement) {
             const style = {
                 height: this.props.rowHeight,
-                marginLeft: !this.props.itemsAreFlatList ? 0 : 18
+                marginLeft: this.props.itemsAreFlatList ? 0 : 18
             };
             return treeItem.renderElement(style);
         }
         const onExpandClick = (event) => {
             event.stopPropagation();
             this.props.onItemExpand(treeItem, this.props.lookupTableGetter);
-            this._list.recomputeRowHeights(); // provjeriti treba li ovo
         };
 
         const filterSelection = this.props.filterSelection;
