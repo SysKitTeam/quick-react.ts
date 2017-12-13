@@ -79,13 +79,9 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     }
 
     public componentWillReceiveProps(nextProps: ITreeFilterProps) {
-        let t0 = performance.now();
         if (nextProps.items !== this.props.items) {
-            let t0L = performance.now();
             this.lookups = ItemOperator.getLookupTableAndParentLookup(nextProps.items);
-            this.allItemIds = ItemOperator.getAllItemIds(nextProps.items);
-            let t1L = performance.now();
-            console.log('Tree filter WillReceive - Lookup: ' + (t1L - t0L));
+            this.allItemIds = Object.keys(this.lookups.itemLookup);
         }
 
         this.setState(
@@ -95,8 +91,6 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
                 isDefaultSelected: this.checkIfDefaultSelection(nextProps.filterSelection.type, nextProps.filterSelection.selectedIDs),
                 selection: nextProps.filterSelection
             }));
-        let t1 = performance.now();
-        console.log('Tree filter WillReceive: ' + (t1 - t0));
     }
 
     private setAnchorRef = (ref) => {

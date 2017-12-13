@@ -67,7 +67,6 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
     }
 
     public componentWillReceiveProps(nextProps: IVirtualizedTreeViewProps) {
-        let t0 = performance.now();
         if (nextProps.items !== this.props.items) {
             const filteredItems = ItemOperator.filterItems(nextProps.items, this.state.searchText);
             this.setState(
@@ -84,8 +83,6 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
         this.itemLookup = lookups.itemLookup;
 
         this.allItemIds = nextProps.allItemIdsGetter(nextProps.items);
-        let t1 = performance.now();
-        console.log('TreeViewWillReceive: ' + (t1 - t0));
     }
 
     public componentDidUpdate(prevProps: ITreeFilterProps, prevState: IVirtualizedTreeViewState) {
@@ -175,6 +172,13 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
         );
     }
     private renderItem(treeItem: TreeItem, itemKey) {
+        if (treeItem.renderElement) {
+            const style = {
+                height: this.props.rowHeight,
+                marginLeft: !this.props.itemsAreFlatList ? 0 : 18
+            };
+            return treeItem.renderElement(style);
+        }
         const onExpandClick = (event) => {
             event.stopPropagation();
             this.props.onItemExpand(treeItem, this.props.lookupTableGetter);
@@ -272,26 +276,6 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
         }
     }
 
-    // private renderLoadingLabel() {
-    //     const marginLeft = this.props.itemsAreFlatList ? 0 : 18;
-    //     return (
-    //         <ul>
-    //             <li>
-    //                 <div
-    //                     className="item-container loading-container"
-    //                     style={{ height: this.props.rowHeight, marginLeft: marginLeft }}
-    //                 >
-    //                     <Spinner className="tree-view-async-loading-spinner"
-    //                         type={SpinnerType.small}
-    //                     />
-    //                     <span className="tree-view-async-loading-label">
-    //                         Loading...
-    //                     </span>
-    //                 </div>
-    //             </li>
-    //         </ul>
-    //     );
-    // }
 
     private isItemInList(list, treeItem: TreeItem): boolean {
         return list.indexOf(treeItem.id) !== -1;

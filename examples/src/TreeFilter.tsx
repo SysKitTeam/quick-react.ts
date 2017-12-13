@@ -9,6 +9,8 @@ import { TreeFilter, IFilterSelection, FilterSelectionEnum, VirtualizedTreeView,
 import { createFlatList, createRandomizedData, getSelectedIds, createAsyncLoadRandomizedData } from '../MockData/treeFilterElements';
 import { Button } from '../../src/components/Button/Button';
 import { ILookupTable } from '../../src/components/TreeFilter/TreeItemOperators';
+import { Spinner } from '../../src/components/Spinner/Spinner';
+import { SpinnerType } from '../../src/components/Spinner';
 
 interface DemoState {
     filterStates: { [id: string]: IFilterSelection };
@@ -23,7 +25,7 @@ const shortFlatList = createFlatList(6);
 export class Index extends React.Component<any, DemoState> {
     constructor(props) {
         super(props);
-        const asyncTreeData = createAsyncLoadRandomizedData(2000, 4);
+        const asyncTreeData = createAsyncLoadRandomizedData(1000, 4, this.renderLoadingLabel);
         this.state = {
             filterStates: {},
             asynclyLoadableItemIds: asyncTreeData[1],
@@ -51,6 +53,7 @@ export class Index extends React.Component<any, DemoState> {
         const index = this.state.asynclyLoadableItemIds.indexOf(treeItem.id);
         const isAsyncLoadItem = index > -1;
         const isNowExpanded = !treeItem.expanded;
+        let loadingLabelTreeItem: TreeItem;
 
         let newAsynclyLoadableItems = [...this.state.asynclyLoadableItemIds];
         if (isAsyncLoadItem) {
@@ -67,12 +70,13 @@ export class Index extends React.Component<any, DemoState> {
             return;
         }
         setTimeout(() => {
+            const randomNumber = (Math.random() * 100).toFixed(0);
             const newTreeItem = {
                 ...treeItem,
                 expanded: !treeItem.expanded,
                 children: [{
                     id: treeItem.id + '-' + '1',
-                    value: 'asyncly loaded ' + (Math.random() * 100).toFixed(0),
+                    value: 'asyncly loaded ' + randomNumber,
                     expanded: false
                 }, {
                     id: treeItem.id + '-' + '2',
@@ -86,7 +90,27 @@ export class Index extends React.Component<any, DemoState> {
                 ...this.state,
                 asyncTreeData: newTreeData
             });
-        }, 10);
+        }, 1000);
+    }
+
+    private renderLoadingLabel(style: any): JSX.Element {
+        return (
+            <ul>
+                <li>
+                    <div
+                        className="item-container loading-container"
+                        style={style}
+                    >
+                        <Spinner className="tree-view-async-loading-spinner"
+                            type={SpinnerType.small}
+                        />
+                        <span className="tree-view-async-loading-label">
+                            Loading...
+                        </span>
+                    </div>
+                </li>
+            </ul>
+        );
     }
 
     public render() {
@@ -104,7 +128,6 @@ export class Index extends React.Component<any, DemoState> {
                     maxWidth={700}
                     maxHeight={500}
                     onItemExpand={this.onItemExpand}
-                    // loadingItemIds={this.state.loadingItemIds}
                     onCalloutClose={() => console.log('closing...')}
                 />
                 <br /><br />

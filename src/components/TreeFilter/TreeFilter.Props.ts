@@ -92,7 +92,7 @@ export interface TreeItem {
     children?: Array<TreeItem>;
     className?: string;
     alwaysExpandable?: boolean;
-    // isLoading?: boolean;
     iconName?: string;
     iconClassName?: string;
+    renderElement?: (style: any) => JSX.Element;
 }
