@@ -108,7 +108,10 @@ export class Tooltip extends CommonComponent<ITooltipProps, any> {
     private _toggleTooltip(isTooltipVisible: boolean) {
         let showTooltipProp = this.props.showTooltip !== undefined ? this.props.showTooltip : true;
 
-        this.setState({ isTooltipVisible: showTooltipProp && isTooltipVisible }, () => this.props.onTooltipToggle(this.state.isTooltipVisible));
+        this.setState({
+            isTooltipVisible: showTooltipProp && isTooltipVisible
+        }, () => this.props.onTooltipToggle(this.state.isTooltipVisible));
+        
         this.timer = null;
     }
 }
