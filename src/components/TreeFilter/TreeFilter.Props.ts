@@ -1,5 +1,5 @@
 import { DirectionalHint } from '../../utilities/DirectionalHint';
-import { ILookupTable } from './TreeItemOperators';
+import { ILookupTable, TreeLookups } from './TreeItemOperators';
 
 export enum FilterSelectionEnum {
     All,
@@ -57,7 +57,7 @@ export interface ITreeFilterProps {
         bottomLeft: boolean,
         topLeft: boolean
     };
-    onItemExpand?: (treeItem?: TreeItem, lookupTableGetter?) => void;
+    onItemExpand?: (treeItem?: TreeItem, lookupTableGetter?: () => TreeLookups) => void;
     onCalloutClose?(): void;
 }
 
