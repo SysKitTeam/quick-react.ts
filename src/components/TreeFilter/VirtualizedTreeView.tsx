@@ -287,9 +287,6 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
 
     private getExpandedItemCount = (item) => {
         let count = 1;
-        if (item.isLoading) {
-            count += 1;
-        }
         if (item.expanded && itemHasChildren(item)) {
             count += item.children
                 .map(this.getExpandedItemCount)
