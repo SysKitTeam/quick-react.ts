@@ -276,18 +276,17 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
         }
     }
 
-
     private isItemInList(list, treeItem: TreeItem): boolean {
         return list.indexOf(treeItem.id) !== -1;
     }
 
     private rowHeight = ({ index }) => {
-        return (this.getExpandedItemCount(this.state.filteredItems[index])) * this.props.rowHeight;
+        return this.getExpandedItemCount(this.state.filteredItems[index]) * this.props.rowHeight;
     }
 
     private getExpandedItemCount = (item) => {
         let count = 1;
-        if (item.expanded && itemHasChildren(item)) {
+        if (item.expanded) {
             count += item.children
                 .map(this.getExpandedItemCount)
                 .reduce(function (total, currentCount) { return total + currentCount; }, 0);
