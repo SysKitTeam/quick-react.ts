@@ -93,5 +93,5 @@ export interface TreeItem {
     className?: string;
     iconName?: string;
     iconClassName?: string;
-    renderElement?: (style: any) => JSX.Element;
+    renderElement?: (itemKey: string, style: any) => JSX.Element;
 }

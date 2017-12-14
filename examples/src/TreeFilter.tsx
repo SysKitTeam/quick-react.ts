@@ -93,23 +93,20 @@ export class Index extends React.Component<any, DemoState> {
         }, 1000);
     }
 
-    private renderLoadingLabel(style: any): JSX.Element {
+    private renderLoadingLabel(itemKey: string, style: any): JSX.Element {
         return (
-            <ul>
-                <li>
-                    <div
-                        className="item-container loading-container"
-                        style={style}
-                    >
-                        <Spinner className="tree-view-async-loading-spinner"
-                            type={SpinnerType.small}
-                        />
-                        <span className="tree-view-async-loading-label">
-                            Loading...
-                        </span>
-                    </div>
-                </li>
-            </ul>
+            <div
+                key={itemKey}
+                className="item-container loading-container"
+                style={style}
+            >
+                <Spinner className="tree-view-async-loading-spinner"
+                    type={SpinnerType.small}
+                />
+                <span className="tree-view-async-loading-label">
+                    Loading...
+                </span>
+            </div>
         );
     }
 

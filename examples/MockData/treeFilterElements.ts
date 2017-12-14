@@ -44,7 +44,7 @@ export function createRandomizedData(numOfItems, maxDepth) {
     return data;
 }
 
-export function createAsyncLoadRandomizedData(numOfItems, maxDepth, renderLoading: (style: any) => JSX.Element) {
+export function createAsyncLoadRandomizedData(numOfItems, maxDepth, renderLoading: (itemKey: string, style: any) => JSX.Element) {
     let asynclyLoadableIds = [];
     const createRandomizedItem = (key, depth) => {
         let children = [];

@@ -177,7 +177,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                 height: this.props.rowHeight,
                 marginLeft: this.props.itemsAreFlatList ? 0 : 18
             };
-            return treeItem.renderElement(style);
+            return treeItem.renderElement(itemKey, style);
         }
         const onExpandClick = (event) => {
             event.stopPropagation();
