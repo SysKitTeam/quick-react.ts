@@ -1,0 +1,23 @@
+@import '../../index.scss';
+
+.principal-container
+{
+    padding: 5px 0px 5px 10px;
+
+    &:hover {
+        background-color: $primary-background-hover-color;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .principal-delete-icon {
+        padding: 5px 5px 5px 5px;
+
+        &:hover {
+            cursor: pointer;
+            background-color: $primary-background-hover-color;
+            border-radius: 10px;
+        }        
+    }
+
+}
