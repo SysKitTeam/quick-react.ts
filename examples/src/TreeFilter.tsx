@@ -16,8 +16,9 @@ interface DemoState {
     filterStates: { [id: string]: IFilterSelection };
     asynclyLoadableItemIds: string[];
     asyncTreeData: TreeItem[];
+    treeData: TreeItem[];
 }
-const treeData = createRandomizedData(2000, 2);
+
 const deeperTreeData = createRandomizedData(50, 4);
 const flatList = createFlatList(4000);
 const selected = getSelectedIds(4000);
@@ -29,7 +30,8 @@ export class Index extends React.Component<any, DemoState> {
         this.state = {
             filterStates: {},
             asynclyLoadableItemIds: asyncTreeData[1],
-            asyncTreeData: asyncTreeData[0]
+            asyncTreeData: asyncTreeData[0],
+            treeData: createRandomizedData(2000, 2)
         };
     }
 
@@ -47,8 +49,7 @@ export class Index extends React.Component<any, DemoState> {
         console.log('Save clicked!', newFilters);
     }
 
-
-    onItemExpand = (treeItem: TreeItem, lookupTableGetter) => {
+    onAsyncTreeItemExpand = (treeItem: TreeItem, lookupTableGetter) => {
 
         const index = this.state.asynclyLoadableItemIds.indexOf(treeItem.id);
         const isAsyncLoadItem = index > -1;
@@ -90,7 +91,7 @@ export class Index extends React.Component<any, DemoState> {
                 ...this.state,
                 asyncTreeData: newTreeData
             });
-        }, 1000);
+        }, 1500);
     }
 
     private renderLoadingLabel(itemKey: string, style: any): JSX.Element {
@@ -110,6 +111,13 @@ export class Index extends React.Component<any, DemoState> {
         );
     }
 
+    private onItemExpand = (treeItem: TreeItem, lookupTableGetter) => {
+        this.setState({
+            ...this.state,
+            treeData: expandOrCollapseTreeItem(this.state.treeData, treeItem, lookupTableGetter)
+        });
+    }
+
     public render() {
 
         return (
@@ -124,7 +132,7 @@ export class Index extends React.Component<any, DemoState> {
                     defaultSelection={FilterSelectionEnum.All}
                     maxWidth={700}
                     maxHeight={500}
-                    onItemExpand={this.onItemExpand}
+                    onItemExpand={this.onAsyncTreeItemExpand}
                     onCalloutClose={() => console.log('closing...')}
                 />
                 <br /><br />
@@ -144,7 +152,8 @@ export class Index extends React.Component<any, DemoState> {
                 <TreeFilter
                     title="Single Select"
                     filterId={'f3'}
-                    items={treeData}
+                    items={this.state.treeData}
+                    onItemExpand={this.onItemExpand}
                     onValuesSelected={this.onValuesSelected}
                     isSingleSelect={true}
                     isGroupSelectableOnSingleSelect={true}

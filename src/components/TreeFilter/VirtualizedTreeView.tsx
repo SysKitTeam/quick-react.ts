@@ -35,7 +35,7 @@ import {
 
 import './VirtualizedTreeView.scss';
 import { Button } from '../Button/Button';
-import { Spinner } from '../../index';
+import { Spinner } from '../Spinner/Spinner';
 import { SpinnerType } from '../Spinner/Spinner.Props';
 
 export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeViewProps, IVirtualizedTreeViewState> {
