@@ -23,6 +23,8 @@ export interface IVirtualizedTreeViewProps {
     allItemIdsGetter?: (items?: Array<TreeItem>) => ReadonlyArray<string>;
     lookupTableGetter?: (items?: Array<TreeItem>) => any;
     onItemExpand?: (item?: TreeItem, lookupTableGetter?) => void;
+    showSelectAll?: boolean;
+    showStatusBar?: boolean;
 }
 
 export const defaultTreeProps: Partial<IVirtualizedTreeViewProps> = {
