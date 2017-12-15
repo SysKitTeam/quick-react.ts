@@ -278,7 +278,7 @@ export class TextField extends React.Component<ITextFieldProps, ITextFieldState>
 
         let showTooltip = false;
         if (this.props.errorMessage !== undefined) {
-            showTooltip = this.props.errorMessage !== ''  && (this.state.isFocused || this.state.isHovered);
+            showTooltip = this.props.errorMessage !== '' && (this.state.isFocused || this.state.isHovered);
 
         } else {
             showTooltip = this.state.isFocused;
