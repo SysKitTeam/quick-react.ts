@@ -23,7 +23,6 @@ export class Index extends React.Component<any, any> {
         return (
             <div style={{ width: '900px' }}>
                 <PeoplePicker 
-                    iconName={'icon-user'}
                     labelText="PeoplePicker"
                     onSearch={this._handleSearch}
                     onSelect={this._handleSelect}
@@ -38,7 +37,6 @@ export class Index extends React.Component<any, any> {
                 <br/>
                 <PeoplePicker 
                     errorMessage="This is error message! This is error message!"
-                    iconName={'icon-user'}
                     labelText="Error PeoplePicker"
                     onSearch={this._handleSearch}
                     onSelect={this._handleSelect}
@@ -47,7 +45,6 @@ export class Index extends React.Component<any, any> {
                 />
                 <br/>
                 <PeoplePicker 
-                    iconName={'icon-user'}
                     labelText="Single Select PeoplePicker"
                     onSearch={this._handleSearch}
                     onSelect={this._handleSelect}

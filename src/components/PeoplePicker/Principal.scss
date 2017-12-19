@@ -20,4 +20,19 @@
         }        
     }
 
+    .principal-user-icon {
+        color: $primary-color;
+    }
+
+    .principal-security-group-icon {
+        color: green;
+    }
+
+    .principal-share-point-group-icon {
+        color: red;
+    }
+
+    .principal-active-directory-group-icon {
+        color: green;
+    }
 }
