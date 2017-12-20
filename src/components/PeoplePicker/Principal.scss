@@ -25,14 +25,14 @@
     }
 
     .principal-security-group-icon {
-        color: green;
+        color: $success-color;
     }
 
     .principal-share-point-group-icon {
-        color: red;
+        color: $error-color;
     }
 
     .principal-active-directory-group-icon {
-        color: green;
+        color: $success-color;
     }
 }
