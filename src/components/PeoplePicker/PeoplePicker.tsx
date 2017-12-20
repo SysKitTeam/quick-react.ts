@@ -76,6 +76,10 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
         }
     }
 
+    @autobind _ref(value: HTMLInputElement) {
+        this._field = value;
+    }
+
     @autobind
     private _renderEmptyField(): JSX.Element {
         const peoplePickerInputClassName = classNames(
@@ -90,7 +94,7 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
             return (
                 <input
                     type={'text'}
-                    ref={(c): HTMLInputElement => this._field = c}
+                    ref={this._ref}
                     value={this.state.value}
                     onBlur={this._onBlur}
                     onFocus={this._onFocus}
@@ -111,7 +115,7 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
                     <div className="people-picker-input-error-content">
                         <input
                             type={'text'}
-                            ref={(c): HTMLInputElement => this._field = c}
+                            ref={this._ref}
                             value={this.state.value}
                             onBlur={this._onBlur}
                             onFocus={this._onFocus}
@@ -119,9 +123,7 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
                             className="people-picker-input-error"
                             placeholder={this.props.placeholder}
                         />
-                        <span className="people-picker-error-icon">
-                            <Icon iconName={'icon-warning2'}></Icon>
-                        </span>
+                        <Icon iconName="icon-warning2" className="people-picker-error-icon"></Icon>
                     </div>
                 </Tooltip>
             </div>
@@ -147,7 +149,7 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
                         <Principal
                             principal={principal}
                             isSelected={true}
-                            onDelete={() => this._onSuggestionDelete(principal.id)}
+                            onDelete={this._onSuggestionDelete}
                         />
                     ))}
                 </div>
@@ -159,12 +161,12 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
                         <Principal
                             principal={principal}
                             isSelected={true}
-                            onDelete={() => this._onSuggestionDelete(principal.id)}
+                            onDelete={this._onSuggestionDelete}
                         />
                     ))}
                     <input
                         type={'text'}
-                        ref={(c): HTMLInputElement => this._field = c}
+                        ref={this._ref}
                         value={this.state.value}
                         onChange={this._onInputChange}
                         onFocus={this._onFocus}
@@ -187,9 +189,9 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
     }
 
     @autobind
-    private _onSuggestionDelete(principalId: number) {
+    private _onSuggestionDelete(selectedPrincipal: IPrincipal) {
         const newPrincipalList = this.state.selectedPrincipalList.filter((principal, index) => {
-            if (principal.id !== principalId) {
+            if (principal.id !== selectedPrincipal.id) {
                 return principal;
             }
         });

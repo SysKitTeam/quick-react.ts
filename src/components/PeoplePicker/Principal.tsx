@@ -21,10 +21,12 @@ export class Principal extends React.PureComponent<IPrincipalProps, IPrincipalSt
         };
     }
 
+    @autobind
     private _onClickPrincipal(): void {
         this.props.onSelect(this.props.principal);
     }
 
+    @autobind
     private _onClickDelete(): void {
         this.props.onDelete(this.props.principal);
     }
@@ -43,19 +45,19 @@ export class Principal extends React.PureComponent<IPrincipalProps, IPrincipalSt
     private _rednerTypeIcon(): JSX.Element {
         if (this.props.principal.type === PrincipalType.user) {
             return (
-                <Icon iconName={'icon-user'} className="principal-user-icon"></Icon>
+                <Icon iconName="icon-user"  className="principal-user-icon"></Icon>
             );
         } else if (this.props.principal.type === PrincipalType.securityGroup) {
             return (
-                <Icon iconName={'icon-group'} className="principal-security-group-icon"></Icon>
+                <Icon iconName="icon-group"  className="principal-security-group-icon"></Icon>
             );
         } else if (this.props.principal.type === PrincipalType.sharePointGroup) {
             return (
-                <Icon iconName={'icon-group'} className="principal-share-point-group-icon"></Icon>
+                <Icon iconName="icon-group"  className="principal-share-point-group-icon"></Icon>
             );
         } else if (this.props.principal.type === PrincipalType.activeDirectoryGroup) {
             return (
-                <Icon iconName={'icon-group'} className="principal-active-directory-group-icon"></Icon>
+                <Icon iconName="icon-group" className="principal-active-directory-group-icon"></Icon>
             );
         }
     }
@@ -66,17 +68,21 @@ export class Principal extends React.PureComponent<IPrincipalProps, IPrincipalSt
             <span className="principal-container">
                 {this._rednerTypeIcon()}
                 <span
-                    onClick={() => this._onClickPrincipal()}
-                    onMouseOver={() => this._onMouseOver()}
-                    onMouseOut={() => this._onMouseOut()}
+                    onClick={this._onClickPrincipal}
+                    onMouseOver={this._onMouseOver}
+                    onMouseOut={this._onMouseOut}
                 >
                     {this.props.principal.displayName}
                 </span>
                 {this.props.isSelected &&
-                    <Icon iconName={'icon-delete'} className="principal-delete-icon" onClick={() => this._onClickDelete()}></Icon>
+                    <Icon
+                        iconName="icon-delete"
+                        className="principal-delete-icon"
+                        onClick={this._onClickDelete}
+                    />
                 }
                 <Tooltip
-                    className={'tooltip-white'}
+                    className="tooltip-white"
                     content={this.props.principal.email}
                     directionalHint={DirectionalHint.rightCenter}
                     showTooltip={this.state.showTooltip}

@@ -79,11 +79,8 @@
     .people-picker-error-icon {
         position: relative;
         left: -20px;
-
-        .icon {
-            font-size: 12px;
-            color: $error-color;
-        }
+        font-size: 12px;
+        color: $error-color;
     }
 
     .people-picker-input-error-container {

@@ -33,6 +33,9 @@ export class Index extends React.Component<any, any> {
                 <PeoplePicker 
                     labelText="Disabled PeoplePicker "
                     disabled={true}
+                    onSearch={this._handleSearch}
+                    onSelect={this._handleSelect}
+                    suggestionList={peoplePickerData}
                 />
                 <br/>
                 <PeoplePicker 
