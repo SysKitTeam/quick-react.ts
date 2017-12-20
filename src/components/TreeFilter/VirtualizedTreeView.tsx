@@ -259,7 +259,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                     }
                 </div>
             );
-        } else if (itemHasChildren(treeItem)) { // expandable
+        } else if (itemHasChildren(treeItem) || treeItem.hasChildren) { // expandable
             return (
                 <div className="item-container expandible-item" key={itemKey} style={{ height: this.props.rowHeight }} >
                     <Icon className="virtualized-tree-expand-icon" iconName={'icon-arrow_right'} onClick={onExpandClick} />

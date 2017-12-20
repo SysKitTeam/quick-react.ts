@@ -26,7 +26,7 @@ const shortFlatList = createFlatList(6);
 export class Index extends React.Component<any, DemoState> {
     constructor(props) {
         super(props);
-        const asyncTreeData = createAsyncLoadRandomizedData(1000, 4, this.renderLoadingLabel);
+        const asyncTreeData = createAsyncLoadRandomizedData(1000, 4);
         this.state = {
             filterStates: {},
             asynclyLoadableItemIds: asyncTreeData[1],
@@ -54,16 +54,29 @@ export class Index extends React.Component<any, DemoState> {
         const index = this.state.asynclyLoadableItemIds.indexOf(treeItem.id);
         const isAsyncLoadItem = index > -1;
         const isNowExpanded = !treeItem.expanded;
-        let loadingLabelTreeItem: TreeItem;
+        let expandedTreeItem = {
+            ...treeItem,
+            expanded: !treeItem.expanded
+        };
 
         let newAsynclyLoadableItems = [...this.state.asynclyLoadableItemIds];
         if (isAsyncLoadItem) {
             newAsynclyLoadableItems.splice(index, 1);
+
+            let loadingLabelTreeItem = {
+                id: treeItem.id + '-1'  ,
+                value: 'Loading...',
+                expanded: false,
+                children: [],
+                renderElement: this.renderLoadingLabel
+            };
+
+            expandedTreeItem.children = [loadingLabelTreeItem];
         }
 
         this.setState({
             ...this.state,
-            asyncTreeData: expandOrCollapseTreeItem(this.state.asyncTreeData, treeItem, lookupTableGetter),
+            asyncTreeData: updateTree(this.state.asyncTreeData, expandedTreeItem, lookupTableGetter),
             asynclyLoadableItemIds: newAsynclyLoadableItems
         });
 

@@ -44,20 +44,14 @@ export function createRandomizedData(numOfItems, maxDepth) {
     return data;
 }
 
-export function createAsyncLoadRandomizedData(numOfItems, maxDepth, renderLoading: (itemKey: string, style: any) => JSX.Element) {
+export function createAsyncLoadRandomizedData(numOfItems, maxDepth) {
     let asynclyLoadableIds = [];
     const createRandomizedItem = (key, depth) => {
         let children = [];
+        let hasChildren;
         let name = RANDOM_WORDS[Math.floor(Math.random() * RANDOM_WORDS.length)];
         if (Math.random() > 0.5) {
-            const childId = key + '-' + '1';
-            children = [{
-                id: childId,
-                value: 'Loading...',
-                expanded: false,
-                children: [],
-                renderElement: renderLoading
-            }];
+            hasChildren = true;
             asynclyLoadableIds.push(key);
         } else {
             let numChildren = depth < maxDepth ? 4 : 0;
@@ -71,7 +65,8 @@ export function createAsyncLoadRandomizedData(numOfItems, maxDepth, renderLoadin
             expanded: false,
             children: children,
             iconName: Math.random() > 0.8 ? 'icon-edit_user' : '',
-            iconClassName: 'color'
+            iconClassName: 'color',
+            hasChildren: hasChildren
         };
     };
 
