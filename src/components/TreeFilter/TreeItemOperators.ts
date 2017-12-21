@@ -20,11 +20,6 @@ export interface ILookupTable {
     [id: string]: TreeItem;
 }
 
-export interface TreeLookups {
-    parentLookup: ILookupTable;
-    itemLookup: ILookupTable;
-}
-
 /**
  * Check if current tree item has children by checking if its children property
  * is not null and its length is greater than 0.
@@ -35,7 +30,7 @@ export const itemHasChildren = (item: TreeItem) => {
 };
 
 export class ItemOperator {
-    static getLookupTableAndParentLookup = (items: Array<TreeItem>): TreeLookups => {
+    static getLookupTableAndParentLookup = (items: Array<TreeItem>) => {
         let parentItems: ILookupTable = {};
         let lookup: ILookupTable = {};
 
