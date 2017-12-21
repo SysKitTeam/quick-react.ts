@@ -8,7 +8,10 @@ export function rebuildTree(newTreeItem: TreeItem, lookupGetter): TreeItem {
 
     while (parentItem != null) {
         const childIndex = parentItem.children.findIndex((item) => item.id === treeItem.id);
-        let modifiedChildren = [...parentItem.children];
+        if (childIndex === -1) {
+            throw new Error('Parent item does not contain given child key.');
+        }
+        const modifiedChildren = [...parentItem.children];
         modifiedChildren.splice(childIndex, 1, treeItem);
         treeItem = {
             ...parentItem,
@@ -22,6 +25,9 @@ export function rebuildTree(newTreeItem: TreeItem, lookupGetter): TreeItem {
 export function updateTree(root: TreeItem[], newTreeItem: TreeItem, lookupGetter): TreeItem[] {
     const rebuiltSubtree = rebuildTree(newTreeItem, lookupGetter);
     const index = root.findIndex((item) => item.id === rebuiltSubtree.id);
+    if (index === -1) {
+        throw new Error('Root item does not contain given child key.');
+    }
     let modifiedRoot = [...root];
     modifiedRoot.splice(index, 1, rebuiltSubtree);
     return modifiedRoot;

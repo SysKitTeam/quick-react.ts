@@ -39,7 +39,6 @@ import { Spinner } from '../Spinner/Spinner';
 import { SpinnerType } from '../Spinner/Spinner.Props';
 
 export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeViewProps, IVirtualizedTreeViewState> {
-
     private _list: any;
 
     private parentLookup: Readonly<ILookupTable>;
