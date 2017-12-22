@@ -4,7 +4,7 @@ import { IPrincipalProps, IPrincipal, PrincipalType } from './Principal.Props';
 import { getId } from '../../utilities/getId';
 import { autobind } from '../../utilities/autobind';
 import './Principal.scss';
-import { Icon } from './../../../src/components/Icon/Icon';
+import { Icon } from '../Icon/Icon';
 import { Tooltip } from '../Tooltip/Tooltip';
 import { DirectionalHint } from '../../utilities/DirectionalHint';
 
