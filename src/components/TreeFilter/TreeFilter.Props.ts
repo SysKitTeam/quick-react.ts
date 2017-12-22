@@ -1,5 +1,6 @@
 import { DirectionalHint } from '../../utilities/DirectionalHint';
 import { ILookupTable, TreeLookups } from './TreeItemOperators';
+import { IHoverOverBtn } from '../Treeview';
 
 export enum FilterSelectionEnum {
     All,
@@ -105,5 +106,6 @@ export interface TreeItem {
     iconName?: string;
     iconClassName?: string;
     hasChildren?: boolean;
+    hoverOverBtn?: Array<IHoverOverBtn>;
     renderElement?: (itemKey: string, style: any) => JSX.Element;
 }
