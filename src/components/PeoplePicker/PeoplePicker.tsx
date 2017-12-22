@@ -4,7 +4,7 @@ import { IPeoplePickerProps } from './PeoplePicker.Props';
 import { autobind } from '../../utilities/autobind';
 import './PeoplePicker.scss';
 import { Principal } from './Principal';
-import { Label } from './../../../src/components/Label/Label';
+import { Label } from '../Label/Label';
 import { IPrincipal } from './Principal.Props';
 import { Spinner } from '../Spinner/Spinner';
 import { SpinnerType } from '../Spinner/Spinner.Props';
