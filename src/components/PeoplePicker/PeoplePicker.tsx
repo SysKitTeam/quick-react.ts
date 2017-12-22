@@ -142,28 +142,24 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
             [this.props.className]
         );
 
+        let selectedPrincipalList = this.state.selectedPrincipalList.map((principal, index) => (
+            <Principal
+                principal={principal}
+                isSelected={true}
+                onDelete={this._onSuggestionDelete}
+            />
+        ));
+
         if (this.props.singleSelect) {
             return (
                 <div>
-                    {this.state.selectedPrincipalList && this.state.selectedPrincipalList.map((principal, index) => (
-                        <Principal
-                            principal={principal}
-                            isSelected={true}
-                            onDelete={this._onSuggestionDelete}
-                        />
-                    ))}
+                    {this.state.selectedPrincipalList && selectedPrincipalList}
                 </div>
             );
         } else {
             return (
                 <div className={peoplePickerSelectedClassName}>
-                    {this.state.selectedPrincipalList && this.state.selectedPrincipalList.map((principal, index) => (
-                        <Principal
-                            principal={principal}
-                            isSelected={true}
-                            onDelete={this._onSuggestionDelete}
-                        />
-                    ))}
+                    {this.state.selectedPrincipalList && selectedPrincipalList}
                     <input
                         type={'text'}
                         ref={this._ref}
