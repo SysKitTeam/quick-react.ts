@@ -76,7 +76,8 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
         }
     }
 
-    @autobind _ref(value: HTMLInputElement) {
+    @autobind
+    private _ref(value: HTMLInputElement) {
         this._field = value;
     }
 
