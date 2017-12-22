@@ -42,31 +42,49 @@ export class Principal extends React.PureComponent<IPrincipalProps, IPrincipalSt
     }
 
     @autobind
-    private _rednerTypeIcon(): JSX.Element {
+    private _getIconDetails() {
         if (this.props.principal.type === PrincipalType.user) {
             return (
-                <Icon iconName="icon-user"  className="principal-user-icon"></Icon>
+                {
+                    iconName: 'icon-user',
+                    className: 'principal-user-icon'
+                }
             );
         } else if (this.props.principal.type === PrincipalType.securityGroup) {
             return (
-                <Icon iconName="icon-group"  className="principal-security-group-icon"></Icon>
+                {
+                    iconName: 'icon-group',
+                    className: 'principal-security-group-icon'
+                }
             );
         } else if (this.props.principal.type === PrincipalType.sharePointGroup) {
             return (
-                <Icon iconName="icon-group"  className="principal-share-point-group-icon"></Icon>
+                {
+                    iconName: 'icon-group',
+                    className: 'principal-share-point-group-icon'
+                }
             );
         } else if (this.props.principal.type === PrincipalType.activeDirectoryGroup) {
             return (
-                <Icon iconName="icon-group" className="principal-active-directory-group-icon"></Icon>
+                {
+                    iconName: 'icon-group',
+                    className: 'principal-active-directory-group-icon'
+                }
             );
         }
     }
 
     public render() {
+        let iconDetails: {
+            iconName: string,
+            className: string
+        };
+
+        iconDetails = this._getIconDetails();
 
         return (
             <span className="principal-container">
-                {this._rednerTypeIcon()}
+                <Icon iconName={iconDetails.iconName} className={iconDetails.className} ></Icon>
                 <span
                     onClick={this._onClickPrincipal}
                     onMouseOver={this._onMouseOver}
