@@ -43,34 +43,27 @@ export class Principal extends React.PureComponent<IPrincipalProps, IPrincipalSt
 
     @autobind
     private _getIconDetails() {
-        if (this.props.principal.type === PrincipalType.user) {
-            return (
-                {
+        switch (this.props.principal.type) {
+            case PrincipalType.user:
+                return {
                     iconName: 'icon-user',
                     className: 'principal-user-icon'
-                }
-            );
-        } else if (this.props.principal.type === PrincipalType.securityGroup) {
-            return (
-                {
+                };
+            case PrincipalType.securityGroup:
+                return {
                     iconName: 'icon-group',
                     className: 'principal-security-group-icon'
-                }
-            );
-        } else if (this.props.principal.type === PrincipalType.sharePointGroup) {
-            return (
-                {
+                };
+            case PrincipalType.sharePointGroup:
+                return {
                     iconName: 'icon-group',
                     className: 'principal-share-point-group-icon'
-                }
-            );
-        } else if (this.props.principal.type === PrincipalType.activeDirectoryGroup) {
-            return (
-                {
+                };
+            case PrincipalType.activeDirectoryGroup:
+                return {
                     iconName: 'icon-group',
                     className: 'principal-active-directory-group-icon'
-                }
-            );
+                };
         }
     }
 
