@@ -5,7 +5,7 @@ import 'ts-helpers';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { TreeFilter, IFilterSelection, FilterSelectionEnum, VirtualizedTreeView } from '../../src/components/TreeFilter';
-import { createFlatList, createRandomizedData, getSelectedIds, createBreakPermission } from '../MockData/treeFilterElements';
+import { createFlatList, createRandomizedData, getSelectedIds } from '../MockData/treeFilterElements';
 import { Button } from '../../src/components/Button/Button';
 
 interface DemoState {
@@ -16,7 +16,6 @@ const deeperTreeData = createRandomizedData(50, 4);
 const flatList = createFlatList(4000);
 const selected = getSelectedIds(4000);
 const shortFlatList = createFlatList(6);
-const breakPermission = createBreakPermission();
 
 export class Index extends React.Component<any, DemoState> {
     constructor(props) {
@@ -160,43 +159,7 @@ export class Index extends React.Component<any, DemoState> {
                     emptySelectionText="Select role"
                     showStatusBar={false}
                     validated={false}
-                />
-                <br /><br />
-
-                <TreeFilter
-                    title="Permission Icon"
-                    filterId={'f3'}
-                    items={breakPermission}
-                    onValuesSelected={this.onValuesSelected}
-                    isSingleSelect={true}
-                    isGroupSelectableOnSingleSelect={true}
-                    // tslint:disable-next-line:no-string-literal
-                    filterSelection={this.state.filterStates['f3']}
-                    defaultSelection={FilterSelectionEnum.All}
-                    enabledResizeHandles={{
-                        top: false,
-                        right: false,
-                        bottom: true,
-                        left: true,
-                        topRight: false,
-                        bottomRight: false,
-                        bottomLeft: true,
-                        topLeft: false
-                    }}
-                />
-                <br /><br />
-                <TreeFilter
-                    title="Break Permission Icon"
-                    filterId={'f1'}
-                    items={breakPermission}
-                    onValuesSelected={this.onValuesSelected}
-                    // tslint:disable-next-line:no-string-literal
-                    filterSelection={this.state.filterStates['f1']}
-                    defaultSelection={FilterSelectionEnum.All}
-                    maxWidth={700}
-                    maxHeight={500}
-                    onCalloutClose={() => console.log('closing...')}
-                />
+                />                
             </div>
         );
     }

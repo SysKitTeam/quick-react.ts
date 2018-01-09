@@ -26,14 +26,6 @@
             overflow: hidden;
             text-overflow: ellipsis;
             width: 95%;
-
-            .break-permissions {
-                position: absolute;
-            }
-
-            .break-permissions-icon {
-                color: $error-color; 
-            }
         }
         &:before {
             content: '';

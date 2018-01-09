@@ -84,21 +84,6 @@
                     text-overflow: ellipsis;
                     width: 95%;
                     position: relative;
-
-                    .virtualized-tree-item-icon {
-                        margin-top: 3px;
-                        position: absolute;
-                    }
-                    
-                    .virtualized-tree-item-break-permissions-icon {
-                        margin-top: 3px;
-                        position: absolute;
-                        color: $error-color;
-                    }
-
-                    .virtualized-tree-single-select-item-value {
-                        margin-left: 20px;
-                    }
                 }
             }
 
