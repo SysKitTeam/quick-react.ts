@@ -35,6 +35,7 @@ import {
 
 import './VirtualizedTreeView.scss';
 import { Button } from '../Button/Button';
+import { Tooltip, DirectionalHint, autobind } from '../../index';
 
 export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeViewProps, IVirtualizedTreeViewState> {
 
@@ -201,6 +202,8 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                 'virtualized-tree-item-icon',
                 treeItem.iconClassName
             );
+            const valueClassName = treeItem.iconName ? 'virtualized-tree-single-select-item-value' : '';
+
             if (this.props.isSingleSelect) {
                 return (
                     <span
@@ -211,7 +214,12 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                         {treeItem.iconName &&
                             <Icon iconName={treeItem.iconName} className={iconClassName} />
                         }
-                        {treeItem.value}
+                        {treeItem.hasUniqueRoleAssignments &&
+                            <Tooltip content={'Unique permissions'} >
+                                <Icon iconName="icon-add" className="virtualized-tree-item-break-permissions-icon" />
+                            </Tooltip>
+                        }
+                        <span className={valueClassName}>{treeItem.value}</span>
                     </span>
                 );
             } else {
@@ -227,6 +235,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                         onChange={onItemCheckedChange}
                         iconName={treeItem.iconName}
                         iconClassName={iconClassName}
+                        hasUniqueRoleAssignments={treeItem.hasUniqueRoleAssignments}
                     />
                 );
             }

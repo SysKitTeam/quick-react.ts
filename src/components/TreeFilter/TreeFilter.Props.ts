@@ -102,4 +102,5 @@ export interface TreeItem {
     className?: string;
     iconName?: string;
     iconClassName?: string;
+    hasUniqueRoleAssignments?: boolean;
 }

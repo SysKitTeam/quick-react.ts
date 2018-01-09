@@ -44,3 +44,29 @@ export function createRandomizedData(numOfItems, maxDepth) {
     return data;
 }
 
+export function createBreakPermission() {
+    const createRandomizedItem = (key, depth) => {
+        let children = [];
+        let name = RANDOM_WORDS[Math.floor(Math.random() * RANDOM_WORDS.length)];
+
+        let numChildren = depth < 2 ? 4 : 0;
+        for (let i = 0; i < numChildren; i++) {
+            children.push(createRandomizedItem(key + '-' + i, depth + 1));
+        }
+        return {
+            id: key,
+            value: key + ' ' + name,
+            expanded: false,
+            children: children,
+            iconName: 'icon-edit_user',
+            iconClassName: 'color',
+            hasUniqueRoleAssignments: true
+        };
+    };
+
+    let data = [];
+    for (let i = 0; i < 5; i++) {
+        data.push(createRandomizedItem(i, 0));
+    }
+    return data;
+}
