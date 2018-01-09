@@ -36,7 +36,8 @@ export class VirtualizedTreeViewCheckBox extends React.PureComponent<IVirtualize
                     <span className={'label'} title={text}>
                         {iconName &&
                             <Icon iconName={iconName} className={iconClassName} />
-                        }{text}
+                        }
+                        {text}
                     </span>
                 </label>
             </div>
