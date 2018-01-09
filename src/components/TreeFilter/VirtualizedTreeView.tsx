@@ -201,7 +201,6 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                 'virtualized-tree-item-icon',
                 treeItem.iconClassName
             );
-
             if (this.props.isSingleSelect) {
                 return (
                     <span

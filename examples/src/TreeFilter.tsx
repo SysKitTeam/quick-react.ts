@@ -16,7 +16,6 @@ const deeperTreeData = createRandomizedData(50, 4);
 const flatList = createFlatList(4000);
 const selected = getSelectedIds(4000);
 const shortFlatList = createFlatList(6);
-
 export class Index extends React.Component<any, DemoState> {
     constructor(props) {
         super(props);
