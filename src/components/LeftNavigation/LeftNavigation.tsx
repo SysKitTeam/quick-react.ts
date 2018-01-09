@@ -93,7 +93,8 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
         let {
             options,
             id,
-            otherOptions
+            otherOptions,
+            hideMenu
         } = this.props;
 
         let leftNavigationTextClass = classNames({
@@ -146,11 +147,13 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
         return (
             <div className={className} ref={(c): HTMLElement => this._leftNavElement = c}>
                 <div>
+                    {!hideMenu &&
                     <div className="nav-item" onClick={() => { this.onLeftNavigationClick(); }}>
                         <Icon iconName={'icon-switchView'}></Icon>
                     </div>
+                    }
                     {childrenItems}
-                    <div>
+                    <div className="nav-item-other-options">
                         {otherChildrenItems}
                     </div>
                 </div>
