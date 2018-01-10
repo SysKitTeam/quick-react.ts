@@ -56,6 +56,11 @@ $leftNavigation-collapsed-width: 45px;
         }
     }
 
+    .nav-item-other-options {
+        bottom: 15px;
+        position: absolute;
+    }
+
     &.expanded {
         width: $leftNavigation-expanded-width;
         transition-duration: $leftNavigation-transition-duration;

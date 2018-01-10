@@ -7,6 +7,7 @@ export interface ILeftNavigationProps extends React.Props<any> {
     className?: string;
     onClick?: (ev?: React.MouseEvent<HTMLElement>, item?: ILeftNavigationOption) => void;
     otherOptions?: ILeftNavigationOption[];
+    menuHidden?: boolean;
 }
 
 export interface ILeftNavigationOption extends React.Props<any> {
