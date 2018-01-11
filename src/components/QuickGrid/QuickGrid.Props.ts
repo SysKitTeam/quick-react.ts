@@ -30,6 +30,10 @@ export interface IQuickGridProps {
     columnSummaries?: any;
     actionsTooltip?: string;
     tooltipsEnabled?: boolean;
+    hasCustomRowSelector?: boolean;
+    customRowSorter?: (sortBy, sortDirection) => void;
+    customCellRenderer?: ({}) => React.ReactNode;
+    hasStaticColumns?: boolean;
 }
 
 export interface IQuickGridState {
@@ -67,6 +71,7 @@ export interface GridColumn {
     sortByValueGetter?: (cellData, sortDirection: SortDirection) => any;
     width: number;
     minWidth?: number;
+    fixedWidth?: boolean;
     dataMember?: string;
     cellFormatter?: (cellData) => any;
     cellClassName?: string;
@@ -88,3 +93,4 @@ export interface ActionItem {
     iconName?: string;
     parameters?: any;
 }
+
