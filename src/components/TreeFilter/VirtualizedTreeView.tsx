@@ -182,7 +182,12 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
         }
         const onExpandClick = (event) => {
             event.stopPropagation();
-            this.props.onItemExpand(treeItem, this.props.lookupTableGetter);
+            if (this.props.onItemExpand) {
+                this.props.onItemExpand(treeItem, this.props.lookupTableGetter);
+            } else {
+                treeItem.expanded = !treeItem.expanded;
+                this._list.recomputeRowHeights();
+            }
         };
 
         const filterSelection = this.props.filterSelection;
@@ -209,10 +214,10 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                 treeItem.iconClassName
             );
 
-            let {id, hoverOverBtn} = treeItem;
+            let { id, hoverOverBtn } = treeItem;
 
             if (this.props.isSingleSelect) {
-                const SingleSelectItem = ({}) => 
+                const SingleSelectItem = ({ }) =>
                     <span
                         className="virtualized-tree-single-select-item"
                         onClick={onSingleSelectItemClick}
@@ -222,7 +227,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                         }
                         {treeItem.value}
                     </span>;
-                const SingleSelectItemWithButtons = addHoverableButtons({id, hoverOverBtn})(SingleSelectItem);
+                const SingleSelectItemWithButtons = addHoverableButtons({ id, hoverOverBtn })(SingleSelectItem);
 
                 return <SingleSelectItemWithButtons />;
             } else {
@@ -231,7 +236,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                     checked = CheckStatus.ChildChecked;
                 }
 
-                const ItemWithButtons = addHoverableButtons({id, hoverOverBtn})(VirtualizedTreeViewCheckBox);
+                const ItemWithButtons = addHoverableButtons({ id, hoverOverBtn })(VirtualizedTreeViewCheckBox);
                 return (
                     <ItemWithButtons
                         itemId={treeItem.id}
@@ -263,6 +268,16 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                             </li>
                         </ul>
                     }
+                    {
+                        treeItem.asyncChildrenLoadInProgress &&
+                        <ul>
+                            <li>
+                                {
+                                    this.renderAsyncLoadingNode(itemKey)
+                                }
+                            </li>
+                        </ul>
+                    }
                 </div>
             );
         } else if (itemHasChildren(treeItem) || treeItem.hasChildren) { // expandable
@@ -282,6 +297,27 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
         }
     }
 
+    private renderAsyncLoadingNode(loadingTreeNodeKey) {
+        const style = {
+            height: this.props.rowHeight,
+            marginLeft: this.props.isSingleSelect ? 6 : 18
+        };
+        return (
+            <div
+                key={loadingTreeNodeKey + '_Loading'}
+                className="item-container loading-container"
+                style={style}
+            >
+                <Spinner className="tree-view-async-loading-spinner"
+                    type={SpinnerType.small}
+                />
+                <span className="tree-view-async-loading-label">
+                    Loading...
+                    </span>
+            </div>
+        );
+    }
+
     private isItemInList(list, treeItem: TreeItem): boolean {
         return list.indexOf(treeItem.id) !== -1;
     }
@@ -290,12 +326,12 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
         return this.getExpandedItemCount(this.state.filteredItems[index]) * this.props.rowHeight;
     }
 
-    private getExpandedItemCount = (item) => {
+    private getExpandedItemCount = (item: TreeItem) => {
         let count = 1;
         if (item.expanded) {
             count += item.children
                 .map(this.getExpandedItemCount)
-                .reduce(function (total, currentCount) { return total + currentCount; }, 0);
+                .reduce(function (total, currentCount) { return total + currentCount; }, 0) + (item.asyncChildrenLoadInProgress ? 1 : 0);
         }
         return count;
     }
