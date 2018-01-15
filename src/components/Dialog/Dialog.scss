@@ -127,10 +127,10 @@ $dialog-section-padding: 20px;
 
                 .dialog-footer-section {
                     display: flex;
+                    flex-grow: 1;
 
                     &.right {
                         padding-left: $dialog-section-padding;
-                        flex-grow: 1;
                         justify-content: flex-end;
                     }
 
