@@ -41,7 +41,7 @@ const getColumnNameAndSortFunction = (columns: Array<GridColumn>, sortColumnName
 const sortRows = (rows: Array<any>, sortColumnName: string,
     sortDirection: SortDirection, groupedColumn: Array<IGroupBy>, columns: Array<GridColumn>) => {
     const sortModifier = sortDirection === SortDirection.Descending ? -1 : 1;
-    if (groupedColumn.length > 0) {
+    if (groupedColumn && groupedColumn.length > 0) {
         let sortOptions = [];
         for (let groupColumn of groupedColumn) {
             const groupSortModifier = groupColumn.sortDirection === SortDirection.Descending ? -1 : 1;
@@ -84,9 +84,11 @@ const getRowsWithLowerCase = createSelector(getInputRows, getColumns, (rows, col
 const getSortedRows = createSelector(getRowsWithLowerCase, getSortColumn, getSortDirection, getGroupBy, getColumns,
     (rows, sortColumn, sortDirection, groupBy, columns) => {
         return sortRows(rows, sortColumn, sortDirection, groupBy, columns);
-    });
+    }
+);
 
 export const getRowsSelector = createSelector(getSortedRows, getGroupBy, getCollapsedRows, getColumns,
     (rows, groupedColumns, collapsedRows, columns) => {
         return groupRows(rows, groupedColumns, collapsedRows, columns);
-    });
+    }
+);

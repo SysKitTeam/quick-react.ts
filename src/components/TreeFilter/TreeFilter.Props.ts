@@ -109,4 +109,5 @@ export interface TreeItem {
     hoverOverBtn?: Array<IHoverOverBtn>;
     renderElement?: (itemKey: string, style: any) => JSX.Element;
     iconTooltipContent?: string;
+    asyncChildrenLoadInProgress?: boolean;
 }
