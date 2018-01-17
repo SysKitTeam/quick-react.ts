@@ -209,20 +209,22 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                 treeItem.iconClassName
             );
 
-            let {id, hoverOverBtn} = treeItem;
+            let { id, hoverOverBtn } = treeItem;
 
             if (this.props.isSingleSelect) {
-                const SingleSelectItem = ({}) => 
+                const SingleSelectItem = ({ }) =>
                     <span
                         className="virtualized-tree-single-select-item"
                         onClick={onSingleSelectItemClick}
-                        title={treeItem.value}>
+                    >
                         {treeItem.iconName &&
-                            <Icon iconName={treeItem.iconName} className={iconClassName} />
+                            <span title={treeItem.iconTooltipContent}>
+                                <Icon iconName={treeItem.iconName} className={iconClassName} />
+                            </span>
                         }
-                        {treeItem.value}
+                        <span title={treeItem.value}>{treeItem.value}</span>
                     </span>;
-                const SingleSelectItemWithButtons = addHoverableButtons({id, hoverOverBtn})(SingleSelectItem);
+                const SingleSelectItemWithButtons = addHoverableButtons({ id, hoverOverBtn })(SingleSelectItem);
 
                 return <SingleSelectItemWithButtons />;
             } else {
@@ -231,7 +233,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                     checked = CheckStatus.ChildChecked;
                 }
 
-                const ItemWithButtons = addHoverableButtons({id, hoverOverBtn})(VirtualizedTreeViewCheckBox);
+                const ItemWithButtons = addHoverableButtons({ id, hoverOverBtn })(VirtualizedTreeViewCheckBox);
                 return (
                     <ItemWithButtons
                         itemId={treeItem.id}
@@ -240,6 +242,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                         onChange={onItemCheckedChange}
                         iconName={treeItem.iconName}
                         iconClassName={iconClassName}
+                        iconTooltipContent={treeItem.iconTooltipContent}
                     />
                 );
             }
