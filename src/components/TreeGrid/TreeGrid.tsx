@@ -3,23 +3,25 @@ import * as ReactDOM from 'react-dom';
 import * as classNames from 'classnames';
 import { ITreeGridProps, ITreeGridState, TreeNode } from './TreeGrid.Props';
 
-import { getTreeRowsSelector, getNodeChildrenRecursively, getNodeLevel, flatten } from './treeGridDataSelectors';
+import { getTreeRowsSelector, IFinalTreeNode } from './treeGridDataSelectors';
 import { Icon } from '../Icon/Icon';
 import { QuickGrid, IQuickGridProps, SortDirection, GridColumn } from '../QuickGrid';
 import { DataTypeEnum } from '../QuickGrid/QuickGrid.Props';
 import { CellElement } from './CellElement';
 
 
+
 export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState> {
 
-    private finalGridRows: Array<TreeNode>;
+    private finalGridRows: Array<IFinalTreeNode>;
     constructor(props: ITreeGridProps) {
-        super(props);
+        super(props);        
         this.state = {
             columnsToDisplay: this.getTreeColumnsToDisplay(props.columns),
-            collapsedTreeNodes: [],
             sortColumn: props.sortColumn,
-            sortDirection: props.sortDirection
+            sortDirection: props.sortDirection,
+            sortRequestId: 0,
+            structureRequestChangeId: 0
         };
         this.finalGridRows = getTreeRowsSelector(this.state, props);
     }
@@ -43,18 +45,21 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
     }
 
     componentWillUpdate(nextProps, nextState) {
+        if (this.props.tree !== nextProps.tree) {
+            this.setState(oldState => ({ sortRequestId: oldState.sortRequestId + 1 , structureRequestChangeId: oldState.structureRequestChangeId + 1 }));
+        }
         this.finalGridRows = getTreeRowsSelector(nextState, nextProps);
     }
 
     treeCellRenderer = ({ columnIndex, key, rowIndex, style }) => {
-        const rowData = this.finalGridRows[rowIndex]; 
+        const rowData = this.finalGridRows[rowIndex];
         const rowID: string = !rowData.treeId ? '' : rowData.treeId;
         const indentSize = 20;
         let indent = 0;
-        let level = getNodeLevel(rowData, this.finalGridRows);
+        let level = rowData.nodeLevel;
         if ((columnIndex === 0 || columnIndex === 2)) {
 
-            indent = level * indentSize;     
+            indent = level * indentSize;
         }
         let shouldIndent: boolean = false;
         if (columnIndex === 0) {
@@ -71,18 +76,18 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
             }
         }
         if (columnIndex === 1) {
-            return this.renderHiddenTreeCell(key, columnIndex, rowID);     
+            return this.renderHiddenTreeCell(key, columnIndex, rowID);
         }
         if (columnIndex === 2 && shouldIndent) {
-                style = {...style, width: style.width - indent};
-        }      
+            style = { ...style, width: style.width - indent };
+        }
         if (shouldIndent) {
-            style = {...style, left: style.left + indent};
+            style = { ...style, left: style.left + indent };
         }
         if (columnIndex === 0) {
             return this.renderActionTreeCell(key, rowIndex, rowData, style);
         }
-        return this.renderBodyCell(columnIndex, key, rowIndex, rowData, style);     
+        return this.renderBodyCell(columnIndex, key, rowIndex, rowData, style);
     }
 
     renderHiddenTreeCell(key, columnIndex, rowData) {
@@ -90,17 +95,17 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
             display: 'none'
         };
         return (
-        <div key={key} style={style}> 
-            {rowData}
-        </div>);
+            <div key={key} style={style}>
+                {rowData}
+            </div>);
     }
 
     renderActionTreeCell(key, rowIndex: number, rowData: TreeNode, style) {
         let actionsTooltip = rowData.isExpanded ? 'Collapse' : 'Expand';
         let iconName = rowData.isExpanded ? 'icon-arrow_down' : 'icon-arrow_right';
         let icon = null;
-        
-        if (rowData.children.length <= 0 && rowData.isExpanded) {
+
+        if (rowData.children.length <= 0) {
             icon = null;
             actionsTooltip = null;
         } else {
@@ -183,28 +188,13 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
         }
     }
 
-    onTreeExpandToggleClick = (rowData: TreeNode) => {
+    onTreeExpandToggleClick = (rowData: TreeNode) => {      
         this.setState((oldState) => {
-            let index: number;
-            let rows: Array<TreeNode>;
-            let collapsedNodes = [...oldState.collapsedTreeNodes];
-            let oldNodes = rowData.isExpanded ? [...this.finalGridRows] : collapsedNodes;
 
-            rows = getNodeChildrenRecursively(oldNodes, rowData.treeId);
-
-            for (let i = 0; i < rows.length; i++) {
-                index = collapsedNodes.indexOf(rows[i], 0);
-                if (!rowData.isExpanded) {
-                    collapsedNodes.splice(index, 1);
-                } else if (index < 0) {
-                    collapsedNodes.push(rows[i]);
-                }
-                rows[i].isExpanded = !rowData.isExpanded;            
-            }
-
+            // we are breaking immutability here and potential redux stores, but we need the performance
             rowData.isExpanded = !rowData.isExpanded;
 
-            return { ...oldState, collapsedTreeNodes: collapsedNodes };
+            return { structureRequestChangeId: oldState.structureRequestChangeId + 1 };
         });
     }
 
@@ -226,23 +216,23 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
     }
 
     getSortInfo = (newSortColumn, newSortDirection) => {
-        this.setState({ sortColumn: newSortColumn, sortDirection: newSortDirection });
+        this.setState(oldState => ({ sortColumn: newSortColumn, sortDirection: newSortDirection, sortRequestId: oldState.sortRequestId + 1 }));
     }
 
     public render(): JSX.Element {
         return (
-                <QuickGrid
-                    rows={this.finalGridRows}
-                    columns={this.state.columnsToDisplay}
-                    sortDirection={this.state.sortDirection}
-                    sortColumn={this.state.sortColumn}
-                    tooltipsEnabled={false}
-                    customCellRenderer={this.treeCellRenderer}
-                    hasCustomRowSelector={true}
-                    hasStaticColumns={true}
-                    customRowSorter={this.getSortInfo}
-                    columnSummaries={this.props.columnSummaries}
-                />
+            <QuickGrid
+                rows={this.finalGridRows}
+                columns={this.state.columnsToDisplay}
+                sortDirection={this.state.sortDirection}
+                sortColumn={this.state.sortColumn}
+                tooltipsEnabled={false}
+                customCellRenderer={this.treeCellRenderer}
+                hasCustomRowSelector={true}
+                hasStaticColumns={true}
+                customRowSorter={this.getSortInfo}
+                columnSummaries={this.props.columnSummaries}
+            />
         );
     }
 }
