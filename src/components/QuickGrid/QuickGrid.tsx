@@ -52,7 +52,8 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             selectedRowIndex: undefined,
             sortColumn: props.sortColumn,
             sortDirection: props.sortDirection,
-            groupBy: groupByState
+            groupBy: groupByState,
+            hasVerticalScroll: false
         };
         this.columnsMinTotalWidth = columnsToDisplay.map(x => x.minWidth || defaultMinColumnWidth).reduce((a, b) => a + b, 0);
         this.onGridResize = _.debounce(this.onGridResize, 100);
@@ -152,7 +153,10 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.columns !== this.props.columns || prevState.groupBy !== this.state.groupBy || prevState.columnWidths !== this.state.columnWidths) {
+        if (prevProps.columns !== this.props.columns 
+            || prevState.groupBy !== this.state.groupBy 
+            || prevState.columnWidths !== this.state.columnWidths
+            || prevState.hasVerticalScroll !== this.state.hasVerticalScroll) {
             this._grid.recomputeGridSize();
         } else if (this.state.sortDirection !== prevState.sortDirection || this.state.sortColumn !== prevState.sortColumn) {
             this._grid.forceUpdate();
@@ -431,13 +435,24 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         if (fixedColumns.length > 0) {
             fixedColumnsTotalWidth = fixedColumns.map(col => col.width).reduce((a, b) => a + b);
         }
-        const available = this.getGridWidth() - fixedColumnsTotalWidth;
+
+        const gridWidth = this.getGridWidth();
+        const available = gridWidth - fixedColumnsTotalWidth;
+        let newColumnWidths = [];
         if (available > this.columnsMinTotalWidth) {
             const totalWidth = columnsToDisplay.map(x => x.width).reduce((a, b) => a + b, 0) - fixedColumnsTotalWidth;
-            return columnsToDisplay.map((col) => this.getColumnWidthInPx(available, totalWidth, col.width, col.fixedWidth));
+            newColumnWidths = columnsToDisplay.map((col) => this.getColumnWidthInPx(available, totalWidth, col.width, col.fixedWidth));
         } else {
-            return columnsToDisplay.map(x => x.minWidth || defaultMinColumnWidth);
+            newColumnWidths = columnsToDisplay.map(x => x.minWidth || defaultMinColumnWidth);
         }
+        
+        const totalNewWidth = newColumnWidths.reduce((a, b) => a + b, 0);
+        const empty = gridWidth - totalNewWidth;
+        if (empty > 0) {
+            newColumnWidths[newColumnWidths.length - 1] = newColumnWidths[newColumnWidths.length - 1] + empty;
+        }
+        
+        return newColumnWidths;
     }
 
     getColumnWidthInPx(available: number, totalWidth: number, currentWidth: number, fixedWidth: boolean) {
@@ -447,8 +462,8 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         return Math.floor((available / totalWidth) * currentWidth);
     }
 
-    getColumnWidth = ({ index }) => {
-        return this.state.columnWidths[index];
+    getColumnWidth = ({ index }) => {        
+        return this.state.columnWidths[index] -  (this.state.hasVerticalScroll && (index === this.state.columnWidths.length - 1) ? scrollbarSize() : 0);
     }
 
     groupByToolboxHeight = () => {
@@ -476,7 +491,9 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
 
     setHeaderGridReference = (ref) => { this._headerGrid = ref; };
     setGridReference = (ref) => { this._grid = ref; };
-
+    private _onScrollbarPresenceChange = ({ horizontal, size, vertical }) => {
+        this.setState({hasVerticalScroll: vertical});
+    }
     render() {
         let mainClass = classNames('grid-component-container', this.props.gridClassName);
         let headerClass = classNames('grid-component-header', this.props.headerClassName);
@@ -516,6 +533,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                                         onScroll={onScroll}
                                         scrollLeft={scrollLeft}
                                         cellRenderer={this.props.customCellRenderer || this.cellRenderer}
+                                        onScrollbarPresenceChange ={this._onScrollbarPresenceChange}
                                         overscanRowCount={this.props.overscanRowCount}
                                         columnWidth={this.getColumnWidth}
                                         rowHeight={this.props.rowHeight}
