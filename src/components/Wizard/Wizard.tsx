@@ -62,11 +62,12 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
         const lastStep = steps.length - 1;
 
         let buttons: Array<JSX.Element> = [];
-        if (this.props.helpLink) {
+        if (this.props.showHelpButton) {
             buttons.push(
                 <Button
+                    href="#"
                     className="link wizard-help"
-                    href={this.props.helpLink}
+                    onClick={this.props.onHelpClicked}
                 >
                     Help
                 </Button>

@@ -26,13 +26,14 @@ export interface IWizardProps {
     onPageLeave?: (currentStepIndex: number, nextStepIndex: number, direction: WizardStepDirection) => void;
     onFinish: () => void;
     onCancel: () => void;
+    onHelpClicked?(): void;
     currentStep?: number;
     currentPage?: IPage;
     title?: string;
     nextBtnState?: boolean;
     backBtnState?: boolean;
     showNavigationButtons?: boolean;
-    helpLink?: string;
+    showHelpButton?: boolean;
     nextButtonText?: string;
     backButtonText?: string;
     finishButtonText?: string;
