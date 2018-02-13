@@ -7,10 +7,12 @@ export interface IPeoplePickerProps extends React.Props<PeoplePicker> {
     disabled?: boolean;
     errorMessage?: string;
     labelText?: string;
+    noResultText?: string;
     loadingSuggestionList?: boolean;
     onSearch: (searchedValue: string) => void;
     onSelect: (selectedPersonList: IPrincipal[]) => void;
     placeholder?: string;
     singleSelect?: boolean;
+    selectedPrincipalList?: IPrincipal[];
     suggestionList: IPrincipal[]; 
 }

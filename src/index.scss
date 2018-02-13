@@ -37,6 +37,11 @@ $error-color: #FB6464;
 $warning-color: #EAC71A;
 $success-color: #7DC458;
 
+$error-hover-color: #c85050;
+$error-disabled-color: #fca2a2;
+$success-hover-color: #649c46;
+$success-disabled-color: #b1db9a;
+
 // server status
 $error-status-server: $error-color;
 $warning-status-server: $warning-color;
@@ -48,7 +53,8 @@ $warning-text-color: $warning-color;
 $success-text-color: $success-color;
 $info-text-color: $secondary-color;
 
-
+// wizard header
+$header-border-color: rgba(77,77,79,0.2);
 
 * {
     font-family: 'Segoe UI';
