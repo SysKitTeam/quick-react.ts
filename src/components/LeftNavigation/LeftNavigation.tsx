@@ -28,8 +28,7 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
 
         this.state = {
             isOpen: false,
-            selectedIndex: this.getSelectedIndex(this.props.options),
-            onHoverFunc: props.expandOnClick ? nullFunc : this.setNavigationOpenState
+            selectedIndex: this.getSelectedIndex(this.props.options)
         };
     }
 
@@ -54,7 +53,6 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
     }
 
     public componentWillReceiveProps(newProps: ILeftNavigationProps) {
-        const hoverFunc = newProps.expandOnClick ? nullFunc : this.setNavigationOpenState;
         this.setState({ selectedIndex: this.getSelectedIndex(newProps.options) });
     }
 
@@ -95,6 +93,20 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
     @autobind
     private setNavigationReference(ref: HTMLDivElement) {
         this._leftNavElement = ref;
+    }
+
+    @autobind
+    private onNavigationMouseOut() {
+        if (!this.props.expandOnClick && this.state.isOpen) {
+            this.setState({ isOpen: false });
+        }
+    }
+
+    @autobind
+    private onNavigationMouseOver() {
+        if (!this.props.expandOnClick && !this.state.isOpen) {
+            this.setState({ isOpen: true });
+        }
     }
 
     @autobind
@@ -164,8 +176,8 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
             <div
                 className={className}
                 ref={this.setNavigationReference}
-                onMouseOver={this.state.onHoverFunc}
-                onMouseOut={this.state.onHoverFunc}
+                onMouseEnter={this.onNavigationMouseOver}
+                onMouseLeave={this.onNavigationMouseOut}
             >
                 <div>
                     {this.props.expandOnClick &&
