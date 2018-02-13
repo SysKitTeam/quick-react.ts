@@ -90,3 +90,8 @@ $header-border-color: rgba(77,77,79,0.2);
         outline: none !important;
     }
 }
+
+@keyframes fadeIn {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}
