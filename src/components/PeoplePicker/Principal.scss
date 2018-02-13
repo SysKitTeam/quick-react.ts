@@ -4,6 +4,7 @@
 {
     padding: 5px 0px 5px 10px;
     cursor: default;
+    display: inline-block;
 
     &:hover {
         background-color: $primary-background-hover-color;
