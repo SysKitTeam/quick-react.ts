@@ -151,7 +151,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
         if (this.props.dropdownType !== DropdownType.actionDropdown && this.props.options.length > 0) {
             let longest = this.props.options.reduce((a, b) => { return a.text.length > b.text.length ? a : b; });
             const arrowIconWidth = this.props.showArrowIcon ? 50 : 25;
-            const accualWitdh = longest.text.length * 8  + arrowIconWidth;
+            const accualWitdh = longest.text.length * 8 + arrowIconWidth;
             return Math.max(accualWitdh, 60) + 'px';
         }
         return;
@@ -279,7 +279,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
     }
 
     private _getSelectedIndex(options: IDropdownOption[], selectedKey: string | number) {
-        return findIndex(options, (option => (option.isSelected || option.selected || (selectedKey != null) && option.key === selectedKey)));
+        return findIndex(options, (option => (option.selected || (selectedKey != null) && option.key === selectedKey)));
     }
 
     private _onDropdownKeyDown = (ev: React.KeyboardEvent<any>) => {

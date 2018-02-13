@@ -84,3 +84,8 @@ $info-text-color: $secondary-color;
         outline: none !important;
     }
 }
+
+@keyframes fadeIn {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}

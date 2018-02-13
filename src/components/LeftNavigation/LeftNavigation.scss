@@ -1,8 +1,14 @@
 @import '../../index.scss';
 
 $leftNavigation-transition-duration: 300ms;
+$leftNavigation-text-transition-duration: 2*$leftNavigation-transition-duration;
 $leftNavigation-expanded-width: 170px;
 $leftNavigation-collapsed-width: 45px;
+
+// @keyframes fadeIn {
+//     from { opacity: 0 }
+//     to { opacity: 1 }
+// }
 
 .left-nav {
     background-color: $secondary-color;
@@ -67,6 +73,9 @@ $leftNavigation-collapsed-width: 45px;
         left: 0;
 
         .nav-item a span {
+            animation-name: fadeIn;
+            animation-duration: $leftNavigation-text-transition-duration;
+            -webkit-animation-duration: $leftNavigation-text-transition-duration;
             display: inline-block;
             position: absolute;
             margin-top: -2px;

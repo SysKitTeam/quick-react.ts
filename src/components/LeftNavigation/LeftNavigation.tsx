@@ -7,29 +7,43 @@ import { Icon } from '../../components/Icon/Icon';
 import { CommonComponent } from '../Common/Common';
 import { elementContains } from '../../utilities/elementContains';
 import { getWindow } from '../../utilities/getDocument';
+import { autobind } from '../../utilities/autobind';
 import './LeftNavigation.scss';
+
+const nullFunc = () => { };
 
 export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
     private _targetWindow: Window;
     private _leftNavElement: HTMLDivElement;
     private _target: HTMLElement | MouseEvent;
 
-    constructor(props) {
+    public static defaultProps: Partial<ILeftNavigationProps> = {
+        expandOnClick: false,
+        onClick: nullFunc,
+        otherOptions: []
+    };
+
+    constructor(props: ILeftNavigationProps) {
         super(props);
-        this.state = { isOpen: false, selectedIndex: this.getSelectedIndex(this.props.options) };
+
+        this.state = {
+            isOpen: false,
+            selectedIndex: this.getSelectedIndex(this.props.options),
+            onHoverFunc: props.expandOnClick ? nullFunc : this.setNavigationOpenState
+        };
     }
 
     public componentDidMount() {
         let target = this._leftNavElement;
-        this._setTargetWindowAndElement(target);
-        this._events.on(this._targetWindow, 'click', this._dismissOnClickOutsideComponent, true);
+        this.setTargetWindowAndElement(target);
+        this._events.on(this._targetWindow, 'click', this.dismissOnClickOutsideComponent, true);
     }
 
     public componentWillUnmount() {
         this._events.dispose();
     }
 
-    private _setTargetWindowAndElement(target: HTMLElement): void {
+    private setTargetWindowAndElement(target: HTMLElement): void {
         if (target) {
             let targetElement: HTMLElement = target as HTMLElement;
             this._target = target;
@@ -40,23 +54,18 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
     }
 
     public componentWillReceiveProps(newProps: ILeftNavigationProps) {
+        const hoverFunc = newProps.expandOnClick ? nullFunc : this.setNavigationOpenState;
         this.setState({ selectedIndex: this.getSelectedIndex(newProps.options) });
     }
 
-    protected _dismissOnClickOutsideComponent(ev: Event) {
+    protected dismissOnClickOutsideComponent(ev: Event) {
         let target = ev.target as HTMLElement;
         if (ev.target !== this._targetWindow && (!this._target || !elementContains(this._target as HTMLElement, target, false))) {
             this.setState({ isOpen: false });
         }
     }
 
-    onLeftNavigationClick() {
-        this.setState({ isOpen: !this.state.isOpen });
-    }
-
-    onLinkClick(index, item: any, ev: React.MouseEvent<HTMLElement>) {
-        const { onClick } = this.props;
-
+    private onLinkClick(index, item: any, ev: React.MouseEvent<HTMLElement>) {
         if (this.state.isOpen) {
             this.setState({ isOpen: false });
         }
@@ -68,35 +77,32 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
             });
         }
 
-        if (onClick !== undefined) {
-            onClick(ev, item);
-        }
+        this.props.onClick(ev, item);
     }
 
-    onOtherLinkClick(index, item: any, ev: React.MouseEvent<HTMLElement>) {
-        const { onClick } = this.props;
-
+    private onOtherLinkClick(index, item: any, ev: React.MouseEvent<HTMLElement>) {
         if (this.state.isOpen) {
             this.setState({ isOpen: false });
         }
 
-        if (onClick !== undefined) {
-            onClick(ev, item);
-        }
+        this.props.onClick(ev, item);
     }
 
-    getSelectedIndex(options: ILeftNavigationOption[]) {
+    private getSelectedIndex(options: Array<ILeftNavigationOption>) {
         return findIndex(options, (option => option.selected));
     }
 
-    public render(): JSX.Element {
-        let {
-            options,
-            id,
-            otherOptions,
-            menuHidden
-        } = this.props;
+    @autobind
+    private setNavigationReference(ref: HTMLDivElement) {
+        this._leftNavElement = ref;
+    }
 
+    @autobind
+    private setNavigationOpenState() {
+        this.setState({ isOpen: !this.state.isOpen });
+    }
+
+    public render(): JSX.Element {
         let leftNavigationTextClass = classNames({
             'show-text': this.state.isOpen,
             'hide-text': !this.state.isOpen
@@ -109,8 +115,8 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
                 'collapsed': !this.state.isOpen
             }, [this.props.className]);
 
-        const childrenItems = this.props.options && this.props.options.map((option, index) => {
-            let linkClasses = classNames(
+        const childrenItems = this.props.options.map((option, index) => {
+            const linkClasses = classNames(
                 'nav-item',
                 {
                     'disabled': option.disabled,
@@ -118,26 +124,36 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
                 });
 
             return (
-                <div key={option.id} className={linkClasses} title={option.text} onClick={(ev) => this.onLinkClick(index, option, ev)}>
+                <div
+                    key={option.id}
+                    className={linkClasses}
+                    title={option.text}
+                    onClick={(ev) => this.onLinkClick(index, option, ev)}
+                >
                     <a id={option.id}>
-                        <Icon iconName={option.icon}></Icon>
+                        <Icon iconName={option.icon} />
                         <span>{option.text}</span>
                     </a>
                 </div>
             );
         });
 
-        const otherChildrenItems = this.props.otherOptions && this.props.otherOptions.map((option, index) => {
-            let linkClasses = classNames(
+        const otherChildrenItems = this.props.otherOptions.map((option, index) => {
+            const linkClasses = classNames(
                 'nav-item',
                 {
                     'disabled': option.disabled
                 });
 
             return (
-                <div key={option.id} className={linkClasses} title={option.text} onClick={(ev) => this.onOtherLinkClick(index, option, ev)}>
+                <div
+                    key={option.id}
+                    className={linkClasses}
+                    title={option.text}
+                    onClick={(ev) => this.onOtherLinkClick(index, option, ev)}
+                >
                     <a id={option.id}>
-                        <Icon iconName={option.icon}></Icon>
+                        <Icon iconName={option.icon} />
                         <span>{option.text}</span>
                     </a>
                 </div>
@@ -145,12 +161,17 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
         });
 
         return (
-            <div className={className} ref={(c): HTMLElement => this._leftNavElement = c}>
+            <div
+                className={className}
+                ref={this.setNavigationReference}
+                onMouseOver={this.state.onHoverFunc}
+                onMouseOut={this.state.onHoverFunc}
+            >
                 <div>
-                    {!menuHidden &&
-                    <div className="nav-item" onClick={() => { this.onLeftNavigationClick(); }}>
-                        <Icon iconName={'icon-switchView'}></Icon>
-                    </div>
+                    {this.props.expandOnClick &&
+                        <div className="nav-item" onClick={this.setNavigationOpenState}>
+                            <Icon iconName={'icon-switchView'} />
+                        </div>
                     }
                     {childrenItems}
                     <div className="nav-item-other-options">
