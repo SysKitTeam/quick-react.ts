@@ -41,13 +41,14 @@
     .people-picker-suggestions {
         display: flex;
         flex-direction: column;
+        justify-content: space-around;
         box-sizing: border-box;
         border: 1px solid $white-background-lines;
         border-radius: 8px;
         border-color: $primary-color;
         background-color: $white-color;
         width: calc(100% - 30px);
-        min-height: 24px;
+        min-height: 30px;
         max-height: 200px;
         overflow-y: auto;
         outline: 0;
