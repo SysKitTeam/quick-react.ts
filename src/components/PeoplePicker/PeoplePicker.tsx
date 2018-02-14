@@ -73,10 +73,10 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
             <div className="people-picker-suggestions">
                 {this.props.loadingSuggestionList && <Spinner type={SpinnerType.small} />}
                 {!this.props.loadingSuggestionList && this.props.suggestionList.length > 0 && this.props.suggestionList.map((principal, index) => {
-                    const alreadySelected = this.state.selectedPrincipalList 
+                    const alreadySelected = this.state.selectedPrincipalList
                         && this.state.selectedPrincipalList.find(selected => selected.identifier === principal.identifier) !== undefined;
 
-                    allSelected = allSelected && alreadySelected;    
+                    allSelected = allSelected && alreadySelected;
                     return !alreadySelected && <Principal
                         key={principal.identifier}
                         principal={principal}
@@ -107,6 +107,11 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
     @autobind
     private _ref(value: HTMLInputElement) {
         this._field = value;
+    }
+
+    @autobind
+    private _focusInput(): void {
+        this._field.focus();
     }
 
     @autobind
@@ -254,7 +259,7 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
         );
 
         return (
-            <div className={peoplePickerClassName}>
+            <div className={peoplePickerClassName} onClick={this._focusInput}>
                 {this.props.labelText && <Label >{this.props.labelText}</Label>}
                 {this.state.selectedPrincipalList === null && this._renderEmptyField()}
                 {this.state.selectedPrincipalList !== null && this.state.selectedPrincipalList.length > 0 && this._renderSelectedPrincipal()}
