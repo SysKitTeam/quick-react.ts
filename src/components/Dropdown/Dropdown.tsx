@@ -300,7 +300,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
     }
 
     private _getSelectedIndex(options: IDropdownOption[], selectedKey: string | number) {
-        return findIndex(options, (option => (option.isSelected || option.selected || (selectedKey != null) && option.key === selectedKey)));
+        return findIndex(options, (option => (option.selected || (selectedKey != null) && option.key === selectedKey)));
     }
 
     private _onDropdownKeyDown = (ev: React.KeyboardEvent<any>) => {
