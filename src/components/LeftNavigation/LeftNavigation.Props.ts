@@ -1,13 +1,20 @@
 import * as React from 'react';
 import { LeftNavigation } from './LeftNavigation';
 
+
+export enum ExpandCaptionsBehaviorEnum {
+    ShowCaptionsOnHover,
+    ShowCaptionsOnToggleButton,
+    AlwaysHideCaptions
+}
+
 export interface ILeftNavigationProps {
     id?: string;
     options: ILeftNavigationOption[];
     className?: string;
     onClick?: (ev?: React.MouseEvent<HTMLElement>, item?: ILeftNavigationOption) => void;
     otherOptions?: ILeftNavigationOption[];
-    expandOnClick?: boolean;
+    expandCaptionsBehavior?: ExpandCaptionsBehaviorEnum;
 }
 
 export interface ILeftNavigationOption {
