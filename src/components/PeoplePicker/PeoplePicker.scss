@@ -67,15 +67,20 @@
     .people-picker-selected {
         box-sizing: border-box;
         border: 1px solid $white-background-lines;
+        min-height: 32px;
         border-radius: 8px;
-        padding: 5px 10px 6px 10px;
+        padding: 0px 10px 0px 10px;
         width: calc(100% - 30px);
         outline: 0;
+        overflow-y: auto;
         
         .people-picker-selected-input{
             border: none!important;        
             outline: 0!important;
             padding-left: 5px!important;
+            padding: 3px 5px 4px 10px;
+            margin: 2px 2px 2px 2px;
+            height: 19.5px;
         }
 
         &:hover {
