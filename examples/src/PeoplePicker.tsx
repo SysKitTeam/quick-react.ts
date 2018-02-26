@@ -5,7 +5,7 @@ import 'ts-helpers';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { PeoplePicker } from '../../src/components/PeoplePicker/PeoplePicker';
-import { peoplePickerData } from '../MockData/peoplePickerData';
+import { peoplePickerData, MapIcon, MapIconClass } from '../MockData/peoplePickerData';
 import { autobind } from '../../src/utilities/autobind';
 import { IPrincipal } from '../../src/components/PeoplePicker/Principal.Props';
 
@@ -28,6 +28,8 @@ export class Index extends React.Component<any, any> {
                     onSelect={this._handleSelect}
                     placeholder="Search for people"
                     suggestionList={peoplePickerData}
+                    MapPrincipalToIcon={MapIcon}
+                    MapPrincipalToIconClass={MapIconClass}
                 />
                 <br/>
                 <PeoplePicker 
@@ -36,6 +38,8 @@ export class Index extends React.Component<any, any> {
                     onSearch={this._handleSearch}
                     onSelect={this._handleSelect}
                     suggestionList={peoplePickerData}
+                    MapPrincipalToIcon={MapIcon}
+                    MapPrincipalToIconClass={MapIconClass}
                 />
                 <br/>
                 <PeoplePicker 
@@ -45,6 +49,8 @@ export class Index extends React.Component<any, any> {
                     onSelect={this._handleSelect}
                     placeholder="Search for people"
                     suggestionList={peoplePickerData}
+                    MapPrincipalToIcon={MapIcon}
+                    MapPrincipalToIconClass={MapIconClass}
                 />
                 <br/>
                 <PeoplePicker 
@@ -54,6 +60,8 @@ export class Index extends React.Component<any, any> {
                     placeholder="Search for people"
                     singleSelect={true}
                     suggestionList={peoplePickerData}
+                    MapPrincipalToIcon={MapIcon}
+                    MapPrincipalToIconClass={MapIconClass}
                 />
             </div>
         );

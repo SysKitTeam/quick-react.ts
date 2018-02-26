@@ -86,12 +86,6 @@ export class Principal extends React.PureComponent<IPrincipalProps, IPrincipalSt
     }
 
     public render() {
-        let iconDetails: {
-            iconName: string,
-            className: string
-        };
-
-        iconDetails = this._getIconDetails();
         const tooltip = this._getTooltipContent();
 
         const className = this.props.isSelected ? 'principal-container-selected' : 'principal-container-suggested';
@@ -100,7 +94,9 @@ export class Principal extends React.PureComponent<IPrincipalProps, IPrincipalSt
             <span className={className} onClick={this._onClickPrincipal}
                 onMouseOver={this._onMouseOver}
                 onMouseOut={this._onMouseOut} >
-                <Icon iconName={iconDetails.iconName} className={iconDetails.className} ></Icon>
+                {this.props.iconName &&
+                    <Icon iconName={this.props.iconName} className={this.props.iconClassName} ></Icon>
+                }
                 <span>
                     {this.props.principal.displayName}
                 </span>

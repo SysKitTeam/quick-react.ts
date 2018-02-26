@@ -78,12 +78,17 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
                     const alreadySelected = this.state.selectedPrincipalList
                         && this.state.selectedPrincipalList.find(selected => selected.identifier === principal.identifier) !== undefined;
 
+                    const icon = this.props.MapPrincipalToIcon ? this.props.MapPrincipalToIcon(principal) : undefined;
+                    const iconClass = this.props.MapPrincipalToIconClass ? this.props.MapPrincipalToIconClass(principal) : undefined;
+
                     allSelected = allSelected && alreadySelected;
                     return !alreadySelected && <Principal
                         key={principal.identifier}
                         principal={principal}
                         isSelected={false}
                         onSelect={this._onSuggestionClick}
+                        iconName={icon}
+                        iconClassName={iconClass}
                     />;
                 })}
                 {!this.props.loadingSuggestionList && (this.props.suggestionList.length === 0 || allSelected) && <div className="no-result">
@@ -143,28 +148,21 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
                 />
             );
         }
-
         return (
             <div className="people-picker-input-error-container">
-                <Tooltip
-                    content={this.props.errorMessage}
-                    className="tooltip-error"
-                    showTooltip={this.state.isFocused}
-                    directionalHint={DirectionalHint.topLeftEdge}>
-                    <div className="people-picker-input-error-content">
-                        <input
-                            type={'text'}
-                            ref={this._ref}
-                            value={this.state.value}
-                            onBlur={this._onBlur}
-                            onFocus={this._onFocus}
-                            onChange={this._onInputChange}
-                            className="people-picker-input-error"
-                            placeholder={this.props.placeholder}
-                        />
-                        <Icon iconName="icon-warning2" className="people-picker-error-icon"></Icon>
-                    </div>
-                </Tooltip>
+                <div className="people-picker-input-error-content">
+                    <input
+                        type={'text'}
+                        ref={this._ref}
+                        value={this.state.value}
+                        onBlur={this._onBlur}
+                        onFocus={this._onFocus}
+                        onChange={this._onInputChange}
+                        className="people-picker-input-error"
+                        placeholder={this.props.placeholder}
+                    />
+                    <Icon iconName="icon-warning2" className="people-picker-error-icon"></Icon>
+                </div>
             </div>
         );
     }
@@ -181,15 +179,19 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
             [this.props.className]
         );
 
-        let selectedPrincipalList = this.state.selectedPrincipalList.map((principal, index) => (
-            <Principal
+        let selectedPrincipalList = this.state.selectedPrincipalList.map((principal, index) => {
+            const icon = this.props.MapPrincipalToIcon ? this.props.MapPrincipalToIcon(principal) : undefined;
+            const iconClass = this.props.MapPrincipalToIconClass ? this.props.MapPrincipalToIconClass(principal) : undefined;
+            return <Principal
                 key={principal.identifier}
                 principal={principal}
                 isSelected={true}
                 isDisabled={this.props.disabled}
                 onDelete={this._onSuggestionDelete}
-            />
-        ));
+                iconName={icon}
+                iconClassName={iconClass}
+            />;
+        });
 
         if (this.props.singleSelect) {
             return (
@@ -199,30 +201,23 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
             );
         } else {
             return (
-                <Tooltip
-                    content={this.props.errorMessage}
-                    className="tooltip-error"
-                    showTooltip={this.state.isFocused && !isValid}
-                    directionalHint={DirectionalHint.topLeftEdge}>
-                    <div className={peoplePickerSelectedClassName}>
-                        <div className="people-picker-content">
-                            {this.state.selectedPrincipalList && selectedPrincipalList}
-                            <input
-                                type={'text'}
-                                ref={this._ref}
-                                value={this.state.value}
-                                onChange={this._onInputChange}
-                                onFocus={this._onFocus}
-                                onBlur={this._onBlur}
-                                className="people-picker-selected-input"
-                                onKeyDown={this._handleOnKeyDown}
-                                disabled={this.props.disabled}
-                            />
-                        </div>
-                        {!isValid && <Icon iconName="icon-warning2" className="people-picker-error-icon"></Icon>}
+                <div className={peoplePickerSelectedClassName}>
+                    <div className="people-picker-content">
+                        {this.state.selectedPrincipalList && selectedPrincipalList}
+                        <input
+                            type={'text'}
+                            ref={this._ref}
+                            value={this.state.value}
+                            onChange={this._onInputChange}
+                            onFocus={this._onFocus}
+                            onBlur={this._onBlur}
+                            className="people-picker-selected-input"
+                            onKeyDown={this._handleOnKeyDown}
+                            disabled={this.props.disabled}
+                        />
                     </div>
-                </Tooltip>
-
+                    {!isValid && <Icon iconName="icon-warning2" className="people-picker-error-icon"></Icon>}
+                </div>
             );
         }
     }
@@ -265,6 +260,7 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
     @autobind
     private _onUpdateSelection() {
         this.props.onSelect(this.state.selectedPrincipalList);
+        this._focusInput();
     }
 
     public render() {
@@ -277,15 +273,25 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
             },
             [this.props.className]
         );
-
+        const isValid = !this.props.errorMessage;
         return (
+
             <div className={peoplePickerClassName} onClick={this._focusInput}>
                 {this.props.labelText && <Label >{this.props.labelText}</Label>}
-                {this.state.selectedPrincipalList === null && this._renderEmptyField()}
-                {this.state.selectedPrincipalList !== null && this.state.selectedPrincipalList.length > 0 && this._renderSelectedPrincipal()}
-                {this.state.selectedPrincipalList !== null && this.state.selectedPrincipalList.length === 0 && this._renderEmptyField()}
-                {this.state.suggestionsVisible && this._renderSuggestions()}
+                <Tooltip
+                    content={this.props.errorMessage}
+                    className="tooltip-error"
+                    showTooltip={this.state.isFocused && !isValid}
+                    directionalHint={DirectionalHint.topLeftEdge}>
+                    <div>
+                        {this.state.selectedPrincipalList === null && this._renderEmptyField()}
+                        {this.state.selectedPrincipalList !== null && this.state.selectedPrincipalList.length > 0 && this._renderSelectedPrincipal()}
+                        {this.state.selectedPrincipalList !== null && this.state.selectedPrincipalList.length === 0 && this._renderEmptyField()}
+                        {this.state.suggestionsVisible && this._renderSuggestions()}
+                    </div>
+                </Tooltip>
             </div>
+
         );
     }
 }
