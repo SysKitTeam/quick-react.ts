@@ -104,16 +104,18 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
 
         const backBtnState = this.props.backBtnState !== null ? this.props.backBtnState : this.state.currentStep !== 0;
 
-        buttons.push(
-            <Button
-                key="back"
-                disabled={!backBtnState}
-                className="button-primary-gray"
-                onClick={this._backStep}
-            >
-                {this.props.backButtonText}
-            </Button>
-        );
+        if (steps.length > 1 ) {
+            buttons.push(
+                <Button
+                    key="back"
+                    disabled={!backBtnState}
+                    className="button-primary-gray"
+                    onClick={this._backStep}
+                >
+                    {this.props.backButtonText}
+                </Button>
+            );
+        }       
 
         if (currentStepProp.optionalButtons) {
             const additionalButtons = currentStepProp.optionalButtons.map((button, index) => {
