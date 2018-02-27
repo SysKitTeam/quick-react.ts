@@ -1,16 +1,23 @@
 import * as React from 'react';
 import { LeftNavigation } from './LeftNavigation';
 
-export interface ILeftNavigationProps extends React.Props<any> {
+
+export enum ExpandCaptionsBehaviorEnum {
+    ShowCaptionsOnHover,
+    ShowCaptionsOnToggleButton,
+    AlwaysHideCaptions
+}
+
+export interface ILeftNavigationProps {
     id?: string;
-    options?: ILeftNavigationOption[];
+    options: ILeftNavigationOption[];
     className?: string;
     onClick?: (ev?: React.MouseEvent<HTMLElement>, item?: ILeftNavigationOption) => void;
     otherOptions?: ILeftNavigationOption[];
-    menuHidden?: boolean;
+    expandCaptionsBehavior?: ExpandCaptionsBehaviorEnum;
 }
 
-export interface ILeftNavigationOption extends React.Props<any> {
+export interface ILeftNavigationOption {
     id: string;
     text: string;
     href?: string;

@@ -23,7 +23,9 @@ export class Principal extends React.PureComponent<IPrincipalProps, IPrincipalSt
 
     @autobind
     private _onClickPrincipal(): void {
-        this.props.onSelect(this.props.principal);
+        if (this.props.onSelect) {
+            this.props.onSelect(this.props.principal);
+        }
     }
 
     @autobind
@@ -67,37 +69,50 @@ export class Principal extends React.PureComponent<IPrincipalProps, IPrincipalSt
         }
     }
 
-    public render() {
-        let iconDetails: {
-            iconName: string,
-            className: string
-        };
+    @autobind
+    private _getTooltipContent(): string {
+        const { email, displayIdentifier, type } = this.props.principal;
+        if (email) {
+            if (displayIdentifier && email.toLowerCase() === displayIdentifier.toLowerCase() || !displayIdentifier || type !== PrincipalType.user) {
+                return email;
+            } else if (displayIdentifier && type === PrincipalType.user) {
+                return `Email: ${email}\r\nUsername: ${displayIdentifier}`;
+            }
+        } else if (displayIdentifier && type === PrincipalType.user) {
+            return displayIdentifier;
+        }
 
-        iconDetails = this._getIconDetails();
+        return null;
+    }
+
+    public render() {
+        const tooltip = this._getTooltipContent();
+
+        const className = this.props.isSelected ? 'principal-container-selected' : 'principal-container-suggested';
 
         return (
-            <span className="principal-container">
-                <Icon iconName={iconDetails.iconName} className={iconDetails.className} ></Icon>
-                <span
-                    onClick={this._onClickPrincipal}
-                    onMouseOver={this._onMouseOver}
-                    onMouseOut={this._onMouseOut}
-                >
+            <span className={className} onClick={this._onClickPrincipal}
+                onMouseOver={this._onMouseOver}
+                onMouseOut={this._onMouseOut} >
+                {this.props.iconName &&
+                    <Icon iconName={this.props.iconName} className={this.props.iconClassName} ></Icon>
+                }
+                <span>
                     {this.props.principal.displayName}
                 </span>
-                {this.props.isSelected &&
+                {this.props.isSelected && !this.props.isDisabled &&
                     <Icon
                         iconName="icon-delete"
                         className="principal-delete-icon"
                         onClick={this._onClickDelete}
                     />
                 }
-                <Tooltip
+                {tooltip && <Tooltip
                     className="tooltip-white"
-                    content={this.props.principal.email}
-                    directionalHint={DirectionalHint.rightCenter}
+                    content={tooltip}
+                    directionalHint={DirectionalHint.topCenter}
                     showTooltip={this.state.showTooltip}
-                />
+                />}
             </span>
         );
     }

@@ -1,8 +1,10 @@
 export interface TreeNode { // extend this interface on a data structure to be used for row data    
     isExpanded?: boolean;
-    children: Array<TreeNode>;
+    children?: Array<TreeNode>;
     hasChildren?: boolean;
     iconName?: string;
+    iconTooltipContent?: string;
+    iconClassName?: string;
 }
 
 export interface IFinalTreeNode extends TreeNode {
@@ -10,12 +12,13 @@ export interface IFinalTreeNode extends TreeNode {
     parentId?: number; // nodeId of the parent node
     nodeLevel: number;
     sortRequestId: number;
-    isAsyncLoadingNode?: boolean;
+    isLazyChildrenLoadInProgress?: boolean;
+    isAsyncLoadingDummyNode?: boolean;
     children: Array<IFinalTreeNode>;
     parent: IFinalTreeNode;
+    satisfiesFilterCondition?: boolean;
+    descendantSatisfiesFilterCondition?: boolean;
 }
-
-export type IPartialFinalTreeNode = { [P in keyof IFinalTreeNode]?: IFinalTreeNode[P] };
 
 interface ILookupTable {
     [id: number]: IFinalTreeNode;
@@ -41,22 +44,28 @@ export class TreeDataSource {
     // Since we are copying everything from the previous iteration we need at least one field that actually changes    
     private changeIteration: number = 0;
     private treeStructure: IFinalTreeNode;
-  
+    public isEmpty: boolean;
     /**
      * 
      * @param root warning: will be mutated and returned as ITreeDataSource
      */
-    constructor(input: TreeNode | TreeDataSource) {
+    constructor(input: TreeNode | TreeDataSource | Array<any>) {
         if (this.isDataSource(input)) {
             this.nodesById = input.nodesById;
             this.idCounter = input.idCounter;
             this.treeStructure = input.treeStructure;
             this.changeIteration = input.changeIteration + 1;
         } else {
-            this.nodesById = {};            
-            this.extendNodes(input, input.children, 0);
-
-            this.treeStructure = <IFinalTreeNode>input;
+            let rootNode: TreeNode;
+            if (this.isRootNodesArray(input)) {
+                rootNode = { children: input };
+            } else {
+                rootNode = input;
+            }
+            this.nodesById = {};
+            this.extendNodes(input, rootNode.children, 0);
+            this.treeStructure = <IFinalTreeNode>rootNode;
+            this.isEmpty = this.treeStructure.children.length === 0;
         }
     }
 
@@ -76,30 +85,34 @@ export class TreeDataSource {
         }
     }
 
-    private isDataSource(input: TreeNode | TreeDataSource): input is TreeDataSource {
+    private isDataSource(input: TreeNode | TreeDataSource | Array<any>): input is TreeDataSource {
         return (<TreeDataSource>input).updateNode !== undefined;
-    }   
-    
-    public updateNode(nodeId: number, props: IPartialFinalTreeNode): TreeDataSource {        
+    }
+
+    private isRootNodesArray(input: TreeNode | TreeDataSource| Array<any>): input is Array<any> {
+        return (<Array<any>>input).slice !== undefined;
+    }
+
+    public updateNode<T>(nodeId: number, props: Partial<IFinalTreeNode & T>): TreeDataSource;    
+    public updateNode(nodeId: number, props: Partial<IFinalTreeNode>): TreeDataSource {
         let existingNode = this.nodesById[nodeId];
-        if (existingNode) {            
+        if (existingNode) {
 
             // we do not want to use the spread operator, we want to reause the existing treenode            
             // existingNode = { ...existingNode, ...props };
             Object.assign(existingNode, props);
-            
+
             if (props.children) {
-                existingNode.isAsyncLoadingNode = false;
+                existingNode.isLazyChildrenLoadInProgress = false;
                 existingNode.hasChildren = props.children && props.children.length > 0;
                 existingNode.isExpanded = existingNode.isExpanded && existingNode.hasChildren;
                 this.extendNodes(existingNode, existingNode.children, existingNode.nodeLevel + 1);
             }
-            
-            
+            this.isEmpty = this.treeStructure.children.length === 0;
             return new TreeDataSource(this);
         }
         return this;
-    }  
+    }
 
     private getNextId(): number {
         return ++this.idCounter;
@@ -107,5 +120,21 @@ export class TreeDataSource {
 
     public getTreeStructure(): IFinalTreeNode {
         return this.treeStructure;
+    }
+    public getNodeById<T>(nodeId: number): IFinalTreeNode & T;   
+    public getNodeById(nodeId: number): IFinalTreeNode {
+        return this.nodesById[nodeId];
+    }
+
+    public findNode<T>(nodePredicate: (node: IFinalTreeNode & T) => boolean): IFinalTreeNode & T;   
+    public findNode(nodePredicate: (node: IFinalTreeNode) => boolean): IFinalTreeNode {
+        // tslint:disable-next-line:forin
+        for (let key in this.nodesById) {
+            let candidate = this.nodesById[key];
+            if (nodePredicate(candidate)) {
+                return candidate;
+            }
+        }
+        return undefined;
     }
 }

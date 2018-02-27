@@ -7,12 +7,12 @@ import { Dropdown, DropdownType } from '../../src/components/Dropdown';
 import { Button } from '../../src/components/Button';
 import { TreeGrid, ITreeGridProps } from '../../src/components/TreeGrid';
 import { SortDirection, GridColumn } from '../../src/components/QuickGrid';
-import { gridColumns1, getTreeGridData, generateTreeNode } from '../MockData/gridData';
+import { gridColumns1, getTreeGridData, generateTreeNode, nodeActions } from '../MockData/gridData';
 import '../../src/components/TreeFilter/TreeFilter.scss'; // used for react-resizable style
 import '../../src/components/Label/Label.scss';
 import { updateTree, rebuildTree } from '../../src/utilities/rebuildTree';
 import './../../src/components/Icon/symbol-defs.svg';
-import { autobind } from '../../src/index';
+import { autobind, QuickGridActions, QuickGridActionsBehaviourEnum, Search, TreeDataSource } from '../../src/index';
 import { IFinalTreeNode, TreeNode } from '../../src/models/TreeData';
 
 
@@ -26,11 +26,34 @@ export class Index extends React.Component<any, any> {
     state = {
         data: getTreeGridData(0),
         columns: gridColumns1,
-        selectedData: 1
+        selectedData: 1,
+        searchText: ''
     };
-    
+
+    gridActions: QuickGridActions = {
+        actionItems: [],
+        actionIconName: '',
+        actionsBehaviour: QuickGridActionsBehaviourEnum.ShowOnRowHover,
+        onActionSelected: this.rowActionClicked,
+        onGetSingleRowContextActions: (node) => {
+
+            // here we use the same node actions each time for demo purposes, but the actions can be per node
+            return nodeActions;
+        }
+    };
+
+    rowActionClicked(commandName: string, parameters, rowData) {
+        alert(commandName + ' clicked.');
+    }
+
+    searchQueryChanged = (value: string) => {
+        this.setState(prev => ({            
+            searchText: value
+        }));
+    }
+
     prev: any;
-    public render() {        
+    public render() {
         this.prev = this.state.data;
         return (
             <div>
@@ -49,14 +72,16 @@ export class Index extends React.Component<any, any> {
                     />
                 </div>
                 <Button onClick={this.refreshData}>Refresh data</Button>
-
+                <div style={{ width: 250, paddingTop: 10 }}><Search value={this.state.searchText} labelText="Search nodes..." onChange={this.searchQueryChanged} /></div>
                 <Resizable width={1000} height={700} >
                     <div className="viewport-height" style={{ height: '100%' }} >
                         <TreeGrid
                             treeDataSource={this.state.data}
                             columns={this.state.columns}
-                            onLoadChildNodes={this.onLoadChildNodes}
+                            gridActions={this.gridActions}
+                            onLazyLoadChildNodes={this.onLoadChildNodes}
                             columnSummaries={columnSummaries}
+                            filterString={this.state.searchText}
                         />
                     </div>
                 </Resizable>
@@ -82,21 +107,23 @@ export class Index extends React.Component<any, any> {
             this.setState({
                 data: getTreeGridData(0),
                 columns: gridColumns1,
-                selectedData: 1
+                selectedData: 1,
+                searchText: ''
             });
 
         } else {
             this.setState({
                 data: getTreeGridData(1),
                 columns: gridColumns1,
-                selectedData: 2
+                selectedData: 2,
+                searchText: ''
             });
         }
     }
 
     refreshData = () => {
         const newData = this.state.selectedData === 1 ? getTreeGridData(0) : getTreeGridData(1);
-        this.setState({ ...this.state, data: newData });
+        this.setState({ ...this.state, data: newData, searchText: '' });
     }
 
 }

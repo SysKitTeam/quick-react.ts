@@ -1,4 +1,4 @@
-@import '../../index.scss';
+@import '../../styles/variables.scss';
 
 .message-box-dialog > .dialog-inner {
     .dialog-content {
@@ -14,7 +14,7 @@
                 font-size: 24px;
                 margin-right: 10px;
     
-                &.icon-details {
+                &.icon-info {
                     color: $link-color;
                 }
     
@@ -57,3 +57,8 @@
     }
 }
 
+.message-box-dialog {
+    &.is-loading {
+        pointer-events: none;
+    }
+}

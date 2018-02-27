@@ -1,38 +1,57 @@
-@import '../../index.scss';
+@import '../../styles/variables.scss';
 
-.principal-container
+%principal-container{
+    padding: 3px 5px 4px 10px;
+    min-height: 19px;
+    border-radius: 8px;
+    cursor: default;
+    display: inline-flex;
+    align-items: center;
+}
+.principal-container-selected
 {
-    padding: 5px 0px 5px 10px;
+    @extend %principal-container;
+    background-color: rgba($secondary-color,0.03);
+    margin: 2px 2px 2px 2px;
 
     &:hover {
-        background-color: $primary-background-hover-color;
-        border-radius: 8px;
-        cursor: pointer;
+        background-color: rgba($secondary-color,0.06);
     }
 
     .principal-delete-icon {
         padding: 5px 5px 5px 5px;
+        margin-left: 5px;
+        margin-right: 0px;
+        size: 24px 24px;
 
         &:hover {
             cursor: pointer;
-            background-color: $primary-background-hover-color;
-            border-radius: 10px;
+            background-color: $secondary-color-20;
+            border-radius: 8px;
         }        
     }
+}
 
-    .principal-user-icon {
-        color: $primary-color;
+.principal-container-suggested
+{
+    @extend %principal-container;
+    &:hover {
+        background-color: $primary-background-hover-color;
     }
+}
 
-    .principal-security-group-icon {
-        color: $success-color;
-    }
+.principal-user-icon {
+    color: $primary-color;
+}
 
-    .principal-share-point-group-icon {
-        color: $error-color;
-    }
+.principal-security-group-icon {
+    color: $success-color;
+}
 
-    .principal-active-directory-group-icon {
-        color: $success-color;
-    }
+.principal-share-point-group-icon {
+    color: $error-color;
+}
+
+.principal-active-directory-group-icon {
+    color: $success-color;
 }

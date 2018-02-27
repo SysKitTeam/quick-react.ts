@@ -1,6 +1,7 @@
-@import '../../index.scss';
+@import '../../styles/variables.scss';
 
 $leftNavigation-transition-duration: 300ms;
+$leftNavigation-text-transition-duration: 2*$leftNavigation-transition-duration;
 $leftNavigation-expanded-width: 170px;
 $leftNavigation-collapsed-width: 45px;
 
@@ -13,6 +14,7 @@ $leftNavigation-collapsed-width: 45px;
     .icon {
         font-size: 16px;
         color: $white-color;
+        fill: $white-color;
     }
 
     .nav-item {
@@ -25,6 +27,7 @@ $leftNavigation-collapsed-width: 45px;
         a {
             span, .icon {
                 color: $white-color;
+                fill: $white-color;
             }
         }
 
@@ -32,6 +35,7 @@ $leftNavigation-collapsed-width: 45px;
             a {
                 span, .icon {
                     color: $primary-color;
+                    fill: $primary-color;
                 }
             }
 
@@ -41,6 +45,7 @@ $leftNavigation-collapsed-width: 45px;
             a {
                 span, .icon {
                     color: $primary-color;
+                    fill: $primary-color;
                 }
             }
         }
@@ -51,6 +56,7 @@ $leftNavigation-collapsed-width: 45px;
             a {
                 span, .icon {
                     color: $white-background-lines-hover;
+                    fill: $white-background-lines-hover;
                 }
             }
         }
@@ -67,6 +73,9 @@ $leftNavigation-collapsed-width: 45px;
         left: 0;
 
         .nav-item a span {
+            animation-name: fadeIn;
+            animation-duration: $leftNavigation-text-transition-duration;
+            -webkit-animation-duration: $leftNavigation-text-transition-duration;
             display: inline-block;
             position: absolute;
             margin-top: -2px;

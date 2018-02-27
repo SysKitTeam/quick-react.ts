@@ -29,9 +29,25 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
     }
 
     @autobind
+    public changeStep(stepIndex: number) {
+        if ((stepIndex) !== this.props.steps.length) {
+            const stepDirection = this.state.currentStep > stepIndex ? WizardStepDirection.Previous : WizardStepDirection.Next;
+            if (this.props.onPageLeaving && !this.props.onPageLeaving(this.state.currentStep, stepIndex, stepDirection)) {
+                return;
+            }
+            this.props.onPageLeave(this.state.currentStep, stepIndex, stepDirection);
+            this.setState({ currentStep: stepIndex });
+            this.props.onPageEnter(stepIndex, stepIndex + 1);
+        }
+    }
+
+    @autobind
     private _nextStep(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
         if ((this.state.currentStep + 1) !== this.props.steps.length) {
+            if (this.props.onPageLeaving && !this.props.onPageLeaving(this.state.currentStep, this.state.currentStep + 1, WizardStepDirection.Next)) {
+                return;
+            }
             this.props.onPageLeave(this.state.currentStep, this.state.currentStep + 1, WizardStepDirection.Next);
             this.setState({ currentStep: this.state.currentStep + 1 });
             this.props.onPageEnter(this.state.currentStep + 1, this.state.currentStep + 2);
@@ -42,6 +58,9 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
     private _backStep(event: React.MouseEvent<HTMLButtonElement>) {
         event.preventDefault();
         if (this.state.currentStep > 0) {
+            if (this.props.onPageLeaving && !this.props.onPageLeaving(this.state.currentStep, this.state.currentStep - 1, WizardStepDirection.Previous)) {
+                return;
+            }
             this.props.onPageLeave(this.state.currentStep, this.state.currentStep - 1, WizardStepDirection.Previous);
             this.setState({ currentStep: this.state.currentStep - 1 });
             this.props.onPageEnter(this.state.currentStep - 1, this.state.currentStep);
@@ -56,9 +75,23 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
         const lastStep = steps.length - 1;
 
         let buttons: Array<JSX.Element> = [];
+        if (this.props.showHelpButton && this.props.onHelpClicked) {
+            buttons.push(
+                <Button
+                    href="#"
+                    key="help"
+                    className="link wizard-help"
+                    onClick={this.props.onHelpClicked}
+                >
+                    Help
+                </Button>
+            );
+        }
+
         buttons.push(
             <Button
-                className="button-textual"
+                key="cancel"
+                className="button-textual wizard-cancel"
                 onClick={this.props.onCancel}
             >
                 Cancel
@@ -69,15 +102,20 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
             return buttons;
         }
 
-        buttons.push(
-            <Button
-                disabled={this.state.currentStep === 0}
-                className="button-primary-gray"
-                onClick={this._backStep}
-            >
-                {this.props.backButtonText}
-            </Button>
-        );
+        const backBtnState = this.props.backBtnState !== null ? this.props.backBtnState : this.state.currentStep !== 0;
+
+        if (steps.length > 1 ) {
+            buttons.push(
+                <Button
+                    key="back"
+                    disabled={!backBtnState}
+                    className="button-primary-gray"
+                    onClick={this._backStep}
+                >
+                    {this.props.backButtonText}
+                </Button>
+            );
+        }       
 
         if (currentStepProp.optionalButtons) {
             const additionalButtons = currentStepProp.optionalButtons.map((button, index) => {
@@ -92,6 +130,7 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
         if (currentStep !== lastStep) {
             buttons.push(
                 <Button
+                    key="next"
                     disabled={!this.props.nextBtnState}
                     className="button-primary"
                     onClick={this._nextStep}
@@ -102,9 +141,11 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
         } else {
             buttons.push(
                 <Button
+                    key="finish"
                     disabled={!this.props.nextBtnState}
                     className="button-primary"
                     onClick={this.props.onFinish}
+                    isLoading ={this.props.isWizardFinishing}
                 >
                     {this.props.finishButtonText}
                 </Button>
@@ -124,6 +165,7 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
             'wizard-step-window',
             this.stepClassName
         );
+        const currentStepProp = this.props.steps[this.state.currentStep];
 
         return (
             <div className="wizard-container">
@@ -134,12 +176,19 @@ export class Wizard extends React.Component<IWizardProps, IWizardState> {
                         </div>
                         <div className="wizard-title">{this.props.title}</div>
                     </div>
-                    <Stepper
-                        steps={this.props.steps}
-                        activeStep={this.state.currentStep}
-                    />
+                    {this.props.stepsVisible &&
+                        <Stepper
+                            steps={this.props.steps}
+                            activeStep={this.state.currentStep}
+                        />
+                    }
                 </div>
                 <div className={stepWindowClassName}>
+                    {
+                        currentStepProp.description && <div className="wizard-step_header">
+                            {currentStepProp.description}
+                        </div>
+                    }
                     {
                         this.props.onPageRender(this.state.currentStep)
                     }
