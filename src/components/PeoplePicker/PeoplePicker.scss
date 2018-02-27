@@ -19,6 +19,7 @@
         padding: 5px 10px 6px 10px;
         width: calc(100% - 30px);
         outline: 0;
+        min-height: 33px;
     
         &:hover {
             border-color: $white-background-lines-hover;
@@ -67,15 +68,19 @@
     .people-picker-selected {
         box-sizing: border-box;
         border: 1px solid $white-background-lines;
+        min-height: 33px;
         border-radius: 8px;
-        padding: 5px 10px 6px 10px;
+        padding: 0px 10px 0px 10px;
         width: calc(100% - 30px);
-        outline: 0;
+        outline: 0;;
         
         .people-picker-selected-input{
             border: none!important;        
             outline: 0!important;
             padding-left: 5px!important;
+            padding: 3px 5px 4px 10px;
+            margin: 2px 2px 2px 2px;
+            height: 19.5px;
         }
 
         &:hover {
@@ -115,6 +120,7 @@
         padding: 5px 10px 6px 10px;
         width: calc(100% - 30px);
         outline: 0;
+        min-height: 33px;
     
         &:hover {
             border-color: $error-color;
@@ -133,14 +139,18 @@
         box-sizing: border-box;
         border: 1px solid $error-color;
         border-radius: 8px;
-        padding: 5px 5px 6px 10px;
-        width: 100%;
+        padding: 0px 10px 0px 10px;
+        width: calc(100% - 30px);
         outline: 0;
+        min-height: 33px;
     
         .people-picker-selected-input{
             border: none!important;        
             outline: 0!important;
             padding-left: 5px!important;
+            padding: 3px 5px 4px 10px;
+            margin: 2px 2px 2px 2px;
+            height: 19.5px;
         }
 
         &:hover {
@@ -158,10 +168,11 @@
 
         .people-picker-error-icon {
             display: flex;
-            margin-left: auto;
             align-self: center;
             font-size: 12px;
             color: $error-color;
+            position: relative;
+            left: 11px;           
         }
     }
 
