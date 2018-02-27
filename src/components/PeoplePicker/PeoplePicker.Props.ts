@@ -15,6 +15,6 @@ export interface IPeoplePickerProps extends React.Props<PeoplePicker> {
     singleSelect?: boolean;
     selectedPrincipalList?: IPrincipal[];
     suggestionList: IPrincipal[];
-    MapPrincipalToIcon?: (IPrincipal) => string;
-    MapPrincipalToIconClass?: (IPrincipal) => string;
+    mapPrincipalToIcon?: (IPrincipal) => string;
+    mapPrincipalToIconClass?: (IPrincipal) => string;
 }

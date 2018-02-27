@@ -28,8 +28,8 @@ export class Index extends React.Component<any, any> {
                     onSelect={this._handleSelect}
                     placeholder="Search for people"
                     suggestionList={peoplePickerData}
-                    MapPrincipalToIcon={MapIcon}
-                    MapPrincipalToIconClass={MapIconClass}
+                    mapPrincipalToIcon={MapIcon}
+                    mapPrincipalToIconClass={MapIconClass}
                 />
                 <br/>
                 <PeoplePicker 
@@ -38,8 +38,8 @@ export class Index extends React.Component<any, any> {
                     onSearch={this._handleSearch}
                     onSelect={this._handleSelect}
                     suggestionList={peoplePickerData}
-                    MapPrincipalToIcon={MapIcon}
-                    MapPrincipalToIconClass={MapIconClass}
+                    mapPrincipalToIcon={MapIcon}
+                    mapPrincipalToIconClass={MapIconClass}
                 />
                 <br/>
                 <PeoplePicker 
@@ -49,8 +49,8 @@ export class Index extends React.Component<any, any> {
                     onSelect={this._handleSelect}
                     placeholder="Search for people"
                     suggestionList={peoplePickerData}
-                    MapPrincipalToIcon={MapIcon}
-                    MapPrincipalToIconClass={MapIconClass}
+                    mapPrincipalToIcon={MapIcon}
+                    mapPrincipalToIconClass={MapIconClass}
                 />
                 <br/>
                 <PeoplePicker 
@@ -60,8 +60,8 @@ export class Index extends React.Component<any, any> {
                     placeholder="Search for people"
                     singleSelect={true}
                     suggestionList={peoplePickerData}
-                    MapPrincipalToIcon={MapIcon}
-                    MapPrincipalToIconClass={MapIconClass}
+                    mapPrincipalToIcon={MapIcon}
+                    mapPrincipalToIconClass={MapIconClass}
                 />
             </div>
         );

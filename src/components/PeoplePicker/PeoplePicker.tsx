@@ -78,8 +78,8 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
                     const alreadySelected = this.state.selectedPrincipalList
                         && this.state.selectedPrincipalList.find(selected => selected.identifier === principal.identifier) !== undefined;
 
-                    const icon = this.props.MapPrincipalToIcon ? this.props.MapPrincipalToIcon(principal) : undefined;
-                    const iconClass = this.props.MapPrincipalToIconClass ? this.props.MapPrincipalToIconClass(principal) : undefined;
+                    const icon = this.props.mapPrincipalToIcon ? this.props.mapPrincipalToIcon(principal) : undefined;
+                    const iconClass = this.props.mapPrincipalToIconClass ? this.props.mapPrincipalToIconClass(principal) : undefined;
 
                     allSelected = allSelected && alreadySelected;
                     return !alreadySelected && <Principal
@@ -180,8 +180,8 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
         );
 
         let selectedPrincipalList = this.state.selectedPrincipalList.map((principal, index) => {
-            const icon = this.props.MapPrincipalToIcon ? this.props.MapPrincipalToIcon(principal) : undefined;
-            const iconClass = this.props.MapPrincipalToIconClass ? this.props.MapPrincipalToIconClass(principal) : undefined;
+            const icon = this.props.mapPrincipalToIcon ? this.props.mapPrincipalToIcon(principal) : undefined;
+            const iconClass = this.props.mapPrincipalToIconClass ? this.props.mapPrincipalToIconClass(principal) : undefined;
             return <Principal
                 key={principal.identifier}
                 principal={principal}
