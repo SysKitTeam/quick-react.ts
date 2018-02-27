@@ -7,7 +7,7 @@ export const peoplePickerData: IPrincipal[] = [
     { identifier: '4', displayName: 'FirstName4 LastName4', email: 'username4@domain4', type: 4 },
     { identifier: '5', displayName: 'FirstName5 LastName5', email: 'username5@domain5', type: 1 }
 ];
-export function MapIcon(principal: IPrincipal): string {
+export function mapIcon(principal: IPrincipal): string {
     switch (principal.type) {
         case PrincipalType.user:
             return 'icon-user';
@@ -22,7 +22,7 @@ export function MapIcon(principal: IPrincipal): string {
     }
 }
 
-export function MapIconClass(principal: IPrincipal) {
+export function mapIconClass(principal: IPrincipal) {
     switch (principal.type) {
         case PrincipalType.user:
             return 'principal-user-icon';
