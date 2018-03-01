@@ -423,7 +423,9 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     }
 
     onMouseEnterCell = (rowIndex: number) => {
-        this._rowContextActionsHandler.markRowAsHovered(rowIndex);
+        if (!this.props.isRowNotSelectable) {
+            this._rowContextActionsHandler.markRowAsHovered(rowIndex);
+        }
     }
 
     renderBodyCell(columnIndex: number, key, rowIndex: number, rowData, style, onCellClick) {
