@@ -35,7 +35,8 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         rowHeight: 28,
         tooltipsEnabled: true,
         actionsTooltip: 'Actions',
-        columnHeadersVisible: true
+        columnHeadersVisible: true,
+        isRowSelectable: true
     };
 
     private _finalGridRows: Array<any>;
@@ -423,7 +424,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     }
 
     onMouseEnterCell = (rowIndex: number) => {
-        if (!this.props.isRowNotSelectable) {
+        if (this.props.isRowSelectable) {
             this._rowContextActionsHandler.markRowAsHovered(rowIndex);
         }
     }

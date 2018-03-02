@@ -36,7 +36,7 @@ export interface IQuickGridProps {
     customCellRenderer?: (args: ICustomCellRendererArgs) => React.ReactNode;
     hasStaticColumns?: boolean;
     columnHeadersVisible?: boolean;
-    isRowNotSelectable?: boolean;
+    isRowSelectable?: boolean;
 }
 
 export interface ICustomCellRendererArgs {

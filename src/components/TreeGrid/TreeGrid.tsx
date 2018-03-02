@@ -13,6 +13,9 @@ import { SpinnerType } from '../Spinner/Spinner.Props';
 import { IFinalTreeNode } from '../../models/TreeData';
 
 export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState> {
+    public static defaultProps = {
+        isNodeSelectable: true
+    };
 
     private _quickGrid: any;
     private _finalGridRows: Array<IFinalTreeNode>;
@@ -46,7 +49,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
     }
 
     componentWillMount() {
-        if (!this.props.isRowNotSelectable) {
+        if (this.props.isNodeSelectable) {
             if (this.state.selectedNodeId > 0) {
                 this._setSelectedNodeAndState(this.state.selectedNodeId);
             }
@@ -89,7 +92,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
         this._quickGrid.updateColumnWidth(1, (old) => {
             return Math.max(old, getColumnMinWidth(this.state.columnsToDisplay[1]));
         });
-        if (this.props.selectedNodeId !== nextProps.selectedNodeId && !this.props.isRowNotSelectable) {
+        if (this.props.selectedNodeId !== nextProps.selectedNodeId && this.props.isNodeSelectable) {
             this._setSelectedNodeAndState(nextProps.selectedNodeId);
         }
     }
@@ -199,7 +202,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
         let onCellClick = (e) => {
             // https://github.com/facebook/react/issues/1691 funky bussinese because of multiple mount points in the hover actions            
             // so stopPropagation and preventDefault do not work there, manually checking if row actions were clicked
-            if (!this.props.isRowNotSelectable) {
+            if (this.props.isNodeSelectable) {
                 if (e.currentTarget !== e.target) {
                     const rowActionsContainer = e.currentTarget.getElementsByClassName('hoverable-items-container__btn')[0];
                     if (rowActionsContainer && rowActionsContainer.contains(e.target)) {
@@ -314,7 +317,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
                 customRowSorter={this._getSortInfo}
                 columnSummaries={this.props.columnSummaries}
                 columnHeadersVisible={this.props.columnHeadersVisible}
-                isRowNotSelectable={this.props.isRowNotSelectable}
+                isRowSelectable={this.props.isNodeSelectable}
                 {...this._overscanProps}
             />
         );
