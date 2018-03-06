@@ -79,13 +79,13 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
         return expandedColumns;
     }
 
-    componentWillReceiveProps(nextProps) {
+    public componentWillReceiveProps(nextProps) {
         if (this.props.treeDataSource !== nextProps.treeDataSource || this.props.filterString !== nextProps.filterString) {
             this.setState(oldState => ({ sortRequestId: oldState.sortRequestId + 1, structureRequestChangeId: oldState.structureRequestChangeId + 1 }));
         }
     }
 
-    componentWillUpdate(nextProps, nextState) {
+    public componentWillUpdate(nextProps, nextState) {
         const result = getTreeRowsSelector(nextState, nextProps);
         this._finalGridRows = result.data;
         this._maxExpandedLevel = result.maxExpandedLevel;
@@ -304,7 +304,6 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
     public render(): JSX.Element {
         return (
             <QuickGrid
-                ref={this._getQuickGridRef}
                 rows={this._finalGridRows}
                 columns={this.state.columnsToDisplay}
                 gridActions={this.props.gridActions}
@@ -319,6 +318,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
                 columnHeadersVisible={this.props.columnHeadersVisible}
                 isRowSelectable={this.props.isNodeSelectable}
                 {...this._overscanProps}
+                ref={this._getQuickGridRef}
             />
         );
     }
