@@ -104,6 +104,16 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
             width: this.props.dropdownWidth ? this.props.dropdownWidth : this.getMaxItemWidth()
         };
 
+        const dropdownSpanElement = <span className={dropdownTitleClassName} title={this.props.label}>
+            {icon && (
+                <Icon iconName={icon}></Icon>
+            )}
+            {selectionTextObj.text}
+            {this.props.displaySelection && this.props.showArrowIcon &&
+                <Icon className={dropdownIconClassName} iconName={arrowIcon}></Icon>
+            }
+        </span>
+
         return (
             <div ref="root" className="dropdown-root">
                 {label && (
@@ -128,28 +138,12 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
                             delayMs={500}
                             directionalHint={DirectionalHint.rightCenter}
                             className={'tooltip-error'}>
-                            <span className={dropdownTitleClassName} title={this.props.label}>
-                                {icon && (
-                                    <Icon iconName={icon}></Icon>
-                                )}
-                                {selectionTextObj.text}
-                                {this.props.displaySelection && this.props.showArrowIcon &&
-                                    <Icon className={dropdownIconClassName} iconName={arrowIcon}></Icon>
-                                }
-                            </span>
+                            {dropdownSpanElement}
                         </Tooltip>
                     }
 
                     {isValid &&
-                        <span className={dropdownTitleClassName} title={this.props.label}>
-                            {icon && (
-                                <Icon iconName={icon}></Icon>
-                            )}
-                            {selectionTextObj.text}
-                            {this.props.displaySelection && this.props.showArrowIcon &&
-                                <Icon className={dropdownIconClassName} iconName={arrowIcon}></Icon>
-                            }
-                        </span>
+                        dropdownSpanElement
                     }
                 </div>
                 {
