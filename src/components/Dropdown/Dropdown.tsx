@@ -24,7 +24,8 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
         displaySelection: true,
         showArrowIcon: true,
         disabled: false,
-        dropdownType: DropdownType.linkDropdown
+        dropdownType: DropdownType.linkDropdown,
+        isValid: true
     };
 
     private static Option: string = 'option';

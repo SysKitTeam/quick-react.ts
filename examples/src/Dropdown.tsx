@@ -169,7 +169,7 @@ export class Index extends React.Component<any, any> {
                     options={dropdownOptions}
                     showArrowIcon={true}
                     hasTitleBorder={true}
-                    validated={false}
+                    isValid={false}
                     validationErrorMessage={'Dropdown error tooltip!'}
                 />
 
