@@ -85,19 +85,18 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
     setDropDownLabelRef = (ref) => { this._dropdownLabel = ref; };
 
     public render() {
-        let { label, options, hasTitleBorder, icon, dropdownType, className, calloutClassName, layerClassName, showArrowIcon } = this.props;
+        let { label, options, hasTitleBorder, icon, dropdownType, className, calloutClassName, layerClassName, showArrowIcon, isValid } = this.props;
         let { id, isOpen, selectedIndex, isDisabled } = this.state;
         let selectedOption = options[selectedIndex];
         const dropdownIconClassName = hasTitleBorder ? 'iconArrowWithBorder' : 'iconArrow';
 
         const selectionTextObj = this.getSelectionText(dropdownType, selectedOption);
-        const isError = this.props.validated === undefined ? false : !this.props.validated;
         const dropdownTitleClassName = classNames({
             'dropdown-title-border': hasTitleBorder,
             'dropdown-title': !hasTitleBorder,
             'arrow': showArrowIcon,
             'text': selectionTextObj.hasText,
-            'dropdown-title-error': isError
+            'dropdown-title-error': !isValid
         });
 
         const arrowIcon = isOpen ? 'icon-Arrow_up' : 'icon-arrow_down';
@@ -123,7 +122,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
                     role="combobox"
                     style={dropdownContainerStyle}
                 >
-                    {isError &&
+                    {!isValid &&
                         < Tooltip
                             content={this.props.validationErrorMessage}
                             delayMs={500}
@@ -141,7 +140,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
                         </Tooltip>
                     }
 
-                    {!isError &&
+                    {isValid &&
                         <span className={dropdownTitleClassName} title={this.props.label}>
                             {icon && (
                                 <Icon iconName={icon}></Icon>
