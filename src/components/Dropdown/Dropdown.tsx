@@ -24,7 +24,8 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
         displaySelection: true,
         showArrowIcon: true,
         disabled: false,
-        dropdownType: DropdownType.linkDropdown
+        dropdownType: DropdownType.linkDropdown,
+        isValid: true
     };
 
     private static Option: string = 'option';
@@ -84,24 +85,34 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
     setDropDownLabelRef = (ref) => { this._dropdownLabel = ref; };
 
     public render() {
-        let { label, options, hasTitleBorder, icon, dropdownType, className, calloutClassName, layerClassName, showArrowIcon } = this.props;
+        let { label, options, hasTitleBorder, icon, dropdownType, className, calloutClassName, layerClassName, showArrowIcon, isValid } = this.props;
         let { id, isOpen, selectedIndex, isDisabled } = this.state;
         let selectedOption = options[selectedIndex];
         const dropdownIconClassName = hasTitleBorder ? 'iconArrowWithBorder' : 'iconArrow';
 
         const selectionTextObj = this.getSelectionText(dropdownType, selectedOption);
-
         const dropdownTitleClassName = classNames({
             'dropdown-title-border': hasTitleBorder,
             'dropdown-title': !hasTitleBorder,
             'arrow': showArrowIcon,
-            'text': selectionTextObj.hasText
+            'text': selectionTextObj.hasText,
+            'dropdown-title-error': !isValid
         });
 
         const arrowIcon = isOpen ? 'icon-Arrow_up' : 'icon-arrow_down';
         const dropdownContainerStyle = {
             width: this.props.dropdownWidth ? this.props.dropdownWidth : this.getMaxItemWidth()
         };
+
+        const dropdownSpanElement = <span className={dropdownTitleClassName} title={this.props.label}>
+            {icon && (
+                <Icon iconName={icon}></Icon>
+            )}
+            {selectionTextObj.text}
+            {this.props.displaySelection && this.props.showArrowIcon &&
+                <Icon className={dropdownIconClassName} iconName={arrowIcon}></Icon>
+            }
+        </span>
 
         return (
             <div ref="root" className="dropdown-root">
@@ -121,30 +132,38 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
                     role="combobox"
                     style={dropdownContainerStyle}
                 >
-                    <span className={dropdownTitleClassName} title={this.props.label}>
-                        {icon && (
-                            <Icon iconName={icon}></Icon>
-                        )}
-                        {selectionTextObj.text}
-                        {this.props.displaySelection && this.props.showArrowIcon &&
-                            <Icon className={dropdownIconClassName} iconName={arrowIcon}></Icon>
-                        }
-                    </span>
+                    {!isValid &&
+                        < Tooltip
+                            content={this.props.validationErrorMessage}
+                            delayMs={500}
+                            directionalHint={DirectionalHint.rightCenter}
+                            className={'tooltip-error'}>
+                            {dropdownSpanElement}
+                        </Tooltip>
+                    }
+
+                    {isValid &&
+                        dropdownSpanElement
+                    }
                 </div>
-                {isOpen && (
-                    <Callout
-                        isBeakVisible={false}
-                        className={classNames('dropdown-callout', calloutClassName, layerClassName)}
-                        gapSpace={0}
-                        doNotLayer={false}
-                        targetElement={this._dropDown}
-                        directionalHint={DirectionalHint.bottomLeftEdge}
-                        onDismiss={this.closeDropdown}
-                    >
-                        {this.renderItems()}
-                    </Callout>
-                )}
-            </div>
+                {
+                    isOpen && (
+                        <Callout
+                            isBeakVisible={false}
+                            className={classNames('dropdown-callout', calloutClassName, layerClassName)}
+                            gapSpace={0}
+                            doNotLayer={false}
+                            targetElement={this._dropDown}
+                            directionalHint={DirectionalHint.bottomLeftEdge}
+                            onDismiss={this.closeDropdown}
+                        >
+                            {this.renderItems()}
+                        </Callout>
+                    )
+                }
+
+            </div >
+
         );
     }
 

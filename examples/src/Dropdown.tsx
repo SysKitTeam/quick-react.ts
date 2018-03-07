@@ -15,7 +15,7 @@ import { Button } from './../../src/components/Button/Button';
 import { dropdownOptions } from '../MockData/dropdownOptions';
 
 export class Index extends React.Component<any, any> {
-    
+
     public render() {
         return (
             <div>
@@ -158,6 +158,21 @@ export class Index extends React.Component<any, any> {
                     <li className={'dropdown-item'}>Option c</li>
                     <li className={'dropdown-item'}>Option d</li>
                 </Dropdown>
+
+
+                <hr />
+
+                <Dropdown
+                    dropdownType={DropdownType.selectionDropdown}
+                    label="Error dropdown"
+                    onClick={(option, index) => console.log(option, index)}
+                    options={dropdownOptions}
+                    showArrowIcon={true}
+                    hasTitleBorder={true}
+                    isValid={false}
+                    validationErrorMessage={'Dropdown error tooltip!'}
+                />
+
             </div>
 
         );
