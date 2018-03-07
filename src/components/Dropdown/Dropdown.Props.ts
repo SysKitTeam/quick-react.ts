@@ -28,6 +28,8 @@ export interface IDropdownProps {
     displaySelection?: boolean; // default true
     showArrowIcon?: boolean; // default true
     title?: string;
+    validated?: boolean;
+    validationErrorMessage?: string;
 }
 
 export interface IDropdownOption {

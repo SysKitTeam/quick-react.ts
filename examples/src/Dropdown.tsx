@@ -38,6 +38,8 @@ export class Index extends React.Component<any, any> {
                     options={dropdownOptions}
                     showArrowIcon={false}
                     hasTitleBorder={true}
+                    validated={false}
+                    validationErrorMessage={'Tooltip error'}
                 />
 
                 <hr />

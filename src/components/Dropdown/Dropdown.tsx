@@ -90,12 +90,13 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
         const dropdownIconClassName = hasTitleBorder ? 'iconArrowWithBorder' : 'iconArrow';
 
         const selectionTextObj = this.getSelectionText(dropdownType, selectedOption);
-
+        const isError = this.props.validated === undefined ? false : !this.props.validated;
         const dropdownTitleClassName = classNames({
             'dropdown-title-border': hasTitleBorder,
             'dropdown-title': !hasTitleBorder,
             'arrow': showArrowIcon,
-            'text': selectionTextObj.hasText
+            'text': selectionTextObj.hasText,
+            'dropdown-title-error': isError
         });
 
         const arrowIcon = isOpen ? 'icon-Arrow_up' : 'icon-arrow_down';
@@ -121,30 +122,54 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
                     role="combobox"
                     style={dropdownContainerStyle}
                 >
-                    <span className={dropdownTitleClassName} title={this.props.label}>
-                        {icon && (
-                            <Icon iconName={icon}></Icon>
-                        )}
-                        {selectionTextObj.text}
-                        {this.props.displaySelection && this.props.showArrowIcon &&
-                            <Icon className={dropdownIconClassName} iconName={arrowIcon}></Icon>
-                        }
-                    </span>
+                    {isError &&
+                        < Tooltip
+                            content={this.props.validationErrorMessage}
+                            delayMs={500}
+                            directionalHint={DirectionalHint.rightCenter}
+                            className={'tooltip-error'}>
+                            <span className={dropdownTitleClassName} title={this.props.label}>
+                                {icon && (
+                                    <Icon iconName={icon}></Icon>
+                                )}
+                                {selectionTextObj.text}
+                                {this.props.displaySelection && this.props.showArrowIcon &&
+                                    <Icon className={dropdownIconClassName} iconName={arrowIcon}></Icon>
+                                }
+                            </span>
+                        </Tooltip>
+                    }
+
+                    {!isError &&
+                        <span className={dropdownTitleClassName} title={this.props.label}>
+                            {icon && (
+                                <Icon iconName={icon}></Icon>
+                            )}
+                            {selectionTextObj.text}
+                            {this.props.displaySelection && this.props.showArrowIcon &&
+                                <Icon className={dropdownIconClassName} iconName={arrowIcon}></Icon>
+                            }
+                        </span>
+                    }
                 </div>
-                {isOpen && (
-                    <Callout
-                        isBeakVisible={false}
-                        className={classNames('dropdown-callout', calloutClassName, layerClassName)}
-                        gapSpace={0}
-                        doNotLayer={false}
-                        targetElement={this._dropDown}
-                        directionalHint={DirectionalHint.bottomLeftEdge}
-                        onDismiss={this.closeDropdown}
-                    >
-                        {this.renderItems()}
-                    </Callout>
-                )}
-            </div>
+                {
+                    isOpen && (
+                        <Callout
+                            isBeakVisible={false}
+                            className={classNames('dropdown-callout', calloutClassName, layerClassName)}
+                            gapSpace={0}
+                            doNotLayer={false}
+                            targetElement={this._dropDown}
+                            directionalHint={DirectionalHint.bottomLeftEdge}
+                            onDismiss={this.closeDropdown}
+                        >
+                            {this.renderItems()}
+                        </Callout>
+                    )
+                }
+
+            </div >
+
         );
     }
 

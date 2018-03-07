@@ -54,6 +54,12 @@
             user-select: none;
         }
     }
+    .dropdown-title-error{
+        border-color: $error-color;
+        &:hover{
+            border-color: $error-color !important;
+        }
+    }
     
     .iconArrowWithBorder {
         position: absolute;
