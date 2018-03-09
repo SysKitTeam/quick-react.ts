@@ -112,7 +112,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
             {this.props.displaySelection && this.props.showArrowIcon &&
                 <Icon className={dropdownIconClassName} iconName={arrowIcon}></Icon>
             }
-        </span>
+        </span>;
 
         return (
             <div ref="root" className="dropdown-root">
