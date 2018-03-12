@@ -23,10 +23,10 @@ export interface ILeftNavigationOption {
     icon?: string;
     selected?: boolean;
     disabled?: boolean;
-    position?: LeftiNavigationOptionPositionEnum;
+    position?: LeftNavigationOptionPositionEnum;
 }
 
-export enum LeftiNavigationOptionPositionEnum {
+export enum LeftNavigationOptionPositionEnum {
     Up = 0,
     Down = 1
 }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { ILeftNavigationProps, ILeftNavigationOption, ExpandCaptionsBehaviorEnum, LeftiNavigationOptionPositionEnum } from './LeftNavigation.Props';
+import { ILeftNavigationProps, ILeftNavigationOption, ExpandCaptionsBehaviorEnum, LeftNavigationOptionPositionEnum } from './LeftNavigation.Props';
 import { assign } from '../../utilities/object';
 import { findIndex } from '../../utilities/array';
 import { Icon } from '../../components/Icon/Icon';
@@ -132,7 +132,7 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
                 {
                     'disabled': option.disabled,
                     'selected': this.state.selectedIndex === index,
-                    'position-down': option.position === LeftiNavigationOptionPositionEnum.Down ? true : false
+                    'position-down': option.position === LeftNavigationOptionPositionEnum.Down ? true : false
                 });
 
             return (
