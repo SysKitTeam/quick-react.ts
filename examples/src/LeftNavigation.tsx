@@ -6,14 +6,16 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { LeftNavigation } from './../../src/components/LeftNavigation/LeftNavigation';
-import { ExpandCaptionsBehaviorEnum } from '../../src/index';
+import { ExpandCaptionsBehaviorEnum, LeftNavigationOptionPositionEnum } from '../../src/index';
 
 const options = [
     { text: 'Home page', id: 'Home', href: 'http://Acceleratio.net', icon: 'icon-help' },
     { text: 'Activity', id: 'Activity', href: '#1', disabled: true, icon: 'icon-account' },
     { text: 'News', id: 'News', href: '#2', icon: 'icon-add' },
     { text: 'Documents library', id: 'Documents', href: '#3', selected: true, icon: 'icon-alert' },
-    { text: 'Books', id: 'Books', href: '#4', icon: 'icon-trash' }
+    { text: 'Books', id: 'Books', href: '#4', icon: 'icon-trash', position: LeftNavigationOptionPositionEnum.Down },
+    { text: 'Documents library', id: 'documents', href: '#3', selected: false, icon: 'icon-alert', position: LeftNavigationOptionPositionEnum.Down  },
+    { text: 'Books', id: 'books', href: '#4', icon: 'icon-trash', position: LeftNavigationOptionPositionEnum.Down  }
 ];
 
 export class Index extends React.Component<any, any> {
