@@ -13,7 +13,6 @@ export interface ILeftNavigationProps {
     options: ILeftNavigationOption[];
     className?: string;
     onClick?: (ev?: React.MouseEvent<HTMLElement>, item?: ILeftNavigationOption) => void;
-    otherOptions?: ILeftNavigationOption[];
     expandCaptionsBehavior?: ExpandCaptionsBehaviorEnum;
 }
 
@@ -24,4 +23,10 @@ export interface ILeftNavigationOption {
     icon?: string;
     selected?: boolean;
     disabled?: boolean;
+    position?: LeftNavigationOptionPositionEnum;
+}
+
+export enum LeftNavigationOptionPositionEnum {
+    Up = 0,
+    Down = 1
 }

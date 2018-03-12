@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
-import { ILeftNavigationProps, ILeftNavigationOption, ExpandCaptionsBehaviorEnum } from './LeftNavigation.Props';
+import { ILeftNavigationProps, ILeftNavigationOption, ExpandCaptionsBehaviorEnum, LeftNavigationOptionPositionEnum } from './LeftNavigation.Props';
 import { assign } from '../../utilities/object';
 import { findIndex } from '../../utilities/array';
 import { Icon } from '../../components/Icon/Icon';
@@ -19,8 +19,7 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
 
     public static defaultProps: Partial<ILeftNavigationProps> = {
         expandCaptionsBehavior: ExpandCaptionsBehaviorEnum.ShowCaptionsOnHover,
-        onClick: nullFunc,
-        otherOptions: []
+        onClick: nullFunc
     };
 
     constructor(props: ILeftNavigationProps) {
@@ -132,7 +131,8 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
                 'nav-item',
                 {
                     'disabled': option.disabled,
-                    'selected': this.state.selectedIndex === index
+                    'selected': this.state.selectedIndex === index,
+                    'position-down': option.position === LeftNavigationOptionPositionEnum.Down ? true : false
                 });
 
             return (
@@ -141,28 +141,6 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
                     className={linkClasses}
                     title={option.text}
                     onClick={(ev) => this.onLinkClick(index, option, ev)}
-                >
-                    <a id={option.id}>
-                        <Icon iconName={option.icon} />
-                        <span>{option.text}</span>
-                    </a>
-                </div>
-            );
-        });
-
-        const otherChildrenItems = this.props.otherOptions.map((option, index) => {
-            const linkClasses = classNames(
-                'nav-item',
-                {
-                    'disabled': option.disabled
-                });
-
-            return (
-                <div
-                    key={option.id}
-                    className={linkClasses}
-                    title={option.text}
-                    onClick={(ev) => this.onOtherLinkClick(index, option, ev)}
                 >
                     <a id={option.id}>
                         <Icon iconName={option.icon} />
@@ -186,9 +164,6 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
                         </div>
                     }
                     {childrenItems}
-                    <div className="nav-item-other-options">
-                        {otherChildrenItems}
-                    </div>
                 </div>
             </div>
         );

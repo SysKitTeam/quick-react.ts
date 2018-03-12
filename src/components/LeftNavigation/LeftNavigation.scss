@@ -60,11 +60,11 @@ $leftNavigation-collapsed-width: 45px;
                 }
             }
         }
-    }
 
-    .nav-item-other-options {
-        bottom: 15px;
-        position: absolute;
+        &.position-down {
+            bottom: 15px;
+            position: absolute;
+        }
     }
 
     &.expanded {
