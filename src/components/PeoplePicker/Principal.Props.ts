@@ -18,7 +18,7 @@ export interface IPrincipal {
     displayIdentifier?: string;
     email: string;
     type: PrincipalType;
-    isUnifiedSecurityGroup: boolean;
+    isUnifiedSecurityGroup?: boolean;
 }
 
 export enum PrincipalType {
