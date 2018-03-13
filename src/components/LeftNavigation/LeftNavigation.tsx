@@ -27,7 +27,7 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
 
         this.state = {
             isOpen: false,
-            selectedIndex: this.getSelectedIndex(this.props.options)
+            selectedId: this.getSelectedId(this.props.options)
         };
     }
 
@@ -52,7 +52,7 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
     }
 
     public componentWillReceiveProps(newProps: ILeftNavigationProps) {
-        this.setState({ selectedIndex: this.getSelectedIndex(newProps.options) });
+        this.setState({ selectedId: this.getSelectedId(newProps.options) });
     }
 
     protected dismissOnClickOutsideComponent(ev: Event) {
@@ -62,31 +62,23 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
         }
     }
 
-    private onLinkClick(index, item: any, ev: React.MouseEvent<HTMLElement>) {
+    private onLinkClick(id, item: any, ev: React.MouseEvent<HTMLElement>) {
         if (this.state.isOpen) {
             this.setState({ isOpen: false });
         }
 
-        index = Math.max(0, Math.min(this.props.options.length - 1, index));
-        if (index !== this.state.selectedIndex) {
+        if (id !== this.state.selectedId) {
             this.setState({
-                selectedIndex: index
+                selectedId: id
             });
         }
 
         this.props.onClick(ev, item);
     }
 
-    private onOtherLinkClick(index, item: any, ev: React.MouseEvent<HTMLElement>) {
-        if (this.state.isOpen) {
-            this.setState({ isOpen: false });
-        }
-
-        this.props.onClick(ev, item);
-    }
-
-    private getSelectedIndex(options: Array<ILeftNavigationOption>) {
-        return findIndex(options, (option => option.selected));
+    private getSelectedId(options: Array<ILeftNavigationOption>) {
+        const selectedOptions = options.filter(option => { return option.selected ? option.id : null; });
+        return selectedOptions[0].id;
     }
 
     @autobind
@@ -113,6 +105,33 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
         this.setState({ isOpen: !this.state.isOpen });
     }
 
+    private _getOptionDetails(options: Array<ILeftNavigationOption>) {
+        const childrenItems = options.map((option, index) => {
+            const linkClasses = classNames(
+                'nav-item',
+                {
+                    'disabled': option.disabled,
+                    'selected': this.state.selectedId === option.id
+                });
+
+            return (
+                <div
+                    key={option.id}
+                    className={linkClasses}
+                    title={option.text}
+                    onClick={(ev) => this.onLinkClick(option.id, option, ev)}
+                >
+                    <a id={option.id}>
+                        <Icon iconName={option.icon} />
+                        <span>{option.text}</span>
+                    </a>
+                </div>
+            );
+        });
+
+        return childrenItems;
+    }
+
     public render(): JSX.Element {
         let leftNavigationTextClass = classNames({
             'show-text': this.state.isOpen,
@@ -126,28 +145,11 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
                 'collapsed': !this.state.isOpen
             }, [this.props.className]);
 
-        const childrenItems = this.props.options.map((option, index) => {
-            const linkClasses = classNames(
-                'nav-item',
-                {
-                    'disabled': option.disabled,
-                    'selected': this.state.selectedIndex === index,
-                    'position-down': option.position === LeftNavigationOptionPositionEnum.Down ? true : false
-                });
+        let upOptions = [];
+        let downOptions = [];
 
-            return (
-                <div
-                    key={option.id}
-                    className={linkClasses}
-                    title={option.text}
-                    onClick={(ev) => this.onLinkClick(index, option, ev)}
-                >
-                    <a id={option.id}>
-                        <Icon iconName={option.icon} />
-                        <span>{option.text}</span>
-                    </a>
-                </div>
-            );
+        this.props.options.forEach(option => {
+            option.position === LeftNavigationOptionPositionEnum.Down ? downOptions.push(option) : upOptions.push(option);
         });
 
         return (
@@ -163,7 +165,8 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
                             <Icon iconName={'icon-switchView'} />
                         </div>
                     }
-                    {childrenItems}
+                    <div className="up-options">{this._getOptionDetails(upOptions)}</div>
+                    <div className="down-options">{this._getOptionDetails(downOptions)}</div>
                 </div>
             </div>
         );
