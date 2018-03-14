@@ -195,6 +195,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
             'grid-component-cell',
             rowClass,
             column.cellClassName,
+            rowData.className,
             { 'border-column-cell': notLastIndex },
             { 'is-selected': isSelectedRow });
 
