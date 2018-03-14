@@ -5,6 +5,8 @@ export interface TreeNode { // extend this interface on a data structure to be u
     iconName?: string;
     iconTooltipContent?: string;
     iconClassName?: string;
+    id?: string;
+    className?: string;
 }
 
 export interface IFinalTreeNode extends TreeNode {
