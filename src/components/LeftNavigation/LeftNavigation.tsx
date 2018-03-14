@@ -76,9 +76,14 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
         this.props.onClick(ev, item);
     }
 
-    private getSelectedId(options: Array<ILeftNavigationOption>) {
+    private getSelectedId(options: Array<ILeftNavigationOption>) : string {
         const selectedOptions = options.filter(option => { return option.selected ? option.id : null; });
-        return selectedOptions[0].id;
+
+        if (selectedOptions.length > 0) {
+            return selectedOptions[0].id;
+        }
+
+        return '';
     }
 
     @autobind
