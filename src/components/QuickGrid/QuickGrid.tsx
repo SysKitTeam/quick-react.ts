@@ -95,10 +95,6 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         this.setState({
             scrolledRow: row
         });
-
-        // row = Number(row);
-
-        // this._grid.scrollToCell({ columnIndex: 0, rowIndex: row });
     }
 
     expandAll = (event) => {
