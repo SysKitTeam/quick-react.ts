@@ -4,20 +4,69 @@ import { TreeNode, TreeDataSource, IFinalTreeNode } from '../../models/TreeData'
 const createSelector = require('reselect').createSelector;
 
 
-const getChangeRequestIds = (state: ITreeGridState, props: ITreeGridProps) => ({ sortRequestId: state.sortRequestId, structureRequestChangeId: state.structureRequestChangeId });
-const getSortColumn = (state: ITreeGridState, props: ITreeGridProps) => state.sortColumn;
-const getSortDirection = (state: ITreeGridState, props: ITreeGridProps) => state.sortDirection;
-const getTreeData = (state: ITreeGridState, props: ITreeGridProps) => props.treeDataSource;
-const getColumnsToDisplay = (state: ITreeGridState, props: ITreeGridProps) => state.columnsToDisplay;
-const getFilterString = (state: ITreeGridState, props: ITreeGridProps) => props.filterString;
+const getChangeRequestIds = (state: ITreeGridState, props: ITreeGridProps, prevProps: ITreeGridProps) => ({ sortRequestId: state.sortRequestId, structureRequestChangeId: state.structureRequestChangeId });
+const getSortColumn = (state: ITreeGridState, props: ITreeGridProps, prevProps: ITreeGridProps) => state.sortColumn;
+const getSortDirection = (state: ITreeGridState, props: ITreeGridProps, prevProps: ITreeGridProps) => state.sortDirection;
+const getTreeData = (state: ITreeGridState, props: ITreeGridProps, prevProps: ITreeGridProps) => props.treeDataSource;
+const getColumnsToDisplay = (state: ITreeGridState, props: ITreeGridProps, prevProps: ITreeGridProps) => state.columnsToDisplay;
+const getFilterString = (state: ITreeGridState, props: ITreeGridProps, prevProps: ITreeGridProps) => props.filterString;
+const getNewSelectedNodeId = (state: ITreeGridState, props: ITreeGridProps, prevProps: ITreeGridProps) => props.selectedNodeId;
+const getOldSelectedNodeId = (state: ITreeGridState, props: ITreeGridProps, prevProps: ITreeGridProps) => {
+    if (prevProps) {
+        return prevProps.selectedNodeId;
+    }
 
-const transformData = (tree: TreeDataSource,
+    return -1;
+};
+
+function flattenArr(arr) {
+    return arr.reduce(function (flat, toFlatten) {
+        return flat.concat(Array.isArray(toFlatten) ? flattenArr(toFlatten) : toFlatten);
+    }, []);
+}
+
+const getTreePathsToSelected = (node: IFinalTreeNode) => {
+    const array = flattenArr(getTreePathsToSelectedReversed(node));
+    const keys = Object.keys(array);
+    return array.reduce((dict, val) => {
+        dict[val.toString()] = null;
+        return dict;
+    }, {});
+
+    // return getTreePathsToSelectedReversed(node).reverse();
+};
+
+const getTreePathsToSelectedReversed = (node: IFinalTreeNode): Array<number> => {
+    // if (!node.hasOwnProperty('nodeId')) {
+    //     // dosli smo do roota
+    //     return {};
+    // }
+
+
+
+
+    if (!node.hasOwnProperty('nodeId')) {
+        // dosli smo do roota
+        return [];
+    } else {
+        return [node.nodeId].concat(getTreePathsToSelected(node.parent));
+    }
+};
+
+function transformData(tree: TreeDataSource,
     sortColumn: string,
     sortDirection: SortDirection,
     sortRequestId: number,
     columns: Array<GridColumn>,
-    filterString: string) => {
-    let root = tree.getTreeStructure() as IFinalTreeNode & { filterString: string };
+    filterString: string, selectedNodeId: number, oldSelectedNodeId: number) {
+    let root = tree.getTreeStructure() as (IFinalTreeNode & { filterString: string });
+
+    const selectedNode = tree.getNodeById(selectedNodeId);
+    let treePathToSelectedIds;
+    if (selectedNode && selectedNodeId !== oldSelectedNodeId) {
+        treePathToSelectedIds = getTreePathsToSelected(selectedNode.parent);
+    }
+
     if (root.children.length === 0) {
         return [];
     }
@@ -31,9 +80,9 @@ const transformData = (tree: TreeDataSource,
     root.isExpanded = true;
     sortData(root, sortColumn, sortDirection, sortRequestId);
     let flattenedData: Array<IFinalTreeNode> = [];
-    let maxExpandedLevel = flatten(root.children, flattenedData);
+    let maxExpandedLevel = flatten(root.children, flattenedData, 0, treePathToSelectedIds);
     return { data: flattenedData, maxExpandedLevel };
-};
+}
 
 const sortData = (treeNode: IFinalTreeNode, sortColumn: string, sortDirection: SortDirection, rootSortRequestId: number): void => {
 
@@ -135,7 +184,7 @@ function filterNodes(root: IFinalTreeNode, arg: ((node: IFinalTreeNode) => boole
     processNode(root);
 }
 
-export function flatten(tree, resultArray: Array<IFinalTreeNode>, level: number = 0): number {
+export function flatten(tree, resultArray: Array<IFinalTreeNode>, level: number = 0, pathToSelected: any = {}): number {
     level++;
     let maxChildLevel = level;
     for (let child of tree) {
@@ -145,8 +194,13 @@ export function flatten(tree, resultArray: Array<IFinalTreeNode>, level: number 
         }
         let thisChildDepth = child.nodeLevel;
         resultArray.push(child);
+
+        if (pathToSelected.hasOwnProperty(child.nodeId)) {
+            child.isExpanded = true;
+        }
+
         if (child.children && child.children.length > 0 && (child.isExpanded || child.descendantSatisfiesFilterCondition)) {
-            thisChildDepth = flatten(child.children, resultArray, level);
+            thisChildDepth = flatten(child.children, resultArray, level, pathToSelected);
 
         } else if (child.hasChildren && child.isExpanded && (!child.children || child.children.length === 0)) {
             resultArray.push({
@@ -174,8 +228,9 @@ export const getTreeRowsSelector = createSelector(getTreeData,
     getChangeRequestIds,
     getColumnsToDisplay,
     getFilterString,
-    (treeData, sortColumn, sortDirection, changeRequestIds, columns, filterString) => {
+    getNewSelectedNodeId,
+    getOldSelectedNodeId,
+    (treeData, sortColumn, sortDirection, changeRequestIds, columns, filterString, selectedNodeId, oldSelectedNodeId) => {
 
-        return transformData(treeData, sortColumn, sortDirection, changeRequestIds.sortRequestId, columns, filterString);
-    }
-);
+        return transformData(treeData, sortColumn, sortDirection, changeRequestIds.sortRequestId, columns, filterString, selectedNodeId, oldSelectedNodeId);
+    });

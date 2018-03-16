@@ -305,7 +305,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
         this.setState({ selectedNodeId: nodeId });
 
         if (this.props.onSelectedNodeChanged) {
-            const selectedNode = this._finalGridRows.find((element) => { return element.nodeId === nodeId; });
+            const selectedNode = this._finalGridRows.find((element) => element.nodeId === nodeId);
             this.props.onSelectedNodeChanged(selectedNode);
         }
         const selectedRowIndex = this._finalGridRows.findIndex((element) => element.nodeId === nodeId);

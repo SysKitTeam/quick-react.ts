@@ -65,6 +65,13 @@ export class Index extends React.Component<any, any> {
         });
     }
 
+    onSelectedNodeChanged = (selectedNode: IFinalTreeNode) => {
+        console.log('node changed: ', selectedNode);
+        this.setState({
+            selectedNode: selectedNode.nodeId
+        });
+    }
+
     prev: any;
     public render() {
         this.prev = this.state.data;
@@ -98,6 +105,7 @@ export class Index extends React.Component<any, any> {
                             onLazyLoadChildNodes={this.onLoadChildNodes}
                             columnSummaries={columnSummaries}
                             filterString={this.state.searchText}
+                            onSelectedNodeChanged={this.onSelectedNodeChanged}
                         />
                     </div>
                 </Resizable>

@@ -7,21 +7,21 @@ import { autobind } from '../../utilities/autobind';
 export class CellElement extends React.PureComponent<ICellElementProps, {}> {
 
     @autobind
-    private _onMouseEnter() { 
+    private _onMouseEnter() {
         if (this.props.onMouseEnter) {
             this.props.onMouseEnter(this.props.rowIndex);
         }
     }
     @autobind
-    private _onMouseLeave() { 
+    private _onMouseLeave() {
         if (this.props.onMouseLeave) {
-            this.props.onMouseLeave(this.props.rowIndex); 
+            this.props.onMouseLeave(this.props.rowIndex);
         }
     }
     @autobind
-    private _onClick(ev) { 
+    private _onClick(ev) {
         if (this.props.onClick) {
-            this.props.onClick(ev, this.props.onClickParameter); 
+            this.props.onClick(ev, this.props.onClickParameter);
         }
     }
     @autobind
@@ -32,18 +32,18 @@ export class CellElement extends React.PureComponent<ICellElementProps, {}> {
     }
 
     render() {
-        return(
+        return (
             <div
-            key={this.props.id}
-            style={this.props.style}
-            className={this.props.className}
-            title={this.props.title}
-            onMouseEnter={this._onMouseEnter}
-            onMouseLeave={this._onMouseLeave}
-            onClick={this._onClick}
-            onDoubleClick={this._onDoubleClick}
+                key={this.props.id}
+                style={this.props.style}
+                className={this.props.className}
+                title={this.props.title}
+                onMouseEnter={this._onMouseEnter}
+                onMouseLeave={this._onMouseLeave}
+                onClick={this._onClick}
+                onDoubleClick={this._onDoubleClick}
             >
-            {this.props.element}
+                {this.props.element}
             </div>
         );
     }
