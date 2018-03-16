@@ -25,7 +25,8 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
         showArrowIcon: true,
         disabled: false,
         dropdownType: DropdownType.linkDropdown,
-        isValid: true
+        isValid: true,
+        delayMs: 500
     };
 
     private static Option: string = 'option';
@@ -135,7 +136,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
                     {!isValid &&
                         < Tooltip
                             content={this.props.validationErrorMessage}
-                            delayMs={500}
+                            delayMs={this.props.delayMs}
                             directionalHint={DirectionalHint.rightCenter}
                             className={'tooltip-error'}>
                             {dropdownSpanElement}
@@ -218,7 +219,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
                         role="option"
                     >
                         {
-                            option.tooltipInfo && <Tooltip {...option.tooltipInfo} delayMs={1000}>
+                            option.tooltipInfo && <Tooltip {...option.tooltipInfo} delayMs={this.props.delayMs}>
                                 {option.icon ? <Icon iconName={option.icon}></Icon> : null}
                                 {option.text}
                             </Tooltip>
@@ -265,7 +266,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
                         onFocus={() => this.setSelectedIndex(index)}
                         role="option">
                         {
-                            option.tooltipInfo && <Tooltip {...option.tooltipInfo} delayMs={1000}>
+                            option.tooltipInfo && <Tooltip {...option.tooltipInfo} delayMs={this.props.delayMs}>
                                 {option.icon ? <Icon iconName={option.icon}></Icon> : null}
                                 {option.text}
                             </Tooltip>

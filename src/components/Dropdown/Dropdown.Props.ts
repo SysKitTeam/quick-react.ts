@@ -30,6 +30,7 @@ export interface IDropdownProps {
     title?: string;
     isValid?: boolean;
     validationErrorMessage?: string;
+    delayMs?: number;
 }
 
 export interface IDropdownOption {
