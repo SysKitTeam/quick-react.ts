@@ -63,7 +63,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
 
         this._columnsMinTotalWidth = columnsToDisplay.map(x => getColumnMinWidth(x) || defaultMinColumnWidth).reduce((a, b) => a + b, 0);
         this.onGridResize = _.debounce(this.onGridResize, 100);
-        this._finalGridRows = getRowsSelector(this.state, props);
+        this._finalGridRows = props.hasCustomRowSelector ? props.rows : getRowsSelector(this.state, props);
     }
 
     expandAll = (event) => {
@@ -167,7 +167,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     }
 
     public componentWillUpdate(nextProps, nextState) {
-        this._finalGridRows = getRowsSelector(nextState, nextProps);
+        this._finalGridRows = nextProps.hasCustomRowSelector ? nextProps.rows : getRowsSelector(nextState, nextProps);
     }
 
     public componentDidUpdate(prevProps, prevState) {
