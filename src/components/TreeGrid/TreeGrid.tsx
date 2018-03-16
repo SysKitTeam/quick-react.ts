@@ -15,7 +15,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
         isNodeSelectable: true
     };
 
-    private readonly _rowOverscan = 3;
+    private readonly _rowOverselect = 0;
 
     private _quickGrid: IQuickGrid;
     private _finalGridRows: Array<IFinalTreeNode>;
@@ -50,7 +50,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
 
     componentDidMount() {
         const rowIndex = this._finalGridRows.findIndex(e => e.nodeId === this.state.selectedNodeId);
-        this._quickGrid.scrollToRow(rowIndex + this._rowOverscan);
+        this._quickGrid.scrollToRow(rowIndex + this._rowOverselect);
     }
 
     componentWillMount() {
@@ -309,7 +309,8 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
             this.props.onSelectedNodeChanged(selectedNode);
         }
         const selectedRowIndex = this._finalGridRows.findIndex((element) => element.nodeId === nodeId);
-        this._quickGrid.scrollToRow(selectedRowIndex + this._rowOverscan);
+
+        this._quickGrid.scrollToRow(selectedRowIndex + this._rowOverselect);
     }
 
     public render(): JSX.Element {

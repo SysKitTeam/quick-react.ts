@@ -77,7 +77,7 @@ export class Index extends React.Component<any, any> {
     scrollTo = (ev) => {
         console.log(ev.target.value);
 
-        this._grid.scrollToRow(ev.target.value);
+        this._grid.scrollToRow(+ev.target.value);
 
     }
     _setGridRef = (ref) => {
