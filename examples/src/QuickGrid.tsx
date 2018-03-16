@@ -11,7 +11,7 @@ import { gridColumns1, getTreeGridData, gridColumns2, getGridData, gridColumns3,
 import '../../src/components/TreeFilter/TreeFilter.scss'; // used for react-resizable style
 import '../../src/components/Label/Label.scss';
 import './../../src/components/Icon/symbol-defs.svg';
-import { QuickGridActionsBehaviourEnum } from '../../src/index';
+import { QuickGridActionsBehaviourEnum, Search } from '../../src/index';
 
 const numOfRows = 100000;
 
@@ -69,7 +69,8 @@ export class Index extends React.Component<any, any> {
         columns: gridColumns2,
         groupBy: [],
         selectedData: 1,
-        gridActions: this.gridActions
+        gridActions: this.gridActions,
+        searchText : ''
     };
 
     public render() {
@@ -93,7 +94,13 @@ export class Index extends React.Component<any, any> {
                     checked={this.state.gridActions.actionsBehaviour === QuickGridActionsBehaviourEnum.ShowOnRowHover}
                     onChange={this.onRowHoverActionsChecked} /> <br />
                 <Button onClick={this.refreshData}>Refresh data</Button>
-
+                <div style={{ 'width': '150px' }}>
+                    <Search
+                        key="searchReport"
+                        labelText="Search"
+                        onChanged={this._onSearch}
+                    />
+                </div>
                 <Resizable width={1000} height={700} >
                     <div className="viewport-height" style={{ height: '100%' }} >
                         <QuickGrid
@@ -106,6 +113,7 @@ export class Index extends React.Component<any, any> {
                             columnSummaries={columnSummaries}
                             actionsTooltip="Act on these."
                             tooltipsEnabled={true}
+                            filterString={this.state.searchText}
                         />
                     </div>
                 </Resizable>
@@ -148,6 +156,12 @@ export class Index extends React.Component<any, any> {
         // tslint:disable-next-line:no-console
         console.log(groupBy);
         this.setState((oldState) => ({ ...oldState, groupBy: groupBy }));
+    }
+
+    _onSearch = (text : string) => {
+        this.setState({
+            searchText: text
+        });
     }
 }
 ReactDOM.render(<Index />, document.getElementById('root'));
