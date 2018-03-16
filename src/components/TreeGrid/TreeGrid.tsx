@@ -1,23 +1,23 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import * as classNames from 'classnames';
-import { ITreeGridProps, ITreeGridState } from './TreeGrid.Props';
+import * as React from 'react';
 
-import { getTreeRowsSelector } from './treeGridDataSelectors';
+import { IFinalTreeNode } from '../../models/TreeData';
 import { Icon } from '../Icon/Icon';
-import { QuickGrid, IQuickGridProps, SortDirection, GridColumn, ICustomCellRendererArgs, getColumnMinWidth } from '../QuickGrid';
-import { DataTypeEnum } from '../QuickGrid/QuickGrid.Props';
-import { CellElement } from './CellElement';
+import { getColumnMinWidth, GridColumn, ICustomCellRendererArgs, IQuickGrid, QuickGrid } from '../QuickGrid';
 import { Spinner } from '../Spinner/Spinner';
 import { SpinnerType } from '../Spinner/Spinner.Props';
-import { IFinalTreeNode } from '../../models/TreeData';
+import { CellElement } from './CellElement';
+import { ITreeGridProps, ITreeGridState } from './TreeGrid.Props';
+import { getTreeRowsSelector } from './treeGridDataSelectors';
 
 export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState> {
     public static defaultProps = {
         isNodeSelectable: true
     };
 
-    private _quickGrid: any;
+    private readonly _rowOverscan = 3;
+
+    private _quickGrid: IQuickGrid;
     private _finalGridRows: Array<IFinalTreeNode>;
     private _maxExpandedLevel: number;
     private _overscanProps = {
@@ -46,6 +46,11 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
         const result = getTreeRowsSelector(this.state, props);
         this._finalGridRows = result.data;
         this._maxExpandedLevel = result.maxExpandedLevel;
+    }
+
+    componentDidMount() {
+        const rowIndex = this._finalGridRows.findIndex(e => e.nodeId === this.state.selectedNodeId);
+        this._quickGrid.scrollToRow(rowIndex + this._rowOverscan);
     }
 
     componentWillMount() {
@@ -259,6 +264,8 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
 
 
     private _onTreeExpandToggleClick = (ev, rowData: IFinalTreeNode) => {
+        // with this call we are telling underlying grid not to scroll on selected position on render update
+        this._quickGrid.scrollToRow(undefined);
         // we are breaking immutability here and potential redux stores, but we need the performance
         rowData.isExpanded = !rowData.isExpanded;
         if (rowData.isExpanded
@@ -296,10 +303,13 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
             return;
         }
         this.setState({ selectedNodeId: nodeId });
+
         if (this.props.onSelectedNodeChanged) {
             const selectedNode = this._finalGridRows.find((element) => { return element.nodeId === nodeId; });
             this.props.onSelectedNodeChanged(selectedNode);
         }
+        const selectedRowIndex = this._finalGridRows.findIndex((element) => element.nodeId === nodeId);
+        this._quickGrid.scrollToRow(selectedRowIndex + this._rowOverscan);
     }
 
     public render(): JSX.Element {

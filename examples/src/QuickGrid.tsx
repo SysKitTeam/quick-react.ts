@@ -11,7 +11,7 @@ import { gridColumns1, getTreeGridData, gridColumns2, getGridData, gridColumns3,
 import '../../src/components/TreeFilter/TreeFilter.scss'; // used for react-resizable style
 import '../../src/components/Label/Label.scss';
 import './../../src/components/Icon/symbol-defs.svg';
-import { QuickGridActionsBehaviourEnum } from '../../src/index';
+import { QuickGridActionsBehaviourEnum, Label, IQuickGrid } from '../../src/index';
 
 const numOfRows = 100000;
 
@@ -24,6 +24,8 @@ const columnSummaries = {
 };
 
 export class Index extends React.Component<any, any> {
+    _grid: IQuickGrid = null;
+
     gridActions: QuickGridActions = {
         actionItems: [
             {
@@ -72,6 +74,16 @@ export class Index extends React.Component<any, any> {
         gridActions: this.gridActions
     };
 
+    scrollTo = (ev) => {
+        console.log(ev.target.value);
+
+        this._grid.scrollToRow(ev.target.value);
+
+    }
+    _setGridRef = (ref) => {
+        this._grid = ref;
+    }
+
     public render() {
         return (
             <div>
@@ -94,9 +106,13 @@ export class Index extends React.Component<any, any> {
                     onChange={this.onRowHoverActionsChecked} /> <br />
                 <Button onClick={this.refreshData}>Refresh data</Button>
 
+                <Label>Scroll to:</Label>
+                <input type="number" onChange={this.scrollTo} />
+
                 <Resizable width={1000} height={700} >
                     <div className="viewport-height" style={{ height: '100%' }} >
                         <QuickGrid
+                            ref={this._setGridRef}
                             rows={this.state.data.grid}
                             columns={this.state.columns}
                             groupBy={this.state.groupBy}

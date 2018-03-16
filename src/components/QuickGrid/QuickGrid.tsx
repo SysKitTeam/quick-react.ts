@@ -1,26 +1,33 @@
+import './QuickGrid.scss';
+
+import * as classNames from 'classnames';
+import * as _ from 'lodash';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import * as classNames from 'classnames';
-import { AutoSizer, Table, Column, ColumnProps, ScrollSync, Grid } from 'react-virtualized';
-import {
-    IQuickGridProps, IQuickGridState, GridColumn, GroupRow,
-    IGroupBy, SortDirection, DataTypeEnum, lowercasedColumnPrefix, QuickGridActionsBehaviourEnum, ActionItem, getColumnMinWidth
-} from './QuickGrid.Props';
-const scrollbarSize = require('dom-helpers/util/scrollbarSize');
-import { getRowsSelector } from './DataSelectors';
+import { AutoSizer, Grid, ScrollSync } from 'react-virtualized';
 
-
-import { GridHeader } from './QuickGridHeader';
-import { Dropdown, DropdownType, IDropdownOption } from '../Dropdown';
-import { Icon } from '../Icon/Icon';
-import * as _ from 'lodash';
-import HTML5Backend from 'react-dnd-html5-backend';
 import { groupBy as arrayGroupBy } from '../../utilities/array';
-const createSelector = require('reselect').createSelector;
+import { Dropdown, DropdownType } from '../Dropdown';
+import { Icon } from '../Icon/Icon';
+import { getRowsSelector } from './DataSelectors';
+import {
+    ActionItem,
+    getColumnMinWidth,
+    GridColumn,
+    GroupRow,
+    IGroupBy,
+    IQuickGridProps,
+    IQuickGridState,
+    QuickGridActionsBehaviourEnum,
+    SortDirection
+} from './QuickGrid.Props';
 import { GridFooter } from './QuickGridFooter';
-import './QuickGrid.scss';
+import { GridHeader } from './QuickGridHeader';
 import { QuickGridRowContextActionsHandler } from './QuickGridRowContextActionsHandler';
 
+const scrollbarSize = require('dom-helpers/util/scrollbarSize');
+
+const createSelector = require('reselect').createSelector;
 const getActionItems = (props: IQuickGridProps) => props.gridActions.actionItems;
 const getActionItemOptions = createSelector([getActionItems], (actionItems) => {
     return actionItems.map((item, index) => ({ key: index, icon: item.iconName, text: item.name }));
@@ -28,7 +35,13 @@ const getActionItemOptions = createSelector([getActionItems], (actionItems) => {
 
 const defaultMinColumnWidth = 50;
 const emptyCellWidth = 5;
-export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridState> {
+
+export interface IQuickGrid {
+    scrollToRow(index: number): void;
+    updateColumnWidth(columnIndex: number, getWidth: (oldWidth: number) => number): void;
+}
+
+export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridState> implements IQuickGrid {
     public static defaultProps = {
         overscanRowCount: 20,
         groupBy: [],
@@ -58,12 +71,34 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             sortColumn: props.sortColumn,
             sortDirection: props.sortDirection,
             groupBy: groupByState,
-            hasVerticalScroll: false
+            hasVerticalScroll: false,
+            scrolledRow: undefined
         };
 
         this._columnsMinTotalWidth = columnsToDisplay.map(x => getColumnMinWidth(x) || defaultMinColumnWidth).reduce((a, b) => a + b, 0);
         this.onGridResize = _.debounce(this.onGridResize, 100);
         this._finalGridRows = props.hasCustomRowSelector ? props.rows : getRowsSelector(this.state, props);
+    }
+
+    scrollToRow = (index: number): void => {
+        let row: number = undefined;
+        const rowCount = this._finalGridRows.length;
+
+        if (index !== undefined && index < rowCount && index > -1) {
+            row = index;
+        }
+
+        if (index !== undefined && index > rowCount) {
+            row = rowCount - 1;
+        }
+
+        this.setState({
+            scrolledRow: row
+        });
+
+        // row = Number(row);
+
+        // this._grid.scrollToCell({ columnIndex: 0, rowIndex: row });
     }
 
     expandAll = (event) => {
@@ -501,7 +536,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     }
 
     setSelectedRowIndex = (rowIndex: number, rowData: any) => {
-        this.setState((prevState) => { return { ...prevState, selectedRowIndex: rowIndex }; });
+        this.setState((prevState) => { return { ...prevState, selectedRowIndex: rowIndex, scrolledRow: undefined }; });
         if (this.props.onSelectedRowChanged) {
             this.props.onSelectedRowChanged(rowIndex, rowData);
         }
@@ -657,6 +692,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                                         columnCount={this.state.columnsToDisplay.length}
                                         {...this.state} // force update on any state change
                                         {...this.props} // force update on any prop change
+                                        scrollToRow={this.state.scrolledRow}
                                     />
                                     {this.props.columnSummaries &&
                                         <GridFooter
