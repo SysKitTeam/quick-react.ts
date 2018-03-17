@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 import * as classNames from 'classnames';
 import { ITreeGridProps, ITreeGridState } from './TreeGrid.Props';
 
-import { getTreeRowsSelector } from './treeGridDataSelectors';
+import { getTreeRowsSelector } from './TreeGridDataSelectors';
 import { Icon } from '../Icon/Icon';
 import { QuickGrid, IQuickGridProps, SortDirection, GridColumn, ICustomCellRendererArgs, getColumnMinWidth } from '../QuickGrid';
 import { DataTypeEnum } from '../QuickGrid/QuickGrid.Props';
@@ -43,7 +43,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
             structureRequestChangeId: 0,
             selectedNodeId: props.selectedNodeId
         };
-        const result = getTreeRowsSelector(this.state, props);
+        const result = getTreeRowsSelector(this.state, props, props);
         this._finalGridRows = result.data;
         this._maxExpandedLevel = result.maxExpandedLevel;
     }
@@ -86,7 +86,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
     }
 
     public componentWillUpdate(nextProps, nextState) {
-        const result = getTreeRowsSelector(nextState, nextProps);
+        const result = getTreeRowsSelector(nextState, nextProps, this.props);
         this._finalGridRows = result.data;
         this._maxExpandedLevel = result.maxExpandedLevel;
         this._quickGrid.updateColumnWidth(1, (old) => {
@@ -201,7 +201,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
 
         let columnElement: any;
         let onCellClick = (e) => {
-            // https://github.com/facebook/react/issues/1691 funky bussinese because of multiple mount points in the hover actions            
+            // https://github.com/facebook/react/issues/1691 funky bussinese because of multiple mount points in the hover actions
             // so stopPropagation and preventDefault do not work there, manually checking if row actions were clicked
             if (this.props.isNodeSelectable) {
                 if (e.currentTarget !== e.target) {
