@@ -11,15 +11,45 @@ const getTreeData = (state: ITreeGridState, props: ITreeGridProps) => props.tree
 const getColumnsToDisplay = (state: ITreeGridState, props: ITreeGridProps) => state.columnsToDisplay;
 const getFilterString = (state: ITreeGridState, props: ITreeGridProps) => props.filterString;
 
+const getNewSelectedNodeId = (state: ITreeGridState, newProps: ITreeGridProps, oldProps: ITreeGridProps) => newProps.selectedNodeId;
+const getCurrentlySelectedNodeId = (state: ITreeGridState, newProps: ITreeGridProps, oldProps: ITreeGridProps) => oldProps.selectedNodeId;
+
+const getTreePathsToSelected = (node: IFinalTreeNode) => {
+    if (!node.hasOwnProperty('nodeId')) {
+        // we come to root, go back...
+        return {};
+    } else {
+        const dict = getTreePathsToSelected(node.parent);
+        const currentIdDict = {};
+        currentIdDict[node.nodeId.toString()] = null;
+        return { ...dict, ...currentIdDict };
+    }
+};
+
 const transformData = (tree: TreeDataSource,
     sortColumn: string,
     sortDirection: SortDirection,
     sortRequestId: number,
     columns: Array<GridColumn>,
-    filterString: string) => {
+    filterString: string,
+    currentlySelectedNodeId,
+    newSelectedNodeId
+) => {
     let root = tree.getTreeStructure() as IFinalTreeNode & { filterString: string };
     if (root.children.length === 0) {
         return [];
+    }
+
+    let idsInPathToSelected = undefined;
+
+    // this is the case when new node is selected,
+    // and it could be the case that selected node is somewhere collapsed because
+    // this is controlled component with mutable state, so we need to check if newly
+    // selected node is collapsed and if it is we need to expand it to first expanded parent
+    if (currentlySelectedNodeId !== newSelectedNodeId) {
+        // get ids of all nodes in the path from root to currently selected node
+        const currentNode = tree.getNodeById(newSelectedNodeId);
+        idsInPathToSelected = getTreePathsToSelected(currentNode.parent);
     }
 
     if (root.filterString !== filterString) {
@@ -31,7 +61,7 @@ const transformData = (tree: TreeDataSource,
     root.isExpanded = true;
     sortData(root, sortColumn, sortDirection, sortRequestId);
     let flattenedData: Array<IFinalTreeNode> = [];
-    let maxExpandedLevel = flatten(root.children, flattenedData);
+    let maxExpandedLevel = flatten(root.children, flattenedData, 0, idsInPathToSelected);
     return { data: flattenedData, maxExpandedLevel };
 };
 
@@ -49,8 +79,8 @@ const sortData = (treeNode: IFinalTreeNode, sortColumn: string, sortDirection: S
         sortData(child, sortColumn, sortDirection, rootSortRequestId);
     }
 
-    // if the last sort configuration differs from the current, we need to resort the children    
-    // otherwise, performance gains    
+    // if the last sort configuration differs from the current, we need to resort the children
+    // otherwise, performance gains
     if ((<IFinalTreeNode>treeNode).sortRequestId !== rootSortRequestId) {
         sort(treeNode.children, sortDirection, sortColumn);
         (<IFinalTreeNode>treeNode).sortRequestId = rootSortRequestId;
@@ -135,7 +165,7 @@ function filterNodes(root: IFinalTreeNode, arg: ((node: IFinalTreeNode) => boole
     processNode(root);
 }
 
-export function flatten(tree, resultArray: Array<IFinalTreeNode>, level: number = 0): number {
+export function flatten(tree, resultArray: Array<IFinalTreeNode>, level: number = 0, idsInPath): number {
     level++;
     let maxChildLevel = level;
     for (let child of tree) {
@@ -145,8 +175,13 @@ export function flatten(tree, resultArray: Array<IFinalTreeNode>, level: number 
         }
         let thisChildDepth = child.nodeLevel;
         resultArray.push(child);
+
+        if (idsInPath !== undefined && idsInPath.hasOwnProperty(child.nodeId)) {
+            child.isExpanded = true;
+        }
+
         if (child.children && child.children.length > 0 && (child.isExpanded || child.descendantSatisfiesFilterCondition)) {
-            thisChildDepth = flatten(child.children, resultArray, level);
+            thisChildDepth = flatten(child.children, resultArray, level, idsInPath);
 
         } else if (child.hasChildren && child.isExpanded && (!child.children || child.children.length === 0)) {
             resultArray.push({
@@ -174,8 +209,9 @@ export const getTreeRowsSelector = createSelector(getTreeData,
     getChangeRequestIds,
     getColumnsToDisplay,
     getFilterString,
-    (treeData, sortColumn, sortDirection, changeRequestIds, columns, filterString) => {
-
-        return transformData(treeData, sortColumn, sortDirection, changeRequestIds.sortRequestId, columns, filterString);
+    getCurrentlySelectedNodeId,
+    getNewSelectedNodeId,
+    (treeData, sortColumn, sortDirection, changeRequestIds, columns, filterString, currentlySelectedNodeId, newSelectedNodeId) => {
+        return transformData(treeData, sortColumn, sortDirection, changeRequestIds.sortRequestId, columns, filterString, currentlySelectedNodeId, newSelectedNodeId);
     }
 );

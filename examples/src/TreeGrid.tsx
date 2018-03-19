@@ -23,19 +23,13 @@ const columnSummaries = {
 };
 
 export class Index extends React.Component<any, any> {
-    constructor(props) {
-        super(props);
-
-        const data = getTreeGridData(0);
-
-        this.state = {
-            data: data,
-            columns: gridColumns1,
-            selectedData: 1,
-            searchText: '',
-            selectedNode: 1
-        };
-    }
+    state = {
+        data: getTreeGridData(0),
+        columns: gridColumns1,
+        selectedData: 1,
+        searchText: '',
+        selectedNode: 1
+    };
 
     gridActions: QuickGridActions = {
         actionItems: [],
@@ -60,8 +54,19 @@ export class Index extends React.Component<any, any> {
     }
 
     scrollTo = (ev) => {
+        let val = ev.target.value;
+        if (ev.target.value.trim() === '') {
+            val = 1;
+        }
+
         this.setState({
-            selectedNode: Number(ev.target.value)
+            selectedNode: Number(val)
+        });
+    }
+
+    onSelectedNodeChanged = (selectedNode: IFinalTreeNode) => {
+        this.setState({
+            selectedNode: selectedNode.nodeId
         });
     }
 
@@ -98,6 +103,8 @@ export class Index extends React.Component<any, any> {
                             onLazyLoadChildNodes={this.onLoadChildNodes}
                             columnSummaries={columnSummaries}
                             filterString={this.state.searchText}
+                            onSelectedNodeChanged={this.onSelectedNodeChanged}
+                            selectedNodeId={this.state.selectedNode}
                         />
                     </div>
                 </Resizable>
