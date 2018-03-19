@@ -14,6 +14,7 @@ const getCollapsedRows = (state: IQuickGridState, props: IQuickGridProps) => sta
 const getSortColumn = (state: IQuickGridState, props: IQuickGridProps) => state.sortColumn;
 const getSortDirection = (state: IQuickGridState, props: IQuickGridProps) => state.sortDirection;
 const getColumns = (state: IQuickGridState, props: IQuickGridProps) => props.columns;
+const getFilterString = (state: IQuickGridState, props: IQuickGridProps) => props.filterString;
 
 const getSortFunctionForColumn = (sortColumn: GridColumn, sortDirection: SortDirection) => {
     if (sortColumn && sortColumn.sortByValueGetter) {
@@ -63,6 +64,29 @@ const sortRows = (rows: Array<any>, sortColumnName: string,
     return rows;
 };
 
+const filterRows = (rows : Array<any>, columns: Array<GridColumn>, searchText : string) => {
+    if (!searchText) {
+        return rows;
+    }
+
+    let filterText = searchText.toLowerCase();
+
+    let members = columns
+        .map(col => col.valueMember);
+    const newRows = rows.filter(row => {      
+        let visible = false;
+        for (let value of members) {
+            if (row[value].toString().toLowerCase().includes(searchText)) {
+                visible = true;
+                break;
+            }
+        }
+        return visible;
+    });
+
+    return newRows;
+};
+
 const addLowerCaseMembersToRows = (rows: Array<any>, columns: Array<GridColumn>) => {
     let members = columns
         .filter(col => col.dataType === DataTypeEnum.String)
@@ -81,14 +105,20 @@ const getRowsWithLowerCase = createSelector(getInputRows, getColumns, (rows, col
     return addLowerCaseMembersToRows(rows, columns);
 });
 
-const getSortedRows = createSelector(getRowsWithLowerCase, getSortColumn, getSortDirection, getGroupBy, getColumns,
+const getFilteredRows = createSelector(getRowsWithLowerCase, getColumns, getFilterString,
+    (rows, columns, searchText) => {
+        return filterRows(rows, columns, searchText);
+    }
+);
+
+const getSortedRows = createSelector(getFilteredRows, getSortColumn, getSortDirection, getGroupBy, getColumns,
     (rows, sortColumn, sortDirection, groupBy, columns) => {
         return sortRows(rows, sortColumn, sortDirection, groupBy, columns);
     }
 );
 
 export const getRowsSelector = createSelector(getSortedRows, getGroupBy, getCollapsedRows, getColumns,
-    (rows, groupedColumns, collapsedRows, columns) => {
+    (rows, groupedColumns, collapsedRows, columns, filterString) => {
         return groupRows(rows, groupedColumns, collapsedRows, columns);
     }
 );

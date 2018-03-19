@@ -37,6 +37,7 @@ export interface IQuickGridProps {
     hasStaticColumns?: boolean;
     columnHeadersVisible?: boolean;
     isRowSelectable?: boolean;
+    filterString?: string;
 }
 
 export interface ICustomCellRendererArgs {
