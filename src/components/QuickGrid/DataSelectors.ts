@@ -73,7 +73,7 @@ const filterRows = (rows : Array<any>, columns: Array<GridColumn>, searchText : 
 
     let members = columns
         .map(col => col.valueMember);
-    const newRows = [...rows].filter(row => {      
+    const newRows = rows.filter(row => {      
         let visible = false;
         for (let value of members) {
             if (row[value].toString().toLowerCase().includes(searchText)) {
