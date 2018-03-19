@@ -12,7 +12,7 @@ import '../../src/components/TreeFilter/TreeFilter.scss'; // used for react-resi
 import '../../src/components/Label/Label.scss';
 import { updateTree, rebuildTree } from '../../src/utilities/rebuildTree';
 import './../../src/components/Icon/symbol-defs.svg';
-import { autobind, QuickGridActions, QuickGridActionsBehaviourEnum, Search, TreeDataSource } from '../../src/index';
+import { autobind, QuickGridActions, QuickGridActionsBehaviourEnum, Search, TreeDataSource, Label } from '../../src/index';
 import { IFinalTreeNode, TreeNode } from '../../src/models/TreeData';
 
 
@@ -27,7 +27,8 @@ export class Index extends React.Component<any, any> {
         data: getTreeGridData(0),
         columns: gridColumns1,
         selectedData: 1,
-        searchText: ''
+        searchText: '',
+        selectedNode: 1
     };
 
     gridActions: QuickGridActions = {
@@ -47,9 +48,26 @@ export class Index extends React.Component<any, any> {
     }
 
     searchQueryChanged = (value: string) => {
-        this.setState(prev => ({            
+        this.setState(prev => ({
             searchText: value
         }));
+    }
+
+    scrollTo = (ev) => {
+        let val = ev.target.value;
+        if (ev.target.value.trim() === '') {
+            val = 1;
+        }
+
+        this.setState({
+            selectedNode: Number(val)
+        });
+    }
+
+    onSelectedNodeChanged = (selectedNode: IFinalTreeNode) => {
+        this.setState({
+            selectedNode: selectedNode.nodeId
+        });
     }
 
     prev: any;
@@ -72,6 +90,8 @@ export class Index extends React.Component<any, any> {
                     />
                 </div>
                 <Button onClick={this.refreshData}>Refresh data</Button>
+                <Label>Select item:</Label>
+                <input type="number" onChange={this.scrollTo} />
                 <div style={{ width: 250, paddingTop: 10 }}><Search value={this.state.searchText} labelText="Search nodes..." onChange={this.searchQueryChanged} /></div>
                 <Resizable width={1000} height={700} >
                     <div className="viewport-height" style={{ height: '100%' }} >
@@ -82,6 +102,8 @@ export class Index extends React.Component<any, any> {
                             onLazyLoadChildNodes={this.onLoadChildNodes}
                             columnSummaries={columnSummaries}
                             filterString={this.state.searchText}
+                            onSelectedNodeChanged={this.onSelectedNodeChanged}
+                            selectedNodeId={this.state.selectedNode}
                         />
                     </div>
                 </Resizable>
