@@ -75,6 +75,9 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
             [this.props.className],
             {
                 'pivot-tabs': this.props.linkFormat === PivotLinkFormat.tabs
+            },
+            {
+                'pivot-minimal-tabs': this.props.linkFormat === PivotLinkFormat.minimalTabs
             }
         );
 
@@ -127,8 +130,15 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
         const index = this._keyToIndexMapping[itemKey];
         let { id } = this.state;
 
+        const className = classNames(
+            'pivotItem',
+            {
+                'pivot-minimal-tabs': this.props.linkFormat === PivotLinkFormat.minimalTabs
+            }
+        );
+
         return (
-            <div className={'pivotItem'}
+            <div className={className}
                 role="tabpanel"
                 id={id + '-panel'}>
                 {React.Children.toArray(this.props.children)[index]}
