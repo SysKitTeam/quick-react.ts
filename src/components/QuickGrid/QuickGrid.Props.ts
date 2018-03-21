@@ -43,8 +43,8 @@ export interface IQuickGridProps {
 export interface ICustomCellRendererArgs {
     columnIndex: number;
     key: any;
-    rowIndex: number; 
-    style: any;    
+    rowIndex: number;
+    style: any;
     onMouseEnter: any;
     onMouseClick: any;
     isSelectedRow: boolean;
@@ -60,6 +60,7 @@ export interface IQuickGridState {
     selectedRowIndex?: number;
     columnsToDisplay: Array<GridColumn>;
     hasVerticalScroll: boolean;
+    scrolledRow: number;
 }
 
 export interface GroupRow {
@@ -117,7 +118,7 @@ export interface QuickGridActions {
     /**
      * This icon will be used for the dropdown when actionsBehavior equals to ShowAsFirstColumn
      */
-    actionIconName: string;    
+    actionIconName: string;
     /**
      * used in ShowOnRowHover behaviur to specify actions per row
      */
@@ -127,8 +128,8 @@ export interface QuickGridActions {
 }
 
 export enum QuickGridActionsBehaviourEnum {
-     ShowAsFirstColumn,
-     ShowOnRowHover
+    ShowAsFirstColumn,
+    ShowOnRowHover
 }
 
 export interface ActionItem {

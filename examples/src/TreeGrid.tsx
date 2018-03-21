@@ -14,7 +14,7 @@ import { updateTree, rebuildTree } from '../../src/utilities/rebuildTree';
 import './../../src/components/Icon/symbol-defs.svg';
 import { autobind, QuickGridActions, QuickGridActionsBehaviourEnum, Search, TreeDataSource, Label } from '../../src/index';
 import { IFinalTreeNode, TreeNode } from '../../src/models/TreeData';
-
+import * as _ from 'lodash';
 
 const columnSummaries = {
     Color: 'Best: Orange',
@@ -97,6 +97,7 @@ export class Index extends React.Component<any, any> {
                     <div className="viewport-height" style={{ height: '100%' }} >
                         <TreeGrid
                             treeDataSource={this.state.data}
+                            selectedNodeId={this.state.selectedNode}
                             columns={this.state.columns}
                             gridActions={this.gridActions}
                             onLazyLoadChildNodes={this.onLoadChildNodes}

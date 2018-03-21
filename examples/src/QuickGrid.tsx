@@ -11,11 +11,9 @@ import { gridColumns1, getTreeGridData, gridColumns2, getGridData, gridColumns3,
 import '../../src/components/TreeFilter/TreeFilter.scss'; // used for react-resizable style
 import '../../src/components/Label/Label.scss';
 import './../../src/components/Icon/symbol-defs.svg';
-import { QuickGridActionsBehaviourEnum, Search } from '../../src/index';
+import { QuickGridActionsBehaviourEnum, Label, IQuickGrid, Search } from '../../src/index';
 
 const numOfRows = 100000;
-
-
 
 const columnSummaries = {
     Color: 'Best: Orange',
@@ -24,6 +22,8 @@ const columnSummaries = {
 };
 
 export class Index extends React.Component<any, any> {
+    _grid: IQuickGrid = null;
+
     gridActions: QuickGridActions = {
         actionItems: [
             {
@@ -70,8 +70,16 @@ export class Index extends React.Component<any, any> {
         groupBy: [],
         selectedData: 1,
         gridActions: this.gridActions,
-        searchText : ''
+        searchText: ''
     };
+
+    scrollTo = (ev) => {
+        this._grid.scrollToRow(+ev.target.value);
+
+    }
+    _setGridRef = (ref) => {
+        this._grid = ref;
+    }
 
     public render() {
         return (
@@ -94,6 +102,10 @@ export class Index extends React.Component<any, any> {
                     checked={this.state.gridActions.actionsBehaviour === QuickGridActionsBehaviourEnum.ShowOnRowHover}
                     onChange={this.onRowHoverActionsChecked} /> <br />
                 <Button onClick={this.refreshData}>Refresh data</Button>
+
+                <Label>Scroll to:</Label>
+                <input type="number" onChange={this.scrollTo} />
+
                 <div style={{ 'width': '150px' }}>
                     <Search
                         key="searchReport"
@@ -104,6 +116,7 @@ export class Index extends React.Component<any, any> {
                 <Resizable width={1000} height={700} >
                     <div className="viewport-height" style={{ height: '100%' }} >
                         <QuickGrid
+                            ref={this._setGridRef}
                             rows={this.state.data.grid}
                             columns={this.state.columns}
                             groupBy={this.state.groupBy}
@@ -158,7 +171,7 @@ export class Index extends React.Component<any, any> {
         this.setState((oldState) => ({ ...oldState, groupBy: groupBy }));
     }
 
-    _onSearch = (text : string) => {
+    _onSearch = (text: string) => {
         this.setState({
             searchText: text
         });

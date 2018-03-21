@@ -170,7 +170,7 @@
             }
 
             &.is-selected {
-                background-color: $disabled-field;
+                background-color: $selected-item-background;
             }
 
             .status-critical {
