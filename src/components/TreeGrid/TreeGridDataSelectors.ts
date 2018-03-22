@@ -132,7 +132,7 @@ function filterNodes(root: IFinalTreeNode, arg: ((node: IFinalTreeNode) => boole
             let visible = false;
             for (let column of columns) {
                 let value = node[column];
-                if (typeof value === 'string' && value.toLowerCase().search(filterText) !== -1) {
+                if (typeof value === 'string' && value.toLowerCase().indexOf(filterText) !== -1) {
                     return true;
                 }
             }
