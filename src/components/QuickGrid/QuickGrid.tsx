@@ -9,7 +9,7 @@ import { AutoSizer, Grid, ScrollSync } from 'react-virtualized';
 import { groupBy as arrayGroupBy } from '../../utilities/array';
 import { Dropdown, DropdownType } from '../Dropdown';
 import { Icon } from '../Icon/Icon';
-import { getRowsSelector } from './DataSelectors';
+import { getRowsSelector, getActionItemOptions } from './DataSelectors';
 import {
     ActionItem,
     getColumnMinWidth,
@@ -24,22 +24,12 @@ import {
 import { GridFooter } from './QuickGridFooter';
 import { GridHeader } from './QuickGridHeader';
 import { QuickGridRowContextActionsHandler } from './QuickGridRowContextActionsHandler';
+import { IQuickGrid } from '.';
 
 const scrollbarSize = require('dom-helpers/util/scrollbarSize');
 
-const createSelector = require('reselect').createSelector;
-const getActionItems = (props: IQuickGridProps) => props.gridActions.actionItems;
-const getActionItemOptions = createSelector([getActionItems], (actionItems) => {
-    return actionItems.map((item, index) => ({ key: index, icon: item.iconName, text: item.name }));
-});
-
 const defaultMinColumnWidth = 50;
 const emptyCellWidth = 5;
-
-export interface IQuickGrid {
-    scrollToRow(index: number): void;
-    updateColumnWidth(columnIndex: number, getWidth: (oldWidth: number) => number): void;
-}
 
 export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridState> implements IQuickGrid {
     public static defaultProps = {
@@ -343,8 +333,6 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         return defaultRender(style);
     }
 
-
-
     renderEmptyCell(key, rowIndex, rowData, style) {
         const rowClass = 'grid-row-' + rowIndex;
         const onMouseEnter = () => { this.onMouseEnterCell(rowIndex); };
@@ -415,8 +403,6 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             </div>
         );
     }
-
-
 
     renderGroupCell(columnIndex: number, key, rowIndex: number, rowData: GroupRow, style) {
         if (columnIndex === 0) {

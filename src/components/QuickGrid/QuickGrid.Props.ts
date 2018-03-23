@@ -1,6 +1,11 @@
 import * as React from 'react';
 import { ITooltipProps } from '../Tooltip/Tooltip.props';
 
+export interface IQuickGrid {
+    scrollToRow(index: number): void;
+    updateColumnWidth(columnIndex: number, getWidth: (oldWidth: number) => number): void;
+}
+
 export enum SortDirection {
     Ascending,
     Descending

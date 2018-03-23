@@ -1,12 +1,17 @@
-const createSelector = require('reselect').createSelector;
+import * as _ from 'lodash';
+import { createSelector } from 'reselect';
+
+import { sortArray } from '../../utilities/array';
 import {
-    IQuickGridState, IQuickGridProps, GridColumn,
-    SortDirection, IGroupBy, lowercasedColumnPrefix
+    DataTypeEnum,
+    GridColumn,
+    IGroupBy,
+    IQuickGridProps,
+    IQuickGridState,
+    lowercasedColumnPrefix,
+    SortDirection
 } from './QuickGrid.Props';
 import { groupRows } from './rowGrouper';
-import * as _ from 'lodash';
-import { SortProps, sortArray } from '../../utilities/array';
-import { DataTypeEnum } from './QuickGrid.Props';
 
 const getInputRows = (state: IQuickGridState, props: IQuickGridProps) => props.rows;
 const getGroupBy = (state: IQuickGridState, props: IQuickGridProps) => state.groupBy;
@@ -15,6 +20,12 @@ const getSortColumn = (state: IQuickGridState, props: IQuickGridProps) => state.
 const getSortDirection = (state: IQuickGridState, props: IQuickGridProps) => state.sortDirection;
 const getColumns = (state: IQuickGridState, props: IQuickGridProps) => props.columns;
 const getFilterString = (state: IQuickGridState, props: IQuickGridProps) => props.filterString;
+
+const getActionItems = (props: IQuickGridProps) => props.gridActions.actionItems;
+
+export const getActionItemOptions = createSelector(getActionItems, (actionItems) => {
+    return actionItems.map((item, index) => ({ key: index, icon: item.iconName, text: item.name }));
+});
 
 const getSortFunctionForColumn = (sortColumn: GridColumn, sortDirection: SortDirection) => {
     if (sortColumn && sortColumn.sortByValueGetter) {
@@ -64,19 +75,19 @@ const sortRows = (rows: Array<any>, sortColumnName: string,
     return rows;
 };
 
-const filterRows = (rows : Array<any>, columns: Array<GridColumn>, searchText : string) => {
+const filterRows = (rows: Array<any>, columns: Array<GridColumn>, searchText: string) => {
     if (!searchText) {
         return rows;
     }
 
     let filterText = searchText.toLowerCase();
 
-    let members = columns
-        .map(col => col.valueMember);
-    const newRows = rows.filter(row => {      
+    let members = columns.map(col => col.valueMember);
+
+    const newRows = rows.filter(row => {
         let visible = false;
         for (let value of members) {
-            if (row[value].toString().toLowerCase().includes(searchText)) {
+            if (row[value].toString().toLowerCase().indexOf(filterText) !== -1) {
                 visible = true;
                 break;
             }
@@ -117,7 +128,7 @@ const getSortedRows = createSelector(getFilteredRows, getSortColumn, getSortDire
     }
 );
 
-export const getRowsSelector = createSelector(getSortedRows, getGroupBy, getCollapsedRows, getColumns,
+export const getRowsSelector = createSelector(getSortedRows, getGroupBy, getCollapsedRows, getColumns, getFilterString,
     (rows, groupedColumns, collapsedRows, columns, filterString) => {
         return groupRows(rows, groupedColumns, collapsedRows, columns);
     }
