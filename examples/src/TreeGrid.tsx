@@ -104,7 +104,6 @@ export class Index extends React.Component<any, any> {
                             columnSummaries={columnSummaries}
                             filterString={this.state.searchText}
                             onSelectedNodeChanged={this.onSelectedNodeChanged}
-                            selectedNodeId={this.state.selectedNode}
                         />
                     </div>
                 </Resizable>

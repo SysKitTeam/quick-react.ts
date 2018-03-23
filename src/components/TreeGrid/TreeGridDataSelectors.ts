@@ -52,7 +52,7 @@ const transformData = (tree: TreeDataSource,
         idsInPathToSelected = getTreePathsToSelected(currentNode.parent);
     }
 
-    if (root.filterString !== filterString) {
+    if (filterString !== undefined && filterString !== null && root.filterString !== filterString) {
         filterNodes(root, filterString, columns.map(x => x.dataMember || x.valueMember));
         root.filterString = filterString;
     }
@@ -124,7 +124,7 @@ function filterNodes(root: IFinalTreeNode, arg: ((node: IFinalTreeNode) => boole
     if (arg instanceof Function) {
         doesSatisfyCondition = arg;
     } else {
-        let filterText = arg.toLowerCase();
+        let filterText = arg.toLowerCase().trim();
         doesSatisfyCondition = (node: IFinalTreeNode): boolean => {
             if (!filterText) {
                 return true;
@@ -132,11 +132,17 @@ function filterNodes(root: IFinalTreeNode, arg: ((node: IFinalTreeNode) => boole
             let visible = false;
             for (let column of columns) {
                 let value = node[column];
-                if (typeof value === 'string' && value.toLowerCase().search(filterText) !== -1) {
+                let typeOfValue = typeof value;
+
+                if (typeOfValue === 'number') {
+                    value = value.toString();
+                    typeOfValue = 'string';
+                }
+
+                if (typeOfValue === 'string' && value.toLowerCase().indexOf(filterText) !== -1) {
                     return true;
                 }
             }
-
             return false;
         };
     }
