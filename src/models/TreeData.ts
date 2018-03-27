@@ -114,7 +114,7 @@ export class TreeDataSource {
                     }
                 };
                 removeChildrenFromLookup(existingNode);
-            }            
+            }
 
             Object.assign(existingNode, props);
 

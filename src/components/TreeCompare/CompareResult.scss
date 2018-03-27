@@ -1,0 +1,27 @@
+@import '../../styles/variables.scss';
+
+.compare-result {
+    &.equal > .icon {
+
+    }
+
+    &.different > .icon {
+
+    }
+
+    &.different-in-children > .icon {
+
+    }
+
+    &.missing-in-both > .icon {
+
+    }
+
+    &.missing-in-source > .icon {
+        
+    }
+
+    &.missing-in-target > .icon {
+        
+    }
+}
