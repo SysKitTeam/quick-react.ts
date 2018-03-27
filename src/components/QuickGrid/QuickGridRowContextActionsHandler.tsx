@@ -157,6 +157,7 @@ export class QuickGridRowContextActionsHandler extends React.PureComponent<IQuic
                     options={actionOptions}
                     onMenuToggle={onMenuToggle}
                     onClosed={() => onMenuToggle(false)}
+                    delayMs={this.props.delayMs}
                 />);
         } else {
             elements = actions.map(mapAction);
