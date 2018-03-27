@@ -39,7 +39,8 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         tooltipsEnabled: true,
         actionsTooltip: 'Actions',
         columnHeadersVisible: true,
-        isRowSelectable: true
+        isRowSelectable: true,
+        delayMs: 500
     };
 
     private _finalGridRows: Array<any>;
@@ -626,6 +627,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                         onGetRowActions={this.getRowContextActions}
                         onActionClicked={this.onRowContextActionClicked}
                         hideDropdownActionIcons={!Boolean(this.props.gridActions) || this.props.gridActions.hideDropdownActionIcons}
+                        delayMs={this.props.delayMs}
                     />
                 </div>
                 <AutoSizer onResize={this.onGridResize}>

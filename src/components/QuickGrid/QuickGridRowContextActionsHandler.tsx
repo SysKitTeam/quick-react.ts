@@ -12,6 +12,7 @@ export interface IQuickGridRowAContextActionsHandlerProps {
     onGetRowActions?: (rowIndex: number) => Array<ActionItem>;
     onActionClicked?: (rowIndex: number, action: ActionItem) => void;
     hideDropdownActionIcons?: boolean;
+    delayMs?: number;
 }
 
 export class QuickGridRowContextActionsHandler extends React.PureComponent<IQuickGridRowAContextActionsHandlerProps, {}> {
@@ -128,7 +129,7 @@ export class QuickGridRowContextActionsHandler extends React.PureComponent<IQuic
     
         const mapAction = (x: ActionItem) => {
             const mappedAction = <Icon key={x.commandName} iconName={x.iconName} title={x.tooltip ? undefined : x.name} className="hoverable-items__btn" onClick={() => onActionClicked(rowIndex, x)} />;
-            return x.tooltip !== undefined ? <Tooltip key={x.commandName} {...x.tooltip} delayMs={1000} >  {mappedAction} </Tooltip> : mappedAction;
+            return x.tooltip !== undefined ? <Tooltip key={x.commandName} {...x.tooltip} delayMs={this.props.delayMs} >  {mappedAction} </Tooltip> : mappedAction;
         };
     
         let renderDropDown = actions.length >= 4;
