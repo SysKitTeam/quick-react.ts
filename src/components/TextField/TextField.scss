@@ -8,6 +8,10 @@
         padding: 2px 0;
     }
 
+    .textField-field::-webkit-input-placeholder{
+        color: $secondary-color-45;
+    }
+
     .textField-field {
         box-sizing: border-box;
         border: 1px solid $white-background-lines;
