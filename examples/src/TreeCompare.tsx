@@ -10,7 +10,6 @@ import { CompareResultEnum } from '../../src/components/TreeCompare/TreeCompare.
 import { generateTreeData } from '../MockData/compare';
 
 import { TreeCompare } from '../../src/components/TreeCompare/TreeCompare';
-import { GridColumn } from '../../src';
 
 const columns: Array<string> = ['Name', 'Source Permission', 'Status', 'Target Permission'];
 

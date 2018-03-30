@@ -1,5 +1,5 @@
 import { GridColumn } from '../QuickGrid';
-import { TreeDataSource, IFinalTreeNode } from '../..';
+import { TreeDataSource, IFinalTreeNode, TreeNode } from '../..';
 import { compareResultFactory } from './CompareResultRenderer';
 
 export enum CompareResultEnum {
@@ -11,7 +11,7 @@ export enum CompareResultEnum {
     MissingInBoth = 5
 }
 
-export interface ICompareResult extends IFinalTreeNode {
+export interface ICompareResult extends TreeNode {
     compareResult: CompareResultEnum;
     sourceValue: string;
     targetValue: string;
@@ -32,17 +32,20 @@ export const treeCompareColumns: Array<GridColumn> = [
     {
         headerText: '',
         valueMember: 'propertyValue',
-        width: 100
+        width: 100,
+        minWidth: 100
     },
     {
         headerText: '',
         valueMember: 'sourceValue',
-        width: 100
+        width: 100,
+        minWidth: 100
     },
     {
         headerText: '',
         valueMember: 'compareResult',
         width: 100,
+        minWidth: 100,
         cellFormatter: (cellData: CompareResultEnum, rowData: any) => {
             return compareResultFactory(cellData);
         }
@@ -50,6 +53,7 @@ export const treeCompareColumns: Array<GridColumn> = [
     {
         headerText: '',
         valueMember: 'targetValue',
-        width: 100
+        width: 100,
+        minWidth: 100
     }
 ];

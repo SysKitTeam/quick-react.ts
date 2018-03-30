@@ -5,6 +5,40 @@ import './CompareResult.scss';
 
 import { Icon } from '../Icon/Icon';
 import { CompareResultEnum } from './TreeCompare.props';
+import { GridColumn } from '../QuickGrid';
+
+const emptyString = '';
+const defaultWidth = 100;
+
+const columnBase: GridColumn = {
+    minWidth: defaultWidth,
+    width: defaultWidth,
+    headerText: emptyString,
+    valueMember: emptyString
+};
+
+
+export function columnDefinitionsGenerator<T>(obj: T): Array<GridColumn> {
+    // get all object properties
+    const props = Object.keys(obj);
+
+    const columnHeaderTexts = props.map(prop => {
+        // split string into words with upper character as delimiter
+        let text = prop.replace(/([A-Z]+)/g, ' $1').replace(/([A-Z][a-z])/g, ' $1');
+        // capitalize first character
+        return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
+    });
+
+    const columns = columnHeaderTexts.map((headerText, index) => {
+        return {
+            ...columnBase,
+            headerText: columnHeaderTexts[index],
+            valueMember: props[index]
+        };
+    });
+
+    return columns;
+}
 
 export function compareResultFactory(compareResult: CompareResultEnum): JSX.Element {
     switch (compareResult) {

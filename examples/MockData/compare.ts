@@ -1,18 +1,14 @@
 import { ICompareResult, CompareResultEnum } from '../../src/components/TreeCompare/TreeCompare.props';
 
-function generateCompareRow(level: number, parent: ICompareResult): ICompareResult {
+function generateCompareRow(level: number): ICompareResult {
     return {
         isExpanded: true,
         children: [],
-        iconName: 'svg-icon-world',
-        hasChildren: true,
+        iconName: 'icon-world',
         propertyValue: 'Name',
         sourceValue: 'Full Control',
         targetValue: 'View Only',
-        compareResult: CompareResultEnum.Different,
-        sortRequestId: 0,
-        nodeLevel: level,
-        parent: parent
+        compareResult: CompareResultEnum.Different
     };
 }
 
@@ -20,10 +16,10 @@ export const generateTreeData = (size: Array<number> = [5, 10]): Array<ICompareR
     let result: Array<ICompareResult> = [];
 
     for (let i = 0; i < size[0]; i++) {
-        let treeEntry = generateCompareRow(0, undefined);
+        let treeEntry = generateCompareRow(0);
 
         for (let j = 0; j < size[1]; j++) {
-            let treeEntry1 = generateCompareRow(1, treeEntry);
+            let treeEntry1 = generateCompareRow(1);
             treeEntry.children.push(treeEntry1);
         }
 
