@@ -7,7 +7,8 @@ exports.tslint = {
     loader: 'tslint-loader',
     include: [
         path.resolve(__dirname, "../src"),
-        path.resolve(__dirname, "../examples")
+        path.resolve(__dirname, "../examples"),
+        path.resolve(__dirname, "../stories")
     ]
 };
 
@@ -18,7 +19,8 @@ exports.ts = {
     },
     include: [
         path.resolve(__dirname, "../src"),
-        path.resolve(__dirname, "../examples")
+        path.resolve(__dirname, "../examples"),
+        path.resolve(__dirname, "../stories")
     ]
 };
 
@@ -29,7 +31,8 @@ exports.html = {
     },
     include: [
         path.resolve(__dirname, "../src"),
-        path.resolve(__dirname, "../examples")
+        path.resolve(__dirname, "../examples"),
+        path.resolve(__dirname, "../stories")
     ]
 };
 

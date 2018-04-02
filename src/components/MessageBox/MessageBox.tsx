@@ -9,7 +9,7 @@ import { MessageLevel, IMessageBoxProps, IMessageBoxButton } from './MessageBox.
 import { DirectionalHint } from '../../utilities/DirectionalHint';
 import { Tooltip } from '../Tooltip/Tooltip';
 import { autobind } from './../../utilities/autobind';
-import './messageBox.scss';
+import './MessageBox.scss';
 
 export class MessageBox extends React.Component<IMessageBoxProps, {}> {
     public static defaultProps: any = {

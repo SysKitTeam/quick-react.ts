@@ -9,7 +9,8 @@
         "lib": "cross-env NODE_ENV=production webpack",
         "lint": "tslint -p tsconfig.json",
         "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --no-info --content-base examples/pages",
-        "prepublish": "npm run build"
+        "prepublish": "npm run build",
+        "storybook": "start-storybook -p 9001 -c .storybook"
     },
     "repository": {
         "type": "git",
@@ -41,6 +42,8 @@
         "run-sequence": "2.1.0"
     },
     "devDependencies": {
+        "@storybook/addon-knobs": "^3.4.0",
+        "@storybook/react": "^3.4.0",
         "@types/classnames": "2.2.3",
         "@types/d3": "5.0.0",
         "@types/lodash": "4.14.74",
