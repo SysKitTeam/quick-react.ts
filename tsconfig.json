@@ -15,6 +15,7 @@
     "noEmitHelpers": true,
     "outDir": "./lib",
     "declaration": true,
+    "allowSyntheticDefaultImports": false,
     "types": [
       "node"
     ],

@@ -44,10 +44,10 @@ stories.add('Button with knobs', () => (
             </div>
         </div>
     ))
-    .add('link button', () => (
+    .add('Link button', () => (
         <Button href={'javascript:void(0)'} target="_blank">Link</Button>
     ))
-    .add('showcase', () => (
+    .add('Showcase', () => (
         <div>
             <div>
                 <Button className={'button-primary'}>Primary Button</Button>

@@ -12,7 +12,7 @@ const $whiteColor = '#FFFFFF';
 
 const stories = storiesOf('breadcrumbs', module);
 
-stories.add('showcase', () => (
+stories.add('Showcase', () => (
     <div>
         <Label>Breadcrumbs with default icons:</Label>
         <Breadcrumbs

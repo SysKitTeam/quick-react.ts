@@ -7,10 +7,10 @@ import * as TreeGrid from '../../examples/src/TreeGrid';
 
 const stories = storiesOf('quickGrid', module);
 
-stories.add('quickGrid example', () => (
+stories.add('quickGrid Example', () => (
         <QuickGrid.Index/>
     ))
-    .add('treeGrid example', () => (
+    .add('treeGrid Example', () => (
         <TreeGrid.Index/>
     ));
 

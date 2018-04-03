@@ -10,7 +10,8 @@
         "lint": "tslint -p tsconfig.json",
         "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --no-info --content-base examples/pages",
         "prepublish": "npm run build",
-        "storybook": "start-storybook -p 9001 -c .storybook"
+        "storybook": "start-storybook -p 9001 -c .storybook",
+        "test": "jest"
     },
     "repository": {
         "type": "git",
@@ -43,6 +44,7 @@
     },
     "devDependencies": {
         "@storybook/addon-knobs": "^3.4.0",
+        "@storybook/addon-storyshots": "^3.4.0",
         "@storybook/react": "^3.4.0",
         "@types/classnames": "2.2.3",
         "@types/d3": "5.0.0",
@@ -64,8 +66,10 @@
         "gulp-sourcemaps": "2.6.1",
         "gulp-typescript": "3.2.2",
         "html-webpack-plugin": "3.0.3",
+        "jest": "^22.4.3",
         "merge2": "0.3.6",
         "raw-loader": "0.5.1",
+        "react-test-renderer": "^16.3.0",
         "sass-loader": "6.0.6",
         "source-map-loader": "0.1.5",
         "style-loader": "0.20.2",
@@ -74,6 +78,7 @@
         "svgo": "1.0.3",
         "svgo-loader": "2.1.0",
         "ts-helpers": "1.1.2",
+        "ts-jest": "^22.4.2",
         "tslint": "5.9.1",
         "tslint-loader": "3.6.0",
         "typescript": "2.7.2",
@@ -83,5 +88,19 @@
         "webpack-dev-server": "2.5.1",
         "webpack-hot-middleware": "2.21.1",
         "webpack-split-by-path": "2.0.0"
-    }
+    },
+    "jest": {
+        "transform": {
+          "^.+\\.tsx?$": "ts-jest"
+        },
+        "testRegex": "(/stories/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+        "moduleFileExtensions": [
+          "ts",
+          "tsx",
+          "js",
+          "jsx",
+          "json",
+          "node"
+        ]
+      }
 }

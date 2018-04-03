@@ -7,6 +7,7 @@ import { withKnobs, number, text } from '@storybook/addon-knobs/react';
 
 import { BarChart } from '../../src/components/BarChart/BarChart';
 import { barData } from './barChartData';
+import { Index } from '../../examples/src/BarChart';
 
 const heightOptions = {
     range: true,
@@ -20,11 +21,6 @@ const stories = storiesOf('barChart', module);
 stories.addDecorator(withKnobs);
 stories.add('bar chart', () => (
     <div>
-        <BarChart
-            id={'bar-chart-1'}
-            data={barData}
-            dimensions={{ width: '75%', height: number('width', 300, heightOptions) + 'px'}}
-            onClick={data => console.log(data)}
-            selectedIndex={4} />
+        <Index/>
     </div>
     ));
