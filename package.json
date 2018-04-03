@@ -55,6 +55,7 @@
         "@types/react-virtualized": "9.7.4",
         "awesome-typescript-loader": "3.5.0",
         "babel-core": "6.18.2",
+        "babel-jest": "^22.4.3",
         "babel-polyfill": "6.16.0",
         "babel-preset-es2015": "6.18.0",
         "copy-webpack-plugin": "4.4.2",
@@ -91,16 +92,19 @@
     },
     "jest": {
         "transform": {
-          "^.+\\.tsx?$": "ts-jest"
+            "^.+\\.tsx?$": "ts-jest"
         },
-        "testRegex": "(/stories/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+        "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
         "moduleFileExtensions": [
-          "ts",
-          "tsx",
-          "js",
-          "jsx",
-          "json",
-          "node"
+            "ts",
+            "tsx",
+            "js",
+            "jsx",
+            "json",
+            "node"
         ]
-      }
+    },
+    "moduleNameMapper": {
+        "^.+\\.(css|less|scss)$": "babel-jest"
+    }
 }
