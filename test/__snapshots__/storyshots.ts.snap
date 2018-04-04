@@ -1,0 +1,1023 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots breadcrumbs Showcase 1`] = `
+<div>
+  <label
+    className="label "
+  >
+    Breadcrumbs with default icons:
+  </label>
+  <div
+    className="breadcrumbs "
+  >
+    <ul
+      className="breadcrumbs-list"
+    >
+      <li
+        className="breadcrumbs-list-item"
+      >
+        <div
+          className="breadcrumbs-item breadcrumbs-icon-home"
+        >
+          <div
+            className="breadcrumbs-item-title"
+          >
+            <i
+              className="icon font icon-home breadcrumbs-item-icon breadcrumbs-icon-home"
+              onClick={[Function]}
+            />
+          </div>
+          <div
+            className="dropdown-root"
+          >
+            <div
+              className="dropdown breadcrumbs-dropdown"
+              data-is-focusable={true}
+              id="Dropdown0"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="combobox"
+              style={
+                Object {
+                  "width": undefined,
+                }
+              }
+              tabIndex={0}
+            >
+              <span
+                className="dropdown-title"
+                title={undefined}
+              >
+                <i
+                  className="icon font icon-arrow_right "
+                />
+                
+              </span>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li
+        className="breadcrumbs-list-item"
+      >
+        <div
+          className="breadcrumbs-item"
+        >
+          <div
+            className="breadcrumbs-item-title"
+          >
+            <label
+              className="label breadcrumbs-item-label"
+              onClick={[Function]}
+            >
+              Performance
+            </label>
+          </div>
+          <div
+            className="dropdown-root"
+          >
+            <div
+              className="dropdown breadcrumbs-dropdown"
+              data-is-focusable={true}
+              id="Dropdown1"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="combobox"
+              style={
+                Object {
+                  "width": undefined,
+                }
+              }
+              tabIndex={0}
+            >
+              <span
+                className="dropdown-title"
+                title={undefined}
+              >
+                <i
+                  className="icon font icon-arrow_right "
+                />
+                
+              </span>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li
+        className="breadcrumbs-list-item"
+      >
+        <div
+          className="breadcrumbs-item"
+        >
+          <div
+            className="breadcrumbs-item-title"
+          >
+            <label
+              className="label breadcrumbs-item-label"
+              onClick={[Function]}
+            >
+              Farm 1
+            </label>
+          </div>
+          <div
+            className="dropdown-root"
+          >
+            <div
+              className="dropdown breadcrumbs-dropdown"
+              data-is-focusable={true}
+              id="Dropdown2"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="combobox"
+              style={
+                Object {
+                  "width": undefined,
+                }
+              }
+              tabIndex={0}
+            >
+              <span
+                className="dropdown-title"
+                title={undefined}
+              >
+                <i
+                  className="icon font icon-arrow_right "
+                />
+                
+              </span>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <label
+    className="label "
+  >
+    Breadcrumbs with custom icons:
+  </label>
+  <div
+    className="breadcrumbs "
+  >
+    <ul
+      className="breadcrumbs-list"
+    >
+      <li
+        className="breadcrumbs-list-item"
+      >
+        <div
+          className="breadcrumbs-item breadcrumbs-icon-home"
+        >
+          <div
+            className="breadcrumbs-item-title"
+          >
+            <i
+              className="icon font icon-ck_kit breadcrumbs-item-icon breadcrumbs-icon-home"
+              onClick={[Function]}
+            />
+          </div>
+          <div
+            className="dropdown-root"
+          >
+            <div
+              className="dropdown breadcrumbs-dropdown"
+              data-is-focusable={true}
+              id="Dropdown3"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="combobox"
+              style={
+                Object {
+                  "width": undefined,
+                }
+              }
+              tabIndex={0}
+            >
+              <span
+                className="dropdown-title"
+                title={undefined}
+              >
+                <i
+                  className="icon font icon-arrow_right "
+                />
+                
+              </span>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li
+        className="breadcrumbs-list-item"
+      >
+        <div
+          className="breadcrumbs-item"
+        >
+          <div
+            className="breadcrumbs-item-title"
+          >
+            <label
+              className="label breadcrumbs-item-label"
+              onClick={[Function]}
+            >
+              Performance
+            </label>
+          </div>
+          <div
+            className="dropdown-root"
+          >
+            <div
+              className="dropdown breadcrumbs-dropdown"
+              data-is-focusable={true}
+              id="Dropdown4"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="combobox"
+              style={
+                Object {
+                  "width": undefined,
+                }
+              }
+              tabIndex={0}
+            >
+              <span
+                className="dropdown-title"
+                title={undefined}
+              >
+                <i
+                  className="icon font icon-arrow_right "
+                />
+                
+              </span>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li
+        className="breadcrumbs-list-item"
+      >
+        <div
+          className="breadcrumbs-item"
+        >
+          <div
+            className="breadcrumbs-item-title"
+          >
+            <label
+              className="label breadcrumbs-item-label"
+              onClick={[Function]}
+            >
+              Farm 2
+            </label>
+          </div>
+          <div
+            className="dropdown-root"
+          >
+            <div
+              className="dropdown breadcrumbs-dropdown"
+              data-is-focusable={true}
+              id="Dropdown5"
+              onClick={[Function]}
+              onKeyDown={[Function]}
+              role="combobox"
+              style={
+                Object {
+                  "width": undefined,
+                }
+              }
+              tabIndex={0}
+            >
+              <span
+                className="dropdown-title"
+                title={undefined}
+              >
+                <i
+                  className="icon font icon-arrow_right "
+                />
+                
+              </span>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li
+        className="breadcrumbs-list-item"
+      >
+        <div
+          className="breadcrumbs-item"
+        >
+          <div
+            className="breadcrumbs-item-title"
+          >
+            <label
+              className="label breadcrumbs-item-label"
+              onClick={[Function]}
+            >
+              Server 3
+            </label>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div
+    style={
+      Object {
+        "backgroundColor": "#4D4D4F",
+      }
+    }
+  >
+    <label
+      className="label "
+      style={
+        Object {
+          "color": "#FFFFFF",
+        }
+      }
+    >
+      Breadcrumbs with custom icons:
+    </label>
+    <div
+      className="breadcrumbs breadcrumbs-white"
+    >
+      <ul
+        className="breadcrumbs-list"
+      >
+        <li
+          className="breadcrumbs-list-item"
+        >
+          <div
+            className="breadcrumbs-item breadcrumbs-icon-home"
+          >
+            <div
+              className="breadcrumbs-item-title"
+            >
+              <i
+                className="icon font icon-ck_kit breadcrumbs-item-icon breadcrumbs-icon-home"
+                onClick={[Function]}
+              />
+            </div>
+            <div
+              className="dropdown-root"
+            >
+              <div
+                className="dropdown breadcrumbs-dropdown"
+                data-is-focusable={true}
+                id="Dropdown6"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="combobox"
+                style={
+                  Object {
+                    "width": undefined,
+                  }
+                }
+                tabIndex={0}
+              >
+                <span
+                  className="dropdown-title"
+                  title={undefined}
+                >
+                  <i
+                    className="icon font icon-arrow_right "
+                  />
+                  
+                </span>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          className="breadcrumbs-list-item"
+        >
+          <div
+            className="breadcrumbs-item"
+          >
+            <div
+              className="breadcrumbs-item-title"
+            >
+              <label
+                className="label breadcrumbs-item-label"
+                onClick={[Function]}
+              >
+                Performance
+              </label>
+            </div>
+            <div
+              className="dropdown-root"
+            >
+              <div
+                className="dropdown breadcrumbs-dropdown"
+                data-is-focusable={true}
+                id="Dropdown7"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="combobox"
+                style={
+                  Object {
+                    "width": undefined,
+                  }
+                }
+                tabIndex={0}
+              >
+                <span
+                  className="dropdown-title"
+                  title={undefined}
+                >
+                  <i
+                    className="icon font icon-arrow_right "
+                  />
+                  
+                </span>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          className="breadcrumbs-list-item"
+        >
+          <div
+            className="breadcrumbs-item"
+          >
+            <div
+              className="breadcrumbs-item-title"
+            >
+              <label
+                className="label breadcrumbs-item-label"
+                onClick={[Function]}
+              >
+                Farm 2
+              </label>
+            </div>
+            <div
+              className="dropdown-root"
+            >
+              <div
+                className="dropdown breadcrumbs-dropdown"
+                data-is-focusable={true}
+                id="Dropdown8"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="combobox"
+                style={
+                  Object {
+                    "width": undefined,
+                  }
+                }
+                tabIndex={0}
+              >
+                <span
+                  className="dropdown-title"
+                  title={undefined}
+                >
+                  <i
+                    className="icon font icon-arrow_right "
+                  />
+                  
+                </span>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          className="breadcrumbs-list-item"
+        >
+          <div
+            className="breadcrumbs-item"
+          >
+            <div
+              className="breadcrumbs-item-title"
+            >
+              <label
+                className="label breadcrumbs-item-label"
+                onClick={[Function]}
+              >
+                Server 3
+              </label>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "backgroundColor": "#4D4D4F",
+      }
+    }
+  >
+    <label
+      className="label "
+      style={
+        Object {
+          "color": "#FFFFFF",
+        }
+      }
+    >
+      Breadcrumbs with default icons:
+    </label>
+    <div
+      className="breadcrumbs breadcrumbs-white"
+    >
+      <ul
+        className="breadcrumbs-list"
+      >
+        <li
+          className="breadcrumbs-list-item"
+        >
+          <div
+            className="breadcrumbs-item breadcrumbs-icon-home"
+          >
+            <div
+              className="breadcrumbs-item-title"
+            >
+              <i
+                className="icon font icon-home breadcrumbs-item-icon breadcrumbs-icon-home"
+                onClick={[Function]}
+              />
+            </div>
+            <div
+              className="dropdown-root"
+            >
+              <div
+                className="dropdown breadcrumbs-dropdown"
+                data-is-focusable={true}
+                id="Dropdown9"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="combobox"
+                style={
+                  Object {
+                    "width": undefined,
+                  }
+                }
+                tabIndex={0}
+              >
+                <span
+                  className="dropdown-title"
+                  title={undefined}
+                >
+                  <i
+                    className="icon font icon-arrow_right "
+                  />
+                  
+                </span>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          className="breadcrumbs-list-item"
+        >
+          <div
+            className="breadcrumbs-item"
+          >
+            <div
+              className="breadcrumbs-item-title"
+            >
+              <label
+                className="label breadcrumbs-item-label"
+                onClick={[Function]}
+              >
+                Performance
+              </label>
+            </div>
+            <div
+              className="dropdown-root"
+            >
+              <div
+                className="dropdown breadcrumbs-dropdown"
+                data-is-focusable={true}
+                id="Dropdown10"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="combobox"
+                style={
+                  Object {
+                    "width": undefined,
+                  }
+                }
+                tabIndex={0}
+              >
+                <span
+                  className="dropdown-title"
+                  title={undefined}
+                >
+                  <i
+                    className="icon font icon-arrow_right "
+                  />
+                  
+                </span>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          className="breadcrumbs-list-item"
+        >
+          <div
+            className="breadcrumbs-item"
+          >
+            <div
+              className="breadcrumbs-item-title"
+            >
+              <label
+                className="label breadcrumbs-item-label"
+                onClick={[Function]}
+              >
+                Farm 2
+              </label>
+            </div>
+            <div
+              className="dropdown-root"
+            >
+              <div
+                className="dropdown breadcrumbs-dropdown"
+                data-is-focusable={true}
+                id="Dropdown11"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="combobox"
+                style={
+                  Object {
+                    "width": undefined,
+                  }
+                }
+                tabIndex={0}
+              >
+                <span
+                  className="dropdown-title"
+                  title={undefined}
+                >
+                  <i
+                    className="icon font icon-arrow_right "
+                  />
+                  
+                </span>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          className="breadcrumbs-list-item"
+        >
+          <div
+            className="breadcrumbs-item"
+          >
+            <div
+              className="breadcrumbs-item-title"
+            >
+              <label
+                className="label breadcrumbs-item-label"
+                onClick={[Function]}
+              >
+                Server 3
+              </label>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots button Button with knobs 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+      "marginBottom": "20px",
+    }
+  }
+>
+  <div>
+    <div>
+      <button
+        className="button button-icon-text button-primary"
+        icon="icon-add"
+        style={
+          Object {
+            "width": 140,
+          }
+        }
+        width={140}
+      >
+        <i
+          className="icon font icon-add "
+        />
+        <span
+          className="button-label"
+        >
+          Primary Button
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Storyshots button Link button 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+      "marginBottom": "20px",
+    }
+  }
+>
+  <a
+    className="link "
+    href="javascript:void(0)"
+    target="_blank"
+  >
+    <span
+      className="button-label"
+    >
+      Link
+    </span>
+  </a>
+</div>
+`;
+
+exports[`Storyshots button Showcase 1`] = `
+<div
+  style={
+    Object {
+      "display": "flex",
+      "marginBottom": "20px",
+    }
+  }
+>
+  <div>
+    <div>
+      <button
+        className="button button-primary"
+      >
+        <span
+          className="button-label"
+        >
+          Primary Button
+        </span>
+      </button>
+      <button
+        className="button button-icon-text button-primary"
+        icon="icon-add"
+      >
+        <i
+          className="icon font icon-add "
+        />
+        <span
+          className="button-label"
+        >
+          Primary Button
+        </span>
+      </button>
+      <button
+        className="button button-icon button-primary"
+        icon="icon-add"
+      >
+        <i
+          className="icon font icon-add "
+        />
+      </button>
+    </div>
+    <div>
+      <button
+        className="button button-primary-gray"
+      >
+        <span
+          className="button-label"
+        >
+          Primary Gray Button
+        </span>
+      </button>
+      <button
+        className="button button-icon-text button-primary-gray"
+        icon="icon-add"
+      >
+        <i
+          className="icon font icon-add "
+        />
+        <span
+          className="button-label"
+        >
+          Primary Gray Button
+        </span>
+      </button>
+      <button
+        className="button button-icon button-primary-gray"
+        icon="icon-add"
+      >
+        <i
+          className="icon font icon-add "
+        />
+      </button>
+    </div>
+    <div>
+      <button
+        className="button button-secondary"
+      >
+        <span
+          className="button-label"
+        >
+          Secondary Button
+        </span>
+      </button>
+      <button
+        className="button button-icon-text button-secondary"
+        icon="icon-add"
+      >
+        <i
+          className="icon font icon-add "
+        />
+        <span
+          className="button-label"
+        >
+          Secondary Button
+        </span>
+      </button>
+      <button
+        className="button button-icon button-secondary"
+        icon="icon-add"
+      >
+        <i
+          className="icon font icon-add "
+        />
+      </button>
+    </div>
+    <div>
+      <button
+        className="button button-secondary-blue"
+      >
+        <span
+          className="button-label"
+        >
+          Secondary Blue Button
+        </span>
+      </button>
+      <button
+        className="button button-icon-text button-secondary-blue"
+        icon="icon-add"
+      >
+        <i
+          className="icon font icon-add "
+        />
+        <span
+          className="button-label"
+        >
+          Secondary Blue Button
+        </span>
+      </button>
+      <button
+        className="button button-icon button-secondary-blue"
+        icon="icon-add"
+      >
+        <i
+          className="icon font icon-add "
+        />
+      </button>
+    </div>
+    <div>
+      <button
+        className="button button-tertiary"
+      >
+        <span
+          className="button-label"
+        >
+          Tertiary Button
+        </span>
+      </button>
+      <button
+        className="button button-icon-text button-tertiary"
+        icon="icon-add"
+      >
+        <i
+          className="icon font icon-add "
+        />
+        <span
+          className="button-label"
+        >
+          Tertiary Button
+        </span>
+      </button>
+      <button
+        className="button button-icon button-tertiary"
+        icon="icon-add"
+      >
+        <i
+          className="icon font icon-add "
+        />
+      </button>
+    </div>
+    <div>
+      <button
+        className="button button-textual"
+      >
+        <span
+          className="button-label"
+        >
+          Textual Button
+        </span>
+      </button>
+      <button
+        className="button button-icon-text button-textual"
+        icon="icon-add"
+      >
+        <i
+          className="icon font icon-add "
+        />
+        <span
+          className="button-label"
+        >
+          Textual Button
+        </span>
+      </button>
+    </div>
+    <div>
+      <button
+        className="button button-primary button-loading"
+      >
+        <div
+          className="spinner"
+        >
+          <div
+            className="spinner-circle spinner-small"
+          />
+        </div>
+      </button>
+      <button
+        className="button button-primary-gray button-loading"
+      >
+        <div
+          className="spinner"
+        >
+          <div
+            className="spinner-circle spinner-small"
+          />
+        </div>
+      </button>
+      <button
+        className="button button-secondary button-loading"
+      >
+        <div
+          className="spinner"
+        >
+          <div
+            className="spinner-circle spinner-small"
+          />
+        </div>
+      </button>
+      <button
+        className="button button-secondary-blue button-loading"
+      >
+        <div
+          className="spinner"
+        >
+          <div
+            className="spinner-circle spinner-small"
+          />
+        </div>
+      </button>
+      <button
+        className="button button-tertiary button-loading"
+      >
+        <div
+          className="spinner"
+        >
+          <div
+            className="spinner-circle spinner-small"
+          />
+        </div>
+      </button>
+    </div>
+    <div>
+      <button
+        className="button button-icon-text button-succes"
+        icon="icon-checkmark"
+      >
+        <i
+          className="icon font icon-checkmark "
+        />
+        <span
+          className="button-label"
+        >
+          Succes
+        </span>
+      </button>
+      <button
+        className="button button-icon-text button-error"
+        icon="icon-error"
+      >
+        <i
+          className="icon font icon-error "
+        />
+        <span
+          className="button-label"
+        >
+          Error
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+`;

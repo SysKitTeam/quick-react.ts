@@ -21,6 +21,6 @@ const stories = storiesOf('barChart', module);
 stories.addDecorator(withKnobs);
 stories.add('bar chart', () => (
     <div>
-        <Index/>
+        <Index />
     </div>
     ));

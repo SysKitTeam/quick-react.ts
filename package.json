@@ -67,6 +67,7 @@
         "gulp-sourcemaps": "2.6.1",
         "gulp-typescript": "3.2.2",
         "html-webpack-plugin": "3.0.3",
+        "identity-obj-proxy": "^3.0.0",
         "jest": "^22.4.3",
         "merge2": "0.3.6",
         "raw-loader": "0.5.1",
@@ -91,10 +92,13 @@
         "webpack-split-by-path": "2.0.0"
     },
     "jest": {
+        "moduleNameMapper": {
+            "^.+\\.scss$": "identity-obj-proxy"
+        },
         "transform": {
             "^.+\\.tsx?$": "ts-jest"
         },
-        "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+        "testRegex": "(/test/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
         "moduleFileExtensions": [
             "ts",
             "tsx",
@@ -103,8 +107,5 @@
             "json",
             "node"
         ]
-    },
-    "moduleNameMapper": {
-        "^.+\\.(css|less|scss)$": "babel-jest"
     }
 }

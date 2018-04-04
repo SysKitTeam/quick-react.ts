@@ -8,9 +8,9 @@ import * as TreeGrid from '../../examples/src/TreeGrid';
 const stories = storiesOf('quickGrid', module);
 
 stories.add('quickGrid Example', () => (
-        <QuickGrid.Index/>
+        <QuickGrid.Index />
     ))
     .add('treeGrid Example', () => (
-        <TreeGrid.Index/>
+        <TreeGrid.Index />
     ));
 
