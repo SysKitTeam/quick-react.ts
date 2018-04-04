@@ -1,5 +1,78 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Storyshots Pivot Pivot showcase 1`] = `
+<div>
+  <div
+    className={undefined}
+  >
+    <ul
+      className="pivot "
+      role="tablist"
+    >
+      <a
+        className="pivot-link is-selected"
+        id="pivot12-tab"
+        onClick={[Function]}
+        role="tab"
+      >
+        <span
+          className="pivot-text"
+          style={undefined}
+        >
+          My Files
+        </span>
+        <span
+          className="pivot-count"
+        >
+          (
+          10
+          )
+        </span>
+      </a>
+      <a
+        className="pivot-link is-disabled"
+        id="pivot12-tab"
+        onClick={[Function]}
+        role="tab"
+      >
+        <span
+          className="pivot-text"
+          style={undefined}
+        >
+          Recent
+        </span>
+      </a>
+      <a
+        className="pivot-link"
+        id="pivot12-tab"
+        onClick={[Function]}
+        role="tab"
+      >
+        <span
+          className="pivot-text"
+          style={undefined}
+        >
+          Shared with me
+        </span>
+      </a>
+    </ul>
+    <div
+      className="pivotItem"
+      id="pivot12-panel"
+      role="tabpanel"
+    >
+      <div>
+        <label
+          className="label "
+        >
+          Pivot #1
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`Storyshots breadcrumbs Showcase 1`] = `
 <div>
   <label

@@ -5,7 +5,6 @@ import { action } from '@storybook/addon-actions';
 import { Button } from '../../src/components/Button/Button';
 
 const styles = {
-    display: 'flex',
     marginBottom: '20px'
 };
 
@@ -36,7 +35,7 @@ stories.add('Button with knobs', () => (
             <div>
                 <Button 
                     className={selectV2('ClassName', classNameOptions, classNameOptions.primary)} 
-                    icon={text('Icon', 'icon-add')} 
+                    // icon={text('Icon', 'icon-add')} 
                     isLoading={boolean('isLoading', false)}
                     width={number('width', 140, widthOptions)}>
                         {text('Btn text', 'Primary Button')}
