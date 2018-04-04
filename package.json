@@ -93,7 +93,8 @@
     },
     "jest": {
         "moduleNameMapper": {
-            "^.+\\.scss$": "identity-obj-proxy"
+            "^.+\\.scss$": "identity-obj-proxy",
+            "^.*[.](gif|ttf|eot|svg)$": "identity-obj-proxy"
         },
         "transform": {
             "^.+\\.tsx?$": "ts-jest"
