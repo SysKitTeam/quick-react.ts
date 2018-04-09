@@ -2,7 +2,6 @@ import * as React from 'react';
 import { ITreeCompareProps, ITreeCompareState, ICompareResultCell } from './TreeCompare.props';
 import { TreeGrid, TreeDataSource, GridColumn } from '../..';
 import './TreeCompare.scss';
-import { compareResultFactory } from './CompareResultRenderer';
 
 export class TreeCompare extends React.PureComponent<ITreeCompareProps, ITreeCompareState> {
     public constructor(props: ITreeCompareProps) {
@@ -24,9 +23,13 @@ export class TreeCompare extends React.PureComponent<ITreeCompareProps, ITreeCom
     }
 
     generateColumns = (columns: Array<GridColumn>): Array<GridColumn> => {
+        const { compareResultRenderer } = this.props;
         return columns.map((column, index) => {
             if (column.valueMember === 'compareResult') {
-                return { ...column, cellFormatter: (cellData: ICompareResultCell, rowData: any) => compareResultFactory(cellData) };
+                return {
+                    ...column,
+                    cellFormatter: (cellData: ICompareResultCell, rowData: any) => compareResultRenderer(cellData)
+                };
             }
 
             return column;

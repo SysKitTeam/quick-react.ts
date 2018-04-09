@@ -1,8 +1,8 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
 
-import { Icon } from '../Icon/Icon';
-import { ICompareResultCell } from './TreeCompare.props';
+import { Icon } from '../../src/components/Icon/Icon';
+import { ICompareResultCell } from '../../src/components/TreeCompare/TreeCompare.props';
 
 export enum CompareResultEnum {
     Unchanged = 0,
@@ -55,6 +55,9 @@ export function compareResultFactory(compareResult: ICompareResultCell): JSX.Ele
     }
 
     return (
-        <div className={classNames(baseClass, data.className)}><Icon iconName={data.iconName} style={data.compareResultIconStyle} />{data.displayName}</div>
+        <div className={classNames(baseClass, data.className)}>
+            <Icon iconName={data.iconName} style={data.compareResultIconStyle} />
+            {data.displayName}
+        </div>
     );
 }

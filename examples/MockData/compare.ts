@@ -1,5 +1,5 @@
 import { ICompareResult } from '../../src/components/TreeCompare/TreeCompare.props';
-import { CompareResultEnum } from '../../src/components/TreeCompare/CompareResultRenderer';
+import { CompareResultEnum } from './CompareResultRenderer';
 
 function generateCompareRow(level: number): ICompareResult {
     return {

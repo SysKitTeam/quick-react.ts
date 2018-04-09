@@ -5,12 +5,11 @@ import 'ts-helpers';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { compareResultFactory } from '../../src/components/TreeCompare/CompareResultRenderer';
-import { CompareResultEnum } from '../../src/components/TreeCompare/CompareResultRenderer';
 import { generateTreeData } from '../MockData/compare';
 
 import { TreeCompare } from '../../src/components/TreeCompare/TreeCompare';
 import { GridColumn } from '../../src';
+import { compareResultFactory } from '../MockData/CompareResultRenderer';
 
 const jsonString = `{
     "children": [
@@ -122,6 +121,7 @@ export class Index extends React.Component<any, any> {
                     columns={columns}
                     // rows={this.state.data}
                     rows={rows}
+                    compareResultRenderer={compareResultFactory}
                 />
             </div>
         );

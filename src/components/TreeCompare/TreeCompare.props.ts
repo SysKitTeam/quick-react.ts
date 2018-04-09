@@ -1,9 +1,8 @@
 import { GridColumn } from '../QuickGrid';
 import { TreeDataSource, IFinalTreeNode, TreeNode } from '../..';
-import { compareResultFactory, CompareResultEnum } from './CompareResultRenderer';
 
 export interface ICompareResultCell {
-    compareResult: CompareResultEnum;
+    compareResult: number; // represents enum
     compareIcon?: string;
 }
 
@@ -22,4 +21,5 @@ export interface ITreeCompareState {
 export interface ITreeCompareProps {
     columns: Array<GridColumn>;
     rows: Array<ICompareResult> | ICompareResult;
+    compareResultRenderer(result: ICompareResultCell): JSX.Element;
 }
