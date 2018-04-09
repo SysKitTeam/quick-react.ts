@@ -4,107 +4,60 @@ import * as classNames from 'classnames';
 import './CompareResult.scss';
 
 import { Icon } from '../Icon/Icon';
-import { CompareResultEnum } from './TreeCompare.props';
 import { GridColumn } from '../QuickGrid';
+import { ICompareResultCell } from './TreeCompare.props';
 
-const emptyString = '';
-const defaultWidth = 100;
+export enum CompareResultEnum {
+    Unchanged = 0,
+    ObjectMissingInSource = 1,
+    ObjectMissingInTarget = 2,
+    ObjectPermissionInheritanceBroken = 3,
+    ObjectPermissionInheritanceRestored = 4,
+    PrincipalMissingInSource = 5,
+    PrinicipalMissingInTarget = 6,
+    ADAccountDisabledInSource = 7,
+    ADAccountEnabledInSource = 8,
+    PrincipalPermissionsDifferent = 9,
+    DifferenceInChildren = 10
+}
 
-const columnBase: GridColumn = {
-    minWidth: defaultWidth,
-    width: defaultWidth,
-    headerText: emptyString,
-    valueMember: emptyString
+interface ICompareResultMeta {
+    iconName: string;
+    displayName: string;
+    className: string;
+    compareResultIconStyle?: any;
+}
+
+const generateObject = (compareResult: CompareResultEnum, iconName: string, displayName: string, className: string): ICompareResultMeta => ({
+    iconName,
+    displayName,
+    className
+});
+
+const compareResultLookup = {
+    0: generateObject(CompareResultEnum.Unchanged, '', 'Unchanged', 'unchanged'),
+    1: generateObject(CompareResultEnum.ObjectMissingInSource, '', 'Object Missing In Source', 'object-missing-in-source'),
+    2: generateObject(CompareResultEnum.ObjectMissingInTarget, '', 'Object Missing In Target', 'object-missing-in-target'),
+    3: generateObject(CompareResultEnum.ObjectPermissionInheritanceBroken, '', 'Permission Inheritance Broken', 'permisssion-inheritance-broken'),
+    4: generateObject(CompareResultEnum.ObjectPermissionInheritanceRestored, '', 'Permission Inheritance Restored', 'permission-inheritance-restored'),
+    5: generateObject(CompareResultEnum.PrincipalMissingInSource, '', 'Principal Missing In Source', 'principal-missing-in-source'),
+    6: generateObject(CompareResultEnum.PrinicipalMissingInTarget, '', 'Principal Missing In Target', 'principal-missing-in-target'),
+    7: generateObject(CompareResultEnum.ADAccountDisabledInSource, '', 'AD Account Disabled In Source', 'adaccount-disabled-in-source'),
+    8: generateObject(CompareResultEnum.ADAccountEnabledInSource, '', 'AD Account Enabled In Source', 'adaccount-enabled-in-source'),
+    9: generateObject(CompareResultEnum.PrincipalPermissionsDifferent, '', 'Principal Permissions Different', 'principal-permissions-different'),
+    10: generateObject(CompareResultEnum.DifferenceInChildren, '', 'Difference In Children', 'difference-in-children')
 };
-
-
-export function columnDefinitionsGenerator<T>(obj: T): Array<GridColumn> {
-    // get all object properties
-    const props = Object.keys(obj);
-
-    const columnHeaderTexts = props.map(prop => {
-        // split string into words with upper character as delimiter
-        let text = prop.replace(/([A-Z]+)/g, ' $1').replace(/([A-Z][a-z])/g, ' $1');
-        // capitalize first character
-        return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
-    });
-
-    const columns = columnHeaderTexts.map((headerText, index) => {
-        return {
-            ...columnBase,
-            headerText: columnHeaderTexts[index],
-            valueMember: props[index]
-        };
-    });
-
-    return columns;
-}
-
-export function compareResultFactory(compareResult: CompareResultEnum): JSX.Element {
-    switch (compareResult) {
-        case CompareResultEnum.Equal:
-            return renderEqualCompareResult();
-        case CompareResultEnum.Different:
-            return renderDifferentCompareResult();
-        case CompareResultEnum.DifferenceInChildren:
-            return renderDifferentInChildrenCompareResult();
-        case CompareResultEnum.MissingInBoth:
-            return renderMissingImBothCompareResult();
-        case CompareResultEnum.MissingInSource:
-            return renderMissingInSourceCompareResult();
-        case CompareResultEnum.MissingInTarget:
-            return renderMissingInTargetCompareResult();
-        default:
-            return emptyCell();
-    }
-}
 
 const baseClass = 'compare-result';
 
-interface ICompareResultRendererArgs {
-    className: string;
-    iconName: string;
-    text: string;
+export function compareResultFactory(compareResult: ICompareResultCell): JSX.Element {
+    let data = compareResultLookup[compareResult.compareResult];
+
+    if (compareResult.compareIcon) {
+        data = { ...data, iconName: compareResult.compareIcon };
+    }
+
+    return (
+        <div className={classNames(baseClass, data.className)}><Icon iconName={data.iconName} style={data.compareResultIconStyle} />{data.displayName}</div>
+    );
 }
-
-const compareResultRenderer = ({ compareResultClass, iconName, text }) => (
-    <div className={classNames(baseClass, compareResultClass)}><Icon iconName={iconName} />{text}</div>
-);
-
-const emptyCell = () => <div />;
-
-const renderEqualCompareResult = (): JSX.Element => compareResultRenderer({
-    compareResultClass: 'equal',
-    iconName: 'svg-icon-equal',
-    text: 'Equal'
-});
-
-const renderDifferentCompareResult = (): JSX.Element => compareResultRenderer({
-    compareResultClass: 'different',
-    iconName: 'svg-icon-error',
-    text: 'Different'
-});
-
-const renderDifferentInChildrenCompareResult = (): JSX.Element => compareResultRenderer({
-    compareResultClass: 'different-in-children',
-    iconName: 'svg-icon-error',
-    text: 'Different In Children'
-});
-
-const renderMissingImBothCompareResult = (): JSX.Element => compareResultRenderer({
-    compareResultClass: 'missing-in-both',
-    iconName: 'svg-icon-arrows',
-    text: 'Missing In Both'
-});
-
-const renderMissingInSourceCompareResult = (): JSX.Element => compareResultRenderer({
-    compareResultClass: 'missing-in-source',
-    iconName: 'svg-icon-arrow_L',
-    text: 'Missing In Source'
-});
-
-const renderMissingInTargetCompareResult = (): JSX.Element => compareResultRenderer({
-    compareResultClass: 'missing-in-target',
-    iconName: 'svg-icon-arrow_R',
-    text: 'Missing In Target'
-});

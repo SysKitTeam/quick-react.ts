@@ -1,14 +1,15 @@
-import { ICompareResult, CompareResultEnum } from '../../src/components/TreeCompare/TreeCompare.props';
+import { ICompareResult } from '../../src/components/TreeCompare/TreeCompare.props';
+import { CompareResultEnum } from '../../src/components/TreeCompare/CompareResultRenderer';
 
 function generateCompareRow(level: number): ICompareResult {
     return {
         isExpanded: true,
         children: [],
         iconName: 'icon-world',
-        propertyValue: 'Name',
+        displayName: 'Name',
         sourceValue: 'Full Control',
         targetValue: 'View Only',
-        compareResult: CompareResultEnum.Different
+        compareResult: { compareResult: CompareResultEnum.ObjectMissingInSource, compareIcon: 'icon-arrow-left' }
     };
 }
 

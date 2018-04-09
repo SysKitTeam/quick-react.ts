@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { ITreeCompareProps, ITreeCompareState, treeCompareColumns } from './TreeCompare.props';
+import { ITreeCompareProps, ITreeCompareState, ICompareResultCell } from './TreeCompare.props';
 import { TreeGrid, TreeDataSource, GridColumn } from '../..';
 import './TreeCompare.scss';
-import { tree } from 'd3';
-import { Grid } from 'react-virtualized';
+import { compareResultFactory } from './CompareResultRenderer';
 
 export class TreeCompare extends React.PureComponent<ITreeCompareProps, ITreeCompareState> {
     public constructor(props: ITreeCompareProps) {
@@ -24,14 +23,19 @@ export class TreeCompare extends React.PureComponent<ITreeCompareProps, ITreeCom
         }
     }
 
-    generateColumns = (columnDefinitions: Array<string>): Array<GridColumn> => columnDefinitions.map((column, index) => ({
-        ...treeCompareColumns[index],
-        headerText: column
-    }))
+    generateColumns = (columns: Array<GridColumn>): Array<GridColumn> => {
+        return columns.map((column, index) => {
+            if (column.valueMember === 'compareResult') {
+                return { ...column, cellFormatter: (cellData: ICompareResultCell, rowData: any) => compareResultFactory(cellData) };
+            }
+
+            return column;
+        });
+    }
 
     public render() {
         return (
-            <div className="tree-compare-container">
+            <div className="tree-compare-container" >
                 <TreeGrid
                     columns={this.state.compareColumns}
                     treeDataSource={this.state.dataSource}

@@ -481,7 +481,9 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                 );
             }
         };
-        const title = this.props.tooltipsEnabled ? cellData : null;
+
+        const title = this.props.tooltipsEnabled ? typeof (cellData) === 'string' ? cellData : null : null;
+
         return (
             <div
                 key={key}
