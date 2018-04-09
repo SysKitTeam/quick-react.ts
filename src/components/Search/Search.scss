@@ -12,7 +12,9 @@ $searchBox-height: 30px; //30px + 2px border
     &:hover {
         border-color: $white-background-lines-hover;
     }
-
+    .search-field::-webkit-input-placeholder{
+        color: $secondary-color-45;
+    }
     .search-field {
         box-sizing: border-box;
         border: none;
