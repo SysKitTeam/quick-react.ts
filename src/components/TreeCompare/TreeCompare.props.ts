@@ -21,5 +21,5 @@ export interface ITreeCompareState {
 
 export interface ITreeCompareProps {
     columns: Array<GridColumn>;
-    rows: Array<ICompareResult>;
+    rows: Array<ICompareResult> | ICompareResult;
 }

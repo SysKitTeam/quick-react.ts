@@ -12,6 +12,71 @@ import { generateTreeData } from '../MockData/compare';
 import { TreeCompare } from '../../src/components/TreeCompare/TreeCompare';
 import { GridColumn } from '../../src';
 
+const jsonString = `{
+    "children": [
+      {
+        "children": [],
+        "displayName": "Alex Wilber",
+        "sourceValue": "Contribute",
+        "targetValue": "",
+        "compareResult": {
+            "compareResult": 6,
+            "compareIcon": "icon-performance"
+        }
+      },
+      {
+        "children": [],
+        "displayName": "Pradeep Gupta",
+        "sourceValue": "Contribute",
+        "targetValue": "",
+        "compareResult": {
+            "compareResult": 6,
+            "compareIcon": "icon-performance"
+        }
+      },
+      {
+        "children": [
+          {
+            "children": [],
+            "displayName": "System Account",
+            "sourceValue": "Full Control",
+            "targetValue": null,
+            "compareResult": {
+                "compareResult": 6,
+                "compareIcon": "icon-performance"
+            }
+          },
+          {
+            "children": [],
+            "displayName": "Pradeep Gupta",
+            "sourceValue": null,
+            "targetValue": "Full Control",
+            "compareResult": {
+                "compareResult": 5,
+                "compareIcon": "icon-analyze"
+            }
+          }
+        ],
+        "displayName": "Team Site Owners",
+        "sourceValue": "Full Control",
+        "targetValue": "Full Control",
+        "compareResult": {
+            "compareResult": 10,
+            "compareIcon": "icon-enable"
+        }
+      }
+    ],
+    "displayName": null,
+    "sourceValue": null,
+    "targetValue": null,
+    "compareResult": {
+        "compareResult": 10,
+        "compareIcon": "icon-enable"
+    }
+  }`;
+
+const rows = JSON.parse(jsonString);
+
 const columns: Array<GridColumn> = [
     {
         headerText: 'Name',
@@ -55,7 +120,8 @@ export class Index extends React.Component<any, any> {
             <div style={{ width: '100%', height: '800px' }}>
                 <TreeCompare
                     columns={columns}
-                    rows={this.state.data}
+                    // rows={this.state.data}
+                    rows={rows}
                 />
             </div>
         );

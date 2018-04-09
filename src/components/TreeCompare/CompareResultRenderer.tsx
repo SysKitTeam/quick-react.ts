@@ -1,10 +1,7 @@
-import * as React from 'react';
 import * as classNames from 'classnames';
-
-import './CompareResult.scss';
+import * as React from 'react';
 
 import { Icon } from '../Icon/Icon';
-import { GridColumn } from '../QuickGrid';
 import { ICompareResultCell } from './TreeCompare.props';
 
 export enum CompareResultEnum {
