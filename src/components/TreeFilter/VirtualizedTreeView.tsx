@@ -418,7 +418,10 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
     private getNewCheckedItems(changedTreeItem: TreeItem, checkedItemIds, wasChecked): CheckResult {
         let itemsToChange = [];
         let branchesToCheck = [];
-        if (this.state.searchText === '') {
+
+        if (!this.props.isGroupSelectableOnMultiSelect) {
+            itemsToChange.push(changedTreeItem.id);
+        } else if (this.state.searchText === '') {
             itemsToChange = ItemOperator.getAllChildrenIds(changedTreeItem);
             if (itemHasChildren(changedTreeItem)) {
                 branchesToCheck.push({ id: changedTreeItem.id, depth: 0 });
@@ -510,6 +513,21 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
     }
 
     private setNewSelectedState(allChecked: boolean, newChecked, newPartiallyChecked) {
+        if (!this.props.isGroupSelectableOnMultiSelect) {
+            let newType = FilterSelectionEnum.None;
+            let selectedIDs = [];
+
+            if (newChecked.length === this.allItemIds.length) {
+                newType = FilterSelectionEnum.All;
+            } else if (newChecked.length > 0) {
+                selectedIDs = newChecked;
+                newType = FilterSelectionEnum.Selected;
+            }
+
+            this.props.onValuesSelected(this.props.filterId, { type: newType, selectedIDs: selectedIDs });
+            return;
+        }
+
         const allSelected = allChecked || this.areAllItemsSelected(newChecked) === CheckStatus.Checked;
         if (allSelected) {
             this.props.onValuesSelected(this.props.filterId, { type: FilterSelectionEnum.All, selectedIDs: [] });

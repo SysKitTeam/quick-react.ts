@@ -1,3 +1,5 @@
+import { TreeItem } from '../../src';
+
 const RANDOM_WORDS = ['abstrusity', 'advertisable', 'bellwood', 'benzole', 'disputative', 'djilas', 'ebracteate', 'zonary'];
 
 export function createFlatList(numOfItems) {
@@ -15,6 +17,43 @@ export function getSelectedIds(numOfItems) {
         ids.push(i.toString());
     }
     return ids;
+}
+
+// Function to fill TreeView Data which I used to test the performance. Doesn't hurt if it stays here
+let id = 0;
+
+export function createData(hierarchy: Array<number>, depth = 0) {
+    const data: Array<TreeItem> = [];
+
+    if (depth < hierarchy.length) {
+        for (let i = 0; i < hierarchy[depth]; i++) {
+            const name = RANDOM_WORDS[Math.floor(Math.random() * RANDOM_WORDS.length)];
+            const identifier = id++;
+            const treeItem: TreeItem = {
+                expanded: true,
+                id: identifier + '',
+                value: identifier + ' ' + name,
+                iconName: Math.random() > 0.8 ? 'icon-edit_user' : '',
+                iconClassName: 'color',
+                hasChildren: depth + 1 < hierarchy.length,
+                hoverOverBtn: [{
+                    iconName: 'icon-edit',
+                    // tslint:disable-next-line:no-console
+                    callback: (item) => console.log(item.id),
+                    tooltip: { content: 'This is tooltip! This is tooltip! This is tooltip!' }
+                },
+                {
+                    iconName: 'icon-trash',
+                    // tslint:disable-next-line:no-console
+                    callback: (item) => console.log(item)
+                }],
+                children: createData(hierarchy, depth + 1)
+            };
+            data.push(treeItem);
+        }
+    }
+
+    return data;
 }
 
 export function createRandomizedData(numOfItems, maxDepth) {
@@ -38,7 +77,7 @@ export function createRandomizedData(numOfItems, maxDepth) {
                 iconName: 'icon-edit',
                 // tslint:disable-next-line:no-console
                 callback: (item) => console.log(item.id),
-                tooltip: {content: 'This is tooltip! This is tooltip! This is tooltip!' }
+                tooltip: { content: 'This is tooltip! This is tooltip! This is tooltip!' }
             },
             {
                 iconName: 'icon-trash',
@@ -55,7 +94,7 @@ export function createRandomizedData(numOfItems, maxDepth) {
     return data;
 }
 
-export function createAsyncLoadRandomizedData(numOfItems, maxDepth) {    
+export function createAsyncLoadRandomizedData(numOfItems, maxDepth) {
     const createRandomizedItem = (key, depth) => {
         let children = [];
         let hasChildren;

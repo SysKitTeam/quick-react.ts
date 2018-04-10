@@ -14,6 +14,7 @@ export interface IVirtualizedTreeViewProps {
     onSave?: () => void;
     onCancel?: () => void;
     isGroupSelectableOnSingleSelect?: boolean;
+    isGroupSelectableOnMultiSelect?: boolean;
     itemsAreFlatList?: boolean;
     onValuesSelected?: (filterId: string, filterSelection: IFilterSelection) => void;
     defaultSelection?: FilterSelectionEnum;
@@ -22,7 +23,7 @@ export interface IVirtualizedTreeViewProps {
     searchQuery?: string;
     allItemIdsGetter?: (items?: Array<TreeItem>) => ReadonlyArray<string>;
     lookupTableGetter?: (items?: Array<TreeItem>) => any;
-    onItemExpand?: (item?: TreeItem, lookupTableGetter?: () => TreeLookups ) => void;
+    onItemExpand?: (item?: TreeItem, lookupTableGetter?: () => TreeLookups) => void;
     showSelectAll?: boolean;
     showStatusBar?: boolean;
 }
@@ -33,6 +34,7 @@ export const defaultTreeProps: Partial<IVirtualizedTreeViewProps> = {
     isSingleSelect: false,
     itemsAreFlatList: false,
     isGroupSelectableOnSingleSelect: false,
+    isGroupSelectableOnMultiSelect: false,
     onValuesSelected: () => { },
     filterSelection: { type: FilterSelectionEnum.None, selectedIDs: [] },
     defaultSelection: FilterSelectionEnum.None,
