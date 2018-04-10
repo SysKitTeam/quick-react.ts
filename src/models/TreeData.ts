@@ -114,7 +114,7 @@ export class TreeDataSource {
                     }
                 };
                 removeChildrenFromLookup(existingNode);
-            }            
+            }
 
             Object.assign(existingNode, props);
 
@@ -137,6 +137,7 @@ export class TreeDataSource {
     public getTreeStructure(): IFinalTreeNode {
         return this.treeStructure;
     }
+
     public getNodeById<T>(nodeId: number): IFinalTreeNode & T;
     public getNodeById(nodeId: number): IFinalTreeNode {
         return this.nodesById[nodeId];

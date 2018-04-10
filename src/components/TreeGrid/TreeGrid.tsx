@@ -240,7 +240,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
             }
         }
 
-        const title = cellData;
+        const title = typeof (cellData) === 'string' ? cellData : null;
         return (
             <CellElement
                 key={key}
