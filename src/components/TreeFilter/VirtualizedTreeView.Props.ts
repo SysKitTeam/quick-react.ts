@@ -34,7 +34,7 @@ export const defaultTreeProps: Partial<IVirtualizedTreeViewProps> = {
     isSingleSelect: false,
     itemsAreFlatList: false,
     isGroupSelectableOnSingleSelect: false,
-    isGroupSelectableOnMultiSelect: false,
+    isGroupSelectableOnMultiSelect: true,
     onValuesSelected: () => { },
     filterSelection: { type: FilterSelectionEnum.None, selectedIDs: [] },
     defaultSelection: FilterSelectionEnum.None,
