@@ -1,6 +1,6 @@
 import { TreeItem } from '../../src';
 
-const RANDOM_WORDS = ['abstrusity', 'advertisable', 'bellwood', 'benzole', 'disputative', 'djilas', 'ebracteate', 'zonary'];
+const RANDOM_WORDS = ['abstrusity', 'advertisable', 'bellwood', 'benzole', 'disputative', 'djilas', 'ebracteate', 'zonary', 'chromosome', 'downcast', 'evil', 'cottage', 'adopter', 'coal', 'locust', 'crackpot', 'abstinence', 'joypop'];
 
 export function createFlatList(numOfItems) {
     let data = [];

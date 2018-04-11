@@ -234,7 +234,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                 return <SingleSelectItemWithButtons />;
             } else {
                 let checked = itemChecked ? CheckStatus.Checked : CheckStatus.NotChecked;
-                if (this.isItemInList(this.state.partiallyCheckedItemIds, treeItem)) {
+                if (this.isItemInList(this.state.partiallyCheckedItemIds, treeItem) && this.props.isGroupSelectableOnMultiSelect) {
                     checked = CheckStatus.ChildChecked;
                 }
 
@@ -367,7 +367,9 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
             }
         } else { // tree structure
             if (this.state.searchText === '') {
-                if (allSelected) {
+                if (!this.props.isGroupSelectableOnMultiSelect) {
+                    this.setNewSelectedState(!allSelected, [], []);
+                } else if (allSelected) {
                     this.setNewSelectedState(false, [], []);
                 } else {
                     this.setNewSelectedState(true, [], []);
@@ -382,11 +384,16 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
 
                 let itemsToChange = [];
                 let branchesToCheck = [];
+
                 for (let item of filteredItems) {
                     const leafsAndBranches = ItemOperator.getAllLeafsAndBranches(item, this.itemLookup[item.id]);
                     itemsToChange = itemsToChange.concat(leafsAndBranches.Leafs);
                     branchesToCheck = branchesToCheck.concat(leafsAndBranches.Branches);
                 }
+                // filtriraj flat vrijednosti
+                /*if (!this.props.isGroupSelectableOnMultiSelect) {
+                    itemsToChange = _.without<any>(itemsToChange, ...ItemOperator.getAllItemIds(filteredItems));
+                }*/
 
                 let newCheckedItems: Array<string> = [];
                 if (allFilteredChecked) {
@@ -421,6 +428,10 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
 
         if (!this.props.isGroupSelectableOnMultiSelect) {
             itemsToChange.push(changedTreeItem.id);
+            const parent = this.parentLookup[changedTreeItem.id];
+            if (parent !== undefined) {
+                branchesToCheck.push({ id: parent.id, depth: 0 });
+            }
         } else if (this.state.searchText === '') {
             itemsToChange = ItemOperator.getAllChildrenIds(changedTreeItem);
             if (itemHasChildren(changedTreeItem)) {
@@ -478,7 +489,9 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
             isPartiallyChecked = !isChecked && isPartiallyChecked; // item cannot be checked and partial
 
             // Add/Remove from lists
-            this.modifyListForItem(newChecked, item.id, isChecked);
+            if (this.props.isGroupSelectableOnMultiSelect) {
+                this.modifyListForItem(newChecked, item.id, isChecked);
+            }
             this.modifyListForItem(newPartiallyChecked, item.id, isPartiallyChecked);
 
             const parent = this.parentLookup[checkItem.id];
@@ -517,7 +530,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
             let newType = FilterSelectionEnum.None;
             let selectedIDs = [];
 
-            if (newChecked.length === this.allItemIds.length) {
+            if (newChecked.length === this.allItemIds.length || allChecked) {
                 newType = FilterSelectionEnum.All;
             } else if (newChecked.length > 0) {
                 selectedIDs = newChecked;
@@ -525,6 +538,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
             }
 
             this.props.onValuesSelected(this.props.filterId, { type: newType, selectedIDs: selectedIDs });
+            this.setState(prevState => ({ ...prevState, partiallyCheckedItemIds: newPartiallyChecked }));
             return;
         }
 
