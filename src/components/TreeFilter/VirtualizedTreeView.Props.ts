@@ -14,7 +14,7 @@ export interface IVirtualizedTreeViewProps {
     onSave?: () => void;
     onCancel?: () => void;
     isGroupSelectableOnSingleSelect?: boolean;
-    isGroupSelectableOnMultiSelect?: boolean;
+    enableRecursiveSelection?: boolean;
     itemsAreFlatList?: boolean;
     onValuesSelected?: (filterId: string, filterSelection: IFilterSelection) => void;
     defaultSelection?: FilterSelectionEnum;
@@ -34,7 +34,7 @@ export const defaultTreeProps: Partial<IVirtualizedTreeViewProps> = {
     isSingleSelect: false,
     itemsAreFlatList: false,
     isGroupSelectableOnSingleSelect: false,
-    isGroupSelectableOnMultiSelect: true,
+    enableRecursiveSelection: true,
     onValuesSelected: () => { },
     filterSelection: { type: FilterSelectionEnum.None, selectedIDs: [] },
     defaultSelection: FilterSelectionEnum.None,

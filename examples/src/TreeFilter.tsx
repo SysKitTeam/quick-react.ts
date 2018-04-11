@@ -247,7 +247,7 @@ export class Index extends React.Component<any, DemoState> {
                     defaultSelection={FilterSelectionEnum.All}
                     // tslint:disable-next-line:no-string-literal
                     filterSelection={this.state.filterStates['f10']}
-                    isGroupSelectableOnMultiSelect={false}
+                    enableRecursiveSelection={false}
                     hasTitleBorder={true}
                     showButtons={false}
                     onValuesSelected={this.onValuesSelected}
