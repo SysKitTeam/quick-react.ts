@@ -1,6 +1,6 @@
 {
     "name": "quick-react-ts",
-    "version": "0.10.55",
+    "version": "0.10.56",
     "description": "Reusable components for React, written in TypeScript",
     "main": "./lib/index.js",
     "typings": "./lib/index",
