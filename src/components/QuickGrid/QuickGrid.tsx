@@ -300,7 +300,9 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                 }
             }
 
-            this.setSelectedRowIndex(rowIndex, rowData);
+            if (this.props.isRowSelectable) {
+                this.setSelectedRowIndex(rowIndex, rowData);
+            }
         };
 
 
@@ -337,7 +339,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     renderEmptyCell(key, rowIndex, rowData, style) {
         const rowClass = 'grid-row-' + rowIndex;
         const onMouseEnter = () => { this.onMouseEnterCell(rowIndex); };
-        const onClick = () => { this.setSelectedRowIndex(rowIndex, rowData); };
+        const onClick = this.props.isRowSelectable ? () => { this.setSelectedRowIndex(rowIndex, rowData); } : null;
 
         const onDoubleClick = () => {
             if (this.props.onRowDoubleClicked) {
