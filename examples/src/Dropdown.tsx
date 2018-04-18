@@ -104,6 +104,19 @@ export class Index extends React.Component<any, any> {
                     </li>
                 </Dropdown>
 
+                <Dropdown icon={'icon-add'} iconClassName={'icon-red-fill'} label="Icon Dropdown with custom class  :" className={'icon-dropdown'} dropdownType={DropdownType.customDropdown}>
+                    <Label style={{ paddingLeft: '5px' }}>Header</Label>
+                    <hr />
+                    <li style={{ display: 'inline-block', padding: '5px', width: '100px' }}>
+                        <Icon style={{ paddingTop: '5px' }} iconName={'icon-account'}></Icon>
+                        <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
+                    </li>
+                    <li style={{ display: 'inline-block', padding: '5px', width: '100px' }}>
+                        <Icon style={{ paddingTop: '5px' }} iconName={'icon-account'}></Icon>
+                        <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
+                    </li>
+                </Dropdown>
+
                 <Dropdown
                     label="Custom Dropdown:"
                     className={'custom-dropdown'}

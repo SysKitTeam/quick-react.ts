@@ -86,7 +86,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
     setDropDownLabelRef = (ref) => { this._dropdownLabel = ref; };
 
     public render() {
-        let { label, options, hasTitleBorder, icon, dropdownType, className, calloutClassName, layerClassName, showArrowIcon, isValid } = this.props;
+        let { label, options, hasTitleBorder, icon, dropdownType, className, calloutClassName, layerClassName, showArrowIcon, isValid, iconClassName } = this.props;
         let { id, isOpen, selectedIndex, isDisabled } = this.state;
         let selectedOption = options[selectedIndex];
         const dropdownIconClassName = hasTitleBorder ? 'iconArrowWithBorder' : 'iconArrow';
@@ -107,7 +107,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
 
         const dropdownSpanElement = <span className={dropdownTitleClassName} title={this.props.label}>
             {icon && (
-                <Icon iconName={icon}></Icon>
+                <Icon iconName={icon} className={iconClassName}></Icon>
             )}
             {selectionTextObj.text}
             {this.props.displaySelection && this.props.showArrowIcon &&
