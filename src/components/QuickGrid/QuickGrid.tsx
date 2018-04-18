@@ -79,7 +79,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             row = index;
         }
 
-        if (index !== undefined && index > rowCount) {
+        if (index !== undefined && index >= rowCount) {
             row = rowCount - 1;
         }
 
@@ -482,7 +482,9 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                 );
             }
         };
-        const title = this.props.tooltipsEnabled ? cellData : null;
+
+        const title = this.props.tooltipsEnabled ? typeof (cellData) === 'string' ? cellData : null : null;
+
         return (
             <div
                 key={key}

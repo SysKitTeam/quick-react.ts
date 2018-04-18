@@ -15,7 +15,7 @@ export class Index extends React.Component<any, any> {
     }
     public render() {
         return (
-            <div style={{ 'height': '750', 'width': '100%' }}>
+            <div style={{ 'height': '850px', 'width': '100%' }}>
                 <CompareComponent
                     sourceRows={MockData.sourceRows}
                     targetRows={MockData.targetRows}

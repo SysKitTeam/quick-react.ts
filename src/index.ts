@@ -55,6 +55,7 @@ export * from './components/TreeGrid';
 export * from './components/Wizard';
 export * from './components/MessageBox';
 export * from './components/Scheduler';
+export * from './components/TreeCompare';
 export * from './utilities/autobind';
 export * from './utilities/KeyCodes';
 export * from './utilities/rtl';

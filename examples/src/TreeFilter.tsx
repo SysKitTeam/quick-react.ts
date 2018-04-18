@@ -6,16 +6,17 @@ import { rebuildTree, updateTree, expandOrCollapseTreeItem, expandOrCollapseAsyn
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { TreeFilter, IFilterSelection, FilterSelectionEnum, VirtualizedTreeView, TreeItem } from '../../src/components/TreeFilter';
-import { createFlatList, createRandomizedData, getSelectedIds, createAsyncLoadRandomizedData, createCustomTooltipContentRandomizedData } from '../MockData/treeFilterElements';
+import { createFlatList, createRandomizedData, getSelectedIds, createAsyncLoadRandomizedData, createCustomTooltipContentRandomizedData, createData } from '../MockData/treeFilterElements';
 import { Button } from '../../src/components/Button/Button';
 import { ILookupTable } from '../../src/components/TreeFilter/TreeItemOperators';
 import { Spinner } from '../../src/components/Spinner/Spinner';
 import { SpinnerType } from '../../src/components/Spinner';
 
 interface DemoState {
-    filterStates: { [id: string]: IFilterSelection };    
+    filterStates: { [id: string]: IFilterSelection };
     asyncTreeData: TreeItem[];
     treeData: TreeItem[];
+    treeData2: TreeItem[];
 }
 
 const deeperTreeData = createRandomizedData(50, 4);
@@ -28,9 +29,10 @@ export class Index extends React.Component<any, DemoState> {
         super(props);
         const asyncTreeData = createAsyncLoadRandomizedData(1000, 4);
         this.state = {
-            filterStates: {},            
+            filterStates: {},
             asyncTreeData: asyncTreeData,
-            treeData: createRandomizedData(2000, 2)
+            treeData: createRandomizedData(2000, 2),
+            treeData2: createData([2, 4])
         };
     }
 
@@ -48,40 +50,40 @@ export class Index extends React.Component<any, DemoState> {
         console.log('Save clicked!', newFilters);
     }
 
-    onAsyncTreeItemExpand = (treeItem: TreeItem, lookupTableGetter) => {        
-        
-        
+    onAsyncTreeItemExpand = (treeItem: TreeItem, lookupTableGetter) => {
+
+
 
         expandOrCollapseAsyncTreeItem(() => this.state.asyncTreeData,
-         treeItem,
-          lookupTableGetter, 
-          (roots) => {
-            this.setState({
-                ...this.state,
-                asyncTreeData: roots
-            });
+            treeItem,
+            lookupTableGetter,
+            (roots) => {
+                this.setState({
+                    ...this.state,
+                    asyncTreeData: roots
+                });
 
-         },
-        
-          () => {
-             return new Promise<TreeItem[]>((resolve) => {
-                setTimeout(() => {
-                    const randomNumber = (Math.random() * 100).toFixed(0);                    
-                    const children = [{
-                        id: treeItem.id + '-' + '1',
-                        value: 'asyncly loaded ' + randomNumber,
-                        expanded: false
-                    }, {
-                        id: treeItem.id + '-' + '2',
-                        value: 'asyncly loaded 2',
-                        expanded: false
-                    }];
+            },
 
-                    resolve(children);                            
-                }, 3000);
-             });
-          }
-        );        
+            () => {
+                return new Promise<TreeItem[]>((resolve) => {
+                    setTimeout(() => {
+                        const randomNumber = (Math.random() * 100).toFixed(0);
+                        const children = [{
+                            id: treeItem.id + '-' + '1',
+                            value: 'asyncly loaded ' + randomNumber,
+                            expanded: false
+                        }, {
+                            id: treeItem.id + '-' + '2',
+                            value: 'asyncly loaded 2',
+                            expanded: false
+                        }];
+
+                        resolve(children);
+                    }, 3000);
+                });
+            }
+        );
     }
 
     private onItemExpand = (treeItem: TreeItem, lookupTableGetter) => {
@@ -214,7 +216,7 @@ export class Index extends React.Component<any, DemoState> {
                     showStatusBar={false}
                     validated={false}
                 />
-                <br/><br/>
+                <br /><br />
                 <TreeFilter
                     title="Custom tooltip content Icon"
                     filterId={'f3'}
@@ -235,6 +237,21 @@ export class Index extends React.Component<any, DemoState> {
                         bottomLeft: true,
                         topLeft: false
                     }}
+                />
+
+                <br /><br />
+                <p>This TreeFilter has the isGroupSelectableOnMultiSelect prop set to true</p>
+                <TreeFilter
+                    filterId={'f10'}
+                    items={this.state.treeData2}
+                    defaultSelection={FilterSelectionEnum.All}
+                    // tslint:disable-next-line:no-string-literal
+                    filterSelection={this.state.filterStates['f10']}
+                    enableRecursiveSelection={false}
+                    hasTitleBorder={true}
+                    showButtons={false}
+                    onValuesSelected={this.onValuesSelected}
+                    onSave={this.onSave}
                 />
             </div>
         );
