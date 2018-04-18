@@ -17,6 +17,7 @@ export interface IDropdownProps {
     disabled?: boolean;
     hasTitleBorder?: boolean;
     icon?: string;
+    iconClassName?: string;
     dropdownType?: DropdownType;
     dropdownWidth?: string;
     className?: string;
