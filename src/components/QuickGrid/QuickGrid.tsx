@@ -19,12 +19,15 @@ import {
     IQuickGridProps,
     IQuickGridState,
     QuickGridActionsBehaviourEnum,
-    SortDirection
+    SortDirection,
+    DataTypeEnum,
+    BoolFormatTypeEnum
 } from './QuickGrid.Props';
 import { GridFooter } from './QuickGridFooter';
 import { GridHeader } from './QuickGridHeader';
 import { QuickGridRowContextActionsHandler } from './QuickGridRowContextActionsHandler';
 import { IQuickGrid } from '.';
+import { boolFormatterFactory } from './CellFormatters';
 
 const scrollbarSize = require('dom-helpers/util/scrollbarSize');
 
@@ -155,6 +158,11 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     getColumnsToDisplay(columns: Array<GridColumn>, groupBy: Array<IGroupBy>, hasActionColumn: boolean) {
         const groupByColumnNames = groupBy.map(col => col.column);
         let displayColumns = columns.filter((column) => { return groupByColumnNames.indexOf(column.valueMember) === -1; });
+        displayColumns.map((column) => {
+            if (column.cellFormatter == null && column.dataType === DataTypeEnum.Boolean) {
+                column.cellFormatter = boolFormatterFactory(column.boolFormatType);
+            }
+        });
         let emptyArray = new Array();
         if (hasActionColumn) {
             emptyArray.push({

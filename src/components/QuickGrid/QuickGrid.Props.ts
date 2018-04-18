@@ -82,13 +82,30 @@ export interface GroupRow {
 export enum DataTypeEnum {
     Number,
     String,
-    Date
+    Date,
+    Boolean
+}
+
+export enum BoolFormatTypeEnum {
+    /**
+     * No icons, only text
+     */
+    TextOnly,
+    /**
+     * Checkmark for true, nothing for false
+     */
+    CheckmarkOnly,
+    /**
+     * Checkmark for true, cross for false
+     */
+    CheckmarkAndCross
 }
 
 export interface GridColumn {
     headerText: string;
     valueMember: string; // for sort & grouping
     dataType?: DataTypeEnum;
+    boolFormatType?: BoolFormatTypeEnum;
     isSortable?: boolean; // default true
     isGroupable?: boolean; // default true
     sortByValueGetter?: (cellData, sortDirection: SortDirection) => any;
@@ -145,4 +162,3 @@ export interface ActionItem {
     parameters?: any;
     tooltip?: ITooltipProps;
 }
-

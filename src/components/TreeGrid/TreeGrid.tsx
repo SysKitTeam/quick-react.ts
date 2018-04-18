@@ -4,11 +4,12 @@ import * as React from 'react';
 import { IFinalTreeNode } from '../../models/TreeData';
 import { getTreeRowsSelector } from './TreeGridDataSelectors';
 import { Icon } from '../Icon/Icon';
-import { getColumnMinWidth, GridColumn, ICustomCellRendererArgs, IQuickGrid, QuickGrid } from '../QuickGrid';
+import { getColumnMinWidth, GridColumn, ICustomCellRendererArgs, IQuickGrid, QuickGrid, DataTypeEnum, BoolFormatTypeEnum } from '../QuickGrid';
 import { Spinner } from '../Spinner/Spinner';
 import { SpinnerType } from '../Spinner/Spinner.Props';
 import { CellElement } from './CellElement';
 import { ITreeGridProps, ITreeGridState } from './TreeGrid.Props';
+import { boolFormatterFactory } from '../QuickGrid/CellFormatters';
 
 export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState> {
     public static defaultProps = {
@@ -77,7 +78,11 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
         };
         expandedColumns.push(replacementFirstColumn);
         for (let i = 1; i < columns.length; i++) {
-            expandedColumns.push(columns[i]);
+            let col: GridColumn = { ...columns[i] };
+            if (col.cellFormatter == null && col.dataType === DataTypeEnum.Boolean) {
+                col.cellFormatter = boolFormatterFactory(col.boolFormatType);
+            }
+            expandedColumns.push(col);
         }
         return expandedColumns;
     }
@@ -226,6 +231,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
                     Loading...
                     </span>
             </div>;
+
         } else if (column.cellFormatter) {
             columnElement = column.cellFormatter(cellData, rowData);
         } else {
@@ -260,6 +266,29 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
         );
     }
 
+    private formatBoolCell(cellData: any, rowData: any) {
+        const _ref: any = this;
+        let element;
+        switch (_ref.boolFormatType) {
+            case BoolFormatTypeEnum.CheckmarkOnly:
+                element = <div className="grid-component-cell-inner" >
+                    <Icon className="center-icon" iconName={ cellData ? 'svg-icon-checkmark' : null}/>
+                </div>;
+                break;
+            case BoolFormatTypeEnum.CheckmarkAndCross:
+                element = <div className="grid-component-cell-inner" >
+                    <Icon className="center-icon" iconName={ cellData ? 'svg-icon-checkmark' : 'svg-icon-delete'}/>
+                </div>;
+                break;
+            case BoolFormatTypeEnum.TextOnly:
+            default:
+                element = <div className="grid-component-cell-inner" >
+                    {cellData ? 'True' : 'False'}
+                </div>;
+
+        }
+        return element;
+    }
 
     private _onTreeExpandToggleClick = (ev, rowData: IFinalTreeNode) => {
         // with this call we are telling underlying grid not to scroll on selected position on render update
