@@ -22,7 +22,7 @@ export interface IFinalTreeNode extends TreeNode {
     descendantSatisfiesFilterCondition?: boolean;
 }
 
-interface ILookupTable {
+export interface ILookupTable {
     [id: number]: IFinalTreeNode;
 }
 
@@ -38,7 +38,7 @@ interface ILookupTable {
  * ie. we add a new child to the tree, react will register the change and the TreeGrid component will update because of the prop change
  */
 export class TreeDataSource {
-    private nodesById: ILookupTable;
+    public nodesById: ILookupTable;
     private idCounter: number = 0;
     // this would constitute a really dirty hack
     // React shallow compares each prop that is an object before even calling ShouldComponentUpdate    
