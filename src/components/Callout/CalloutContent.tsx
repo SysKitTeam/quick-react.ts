@@ -188,6 +188,19 @@ export class CalloutContent extends CommonComponent<ICalloutProps, ICalloutState
         this._updatePosition();
     }
 
+    _checkBeakPosition = (beak: { top: number, left: number, display: string }): boolean => {
+        if (!beak) {
+            return false;
+        }
+
+        if (this.state.positions && this.state.positions.beak) {
+            const beakPosition = this.state.positions.beak;
+            return beak.left !== beakPosition.left || beak.top !== beakPosition.top;
+        }
+
+        return false;
+    }
+
     _updatePosition = () => {
         let { positions } = this.state;
         let hostElement: HTMLElement = this._hostElement;
@@ -204,7 +217,12 @@ export class CalloutContent extends CommonComponent<ICalloutProps, ICalloutState
             }
             let positionInfo: IPositionInfo = getRelativePositions(currentProps, hostElement, calloutElement);
 
-            if ((!positions && positionInfo) ||
+            let update = false;
+            if (positionInfo.beakPosition) {
+                update = this._checkBeakPosition(positionInfo.beakPosition);
+            }
+
+            if ((!positions && positionInfo) || update ||
                 (positions && positionInfo &&
                     (positions.callout.top.toFixed(2) !== positionInfo.calloutPosition.top.toFixed(2) ||
                         positions.callout.left.toFixed(2) !== positionInfo.calloutPosition.left.toFixed(2))
