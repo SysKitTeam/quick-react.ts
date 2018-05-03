@@ -268,6 +268,7 @@ export class Index extends React.Component<any, DemoState> {
                     showButtons={ false }
                     onSave={ this.onSave }
                     isReady={ false }
+                    showResetButton={false}
                 />
             </div>
         );
