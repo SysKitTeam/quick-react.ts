@@ -64,6 +64,7 @@ export interface ITreeFilterProps {
     validated?: boolean;
     validationErrorMessage?: string;
     isReady?: boolean;
+    showResetButton?: boolean;
 }
 
 export const defaultTreeFilterProps: Partial<ITreeFilterProps> = {
@@ -89,7 +90,8 @@ export const defaultTreeFilterProps: Partial<ITreeFilterProps> = {
     showStatusBar: true,
     validated: true,
     validationErrorMessage: 'This field is required',
-    isReady: true
+    isReady: true,
+    showResetButton: true
 };
 
 export interface ITreeFilterState {
