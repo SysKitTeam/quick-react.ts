@@ -168,7 +168,9 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
                             gapSpace={0}
                             doNotLayer={false}
                             targetElement={this._dropDown}
-                            directionalHint={DirectionalHint.bottomLeftEdge}
+                            directionalHint={this.props.calloutDirectionalHint ?
+                                this.props.calloutDirectionalHint
+                                : DirectionalHint.bottomLeftEdge}
                             onDismiss={this.closeDropdown}
                         >
                             {this.renderItems()}
