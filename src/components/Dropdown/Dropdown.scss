@@ -108,6 +108,13 @@
             span {
                 color: $secondary-disabled-color;
             }
+           
+            &.arrow {
+                &.text {
+                    padding-right: 20px;
+                    color: $secondary-disabled-color;
+                }
+            }
         }
 
         .icon {
