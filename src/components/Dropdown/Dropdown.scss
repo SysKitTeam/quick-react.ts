@@ -98,7 +98,6 @@
 
     &.is-disabled {
         .dropdown-title-border {
-            background-color: $disabled-field;
             border-color: $white-background-lines;
             cursor: default;
 
@@ -109,6 +108,10 @@
             span {
                 color: $secondary-disabled-color;
             }
+        }
+
+        .icon {
+            color: $secondary-disabled-color;
         }
 
         .iconArrowWithBorder {
@@ -289,3 +292,9 @@
         }
     }
 }
+
+.dropdown-label {
+    &.is-disabled {
+        color: $secondary-disabled-color;
+    }
+} 

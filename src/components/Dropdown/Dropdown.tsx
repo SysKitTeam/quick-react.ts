@@ -119,16 +119,19 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
             {this.props.displaySelection && this.props.showArrowIcon && (this.state.isDisabled || !this.state.isLoading) &&
                 <Icon className={dropdownIconClassName} iconName={arrowIcon}></Icon>
             }
-            { 
+            {
                 this.state.isLoading && !this.state.isDisabled &&
-                <Spinner type={ SpinnerType.small }/> 
+                <Spinner type={SpinnerType.small} />
             }
         </span>;
 
         return (
             <div ref="root" className="dropdown-root">
                 {label && (
-                    <label id={id + '-label'} className="label" ref={this.setDropDownLabelRef} >{label}</label>
+                    <label
+                        id={id + '-label'}
+                        className={classNames('dropdown-label', className, { 'is-disabled': isDisabled })}
+                        ref={this.setDropDownLabelRef} >{label}</label>
                 )}
                 <div
                     data-is-focusable={true}
