@@ -21,7 +21,7 @@ export interface IDropdownState {
 }
 
 export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState> {
-    public static defaultProps = {
+    public static defaultProps: Partial<IDropdownProps> = {
         options: [],
         hasTitleBorder: false,
         displaySelection: true,
@@ -30,7 +30,8 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
         dropdownType: DropdownType.linkDropdown,
         isValid: true,
         delayMs: 500,
-        isLoading: false
+        isLoading: false,
+        calloutDirectionalHint: DirectionalHint.bottomLeftEdge
     };
 
     private static Option: string = 'option';
@@ -168,7 +169,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
                             gapSpace={0}
                             doNotLayer={false}
                             targetElement={this._dropDown}
-                            directionalHint={DirectionalHint.bottomLeftEdge}
+                            directionalHint={this.props.calloutDirectionalHint}
                             onDismiss={this.closeDropdown}
                         >
                             {this.renderItems()}
