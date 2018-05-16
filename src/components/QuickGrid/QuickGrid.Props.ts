@@ -119,11 +119,15 @@ export interface GridColumn {
     headerTooltip?: string;
 }
 
+export const defaultMinColumnWidth = 50;
 export function getColumnMinWidth(col: GridColumn): number {
+    let retVal: number;
     if (col.minWidth instanceof Function) {
-        return col.minWidth();
+        retVal = col.minWidth();
+    } else {
+        retVal = col.minWidth;
     }
-    return col.minWidth;
+    return retVal || defaultMinColumnWidth;
 }
 
 export const lowercasedColumnPrefix = 'lowercase_';
