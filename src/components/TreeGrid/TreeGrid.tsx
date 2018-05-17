@@ -2,7 +2,7 @@ import * as classNames from 'classnames';
 import * as React from 'react';
 
 import { IFinalTreeNode } from '../../models/TreeData';
-import { getTreeRowsSelector, getSelectedNodesIds } from './TreeGridDataSelectors';
+import { getTreeRowsSelector } from './TreeGridDataSelectors';
 import { Icon } from '../Icon/Icon';
 import { getColumnMinWidth, GridColumn, ICustomCellRendererArgs, IQuickGrid, QuickGrid, DataTypeEnum, BoolFormatTypeEnum } from '../QuickGrid';
 import { Spinner } from '../Spinner/Spinner';
@@ -46,8 +46,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
             sortDirection: props.sortDirection,
             sortRequestId: 0,
             structureRequestChangeId: 0,
-            selectedNodeId: props.selectedNodeId,
-            selectedNodesIds: getSelectedNodesIds(props.treeDataSource)
+            selectedNodeId: props.selectedNodeId
         };
         const result = getTreeRowsSelector(this.state, props, props);
         this._finalGridRows = result.data;

@@ -32,5 +32,4 @@ export interface ITreeGridState {
     sortRequestId: number;
     structureRequestChangeId: number;
     selectedNodeId?: number;
-    selectedNodesIds: IDictionary<boolean>;
 }

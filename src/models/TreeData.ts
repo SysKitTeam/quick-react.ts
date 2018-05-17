@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import { IDictionary } from '../utilities/common';
-import { getSelectedNodesIds } from '../components/TreeGrid/TreeGridDataSelectors';
 import { IObservable } from '../utilities/observable';
 import { removeLookupEntry, addLookupEntry } from '../utilities/immutable';
 
