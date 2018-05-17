@@ -12,7 +12,7 @@ import '../../src/components/TreeFilter/TreeFilter.scss'; // used for react-resi
 import '../../src/components/Label/Label.scss';
 import { updateTree, rebuildTree } from '../../src/utilities/rebuildTree';
 import './../../src/components/Icon/symbol-defs.svg';
-import { autobind, QuickGridActions, QuickGridActionsBehaviourEnum, Search, TreeDataSource, Label } from '../../src/index';
+import { autobind, QuickGridActions, QuickGridActionsBehaviourEnum, Search, TreeDataSource, Label, Checkbox } from '../../src/index';
 import { IFinalTreeNode, TreeNode } from '../../src/models/TreeData';
 import * as _ from 'lodash';
 
@@ -23,13 +23,22 @@ const columnSummaries = {
 };
 
 export class Index extends React.Component<any, any> {
-    state = {
-        data: getTreeGridData(0),
-        columns: gridColumns1,
-        selectedData: 1,
-        searchText: '',
-        selectedNode: 1
-    };
+    constructor(props: any) {
+        super(props);
+
+        const treeDataSource = getTreeGridData(0);
+
+        this.state = {
+            data: treeDataSource,
+            columns: gridColumns1,
+            selectedData: 1,
+            searchText: '',
+            selectedNode: 1,
+            isSelectAll: false
+        };
+
+        treeDataSource.registerDataListener(this.selectedIdsListener);
+    }
 
     gridActions: QuickGridActions = {
         actionItems: [],
@@ -42,6 +51,10 @@ export class Index extends React.Component<any, any> {
             return nodeActions;
         }
     };
+
+    selectedIdsListener = (selected: Array<string>) => {
+        console.log('selected ids: ', selected);
+    }
 
     rowActionClicked(commandName: string, parameters, rowData) {
         alert(commandName + ' clicked.');
@@ -70,6 +83,15 @@ export class Index extends React.Component<any, any> {
         });
     }
 
+    changeSelectAll = () => {
+        if (!this.state.isSelectAll) {
+            this.state.data.selectAll();
+        } else {
+            this.state.data.deselectAll();
+        }
+        this.setState({ isSelectAll: !this.state.isSelectAll });
+    }
+
     prev: any;
     public render() {
         this.prev = this.state.data;
@@ -93,6 +115,7 @@ export class Index extends React.Component<any, any> {
                 <Label>Select item:</Label>
                 <input type="number" onChange={this.scrollTo} />
                 <div style={{ width: 250, paddingTop: 10 }}><Search value={this.state.searchText} labelText="Search nodes..." onChange={this.searchQueryChanged} /></div>
+                <Checkbox label="Select all" checked={this.state.isSelectAll} onChange={this.changeSelectAll} />
                 <Resizable width={1000} height={700} >
                     <div className="viewport-height" style={{ height: '100%' }} >
                         <TreeGrid
