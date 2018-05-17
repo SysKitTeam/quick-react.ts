@@ -92,6 +92,10 @@ export class Index extends React.Component<any, any> {
         this.setState({ isSelectAll: !this.state.isSelectAll });
     }
 
+    setSelectedItems = () => {
+        this.state.data.setSelectedIds([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+    }
+
     prev: any;
     public render() {
         this.prev = this.state.data;
@@ -116,6 +120,7 @@ export class Index extends React.Component<any, any> {
                 <input type="number" onChange={this.scrollTo} />
                 <div style={{ width: 250, paddingTop: 10 }}><Search value={this.state.searchText} labelText="Search nodes..." onChange={this.searchQueryChanged} /></div>
                 <Checkbox label="Select all" checked={this.state.isSelectAll} onChange={this.changeSelectAll} />
+                <Button onClick={this.setSelectedItems}>Set selected items</Button>
                 <Resizable width={1000} height={700} >
                     <div className="viewport-height" style={{ height: '100%' }} >
                         <TreeGrid
