@@ -232,11 +232,10 @@ export class TreeDataSource implements IObservable<React.Component> {
 
     private partiallySelectItem = (node: IFinalTreeNode) => {
         const nodeId = this.getIdMember(node);
+        this.selectedIds = removeLookupEntry(nodeId, this.selectedIds);
+        this.partiallySelectedIds = addLookupEntry(nodeId, true, this.partiallySelectedIds);
 
-        this.partiallySelectedIds[nodeId] = true;
-        this.partiallySelectedIds = { ...this.partiallySelectedIds };
-
-        if (this.checkObject(node.parent)) {
+        if (!this.checkObject(node.parent)) {
             return;
         }
 

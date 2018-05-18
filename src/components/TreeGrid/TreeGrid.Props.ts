@@ -6,9 +6,6 @@ export interface ITreeGridProps {
     treeDataSource: TreeDataSource;
     columns: Array<GridColumn>;
 
-    // promijeniti u nesto pametnije...
-    // selectedNodeIds: any;
-
     isMultiSelectable?: boolean;
     className?: string;
     gridActions?: QuickGridActions;
