@@ -70,6 +70,10 @@ export class TreeDataSource implements IObservable<React.Component> {
         this.dataListeners.forEach(dataListener => dataListener(selectedIds));
     }
 
+    public setRecursiveSelection(isEnabled: boolean) {
+        this.updateSelectStrategy(isEnabled);
+    }
+
     public notify = () => this.subscribers.forEach(l => l.forceUpdate());
 
     private idCounter: number = 0;
@@ -94,6 +98,10 @@ export class TreeDataSource implements IObservable<React.Component> {
     private selectedIds: IDictionary<boolean>;
     private partiallySelectedIds: IDictionary<boolean>;
 
+    private _selectItemsStrategy: (item: IFinalTreeNode) => void;
+    private _removeItemsStrategy: (item: IFinalTreeNode) => void;
+
+
     get SelectedNodes(): IDictionary<boolean> {
         return this.selectedIds;
     }
@@ -105,6 +113,12 @@ export class TreeDataSource implements IObservable<React.Component> {
     public setSelectedIds(items: Array<number | string>) {
         this.selectedIds = {};
         this.partiallySelectedIds = {};
+
+        if (items.length === 0) {
+            this.notifyWithSelectedIds();
+            this.notify();
+        }
+
         items.forEach(i => this.updateSelectedItems(this.nodesById[i]));
     }
 
@@ -120,7 +134,14 @@ export class TreeDataSource implements IObservable<React.Component> {
      * 
      * @param root warning: will be mutated and returned as ITreeDataSource
      */
-    constructor(input: TreeNode | TreeDataSource | Array<any>, idMember: (string | IdGetter) = defaultIdMember) {
+    constructor(
+        input: TreeNode | TreeDataSource | Array<any>,
+        idMember: (string | IdGetter) = defaultIdMember,
+        enableRecursiveSelection: boolean = true
+    ) {
+        this.updateSelectStrategy(enableRecursiveSelection);
+
+
         this.idMember = idMember;
         this.partiallySelectedIds = {};
         this.selectedIds = {};
@@ -139,10 +160,18 @@ export class TreeDataSource implements IObservable<React.Component> {
         }
     }
 
+    public setSelected(item: IFinalTreeNode) {
+        this._selectItemsStrategy(item);
+    }
+
+    public removeSelected(item: IFinalTreeNode) {
+        this._removeItemsStrategy(item);
+    }
+
     /**
      * Returns unique parameter for given node.
      */
-    private getIdMember = (node: TreeNode): string | number => {
+    public getIdMember = (node: TreeNode): string | number => {
         if (typeof this.idMember === 'function') {
             return this.idMember(node);
         }
@@ -154,7 +183,17 @@ export class TreeDataSource implements IObservable<React.Component> {
         return node[this.idMember];
     }
 
-    public updateSelectedItems = (node: IFinalTreeNode) => {
+    private updateSelectStrategy(enableRecursiveSelection: boolean) {
+        if (enableRecursiveSelection) {
+            this._removeItemsStrategy = this.removeSelectedItems;
+            this._selectItemsStrategy = this.updateSelectedItems;
+        } else {
+            this._removeItemsStrategy = this.removeSelectedItem;
+            this._selectItemsStrategy = this.setSelectedItem;
+        }
+    }
+
+    private updateSelectedItems = (node: IFinalTreeNode) => {
         // get all selected items from this node up to all children
         const selectedIds = this.recursiveChildSelection(node);
 
@@ -218,7 +257,7 @@ export class TreeDataSource implements IObservable<React.Component> {
         }
     }
 
-    public removeSelectedItems = (node: IFinalTreeNode) => {
+    private removeSelectedItems = (node: IFinalTreeNode) => {
         const selectedIds = this.recursiveChildSelection(node);
         const keysToRemove = Object.keys(selectedIds);
         const oldKeys = Object.keys(this.selectedIds);
@@ -237,20 +276,18 @@ export class TreeDataSource implements IObservable<React.Component> {
         this.notify();
     }
 
-    public removeSelectedItem = (node: TreeNode) => {
+    private removeSelectedItem = (node: TreeNode) => {
         const nodeId = this.getIdMember(node);
-        if (!Object.hasOwnProperty(nodeId)) {
-            return;
-        }
-
-        delete this.selectedIds[nodeId];
-        return { ...this.selectedIds };
+        this.selectedIds = removeLookupEntry(nodeId, this.selectedIds);
+        this.notifyWithSelectedIds();
+        this.notify();
     }
 
-    public setSelectedItem = (item: TreeNode) => {
-        const selectedIdObj = {};
-        selectedIdObj[item.id] = true;
-        this.selectedIds = { ...this.selectedIds, ...selectedIdObj };
+    private setSelectedItem = (node: TreeNode) => {
+        const nodeId = this.getIdMember(node);
+        this.selectedIds = addLookupEntry(nodeId, true, this.selectedIds);
+        this.notifyWithSelectedIds();
+        this.notify();
     }
 
     private checkObject = (obj: any): boolean => {
@@ -270,14 +307,14 @@ export class TreeDataSource implements IObservable<React.Component> {
     ): IDictionary<boolean> => {
         let selectedIds = {};
 
-        // end of recursion
-        if (!this.itemHasChildren(node)) {
-            return selectedIds;
-        }
-
         if (appendParentNode) {
             const nodeId = this.getIdMember(node);
             selectedIds[nodeId] = true;
+        }
+
+        // end of recursion
+        if (!this.itemHasChildren(node)) {
+            return selectedIds;
         }
 
         const itemCount = node.children.length;

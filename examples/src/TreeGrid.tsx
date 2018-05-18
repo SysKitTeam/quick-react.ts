@@ -34,7 +34,8 @@ export class Index extends React.Component<any, any> {
             selectedData: 1,
             searchText: '',
             selectedNode: 1,
-            isSelectAll: false
+            isSelectAll: false,
+            enableRecursive: true
         };
 
         treeDataSource.registerDataListener(this.selectedIdsListener);
@@ -96,6 +97,12 @@ export class Index extends React.Component<any, any> {
         this.state.data.setSelectedIds([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     }
 
+    changeRecursiveSelection = () => {
+        this.setState({ enableRecursive: !this.state.enableRecursive });
+        this.state.data.setSelectedIds([]);
+        this.state.data.setRecursiveSelection(!this.state.enableRecursive);
+    }
+
     prev: any;
     public render() {
         this.prev = this.state.data;
@@ -120,6 +127,7 @@ export class Index extends React.Component<any, any> {
                 <input type="number" onChange={this.scrollTo} />
                 <div style={{ width: 250, paddingTop: 10 }}><Search value={this.state.searchText} labelText="Search nodes..." onChange={this.searchQueryChanged} /></div>
                 <Checkbox label="Select all" checked={this.state.isSelectAll} onChange={this.changeSelectAll} />
+                <Checkbox label="Enable recursive selection" checked={this.state.enableRecursive} onChange={this.changeRecursiveSelection} />
                 <Button onClick={this.setSelectedItems}>Set selected items</Button>
                 <Resizable width={1000} height={700} >
                     <div className="viewport-height" style={{ height: '100%' }} >

@@ -54,7 +54,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
     }
 
     componentDidMount() {
-        const rowIndex = this._finalGridRows.findIndex(e => e.nodeId === this.state.selectedNodeId);
+        const rowIndex = this._finalGridRows.findIndex(e => this.props.treeDataSource.getIdMember(e) === this.state.selectedNodeId);
         this._quickGrid.scrollToRow(rowIndex);
     }
 
@@ -161,15 +161,17 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
     }
 
     private getCheckStatus = (data: IFinalTreeNode): CheckStatus => {
-        if (this.props.treeDataSource.PartiallySelectedNodes[data.nodeId]) {
+        const nodeId = this.props.treeDataSource.getIdMember(data);
+
+        if (this.props.treeDataSource.PartiallySelectedNodes[nodeId]) {
             return CheckStatus.ChildChecked;
         }
 
         const selectedNodes = this.props.treeDataSource.SelectedNodes;
-        if (!selectedNodes.hasOwnProperty(data.nodeId)) {
+        if (!selectedNodes.hasOwnProperty(nodeId)) {
             return CheckStatus.NotChecked;
         }
-        if (this.props.treeDataSource.SelectedNodes[data.nodeId]) {
+        if (this.props.treeDataSource.SelectedNodes[nodeId]) {
             return CheckStatus.Checked;
         }
     }
@@ -179,6 +181,8 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
         let actionsTooltip = showNodeAsExpanded ? 'Collapse' : 'Expand';
         let iconName = showNodeAsExpanded ? 'icon-arrow_down_right' : 'icon-arrow_right';
         let icon = null;
+
+        const nodeId = this.props.treeDataSource.getIdMember(rowData);
 
         if ((!rowData.children || rowData.children.length <= 0) && !rowData.hasChildren) {
             icon = null;
@@ -198,21 +202,21 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
             e.preventDefault();
             e.stopPropagation();
 
-            if (this.props.treeDataSource.SelectedNodes[rowData.nodeId]) {
-                this.props.treeDataSource.removeSelectedItems(rowData);
+            if (this.props.treeDataSource.SelectedNodes[nodeId]) {
+                this.props.treeDataSource.removeSelected(rowData);
             } else {
-                this.props.treeDataSource.updateSelectedItems(rowData);
+                this.props.treeDataSource.setSelected(rowData);
             }
         };
 
         let checkBox: JSX.Element = null;
         if (this.props.isMultiSelectable) {
-            const checked = this.props.treeDataSource.SelectedNodes.hasOwnProperty(rowData.nodeId);
+            const checked = this.props.treeDataSource.SelectedNodes.hasOwnProperty(nodeId);
             checkBox = (
                 <VirtualizedTreeViewCheckBox
                     checked={this.getCheckStatus(rowData)}
                     onChange={onChange}
-                    itemId={rowData.nodeId.toString()}
+                    itemId={nodeId.toString()}
                     text=""
                     style={{ paddingTop: '0px' }}
                 />
