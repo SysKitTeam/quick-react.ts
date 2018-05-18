@@ -31,5 +31,5 @@ export interface ITreeGridState {
     sortDirection?: SortDirection;
     sortRequestId: number;
     structureRequestChangeId: number;
-    selectedNodeId?: number;
+    selectedNodeId?: number | string;
 }

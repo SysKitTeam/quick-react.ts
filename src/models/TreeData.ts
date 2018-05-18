@@ -33,7 +33,9 @@ export interface ILookupTable {
 
 export type IdGetter = (node: TreeNode) => string | number;
 
-export type DataListener = (selectedIds: Array<string>) => void;
+export type SelectedIdListener = (selectedIds: Array<string>) => void;
+
+export type DataListener = (selectedIds: Array<IFinalTreeNode>) => void;
 
 const defaultIdMember = (node: IFinalTreeNode) => node.nodeId;
 
@@ -51,6 +53,7 @@ const defaultIdMember = (node: IFinalTreeNode) => node.nodeId;
 export class TreeDataSource implements IObservable<React.Component> {
     private subscribers: Array<React.Component> = [];
     private dataListeners: Array<DataListener> = [];
+    private selectedIdsListeners: Array<SelectedIdListener> = [];
 
     public subscribe(listener: React.Component<{}, {}>): void {
         this.subscribers.push(listener);
@@ -65,9 +68,19 @@ export class TreeDataSource implements IObservable<React.Component> {
         this.dataListeners.push(dataListener);
     }
 
+    public registerSelectedIdsListener = (selectedIdsListener: SelectedIdListener) => {
+        this.selectedIdsListeners.push(selectedIdsListener);
+    }
+
     private notifyWithSelectedIds = () => {
         const selectedIds = Object.keys(this.selectedIds);
-        this.dataListeners.forEach(dataListener => dataListener(selectedIds));
+        this.selectedIdsListeners.forEach(selectedIdListener => selectedIdListener(selectedIds));
+    }
+
+    private notifyWithSelectedNodes = () => {
+        const selectedIds = Object.keys(this.selectedIds);
+        const nodes = selectedIds.map(id => this.nodesById[id] as IFinalTreeNode);
+        this.dataListeners.forEach(dataListener => dataListener(nodes));
     }
 
     public setRecursiveSelection(isEnabled: boolean) {
@@ -115,6 +128,7 @@ export class TreeDataSource implements IObservable<React.Component> {
         this.partiallySelectedIds = {};
 
         if (items.length === 0) {
+            this.notifyWithSelectedNodes();
             this.notifyWithSelectedIds();
             this.notify();
         }
@@ -211,6 +225,7 @@ export class TreeDataSource implements IObservable<React.Component> {
             this.checkIfAllChildrenAreSelected(node.parent, nodeId, selectedIds);
         }
 
+        this.notifyWithSelectedNodes();
         this.notifyWithSelectedIds();
         this.notify();
     }
@@ -272,6 +287,7 @@ export class TreeDataSource implements IObservable<React.Component> {
             this.checkIfAllChildrenAreSelected(node.parent, this.getIdMember(node), selectedIds);
         }
 
+        this.notifyWithSelectedNodes();
         this.notifyWithSelectedIds();
         this.notify();
     }
@@ -279,6 +295,7 @@ export class TreeDataSource implements IObservable<React.Component> {
     private removeSelectedItem = (node: TreeNode) => {
         const nodeId = this.getIdMember(node);
         this.selectedIds = removeLookupEntry(nodeId, this.selectedIds);
+        this.notifyWithSelectedNodes();
         this.notifyWithSelectedIds();
         this.notify();
     }
@@ -286,6 +303,7 @@ export class TreeDataSource implements IObservable<React.Component> {
     private setSelectedItem = (node: TreeNode) => {
         const nodeId = this.getIdMember(node);
         this.selectedIds = addLookupEntry(nodeId, true, this.selectedIds);
+        this.notifyWithSelectedNodes();
         this.notifyWithSelectedIds();
         this.notify();
     }

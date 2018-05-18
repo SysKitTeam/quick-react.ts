@@ -116,7 +116,15 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
         let { columnIndex, key, rowIndex, style, onMouseEnter, rowActionsRender, onMouseClick } = args;
         const rowData = this._finalGridRows[rowIndex];
         const rowID: number = rowData.nodeId;
-        let isSelectedRow = this.props.treeDataSource.SelectedNodes[rowData.nodeId]; // this.state.selectedNodeId && this.state.selectedNodeId === rowData.nodeId;
+
+        let isSelectedRow;
+
+        if (this.props.isMultiSelectable) {
+            isSelectedRow = this.props.treeDataSource.SelectedNodes[rowData.nodeId];
+        } else {
+            isSelectedRow = this.state.selectedNodeId && this.state.selectedNodeId === this.props.treeDataSource.getIdMember(rowData);
+        }
+
         const indentSize = this.props.isMultiSelectable ? 30 : 20;
         let indent = 0;
         let level = rowData.nodeLevel;
@@ -157,7 +165,8 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
         return (
             <div key={key} style={style}>
                 {rowData}
-            </div>);
+            </div>
+        );
     }
 
     private getCheckStatus = (data: IFinalTreeNode): CheckStatus => {
@@ -198,7 +207,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
             );
         }
 
-        let onChange = (e) => {
+        const onChange = (e) => {
             e.preventDefault();
             e.stopPropagation();
 
@@ -282,15 +291,12 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
         };
         onCellClick = rowData.isAsyncLoadingDummyNode ? undefined : onCellClick;
         if (rowData.isAsyncLoadingDummyNode && columnIndex === 1) {
-            columnElement = <div className="loading-container">
-                <Spinner className="async-loading-spinner"
-                    type={SpinnerType.small}
-                />
-                <span className="async-loading-label">
-                    Loading...
-                    </span>
-            </div>;
-
+            columnElement = (
+                <div className="loading-container">
+                    <Spinner className="async-loading-spinner" type={SpinnerType.small} />
+                    <span className="async-loading-label">Loading...</span>
+                </div>
+            );
         } else if (column.cellFormatter) {
             columnElement = column.cellFormatter(cellData, rowData);
         } else {
@@ -375,16 +381,17 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
     }
 
     private _setSelectedNode = (rowIndex: number, nodeData: IFinalTreeNode) => {
-        if (this.state.selectedNodeId === nodeData.nodeId) {
+        const nodeId = this.props.treeDataSource.getIdMember(nodeData);
+        if (this.state.selectedNodeId === nodeId) {
             return;
         }
-        this.setState({ selectedNodeId: nodeData.nodeId });
+        this.setState({ selectedNodeId: nodeId });
         if (this.props.onSelectedNodeChanged) {
             this.props.onSelectedNodeChanged(this._finalGridRows[rowIndex]);
         }
     }
 
-    private _setSelectedNodeAndState = (nodeId: number) => {
+    private _setSelectedNodeAndState = (nodeId: number | string) => {
         if (this.state.selectedNodeId === nodeId) {
             return;
         }

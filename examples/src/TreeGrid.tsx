@@ -38,7 +38,8 @@ export class Index extends React.Component<any, any> {
             enableRecursive: true
         };
 
-        treeDataSource.registerDataListener(this.selectedIdsListener);
+        treeDataSource.registerSelectedIdsListener(this.selectedIdsListener);
+        treeDataSource.registerDataListener(this.selectedDataListener);
     }
 
     gridActions: QuickGridActions = {
@@ -52,6 +53,10 @@ export class Index extends React.Component<any, any> {
             return nodeActions;
         }
     };
+
+    selectedDataListener = (selected: Array<IFinalTreeNode>) => {
+        console.log('selected nodes: ', selected);
+    }
 
     selectedIdsListener = (selected: Array<string>) => {
         console.log('selected ids: ', selected);
@@ -79,6 +84,7 @@ export class Index extends React.Component<any, any> {
     }
 
     onSelectedNodeChanged = (selectedNode: IFinalTreeNode) => {
+        console.log('selected node: ', selectedNode);
         this.setState({
             selectedNode: selectedNode.nodeId
         });
