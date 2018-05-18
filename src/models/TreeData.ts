@@ -214,7 +214,7 @@ export class TreeDataSource implements IObservable<React.Component> {
 
     private updateSelectedItems = (node: IFinalTreeNode) => {
         // get all selected items from this node up to all children
-        const selectedIds = this.recursiveChildSelection(node);
+        const selectedIds = this.checkRecursive(node);
 
         // merge old selected items and new selected items
         this.selectedIds = { ...this.selectedIds, ...selectedIds };
@@ -253,7 +253,7 @@ export class TreeDataSource implements IObservable<React.Component> {
         nodeChildrenSubset: IDictionary<boolean>
     ) => {
         const nodeId = this.getIdMember(node);
-        const allChildren = { ...this.recursiveChildSelection(node, false, { [childNodeId]: true }), ...nodeChildrenSubset };
+        const allChildren = { ...this.checkRecursive(node, false, { [childNodeId]: true }), ...nodeChildrenSubset };
         const allChildrenKeys = Object.keys(allChildren);
         const allSelectedItemKeys = Object.keys(this.selectedIds);
         const diff = _.difference(allChildrenKeys, allSelectedItemKeys);
@@ -277,7 +277,7 @@ export class TreeDataSource implements IObservable<React.Component> {
     }
 
     private removeSelectedItems = (node: IFinalTreeNode) => {
-        const selectedIds = this.recursiveChildSelection(node);
+        const selectedIds = this.checkRecursive(node);
         const keysToRemove = Object.keys(selectedIds);
         const oldKeys = Object.keys(this.selectedIds);
         const newSelected = _.without(oldKeys, ...keysToRemove);
@@ -319,43 +319,38 @@ export class TreeDataSource implements IObservable<React.Component> {
         return true;
     }
 
+    private checkRecursive = (node: IFinalTreeNode, appendParentNode: boolean = true, skipItems: IDictionary<boolean> = {}) => {
+        const selectedIds = {};
+        this.recursiveChildSelection(selectedIds, node, appendParentNode, skipItems);
+        return selectedIds;
+    }
+
     /**
      * Return lookup table off all child ids
      */
     private recursiveChildSelection = (
+        selectedIds: IDictionary<boolean>,
         node: IFinalTreeNode,
         appendParentNode: boolean = true,
         skipItems: IDictionary<boolean> = {}
-    ): IDictionary<boolean> => {
-        let selectedIds = {};
-
+    ): void => {
         if (appendParentNode) {
             const nodeId = this.getIdMember(node);
             selectedIds[nodeId] = true;
         }
 
-        // end of recursion
         if (!this.itemHasChildren(node)) {
-            return selectedIds;
+            return;
         }
 
-        const itemCount = node.children.length;
-        for (let i = 0; i < itemCount; i++) {
-            const child = node.children[i];
-            // get id of child
+        for (let child of node.children) {
             const childId = this.getIdMember(child);
             if (skipItems[childId]) {
                 continue;
             }
-
-            // add child to lookup
             selectedIds[childId] = true;
-            // call recursive
-            const recursiveSelection = this.recursiveChildSelection(child, false, skipItems);
-            selectedIds = { ...selectedIds, ...recursiveSelection };
+            this.recursiveChildSelection(selectedIds, child, false, skipItems);
         }
-
-        return selectedIds;
     }
 
     private itemHasChildren = (item: TreeNode) => {

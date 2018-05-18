@@ -26,7 +26,7 @@ export class Index extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
 
-        const treeDataSource = getTreeGridData(0);
+        const treeDataSource = getTreeGridData(1);
 
         this.state = {
             data: treeDataSource,
@@ -109,11 +109,22 @@ export class Index extends React.Component<any, any> {
         this.state.data.setRecursiveSelection(!this.state.enableRecursive);
     }
 
+    _listener = (items: Array<number | string>) => {
+        console.log('changed: ', items);
+    }
+
+    getChildrenRecursive = () => {
+        const data = getTreeGridData(1) as TreeDataSource;
+        data.registerSelectedIdsListener(this._listener);
+        data.selectAll();
+    }
+
     prev: any;
     public render() {
         this.prev = this.state.data;
         return (
             <div>
+                <Button onClick={this.getChildrenRecursive}>Click me!</Button>
                 <div style={{ 'width': '150px' }}>
                     <Dropdown
                         hasTitleBorder={true}
