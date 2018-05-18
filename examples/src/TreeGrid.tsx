@@ -162,8 +162,8 @@ export class Index extends React.Component<any, any> {
                 newChildNode.isExpanded = false;
                 children.push(newChildNode);
             }
-            let newData = this.state.data.updateNode(node.nodeId, { children });
-            this.setState(prev => ({ data: newData }));
+
+            this.state.data.updateNode(node.nodeId, { children });
         }, 2000);
     }
 
