@@ -48,4 +48,5 @@ export interface IVirtualizedTreeViewState {
     filteredItems: Array<TreeItem>;
     searchText: string;
     partiallyCheckedItemIds: Array<string>;
+    scrollToIndex: number;
 }

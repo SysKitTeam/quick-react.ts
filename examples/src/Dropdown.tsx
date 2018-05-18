@@ -13,6 +13,7 @@ import { Slider } from './../../src/components/Slider/Slider';
 import { Button } from './../../src/components/Button/Button';
 
 import { dropdownOptions } from '../MockData/dropdownOptions';
+import { DirectionalHint } from '../../src';
 
 export class Index extends React.Component<any, any> {
 
@@ -74,18 +75,19 @@ export class Index extends React.Component<any, any> {
                 /> */}
 
                 <Dropdown
-                    label="Custom Dropdown:"
-                    className={'custom-dropdown'}
+                    label="Custom Dropdown with directional hint:"
+                    className={'custom-dropdown dropdown-moved'}
                     dropdownType={DropdownType.customDropdown}
-                    hasTitleBorder={false}
+                    hasTitleBorder={true}
                     showArrowIcon={true}
                     onCustomSelectionText={() => 'Acceleratio.SPDocKit.EventCollection.Service'}
+                    calloutDirectionalHint={DirectionalHint.bottomCenter}
                 >
-                    <li style={{ display: 'inline-block', padding: '5px', width: '100px' }}>
+                    <li style={{ display: 'inline-block', padding: '5px', width: '500px' }}>
                         <Icon style={{ paddingTop: '5px' }} iconName={'icon-account'}></Icon>
                         <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
                     </li>
-                    <li style={{ display: 'inline-block', padding: '5px', width: '100px' }}>
+                    <li style={{ display: 'inline-block', padding: '5px', width: '500px' }}>
                         <Icon style={{ paddingTop: '5px' }} iconName={'icon-account'}></Icon>
                         <Slider min={0} max={50} step={5} defaultValue={20}></Slider>
                     </li>
@@ -184,6 +186,18 @@ export class Index extends React.Component<any, any> {
                     hasTitleBorder={true}
                     isValid={false}
                     validationErrorMessage={'Dropdown error tooltip!'}
+                />
+
+                <hr />
+                <Dropdown
+                    dropdownType={DropdownType.selectionDropdown}
+                    label="Selection dropdown with arrow and border - loading"
+                    onClick={(option, index) => console.log(option, index)}
+                    options={dropdownOptions}
+                    showArrowIcon={true}
+                    hasTitleBorder={true}
+                    icon="icon-add"
+                    isLoading={true}
                 />
 
             </div>

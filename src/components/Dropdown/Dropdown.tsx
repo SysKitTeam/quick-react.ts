@@ -8,6 +8,8 @@ import { KeyCodes } from '../../utilities/KeyCodes';
 import * as classNames from 'classnames';
 import { findIndex } from '../../utilities/array';
 import { getId } from '../../utilities/getId';
+import { Spinner } from '../Spinner/Spinner';
+import { SpinnerType } from '../Spinner/Spinner.Props';
 import './Dropdown.scss';
 
 export interface IDropdownState {
@@ -15,10 +17,11 @@ export interface IDropdownState {
     isOpen: boolean;
     selectedIndex: number;
     isDisabled: boolean;
+    isLoading: boolean;
 }
 
 export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState> {
-    public static defaultProps = {
+    public static defaultProps: Partial<IDropdownProps> = {
         options: [],
         hasTitleBorder: false,
         displaySelection: true,
@@ -26,7 +29,9 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
         disabled: false,
         dropdownType: DropdownType.linkDropdown,
         isValid: true,
-        delayMs: 500
+        delayMs: 500,
+        isLoading: false,
+        calloutDirectionalHint: DirectionalHint.bottomLeftEdge
     };
 
     private static Option: string = 'option';
@@ -44,14 +49,16 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
             id: getId('Dropdown'),
             isDisabled: props.disabled,
             isOpen: false,
-            selectedIndex: this._getSelectedIndex(props.options, props.selectedKey)
+            selectedIndex: this._getSelectedIndex(props.options, props.selectedKey),
+            isLoading: props.isLoading
         };
     }
 
     public componentWillReceiveProps(newProps: IDropdownProps) {
         this.setState({
             selectedIndex: this._getSelectedIndex(newProps.options, newProps.selectedKey),
-            isDisabled: newProps.disabled
+            isDisabled: newProps.disabled,
+            isLoading: newProps.isLoading
         });
     }
 
@@ -87,7 +94,7 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
 
     public render() {
         let { label, options, hasTitleBorder, icon, dropdownType, className, calloutClassName, layerClassName, showArrowIcon, isValid, iconClassName } = this.props;
-        let { id, isOpen, selectedIndex, isDisabled } = this.state;
+        let { id, isOpen, selectedIndex, isDisabled, isLoading } = this.state;
         let selectedOption = options[selectedIndex];
         const dropdownIconClassName = hasTitleBorder ? 'iconArrowWithBorder' : 'iconArrow';
 
@@ -110,15 +117,22 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
                 <Icon iconName={icon} className={iconClassName}></Icon>
             )}
             {selectionTextObj.text}
-            {this.props.displaySelection && this.props.showArrowIcon &&
+            {this.props.displaySelection && this.props.showArrowIcon && (this.state.isDisabled || !this.state.isLoading) &&
                 <Icon className={dropdownIconClassName} iconName={arrowIcon}></Icon>
+            }
+            {
+                this.state.isLoading && !this.state.isDisabled &&
+                <Spinner type={SpinnerType.small} />
             }
         </span>;
 
         return (
             <div ref="root" className="dropdown-root">
                 {label && (
-                    <label id={id + '-label'} className="label" ref={this.setDropDownLabelRef} >{label}</label>
+                    <label
+                        id={id + '-label'}
+                        className={classNames('dropdown-label', className, { 'is-disabled': isDisabled })}
+                        ref={this.setDropDownLabelRef} >{label}</label>
                 )}
                 <div
                     data-is-focusable={true}
@@ -148,14 +162,14 @@ export class Dropdown extends React.PureComponent<IDropdownProps, IDropdownState
                     }
                 </div>
                 {
-                    isOpen && (
+                    isOpen && !this.state.isLoading && (
                         <Callout
                             isBeakVisible={false}
                             className={classNames('dropdown-callout', calloutClassName, layerClassName)}
                             gapSpace={0}
                             doNotLayer={false}
                             targetElement={this._dropDown}
-                            directionalHint={DirectionalHint.bottomLeftEdge}
+                            directionalHint={this.props.calloutDirectionalHint}
                             onDismiss={this.closeDropdown}
                         >
                             {this.renderItems()}

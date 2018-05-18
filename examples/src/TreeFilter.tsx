@@ -253,6 +253,23 @@ export class Index extends React.Component<any, DemoState> {
                     onValuesSelected={this.onValuesSelected}
                     onSave={this.onSave}
                 />
+
+                <br /><br />
+
+                <TreeFilter
+                    title="Not ready filter"
+                    filterId={ 'f11' }
+                    items={ shortFlatList }
+                    itemsAreFlatList={ true }
+                    defaultSelection={ FilterSelectionEnum.All }
+                    // tslint:disable-next-line:no-string-literal
+                    filterSelection={ this.state.filterStates[ 'f11' ] }
+                    hasTitleBorder={ true }
+                    showButtons={ false }
+                    onSave={ this.onSave }
+                    isReady={ false }
+                    showResetButton={false}
+                />
             </div>
         );
     }

@@ -61,7 +61,8 @@
         }
     }
     
-    .iconArrowWithBorder {
+    .iconArrowWithBorder,
+    .spinner {
         position: absolute;
         cursor: pointer;
         font-size: 10px;
@@ -69,7 +70,9 @@
         top: 0;
         right: 5px;
     }
-
+    .spinner {
+        top: 7px;
+    }
     .iconArrow {
         font-size: 10px;
         margin: 0 5px;
@@ -95,7 +98,6 @@
 
     &.is-disabled {
         .dropdown-title-border {
-            background-color: $disabled-field;
             border-color: $white-background-lines;
             cursor: default;
 
@@ -106,6 +108,17 @@
             span {
                 color: $secondary-disabled-color;
             }
+           
+            &.arrow {
+                &.text {
+                    padding-right: 20px;
+                    color: $secondary-disabled-color;
+                }
+            }
+        }
+
+        .icon {
+            color: $secondary-disabled-color;
         }
 
         .iconArrowWithBorder {
@@ -285,4 +298,14 @@
             }
         }
     }
+}
+
+.dropdown-label {
+    &.is-disabled {
+        color: $secondary-disabled-color;
+    }
+}
+
+.dropdown-moved {
+    margin-left: 500px;
 }

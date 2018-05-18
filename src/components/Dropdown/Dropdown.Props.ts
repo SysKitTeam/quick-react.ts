@@ -32,6 +32,8 @@ export interface IDropdownProps {
     isValid?: boolean;
     validationErrorMessage?: string;
     delayMs?: number;
+    isLoading?: boolean;
+    calloutDirectionalHint?: DirectionalHint;
 }
 
 export interface IDropdownOption {
