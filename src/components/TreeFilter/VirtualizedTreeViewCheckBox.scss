@@ -69,5 +69,6 @@ $checkbox-transition-timing: cubic-bezier(.4, 0, .23, 1);
         margin-left: 3px;
         z-index: 100;
         font-size: 10px;
+        pointer-events: none;
     }
 }

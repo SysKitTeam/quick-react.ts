@@ -18,7 +18,7 @@ export interface ITreeGridProps {
     isNodeSelectable?: boolean;
 
     onRowDoubleClicked?: (row: any) => void;
-    onSelectedNodeChanged?: (selectedNode: IFinalTreeNode) => void;
+    onSelectedNodeChanged?: (selectedNode: Array<IFinalTreeNode>) => void;
     onLazyLoadChildNodes?: (node: IFinalTreeNode) => void;
 }
 

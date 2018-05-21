@@ -26,7 +26,7 @@ export class Index extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
 
-        const treeDataSource = getTreeGridData(1);
+        const treeDataSource = getTreeGridData(0);
 
         this.state = {
             data: treeDataSource,
@@ -37,9 +37,6 @@ export class Index extends React.Component<any, any> {
             isSelectAll: false,
             enableRecursive: true
         };
-
-        treeDataSource.registerSelectedIdsListener(this.selectedIdsListener);
-        treeDataSource.registerDataListener(this.selectedDataListener);
     }
 
     gridActions: QuickGridActions = {
@@ -83,11 +80,8 @@ export class Index extends React.Component<any, any> {
         });
     }
 
-    onSelectedNodeChanged = (selectedNode: IFinalTreeNode) => {
-        console.log('selected node: ', selectedNode);
-        this.setState({
-            selectedNode: selectedNode.nodeId
-        });
+    onSelectedNodeChanged = (selectedNodes: Array<IFinalTreeNode>) => {
+        console.log('selected node: ', selectedNodes);
     }
 
     changeSelectAll = () => {
@@ -174,7 +168,8 @@ export class Index extends React.Component<any, any> {
                 children.push(newChildNode);
             }
 
-            this.state.data.updateNode(node.nodeId, { children });
+            let newData = this.state.data.updateNode(node.nodeId, { children });
+            this.setState(prev => ({ data: newData }));
         }, 2000);
     }
 
