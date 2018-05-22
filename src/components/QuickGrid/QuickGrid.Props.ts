@@ -17,33 +17,38 @@ export interface IGroupBy {
 }
 
 export interface IQuickGridProps {
+    // required props
     rows: Array<any>;
     columns: Array<GridColumn>;
+
+    // optional props
     groupBy?: Array<string | IGroupBy>;
     gridClassName?: string;
     headerClassName?: string;
     rowHeight?: number | ((info: { index: number }) => number); // Number or a function that returns the height of a row given its index
     overscanRowCount?: number;
-    onSelectedRowChanged?: (selectedRowIndex: number, rowData: any) => void;
-    onRowDoubleClicked?: (row: any) => void;
     displayGroupContainer?: boolean;
     sortColumn?: string;
     sortDirection?: SortDirection;
-    onGroupByChanged?: (groupBy: Array<IGroupBy>) => void;
-    groupRowFormat?: (rowData: any) => string;
-    onGroupBySort?: (sortBy: string, sortDirection: SortDirection) => void;
     gridActions?: QuickGridActions;
     columnSummaries?: any;
     actionsTooltip?: string;
     tooltipsEnabled?: boolean;
     hasCustomRowSelector?: boolean;
-    customRowSorter?: (sortBy, sortDirection) => void;
-    customCellRenderer?: (args: ICustomCellRendererArgs) => React.ReactNode;
     hasStaticColumns?: boolean;
     columnHeadersVisible?: boolean;
     isRowSelectable?: boolean;
     delayMs?: number;
     filterString?: string;
+
+    // callbacks
+    onSelectedRowChanged?: (selectedRowIndex: number, rowData: any) => void;
+    onRowDoubleClicked?: (row: any) => void;
+    customRowSorter?: (sortBy, sortDirection) => void;
+    customCellRenderer?: (args: ICustomCellRendererArgs) => React.ReactNode;
+    onGroupByChanged?: (groupBy: Array<IGroupBy>) => void;
+    groupRowFormat?: (rowData: any) => string;
+    onGroupBySort?: (sortBy: string, sortDirection: SortDirection) => void;
 }
 
 export interface ICustomCellRendererArgs {
@@ -119,11 +124,15 @@ export interface GridColumn {
     headerTooltip?: string;
 }
 
+export const defaultMinColumnWidth = 50;
 export function getColumnMinWidth(col: GridColumn): number {
+    let retVal: number;
     if (col.minWidth instanceof Function) {
-        return col.minWidth();
+        retVal = col.minWidth();
+    } else {
+        retVal = col.minWidth;
     }
-    return col.minWidth;
+    return retVal || defaultMinColumnWidth;
 }
 
 export const lowercasedColumnPrefix = 'lowercase_';

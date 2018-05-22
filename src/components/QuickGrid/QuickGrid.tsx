@@ -32,7 +32,6 @@ import { getObjectValue } from '../../utilities/getObjectValue';
 
 const scrollbarSize = require('dom-helpers/util/scrollbarSize');
 
-const defaultMinColumnWidth = 50;
 const emptyCellWidth = 5;
 
 export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridState> implements IQuickGrid {
@@ -70,7 +69,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             scrolledRow: undefined
         };
 
-        this._columnsMinTotalWidth = columnsToDisplay.map(x => getColumnMinWidth(x) || defaultMinColumnWidth).reduce((a, b) => a + b, 0);
+        this._columnsMinTotalWidth = columnsToDisplay.map(getColumnMinWidth).reduce((a, b) => a + b, 0);
         this.onGridResize = _.debounce(this.onGridResize, 100);
         this._finalGridRows = props.hasCustomRowSelector ? props.rows : getRowsSelector(this.state, props);
     }
@@ -193,7 +192,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             const columnsToDisplay = nextProps.hasStaticColumns ? nextProps.columns : this.getColumnsToDisplay(nextProps.columns, newGroupBy, hasActionColumn);
             const columnWidths = this.getColumnWidths(columnsToDisplay);
             this.setState((prevState) => { return { ...prevState, columnsToDisplay: columnsToDisplay, columnWidths: columnWidths, groupBy: newGroupBy }; });
-            this._columnsMinTotalWidth = columnsToDisplay.map(x => getColumnMinWidth(x) || defaultMinColumnWidth).reduce((a, b) => a + b, 0);
+            this._columnsMinTotalWidth = columnsToDisplay.map(getColumnMinWidth).reduce((a, b) => a + b, 0);
         }
     }
 
@@ -314,6 +313,18 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             }
         };
 
+        if (this.props.customCellRenderer) {
+            return this.props.customCellRenderer({
+                columnIndex,
+                key,
+                rowIndex,
+                style,
+                onMouseEnter: this.onMouseEnterCell,
+                onMouseClick: onClick,
+                rowActionsRender: this.renderRowContextActions,
+                isSelectedRow: rowIndex === this.state.selectedRowIndex
+            });
+        }
 
         let defaultRender = (overridenStyle) => {
             if (rowData.type === 'GroupRow') { // todo Different member - > true
@@ -328,19 +339,6 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                 return this.renderBodyCell(columnIndex, key, rowIndex, rowData, overridenStyle, onClick);
             }
         };
-
-        if (this.props.customCellRenderer) {
-            return this.props.customCellRenderer({
-                columnIndex,
-                key,
-                rowIndex,
-                style,
-                onMouseEnter: this.onMouseEnterCell,
-                onMouseClick: onClick,
-                rowActionsRender: this.renderRowContextActions,
-                isSelectedRow: rowIndex === this.state.selectedRowIndex
-            });
-        }
 
         return defaultRender(style);
     }
@@ -561,7 +559,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             const totalWidth = columnsToDisplay.map(x => x.width).reduce((a, b) => a + b, 0) - fixedColumnsTotalWidth;
             newColumnWidths = columnsToDisplay.map((col) => this.getColumnWidthInPx(available, totalWidth, col.width, col.fixedWidth));
         } else {
-            newColumnWidths = columnsToDisplay.map(x => getColumnMinWidth(x) || defaultMinColumnWidth);
+            newColumnWidths = columnsToDisplay.map(getColumnMinWidth);
         }
 
         const totalNewWidth = newColumnWidths.reduce((a, b) => a + b, 0);

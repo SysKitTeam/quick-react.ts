@@ -60,6 +60,7 @@ export class Tooltip extends CommonComponent<ITooltipProps, any> {
                 { ...{ onBlurCapture: this._onTooltipMouseLeave } }
                 onMouseEnter={this._onTooltipMouseEnter}
                 onMouseLeave={this._onTooltipMouseLeave}
+                onMouseUpCapture={this._onTooltipMouseLeave}
                 className={tooltipContainerClass}>
 
                 {children}
