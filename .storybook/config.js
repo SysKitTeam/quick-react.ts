@@ -5,7 +5,7 @@ import { setOptions } from '@storybook/addon-options';
 function loadStories() {
   require('../stories/Button/Button');
   require('../stories/BarChart/BarChart');
-//   require('../stories/breadcrumbs/breadcrumbs');
+  require('../stories/Breadcrumbs/Breadcrumbs');
 //   require('../stories/quickgrid/quickgrid');
 }
 

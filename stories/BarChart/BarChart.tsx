@@ -6,7 +6,7 @@ import 'ts-helpers';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, selectV2, number } from '@storybook/addon-knobs/react';
+import { withKnobs, selectV2, number } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 
 import { BarChart } from '../../src/components/BarChart/BarChart';
