@@ -4,12 +4,10 @@ import { withKnobs, text, boolean, selectV2, number } from '@storybook/addon-kno
 import { action } from '@storybook/addon-actions';
 import { Button } from '../../src/components/Button/Button';
 
-const styles = {
-    marginBottom: '20px'
-};
+import './Button.scss';
 
 const flexStyleDecorator = (storyFn) => (
-    <div style={styles}>
+    <div className="button-decorator">
         { storyFn() }
     </div>
 );
@@ -72,8 +70,11 @@ stories.add('Showcase', () => (
                 <Button className={'button-succes'} icon="icon-checkmark">Succes</Button>
                 <Button className={'button-error'} icon="icon-error">Error</Button>
             </div>
+            <div>
+                <Button href={'javascript:void(0)'} target="_blank">Link</Button>
+            </div>
         </div>
-    )).add('Button with knobs', () => (
+    )).add('Knobs', () => (
         <div>
             <div>
                 <Button 
@@ -84,7 +85,5 @@ stories.add('Showcase', () => (
                 </Button>
             </div>
         </div>
-    ))
-    .add('Link button', () => (
-        <Button href={'javascript:void(0)'} target="_blank">Link</Button>
     ));
+

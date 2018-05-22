@@ -3,7 +3,8 @@ import * as storybook from '@storybook/react';
 import { setOptions } from '@storybook/addon-options';
 
 function loadStories() {
-  require('../stories/button/Button');
+  require('../stories/Button/Button');
+  require('../stories/BarChart/BarChart');
 //   require('../stories/breadcrumbs/breadcrumbs');
 //   require('../stories/quickgrid/quickgrid');
 }
@@ -39,7 +40,7 @@ setOptions({
      * display floating search box to search through stories
      * @type {Boolean}
      */
-    showSearchBox: true,
+    showSearchBox: false,
     /**
      * show addon panel as a vertical panel on the right
      * @type {Boolean}
