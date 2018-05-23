@@ -16,7 +16,7 @@ import { items } from '../MockData/breadcrumbs';
 const $secondaryColor = '#4D4D4F';
 const $whiteColor = '#FFFFFF';
 
-const stories = storiesOf('breadcrumbs', module);
+const stories = storiesOf('Breadcrumbs', module);
 stories.addDecorator(withKnobs);
 stories.add('Showcase', () => (
     <div>

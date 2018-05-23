@@ -28,7 +28,7 @@ const indexOptions = {
     Kristijan: 9
 };
 
-const stories = storiesOf('barChart', module);
+const stories = storiesOf('BarChart', module);
 stories.addDecorator(withKnobs);
 stories.add('Showcase', () => (
     <div>

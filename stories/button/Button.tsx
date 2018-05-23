@@ -25,7 +25,7 @@ const classNameOptions = {
 
 const widthOptions = { range: true, min: 20, max: 300, step: 1 };
 
-const stories = storiesOf('button', module);
+const stories = storiesOf('Button', module);
 stories.addDecorator(flexStyleDecorator);
 stories.addDecorator(withKnobs);
 stories.add('Showcase', () => (

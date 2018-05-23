@@ -6,6 +6,10 @@ function loadStories() {
   require('../stories/Button/Button');
   require('../stories/BarChart/BarChart');
   require('../stories/Breadcrumbs/Breadcrumbs');
+  require('../stories/Callout/Callout');
+  require('../stories/Checkbox/Checkbox');
+  require('../stories/CheckboxList/CheckboxList');
+
 //   require('../stories/quickgrid/quickgrid');
 }
 
