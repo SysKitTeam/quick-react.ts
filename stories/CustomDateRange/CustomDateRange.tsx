@@ -2,11 +2,10 @@ import 'babel-polyfill';
 import 'ts-helpers';
 
 import * as React from 'react';
-
 import { storiesOf } from '@storybook/react';
-import * as Checkbox from './CheckboxExample';
+import * as CustomDateRange from './CustomDateRangeExample';
 
-const stories = storiesOf('Checkbox', module);
+const stories = storiesOf('Custom Date Range', module);
 stories.add('Showcase', () => (
-    <Checkbox.Index/>
+    <CustomDateRange.Index />
 ));

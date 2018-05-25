@@ -1,6 +1,7 @@
 import { configure } from '@storybook/react';
 import * as storybook from '@storybook/react';
 import { setOptions } from '@storybook/addon-options';
+import { withConsole } from '@storybook/addon-console';
 
 function loadStories() {
   require('../stories/Button/Button');
@@ -9,6 +10,16 @@ function loadStories() {
   require('../stories/Callout/Callout');
   require('../stories/Checkbox/Checkbox');
   require('../stories/CheckboxList/CheckboxList');
+  require('../stories/ChoiceGroup/ChoiceGroup');
+  require('../stories/CompactFarm/CompactFarm');
+  require('../stories/CompactServer/CompactServer');
+  require('../stories/Compare/Compare');
+  require('../stories/ConditionSelector/ConditionSelector');
+  require('../stories/ContextualMenu/ContextualMenu');
+  require('../stories/CustomDateRange/CustomDateRange');
+  require('../stories/Dashboard/Dashboard');
+  require('../stories/DetailedServerGroup/DetailedServerGroup');
+  require('../stories/DetailedServerTile/DetailedServerTile');
 
 //   require('../stories/quickgrid/quickgrid');
 }

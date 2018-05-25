@@ -8,5 +8,5 @@ import * as CheckboxList from './CheckboxListExample';
 
 const stories = storiesOf('Checkbox List', module);
 stories.add('Showcase', () => (
-        <CheckboxList.Index/>
-    ));
+    <CheckboxList.Index/>
+));

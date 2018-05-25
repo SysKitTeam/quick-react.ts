@@ -9,5 +9,5 @@ import { DirectionalHint } from '../../src/utilities/DirectionalHint';
 
 const stories = storiesOf('Callout', module);
 stories.add('Showcase', () => (
-        <Callout.Index/>
-    ));
+    <Callout.Index/>
+));

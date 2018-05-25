@@ -4,9 +4,9 @@ import 'ts-helpers';
 import * as React from 'react';
 
 import { storiesOf } from '@storybook/react';
-import * as Checkbox from './CheckboxExample';
+import * as DateTimePicker from './DateTimePickerExample';
 
-const stories = storiesOf('Checkbox', module);
+const stories = storiesOf('DateTime Picker', module);
 stories.add('Showcase', () => (
-    <Checkbox.Index/>
+    <DateTimePicker.Index/>
 ));
