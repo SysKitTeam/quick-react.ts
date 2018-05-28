@@ -188,7 +188,7 @@ export class CustomDateRange extends React.PureComponent<ICustomDateRangeProps, 
                     />
                 </div>
 
-                <DialogFooter>
+                <DialogFooter hasFixedWidth={true}>
                     {!this.state.dateRangeValidation.isValidated &&
                         <DialogFooterSection position={DialogFooterSectionPosition.Left} className="dialog-validation-container">
                             {this.state.dateRangeValidation.validationErrorMessage !== '' &&
