@@ -131,6 +131,10 @@ export class TreeDataSource implements IObservable<React.Component> {
         return this.partiallySelectedIds;
     }
 
+    get NodesById(): ILookupTable {
+        return this.nodesById;
+    }
+
     public setSelectedIds(items: Array<number | string>) {
         this.selectedIds = {};
         this.partiallySelectedIds = {};

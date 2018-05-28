@@ -77,7 +77,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
 
     private _getTreeColumnsToDisplay(columns: Array<GridColumn>) {
         let expandedColumns = new Array();
-        const fixedColumnWidth = this.props.isMultiSelectable ? 40 : 16;
+        const fixedColumnWidth = this.props.isMultiSelectable ? 50 : 16;
         expandedColumns.push({
             isSortable: false,
             width: fixedColumnWidth,
@@ -197,7 +197,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
     private _renderExpandCollapseButton(key, rowIndex: number, rowData: IFinalTreeNode, style, onMouseEnter, isSelectedRow: boolean) {
         const showNodeAsExpanded = rowData.isExpanded || rowData.descendantSatisfiesFilterCondition;
         let actionsTooltip = showNodeAsExpanded ? 'Collapse' : 'Expand';
-        let iconName = showNodeAsExpanded ? 'icon-arrow_down_right' : 'icon-arrow_right';
+        let iconName = showNodeAsExpanded ? 'svg-icon-arrowCollapse' : 'svg-icon-arrowExpand';
         let icon = null;
 
         const nodeId = this.props.treeDataSource.getIdMember(rowData);
@@ -237,7 +237,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
                     onChange={onChange}
                     itemId={nodeId.toString()}
                     text=""
-                    style={{ paddingTop: '0px' }}
+                    style={{ paddingTop: 0, paddingLeft: 10 }}
                 />
             );
         }
