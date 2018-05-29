@@ -1,3 +1,4 @@
+// tslint:disable:no-console
 import 'babel-polyfill';
 import 'ts-helpers';
 import * as React from 'react';
@@ -7,13 +8,13 @@ import { Dropdown, DropdownType } from '../../src/components/Dropdown';
 import { Button } from '../../src/components/Button';
 import { TreeGrid, ITreeGridProps } from '../../src/components/TreeGrid';
 import { SortDirection, GridColumn } from '../../src/components/QuickGrid';
-import { gridColumns1, getTreeGridData, generateTreeNode, nodeActions } from '../MockData/gridData';
+import { gridColumns1, getTreeGridData, generateTreeNode, nodeActions, GridData } from '../MockData/gridData';
 import '../../src/components/TreeFilter/TreeFilter.scss'; // used for react-resizable style
 import '../../src/components/Label/Label.scss';
 import { updateTree, rebuildTree } from '../../src/utilities/rebuildTree';
 import './../../src/components/Icon/symbol-defs.svg';
 import { autobind, QuickGridActions, QuickGridActionsBehaviourEnum, Search, TreeDataSource, Label, Checkbox } from '../../src/index';
-import { IFinalTreeNode, TreeNode } from '../../src/models/TreeData';
+import { AugmentedTreeNode, TreeNode } from '../../src/models/TreeData';
 import * as _ from 'lodash';
 
 const columnSummaries = {
@@ -51,7 +52,7 @@ export class Index extends React.Component<any, any> {
         }
     };
 
-    selectedDataListener = (selected: Array<IFinalTreeNode>) => {
+    selectedDataListener = (selected: Array<AugmentedTreeNode>) => {
         console.log('selected nodes: ', selected);
     }
 
@@ -80,7 +81,7 @@ export class Index extends React.Component<any, any> {
         });
     }
 
-    onSelectedNodeChanged = (selectedNodes: Array<IFinalTreeNode>) => {
+    onSelectedNodeChanged = (selectedNodes: Array<AugmentedTreeNode<GridData>>) => {
         console.log('selected node: ', selectedNodes);
     }
 
@@ -159,7 +160,7 @@ export class Index extends React.Component<any, any> {
         );
     }
 
-    onLoadChildNodes = (node: IFinalTreeNode) => {
+    onLoadChildNodes = (node: AugmentedTreeNode<GridData>) => {   
         setTimeout(() => {
             let children = [];
             for (let i = 0; i < 6; i++) {
@@ -167,8 +168,7 @@ export class Index extends React.Component<any, any> {
                 newChildNode.isExpanded = false;
                 children.push(newChildNode);
             }
-
-            let newData = this.state.data.updateNode(node.nodeId, { children });
+            let newData = this.state.data.updateNode(node.$meta.nodeId, { children });
             this.setState(prev => ({ data: newData }));
         }, 2000);
     }
