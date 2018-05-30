@@ -57,53 +57,6 @@ export type DataListener = (selectedIds: Array<AugmentedTreeNode>) => void;
  * ie. we add a new child to the tree, react will register the change and the TreeGrid component will update because of the prop change
  */
 export class TreeDataSource<T = {}>  implements IObservable<React.Component> {
-    
-    private subscribers: Array<React.Component> = [];
-    private dataListeners: Array<DataListener> = [];
-    private selectedIdsListeners: Array<SelectedIdListener> = [];
-
-    public enableRecursiveSelection: boolean;
-
-    public subscribe(listener: React.Component<{}, {}>): void {
-        this.subscribers.push(listener);
-    }
-
-    public unsubscribe(listener: React.Component<{}, {}>): void {
-        const index = this.subscribers.findIndex(l => Object.is(listener, l));
-        this.subscribers.slice(index, 1);
-    }
-
-    public registerDataListener = (dataListener: DataListener) => {
-        this.dataListeners.push(dataListener);
-    }
-
-    public removeDataListener = (dataListener: DataListener) => {
-        const index = this.subscribers.findIndex(l => Object.is(dataListener, l));
-        this.dataListeners.slice(index, 1);
-    }
-
-    public registerSelectedIdsListener = (selectedIdsListener: SelectedIdListener) => {
-        this.selectedIdsListeners.push(selectedIdsListener);
-    }
-
-    private notifyWithSelectedIds = () => {
-        const selectedIds = Object.keys(this.selectedIds);
-        this.selectedIdsListeners.forEach(selectedIdListener => selectedIdListener(selectedIds));
-    }
-
-    private notifyWithSelectedNodes = () => {
-        const selectedIds = Object.keys(this.selectedIds);
-        const nodes = selectedIds.map(id => this.nodesById[id] as AugmentedTreeNode);
-        this.dataListeners.forEach(dataListener => dataListener(nodes));
-    }
-
-    public setRecursiveSelection(isEnabled: boolean) {
-        this.enableRecursiveSelection = isEnabled;
-        this.updateSelectStrategy(isEnabled);
-    }
-
-    public notify = () => this.subscribers.forEach(l => l.forceUpdate());
-
     private idCounter: number = 0;
 
     // this would constitute a really dirty hack
@@ -121,46 +74,6 @@ export class TreeDataSource<T = {}>  implements IObservable<React.Component> {
 
     /** Lookup that returns node object for given node id */
     private nodesById: ILookupTable;
-
-    // items used for row selection
-    private selectedIds: IDictionary<boolean>;
-    private partiallySelectedIds: IDictionary<boolean>;
-
-    private _selectItemsStrategy: (item: AugmentedTreeNode) => void;
-    private _removeItemsStrategy: (item: AugmentedTreeNode) => void;
-
-
-    get SelectedNodes(): IDictionary<boolean> {
-        return this.selectedIds;
-    }
-
-    get PartiallySelectedNodes(): IDictionary<boolean> {
-        return this.partiallySelectedIds;
-    }
-
-    get NodesById(): ILookupTable {
-        return this.nodesById;
-    }
-
-    public setSelectedIds(items: Array<number | string>) {
-        this.selectedIds = {};
-        this.partiallySelectedIds = {};
-
-        if (items.length === 0) {
-            this.notifyWithSelectedNodes();
-            this.notify();
-        }
-
-        items.forEach(i => this._selectItemsStrategy(this.nodesById[i]));
-    }
-
-    public selectAll() {
-        this.updateSelectedItems(this.treeStructure);
-    }
-
-    public deselectAll() {
-        this.removeSelectedItems(this.treeStructure);
-    }
 
     /**
      * 
@@ -209,6 +122,223 @@ export class TreeDataSource<T = {}>  implements IObservable<React.Component> {
             this.isEmpty = this.treeStructure.children.length === 0;
             this.setSelectedIds(selectedNodes);
         }
+    }
+
+    private itemHasChildren = (item: TreeNode) => {
+        if (!this.checkObject(item.children)) {
+            return false;
+        }
+        return item.children.length !== 0;
+    }
+
+    private extendNodes(parent, children: Array<TreeNode>) {
+        for (let node of children) {
+            this.extendSingleNode(node, parent);
+        }
+    }
+
+    private extendSingleNode(node: TreeNode, parent: AugmentedTreeNode<T>) {
+        let extendedNode = <AugmentedTreeNode>node;
+        let level = parent && parent.$meta ? parent.$meta.nodeLevel + 1 : 0;
+        extendedNode.$meta = {
+            nodeId: this.getNodeId(extendedNode),
+            parentNodeId: parent && parent.$meta && parent.$meta.nodeLevel !== -1 ? parent.$meta.nodeId : undefined,
+            nodeLevel: level
+        };
+        extendedNode.parentNode = parent && parent.$meta && parent.$meta.nodeLevel !== -1 ? parent : undefined;
+        this.nodesById[extendedNode.$meta.nodeId] = extendedNode;
+        if (node.children && node.children.length > 0) {
+            this.extendNodes(node, node.children);
+        }
+    }
+
+    private getNodeId(node: any) {
+        if (node.$meta && node.$meta.nodeId && !this.renumberIds) {
+            return node.$meta.nodeId;
+        }
+        if (!this.idMember) {
+            return this.getNextSurogateId();
+        }
+        if (this.idMember instanceof Function) {
+            return this.idMember(node);
+        }
+        if (!node.hasOwnProperty(this.idMember)) {
+            throw Error('Object doesn\'t have specified property for given key.');
+        }
+        return node[this.idMember];
+    }
+
+    private isDataSource(input: TreeNode | TreeDataSource | Array<any>): input is TreeDataSource {
+        return (<TreeDataSource>input).updateNode !== undefined;
+    }
+
+    private isRootNodesArray(input: TreeNode | TreeDataSource | Array<any>): input is Array<any> {
+        return (<Array<any>>input).slice !== undefined;
+    }
+
+    public appendNode(node: T, parentNodeId?: number | string): TreeDataSource<T> {
+        const parentNode = this.getNodeById(parentNodeId);
+        this.extendSingleNode(node, parentNode);
+        if (parentNode) {
+            parentNode.children.push(node);
+        } else {
+            this.treeStructure.children.push(node);
+        }
+
+        return new TreeDataSource<T>(this);
+    }
+
+    public updateNode<NodeType = T>(nodeId: number | string, props: Partial<AugmentedTreeNode<NodeType>> | Partial<NodeType> & { children?: any }): TreeDataSource<T> {
+        let existingNode = this.nodesById[nodeId];
+        if (existingNode) {
+
+            // we do not want to use the spread operator, we want to reause the existing treenode            
+            // existingNode = { ...existingNode, ...props };
+
+            // if the children will be replaced, we need to remove the old ids
+            if (props.children && existingNode.children && existingNode.children.length > 0) {
+                const removeChildrenFromLookup = (node) => {
+                    if (node && node.children) {
+                        for (let i = 0; i < node.children.length; i++) {
+                            delete this.nodesById[node.children[i].nodeId];
+                            removeChildrenFromLookup(node.children[i]);
+                        }
+                    }
+                };
+                removeChildrenFromLookup(existingNode);
+            }
+
+            let originalMeta = existingNode.$meta;
+            let newMeta = (<any>props).$meta;
+            Object.assign(existingNode, props);
+            if (originalMeta && newMeta) {
+                existingNode.$meta = Object.assign(originalMeta, newMeta);
+            }
+
+            if (props.children) {
+                existingNode.$meta.isLazyChildrenLoadInProgress = false;
+                existingNode.hasChildren = props.children && props.children.length > 0;
+                existingNode.isExpanded = existingNode.isExpanded && existingNode.hasChildren;
+
+                this.extendNodes(existingNode, existingNode.children);
+                if (this.selectedIds[nodeId] && this.enableRecursiveSelection) {
+                    this.setSelected(existingNode);
+                }
+            }
+            this.isEmpty = this.treeStructure.children.length === 0;
+            return new TreeDataSource(this);
+        }
+
+        return this;
+    }
+
+    private getNextSurogateId(): number {
+        return ++this.idCounter;
+    }
+
+    public getTreeStructure(): ITreeStructureRoot<T> {
+        return <ITreeStructureRoot<T>>this.treeStructure;
+    }
+
+    public getNodeById<NodeType = T>(nodeId: number | string): AugmentedTreeNode<NodeType> {
+        return this.nodesById[nodeId] as AugmentedTreeNode<NodeType>;
+    }
+
+    public findNode<NodeType = T>(nodePredicate: (node: AugmentedTreeNode<NodeType>) => boolean): AugmentedTreeNode<NodeType> {
+        // tslint:disable-next-line:forin
+        for (let key in this.nodesById) {
+            let candidate = <AugmentedTreeNode<NodeType>>this.nodesById[key];
+            if (nodePredicate(candidate)) {
+                return candidate;
+            }
+        }
+        return undefined;
+    }
+    
+
+    private subscribers: Array<React.Component> = [];
+    private dataListeners: Array<DataListener> = [];
+    private selectedIdsListeners: Array<SelectedIdListener> = [];
+
+    public enableRecursiveSelection: boolean;
+
+     // items used for row selection
+    private selectedIds: IDictionary<boolean>;
+    private partiallySelectedIds: IDictionary<boolean>;
+
+    private _selectItemsStrategy: (item: AugmentedTreeNode) => void;
+    private _removeItemsStrategy: (item: AugmentedTreeNode) => void;
+
+    public subscribe(listener: React.Component<{}, {}>): void {
+        this.subscribers.push(listener);
+    }
+
+    public unsubscribe(listener: React.Component<{}, {}>): void {
+        const index = this.subscribers.findIndex(l => Object.is(listener, l));
+        this.subscribers.slice(index, 1);
+    }
+
+    public registerDataListener = (dataListener: DataListener) => {
+        this.dataListeners.push(dataListener);
+    }
+
+    public removeDataListener = (dataListener: DataListener) => {
+        const index = this.subscribers.findIndex(l => Object.is(dataListener, l));
+        this.dataListeners.slice(index, 1);
+    }
+
+    public registerSelectedIdsListener = (selectedIdsListener: SelectedIdListener) => {
+        this.selectedIdsListeners.push(selectedIdsListener);
+    }
+
+    private notifyWithSelectedIds = () => {
+        const selectedIds = Object.keys(this.selectedIds);
+        this.selectedIdsListeners.forEach(selectedIdListener => selectedIdListener(selectedIds));
+    }
+
+    private notifyWithSelectedNodes = () => {
+        const selectedIds = Object.keys(this.selectedIds);
+        const nodes = selectedIds.map(id => this.nodesById[id] as AugmentedTreeNode);
+        this.dataListeners.forEach(dataListener => dataListener(nodes));
+    }
+
+    public setRecursiveSelection(isEnabled: boolean) {
+        this.enableRecursiveSelection = isEnabled;
+        this.updateSelectStrategy(isEnabled);
+    }
+
+    public notify = () => this.subscribers.forEach(l => l.forceUpdate());
+
+    get SelectedNodes(): IDictionary<boolean> {
+        return this.selectedIds;
+    }
+
+    get PartiallySelectedNodes(): IDictionary<boolean> {
+        return this.partiallySelectedIds;
+    }
+
+    get NodesById(): ILookupTable {
+        return this.nodesById;
+    }
+
+    public setSelectedIds(items: Array<number | string>) {
+        this.selectedIds = {};
+        this.partiallySelectedIds = {};
+
+        if (items.length === 0) {
+            this.notifyWithSelectedNodes();
+            this.notify();
+        }
+
+        items.forEach(i => this._selectItemsStrategy(this.nodesById[i]));
+    }
+
+    public selectAll() {
+        this.updateSelectedItems(this.treeStructure);
+    }
+
+    public deselectAll() {
+        this.removeSelectedItems(this.treeStructure);
     }
 
     public setSelected(item: AugmentedTreeNode) {
@@ -368,136 +498,5 @@ export class TreeDataSource<T = {}>  implements IObservable<React.Component> {
             selectedIds[childId] = true;
             this.recursiveChildSelection(selectedIds, child, false, skipItems);
         }
-    }
-
-    private itemHasChildren = (item: TreeNode) => {
-        if (!this.checkObject(item.children)) {
-            return false;
-        }
-        return item.children.length !== 0;
-    }
-
-    private extendNodes(parent, children: Array<TreeNode>) {
-        for (let node of children) {
-            this.extendSingleNode(node, parent);
-        }
-    }
-
-    private extendSingleNode(node: TreeNode, parent: AugmentedTreeNode<T>) {
-        let extendedNode = <AugmentedTreeNode>node;
-        let level = parent && parent.$meta ? parent.$meta.nodeLevel + 1 : 0;
-        extendedNode.$meta = {
-            nodeId: this.getNodeId(extendedNode),
-            parentNodeId: parent && parent.$meta && parent.$meta.nodeLevel !== -1 ? parent.$meta.nodeId : undefined,
-            nodeLevel: level
-        };
-        extendedNode.parentNode = parent && parent.$meta && parent.$meta.nodeLevel !== -1 ? parent : undefined;
-        this.nodesById[extendedNode.$meta.nodeId] = extendedNode;
-        if (node.children && node.children.length > 0) {
-            this.extendNodes(node, node.children);
-        }
-    }
-
-    private getNodeId(node: any) {
-        if (node.$meta && node.$meta.nodeId && !this.renumberIds) {
-            return node.$meta.nodeId;
-        }
-        if (!this.idMember) {
-            return this.getNextSurogateId();
-        }
-        if (this.idMember instanceof Function) {
-            return this.idMember(node);
-        }
-        if (!node.hasOwnProperty(this.idMember)) {
-            throw Error('Object doesn\'t have specified property for given key.');
-        }
-        return node[this.idMember];
-    }
-
-    private isDataSource(input: TreeNode | TreeDataSource | Array<any>): input is TreeDataSource {
-        return (<TreeDataSource>input).updateNode !== undefined;
-    }
-
-    private isRootNodesArray(input: TreeNode | TreeDataSource | Array<any>): input is Array<any> {
-        return (<Array<any>>input).slice !== undefined;
-    }
-
-    public appendNode(node: T, parentNodeId?: number | string): TreeDataSource<T> {
-        const parentNode = this.getNodeById(parentNodeId);
-        this.extendSingleNode(node, parentNode);
-        if (parentNode) {
-            parentNode.children.push(node);
-        } else {
-            this.treeStructure.children.push(node);
-        }
-
-        return new TreeDataSource<T>(this);
-    }
-
-    public updateNode<NodeType = T>(nodeId: number | string, props: Partial<AugmentedTreeNode<NodeType>> | Partial<NodeType> & { children?: any }): TreeDataSource<T> {
-        let existingNode = this.nodesById[nodeId];
-        if (existingNode) {
-
-            // we do not want to use the spread operator, we want to reause the existing treenode            
-            // existingNode = { ...existingNode, ...props };
-
-            // if the children will be replaced, we need to remove the old ids
-            if (props.children && existingNode.children && existingNode.children.length > 0) {
-                const removeChildrenFromLookup = (node) => {
-                    if (node && node.children) {
-                        for (let i = 0; i < node.children.length; i++) {
-                            delete this.nodesById[node.children[i].nodeId];
-                            removeChildrenFromLookup(node.children[i]);
-                        }
-                    }
-                };
-                removeChildrenFromLookup(existingNode);
-            }
-
-            let originalMeta = existingNode.$meta;
-            let newMeta = (<any>props).$meta;
-            Object.assign(existingNode, props);
-            if (originalMeta && newMeta) {
-                existingNode.$meta = Object.assign(originalMeta, newMeta);
-            }
-
-            if (props.children) {
-                existingNode.$meta.isLazyChildrenLoadInProgress = false;
-                existingNode.hasChildren = props.children && props.children.length > 0;
-                existingNode.isExpanded = existingNode.isExpanded && existingNode.hasChildren;
-
-                this.extendNodes(existingNode, existingNode.children);
-                if (this.selectedIds[nodeId] && this.enableRecursiveSelection) {
-                    this.setSelected(existingNode);
-                }
-            }
-            this.isEmpty = this.treeStructure.children.length === 0;
-            return new TreeDataSource(this);
-        }
-
-        return this;
-    }
-
-    private getNextSurogateId(): number {
-        return ++this.idCounter;
-    }
-
-    public getTreeStructure(): ITreeStructureRoot<T> {
-        return <ITreeStructureRoot<T>>this.treeStructure;
-    }
-
-    public getNodeById<NodeType = T>(nodeId: number | string): AugmentedTreeNode<NodeType> {
-        return this.nodesById[nodeId] as AugmentedTreeNode<NodeType>;
-    }
-
-    public findNode<NodeType = T>(nodePredicate: (node: AugmentedTreeNode<NodeType>) => boolean): AugmentedTreeNode<NodeType> {
-        // tslint:disable-next-line:forin
-        for (let key in this.nodesById) {
-            let candidate = <AugmentedTreeNode<NodeType>>this.nodesById[key];
-            if (nodePredicate(candidate)) {
-                return candidate;
-            }
-        }
-        return undefined;
     }
 }
