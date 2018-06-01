@@ -77,7 +77,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
 
     private _getTreeColumnsToDisplay(columns: Array<GridColumn>) {
         let expandedColumns = new Array();
-        const fixedColumnWidth = this.props.isMultiSelectable ? 50 : 16;
+        const fixedColumnWidth = this.props.isMultiSelectable ? 45 : 16;
         expandedColumns.push({
             isSortable: false,
             width: fixedColumnWidth,
@@ -237,12 +237,12 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
                     onChange={onChange}
                     itemId={nodeId.toString()}
                     text=""
-                    style={{ paddingTop: 0, paddingLeft: 10 }}
+                    style={{ paddingTop: 0, paddingRight: 5 }}
                 />
             );
         }
 
-        const elements: Array<JSX.Element> = [checkBox, icon];
+        const elements: Array<JSX.Element> = [icon, checkBox];
 
         const rowClass = 'grid-row-' + rowIndex;
         const title = actionsTooltip;
@@ -357,7 +357,6 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
             return { structureRequestChangeId: oldState.structureRequestChangeId + 1 };
         });
     }
-
 
     private _getQuickGridRef = (c) => { this._quickGrid = c; };
 
