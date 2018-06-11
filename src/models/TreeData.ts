@@ -408,6 +408,7 @@ export class TreeDataSource<T = {}> implements IObservable<React.Component> {
 
         if (diff.length === allChildrenKeys.length) {
             this.partiallySelectedIds = removeLookupEntry(nodeId, this.partiallySelectedIds);
+            this.selectedIds = removeLookupEntry(nodeId, this.selectedIds);
             if (this.checkObject(node.parentNode) && this.getNodeId(node.parentNode) !== undefined) {
                 this.checkIfAllChildrenAreSelected(node.parentNode, nodeId, allChildren);
             }
