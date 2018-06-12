@@ -497,7 +497,7 @@ export class TreeDataSource<T = {}> implements IObservable<React.Component> {
         for (let child of node.children) {
             let augmentedChild = child as AugmentedTreeNode;
             const childId = this.getNodeId(child);
-            if (skipItems[childId] || !this.isVisibleWhenFiltered(augmentedChild)) {
+            if (skipItems[childId]) {
                 continue;
             }
             selectedIds[childId] = true;
@@ -508,10 +508,4 @@ export class TreeDataSource<T = {}> implements IObservable<React.Component> {
         }
     }
 
-    private isVisibleWhenFiltered = (node: AugmentedTreeNode): boolean => {
-        if (node.$meta.satisfiesFilterCondition !== undefined && !node.$meta.satisfiesFilterCondition && !node.$meta.descendantSatisfiesFilterCondition) {
-            return false;
-        }
-        return true;
-    }
 }
