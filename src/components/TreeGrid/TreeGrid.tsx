@@ -76,7 +76,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
 
     private _getTreeColumnsToDisplay(columns: Array<GridColumn>) {
         let expandedColumns = new Array();
-        const fixedColumnWidth = this.props.isMultiSelectable ? 45 : 16;
+        const fixedColumnWidth = this.props.isMultiSelectable ? 35 : 16;
         expandedColumns.push({
             isSortable: false,
             width: fixedColumnWidth,
@@ -131,7 +131,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
             isSelectedRow = this.state.selectedNodeId && this.state.selectedNodeId === rowData.$meta.nodeId;
         }
 
-        const indentSize = this.props.isMultiSelectable ? 30 : 20;
+        const indentSize = 20;
         let indent = 0;
         let level = rowData.$meta.nodeLevel;
         if ((columnIndex === 0 || columnIndex === 1)) {
@@ -198,7 +198,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
         const nodeId = rowData.$meta.nodeId;
 
         if ((!rowData.children || rowData.children.length <= 0) && !rowData.hasChildren) {
-            icon = null;
+            icon = (<div style={{ height: '16px', width: '26px' }}></div>);
             actionsTooltip = null;
         } else {
             icon = (
@@ -265,7 +265,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
     }
 
     private _renderBodyCell(columnIndex: number, key, rowIndex: number, rowData: AugmentedTreeNode, style, onMouseEnter, rowActionsRender, isSelectedRow: boolean) {
-        
+
         const columns = this.state.columnsToDisplay;
         const notLastIndex = columnIndex < (columns.length - 1);
         const column = columns[columnIndex];
@@ -295,7 +295,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
             }
         };
 
-        onCellClick = rowData.$meta.isAsyncLoadingDummyNode ? undefined : onCellClick;
+        onCellClick = rowData.$meta.isAsyncLoadingDummyNode || this.props.isMultiSelectable ? undefined : onCellClick;
         if (rowData.$meta.isAsyncLoadingDummyNode && columnIndex === 1) {
             columnElement = (
                 <div className="loading-container">
