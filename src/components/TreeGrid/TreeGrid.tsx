@@ -131,7 +131,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
             isSelectedRow = this.state.selectedNodeId && this.state.selectedNodeId === rowData.$meta.nodeId;
         }
 
-        const indentSize = this.props.isMultiSelectable ? 20 : 20;
+        const indentSize = 20;
         let indent = 0;
         let level = rowData.$meta.nodeLevel;
         if ((columnIndex === 0 || columnIndex === 1)) {
