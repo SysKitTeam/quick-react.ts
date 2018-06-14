@@ -25,8 +25,7 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
         super(props);
 
         this.state = {
-            isOpen: false,
-            selectedId: this.getSelectedId(this.props.options)
+            isOpen: false
         };
     }
 
@@ -65,13 +64,6 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
         if (this.state.isOpen) {
             this.setState({ isOpen: false });
         }
-
-        if (id !== this.state.selectedId) {
-            this.setState({
-                selectedId: id
-            });
-        }
-
         this.props.onClick(ev, item);
     }
 
@@ -115,7 +107,7 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
                 'nav-item',
                 {
                     'disabled': option.disabled,
-                    'selected': this.state.selectedId === option.id
+                    'selected': option.selected
                 });
 
             return (
