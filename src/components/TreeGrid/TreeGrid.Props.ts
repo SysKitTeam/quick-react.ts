@@ -1,5 +1,5 @@
 import { GridColumn, SortDirection, QuickGridActions } from '../QuickGrid/QuickGrid.Props';
-import { TreeNode, TreeDataSource, IFinalTreeNode } from '../../models/TreeData';
+import { TreeNode, TreeDataSource, AugmentedTreeNode } from '../../models/TreeData';
 import { IDictionary } from '../../utilities/common';
 
 export interface ITreeGridProps {
@@ -18,8 +18,8 @@ export interface ITreeGridProps {
     isNodeSelectable?: boolean;
 
     onRowDoubleClicked?: (row: any) => void;
-    onSelectedNodeChanged?: (selectedNode: Array<IFinalTreeNode>) => void;
-    onLazyLoadChildNodes?: (node: IFinalTreeNode) => void;
+    onSelectedNodeChanged?: (selectedNode: Array<AugmentedTreeNode>) => void;
+    onLazyLoadChildNodes?: (node: AugmentedTreeNode) => void;
 }
 
 export interface ITreeGridState {
