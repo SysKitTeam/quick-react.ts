@@ -18,6 +18,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
     public static defaultProps = {
         isNodeSelectable: true,
         isMultiSelectable: false,
+        highlightRowsInMultiSelect: true,
         onSelectedNodeChanged: nullFunc
     };
 
@@ -245,7 +246,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
             'grid-component-cell',
             'expand-collapse-cell',
             rowClass,
-            { 'is-selected': isSelectedRow }
+            { 'is-selected': isSelectedRow && this.props.highlightRowsInMultiSelect }
         );
 
         return (
@@ -278,7 +279,7 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
             column.cellClassName,
             rowData.className,
             { 'border-column-cell': notLastIndex },
-            { 'is-selected': isSelectedRow });
+            { 'is-selected': isSelectedRow && this.props.highlightRowsInMultiSelect });
 
         let columnElement: any;
         let onCellClick = (e) => {
