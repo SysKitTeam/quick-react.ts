@@ -9,16 +9,20 @@ const stepper: React.SFC<IStepperProps> = (props) => {
     return (
         <div className="wizard-stepper">
             {
-                props.steps.map((step, index) => (
-                    <Step
-                        key={index}
-                        title={step.title}
-                        active={index === props.activeStep}
-                        completed={index < props.activeStep}
-                        first={index === 0}
-                        isLast={index === props.steps.length - 1}
-                    />
-                ))}
+                props.steps.map((step, index) => {
+                    if (!step.isStepHidden) {
+                        return (
+                            <Step
+                                key={index}
+                                title={step.title}
+                                active={index === props.activeStep}
+                                completed={index < props.activeStep}
+                                first={index === 0}
+                                isLast={index === props.steps.length - 1}
+                            />
+                        );
+                    }
+                })}
         </div>
     );
 };
