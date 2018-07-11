@@ -16,6 +16,10 @@ export interface IWizardStep {
     description?: string;
     optionalButtons?: Array<IButtonProps>;
     className?: string;
+    /**
+     * used to hide the step from navigation
+     */
+    isStepHidden?: boolean;
 }
 
 export interface IWizardProps {
@@ -52,6 +56,6 @@ export const defaultProps: any = {
     nextBtnState: true,
     nextButtonText: 'Next',
     backButtonText: 'Back',
-    finishButtonText: 'Finish',    
+    finishButtonText: 'Finish',
     stepsVisible: true
 };
