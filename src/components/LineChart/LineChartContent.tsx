@@ -150,7 +150,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
         for (let j = 0; j < this.props.series.length; j++) {
             const series = this.props.series[j];
             let start = 0;
-            let previous = series.data[0].value;
+            let previous = series.data[0] ? series.data[0].value : null;
             if (previous === null) { start = 1; }
             let i;
             for (i = 1; i < series.data.length - 1; i++) {
@@ -249,7 +249,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
      */
     private generateX() {
         const minMax = this.getMinMaxFromSeries();
-        const scale: any = (typeof this.props.series[0].data[0].argument) === 'number' ? d3.scaleLinear() : d3.scaleTime();
+        const scale: any = this.props.series[0].data[0] && (typeof this.props.series[0].data[0].argument) === 'number' ? d3.scaleLinear() : d3.scaleTime();
         return scale.domain(minMax).range([0, this.state.containerWidth]);
     }
 
@@ -291,7 +291,7 @@ export class LineChartContent extends React.PureComponent<ILineChartProps, any> 
      * in d3s function for formatting axis ticks.
      */
     private formatAxisLabels(): any {
-        if (this.props.xAxisFormat() === null) { return null; }
+        if (this.props.xAxisFormat() === null || !this.props.series[0].data[0]) { return null; }
         const formatFunc = typeof this.props.series[0].data[0].argument !== 'object' ? d3.format : d3.timeFormat;
         return formatFunc(this.props.xAxisFormat());
     }
