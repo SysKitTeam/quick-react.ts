@@ -16,7 +16,7 @@ export const Icon: (props: IIconProps) => JSX.Element = (props: IIconProps) => {
 
     let iconHeight: any;
     let iconWidth: any;
-    
+
     switch (props.iconSize) {
         case IconSize.smallest:
             iconHeight = '16px';
@@ -35,21 +35,21 @@ export const Icon: (props: IIconProps) => JSX.Element = (props: IIconProps) => {
             iconWidth = '64px';
             break;
         default:
-        iconHeight = props.height || '16px';
-        iconWidth = props.width || '16px';
+            iconHeight = props.height || '16px';
+            iconWidth = props.width || '16px';
     }
 
     if (svgIcon) {
-        const spaceIdx= props.iconName.indexOf(' ');
+        const spaceIdx = props.iconName.indexOf(' ');
         let iconName = props.iconName;
-        if(spaceIdx !== -1) {
+        if (spaceIdx !== -1) {
             iconName = props.iconName.substr(0, spaceIdx);
         }
 
-        return <svg { ...getNativeAttributes(props, htmlElementAttributes) } className={iconClassName} width={iconWidth} height={iconHeight}>
+        return <svg {...getNativeAttributes(props, htmlElementAttributes)} className={iconClassName} width={iconWidth} height={iconHeight}>
             <use xlinkHref={'#symbol-defs_' + iconName} />
         </svg>;
     } else {
-        return <i { ...getNativeAttributes(props, htmlElementAttributes) } className={iconClassName} />;
+        return <i {...getNativeAttributes(props, htmlElementAttributes)} className={iconClassName} />;
     }
 };
