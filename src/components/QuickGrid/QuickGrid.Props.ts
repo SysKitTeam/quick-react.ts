@@ -40,6 +40,7 @@ export interface IQuickGridProps {
     isRowSelectable?: boolean;
     delayMs?: number;
     filterString?: string;
+    initiallySelectedRowIndex?: number;
 
     // callbacks
     onSelectedRowChanged?: (selectedRowIndex: number, rowData: any) => void;

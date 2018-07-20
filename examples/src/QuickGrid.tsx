@@ -67,7 +67,7 @@ export class Index extends React.Component<any, any> {
     state = {
         data: getGridData(numOfRows),
         columns: gridColumns2,
-        groupBy: [],
+        groupBy: ['Color'],
         selectedData: 1,
         gridActions: this.gridActions,
         searchText: ''
@@ -127,6 +127,7 @@ export class Index extends React.Component<any, any> {
                             actionsTooltip="Act on these."
                             tooltipsEnabled={true}
                             filterString={this.state.searchText}
+                            initiallySelectedRowIndex={0}
                         />
                     </div>
                 </Resizable>

@@ -130,6 +130,32 @@ const getSortedRows = createSelector(getFilteredRows, getSortColumn, getSortDire
 
 export const getRowsSelector = createSelector(getSortedRows, getGroupBy, getCollapsedRows, getColumns, getFilterString,
     (rows, groupedColumns, collapsedRows, columns, filterString) => {
-        return groupRows(rows, groupedColumns, collapsedRows, columns);
+        const grouped = groupRows(rows, groupedColumns, collapsedRows, columns);
+        return grouped;
     }
 );
+
+export const getNthRowIndex = (index: number, rows: Array<any>, groupBy: Array<any>) => {
+    if (index === undefined) {
+        return undefined;
+    }
+
+    if (groupBy.length === 0) {
+        return index;
+    }
+
+    if (index > rows.length) {
+        return 0;
+    }
+
+    let rowCount = -1;
+    for (let i = 0; i < rows.length; i++) {
+        if (rows[i].groupKey === undefined) {
+            rowCount++;
+        }
+
+        if (rowCount === index) {
+            return i;
+        }
+    }
+};
