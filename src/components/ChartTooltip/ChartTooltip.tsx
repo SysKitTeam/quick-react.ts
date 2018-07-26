@@ -39,10 +39,10 @@ export class ChartTooltip extends React.PureComponent<IChartTooltipProps, any> {
     public render() {
         const tipClass = classNames('tip', this.props.id);
         const translate = 'translate(' + this.state.translateX + ',' + this.state.translateY + ')';
-        const visibility = this.props.visible ? 'block' : 'none';
+        const visibility = this.props.visible ? 'visible' : 'hidden';
 
         return (
-            <g className={classNames(tipClass, 'tip-container')} style={{ display: visibility }} transform={translate}>
+            <g className={classNames(tipClass, 'tip-container')} style={{ visibility:  visibility}} transform={translate}>
                 <polygon className={classNames(tipClass, 'tip-pol')}
                     points={this.state.arrowPoints} />
                 <rect className={classNames(tipClass, 'tip-rect')}
