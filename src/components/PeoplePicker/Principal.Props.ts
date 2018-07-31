@@ -22,6 +22,7 @@ export interface IPrincipal {
     email: string;
     type: PrincipalType;
     isUnifiedSecurityGroup?: boolean;
+    isTeam?: boolean;
 }
 
 export enum PrincipalType {
