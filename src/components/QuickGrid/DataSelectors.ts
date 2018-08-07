@@ -79,22 +79,24 @@ const filterRows = (rows: Array<any>, columns: Array<GridColumn>, searchText: st
     if (!searchText) {
         return rows;
     }
-
     let filterText = searchText.toLowerCase();
-
     let members = columns.map(col => col.valueMember);
-
     const newRows = rows.filter(row => {
         let visible = false;
         for (let value of members) {
-            if (row[value].toString().toLowerCase().indexOf(filterText) !== -1) {
-                visible = true;
-                break;
+            let objectProps = value.split('.');
+            let result = row;
+            for (let i = 0; i < objectProps.length; i++) {
+                result = result[objectProps[i]];
+                if (result != null && result.toString()
+                    .toLowerCase().indexOf(filterText) !== -1) {
+                    visible = true;
+                    break;
+                }
             }
         }
         return visible;
     });
-
     return newRows;
 };
 

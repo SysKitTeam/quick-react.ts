@@ -38,8 +38,15 @@ export const sortArray = (inputArray: Array<any>, sortOptions: Array<SortProps>)
                 valueA = sortOption.sortFunction(a);
                 valueB = sortOption.sortFunction(b);
             } else {
-                valueA = a[sortOption.column];
-                valueB = b[sortOption.column];
+                let splits = sortOption.column.split('.');
+                let resultA = a;
+                let resultB = b;
+                for (let i = 0; i < splits.length; i++) {
+                    resultA = resultA[splits[i]];
+                    resultB = resultB[splits[i]];
+                }
+                valueA = resultA;
+                valueB = resultB;
             }
             if (valueA < valueB) {
                 return -1 * sortOption.sortModifier;
@@ -56,7 +63,22 @@ export const sortArray = (inputArray: Array<any>, sortOptions: Array<SortProps>)
 
 export const groupBy = function (inputArray, groupProp) {
     return inputArray.reduce((groups, item) => {
-        (groups[item[groupProp]] = groups[item[groupProp]] || []).push(item);
+        let result = item;
+        let splits = groupProp.split('.');
+        for (let i = 0; i < splits.length; i++) {
+            result = result[splits[i]];
+        }
+        (groups[result] = groups[result] || []).push(item);
+
         return groups;
     }, {});
+};
+
+export const getGroupColumnDisplayName = function (input, column) {
+    let splits = column.split('.');
+    let result = input;
+    for (let i = 0; i < splits.length; i++) {
+        result = result[splits[i]];
+    }
+    return result;
 };

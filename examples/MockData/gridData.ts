@@ -61,7 +61,6 @@ export const generateTreeNode = () => {
         Mixed: RANDOM_Mix[Math.floor(Math.random() * RANDOM_Mix.length)],
         Numbers: Math.floor(Math.random() * 30),
         IsUpdated: Math.random() >= 0.5
-
     };
 };
 export const generateTreeData = (size: number): TreeNode => {
@@ -126,9 +125,17 @@ export const gridColumns1: Array<GridColumn> = [
         valueMember: 'Numbers',
         headerText: 'Numbers',
         width: 100
-    }, {
+    }, 
+    {
         valueMember: 'IsUpdated',
         headerText: 'Is Updated',
+        width: 100,
+        dataType: DataTypeEnum.Boolean,
+        boolFormatType: BoolFormatTypeEnum.TextOnly
+    },
+    {
+        valueMember: 'DummyObject.IsHere',
+        headerText: 'DummyObject Property',
         width: 100,
         dataType: DataTypeEnum.Boolean,
         boolFormatType: BoolFormatTypeEnum.TextOnly
@@ -169,6 +176,13 @@ export const gridColumns2: Array<GridColumn> = [
         width: 100,
         dataType: DataTypeEnum.Boolean,
         boolFormatType: BoolFormatTypeEnum.TextOnly
+    },
+    {
+        valueMember: 'DummyObject.IsHere',
+        headerText: 'DummyObject Property',
+        width: 100,
+        dataType: DataTypeEnum.Boolean,
+        boolFormatType: BoolFormatTypeEnum.TextOnly
     }
 ];
 
@@ -195,7 +209,8 @@ export function getGridData(numberOfElements) {
                 Animal: RANDOM_Animal[Math.floor(Math.random() * RANDOM_Animal.length)],
                 Mixed: RANDOM_Mix[Math.floor(Math.random() * RANDOM_Mix.length)],
                 Numbers: Math.floor(Math.random() * 30),
-                IsUpdated: Math.random() >= 0.5
+                IsUpdated: Math.random() >= 0.5,
+                DummyObject: {IsHere: Math.random() >= 0.5}
             }
         );
     }
