@@ -12,6 +12,7 @@ import {
     SortDirection
 } from './QuickGrid.Props';
 import { groupRows } from './rowGrouper';
+import { getObjectValue } from '../../utilities/getObjectValue';
 
 const getInputRows = (state: IQuickGridState, props: IQuickGridProps) => props.rows;
 const getGroupBy = (state: IQuickGridState, props: IQuickGridProps) => state.groupBy;
@@ -84,17 +85,13 @@ const filterRows = (rows: Array<any>, columns: Array<GridColumn>, searchText: st
     const newRows = rows.filter(row => {
         let visible = false;
         for (let value of members) {
-            let objectProps = value.split('.');
-            let result = row;
-            for (let i = 0; i < objectProps.length; i++) {
-                result = result[objectProps[i]];
+            let result = getObjectValue(row, value);
                 if (result != null && result.toString()
                     .toLowerCase().indexOf(filterText) !== -1) {
                     visible = true;
                     break;
                 }
             }
-        }
         return visible;
     });
     return newRows;
