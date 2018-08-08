@@ -109,6 +109,7 @@ export enum BoolFormatTypeEnum {
 export interface GridColumn {
     headerText: string;
     valueMember: string; // for sort & grouping
+    getCellValue?: (rowData) => any;
     dataType?: DataTypeEnum;
     boolFormatType?: BoolFormatTypeEnum;
     isSortable?: boolean; // default true

@@ -180,6 +180,7 @@ export const gridColumns2: Array<GridColumn> = [
     {
         valueMember: 'DummyObject.IsHere',
         headerText: 'DummyObject Property',
+        getCellValue: (rowData) => {return rowData.DummyObject.IsHere; },
         width: 100,
         dataType: DataTypeEnum.Boolean,
         boolFormatType: BoolFormatTypeEnum.TextOnly

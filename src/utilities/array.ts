@@ -1,4 +1,6 @@
 import { getObjectValue } from './getObjectValue';
+import { resolveCellValue } from './resolveCellValue';
+import { GridColumn } from '../components/QuickGrid';
 
 export function findIndex<T>(array: Array<T>, predicate: (item: T, index?: number) => boolean): number {
     let index = -1;
@@ -30,7 +32,7 @@ export interface SortProps {
     sortFunction?: (row) => any;
 }
 
-export const sortArray = (inputArray: Array<any>, sortOptions: Array<SortProps>) => {
+export const sortRowsByColumn = (rows: Array<any>, sortOptions: Array<SortProps>) => {
     const sortFunction = (a, b) => {
         for (let sortOption of sortOptions) {
             let valueA;
@@ -39,8 +41,9 @@ export const sortArray = (inputArray: Array<any>, sortOptions: Array<SortProps>)
                 valueA = sortOption.sortFunction(a);
                 valueB = sortOption.sortFunction(b);
             } else {
-                valueA = getObjectValue(a, sortOption.column);
-                valueB = getObjectValue(b, sortOption.column);
+                valueA = resolveCellValue(a, sortOption.column);
+                valueB = resolveCellValue(b, sortOption.column);
+
             }
             if (valueA < valueB) {
                 return -1 * sortOption.sortModifier;
@@ -51,19 +54,13 @@ export const sortArray = (inputArray: Array<any>, sortOptions: Array<SortProps>)
         }
         return 0;
     };
-    return [...inputArray].sort(sortFunction);
+    return [...rows].sort(sortFunction);
 };
 
-
-export const groupBy = function (inputArray, groupProp) {
-    return inputArray.reduce((groups, item) => {
-        let result = getObjectValue(item, groupProp);
+export const groupByColumn = function (rows, groupColumn) {
+    return rows.reduce((groups, item) => {
+        let result = resolveCellValue(item, groupColumn);
         (groups[result] = groups[result] || []).push(item);
         return groups;
     }, {});
-};
-
-export const getGroupColumnDisplayName = function (input, column) {
-    let result = getObjectValue(input, column);
-    return result;
 };
