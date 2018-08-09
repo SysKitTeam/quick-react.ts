@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import { GroupRow, IGroupBy, GridColumn } from './QuickGrid.Props';
-import { groupBy } from '../../utilities/array';
+import { groupByColumn as groupByColumnFunction  } from '../../utilities/array';
+import { resolveCellValue } from '../../utilities/resolveCellValue';
 
 class RowGrouper {
     groupByColumns: Array<IGroupBy>;
@@ -28,8 +29,7 @@ class RowGrouper {
         let groupByColumn = this.groupByColumns[groupByColumnIndex];
         let columnName = groupByColumn.column;
         let column = _.find(this.columns, x => x.valueMember === columnName);
-        let displayName = column.dataMember ? column.dataMember : column.valueMember;
-        let groupedRows = groupBy(rows, columnName);
+        let groupedRows = groupByColumnFunction(rows, column);
         let groupKeys = _.uniq(_.map<any, string>(rows, columnName));
         let dataViewRows = [];
         for (let i = 0; i < groupKeys.length; i++) {
@@ -37,7 +37,15 @@ class RowGrouper {
             let groupItem = groupedRows[groupKeyValue][0];
             const groupKey = parentGroupKey + '||' + groupKeyValue;
             let isExpanded = this.isRowExpanded(groupKey);
-            const rowGroupHeader: GroupRow = { type: 'GroupRow', columnGroupName: columnName, displayName: groupItem[displayName], name: groupKeyValue, groupKey: groupKey, depth: groupByColumnIndex, isExpanded: isExpanded };
+            const rowGroupHeader: GroupRow = { 
+                type: 'GroupRow', 
+                columnGroupName: columnName, 
+                displayName: resolveCellValue(groupItem, column),
+                name: groupKeyValue, 
+                groupKey: groupKey, 
+                depth: groupByColumnIndex, 
+                isExpanded: isExpanded 
+            };
             dataViewRows.push(rowGroupHeader);
             if (isExpanded) {
                 nextColumnIndex = groupByColumnIndex + 1;

@@ -11,6 +11,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 const scrollbarSize = require('dom-helpers/util/scrollbarSize');
 
 import * as classNames from 'classnames';
+import { resolveCellValue } from '../../utilities/resolveCellValue';
 
 const defaultMinColumnWidth = 100;
 export class CompareComponent extends React.PureComponent<ICompareComponentProp, ICompareComponentState> {
@@ -79,7 +80,7 @@ export class CompareComponent extends React.PureComponent<ICompareComponentProp,
     }
 
     public cellRenderer = ({ columnIndex, key, rowIndex, style }, isSource = true) => {
-        const columnValue = this.columns[columnIndex].valueMember;
+        const columnValue = resolveCellValue(this.sourceRows[rowIndex], this.columns[columnIndex]);
         const value = isSource ? this.sourceRows[rowIndex][columnValue] : this.targetRows[rowIndex][columnValue];
         const diffOnRow = this.differences.find(item => item.rowIndex === rowIndex);
         let colorClass = '';

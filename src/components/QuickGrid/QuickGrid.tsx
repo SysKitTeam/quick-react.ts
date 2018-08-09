@@ -6,7 +6,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AutoSizer, Grid, ScrollSync } from 'react-virtualized';
 
-import { groupBy as arrayGroupBy } from '../../utilities/array';
+import { groupByColumn as groupByColumnFunction } from '../../utilities/array';
 import { Dropdown, DropdownType } from '../Dropdown';
 import { Icon } from '../Icon/Icon';
 import { getRowsSelector, getActionItemOptions } from './DataSelectors';
@@ -29,6 +29,7 @@ import { QuickGridRowContextActionsHandler } from './QuickGridRowContextActionsH
 import { IQuickGrid } from '.';
 import { boolFormatterFactory } from './CellFormatters';
 import { getObjectValue } from '../../utilities/getObjectValue';
+import { resolveCellValue } from '../../utilities/resolveCellValue';
 
 const scrollbarSize = require('dom-helpers/util/scrollbarSize');
 
@@ -125,7 +126,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     getAllGroupKeys(rows, groupByColumnIndex = 0, parentGroupKey = '') {
         let groupByColumn = this.state.groupBy[groupByColumnIndex];
         let columnName = groupByColumn.column;
-        let groupedRows = arrayGroupBy(rows, columnName);
+        let groupedRows = groupByColumnFunction(rows, groupByColumn);
         let currentGroupKeys = _.uniq(_.map<any, string>(rows, columnName));
         let groupKeys = new Array<string>();
         for (let i = 0; i < currentGroupKeys.length; i++) {
@@ -462,7 +463,12 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         const isLastColumn = !notLastIndex;
         const column = columns[columnIndex];
         const dataKey = column.dataMember || column.valueMember;
-        const cellData = getObjectValue(rowData, dataKey);
+        let cellData;
+        if (dataKey.includes('.') && column.getCellValue === undefined) {
+            cellData = getObjectValue(rowData, dataKey);
+        } else {
+            cellData = resolveCellValue(rowData, column);
+        }
         const rowClass = 'grid-row-' + rowIndex;
         const isSelectedRow = rowIndex === this.state.selectedRowIndex;
         const className = classNames(

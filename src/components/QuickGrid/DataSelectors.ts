@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { createSelector } from 'reselect';
 
-import { sortArray } from '../../utilities/array';
+import { sortRowsByColumn } from '../../utilities/array';
 import {
     DataTypeEnum,
     GridColumn,
@@ -12,6 +12,7 @@ import {
     SortDirection
 } from './QuickGrid.Props';
 import { groupRows } from './rowGrouper';
+import { resolveCellValue } from '../../utilities/resolveCellValue';
 
 const getInputRows = (state: IQuickGridState, props: IQuickGridProps) => props.rows;
 const getGroupBy = (state: IQuickGridState, props: IQuickGridProps) => state.groupBy;
@@ -56,21 +57,20 @@ const sortRows = (rows: Array<any>, sortColumnName: string,
     if (groupedColumn && groupedColumn.length > 0) {
         let sortOptions = [];
         for (let groupColumn of groupedColumn) {
+            const sortColumn = _.find(columns, column => column.valueMember === groupColumn.column);
             const groupSortModifier = groupColumn.sortDirection === SortDirection.Descending ? -1 : 1;
-            const { columnName, sortFunction }
-                = getColumnNameAndSortFunction(columns, groupColumn.column, groupColumn.sortDirection);
-            sortOptions.push({ sortModifier: groupSortModifier, column: columnName, sortFunction: sortFunction });
+            const sortFunction = getSortFunctionForColumn(sortColumn, groupColumn.sortDirection);
+            sortOptions.push({ sortModifier: groupSortModifier, column: sortColumn, sortFunction: sortFunction });
         }
         if (sortColumnName) {
             const sortColumn = _.find(columns, column => column.valueMember === sortColumnName);
-            const columnName = getColumnName(sortColumn);
-            sortOptions.push({ sortModifier: sortModifier, column: columnName });
+            sortOptions.push({ sortModifier: sortModifier, column: sortColumn });
         }
-        return sortArray(rows, sortOptions);
+        return sortRowsByColumn(rows, sortOptions);
     } else if (sortColumnName) {
-        const { columnName, sortFunction }
-            = getColumnNameAndSortFunction(columns, sortColumnName, sortDirection);
-        return sortArray(rows, [{ sortModifier: sortModifier, column: columnName, sortFunction: sortFunction }]);
+        const sortColumn = _.find(columns, column => column.valueMember === sortColumnName);
+        const sortFunction = getSortFunctionForColumn(sortColumn, sortDirection);
+        return sortRowsByColumn(rows, [{ sortModifier: sortModifier, column: sortColumn, sortFunction: sortFunction }]);
     }
     return rows;
 };
@@ -79,22 +79,20 @@ const filterRows = (rows: Array<any>, columns: Array<GridColumn>, searchText: st
     if (!searchText) {
         return rows;
     }
-
     let filterText = searchText.toLowerCase();
-
-    let members = columns.map(col => col.valueMember);
-
+    let members = columns.map(col => col);
     const newRows = rows.filter(row => {
         let visible = false;
         for (let value of members) {
-            if (row[value].toString().toLowerCase().indexOf(filterText) !== -1) {
-                visible = true;
-                break;
+            let result = resolveCellValue(row, value);
+                if (result != null && result.toString()
+                    .toLowerCase().indexOf(filterText) !== -1) {
+                    visible = true;
+                    break;
+                }
             }
-        }
         return visible;
     });
-
     return newRows;
 };
 

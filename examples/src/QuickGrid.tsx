@@ -13,7 +13,7 @@ import '../../src/components/Label/Label.scss';
 import './../../src/components/Icon/symbol-defs.svg';
 import { QuickGridActionsBehaviourEnum, Label, IQuickGrid, Search } from '../../src/index';
 
-const numOfRows = 100000;
+const numOfRows = 200000;
 
 const columnSummaries = {
     Color: 'Best: Orange',
@@ -93,7 +93,7 @@ export class Index extends React.Component<any, any> {
                         selectedKey={this.state.selectedData}
                         options={
                             [
-                                { key: 1, text: '5 Columns' },
+                                { key: 1, text: 'Full set' },
                                 { key: 2, text: '2 Columns' }
                             ]}
                     />
