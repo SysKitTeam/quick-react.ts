@@ -1,8 +1,6 @@
 import { GridColumn, DataTypeEnum, SortDirection, BoolFormatTypeEnum } from '../../src/components/QuickGrid/QuickGrid.Props';
 import { TreeNode, TreeDataSource } from '../../src/models/TreeData';
 
-
-
 const RANDOM_WORDS = ['abstrusity', 'advertisable', 'bellwood', 'benzole', 'disputative', 'djilas', 'ebracteate', 'zonary'];
 const RANDOM_Names = ['Ivan', 'Mario', 'Silvio', 'Hrvoje', 'Vinko', 'Marijana', 'Andrea'];
 const RANDOM_Color = ['Black', 'Green', 'White', 'Blue', 'Orange', 'Red', 'Yellow', 'Gray'];
@@ -72,8 +70,6 @@ export const generateTreeData = (size: number): TreeNode => {
     }
     let result: Array<TreeNode> = [];
 
-
-
     for (let i = 0; i < treeSize[0]; i++) {
         let treeEntry = generateTreeNode();
         for (let j = 0; j < treeSize[1]; j++) {
@@ -142,8 +138,6 @@ export const gridColumns1: Array<GridColumn> = [
     }
 ];
 
-
-
 export function getTreeGridData(size: number): TreeDataSource<GridData> {
     const treeData = new TreeDataSource<GridData>(generateTreeData(size));
     return treeData;
@@ -180,7 +174,8 @@ export const gridColumns2: Array<GridColumn> = [
     {
         valueMember: 'DummyObject.IsHere',
         headerText: 'DummyObject Property',
-        getCellValue: (rowData) => {return rowData.DummyObject.IsHere; },
+        // Null value should be handled on the definition side
+        getCellValue: (rowData) => { return rowData.DummyObject != null ? rowData.DummyObject.IsHere : false; },
         width: 100,
         dataType: DataTypeEnum.Boolean,
         boolFormatType: BoolFormatTypeEnum.TextOnly
@@ -211,7 +206,7 @@ export function getGridData(numberOfElements) {
                 Mixed: RANDOM_Mix[Math.floor(Math.random() * RANDOM_Mix.length)],
                 Numbers: Math.floor(Math.random() * 30),
                 IsUpdated: Math.random() >= 0.5,
-                DummyObject: {IsHere: Math.random() >= 0.5}
+                DummyObject: Math.random() >= 0.2 ? {IsHere: Math.random() >= 0.5} : null
             }
         );
     }
