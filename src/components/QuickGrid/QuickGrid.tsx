@@ -462,12 +462,12 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         const notLastIndex = columnIndex < (columns.length - 1);
         const isLastColumn = !notLastIndex;
         const column = columns[columnIndex];
-        const dataKey = column.dataMember || column.valueMember;
         let cellData;
-        if (dataKey.includes('.') && column.getCellValue === undefined) {
+        if (column.getCellValue === undefined) {
+            const dataKey = column.dataMember || column.valueMember;
             cellData = getObjectValue(rowData, dataKey);
         } else {
-            cellData = resolveCellValue(rowData, column);
+            cellData = column.getCellValue(rowData);
         }
         const rowClass = 'grid-row-' + rowIndex;
         const isSelectedRow = rowIndex === this.state.selectedRowIndex;
