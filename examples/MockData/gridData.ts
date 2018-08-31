@@ -121,7 +121,7 @@ export const gridColumns1: Array<GridColumn> = [
         valueMember: 'Numbers',
         headerText: 'Numbers',
         width: 100
-    }, 
+    },
     {
         valueMember: 'IsUpdated',
         headerText: 'Is Updated',
@@ -179,6 +179,12 @@ export const gridColumns2: Array<GridColumn> = [
         width: 100,
         dataType: DataTypeEnum.Boolean,
         boolFormatType: BoolFormatTypeEnum.TextOnly
+    },
+    {
+        dataMember: 'DateFormatted',
+        valueMember: 'DateRaw',
+        headerText: 'Date',
+        width: 100
     }
 ];
 
@@ -198,6 +204,7 @@ export const gridColumns3: Array<GridColumn> = [
 export function getGridData(numberOfElements) {
     let data = [];
     for (let i = 0; i < numberOfElements; i++) {
+        const date = randomDate(new Date(2012, 0, 1), new Date());
         data.push(
             {
                 RandomWords: RANDOM_WORDS[Math.floor(Math.random() * RANDOM_WORDS.length)],
@@ -206,7 +213,9 @@ export function getGridData(numberOfElements) {
                 Mixed: RANDOM_Mix[Math.floor(Math.random() * RANDOM_Mix.length)],
                 Numbers: Math.floor(Math.random() * 30),
                 IsUpdated: Math.random() >= 0.5,
-                DummyObject: Math.random() >= 0.2 ? {IsHere: Math.random() >= 0.5} : null
+                DummyObject: Math.random() >= 0.2 ? { IsHere: Math.random() >= 0.5 } : null,
+                DateFormatted: date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + ' - value member: ' + date.getTime(),
+                DateRaw: date.getTime()
             }
         );
     }
@@ -224,4 +233,8 @@ export function getSmallGridData(numberOfElements) {
         );
     }
     return { grid: data };
+}
+
+function randomDate(start: Date, end): Date {
+    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 }

@@ -464,7 +464,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         const column = columns[columnIndex];
         const dataKey = column.dataMember || column.valueMember;
         let cellData;
-        if (dataKey.includes('.') && column.getCellValue === undefined) {
+        if (column.getCellValue === undefined) {
             cellData = getObjectValue(rowData, dataKey);
         } else {
             cellData = resolveCellValue(rowData, column);
