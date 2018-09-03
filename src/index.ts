@@ -61,3 +61,4 @@ export * from './utilities/KeyCodes';
 export * from './utilities/rtl';
 export * from './utilities/DirectionalHint';
 export * from './models/TreeData';
+export * from './components/NotificationIcon';

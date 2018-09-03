@@ -79,6 +79,10 @@ $leftNavigation-collapsed-width: 45px;
             display: inline-block;
             position: absolute;
             margin-top: -2px;
+
+            &.with-notification {
+                margin-top: 5px;
+            }
         }
     }
 
