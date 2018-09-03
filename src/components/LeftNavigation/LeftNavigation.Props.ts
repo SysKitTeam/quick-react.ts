@@ -24,6 +24,7 @@ export interface ILeftNavigationOption {
     selected?: boolean;
     disabled?: boolean;
     position?: LeftNavigationOptionPositionEnum;
+    notificationNumber?: number;
 }
 
 export enum LeftNavigationOptionPositionEnum {

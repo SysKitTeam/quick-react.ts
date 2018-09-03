@@ -118,7 +118,7 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
                     onClick={(ev) => this.onLinkClick(option.id, option, ev)}
                 >
                     <a id={option.id}>
-                        <Icon iconName={option.icon} />
+                        <Icon iconName={option.icon} notificationNumber={option.notificationNumber}/>
                         <span>{option.text}</span>
                     </a>
                 </div>
