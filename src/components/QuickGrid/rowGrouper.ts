@@ -30,7 +30,8 @@ class RowGrouper {
         let columnName = groupByColumn.column;
         let column = _.find(this.columns, x => x.valueMember === columnName);
         let groupedRows = groupByColumnFunction(rows, column);
-        let groupKeys = _.uniq(_.map<any, string>(rows, columnName));
+        let groupMapper = (column.getCellValue || columnName) as string;
+        let groupKeys = _.uniq(_.map<any, string>(rows, groupMapper));
         let dataViewRows = [];
         for (let i = 0; i < groupKeys.length; i++) {
             let groupKeyValue = groupKeys[i];

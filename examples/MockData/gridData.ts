@@ -1,8 +1,6 @@
 import { GridColumn, DataTypeEnum, SortDirection, BoolFormatTypeEnum } from '../../src/components/QuickGrid/QuickGrid.Props';
 import { TreeNode, TreeDataSource } from '../../src/models/TreeData';
 
-
-
 const RANDOM_WORDS = ['abstrusity', 'advertisable', 'bellwood', 'benzole', 'disputative', 'djilas', 'ebracteate', 'zonary'];
 const RANDOM_Names = ['Ivan', 'Mario', 'Silvio', 'Hrvoje', 'Vinko', 'Marijana', 'Andrea'];
 const RANDOM_Color = ['Black', 'Green', 'White', 'Blue', 'Orange', 'Red', 'Yellow', 'Gray'];
@@ -72,8 +70,6 @@ export const generateTreeData = (size: number): TreeNode => {
     }
     let result: Array<TreeNode> = [];
 
-
-
     for (let i = 0; i < treeSize[0]; i++) {
         let treeEntry = generateTreeNode();
         for (let j = 0; j < treeSize[1]; j++) {
@@ -125,7 +121,7 @@ export const gridColumns1: Array<GridColumn> = [
         valueMember: 'Numbers',
         headerText: 'Numbers',
         width: 100
-    }, 
+    },
     {
         valueMember: 'IsUpdated',
         headerText: 'Is Updated',
@@ -141,8 +137,6 @@ export const gridColumns1: Array<GridColumn> = [
         boolFormatType: BoolFormatTypeEnum.TextOnly
     }
 ];
-
-
 
 export function getTreeGridData(size: number): TreeDataSource<GridData> {
     const treeData = new TreeDataSource<GridData>(generateTreeData(size));
@@ -180,10 +174,17 @@ export const gridColumns2: Array<GridColumn> = [
     {
         valueMember: 'DummyObject.IsHere',
         headerText: 'DummyObject Property',
-        getCellValue: (rowData) => {return rowData.DummyObject.IsHere; },
+        // Null value should be handled on the definition side
+        getCellValue: (rowData) => { return rowData.DummyObject != null ? rowData.DummyObject.IsHere : false; },
         width: 100,
         dataType: DataTypeEnum.Boolean,
         boolFormatType: BoolFormatTypeEnum.TextOnly
+    },
+    {
+        dataMember: 'DateFormatted',
+        valueMember: 'DateRaw',
+        headerText: 'Date',
+        width: 100
     }
 ];
 
@@ -203,6 +204,7 @@ export const gridColumns3: Array<GridColumn> = [
 export function getGridData(numberOfElements) {
     let data = [];
     for (let i = 0; i < numberOfElements; i++) {
+        const date = randomDate(new Date(2012, 0, 1), new Date());
         data.push(
             {
                 RandomWords: RANDOM_WORDS[Math.floor(Math.random() * RANDOM_WORDS.length)],
@@ -211,7 +213,9 @@ export function getGridData(numberOfElements) {
                 Mixed: RANDOM_Mix[Math.floor(Math.random() * RANDOM_Mix.length)],
                 Numbers: Math.floor(Math.random() * 30),
                 IsUpdated: Math.random() >= 0.5,
-                DummyObject: {IsHere: Math.random() >= 0.5}
+                DummyObject: Math.random() >= 0.2 ? { IsHere: Math.random() >= 0.5 } : null,
+                DateFormatted: date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + ' - value member: ' + date.getTime(),
+                DateRaw: date.getTime()
             }
         );
     }
@@ -229,4 +233,8 @@ export function getSmallGridData(numberOfElements) {
         );
     }
     return { grid: data };
+}
+
+function randomDate(start: Date, end): Date {
+    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 }
