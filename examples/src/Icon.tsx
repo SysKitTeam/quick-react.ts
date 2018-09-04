@@ -22,7 +22,7 @@ export class Index extends React.Component<any, any> {
                 {symbols.map(i => {
                     let iconName = i.id.substring(i.id.indexOf('_') + 1);
                     return <div> <Icon iconName={iconName}></Icon> <span>   {iconName}</span></div>;
-                })}
+                })}                  
             </div>
         );
     }

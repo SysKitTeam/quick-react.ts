@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { LeftNavigation } from './LeftNavigation';
+import { NotificationBubbleStyleObject } from '../NotificationIcon';
 
 
 export enum ExpandCaptionsBehaviorEnum {
@@ -14,6 +15,7 @@ export interface ILeftNavigationProps {
     className?: string;
     onClick?: (ev?: React.MouseEvent<HTMLElement>, item?: ILeftNavigationOption) => void;
     expandCaptionsBehavior?: ExpandCaptionsBehaviorEnum;
+    notificationBubbleStyleObject?: NotificationBubbleStyleObject;
 }
 
 export interface ILeftNavigationOption {
@@ -24,6 +26,7 @@ export interface ILeftNavigationOption {
     selected?: boolean;
     disabled?: boolean;
     position?: LeftNavigationOptionPositionEnum;
+    notificationNumber?: number;
 }
 
 export enum LeftNavigationOptionPositionEnum {

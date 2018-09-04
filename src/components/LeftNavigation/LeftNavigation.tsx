@@ -10,6 +10,7 @@ import { getWindow } from '../../utilities/getDocument';
 import { autobind } from '../../utilities/autobind';
 import './LeftNavigation.scss';
 import { nullFunc } from '../../utilities/common';
+import { NotificationIcon } from '../NotificationIcon/NotificationIcon';
 
 export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
     private _targetWindow: Window;
@@ -110,6 +111,8 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
                     'selected': option.selected
                 });
 
+            const spanClasses = classNames({'with-notification': option.notificationNumber !== undefined});
+
             return (
                 <div
                     key={option.id}
@@ -118,8 +121,11 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
                     onClick={(ev) => this.onLinkClick(option.id, option, ev)}
                 >
                     <a id={option.id}>
-                        <Icon iconName={option.icon} />
-                        <span>{option.text}</span>
+                        {(option.notificationNumber) ? 
+                            <NotificationIcon iconName={option.icon} notificationNumber={option.notificationNumber}
+                            notificationBubbleStyleObject={this.props.notificationBubbleStyleObject}/> 
+                            : <Icon iconName={option.icon}/>}
+                        <span className={spanClasses} >{option.text}</span>
                     </a>
                 </div>
             );
