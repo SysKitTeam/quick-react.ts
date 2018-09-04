@@ -58,7 +58,7 @@ export const DefaultIconNumberStyleObject = (iconSize: IconSize, numberOfCharact
     top: '0px',
     right: '0px',
     borderRadius: '50%',
-    backgroundColor: 'red'
+    backgroundColor: '#FB6464'
   },
   numberStyleObject: {
     fontWeight: 'bold',
