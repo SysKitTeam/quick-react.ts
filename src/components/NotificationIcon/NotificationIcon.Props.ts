@@ -21,11 +21,10 @@ export interface NotificationBubbleStyleObject {
 }
 
 export interface ContainerStyleObject {
-  width?: string;
-  height?: string;
   position?: string;
   display?: string;
-  alignItems?: string;
+  marginRight?: string;
+  marginTop?: string;
 }
 
 export interface BubbleStyleObject {
@@ -36,6 +35,7 @@ export interface BubbleStyleObject {
   height?: string;
   borderRadius?: string;
   backgroundColor?: string;
+  transform?: string;
 }
 
 export interface NumberStyleObject {
@@ -51,14 +51,14 @@ export const DefaultIconNumberStyleObject = (iconSize: IconSize, numberOfCharact
   let styleObject : NotificationBubbleStyleObject = { 
   containerStyleObject: {
     position: 'relative',
-    display: 'inline-flex',
-    alignItems: 'flex-end'},
+    display: 'inline-flex'},
   bubbleStyleObject: {
     position: 'absolute',
     top: '0px',
     right: '0px',
     borderRadius: '50%',
-    backgroundColor: '#FB6464'
+    backgroundColor: '#FB6464',
+    transform: 'translate(50%,-50%)'
   },
   numberStyleObject: {
     fontWeight: 'bold',
@@ -68,8 +68,8 @@ export const DefaultIconNumberStyleObject = (iconSize: IconSize, numberOfCharact
    
     switch (iconSize) {
     case IconSize.smallest:
-        styleObject.containerStyleObject.width = '23px';
-        styleObject.containerStyleObject.height = '23px';
+        styleObject.containerStyleObject.marginRight = '7px';
+        styleObject.containerStyleObject.marginTop = '7px';
         styleObject.bubbleStyleObject.height = '14px';
         styleObject.bubbleStyleObject.width = '14px';
         styleObject.numberStyleObject.fontSize = '10px';
@@ -77,8 +77,8 @@ export const DefaultIconNumberStyleObject = (iconSize: IconSize, numberOfCharact
         styleObject.numberStyleObject.marginLeft = '4px';
         break;
     case IconSize.small:
-        styleObject.containerStyleObject.width = '32px';
-        styleObject.containerStyleObject.height = '32px';
+      styleObject.containerStyleObject.marginRight = '8px';
+      styleObject.containerStyleObject.marginTop = '8px';
         styleObject.bubbleStyleObject.height = '16px';
         styleObject.bubbleStyleObject.width = '16px';
         styleObject.numberStyleObject.fontSize = '12px';
@@ -86,8 +86,8 @@ export const DefaultIconNumberStyleObject = (iconSize: IconSize, numberOfCharact
         styleObject.numberStyleObject.marginLeft = '4px';
         break;
     case IconSize.medium:
-        styleObject.containerStyleObject.width = '41px';
-        styleObject.containerStyleObject.height = '41px';
+        styleObject.containerStyleObject.marginRight = '9px';
+        styleObject.containerStyleObject.marginTop = '9px';
         styleObject.bubbleStyleObject.height = '18px';
         styleObject.bubbleStyleObject.width = '18px';
         styleObject.numberStyleObject.fontSize = '14px';
@@ -95,8 +95,8 @@ export const DefaultIconNumberStyleObject = (iconSize: IconSize, numberOfCharact
         styleObject.numberStyleObject.marginLeft = '5px';
         break;
     case IconSize.large:
-        styleObject.containerStyleObject.width = '75px';
-        styleObject.containerStyleObject.height = '75px';
+        styleObject.containerStyleObject.marginRight = '11px';
+        styleObject.containerStyleObject.marginTop = '11px';
         styleObject.bubbleStyleObject.height = '22px';
         styleObject.bubbleStyleObject.width = '22px';
         styleObject.numberStyleObject.fontSize = '18px';
@@ -104,8 +104,8 @@ export const DefaultIconNumberStyleObject = (iconSize: IconSize, numberOfCharact
         styleObject.numberStyleObject.marginLeft = '6px';
         break;
     default:
-    styleObject.containerStyleObject.width = '23px';
-    styleObject.containerStyleObject.height = '23px';
+    styleObject.containerStyleObject.marginRight = '7px';
+    styleObject.containerStyleObject.marginTop = '7px';
     styleObject.bubbleStyleObject.height = '14px';
     styleObject.bubbleStyleObject.width = '14px';
     styleObject.numberStyleObject.fontSize = '10px';
@@ -118,23 +118,23 @@ export const DefaultIconNumberStyleObject = (iconSize: IconSize, numberOfCharact
     styleObject.bubbleStyleObject.borderRadius = '40px';
       switch (iconSize) {
       case IconSize.smallest:
-          styleObject.containerStyleObject.width = '26px';
+          styleObject.containerStyleObject.marginRight = '10px';
           styleObject.bubbleStyleObject.width = '20px';
           break;
       case IconSize.small:
-          styleObject.containerStyleObject.width = '35px';
+          styleObject.containerStyleObject.marginRight = '11px';
           styleObject.bubbleStyleObject.width = '22px';
           break;
       case IconSize.medium:
-          styleObject.containerStyleObject.width = '44.5px';
+          styleObject.containerStyleObject.marginRight = '12.5px';
           styleObject.bubbleStyleObject.width = '25px';          
           break;
       case IconSize.large:
-          styleObject.containerStyleObject.width = '80px';
+          styleObject.containerStyleObject.marginRight = '16px';
           styleObject.bubbleStyleObject.width = '32px';
           break;
       default:
-      styleObject.containerStyleObject.width = '26px';
+      styleObject.containerStyleObject.marginRight = '10px';
       styleObject.bubbleStyleObject.width = '20px';
     }
 

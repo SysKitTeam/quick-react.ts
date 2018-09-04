@@ -1,8 +1,14 @@
 import * as React from 'react';
 import { INotificationIconProps, DefaultIconNumberStyleObject, NotificationBubbleStyleObject} from './NotificationIcon.Props';
 import { Icon } from '../Icon/Icon';
+import * as classNames from 'classnames';
+import './NotificationIcon.scss';
 
 export const NotificationIcon: (props: INotificationIconProps) => JSX.Element = (props: INotificationIconProps) => {
+
+    let iconClassName = classNames(
+        'icon-with-notification',
+        [props.className]);
 
     const numberString = props.notificationNumber === undefined || props.notificationNumber === 0 ? '' 
                             : props.notificationNumber < 10 ? props.notificationNumber.toLocaleString() : '9+';
@@ -25,7 +31,7 @@ export const NotificationIcon: (props: INotificationIconProps) => JSX.Element = 
 
     return (
     <div style={styleObject.containerStyleObject as React.CSSProperties} className={props.containerClassName}>
-        <Icon iconName={props.iconName} className={props.className} iconSize={props.iconSize}
+        <Icon iconName={props.iconName} className={iconClassName} iconSize={props.iconSize}
                 width={props.width} height={props.height}></Icon>
         {(numberString !== '') &&
             <div style={styleObject.bubbleStyleObject as React.CSSProperties} className={props.notificationBubbleClassName}>
