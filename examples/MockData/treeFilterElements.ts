@@ -1,4 +1,4 @@
-import { TreeItem } from '../../src';
+import { TreeItem, DirectionalHint } from '../../src';
 
 const RANDOM_WORDS = ['abstrusity', 'advertisable', 'bellwood', 'benzole', 'disputative', 'djilas', 'ebracteate', 'zonary', 'chromosome', 'downcast', 'evil', 'cottage', 'adopter', 'coal', 'locust', 'crackpot', 'abstinence', 'joypop'];
 
@@ -83,7 +83,8 @@ export function createRandomizedData(numOfItems, maxDepth) {
                 iconName: 'icon-trash',
                 // tslint:disable-next-line:no-console
                 callback: (item) => console.log(item)
-            }]
+            }],
+            itemTooltipInfo: { content: name + ' tooltip', directionalHint: DirectionalHint.rightCenter, className: 'tooltip-white' }
         };
     };
 
