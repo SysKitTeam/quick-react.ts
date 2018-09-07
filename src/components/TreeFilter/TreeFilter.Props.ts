@@ -117,4 +117,9 @@ export interface TreeItem {
     renderElement?: (itemKey: string, style: any) => JSX.Element;
     iconTooltipContent?: string;
     asyncChildrenLoadInProgress?: boolean;
+    /**
+     * Used to show a tooltip for item in callout
+     * Implemented only for Single Select TreeFilter
+     */
+    itemTooltipInfo?: { title?: string, content: string | JSX.Element, directionalHint?: DirectionalHint; className?: string };
 }
