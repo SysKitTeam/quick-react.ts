@@ -139,7 +139,7 @@ export class TreeFilter extends React.PureComponent<ITreeFilterProps, ITreeFilte
     private onDismiss = () => {
         this.setState(prevState => ({ ...prevState, 
             isOpen: false,
-            query: this.props.clearSearchOnClose ? '' : prevState.query, }));
+            query: this.props.clearSearchOnClose ? '' : prevState.query }));
         this.props.onCalloutClose();
     }
 
