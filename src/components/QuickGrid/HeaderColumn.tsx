@@ -44,7 +44,7 @@ class HeaderColumnInner extends React.PureComponent<IHeaderColumnProps, void> {
 
         let headerTextContent: JSX.Element;
         if (tooltip) {
-            headerTextContent = <Tooltip directionalHint={DirectionalHint.bottomCenter} content={title} >
+            headerTextContent = <Tooltip directionalHint={DirectionalHint.bottomCenter} content={title} title={text} >
                 <span key="label" >
                     {text}
                 </span>
