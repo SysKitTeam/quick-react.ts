@@ -64,7 +64,7 @@ const sortRows = (rows: Array<any>, sortColumnName: string,
         }
         if (sortColumnName) {
             const sortColumn = _.find(columns, column => column.valueMember === sortColumnName);
-            sortOptions.push({ sortModifier: sortModifier, column: sortColumn });
+            sortOptions.push({ sortModifier: sortModifier, column: sortColumn, sortFunction: sortColumn.sortByValueGetter });
         }
         return sortRowsByColumn(rows, sortOptions);
     } else if (sortColumnName) {
