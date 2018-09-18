@@ -9,7 +9,8 @@ import {
     IQuickGridProps,
     IQuickGridState,
     lowercasedColumnPrefix,
-    SortDirection
+    SortDirection,
+    FiltersData
 } from './QuickGrid.Props';
 import { groupRows } from './rowGrouper';
 import { resolveCellValue } from '../../utilities/resolveCellValue';
@@ -21,6 +22,7 @@ const getSortColumn = (state: IQuickGridState, props: IQuickGridProps) => state.
 const getSortDirection = (state: IQuickGridState, props: IQuickGridProps) => state.sortDirection;
 const getColumns = (state: IQuickGridState, props: IQuickGridProps) => props.columns;
 const getFilterString = (state: IQuickGridState, props: IQuickGridProps) => props.filterString;
+const getColumnFilters = (state: IQuickGridState, props: IQuickGridProps) => state.columnFilters;
 
 const getActionItems = (props: IQuickGridProps) => props.gridActions.actionItems;
 
@@ -75,9 +77,9 @@ const sortRows = (rows: Array<any>, sortColumnName: string,
     return rows;
 };
 
-const filterRows = (rows: Array<any>, columns: Array<GridColumn>, searchText: string) => {
+const filterRows = (rows: Array<any>, columns: Array<GridColumn>, searchText: string, columnFilters: Array<FiltersData>) => {
     if (!searchText) {
-        return rows;
+        return filterRowsByColumnFilter(rows, columns, columnFilters);
     }
     let filterText = searchText.toLowerCase();
     let members = columns.map(col => col);
@@ -91,6 +93,30 @@ const filterRows = (rows: Array<any>, columns: Array<GridColumn>, searchText: st
                     break;
                 }
             }
+        return visible;
+    });
+    return filterRowsByColumnFilter(newRows, columns, columnFilters);
+};
+
+
+const filterRowsByColumnFilter = (rows: Array<any>, columns: Array<GridColumn>, columnFilters: Array<FiltersData>) => {
+    if (columnFilters.length === 0) {
+        return rows;
+    }
+
+    let members = columns.map(col => col);
+    const newRows = rows.filter(row => {
+        let visible = true;
+        for (let filterData of columnFilters ) {
+            const value = members[filterData.columnIndex];
+            const result = resolveCellValue(row, value);
+            const filterString = filterData.filterString.toLowerCase();
+            if (result != null && result.toString()
+                .toLowerCase().indexOf(filterString) === -1) {
+                visible = false;
+                break;
+            }
+        }
         return visible;
     });
     return newRows;
@@ -114,9 +140,9 @@ const getRowsWithLowerCase = createSelector(getInputRows, getColumns, (rows, col
     return addLowerCaseMembersToRows(rows, columns);
 });
 
-const getFilteredRows = createSelector(getRowsWithLowerCase, getColumns, getFilterString,
-    (rows, columns, searchText) => {
-        return filterRows(rows, columns, searchText);
+const getFilteredRows = createSelector(getRowsWithLowerCase, getColumns, getFilterString, getColumnFilters,
+    (rows, columns, searchText, columnFilters) => {
+        return filterRows(rows, columns, searchText, columnFilters);
     }
 );
 
