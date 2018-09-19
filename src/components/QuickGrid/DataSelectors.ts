@@ -110,9 +110,9 @@ const filterRowsByColumnFilter = (rows: Array<any>, columns: Array<GridColumn>, 
         for (let filterData of columnFilters ) {
             const value = members[filterData.columnIndex];
             const result = resolveCellValueForDisplay(row, value);
-            const filterString = filterData.filterString.toLowerCase();
+            const filterValue = filterData.filterValue.toLowerCase();
             if (result != null && result.toString()
-                .toLowerCase().indexOf(filterString) === -1) {
+                .toLowerCase().indexOf(filterValue) === -1) {
                 visible = false;
                 break;
             }

@@ -14,12 +14,12 @@ export class ColumnFilter extends React.PureComponent<ColumnFilterProps, null> {
         if (!newValue) {
             this.props.removeColumnFilter({
                 columnIndex: columnIndex,
-                filterString: ''
+                filterValue: ''
             });
         } else {
             this.props.addColumnFilter({
                 columnIndex: columnIndex,
-                filterString: newValue
+                filterValue: newValue
             });
         }
     }
@@ -29,7 +29,7 @@ export class ColumnFilter extends React.PureComponent<ColumnFilterProps, null> {
             <TextField 
                 className="filters-column"
                 onChanged={this.onChanged}
-                value={this.props.filterString}
+                value={this.props.filterValue}
             />
         );
     }

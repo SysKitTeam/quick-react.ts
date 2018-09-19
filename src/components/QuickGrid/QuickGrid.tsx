@@ -643,7 +643,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         let columnFiltersCopy = this.state.columnFilters.slice();
         const oldColumnFilter = columnFiltersCopy.find(data => data.columnIndex === filterData.columnIndex);
         if (oldColumnFilter !== undefined ) {
-            oldColumnFilter.filterString = filterData.filterString;
+            oldColumnFilter.filterValue = filterData.filterValue;
         } else {
             columnFiltersCopy.push(filterData);
         }

@@ -187,12 +187,12 @@ export interface FiltersProps {
 
 export interface FiltersData {
     columnIndex: number;
-    filterString: string;
+    filterValue: string;
 }
 
 export interface ColumnFilterProps {
     columnIndex: number;
-    filterString: string;
+    filterValue: string;
     addColumnFilter: (filterData: FiltersData) => void;
     removeColumnFilter: (filterData: FiltersData) => void;
 }

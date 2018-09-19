@@ -49,7 +49,7 @@ export class Filters extends React.PureComponent<FiltersProps, null> {
         const text = this.props.headerColumns[columnIndex].headerText;
         const startColumnIndex = this.props.allColumns.indexOf(this.props.allColumns.find(el => el.headerText === text));
         const filter = this.props.columnFilters.find(el => el.columnIndex === startColumnIndex);
-        let filterString = filter !== undefined ? filter.filterString : '';
+        let filterValue = filter !== undefined ? filter.filterValue : '';
 
         return (
             <div
@@ -60,7 +60,7 @@ export class Filters extends React.PureComponent<FiltersProps, null> {
                     columnIndex={startColumnIndex}
                     addColumnFilter={this.props.addColumnFilter}
                     removeColumnFilter={this.props.removeColumnFilter}
-                    filterString={filterString}
+                    filterValue={filterValue}
                 />
             </div>
         );
