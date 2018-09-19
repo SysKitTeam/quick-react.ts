@@ -49,15 +49,13 @@ export class Filters extends React.PureComponent<FiltersProps, null> {
         const text = this.props.headerColumns[columnIndex].headerText;
         const startColumnIndex = this.props.allColumns.indexOf(this.props.allColumns.find(el => el.headerText === text));
         const filter = this.props.columnFilters.find(el => el.columnIndex === startColumnIndex);
-        let filterString = '';
-        if (filter !== undefined) {
-            filterString = filter.filterString;
-        }
+        let filterString = filter !== undefined ? filter.filterString : '';
+
         return (
             <div
                 className={classNames( 'grid-header-column')}
                 style={style}
-                key={`colum-filter-${text}`}>
+                key={`column-filter-${text}`}>
                 <ColumnFilter
                     columnIndex={startColumnIndex}
                     addColumnFilter={this.props.addColumnFilter}
