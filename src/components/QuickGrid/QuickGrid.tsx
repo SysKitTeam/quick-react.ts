@@ -198,6 +198,9 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             this.setState((prevState) => { return { ...prevState, columnsToDisplay: columnsToDisplay, columnWidths: columnWidths, groupBy: newGroupBy }; });
             this._columnsMinTotalWidth = columnsToDisplay.map(getColumnMinWidth).reduce((a, b) => a + b, 0);
         }
+        if (this.props.showFilters === true && nextProps.showFilters === false) {
+            this.setState((prevState) => { return {...prevState, columnFilters: new Array<FiltersData>()}; });
+        }
     }
 
     public componentWillUpdate(nextProps, nextState) {

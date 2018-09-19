@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { GroupRow, IGroupBy, GridColumn } from './QuickGrid.Props';
 import { groupByColumn as groupByColumnFunction  } from '../../utilities/array';
-import { resolveCellValue } from '../../utilities/resolveCellValue';
+import { resolveCellValueForDisplay } from '../../utilities/resolveCellValue';
 
 class RowGrouper {
     groupByColumns: Array<IGroupBy>;
@@ -41,7 +41,7 @@ class RowGrouper {
             const rowGroupHeader: GroupRow = { 
                 type: 'GroupRow', 
                 columnGroupName: columnName, 
-                displayName: resolveCellValue(groupItem, column),
+                displayName: resolveCellValueForDisplay(groupItem, column),
                 name: groupKeyValue, 
                 groupKey: groupKey, 
                 depth: groupByColumnIndex, 

@@ -164,7 +164,8 @@ export const gridColumns2: Array<GridColumn> = [
         valueMember: 'Numbers',
         headerText: 'Numbers',
         width: 100
-    }, {
+    },
+     {
         valueMember: 'IsUpdated',
         headerText: 'Is Updated',
         width: 100,
@@ -184,6 +185,12 @@ export const gridColumns2: Array<GridColumn> = [
         dataMember: 'DateFormatted',
         valueMember: 'DateRaw',
         headerText: 'Date',
+        width: 100
+    },
+    {
+        dataMember: 'AmountString',
+        valueMember: 'AmountRaw',
+        headerText: 'Amount',
         width: 100
     }
 ];
@@ -215,7 +222,9 @@ export function getGridData(numberOfElements) {
                 IsUpdated: Math.random() >= 0.5,
                 DummyObject: Math.random() >= 0.2 ? { IsHere: Math.random() >= 0.5 } : null,
                 DateFormatted: date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + ' - value member: ' + date.getTime(),
-                DateRaw: date.getTime()
+                DateRaw: date.getTime(),
+                AmountRaw: Math.floor(i / 10000),
+                AmountString: Math.floor(i / 10000).toString().concat(' kn') 
             }
         );
     }

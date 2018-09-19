@@ -13,7 +13,7 @@ import {
     FiltersData
 } from './QuickGrid.Props';
 import { groupRows } from './rowGrouper';
-import { resolveCellValue } from '../../utilities/resolveCellValue';
+import { resolveCellValueForDisplay } from '../../utilities/resolveCellValue';
 
 const getInputRows = (state: IQuickGridState, props: IQuickGridProps) => props.rows;
 const getGroupBy = (state: IQuickGridState, props: IQuickGridProps) => state.groupBy;
@@ -86,7 +86,7 @@ const filterRows = (rows: Array<any>, columns: Array<GridColumn>, searchText: st
     const newRows = rows.filter(row => {
         let visible = false;
         for (let value of members) {
-            let result = resolveCellValue(row, value);
+            let result = resolveCellValueForDisplay(row, value);
                 if (result != null && result.toString()
                     .toLowerCase().indexOf(filterText) !== -1) {
                     visible = true;
@@ -109,7 +109,7 @@ const filterRowsByColumnFilter = (rows: Array<any>, columns: Array<GridColumn>, 
         let visible = true;
         for (let filterData of columnFilters ) {
             const value = members[filterData.columnIndex];
-            const result = resolveCellValue(row, value);
+            const result = resolveCellValueForDisplay(row, value);
             const filterString = filterData.filterString.toLowerCase();
             if (result != null && result.toString()
                 .toLowerCase().indexOf(filterString) === -1) {

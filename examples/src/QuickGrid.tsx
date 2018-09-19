@@ -117,7 +117,7 @@ export class Index extends React.Component<any, any> {
                         onChanged={this._onSearch}
                     />
                 </div>
-                <Resizable width={1000} height={700} >
+                <Resizable width={1100} height={700} >
                     <div className="viewport-height" style={{ height: '100%' }} >
                         <QuickGrid
                             ref={this._setGridRef}
