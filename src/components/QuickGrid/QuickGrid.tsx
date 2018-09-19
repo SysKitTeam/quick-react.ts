@@ -31,7 +31,7 @@ import { IQuickGrid } from '.';
 import { boolFormatterFactory } from './CellFormatters';
 import { getObjectValue } from '../../utilities/getObjectValue';
 import { resolveCellValue } from '../../utilities/resolveCellValue';
-import { Filters } from './Filters';
+import { AutoFilterRow } from './AutoFilterRow';
 
 const scrollbarSize = require('dom-helpers/util/scrollbarSize');
 
@@ -198,7 +198,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             this.setState((prevState) => { return { ...prevState, columnsToDisplay: columnsToDisplay, columnWidths: columnWidths, groupBy: newGroupBy }; });
             this._columnsMinTotalWidth = columnsToDisplay.map(getColumnMinWidth).reduce((a, b) => a + b, 0);
         }
-        if (this.props.showFilters === true && nextProps.showFilters === false) {
+        if (this.props.showAutoFilterRow === true && nextProps.showAutoFilterRow === false) {
             this.setState((prevState) => { return {...prevState, columnFilters: new Array<FiltersData>()}; });
         }
     }
@@ -699,7 +699,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                                         />
                                     }
                                     {
-                                        this.props.showFilters && <Filters
+                                        this.props.showAutoFilterRow && <AutoFilterRow
                                             headerColumns={this.state.columnsToDisplay}
                                             allColumns={this.props.columns}
                                             width={width}

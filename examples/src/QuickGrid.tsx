@@ -131,7 +131,7 @@ export class Index extends React.Component<any, any> {
                             actionsTooltip="Act on these."
                             tooltipsEnabled={true}
                             filterString={this.state.searchText}
-                            showFilters={this.state.showFilter}
+                            showAutoFilterRow={this.state.showFilter}
                         />
                     </div>
                 </Resizable>

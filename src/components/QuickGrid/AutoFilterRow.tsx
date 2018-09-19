@@ -6,7 +6,7 @@ import './QuickGrid.scss';
 import { TextField } from '../TextField';
 import { ColumnFilter } from './ColumnFilter';
 
-export class Filters extends React.PureComponent<FiltersProps, null> {
+export class AutoFilterRow extends React.PureComponent<FiltersProps, null> {
     private _filtersGrid: any;
     constructor(props: FiltersProps) {
         super(props);
