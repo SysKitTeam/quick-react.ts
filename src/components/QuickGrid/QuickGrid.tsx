@@ -21,7 +21,8 @@ import {
     QuickGridActionsBehaviourEnum,
     SortDirection,
     DataTypeEnum,
-    BoolFormatTypeEnum
+    BoolFormatTypeEnum,
+    FiltersData
 } from './QuickGrid.Props';
 import { GridFooter } from './QuickGridFooter';
 import { GridHeader } from './QuickGridHeader';
@@ -30,6 +31,7 @@ import { IQuickGrid } from '.';
 import { boolFormatterFactory } from './CellFormatters';
 import { getObjectValue } from '../../utilities/getObjectValue';
 import { resolveCellValue } from '../../utilities/resolveCellValue';
+import { AutoFilterRow } from './AutoFilterRow';
 
 const scrollbarSize = require('dom-helpers/util/scrollbarSize');
 
@@ -67,7 +69,8 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             sortDirection: props.sortDirection,
             groupBy: groupByState,
             hasVerticalScroll: false,
-            scrolledRow: undefined
+            scrolledRow: undefined,
+            columnFilters: new Array<FiltersData>()
         };
 
         this._columnsMinTotalWidth = columnsToDisplay.map(getColumnMinWidth).reduce((a, b) => a + b, 0);
@@ -194,6 +197,9 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             const columnWidths = this.getColumnWidths(columnsToDisplay);
             this.setState((prevState) => { return { ...prevState, columnsToDisplay: columnsToDisplay, columnWidths: columnWidths, groupBy: newGroupBy }; });
             this._columnsMinTotalWidth = columnsToDisplay.map(getColumnMinWidth).reduce((a, b) => a + b, 0);
+        }
+        if (this.props.showAutoFilterRow === true && nextProps.showAutoFilterRow === false) {
+            this.setState((prevState) => { return {...prevState, columnFilters: new Array<FiltersData>()}; });
         }
     }
 
@@ -633,6 +639,23 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         this.setState({ hasVerticalScroll: vertical });
     }
 
+    addColumnFilter = (filterData: FiltersData) => {
+        let columnFiltersCopy = this.state.columnFilters.slice();
+        const oldColumnFilter = columnFiltersCopy.find(data => data.columnIndex === filterData.columnIndex);
+        if (oldColumnFilter !== undefined ) {
+            oldColumnFilter.filterValue = filterData.filterValue;
+        } else {
+            columnFiltersCopy.push(filterData);
+        }
+        this.setState({ columnFilters: columnFiltersCopy });
+    }
+
+    removeColumnFilter = (filterData: FiltersData) => {
+        let columnFiltersCopy = this.state.columnFilters.slice();
+        const newColumnFilters = columnFiltersCopy.filter(data => data.columnIndex !== filterData.columnIndex);
+        this.setState({ columnFilters: newColumnFilters });
+    }
+
     public render() {
         let mainClass = classNames('grid-component-container', this.props.gridClassName);
         let headerClass = classNames('grid-component-header', this.props.headerClassName);
@@ -673,6 +696,18 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                                             onCollapseAll={this.collapseAll}
                                             onExpandAll={this.expandAll}
                                             tooltipsEnabled={this.props.tooltipsEnabled}
+                                        />
+                                    }
+                                    {
+                                        this.props.showAutoFilterRow && <AutoFilterRow
+                                            headerColumns={this.state.columnsToDisplay}
+                                            allColumns={this.props.columns}
+                                            width={width}
+                                            columnWidths={this.state.columnWidths}
+                                            scrollLeft={scrollLeft}
+                                            addColumnFilter={this.addColumnFilter}
+                                            removeColumnFilter={this.removeColumnFilter}
+                                            columnFilters={this.state.columnFilters}
                                         />
                                     }
 

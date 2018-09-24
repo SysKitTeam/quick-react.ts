@@ -40,6 +40,7 @@ export interface IQuickGridProps {
     isRowSelectable?: boolean;
     delayMs?: number;
     filterString?: string;
+    showAutoFilterRow?: boolean;
 
     // callbacks
     onSelectedRowChanged?: (selectedRowIndex: number, rowData: any) => void;
@@ -72,6 +73,7 @@ export interface IQuickGridState {
     columnsToDisplay: Array<GridColumn>;
     hasVerticalScroll: boolean;
     scrolledRow: number;
+    columnFilters?: Array<FiltersData>;
 }
 
 export interface GroupRow {
@@ -171,4 +173,26 @@ export interface ActionItem {
     iconName?: string;
     parameters?: any;
     tooltip?: ITooltipProps;
+}
+export interface FiltersProps {
+    headerColumns: Array<GridColumn>;
+    width: number;
+    columnWidths: Array<number>;
+    scrollLeft: number;
+    allColumns: Array<GridColumn>;
+    columnFilters: Array<FiltersData>;
+    addColumnFilter: (filterData: FiltersData) => void;
+    removeColumnFilter: (filterData: FiltersData) => void;
+}
+
+export interface FiltersData {
+    columnIndex: number;
+    filterValue: string;
+}
+
+export interface ColumnFilterProps {
+    columnIndex: number;
+    filterValue: string;
+    addColumnFilter: (filterData: FiltersData) => void;
+    removeColumnFilter: (filterData: FiltersData) => void;
 }

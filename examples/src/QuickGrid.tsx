@@ -70,7 +70,8 @@ export class Index extends React.Component<any, any> {
         groupBy: [],
         selectedData: 1,
         gridActions: this.gridActions,
-        searchText: ''
+        searchText: '',
+        showFilter: true
     };
 
     scrollTo = (ev) => {
@@ -101,6 +102,9 @@ export class Index extends React.Component<any, any> {
                 <Checkbox label="Show actions as row context actions"
                     checked={this.state.gridActions.actionsBehaviour === QuickGridActionsBehaviourEnum.ShowOnRowHover}
                     onChange={this.onRowHoverActionsChecked} /> <br />
+                <Checkbox label="Show filters"
+                    checked={this.state.showFilter}
+                    onChange={() => this.setState({showFilter: !this.state.showFilter})} /> <br />
                 <Button onClick={this.refreshData}>Refresh data</Button>
 
                 <Label>Scroll to:</Label>
@@ -113,7 +117,7 @@ export class Index extends React.Component<any, any> {
                         onChanged={this._onSearch}
                     />
                 </div>
-                <Resizable width={1000} height={700} >
+                <Resizable width={1100} height={700} >
                     <div className="viewport-height" style={{ height: '100%' }} >
                         <QuickGrid
                             ref={this._setGridRef}
@@ -127,6 +131,7 @@ export class Index extends React.Component<any, any> {
                             actionsTooltip="Act on these."
                             tooltipsEnabled={true}
                             filterString={this.state.searchText}
+                            showAutoFilterRow={this.state.showFilter}
                         />
                     </div>
                 </Resizable>

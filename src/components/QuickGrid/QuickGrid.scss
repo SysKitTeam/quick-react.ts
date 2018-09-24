@@ -109,6 +109,15 @@
         display: inline-block;
         box-sizing: border-box;
 
+        .filters-column {
+            border-right: 1px solid $secondary-color-20;
+        
+            .textField-field{
+                width: 100%;
+                border: none;
+            }
+        }
+
         .header-column-content {
             display: inline-block;
             width: calc(100% - 7px);
