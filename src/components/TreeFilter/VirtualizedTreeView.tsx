@@ -72,26 +72,26 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
         let scrollToIndex = undefined;
         const checkedItemIds = this.props.filterSelection.type === FilterSelectionEnum.All ? this.allItemIds : this.props.filterSelection.selectedIDs;
 
-        if (this.props.filterSelection.type !== FilterSelectionEnum.All && checkedItemIds.length > 0) {
-            if (!this.props.itemsAreFlatList && this.props.enableRecursiveSelection) {
-                this.updatePartiallyCheckedItems(this.props.filterSelection.selectedIDs);
-            }
+        if (this.props.filterSelection.type !== FilterSelectionEnum.All) {
+            this.updatePartiallyCheckedItems(this.props.filterSelection.selectedIDs);
 
-            scrollToIndex = this.state.filteredItems.findIndex((element) => {
-                return element.id === checkedItemIds[0];
-            });
-            if (scrollToIndex === -1) {
-                // find the top level id of the nested checked item
-                let parent = this.parentLookup[checkedItemIds[0]];
-                while (parent !== undefined) {
-                    if (typeof parent.id === 'number') {
-                        scrollToIndex = parent.id;
-                        break;
+            if (checkedItemIds.length > 0) {
+                scrollToIndex = this.state.filteredItems.findIndex((element) => {
+                    return element.id === checkedItemIds[0];
+                });
+                if (scrollToIndex === -1) {
+                    // find the top level id of the nested checked item
+                    let parent = this.parentLookup[checkedItemIds[0]];
+                    while (parent !== undefined) {
+                        if (typeof parent.id === 'number') {
+                            scrollToIndex = parent.id;
+                            break;
+                        }
+                        parent = this.parentLookup[parent.id];
                     }
-                    parent = this.parentLookup[parent.id];
                 }
+                this.setState({ scrollToIndex });
             }
-            this.setState({ scrollToIndex });
         }
     }
 
@@ -117,13 +117,21 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
     }
 
     public componentDidUpdate(prevProps: ITreeFilterProps, prevState: IVirtualizedTreeViewState) {
-        if (this.state.filteredItems !== prevState.filteredItems) {
+        let selectionChanged: Boolean = false;
+        if (!_.isEqual(this.state.filteredItems, prevState.filteredItems)) {
+            selectionChanged = true;
             if (this._list != null) {
                 this._list.recomputeRowHeights();
             }
-        } else if (this.props.filterSelection.selectedIDs !== prevProps.filterSelection.selectedIDs) {
+        } else if (!_.isEqual(this.props.filterSelection.selectedIDs, prevProps.filterSelection.selectedIDs)) {
+            selectionChanged = true;
             if (this._list != null) {
                 this._list.forceUpdateGrid();
+            }
+        }
+        if (selectionChanged) {
+            if (this.props.filterSelection.type !== FilterSelectionEnum.All) {
+                this.updatePartiallyCheckedItems(this.props.filterSelection.selectedIDs);
             }
         }
     }
@@ -478,6 +486,9 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
     }
 
     private updatePartiallyCheckedItems(checkedItemIds: Array<string>) {
+        if (this.props.itemsAreFlatList || !this.props.enableRecursiveSelection) {
+            return;
+        }
         const partiallyCheckedItemIds: Array<string> = [];
         let parents: Array<TreeItem> = [];
         checkedItemIds.forEach(itemId => {
