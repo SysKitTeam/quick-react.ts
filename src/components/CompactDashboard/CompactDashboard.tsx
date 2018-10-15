@@ -66,7 +66,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
         let { groups } = this.state;
         let className = classNames({ [this.props.className]: this.props.className !== undefined });
         let serverHeight = serverTileHeight;
-        if (this.props.singleGroupView) {
+        if (this.props.singleGroupView && this.state.groups.length > 0) {
             const anyRolesOnServers = this.state.groups[0].servers.filter(server => (server.roles && server.roles.length > 0)).length > 0;
             if (anyRolesOnServers) {
                 serverHeight += headerRolesHeight;
@@ -74,7 +74,7 @@ export class CompactDashboard extends CommonComponent<ICompactDashboardProps, IC
         }
         return (
             <div className={className}>
-                {this.props.singleGroupView &&
+                {this.props.singleGroupView && this.state.groups.length > 0 &&
                     <div className="compact-dashboard-container">
                         <SingleGroupCollection
                             group={this.state.groups[0]}

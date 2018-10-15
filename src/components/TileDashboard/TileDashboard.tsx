@@ -55,7 +55,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, ITileDas
         let { groups } = this.state;
         let className = classNames({ [this.props.className]: this.props.className !== undefined });
         let serverHeight = serverTileHeight;
-        if (this.props.singleGroupView) {
+        if (this.props.singleGroupView && this.state.groups.length > 0) {
             const anyRolesOnServers = this.state.groups[0].servers.filter(server => (server.roles && server.roles.length > 0)).length > 0;
             if (anyRolesOnServers) {
                 serverHeight += headerRolesHeight;
@@ -64,7 +64,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, ITileDas
         return (
             <div className={className}>
                 <div className="tile-dashboard-container">
-                    {!this.props.singleGroupView &&
+                    {!this.props.singleGroupView && 
                         <AutoSizer onResize={this._onResize}>
                             {({ width, height }) => (
                                 <List
@@ -78,7 +78,7 @@ export class TileDashboard extends React.Component<ITileDashboardProps, ITileDas
                             )}
                         </AutoSizer>
                     }
-                    {this.props.singleGroupView &&
+                    {this.props.singleGroupView && this.state.groups.length > 0 &&
                         <SingleGroupCollection
                             group={this.state.groups[0]}
                             gutterSize={GUTTER_SIZE}
