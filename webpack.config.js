@@ -55,7 +55,8 @@ module.exports = {
         Scheduler: "./examples/src/Scheduler.tsx",
         PeoplePicker: "./examples/src/PeoplePicker.tsx",
         TreeCompare: "./examples/src/TreeCompare.tsx",
-        NotificationIcon: "./examples/src/NotificationIcon.tsx"
+        NotificationIcon: "./examples/src/NotificationIcon.tsx",
+        DateTimeDropdownPicker: "./examples/src/DateTimeDropdownPicker.tsx"
     },
     output: {
         path: path.join(__dirname, '/dist'),
