@@ -13,6 +13,7 @@ export interface IDateTimeDropdownPickerProps {
     onTimeSelectionChanged?: (selectedDateTime: Date) => void;
     className?: string;
     includeTime?: boolean;
+    isValidDate?: (currentDate: any, selectedDate: any) => boolean;
 }
 
 export interface IDateTimeDropDownPickerState {
@@ -23,7 +24,7 @@ export class DateTimeDropdownPicker extends React.PureComponent<IDateTimeDropdow
     private _dropDown: Dropdown;
     constructor(props) {
         super(props);
-        this.state = { selectedDateCached: moment().toDate() };
+        this.state = { selectedDateCached: this.props.selectedDate ? this.props.selectedDate : moment().toDate() };
     }
 
     componentWillReceiveProps(nextProps: IDateTimeDropdownPickerProps) {
@@ -38,7 +39,7 @@ export class DateTimeDropdownPicker extends React.PureComponent<IDateTimeDropdow
     }
 
     public render(): JSX.Element {
-        const { onTimeSelectionChanged, className, includeTime } = this.props;
+        const { onTimeSelectionChanged, className, includeTime, isValidDate } = this.props;
         const { selectedDateCached } = this.state;
 
         return (
@@ -54,6 +55,7 @@ export class DateTimeDropdownPicker extends React.PureComponent<IDateTimeDropdow
                         is24HourFormat={false}
                         onTimeSelectionChanged={this._dateTimeChanged}
                         includeTime={includeTime}
+                        isValidDate={isValidDate}
                     />
                     <div className="dropdown-buttons-container">
                         <Button className={'button-textual'} onClick={this._cancelClicked}>Close</Button>
