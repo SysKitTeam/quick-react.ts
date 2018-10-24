@@ -181,6 +181,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                             rowRenderer={this.rowRenderer}
                             rowCount={this.state.filteredItems.length}
                             scrollToIndex={this.state.scrollToIndex}
+                            {...this.props.filterSelection}
                         />
                     )}
                 </AutoSizer>
@@ -636,12 +637,12 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
         const allSelected = allChecked || this.areAllItemsSelected(newChecked) === CheckStatus.Checked;
         if (allSelected) {
             this.props.onValuesSelected(this.props.filterId, { type: FilterSelectionEnum.All, selectedIDs: [] });
-            this._list.forceUpdateGrid();
+            // this._list.forceUpdateGrid();
         } else if (newChecked.length > 0) {
             this.props.onValuesSelected(this.props.filterId, { type: FilterSelectionEnum.Selected, selectedIDs: newChecked });
         } else {
             this.props.onValuesSelected(this.props.filterId, { type: FilterSelectionEnum.None, selectedIDs: [] });
-            this._list.forceUpdateGrid();
+            // this._list.forceUpdateGrid();
         }
         this.setState(prevState => ({ ...prevState, partiallyCheckedItemIds: newPartiallyChecked }));
     }
