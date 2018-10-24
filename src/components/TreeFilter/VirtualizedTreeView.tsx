@@ -128,7 +128,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
             if (this._list != null) {
                 this._list.forceUpdateGrid();
             }
-        }
+        } 
         if (selectionChanged) {
             if (this.props.filterSelection.type !== FilterSelectionEnum.All) {
                 this.updatePartiallyCheckedItems(this.props.filterSelection.selectedIDs);
@@ -642,6 +642,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
             this.props.onValuesSelected(this.props.filterId, { type: FilterSelectionEnum.None, selectedIDs: [] });
         }
         this.setState(prevState => ({ ...prevState, partiallyCheckedItemIds: newPartiallyChecked }));
+        this._list.forceUpdateGrid();
     }
 
     private getBoxSupportElementsHeight = () => {
