@@ -156,11 +156,21 @@ export interface QuickGridActions {
      */
     actionIconName: string;
     /**
-     * used in ShowOnRowHover behaviur to specify actions per row
+     * used in ShowOnRowHover behaviour to specify actions per row
      */
-    onGetSingleRowContextActions?: (rowData) => Array<ActionItem>;
+    onGetSingleRowContextActions?: (rowData) => Array<ActionItem> | ContextActionsObject;
     onActionSelected: (commandName: string, parameters, rowData) => void;
     hideDropdownActionIcons?: boolean;
+}
+
+export interface ContextActionsObject {
+    actions: Array<ActionItem>;
+    dropdownIconName?: string;
+    dropdownCustomRenderer?: (rowIndex: number, actions: Array<ActionItem>, onActionClicked: (rowIndex: number, action: ActionItem) => void) => JSX.Element;
+}
+
+export function isContextActionsObject(arg: any): arg is ContextActionsObject {
+    return arg.actions !== undefined;
 }
 
 export enum QuickGridActionsBehaviourEnum {
@@ -174,6 +184,7 @@ export interface ActionItem {
     iconName?: string;
     parameters?: any;
     tooltip?: ITooltipProps;
+    showInDropdown?: boolean;
 }
 export interface FiltersProps {
     headerColumns: Array<GridColumn>;

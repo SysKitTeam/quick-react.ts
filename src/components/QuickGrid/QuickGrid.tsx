@@ -22,7 +22,9 @@ import {
     SortDirection,
     DataTypeEnum,
     BoolFormatTypeEnum,
-    FiltersData
+    FiltersData,
+    isContextActionsObject,
+    ContextActionsObject
 } from './QuickGrid.Props';
 import { GridFooter } from './QuickGridFooter';
 import { GridHeader } from './QuickGridHeader';
@@ -523,8 +525,9 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     }
 
     renderRowContextActions = (rowIndex, rowData, isSelectedRow) => {
-        let actions: Array<ActionItem> = this.getRowContextActions(rowIndex);
-        if (!actions || actions.length === 0) {
+        const actions = this.getRowContextActions(rowIndex);
+        const actionItems: Array<ActionItem> = isContextActionsObject(actions) ? actions.actions : actions;
+        if (!actionItems || actionItems.length === 0) {
             return;
         }
 
