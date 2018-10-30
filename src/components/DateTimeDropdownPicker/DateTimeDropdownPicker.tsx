@@ -88,9 +88,9 @@ export class DateTimeDropdownPicker extends React.PureComponent<IDateTimeDropdow
 
     @autobind
     private _customSelectionText(): string {
-        const { selectedDate } = this.props;
-
-        return moment(selectedDate, 'UTC').format('LLL');
+        const { selectedDate, includeTime } = this.props;
+        
+        return includeTime ? moment(selectedDate, 'UTC').format('LLL') : moment(selectedDate, 'UTC').format('LL');
     }
 
     @autobind
