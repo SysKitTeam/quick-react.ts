@@ -178,6 +178,7 @@
     }
 
     .people-picker-single-selected {
-        padding: 6px 11px 6px 0px;
+        padding: 1px 11px 1px 0px;
+        width: calc(100% - 30px);
     }
 }
