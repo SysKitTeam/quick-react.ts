@@ -433,9 +433,9 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             const toggleRow = () => {
                 this.onRowExpandToggle(rowData.groupKey, !rowData.isExpanded);
             };
-            let groupByFormat = `${columnName}: ${rowData.displayName}` || `${columnName}: ${rowData.name}`;
+            let groupByFormat: React.ReactNode = `${columnName}: ${rowData.displayName}` || `${columnName}: ${rowData.name}`;
             if (this.props.groupRowFormat) {
-                groupByFormat = this.props.groupRowFormat(rowData);
+              groupByFormat = this.props.groupRowFormat(rowData, columnName);
             }
             return (
                 <div
