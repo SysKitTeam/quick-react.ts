@@ -49,7 +49,7 @@ export interface IQuickGridProps {
     customRowSorter?: (sortBy, sortDirection) => void;
     customCellRenderer?: (args: ICustomCellRendererArgs) => React.ReactNode;
     onGroupByChanged?: (groupBy: Array<IGroupBy>) => void;
-    groupRowFormat?: (rowData: any) => string;
+    groupRowFormat?: (rowData: any, columnName?: string) => string;
     onGroupBySort?: (sortBy: string, sortDirection: SortDirection) => void;
 }
 

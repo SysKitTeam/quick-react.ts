@@ -435,7 +435,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             };
             let groupByFormat = `${columnName}: ${rowData.displayName}` || `${columnName}: ${rowData.name}`;
             if (this.props.groupRowFormat) {
-                groupByFormat = this.props.groupRowFormat(rowData);
+              groupByFormat = this.props.groupRowFormat(rowData, columnName);
             }
             return (
                 <div
