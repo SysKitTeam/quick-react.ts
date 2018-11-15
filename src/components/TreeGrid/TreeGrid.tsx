@@ -114,6 +114,11 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
         const result = getTreeRowsSelector(nextState, nextProps, this.props);
         this._finalGridRows = result.data;
         this._maxExpandedLevel = result.maxExpandedLevel;
+        if (this.props.isMultiSelectable !== nextProps.isMultiSelectable) {
+            this._quickGrid.updateColumnWidth(0, () => {
+                return this.props.isMultiSelectable ? 35 : 16;
+            });
+        }
         this._quickGrid.updateColumnWidth(1, (old) => {
             return Math.max(old, getColumnMinWidth(this.state.columnsToDisplay[1]));
         });
@@ -358,6 +363,9 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
             && !rowData.$meta.isLazyChildrenLoadInProgress) {
             rowData.$meta.isLazyChildrenLoadInProgress = true;
             this.props.onLazyLoadChildNodes(rowData);
+        }
+        if (this.props.onNodeExpand) {
+            this.props.onNodeExpand(rowData);
         }
         this.setState((oldState) => {
             return { structureRequestChangeId: oldState.structureRequestChangeId + 1 };
