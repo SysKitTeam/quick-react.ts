@@ -17,6 +17,7 @@ export interface ILeftNavigationProps {
     expandCaptionsBehavior?: ExpandCaptionsBehaviorEnum;
     expandMargin?: boolean;
     expandDelayMs?: number;
+    notificationBubbleStyleObject?: NotificationBubbleStyleObject;
 }
 
 export interface ILeftNavigationOption {

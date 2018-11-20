@@ -24,6 +24,7 @@ export class Index extends React.Component<any, any> {
 
 
     public render() {
+        const defaultStyleObject: NotificationBubbleStyleObject = { bubbleStyleObject: {backgroundColor: 'purple'}};
         return (
             <div style={{ display: 'flex', justifyContent: 'space-between', maxWidth: 1000 }}>
                 <div style={{ height: 500, width: 200 }}>
@@ -39,6 +40,7 @@ export class Index extends React.Component<any, any> {
                         id={'leftNavigation'}
                         options={options}
                         expandCaptionsBehavior={ExpandCaptionsBehaviorEnum.ShowCaptionsOnToggleButton}
+                        notificationBubbleStyleObject={defaultStyleObject}
                     />
                 </div>
                 <div style={{ height: 500, width: 200 }}>
