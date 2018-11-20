@@ -20,7 +20,8 @@
     ],
     "typeRoots": [
       "node_modules/@types"
-    ]
+    ],
+    "importHelpers": true
   },
   "filesGlob": [
     "typings/index.d.ts",
