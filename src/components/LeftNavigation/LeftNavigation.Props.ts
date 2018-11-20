@@ -15,7 +15,6 @@ export interface ILeftNavigationProps {
     className?: string;
     onClick?: (ev?: React.MouseEvent<HTMLElement>, item?: ILeftNavigationOption) => void;
     expandCaptionsBehavior?: ExpandCaptionsBehaviorEnum;
-    notificationBubbleStyleObject?: NotificationBubbleStyleObject;
     expandMargin?: boolean;
     expandDelayMs?: number;
 }
@@ -29,6 +28,7 @@ export interface ILeftNavigationOption {
     disabled?: boolean;
     position?: LeftNavigationOptionPositionEnum;
     notificationNumber?: number;
+    notificationBubbleStyleObject?: NotificationBubbleStyleObject;
 }
 
 export enum LeftNavigationOptionPositionEnum {

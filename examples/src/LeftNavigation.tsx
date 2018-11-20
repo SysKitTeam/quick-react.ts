@@ -6,12 +6,14 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { LeftNavigation } from './../../src/components/LeftNavigation/LeftNavigation';
-import { ExpandCaptionsBehaviorEnum, LeftNavigationOptionPositionEnum } from '../../src/index';
+import { ExpandCaptionsBehaviorEnum, LeftNavigationOptionPositionEnum, NotificationBubbleStyleObject } from '../../src/index';
+
+const styleObject: NotificationBubbleStyleObject = { bubbleStyleObject: {backgroundColor: 'orange'}};
 
 const options = [
     { text: 'Home page', id: 'Home', href: 'http://Acceleratio.net', icon: 'icon-help' },
     { text: 'Activity', id: 'Activity', href: '#1', disabled: true, icon: 'icon-account' },
-    { text: 'News', id: 'News', href: '#2', icon: 'icon-add', notificationNumber: 15 },
+    { text: 'News', id: 'News', href: '#2', icon: 'icon-add', notificationNumber: 15, notificationBubbleStyleObject: styleObject },
     { text: 'Documents library', id: 'Documents', href: '#3', selected: true, icon: 'icon-alert', notificationNumber: 7 },
     { text: 'Books', id: 'Books', href: '#4', icon: 'icon-trash', position: LeftNavigationOptionPositionEnum.Down }
 ];

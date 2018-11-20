@@ -136,7 +136,7 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
                     <a id={option.id}>
                         {(option.notificationNumber) ?
                             <NotificationIcon iconName={option.icon} notificationNumber={option.notificationNumber}
-                                notificationBubbleStyleObject={this.props.notificationBubbleStyleObject} />
+                                notificationBubbleStyleObject={option.notificationBubbleStyleObject} />
                             : <Icon iconName={option.icon} />}
                         <span className={spanClasses} >{option.text}</span>
                     </a>
