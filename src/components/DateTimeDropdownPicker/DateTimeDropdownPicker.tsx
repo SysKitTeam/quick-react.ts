@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as classNames from 'classnames';
 import { Dropdown } from '../Dropdown/Dropdown';
 import { DropdownType } from '../Dropdown/Dropdown.Props';
 import { Button } from '../Button/Button';
@@ -14,6 +13,7 @@ export interface IDateTimeDropdownPickerProps {
     className?: string;
     includeTime?: boolean;
     isValidDate?: (currentDate: any, selectedDate: any) => boolean;
+    isDisabled?: boolean;
 }
 
 export interface IDateTimeDropDownPickerState {
@@ -49,6 +49,7 @@ export class DateTimeDropdownPicker extends React.PureComponent<IDateTimeDropdow
                     dropdownType={DropdownType.customDropdown}
                     calloutClassName="dialog-dropdown-callout"
                     className="dialog-dropdown"
+                    disabled={this.props.isDisabled}
                 >
                     <DateTimePicker
                         selectedDateTime={selectedDateCached}
