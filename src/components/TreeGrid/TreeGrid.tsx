@@ -105,7 +105,13 @@ export class TreeGrid extends React.PureComponent<ITreeGridProps, ITreeGridState
     }
 
     public componentWillReceiveProps(nextProps) {
-        if (this.props.treeDataSource !== nextProps.treeDataSource || this.props.filterString !== nextProps.filterString) {
+        if (this.props.treeDataSource !== nextProps.treeDataSource) {
+            this.props.treeDataSource.unsubscribe(this);
+            this.props.treeDataSource.removeDataListener(this.props.onSelectedNodeChanged);
+            nextProps.treeDataSource.subscribe(this);
+            nextProps.treeDataSource.registerDataListener(nextProps.onSelectedNodeChanged);
+            this.setState(oldState => ({ sortRequestId: oldState.sortRequestId + 1, structureRequestChangeId: oldState.structureRequestChangeId + 1 }));
+        } else if (this.props.filterString !== nextProps.filterString) {
             this.setState(oldState => ({ sortRequestId: oldState.sortRequestId + 1, structureRequestChangeId: oldState.structureRequestChangeId + 1 }));
         }
     }
