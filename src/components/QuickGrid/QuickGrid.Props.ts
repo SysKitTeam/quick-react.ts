@@ -4,6 +4,7 @@ import { ITooltipProps } from '../Tooltip/Tooltip.props';
 export interface IQuickGrid {
     scrollToRow(index: number): void;
     updateColumnWidth(columnIndex: number, getWidth: (oldWidth: number) => number): void;
+    recomputeGridSize(): void;
 }
 
 export enum SortDirection {
