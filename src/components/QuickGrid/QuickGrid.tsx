@@ -659,6 +659,10 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         this.setState({ columnFilters: newColumnFilters });
     }
 
+    recomputeGridSize = () => {
+        this._grid.recomputeGridSize();
+    }
+
     public render() {
         let mainClass = classNames('grid-component-container', this.props.gridClassName);
         let headerClass = classNames('grid-component-header', this.props.headerClassName);
