@@ -106,6 +106,7 @@
 
     .grid-component-header {
         overflow: hidden !important;
+        border-bottom: 1px solid $secondary-color-20;
     }
 
     .grid-header-column {
@@ -118,7 +119,6 @@
 
         .filters-column {
             border-right: 1px solid $secondary-color-20;
-        
             .textField-field{
                 width: 100%;
                 border: none;
@@ -347,5 +347,12 @@
 
     .expand-collapse-action-icon { 			
         cursor: pointer; 			
+    }
+
+    .column-picker-dropdown-container.column-picker-button {
+        position: absolute;
+        z-index: 69;
+        bottom: 0;
+        right: 0;
     }
 }

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 import { IGridHeaderState, IGridHeaderProps } from './QuickGridHeader.Props';
-import { GridColumn, SortDirection, getColumnMinWidth } from './QuickGrid.Props';
+import { GridColumn, SortDirection, getColumnMinWidth, DataTypeEnum } from './QuickGrid.Props';
 import { GroupByToolbar } from './GroupByToolbar';
 import { HeaderColumn } from './HeaderColumn';
 import { Grid, SortIndicator } from 'react-virtualized';
@@ -11,6 +11,7 @@ import { DragDropContextProvider, DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import * as _ from 'lodash';
 import './QuickGrid.scss';
+import ColumnPickerDropdown from './ColumnPicker/ColumnPickerDropdown';
 
 export class GridHeaderInner extends React.PureComponent<IGridHeaderProps, IGridHeaderState> {
     public static defaultProps = {
@@ -45,11 +46,27 @@ export class GridHeaderInner extends React.PureComponent<IGridHeaderProps, IGrid
 
     setGridReference = (ref) => { this._headerGrid = ref; };
 
+    private renderColumnPickerButton = () => (
+        <ColumnPickerDropdown
+            className="column-picker-button"
+            columns={this.props.allColumns} 
+            pickedColumns={this.props.pickedColumns}
+            onChanged={picked => this.props.onColumnsPicked(picked)}
+        />
+    )
+
     public render() {
         const headerClass = classNames('grid-header', this.props.className);
-        const { allColumns, headerColumns, width, scrollLeft, tooltipsEnabled, hideGroupExpandButton } = this.props;
+        const { 
+            allColumns, 
+            headerColumns,
+            width, 
+            scrollLeft, 
+            tooltipsEnabled, 
+            hideGroupExpandButton
+        } = this.props;
         return (
-            <div style={{ width }}>
+            <div style={{ width, position: 'relative' }}>
                 {
                     this.props.displayGroupContainer &&
                     <GroupByToolbar
@@ -77,6 +94,7 @@ export class GridHeaderInner extends React.PureComponent<IGridHeaderProps, IGrid
                     scrollLeft={scrollLeft}
                     {...this.props} // force update on any prop change
                 />
+                {this.renderColumnPickerButton()}
             </div>
         );
     }
@@ -104,8 +122,7 @@ export class GridHeaderInner extends React.PureComponent<IGridHeaderProps, IGrid
         return this.state.columnWidths[index];
     }
 
-    headerCellRender = ({ columnIndex, key, rowIndex, style }) => {
-        const notLastIndex = columnIndex < (this.state.columnWidths.length - 1);
+    headerCellRender = ({ columnIndex, key, rowIndex, style }) => { 
         const column = this.props.headerColumns[columnIndex];
         const isAction = this.props.hasActionColumn && columnIndex === 0 || (column.valueMember === undefined && column.dataMember === undefined);
         const notEmptyColumns = !isAction && columnIndex >= this.props.groupBy.length;

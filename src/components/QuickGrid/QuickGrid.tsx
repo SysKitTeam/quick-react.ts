@@ -34,6 +34,10 @@ import { boolFormatterFactory } from './CellFormatters';
 import { getObjectValue } from '../../utilities/getObjectValue';
 import { resolveCellValue } from '../../utilities/resolveCellValue';
 import { AutoFilterRow } from './AutoFilterRow';
+import { ContextualMenu, IContextualMenuItem } from '../ContextualMenu';
+import { Dialog, DialogFooter } from '../Dialog';
+import ColumnPicker from './ColumnPicker/ColumnPicker';
+import { Button } from '../Button';
 
 const scrollbarSize = require('dom-helpers/util/scrollbarSize');
 
@@ -48,7 +52,8 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         actionsTooltip: 'Actions',
         columnHeadersVisible: true,
         isRowSelectable: true,
-        delayMs: 500
+        delayMs: 500,
+        hasColumnPicker: true // TEMP
     };
 
     private _finalGridRows: Array<any>;
@@ -61,7 +66,9 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     constructor(props: IQuickGridProps) {
         super(props);
         const groupByState = this.getGroupByFromProps(props.groupBy);
-        const columnsToDisplay = props.hasStaticColumns ? props.columns : this.getColumnsToDisplay(props.columns, groupByState, this._shouldRenderActionsColumn(props));
+        const columnsToDisplay = props.hasStaticColumns 
+            ? props.columns 
+            : this.getColumnsToDisplay(props.columns, groupByState, this._shouldRenderActionsColumn(props));
         this.state = {
             columnWidths: this.getColumnWidths(columnsToDisplay),
             columnsToDisplay: columnsToDisplay,
@@ -72,7 +79,8 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             groupBy: groupByState,
             hasVerticalScroll: false,
             scrolledRow: undefined,
-            columnFilters: new Array<FiltersData>()
+            columnFilters: new Array<FiltersData>(),
+            isColumnPickerOpen: false
         };
 
         this._columnsMinTotalWidth = columnsToDisplay.map(getColumnMinWidth).reduce((a, b) => a + b, 0);
@@ -187,6 +195,9 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             });
         }
         displayColumns = emptyArray.concat(displayColumns);
+        if (this.props.hasColumnPicker && this.state && this.state.pickedColumns) {
+            displayColumns = displayColumns.filter(col => !!this.state.pickedColumns.find(pick => pick.valueMember === col.valueMember));
+        }
         return displayColumns;
     }
 
@@ -663,6 +674,13 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         this._grid.recomputeGridSize();
     }
 
+    private onColumnsPicked = (picked: Array<GridColumn>) => {
+        this.setState({
+            columnsToDisplay: picked,
+            pickedColumns: picked
+        });
+    }
+
     public render() {
         let mainClass = classNames('grid-component-container', this.props.gridClassName);
         let headerClass = classNames('grid-component-header', this.props.headerClassName);
@@ -704,6 +722,9 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                                             onExpandAll={this.expandAll}
                                             tooltipsEnabled={this.props.tooltipsEnabled}
                                             hideGroupExpandButton={this.props.hideGroupExpandButton}
+                                            hasColumnPicker={this.props.hasColumnPicker}
+                                            onColumnsPicked={this.onColumnsPicked}
+                                            pickedColumns={this.state.pickedColumns}
                                         />
                                     }
                                     {
