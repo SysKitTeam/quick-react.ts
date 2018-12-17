@@ -52,8 +52,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         actionsTooltip: 'Actions',
         columnHeadersVisible: true,
         isRowSelectable: true,
-        delayMs: 500,
-        hasColumnPicker: true // TEMP
+        delayMs: 500
     };
 
     private _finalGridRows: Array<any>;
@@ -682,7 +681,9 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         if (picked.length > 0) {
             this.onGridResize();
         }
-        this.props.onColumnPickerChanged(picked);
+        if (this.props.onColumnPickerChanged) {
+            this.props.onColumnPickerChanged(picked);
+        }
     }
 
     public render() {
