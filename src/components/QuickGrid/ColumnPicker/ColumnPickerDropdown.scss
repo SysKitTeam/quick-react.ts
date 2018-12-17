@@ -1,11 +1,12 @@
 @import '../../../styles/variables.scss';
 
 .column-picker-dropdown-container {
-    padding: 4px 1px 4px 6px;
+    padding: 3px 0px 3px 6px;
     border: 1px solid $secondary-color-20;
     border-right: 0;
     background: $white-color;
     cursor: pointer;
+    margin-top: -1px;
 }
 
 .column-picker-dropdown-callout {

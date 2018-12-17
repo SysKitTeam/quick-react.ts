@@ -56,7 +56,7 @@ export interface IQuickGridProps {
     onGroupByChanged?: (groupBy: Array<IGroupBy>) => void;
     groupRowFormat?: (rowData: any, columnName?: string) => React.ReactNode;
     onGroupBySort?: (sortBy: string, sortDirection: SortDirection) => void;
-    onColumnPickerChanged?: (columns: Array<string>) => void;
+    onColumnPickerChanged?: (picked: Array<GridColumn>) => void;
 }
 
 export interface ICustomCellRendererArgs {

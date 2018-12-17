@@ -81,20 +81,24 @@ export class GridHeaderInner extends React.PureComponent<IGridHeaderProps, IGrid
                         hideGroupExpandButton={hideGroupExpandButton}
                     />
                 }
-                <Grid
-                    ref={this.setGridReference}
-                    cellRenderer={this.headerCellRender}
-                    className="grid-component-header"
-                    columnWidth={this.getHeaderColumnWidth}
-                    columnCount={headerColumns.length}
-                    height={28}
-                    rowHeight={28}
-                    rowCount={1}
-                    width={width}
-                    scrollLeft={scrollLeft}
-                    {...this.props} // force update on any prop change
-                />
-                {this.renderColumnPickerButton()}
+                <div className="grid-header__columns">
+                    <Grid
+                        ref={this.setGridReference}
+                        cellRenderer={this.headerCellRender}
+                        className="grid-component-header"
+                        columnWidth={this.getHeaderColumnWidth}
+                        columnCount={headerColumns.length}
+                        height={28}
+                        rowHeight={28}
+                        rowCount={1}
+                        width={width - (this.props.hasColumnPicker ? 24 : 0)}
+                        scrollLeft={scrollLeft}
+                        {...this.props} // force update on any prop change
+                    />
+                    {this.props.hasColumnPicker &&
+                        this.renderColumnPickerButton()
+                    }
+                </div>
             </div>
         );
     }

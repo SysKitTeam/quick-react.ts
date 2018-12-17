@@ -109,6 +109,11 @@
         border-bottom: 1px solid $secondary-color-20;
     }
 
+    .grid-header__columns {
+        display: flex;
+        flex-direction: row;
+    }
+
     .grid-header-column {
         white-space: nowrap;
         overflow: hidden;
@@ -155,6 +160,15 @@
             border-right: 1px solid $secondary-color-20;
             box-sizing: border-box;
         }
+
+        &:last-of-type {
+            .header-text {
+                margin-right: 39px;
+            }
+            .icon-sort {
+                margin-right: 27px;
+            }
+        } 
     }
 
     .grid-component {
@@ -347,12 +361,5 @@
 
     .expand-collapse-action-icon { 			
         cursor: pointer; 			
-    }
-
-    .column-picker-dropdown-container.column-picker-button {
-        position: absolute;
-        z-index: 69;
-        bottom: 0;
-        right: 0;
     }
 }

@@ -33,36 +33,28 @@ export default class ColumnPicker extends React.Component<ColumnPickerProps, Col
 
     private setVisibleColumns(columns: Array<GridColumn>, picked?: Array<GridColumn>): {[key: string]: boolean} {
         let visible: {[key: string]: boolean} = {};
-        console.group("visible");
         columns.forEach(col => visible[col.valueMember] = !!!picked);
-        console.log(visible);
         if (picked) {
             picked.forEach(col => visible[col.valueMember] = true);
-            console.log(visible);
         }
-        console.groupEnd();
 
         return visible;
     }
 
     private _renderRows(): React.ReactNode {
-        return (
-            <>
-                {this.props.columns.map(column => this._renderRow(column))}
-            </>
-        );
+        return this.props.columns.map(column => this._renderRow(column));
     }
 
     private _renderRow(column: GridColumn): React.ReactNode {
         return (
-            <div key={column.valueMember} className="column-picker__row">
-                <Checkbox 
-                    id={column.valueMember}
-                    label={column.headerText} 
-                    checked={this.state.isColumnSelected[column.valueMember]}
-                    onChange={(ev, id, checked) => this._onChanged(column, checked)}
-                />
-            </div>
+            <Checkbox 
+                id={column.valueMember}
+                key={column.valueMember}
+                className="column-picker__row"
+                label={column.headerText} 
+                checked={this.state.isColumnSelected[column.valueMember]}
+                onChange={(ev, id, checked) => this._onChanged(column, checked)}
+            />
         );
     }
 
