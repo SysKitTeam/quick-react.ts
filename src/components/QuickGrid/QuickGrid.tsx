@@ -682,6 +682,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         if (picked.length > 0) {
             this.onGridResize();
         }
+        this.props.onColumnPickerChanged(picked);
     }
 
     public render() {
