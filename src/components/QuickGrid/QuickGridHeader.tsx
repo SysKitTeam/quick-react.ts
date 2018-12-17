@@ -91,7 +91,7 @@ export class GridHeaderInner extends React.PureComponent<IGridHeaderProps, IGrid
                         height={28}
                         rowHeight={28}
                         rowCount={1}
-                        width={width - (this.props.hasColumnPicker ? 24 : 0)}
+                        width={width}
                         scrollLeft={scrollLeft}
                         {...this.props} // force update on any prop change
                     />
