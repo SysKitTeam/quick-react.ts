@@ -160,16 +160,17 @@
             border-right: 1px solid $secondary-color-20;
             box-sizing: border-box;
         }
-
-        &:last-of-type {
-            .header-text {
-                margin-right: 39px;
-            }
-            .icon-sort {
-                margin-right: 27px;
-            }
-        } 
     }
+    
+    .grid-header__columns.with-column-picker 
+    .grid-header-column:last-of-type {
+        .header-text {
+            margin-right: 39px;
+        }
+        .icon-sort {
+            margin-right: 27px;
+        }
+    } 
 
     .grid-component {
         .grid-component-cell {

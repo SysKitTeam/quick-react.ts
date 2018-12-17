@@ -63,10 +63,11 @@ export class GridHeaderInner extends React.PureComponent<IGridHeaderProps, IGrid
             width, 
             scrollLeft, 
             tooltipsEnabled, 
-            hideGroupExpandButton
+            hideGroupExpandButton,
+            hasColumnPicker
         } = this.props;
         return (
-            <div style={{ width, position: 'relative' }}>
+            <div className={headerClass} style={{ width, position: 'relative' }}>
                 {
                     this.props.displayGroupContainer &&
                     <GroupByToolbar
@@ -81,7 +82,7 @@ export class GridHeaderInner extends React.PureComponent<IGridHeaderProps, IGrid
                         hideGroupExpandButton={hideGroupExpandButton}
                     />
                 }
-                <div className="grid-header__columns">
+                <div className={classNames('grid-header__columns', {'with-column-picker': hasColumnPicker})}>
                     <Grid
                         ref={this.setGridReference}
                         cellRenderer={this.headerCellRender}

@@ -216,10 +216,10 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     }
 
     public componentWillUpdate(nextProps, nextState) {
-        this._finalGridRows = nextProps.hasCustomRowSelector ? nextProps.rows : getRowsSelector(nextState, nextProps);
+        this._finalGridRows = nextProps.hasCustomRowSelector ? nextProps.rows : getRowsSelector(nextState, nextProps);        
     }
 
-    public componentDidUpdate(prevProps, prevState) {
+    public componentDidUpdate(prevProps: IQuickGridProps, prevState: IQuickGridState) {
         if (prevProps.columns !== this.props.columns
             || prevState.groupBy !== this.state.groupBy
             || prevState.columnWidths !== this.state.columnWidths
@@ -678,9 +678,6 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             columnsToDisplay: picked,
             pickedColumns: picked
         });
-        if (picked.length > 0) {
-            this.onGridResize();
-        }
         if (this.props.onColumnPickerChanged) {
             this.props.onColumnPickerChanged(picked);
         }
