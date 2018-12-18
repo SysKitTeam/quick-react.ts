@@ -22,7 +22,7 @@ export interface IGridHeaderProps {
     tooltipsEnabled?: boolean;
     hasColumnPicker?: boolean;
     pickedColumns?: Array<GridColumn>;
-    onColumnsPicked?(picked: Array<GridColumn>);
+    onColumnSelectionChanged?(picked: Array<GridColumn>);
 }
 
 export interface IGridHeaderState {

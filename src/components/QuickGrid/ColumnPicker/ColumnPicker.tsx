@@ -27,11 +27,11 @@ export default class ColumnPicker extends React.Component<ColumnPickerProps, Col
     public constructor(props: ColumnPickerProps) {
         super(props);
         this.state = {
-            isColumnSelected: this.setVisibleColumns(props.columns, props.pickedColumns)
+            isColumnSelected: this.getSelectedColumns(props.columns, props.pickedColumns)
         };
     }
 
-    private setVisibleColumns(columns: Array<GridColumn>, picked?: Array<GridColumn>): {[key: string]: boolean} {
+    private getSelectedColumns(columns: Array<GridColumn>, picked?: Array<GridColumn>): {[key: string]: boolean} {
         let visible: {[key: string]: boolean} = {};
         columns.forEach(col => visible[col.valueMember] = !!!picked);
         if (picked) {

@@ -683,12 +683,12 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         this._grid.recomputeGridSize();
     }
 
-    private onColumnsPicked = (picked: Array<GridColumn>) => {
+    private onColumnSelectionChanged = (picked: Array<GridColumn>) => {
         this.setState({
             pickedColumns: picked
         });
-        if (this.props.onColumnPickerChanged) {
-            this.props.onColumnPickerChanged(picked);
+        if (this.props.onColumnSelectionChanged) {
+            this.props.onColumnSelectionChanged(picked);
         }
     }
 
@@ -734,7 +734,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                                             tooltipsEnabled={this.props.tooltipsEnabled}
                                             hideGroupExpandButton={this.props.hideGroupExpandButton}
                                             hasColumnPicker={this.props.hasColumnPicker}
-                                            onColumnsPicked={this.onColumnsPicked}
+                                            onColumnSelectionChanged={this.onColumnSelectionChanged}
                                             pickedColumns={this.state.pickedColumns}
                                         />
                                     }
