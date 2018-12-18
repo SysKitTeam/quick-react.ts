@@ -132,6 +132,7 @@ export class Index extends React.Component<any, any> {
                             tooltipsEnabled={true}
                             filterString={this.state.searchText}
                             showAutoFilterRow={this.state.showFilter}
+                            hasColumnPicker={true}
                         />
                     </div>
                 </Resizable>

@@ -75,10 +75,10 @@ export default class ColumnPicker extends React.Component<ColumnPickerProps, Col
         return (
             <div className="column-picker-container">
                 <div className="column-picker-container__header">
-                    <span className="column-picker-container__title">Columns</span>
+                    <span className="column-picker-container__title">Columns:</span>
                     <Icon 
                         className="column-picker-container__close-button" 
-                        iconName="svg-icon-close" 
+                        iconName="icon-delete" 
                         onClick={this.props.onDismiss}
                     />
                 </div>
