@@ -200,15 +200,22 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         return displayColumns;
     }
 
+    private updateColumns(props: IQuickGridProps) {
+        const groupBy = this.getGroupByFromProps(props.groupBy);
+        const hasActionColumn = this._shouldRenderActionsColumn(props);
+        const columnsToDisplay = props.hasStaticColumns ? props.columns : this.getColumnsToDisplay(props.columns, groupBy, hasActionColumn);
+        const columnWidths = this.getColumnWidths(columnsToDisplay);
+        this.setState({
+            columnsToDisplay, columnWidths, groupBy
+        });
+        this._columnsMinTotalWidth = columnsToDisplay.map(getColumnMinWidth).reduce((a, b) => a + b, 0);
+    }
+
     public componentWillReceiveProps(nextProps: IQuickGridProps) {
-        if (nextProps.columns !== this.props.columns || nextProps.groupBy !== this.props.groupBy
+        if (nextProps.columns !== this.props.columns 
+            || nextProps.groupBy !== this.props.groupBy
             || nextProps.gridActions !== this.props.gridActions) {
-            const newGroupBy = this.getGroupByFromProps(nextProps.groupBy);
-            const hasActionColumn = this._shouldRenderActionsColumn(nextProps);
-            const columnsToDisplay = nextProps.hasStaticColumns ? nextProps.columns : this.getColumnsToDisplay(nextProps.columns, newGroupBy, hasActionColumn);
-            const columnWidths = this.getColumnWidths(columnsToDisplay);
-            this.setState((prevState) => { return { ...prevState, columnsToDisplay: columnsToDisplay, columnWidths: columnWidths, groupBy: newGroupBy }; });
-            this._columnsMinTotalWidth = columnsToDisplay.map(getColumnMinWidth).reduce((a, b) => a + b, 0);
+            this.updateColumns(nextProps);
         }
         if (this.props.showAutoFilterRow === true && nextProps.showAutoFilterRow === false) {
             this.setState((prevState) => { return {...prevState, columnFilters: new Array<FiltersData>()}; });
@@ -220,6 +227,9 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     }
 
     public componentDidUpdate(prevProps: IQuickGridProps, prevState: IQuickGridState) {
+        if (prevState.pickedColumns !== this.state.pickedColumns) {
+            this.updateColumns(this.props);
+        }
         if (prevProps.columns !== this.props.columns
             || prevState.groupBy !== this.state.groupBy
             || prevState.columnWidths !== this.state.columnWidths
@@ -675,7 +685,6 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
 
     private onColumnsPicked = (picked: Array<GridColumn>) => {
         this.setState({
-            columnsToDisplay: picked,
             pickedColumns: picked
         });
         if (this.props.onColumnPickerChanged) {
