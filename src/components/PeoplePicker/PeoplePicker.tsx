@@ -218,7 +218,7 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
                 principal={principal}
                 isSelected={true}
                 isDisabled={this.props.disabled}
-                onDelete={this._onSuggestionDelete}
+                onDelete={this.onSuggestionDelete}
                 iconName={icon}
                 iconClassName={iconClass}
             />;
@@ -316,7 +316,7 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
     }
 
     @autobind
-    private _onSuggestionDelete(selectedPrincipal: IPrincipal) {
+    public onSuggestionDelete(selectedPrincipal: IPrincipal) {
         const newPrincipalList = this.state.selectedPrincipalList.filter((principal, index) => {
             if (principal.identifier !== selectedPrincipal.identifier) {
                 return principal;
