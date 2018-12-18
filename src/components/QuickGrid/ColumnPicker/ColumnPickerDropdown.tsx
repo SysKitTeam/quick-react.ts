@@ -62,7 +62,7 @@ export default class ColumnPickerDropdown extends React.Component<ColumnPickerDr
                 onClick={this.toggleDropdown}
             >
                 <Icon 
-                    iconName="svg-icon-list"
+                    iconName="svg-icon-switchView"
                 />
                 {this.state.isOpen &&
                     <Callout
