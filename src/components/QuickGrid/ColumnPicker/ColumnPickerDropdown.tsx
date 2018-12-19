@@ -14,6 +14,7 @@ export interface ColumnPickerDropdownProps {
     pickedColumns?: Array<GridColumn>;
     className?: string;
     calloutClassName?: string;
+    iconClassName?: string;
     
     onChanged?(selected: Array<GridColumn>);
 }
@@ -26,6 +27,10 @@ export default class ColumnPickerDropdown extends React.Component<ColumnPickerDr
 
     private _componentRef = null;
     private setComponentRef = (ref) => this._componentRef = ref;
+
+    public static defaultProps: Partial<ColumnPickerDropdownProps> = {
+        iconClassName: 'icon-switchView'
+    };
 
     public constructor(props: ColumnPickerDropdownProps) {
         super(props);
@@ -53,7 +58,8 @@ export default class ColumnPickerDropdown extends React.Component<ColumnPickerDr
             pickedColumns,
             onChanged,
             className,
-            calloutClassName
+            calloutClassName,
+            iconClassName
         } = this.props;
         return (
             <div 
@@ -62,7 +68,7 @@ export default class ColumnPickerDropdown extends React.Component<ColumnPickerDr
                 onClick={this.toggleDropdown}
             >
                 <Icon 
-                    iconName="svg-icon-switchView"
+                    iconName={iconClassName}
                 />
                 {this.state.isOpen &&
                     <Callout

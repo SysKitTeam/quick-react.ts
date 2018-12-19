@@ -47,6 +47,7 @@ export interface IQuickGridProps {
     hideGroupExpandButton?: boolean;
     hasColumnPicker?: boolean;
     visibleColumns?: Array<string>;
+    columnPickerIconClassName?: string;
 
     // callbacks
     onSelectedRowChanged?: (selectedRowIndex: number, rowData: any) => void;

@@ -736,6 +736,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                                             hasColumnPicker={this.props.hasColumnPicker}
                                             onColumnSelectionChanged={this.onColumnSelectionChanged}
                                             pickedColumns={this.state.pickedColumns}
+                                            columnPickerIconClassName={this.props.columnPickerIconClassName}
                                         />
                                     }
                                     {

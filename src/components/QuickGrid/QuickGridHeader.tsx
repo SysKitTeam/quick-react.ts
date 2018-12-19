@@ -52,6 +52,7 @@ export class GridHeaderInner extends React.PureComponent<IGridHeaderProps, IGrid
             columns={this.props.allColumns} 
             pickedColumns={this.props.pickedColumns}
             onChanged={picked => this.props.onColumnSelectionChanged(picked)}
+            iconClassName={this.props.columnPickerIconClassName}
         />
     )
 
