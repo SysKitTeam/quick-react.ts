@@ -106,6 +106,12 @@
 
     .grid-component-header {
         overflow: hidden !important;
+        border-bottom: 1px solid $secondary-color-20;
+    }
+
+    .grid-header__columns {
+        display: flex;
+        flex-direction: row;
     }
 
     .grid-header-column {
@@ -118,7 +124,6 @@
 
         .filters-column {
             border-right: 1px solid $secondary-color-20;
-        
             .textField-field{
                 width: 100%;
                 border: none;
@@ -156,6 +161,16 @@
             box-sizing: border-box;
         }
     }
+    
+    .grid-header__columns.with-column-picker 
+    .grid-header-column:last-of-type {
+        .header-text {
+            margin-right: 39px;
+        }
+        .icon-sort {
+            margin-right: 27px;
+        }
+    } 
 
     .grid-component {
         .grid-component-cell {

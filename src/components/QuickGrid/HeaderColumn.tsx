@@ -38,7 +38,16 @@ class HeaderColumnInner extends React.PureComponent<IHeaderColumnProps, void> {
 
     DragElement = <div style={{ height: 50, width: 30 }} > <span> Drag </span> </div>;
     render() {
-        const { className, text, showSortIndicator, sortDirection, onClick, onKeyDown, tooltipsEnabled, tooltip } = this.props;
+        const {
+            className, 
+            text, 
+            showSortIndicator, 
+            sortDirection, 
+            onClick, 
+            onKeyDown, 
+            tooltipsEnabled, 
+            tooltip
+        } = this.props;
         const sortIcon = sortDirection === SortDirection.Ascending ? 'icon-Arrow_up' : 'icon-arrow_down';
         const title = getHeaderTooltip(tooltipsEnabled, tooltip, text);
 

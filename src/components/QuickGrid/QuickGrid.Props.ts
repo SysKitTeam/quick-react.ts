@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ITooltipProps } from '../Tooltip/Tooltip.props';
+import { IPoint } from '../../utilities/positioning';
 
 export interface IQuickGrid {
     scrollToRow(index: number): void;
@@ -44,6 +45,9 @@ export interface IQuickGridProps {
     showAutoFilterRow?: boolean;
     filterPlaceholderText?: string;
     hideGroupExpandButton?: boolean;
+    hasColumnPicker?: boolean;
+    visibleColumns?: Array<string>;
+    columnPickerIconClassName?: string;
 
     // callbacks
     onSelectedRowChanged?: (selectedRowIndex: number, rowData: any) => void;
@@ -53,6 +57,7 @@ export interface IQuickGridProps {
     onGroupByChanged?: (groupBy: Array<IGroupBy>) => void;
     groupRowFormat?: (rowData: any, columnName?: string) => React.ReactNode;
     onGroupBySort?: (sortBy: string, sortDirection: SortDirection) => void;
+    onColumnSelectionChanged?: (picked: Array<GridColumn>) => void;
 }
 
 export interface ICustomCellRendererArgs {
@@ -77,6 +82,9 @@ export interface IQuickGridState {
     hasVerticalScroll: boolean;
     scrolledRow: number;
     columnFilters?: Array<FiltersData>;
+    headerContextMenuPointTarget?: IPoint;
+    isColumnPickerOpen: boolean;
+    pickedColumns?: Array<GridColumn>;
 }
 
 export interface GroupRow {

@@ -1,0 +1,20 @@
+@import '../../../styles/variables.scss';
+
+.column-picker-dropdown-container {
+    padding: 3px 0px 3px 6px;
+    border: 1px solid $secondary-color-20;
+    border-right: 0;
+    background: $white-color;
+    cursor: pointer;
+    margin-top: -1px;
+}
+
+.column-picker-dropdown-callout {
+    border: 0 !important;
+    border-radius: 8px 0 8px 8px !important;
+    box-shadow: 0 4px 21px rgba(0, 0, 0, 0.16); 
+
+    .callout-main {
+        border-radius: 8px 0 8px 8px !important;
+    }
+}

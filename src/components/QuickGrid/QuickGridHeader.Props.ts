@@ -20,6 +20,10 @@ export interface IGridHeaderProps {
     onCollapseAll?: (event) => void;
     onExpandAll?: (event) => void;
     tooltipsEnabled?: boolean;
+    hasColumnPicker?: boolean;
+    pickedColumns?: Array<GridColumn>;
+    columnPickerIconClassName?: string;
+    onColumnSelectionChanged?(picked: Array<GridColumn>);
 }
 
 export interface IGridHeaderState {
