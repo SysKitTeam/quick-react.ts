@@ -46,7 +46,7 @@ export interface IQuickGridProps {
     filterPlaceholderText?: string;
     hideGroupExpandButton?: boolean;
     hasColumnPicker?: boolean;
-    visibleColumns?: Array<string>;
+    visibleColumns?: Array<GridColumn>;
     columnPickerIconClassName?: string;
 
     // callbacks

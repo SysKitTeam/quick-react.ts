@@ -133,6 +133,7 @@ export class Index extends React.Component<any, any> {
                             filterString={this.state.searchText}
                             showAutoFilterRow={this.state.showFilter}
                             hasColumnPicker={true}
+                            visibleColumns={this.state.columns.filter((col, idx) => idx % 2 === 0)}
                         />
                     </div>
                 </Resizable>
