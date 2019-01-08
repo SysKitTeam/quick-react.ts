@@ -250,17 +250,56 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
         const itemChecked = this.isItemInList(checkedItemIds, treeItem);
         const itemCheckedOrAllFilteredChecked = itemChecked || (this.state.searchText !== '' && this.allFilteredChildrenChecked(treeItem, checkedItemIds));
 
+        //#region Item click events
+
+        // used with double click events, so we don't trigger both the single click action, and the double click if double click is enabled
+        let doubleClickTimer;
+        let doubleClickDelay = 200;
+        let preventSingleClick = false;
+
         const onItemCheckedChange = () => {
-            const newCheckedAndPartial = this.getNewCheckedItems(treeItem, checkedItemIds, itemCheckedOrAllFilteredChecked);
-            this.setNewSelectedState(false, newCheckedAndPartial.checked, newCheckedAndPartial.partially);
+            const onItemCheckedChangeAction = () => {
+                if (this.props.shouldGroupExpandOnDoubleClick && preventSingleClick) {
+                    return;
+                }
+
+                const newCheckedAndPartial = this.getNewCheckedItems(treeItem, checkedItemIds, itemCheckedOrAllFilteredChecked);
+                this.setNewSelectedState(false, newCheckedAndPartial.checked, newCheckedAndPartial.partially);
+                preventSingleClick = false;
+            };
+
+            onItemClicked(onItemCheckedChangeAction);
         };
 
         const onSingleSelectItemClick = () => {
-            if (this.props.isGroupSelectableOnSingleSelect === false && itemHasChildren(treeItem)) {
-                return;
-            }
-            this.props.onValuesSelected(this.props.filterId, { type: FilterSelectionEnum.Selected, selectedIDs: [treeItem.id] });
+            const onSingleClickAction = () => {
+                if (this.props.isGroupSelectableOnSingleSelect === false && itemHasChildren(treeItem) || this.props.shouldGroupExpandOnDoubleClick && preventSingleClick) {
+                    return;
+                }
+                
+                this.props.onValuesSelected(this.props.filterId, { type: FilterSelectionEnum.Selected, selectedIDs: [treeItem.id] });
+                preventSingleClick = false;
+            };
+
+            onItemClicked(onSingleClickAction);
         };
+
+        const onItemClicked = (singleClickedAction: () => void) => {
+            if (this.props.shouldGroupExpandOnDoubleClick) {
+                doubleClickTimer = setTimeout(singleClickedAction, doubleClickDelay);
+            } else {
+                singleClickedAction();
+            }
+        };
+
+        const onItemDoubleClick = (event) => {
+            if (this.props.shouldGroupExpandOnDoubleClick && (itemHasChildren(treeItem) || treeItem.hasChildren)) {
+                clearTimeout(doubleClickTimer);
+                preventSingleClick = true;
+                onExpandClick(event);
+            }
+        };
+        //#endregion
 
         // tslint:disable-next-line:variable-name
         const ItemCheckboxElement = () => {
@@ -282,6 +321,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                     <span
                         className={singleSelectClassNames}
                         onClick={onSingleSelectItemClick}
+                        onDoubleClick={this.props.shouldGroupExpandOnDoubleClick && onItemDoubleClick}
                     >
                         {treeItem.iconName &&
                             <span title={treeItem.iconTooltipContent}>
@@ -306,6 +346,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                         text={treeItem.value}
                         checked={checked}
                         onChange={onItemCheckedChange}
+                        onDoubleClick={this.props.shouldGroupExpandOnDoubleClick && onItemDoubleClick}
                         iconName={treeItem.iconName}
                         iconClassName={iconClassName}
                         iconTooltipContent={treeItem.iconTooltipContent}
