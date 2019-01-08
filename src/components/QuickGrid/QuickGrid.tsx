@@ -70,7 +70,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             : this.getColumnsToDisplay(props.columns, groupByState, this._shouldRenderActionsColumn(props));
         this.state = {
             columnWidths: this.getColumnWidths(columnsToDisplay),
-            columnsToDisplay: columnsToDisplay,
+            columnsToDisplay: props.visibleColumns ? columnsToDisplay.filter(col => !!props.visibleColumns.find(pick => pick.valueMember === col.valueMember)) : columnsToDisplay,
             collapsedRows: [],
             selectedRowIndex: undefined,
             sortColumn: props.sortColumn,
@@ -79,9 +79,9 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
             hasVerticalScroll: false,
             scrolledRow: undefined,
             columnFilters: new Array<FiltersData>(),
-            isColumnPickerOpen: false
+            isColumnPickerOpen: false,
+            pickedColumns: props.visibleColumns
         };
-
         this._columnsMinTotalWidth = columnsToDisplay.map(getColumnMinWidth).reduce((a, b) => a + b, 0);
         this.onGridResize = _.debounce(this.onGridResize, 100);
         this._finalGridRows = props.hasCustomRowSelector ? props.rows : getRowsSelector(this.state, props);
