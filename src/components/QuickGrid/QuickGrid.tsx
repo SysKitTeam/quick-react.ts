@@ -67,10 +67,10 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         const groupByState = this.getGroupByFromProps(props.groupBy);
         const columnsToDisplay = props.hasStaticColumns 
             ? props.columns 
-            : this.getColumnsToDisplay(props.columns, groupByState, this._shouldRenderActionsColumn(props));
+            : this.getColumnsToDisplay(props.columns, groupByState, this._shouldRenderActionsColumn(props), props.visibleColumns);
         this.state = {
             columnWidths: this.getColumnWidths(columnsToDisplay),
-            columnsToDisplay: props.visibleColumns ? columnsToDisplay.filter(col => !!props.visibleColumns.find(pick => pick.valueMember === col.valueMember)) : columnsToDisplay,
+            columnsToDisplay: columnsToDisplay,
             collapsedRows: [],
             selectedRowIndex: undefined,
             sortColumn: props.sortColumn,
@@ -168,7 +168,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
         return groupByState;
     }
 
-    getColumnsToDisplay(columns: Array<GridColumn>, groupBy: Array<IGroupBy>, hasActionColumn: boolean) {
+    getColumnsToDisplay(columns: Array<GridColumn>, groupBy: Array<IGroupBy>, hasActionColumn: boolean, pickedColumns?: Array<GridColumn>) {
         const groupByColumnNames = groupBy.map(col => col.column);
         let displayColumns = columns.filter((column) => { return groupByColumnNames.indexOf(column.valueMember) === -1; });
         displayColumns.map((column) => {
@@ -193,15 +193,21 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                 minWidth: emptyCellWidth
             });
         }
-        if (this.props.hasColumnPicker && this.state && this.state.pickedColumns) {
-            displayColumns = displayColumns.filter(col => !!this.state.pickedColumns.find(pick => pick.valueMember === col.valueMember));
+
+        const _pickedColumns = pickedColumns || this.state.pickedColumns;
+
+        if (this.props.hasColumnPicker && _pickedColumns) {
+            displayColumns = displayColumns.filter(col => !!_pickedColumns.find(pick => pick.valueMember === col.valueMember));
         }
         displayColumns = emptyArray.concat(displayColumns);
         return displayColumns;
     }
 
     private updateColumns(props: IQuickGridProps) {
-        const groupBy = this.getGroupByFromProps(props.groupBy);
+        let groupBy = this.getGroupByFromProps(props.groupBy);
+        if (this.state.pickedColumns) {
+            groupBy = groupBy.filter(col => this.state.pickedColumns.find(pick => col.column === pick.valueMember));
+        }
         const hasActionColumn = this._shouldRenderActionsColumn(props);
         const columnsToDisplay = props.hasStaticColumns ? props.columns : this.getColumnsToDisplay(props.columns, groupBy, hasActionColumn);
         const columnWidths = this.getColumnWidths(columnsToDisplay);
@@ -362,7 +368,7 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
                 if (columnIndex === 0 && this._shouldRenderActionsColumn(this.props)) {
                     return this.renderActionCell(key, rowIndex, rowData, overridenStyle);
                 }
-                if (columnIndex < this.props.groupBy.length) {
+                if (columnIndex < this.state.groupBy.length) {
                     return this.renderEmptyCell(key, rowIndex, rowData, overridenStyle);
                 }
                 return this.renderBodyCell(columnIndex, key, rowIndex, rowData, overridenStyle, onClick);
@@ -684,8 +690,12 @@ export class QuickGridInner extends React.Component<IQuickGridProps, IQuickGridS
     }
 
     private onColumnSelectionChanged = (picked: Array<GridColumn>) => {
-        this.setState({
-            pickedColumns: picked
+        this.setState(prevState => {
+            const groupBy = prevState.groupBy.filter(col => picked.find(pick => col.column === pick.valueMember));
+            return {
+                pickedColumns: picked,
+                groupBy
+            };
         });
         if (this.props.onColumnSelectionChanged) {
             this.props.onColumnSelectionChanged(picked);
