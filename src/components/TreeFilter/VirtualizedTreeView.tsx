@@ -321,7 +321,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                     <span
                         className={singleSelectClassNames}
                         onClick={onSingleSelectItemClick}
-                        onDoubleClick={this.props.shouldGroupExpandOnDoubleClick && onItemDoubleClick}
+                        onDoubleClick={this.props.shouldGroupExpandOnDoubleClick ? onItemDoubleClick : undefined}
                     >
                         {treeItem.iconName &&
                             <span title={treeItem.iconTooltipContent}>
@@ -346,7 +346,7 @@ export class VirtualizedTreeView extends React.PureComponent<IVirtualizedTreeVie
                         text={treeItem.value}
                         checked={checked}
                         onChange={onItemCheckedChange}
-                        onDoubleClick={this.props.shouldGroupExpandOnDoubleClick && onItemDoubleClick}
+                        onDoubleClick={this.props.shouldGroupExpandOnDoubleClick ? onItemDoubleClick : undefined}
                         iconName={treeItem.iconName}
                         iconClassName={iconClassName}
                         iconTooltipContent={treeItem.iconTooltipContent}
