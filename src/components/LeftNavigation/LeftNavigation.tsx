@@ -23,6 +23,8 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
         onClick: nullFunc
     };
 
+    /** Used for targeting of any navigation option item */
+    public navigationItemElements: {[optionId: string]: HTMLElement} = {};
     constructor(props: ILeftNavigationProps) {
         super(props);
 
@@ -132,6 +134,7 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
                     className={linkClasses}
                     title={option.text}
                     onClick={(ev) => this.onLinkClick(option.id, option, ev)}
+                    ref={(element) => this._setNavigationItemRef(element, option.id)}
                 >
                     <a id={option.id}>
                         {(option.notificationNumber) ?
@@ -148,18 +151,23 @@ export class LeftNavigation extends CommonComponent<ILeftNavigationProps, any> {
         return childrenItems;
     }
 
+    private _setNavigationItemRef = (navigationItemElement: HTMLElement, optionId: string) => {
+        this.navigationItemElements[optionId] = navigationItemElement;
+    }
+
     private _renderBody() {
         let leftNavigationTextClass = classNames({
             'show-text': this.state.isOpen,
             'hide-text': !this.state.isOpen
         });
 
+        const isNavigationAlwaysExpanded = this.props.expandCaptionsBehavior === ExpandCaptionsBehaviorEnum.AlwaysShowCaptions;
         const className = classNames(
             'left-nav',
             {
-                'expanded': this.state.isOpen,
-                'collapsed': !this.state.isOpen && !this.props.expandMargin,
-                'collapsed-margin': !this.state.isOpen && this.props.expandMargin
+                'expanded': isNavigationAlwaysExpanded || this.state.isOpen,
+                'collapsed': !isNavigationAlwaysExpanded && !this.state.isOpen && !this.props.expandMargin,
+                'collapsed-margin': !isNavigationAlwaysExpanded && !this.state.isOpen && this.props.expandMargin
             }, [this.props.className]);
 
         let upOptions = [];
