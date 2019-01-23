@@ -1,6 +1,5 @@
-import { getObjectValue } from './getObjectValue';
 import { resolveCellValue } from './resolveCellValue';
-import { GridColumn } from '../components/QuickGrid';
+import * as _ from 'lodash';
 
 export function findIndex<T>(array: Array<T>, predicate: (item: T, index?: number) => boolean): number {
     let index = -1;
@@ -32,30 +31,33 @@ export interface SortProps {
     sortFunction?: (row) => any;
 }
 
-export const sortRowsByColumn = (rows: Array<any>, sortOptions: Array<SortProps>) => {
-    const sortFunction = (a, b) => {
-        for (let sortOption of sortOptions) {
+ export const sortRowsByColumn = (rows: Array<any>, sortOptions: Array<SortProps>) => {
+     const collator = Intl.Collator(...navigator.languages, { sensitivity: 'accent', numeric: true });
+     const comparator = (a, b) => {
+         for (let sortOption of sortOptions) {
             let valueA;
             let valueB;
             if (sortOption.sortFunction) {
-                valueA = sortOption.sortFunction(a);
-                valueB = sortOption.sortFunction(b);
+               valueA = sortOption.sortFunction(a);
+               valueB = sortOption.sortFunction(b);
             } else {
                 valueA = resolveCellValue(a, sortOption.column);
                 valueB = resolveCellValue(b, sortOption.column);
-
             }
-            if (valueA < valueB) {
-                return -1 * sortOption.sortModifier;
+            let compare = 0;
+            if (typeof valueA === 'string' && typeof valueB === 'string') {
+                compare = collator.compare(valueA, valueB) * sortOption.sortModifier;
+            } else {
+                compare = valueA < valueB ? -1 : (valueA > valueB ? 1 : 0);
             }
-            if (valueA > valueB) {
-                return 1 * sortOption.sortModifier;
+            if (compare !== 0) {
+                return compare;
             }
-        }
-        return 0;
-    };
-    return [...rows].sort(sortFunction);
-};
+         }
+         return 0;
+     };
+     return rows.sort(comparator);
+ };
 
 export const groupByColumn = function (rows, groupColumn) {
     return rows.reduce((groups, item) => {

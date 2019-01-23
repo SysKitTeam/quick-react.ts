@@ -98,7 +98,7 @@ const sortData = (treeNode: AugmentedTreeNode, sortColumn: string, sortDirection
     // if the last sort configuration differs from the current, we need to resort the children
     // otherwise, performance gains
     if ((<AugmentedTreeNode>treeNode).$meta.sortRequestId !== rootSortRequestId) {
-        sort(treeNode.children, sortDirection, sortColumn, valueGetterForSort);
+        treeNode.children = sort(treeNode.children, sortDirection, sortColumn, valueGetterForSort);
         (<AugmentedTreeNode>treeNode).$meta.sortRequestId = rootSortRequestId;
     }
 };
@@ -107,37 +107,19 @@ const sort = (input, sortDirection, sortColumn, valueGetterForSort) => {
     if (sortColumn === undefined || sortDirection === undefined) {
         return input;
     }
-    const sortModifier = sortDirection === SortDirection.Descending ? -1 : 1;
-    const sortFunction = (a, b) => {
-
-        let sortColumnFinal = sortColumn;
-        let valueA;
-        let valueB;
+    const iteratee = row => {
+        let value;
         if (valueGetterForSort) {
-            valueA = valueGetterForSort(a);
-            valueB = valueGetterForSort(b);
+            value = valueGetterForSort(row);
         } else {
-            valueA = a[sortColumnFinal];
-            valueB = b[sortColumnFinal];
+            value = row[sortColumn];
         }
-        if (valueA < valueB) {
-            return -1 * sortModifier;
+        if (typeof value === 'string') {
+            return value.toLocaleLowerCase();
         }
-        if (valueA > valueB) {
-            return 1 * sortModifier;
-        }
-        sortColumnFinal = 'treeId';
-        valueA = a[sortColumnFinal];
-        valueB = b[sortColumnFinal];
-        if (valueA < valueB) {
-            return -1 * sortModifier;
-        }
-        if (valueA > valueB) {
-            return 1 * sortModifier;
-        }
-        return 0;
-    };
-    input.sort(sortFunction);
+        return value;
+    }
+    return _.orderBy(input, iteratee, sortDirection === SortDirection.Descending ? 'desc' : 'asc');
 };
 
 function filterNodes(root: AugmentedTreeNode, filterText: string, columns: Array<string>);
