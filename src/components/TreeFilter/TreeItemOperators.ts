@@ -77,7 +77,9 @@ export class ItemOperator {
 
             for (let item of items) {
                 itemIds.push(item.id);
-                itemIds = itemIds.concat(getItemIdsRecursive(item.children));
+                if (item.children) {
+                    itemIds = itemIds.concat(getItemIdsRecursive(item.children));
+                }
             }
 
             return itemIds;
