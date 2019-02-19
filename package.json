@@ -1,6 +1,6 @@
 {
   "name": "quick-react-ts",
-  "version": "0.14.20",
+  "version": "0.14.21",
   "description": "Reusable components for React, written in TypeScript",
   "main": "./lib/index.js",
   "typings": "./lib/index",
@@ -73,7 +73,7 @@
     "ts-helpers": "1.1.2",
     "tslint": "5.9.1",
     "tslint-loader": "3.6.0",
-    "typescript": "2.7.2",
+    "typescript": "2.8.1",
     "url-loader": "0.6.2",
     "webpack": "3.11.0",
     "webpack-cli": "2.0.9",
