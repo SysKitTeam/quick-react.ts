@@ -93,7 +93,7 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
     }
 
     private _renderLink(link: IPivotItemProps) {
-        const { itemKey, itemCount } = link;
+        const { itemKey, itemCount, linkClassname } = link;
         const { id } = this.state;
         let countText;
         if (itemCount !== undefined && this.props.linkFormat !== PivotLinkFormat.tabs) {
@@ -101,6 +101,7 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
         }
         const pivotLinkClassName = classNames(
             'pivot-link',
+            linkClassname,
             {
                 'is-selected': this.state.selectedKey === itemKey
             }
@@ -184,7 +185,8 @@ export class Pivot extends React.Component<IPivotProps, IPivotState> {
                     itemKey: itemKey,
                     itemCount: pivotItem.props.itemCount,
                     disabled: pivotItem.props.disabled,
-                    linkRenderMode: pivotItem.props.linkRenderMode
+                    linkRenderMode: pivotItem.props.linkRenderMode,
+                    linkClassname: pivotItem.props.linkClassname
                 });
                 this._keyToIndexMapping[itemKey] = index;
             }
