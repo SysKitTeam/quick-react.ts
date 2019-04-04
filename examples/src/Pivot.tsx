@@ -102,16 +102,16 @@ export class Index extends React.Component<any, any> {
                     <PivotItem linkText={'Shared with me'}>
                         <Label>Pivot #3</Label>
                     </PivotItem>
-                </Pivot>
+                </Pivot> 
                 <br />
                 <Pivot onLinkClick={(item, ev) => console.log(item)}>
-                    <PivotItem linkRenderMode={RenderModeEnum.Both} linkText={'My Files'} linkIcon={'icon-user'}>
+                    <PivotItem linkRenderMode={RenderModeEnum.Both} linkText={'My Files'} linkIcon={'icon-user'} linkClassname={'LinkClassName_1'}>
                         <Label>Pivot #1</Label>
                     </PivotItem>
-                    <PivotItem linkText={'Recent'} >
+                    <PivotItem linkText={'Recent'} linkClassname={'LinkClassName_2'}>
                         <Label>Pivot #2</Label>
                     </PivotItem>
-                    <PivotItem linkRenderMode={RenderModeEnum.Both} linkText={'Shared with me'} linkIcon={'icon-add'}>
+                    <PivotItem linkRenderMode={RenderModeEnum.Both} linkText={'Shared with me'} linkIcon={'icon-add'} linkClassname={'LinkClassName_3'}>
                         <Label>Pivot #3</Label>
                     </PivotItem>
                 </Pivot>
