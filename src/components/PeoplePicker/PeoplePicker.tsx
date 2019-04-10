@@ -148,7 +148,7 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
     }
 
     @autobind
-    private _focusInput(): void {
+    public focusInput(): void {
         if (this.props.disabled || this._field === undefined || this._field === null) {
             return;
         }
@@ -344,7 +344,7 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
     @autobind
     private _onUpdateSelection() {
         this.props.onSelect(this.state.selectedPrincipalList);
-        this._focusInput();
+        this.focusInput();
     }
 
     public render() {
@@ -360,7 +360,7 @@ export class PeoplePicker extends React.PureComponent<IPeoplePickerProps, IPeopl
         const isValid = !this.props.errorMessage;
         return (
 
-            <div className={peoplePickerClassName} onClick={this._focusInput}>
+            <div className={peoplePickerClassName} onClick={this.focusInput}>
                 {this.props.labelText && <Label >{this.props.labelText}</Label>}
                 <Tooltip
                     content={this.props.errorMessage}

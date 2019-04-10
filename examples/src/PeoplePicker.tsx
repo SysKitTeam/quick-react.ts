@@ -19,6 +19,16 @@ export class Index extends React.Component<any, any> {
        // console.log(searchedValue);
     }
 
+    private  _field: PeoplePicker;
+    @autobind
+    private _ref(value: PeoplePicker) {
+        this._field = value;
+    }
+
+    componentDidMount() {
+        this._field.focusInput();
+    }
+
     public render() {
         return (
             <div style={{ width: '900px' }}>
@@ -55,6 +65,17 @@ export class Index extends React.Component<any, any> {
                 <br/>
                 <PeoplePicker 
                     labelText="Single Select PeoplePicker"
+                    onSearch={this._handleSearch}
+                    onSelect={this._handleSelect}
+                    placeholder="Search for people"
+                    singleSelect={true}
+                    suggestionList={peoplePickerData}
+                    mapPrincipalToIcon={mapIcon}
+                    mapPrincipalToIconClass={mapIconClass}
+                />
+                <PeoplePicker 
+                    ref={this._ref}
+                    labelText="Focused Single Select PeoplePicker"
                     onSearch={this._handleSearch}
                     onSelect={this._handleSelect}
                     placeholder="Search for people"
